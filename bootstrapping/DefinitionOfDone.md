@@ -1,4 +1,6 @@
-Definition of Done as of Thursday, May 16th
+Definition of Done
+
+Defined by the team on Thursday, June 16th
 
 1. For every public method: write at least one Unit Test.
 2. For every method a JavaDoc comment (except for accessors and mutators i.e. Getter and Setter).
