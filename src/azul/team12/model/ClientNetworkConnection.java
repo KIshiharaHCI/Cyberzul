@@ -1,4 +1,4 @@
-package azulGame.client.model;
+package azul.team12.model;
 
 public class ClientNetworkConnection {
 
