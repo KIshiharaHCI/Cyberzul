@@ -4,6 +4,10 @@ Every team member answers the following three questions every day before 10 AM.:
 2. What am I going to do today?
 3. What are the problems that I am facing right now? And are there dependencies for my work?
 
+Marco, 14. June, 2022 Q2:
+
+- Borrow the Azul game from Stadtbibliothek Moosach.
+
 Nils, June 17th, 2022 Q1:
 
 - learning the rules of Azul together with the teammates
@@ -21,7 +25,19 @@ Q3:
 none
 
 
+Marco, 17. June, 2022 Q1:
 
+- We played the game together, 
+- Finishing some of the organizing (e.g. creating the chat), 
+- Thinking of the overall structure of the project: which classes, methods, etc. will we use.
+
+Q2: 
+
+- Today we had our first meeting with Chris, afterwards we helped each other out with setting up Gitlab.
+
+Q3:
+
+- Nothing severe so far, just trying to figure out what is a realistic timeframe for the milestones, I'll create tomorrow morning.
 
 Nils, June 18th, 2022 Q1:
 
@@ -41,6 +57,22 @@ Q2:
 Q3:
 none
 
+Marco, 18. June, 2022 Q1:
+
+- First meeting with Chris, 
+- afterwards we helped each other out with setting up Gitlab.
+
+Q2:
+
+- I will setup a Trello-Board for our Team, 
+- I will create some Milestones, 
+- Meeting with Xue and Nils for creating the/ a first class-structure.
+
+
+Q3:
+
+- Nothing severe so far, just trying to figure out what is a realistic timeframe for the milestones.
+
 
 Nils, June 19th, 2022
 
@@ -55,3 +87,17 @@ Q2:
 
 Q3:
 none
+
+Marco, 19. June, 2022 Q1:
+
+- Trello Board, 
+- Created Class Structure and first methods with Xue and Nils.
+
+Q2: 
+
+- Research Design Patterns for our project, 
+- Read how to create changelog.
+
+Q3: 
+
+- None.
