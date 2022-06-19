@@ -2,6 +2,7 @@ package azul.team12.view.board.playerBoard;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,12 +16,33 @@ public class PlayerBoard extends JPanel {
 
   private Wall wall;
 
-  private static final int MINIMUM_BORD_WIDTH = 600;
-  private static final int MINIMUM_BORD_HEIGHT = 600;
+  private int minBoardHeight = 180;
+  private int minBoardWidth = 300;
   public PlayerBoard() {
     createBord();
+    initialize();
+  }
+  public PlayerBoard(int minBoardHeight, int minBoardWidth) {
+    this.minBoardHeight = minBoardHeight;
+    this.minBoardWidth = minBoardWidth;
+    createBordCurrent();
+    initialize();
+    this.patternLines.setButtonSize(50);
+  }
+
+  private void initialize() {
+
+    setPreferredSize(new Dimension(minBoardWidth,minBoardHeight));
     setBackground(new Color(101,101,101));
   }
+  private void createBordCurrent() {
+    setLayout(new BorderLayout());
+    createNorth();
+    createSouth();
+    createCenterCurrent();
+  }
+
+
 
   private void createBord() {
     setLayout(new BorderLayout());
@@ -33,6 +55,15 @@ public class PlayerBoard extends JPanel {
     JPanel center = new JPanel();
     center.setLayout(new GridLayout(1, 2));
     this.patternLines = new PatternLines();
+    this.wall = new Wall();
+    center.add(patternLines);
+    center.add(wall);
+    add(center, BorderLayout.CENTER);
+  }
+  private void createCenterCurrent() {
+    JPanel center = new JPanel();
+    center.setLayout(new GridLayout(1, 2));
+    this.patternLines = new PatternLines(40);
     this.wall = new Wall();
     center.add(patternLines);
     center.add(wall);
