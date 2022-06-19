@@ -1,6 +1,6 @@
-package azulGame.client.view.board;
+package view.board;
 
-import azulGame.client.view.board.playerBoard.PlayerBoard;
+import view.board.playerBoard.PlayerBoard;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 

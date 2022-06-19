@@ -1,4 +1,4 @@
-package azulGame.client.view.board.playerBoard;
+package view.board.playerBoard;
 
 import java.awt.Color;
 import java.awt.GridLayout;
