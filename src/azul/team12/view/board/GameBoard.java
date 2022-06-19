@@ -1,6 +1,6 @@
-package view.board;
+package azul.team12.view.board;
 
-import view.board.playerBoard.PlayerBoard;
+import azul.team12.view.board.playerBoard.PlayerBoard;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 

@@ -1,9 +1,8 @@
-package view.board.playerBoard;
+package azul.team12.view.board.playerBoard;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 

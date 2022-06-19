@@ -1,4 +1,4 @@
-package view.board.playerBoard;
+package azul.team12.view.board.playerBoard;
 
 import java.awt.Color;
 import java.awt.GridLayout;

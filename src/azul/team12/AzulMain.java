@@ -2,10 +2,13 @@ package azul.team12;
 
 import azul.team12.model.ClientNetworkConnection;
 import azul.team12.model.GameClientModel;
+import azul.team12.view.board.GameBoard;
 import java.util.ArrayList;
 
 public class AzulMain {
   public static void main(String[] args){
+    GameBoard gameBoard = new GameBoard();
+    gameBoard.setVisible(true);
 
     //TODO: initialize and start view
     //TODO: in view: two buttons: "Local Hot Seat Mode" and "Play via Network-Connection"

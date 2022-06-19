@@ -11,7 +11,7 @@ public class ManufacturingPlates extends Bag{
 
   public ManufacturingPlates(){
     super();
-    this.
+    //this.
   }
 
 
