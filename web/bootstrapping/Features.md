@@ -1,8 +1,7 @@
-Features for the program
-
+#Features for the program
 Defined by the team on Thursday, June 16th
 
-Mandatory
+#Mandatory
 
 1. Local hot seat Mode.
 2. Network Multiplayer Mode.
@@ -11,7 +10,7 @@ Mandatory
 5. The game can be played by 2, 3 or 4 players.
 6. Restarting and forfeiting the game is possible.
 
-Additional:
+#Additional:
 
 7. Sound if tiles are taken or if they are moved one the board (like from one bag to another, or from the bag to the
    board etc..)
