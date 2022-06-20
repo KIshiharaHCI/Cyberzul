@@ -23,6 +23,7 @@ public class Player {
     this.points = 0;
     this.wall = new boolean[5][5];
     this.patternRows = initializePatternRows();
+    patternRows = drawTiles();
   }
 
   /**
@@ -33,6 +34,7 @@ public class Player {
    */
   private Tile[][] initializePatternRows() {
 
+    System.out.println("Initializing Pattern Rows");
     Tile[][] patternRows = new Tile[5][];
     patternRows[0] = new Tile[1];
     patternRows[1] = new Tile[2];
@@ -47,6 +49,7 @@ public class Player {
       }
       System.out.println("");
     }
+
     return patternRows.clone();
   }
 
@@ -61,11 +64,24 @@ public class Player {
   /**
    * represents drawing Tiles either from the TableCentre or from the Manufacturing Plates
    */
-  public Tile[][] drawTiles(Bag theBag) {
+  public Tile[][] drawTiles(/*int pickedRow, int numberOfTilesOfGivenColor*/) {
+    System.out.println("DrawTiles");
     //event listener: player chooses which row to place the tiles
-    int row = 4; // get the input from the view probably through some event listener
-    //Tile[][] myArr = new Tile[][];
-    return null;
+    int pickedRow = 4; // is 5th row --- get the input from the view probably through some event listener
+    int numberOfTilesOfGivenColor = 5; // get the input from the view
+
+    // setting all
+    for (int i = 0; i < numberOfTilesOfGivenColor; i++) {
+      patternRows[pickedRow][i] = Tile.BLACK_TILE;
+    }
+
+    for (int column = 0; column < patternRows.length; column++) {
+      for (int row = 0; row < patternRows[column].length; row++) {
+        System.out.print(patternRows[column][row]+ ", ");
+      }
+      System.out.println("");
+    }
+    return patternRows;
   };
 
   /**
