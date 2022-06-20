@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class PatternLines extends JPanel {
-  List<PatternLinesStone> stones;
+  List<Tile> stones;
   private final int ROWS = 5;
   private final int COLS = 5;
 
@@ -41,11 +41,11 @@ public class PatternLines extends JPanel {
           GridBagConstraints gbc = new GridBagConstraints();
           gbc.fill = GridBagConstraints.HORIZONTAL;
           gbc.insets = new Insets(1,1,1,1);
-          PatternLinesStone button = new PatternLinesStone(y, x);
+          Tile button = new Tile(y, x);
           button.setPreferredSize(new Dimension(btnSize, btnSize));
           //button.setIcon(new ImageIcon(MainWindow.class.getResource("/images/button_next.jpg")));
           //button.addActionListener(new ProcessorNextStepListener(this));
-          PatternLinesStone stone = new PatternLinesStone(x, y);
+          Tile stone = new Tile(x, y);
           gbc.gridx = x;
           gbc.gridy = y;
 
@@ -68,7 +68,7 @@ public class PatternLines extends JPanel {
     this.buttonSize = buttonSize;
   }
 
-  private void setButtonBackground(PatternLinesStone button) {
+  private void setButtonBackground(Tile button) {
     button.setBackground(Color.GRAY);
   }
 }
