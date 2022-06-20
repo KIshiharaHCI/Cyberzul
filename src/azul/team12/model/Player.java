@@ -22,7 +22,7 @@ public class Player {
     System.out.println("Creating player: "+name);
     this.points = 0;
     this.wall = new boolean[5][5];
-    initializePatternRows();
+    this.patternRows = initializePatternRows();
   }
 
   /**
@@ -33,10 +33,17 @@ public class Player {
    */
   private Tile[][] initializePatternRows() {
 
+    Tile[][] patternRows = new Tile[5][];
+    patternRows[0] = new Tile[1];
+    patternRows[1] = new Tile[2];
+    patternRows[2] = new Tile[3];
+    patternRows[3] = new Tile[4];
+    patternRows[4] = new Tile[5];
+
     for (int column = 0; column < patternRows.length; column++) {
       for (int row = 0; row < patternRows[column].length; row++) {
         patternRows[column][row] = Tile.EMPTY_TILE;
-        System.out.println("patternRows["+column+"]["+row+"]: "+patternRows[column][row]);
+        System.out.print(patternRows[column][row]+ ", ");
       }
       System.out.println("");
     }
