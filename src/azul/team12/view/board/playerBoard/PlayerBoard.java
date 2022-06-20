@@ -27,7 +27,6 @@ public class PlayerBoard extends JPanel {
     this.minBoardWidth = minBoardWidth;
     createBordCurrent();
     initialize();
-    this.patternLines.setButtonSize(50);
   }
 
   private void initialize() {
@@ -64,7 +63,7 @@ public class PlayerBoard extends JPanel {
     JPanel center = new JPanel();
     center.setLayout(new GridLayout(1, 2));
     this.patternLines = new PatternLines(40);
-    this.wall = new Wall();
+    this.wall = new Wall(40);
     center.add(patternLines);
     center.add(wall);
     add(center, BorderLayout.CENTER);
