@@ -19,8 +19,10 @@ public class Player {
 
   public Player(String name) {
     this.name = name;
+    System.out.println("Creating player: "+name);
     this.points = 0;
     this.wall = new boolean[5][5];
+    initializePatternRows();
   }
 
   /**
@@ -30,7 +32,15 @@ public class Player {
    * @return the initialized empty patternRow
    */
   private Tile[][] initializePatternRows() {
-    return null;
+
+    for (int column = 0; column < patternRows.length; column++) {
+      for (int row = 0; row < patternRows[column].length; row++) {
+        patternRows[column][row] = Tile.EMPTY_TILE;
+        System.out.println("patternRows["+column+"]["+row+"]: "+patternRows[column][row]);
+      }
+      System.out.println("");
+    }
+    return patternRows.clone();
   }
 
   public String getName() {
@@ -42,11 +52,26 @@ public class Player {
   }
 
   /**
+   * represents drawing Tiles either from the TableCentre or from the Manufacturing Plates
+   */
+  public Tile[][] drawTiles(Bag theBag) {
+    //event listener: player chooses which row to place the tiles
+    int row = 4; // get the input from the view probably through some event listener
+    //Tile[][] myArr = new Tile[][];
+    return null;
+  };
+
+  /**
    * Represents the tiling phase, where all points are assigned.
    */
-  public void tile(){
+  public void tilingPhase(){
     //TODO: Gib dem Spieler Punkte für die jeweiligen Fliesen ("sofort")
     //TODO: schreibe die negative Tiles um in Punkte. Also der erste negative Tile ist -1, der zweite ...
     //TODO: leere die patternRows, aber nicht die wall
   }
+
+  /**
+   * clean up the PatternRows after each round
+   */
+  public void dispose() {/*todo*/}
 }
