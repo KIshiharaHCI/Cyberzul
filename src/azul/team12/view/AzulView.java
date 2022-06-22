@@ -17,4 +17,8 @@ public class AzulView extends JFrame{
     GameBoard gameBoard = new GameBoard(gbl);
     add(gameBoard);
   }
+
+  private void createView(){
+    JPanel HSMPanel = new JPanel();
+  }
 }

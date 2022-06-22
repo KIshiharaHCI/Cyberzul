@@ -32,7 +32,7 @@ public class PlayerBoard extends JPanel {
   private void initialize() {
 
     setPreferredSize(new Dimension(minBoardWidth,minBoardHeight));
-    setBackground(new Color(101,101,101));
+    //setBackground(new Color(110,90,120));
   }
   private void createBordCurrent() {
     setLayout(new BorderLayout());
