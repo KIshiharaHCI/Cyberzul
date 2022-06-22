@@ -95,7 +95,4 @@ public class AzulView extends JFrame{
     layout.show(getContentPane(), card);
   }
 
-  private void createView(){
-    JPanel HSMPanel = new JPanel();
-  }
 }
