@@ -1,6 +1,7 @@
 package azul.team12.model;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class BagToDrawNewTiles extends Bag{
   public BagToDrawNewTiles(){
@@ -12,8 +13,38 @@ public class BagToDrawNewTiles extends Bag{
    * @return a random tile.
    */
   public Tile drawRandomTile(){
-    //TODO:Substract this Tile from the remaining ones in the HashMap.
-    return null;
+    //TODO: Substract this Tile from the remaining ones in the HashMap.
+    HashMap<Tile,Integer> bagToDraw = initializeContent();
+    Tile drawTile = null;
+    Random rd = new Random();
+    int randomInt = rd.nextInt(4);
+    switch (randomInt) {
+      case 0 -> {
+        drawTile = Tile.BLACK_TILE;
+        bagToDraw.remove(Tile.BLACK_TILE);
+      }
+      case 1 -> {
+        drawTile = Tile.BLUE_TILE;
+        bagToDraw.remove(Tile.BLUE_TILE);
+      }
+      case 2 -> {
+        drawTile = Tile.ORANGE_TILE;
+        bagToDraw.remove(Tile.ORANGE_TILE);
+      }
+      case 3 -> {
+        drawTile = Tile.RED_TILE;
+        bagToDraw.remove(Tile.RED_TILE);
+      }
+      case 4 -> {
+        drawTile = Tile.WHITE_TILE;
+        bagToDraw.remove(Tile.WHITE_TILE);
+      }
+      default -> {
+        //do nothing
+      }
+
+    }
+    return drawTile;
   }
 
   @Override
