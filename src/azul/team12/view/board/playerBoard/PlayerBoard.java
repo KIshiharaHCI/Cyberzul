@@ -2,13 +2,13 @@ package azul.team12.view.board.playerBoard;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PlayerBoard extends JPanel {
+
   private int points = 0;
   private int minusPoints = 0;
   private String playerName = "name";
@@ -19,10 +19,12 @@ public class PlayerBoard extends JPanel {
 
   private int minBoardHeight = 180;
   private int minBoardWidth = 300;
+
   public PlayerBoard() {
     initialize();
     createBord();
   }
+
   public PlayerBoard(int minBoardHeight, int minBoardWidth) {
     this.minBoardHeight = minBoardHeight;
     this.minBoardWidth = minBoardWidth;
@@ -32,16 +34,16 @@ public class PlayerBoard extends JPanel {
 
   private void initialize() {
 
-    setPreferredSize(new Dimension(minBoardWidth,minBoardHeight));
+    setPreferredSize(new Dimension(minBoardWidth, minBoardHeight));
     //setBackground(new Color(110,90,120));
   }
+
   private void createBordCurrent() {
     setLayout(new BorderLayout());
     createNorth();
     createSouth();
     createCenterCurrent();
   }
-
 
 
   private void createBord() {
@@ -61,6 +63,7 @@ public class PlayerBoard extends JPanel {
     center.add(wall);
     add(center, BorderLayout.CENTER);
   }
+
   private void createCenterCurrent() {
     JPanel center = new JPanel();
     center.setLayout(new GridLayout(1, 2));
@@ -73,7 +76,7 @@ public class PlayerBoard extends JPanel {
 
   private void createSouth() {
     JPanel south = new JPanel();
-    south.setBackground(new Color(110,150,100));
+    south.setBackground(new Color(110, 150, 100));
     south.setLayout(new GridLayout(1, 2));
     south.add(new JLabel("Minus Points: " + minusPoints));
     add(south, BorderLayout.SOUTH);
@@ -81,8 +84,8 @@ public class PlayerBoard extends JPanel {
 
   private void createNorth() {
     JPanel north = new JPanel();
-    north.setBackground(new Color(110,150,100));
-    north.setLayout(new GridLayout(1,2));
+    north.setBackground(new Color(110, 150, 100));
+    north.setLayout(new GridLayout(1, 2));
     north.add(new JLabel("Points: " + points));
     north.add(new JLabel("Name: " + playerName));
     add(north, BorderLayout.NORTH);

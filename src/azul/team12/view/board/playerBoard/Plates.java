@@ -1,40 +1,34 @@
 package azul.team12.view.board.playerBoard;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.List;
 import javax.swing.JPanel;
 
 public class Plates extends JPanel {
-  private int numberOfPlates = 0;
 
-  public Plates(int numberOfPlates) {
+  private final int padding = 5;
+  private final int radius = 40;
+  private int numberOfPlates = 0;
+  private List<Plate> plateList;
+
+  public Plates(int numberOfPlates, List<Plate> plateList) {
     this.numberOfPlates = numberOfPlates;
     setMinimumSize(new Dimension(600, 600));
-//    createTableCenter();
+    this.plateList = plateList;
+    for (int i = 1; i <= this.numberOfPlates; i++) {
+      int centerX = padding + (radius * 2 + padding) * i;
+      Plate plate = new Plate(centerX, radius, radius, i);
+      this.plateList.add(plate);
+    }
   }
-//  private void createTableCenter() {
-//    setLayout(new BorderLayout());
-//    createSouth();
-//    createCenter();
-  //}
-
-//  private void createCenter() {
-//    JPanel center = new JPanel();
-//    center.setLayout(new FlowLayout());
-//    add(center, BorderLayout.CENTER);
 
 
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    int padding = 5;
-    int radius = 30;
-    for (int i = 1; i <=this.numberOfPlates; i++) {
-
-      Graphics2D g2d = (Graphics2D) g;
-      int centerX = padding + (radius * 2 + padding)*i;
-      Plate plate = new Plate(centerX, radius, radius);
+    Graphics2D g2d = (Graphics2D) g;
+    for (Plate plate : this.plateList) {
       plate.paintComponent(g2d);
     }
   }
