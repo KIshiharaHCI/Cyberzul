@@ -24,7 +24,8 @@ public class AzulView extends JFrame{
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     gbl = new GridBagLayout();
     //setLayout(new GridBagLayout());
-    setSize (1200, 800);
+    setMinimumSize(new Dimension( 1200, 800));
+    setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     initializeWidgets();
     addEventListeners();
@@ -87,7 +88,8 @@ public class AzulView extends JFrame{
   private void showGameBoard() {
     JPanel gameBoardPanel = new JPanel();
     add(gameBoardPanel, GAMEBOARD_CARD);
-    GameBoard gameBoard = new GameBoard(gbl);
+    //GameBoard gameBoard = new GameBoard(gbl);
+    GameBoard gameBoard = new GameBoard();
     gameBoardPanel.add(gameBoard);
     showCard(GAMEBOARD_CARD);
   }

@@ -14,10 +14,11 @@ public class Wall extends JPanel {
   private int buttonSize = 20;
 
   public Wall() {
-
+    setBackground(new Color(110,150,100));
   }
 
   public Wall(int buttonSize) {
+    setBackground(new Color(110,150,100));
     this.buttonSize = buttonSize;
   }
 

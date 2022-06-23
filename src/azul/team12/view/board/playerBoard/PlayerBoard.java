@@ -2,6 +2,7 @@ package azul.team12.view.board.playerBoard;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
@@ -19,14 +20,14 @@ public class PlayerBoard extends JPanel {
   private int minBoardHeight = 180;
   private int minBoardWidth = 300;
   public PlayerBoard() {
-    createBord();
     initialize();
+    createBord();
   }
   public PlayerBoard(int minBoardHeight, int minBoardWidth) {
     this.minBoardHeight = minBoardHeight;
     this.minBoardWidth = minBoardWidth;
-    createBordCurrent();
     initialize();
+    createBordCurrent();
   }
 
   private void initialize() {
@@ -54,6 +55,7 @@ public class PlayerBoard extends JPanel {
     JPanel center = new JPanel();
     center.setLayout(new GridLayout(1, 2));
     this.patternLines = new PatternLines();
+    setAlignmentX(patternLines.RIGHT_ALIGNMENT);
     this.wall = new Wall();
     center.add(patternLines);
     center.add(wall);
@@ -71,6 +73,7 @@ public class PlayerBoard extends JPanel {
 
   private void createSouth() {
     JPanel south = new JPanel();
+    south.setBackground(new Color(110,150,100));
     south.setLayout(new GridLayout(1, 2));
     south.add(new JLabel("Minus Points: " + minusPoints));
     add(south, BorderLayout.SOUTH);
@@ -78,6 +81,7 @@ public class PlayerBoard extends JPanel {
 
   private void createNorth() {
     JPanel north = new JPanel();
+    north.setBackground(new Color(110,150,100));
     north.setLayout(new GridLayout(1,2));
     north.add(new JLabel("Points: " + points));
     north.add(new JLabel("Name: " + playerName));
