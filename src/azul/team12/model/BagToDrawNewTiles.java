@@ -57,4 +57,10 @@ public class BagToDrawNewTiles extends Bag{
     content.put(Tile.ORANGE_TILE,20);
     return content;
   }
+
+  //TODO: Am Anfang Länge 100. Zufällig gefüllt.
+  //TODO: Draw from -> Liste wird kürzer
+  //TODO: Have Reference to the UsedTiles Box (Maybe have a usedTile Box as field)
+  //TODO: If length 0 -> get filled from UsedTiles RANDOMLY!!
+  //TODO: Singleton
 }

@@ -14,5 +14,6 @@ public class ManufacturingPlates extends Bag {
     //this.
   }
 
+  //TODO: ArrayList mit 4 Tiles
 
 }

@@ -11,6 +11,18 @@ public class Player {
   private int negativeTiles;
       //contain the negative points the player acquires during the drawing phase.
 
+  public int getNegativeTiles() {
+    return negativeTiles;
+  }
+
+  public boolean[][] getWall() {
+    return wall.clone();
+  }
+
+  public Tile[][] getPatternRows() {
+    return patternRows.clone();
+  }
+
   private boolean[][] wall;
       //the wall where the player tiles the tiles and gets his points ("Wand").
 

@@ -2,44 +2,72 @@ package azul.team12.controller;
 
 import azul.team12.model.Bag;
 import azul.team12.model.Tile;
-import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * //TODO: The information about the implementation insiede the model gets deleted later on.
+ */
 public interface Controller {
 
   /**
-   * Create a new player with a name.
+   * Try to create a new player with a name.
+   * Model informs the view via a notifyListener Event, if that was successful.
+   *
    * @param name the name of the player.
    * @return <code>true</code> if the player was successfully created. <code>false</code> else.
    */
-  boolean createPlayer(String name);
+  void addPlayer(String name);
 
   /**
    * Signals the model that all players have entered their name.
+   * The model should then initialize everything and starts the game. Players, Bags.
+   *
    */
   void startGame();
 
   /**
-   * The view wants the model to place all tiles on the manufacturing plates and the table center.
-   * @return
-   */
-  ArrayList<Bag> getManufacturingPlatesAndTableCenter();
-
-  /**
-   * Returns the index of the player who has to make his turn.
+   * Gives the view the information about the manufacturing plates and the table center.
+   * Tiles are saved in the Bags as ArrayList<Tile>
+   *
    *
    * @return
    */
-  int whosTurnIsIt();
+  List<Bag> getManufacturingPlates();
+
+  /**
+   * Return the table center.
+   *
+   * @return the table center.
+   */
+  Bag getTableCenter();
+
+  /**
+   * Returns the Name of the player who has to make his turn.
+   *
+   * @return
+   */
+  String whosTurnIsIt();
+
+  /**
+   * Return
+   * @param playerName
+   * @return
+   */
+  int getPoints(String playerName);
+
+  int getNegativeTiles(String playerName);
+
+  boolean[][] getWall(String playerName);
+
+  Tile[][] getPatternRows(String playerName);
+
 
   /**
    * Tells the model that the player made his turn.
    * Ideally, the model informs the view via a notifyListeners Method what operations the player
    * has to do before he can finish his turn.
-   *
-   * @return <code>false</code> if the player still has to do something before the turn can be
-   * finished. <code>true</code> else.
    */
-  boolean turnFinished();
+  void endTurn();
 
   /**
    * Informs the model that a player chose a tile from a manufacturing plate or from the table
