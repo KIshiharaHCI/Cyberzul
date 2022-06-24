@@ -10,5 +10,8 @@ public abstract class Bag {
 
   List<Tile> content;
 
+  public Bag() {initializeContent();
+  }
+
   abstract void initializeContent();
 }

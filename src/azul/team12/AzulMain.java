@@ -8,15 +8,11 @@ import azul.team12.model.Tile;
 import java.util.ArrayList;
 
 public class AzulMain {
-  public static void main(String[] args){
+  public static void main(String[] args) {
 
     ArrayList<Player> playerList = new ArrayList<>();
 
     GameClientModel model = new GameClientModel(playerList);
-
-    BagToDrawNewTiles bagToDrawNewTiles = new BagToDrawNewTiles(1,Tile.valuesWithoutEmptyTile());
-
-
 
   }
 }

@@ -2,27 +2,35 @@ package azul.team12.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class BagToDrawNewTiles extends Bag {
 
-  private int initialNumberOfEachTile;
-  private Tile[] listOfAllTileKinds;
+  private static BagToDrawNewTiles instance;
+
+  public final int INITIAL_NUMBER_OF_EACH_TILE = 1;
+
   private BagToStoreUsedTiles box;
 
-  public BagToDrawNewTiles(int initialNumberOfEachTile, Tile[] listOfAllTileKinds) {
-    this.initialNumberOfEachTile = initialNumberOfEachTile;
-    this.listOfAllTileKinds = listOfAllTileKinds;
-    this.box = new BagToStoreUsedTiles();
-    initializeContent();
+  /**
+   * Has to be private. That is important for the Singleton Design Pattern.
+   */
+  private BagToDrawNewTiles() {
+    super();
+    this.box = BagToStoreUsedTiles.getInstance();
+  }
 
-    //TODO: TEST
-    for (int i = 0; i < 20; i++) {
-      System.out.println(content);
-      System.out.println(drawRandomTile());
+  /**
+   * This method is used so this class can be a Singleton: Only one single instance of this class
+   * can be created. If it already exists, the existing instance is returned.
+   *
+   * @return a new BagToDrawNewTiles, if it doesn't exist already. The instance to the existing one else.
+   */
+  public static synchronized BagToDrawNewTiles getInstance() {
+    if (instance == null) {
+      instance = new BagToDrawNewTiles();
     }
+    return instance;
   }
 
   /**
@@ -37,9 +45,6 @@ public class BagToDrawNewTiles extends Bag {
 
       content.addAll(box.giveAllTilesBack());
       Collections.shuffle(content);
-
-      //TODO: TEST
-      System.out.println(content);
     }
     box.addTile(content.get(0));
 
@@ -51,8 +56,9 @@ public class BagToDrawNewTiles extends Bag {
   void initializeContent() {
     ArrayList<Tile> contentList = new ArrayList<>();
 
+    Tile[] listOfAllTileKinds = Tile.valuesWithoutEmptyTile();
     for (Tile tile : listOfAllTileKinds) {
-      addTilesTo(tile, initialNumberOfEachTile, contentList);
+      addTilesTo(tile, INITIAL_NUMBER_OF_EACH_TILE, contentList);
     }
 
     //permutes the contentList list

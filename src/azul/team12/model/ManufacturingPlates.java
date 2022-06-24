@@ -11,8 +11,6 @@ import java.util.Map;
 public class ManufacturingPlates extends Bag {
 
   public ManufacturingPlates() {
-    super();
-    //this.
   }
 
   //TODO: ArrayList mit 4 Tiles
