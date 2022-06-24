@@ -8,10 +8,20 @@ import java.util.Map;
 
 public abstract class Bag {
 
-  List<Tile> content;
+  ArrayList<Tile> content;
 
-  public Bag() {initializeContent();
+  public Bag() {
+    initializeContent();
   }
 
   abstract void initializeContent();
+
+  /**
+   * Safely return the content of this bag, without enabling someone to tinker with its content.
+   *
+   * @return a copy of the content of this bag.
+   */
+  public List<Tile> getContent() {
+    return (List<Tile>) content.clone();
+  }
 }

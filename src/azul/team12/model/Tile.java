@@ -51,4 +51,5 @@ public enum Tile {
     }
     return valuesWithoutEmptyTile;
   }
+
 }
