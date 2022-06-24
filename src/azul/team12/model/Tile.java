@@ -19,8 +19,6 @@ public enum Tile {
           {RED_TILE, BLACK_TILE, WHITE_TILE, BLUE_TILE, ORANGE_TILE},
           {ORANGE_TILE, RED_TILE, BLACK_TILE, WHITE_TILE, BLUE_TILE}};
 
-
-
   Tile(String name) {
     this.name = name;
   }
@@ -32,5 +30,25 @@ public enum Tile {
 
   public Tile[][] getTemplateWall(){
     return templateWall.clone();
+  }
+
+  /**
+   * The method Tile.values() returns all values of this enum. Since Empty Tile is not a real tile,
+   * it often makes sense to exclude it from the list of tiles.
+   *
+   * @return the values of this enum without the empty tile.
+   */
+  public static Tile[] valuesWithoutEmptyTile(){
+    Tile[] valuesWithEmptyTile = Tile.values();
+    Tile[] valuesWithoutEmptyTile = new Tile[valuesWithEmptyTile.length - 1];
+    for(int i = 0; i < valuesWithoutEmptyTile.length; i++){
+      if(valuesWithEmptyTile[i] != Tile.EMPTY_TILE){
+        valuesWithoutEmptyTile[i] = valuesWithEmptyTile[i];
+      }
+      else{
+        i = i--;
+      }
+    }
+    return valuesWithoutEmptyTile;
   }
 }

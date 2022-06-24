@@ -1,5 +1,6 @@
 package azul.team12.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,11 +10,16 @@ import java.util.Map;
  */
 public class ManufacturingPlates extends Bag {
 
-  public ManufacturingPlates(){
+  public ManufacturingPlates() {
     super();
     //this.
   }
 
   //TODO: ArrayList mit 4 Tiles
 
+  @Override
+  void initializeContent() {
+  }
+
+  ;
 }

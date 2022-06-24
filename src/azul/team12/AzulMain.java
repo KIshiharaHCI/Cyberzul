@@ -1,21 +1,20 @@
 package azul.team12;
 
+import azul.team12.model.BagToDrawNewTiles;
 import azul.team12.model.ClientNetworkConnection;
 import azul.team12.model.GameClientModel;
 import azul.team12.model.Player;
+import azul.team12.model.Tile;
 import java.util.ArrayList;
 
 public class AzulMain {
   public static void main(String[] args){
 
-    //TODO: initialize and start view
-    //TODO: in view: two buttons: "Local Hot Seat Mode" and "Play via Network-Connection"
-    //implement with card layout
-    //TODO: probably needs to be deleted:
     ArrayList<Player> playerList = new ArrayList<>();
 
     GameClientModel model = new GameClientModel(playerList);
-    //ClientNetworkConnection clientNetworkConnection = new ClientNetworkConnection(model);
+
+    BagToDrawNewTiles bagToDrawNewTiles = new BagToDrawNewTiles(1,Tile.valuesWithoutEmptyTile());
 
 
 

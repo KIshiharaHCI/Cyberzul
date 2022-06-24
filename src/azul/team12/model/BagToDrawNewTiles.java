@@ -1,66 +1,68 @@
 package azul.team12.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
-public class BagToDrawNewTiles extends Bag{
-  public BagToDrawNewTiles(){
-    super();
+public class BagToDrawNewTiles extends Bag {
+
+  private int initialNumberOfEachTile;
+  private Tile[] listOfAllTileKinds;
+  private BagToStoreUsedTiles box;
+
+  public BagToDrawNewTiles(int initialNumberOfEachTile, Tile[] listOfAllTileKinds) {
+    this.initialNumberOfEachTile = initialNumberOfEachTile;
+    this.listOfAllTileKinds = listOfAllTileKinds;
+    this.box = new BagToStoreUsedTiles();
+    initializeContent();
+
+    //TODO: TEST
+    for (int i = 0; i < 20; i++) {
+      System.out.println(content);
+      System.out.println(drawRandomTile());
+    }
   }
 
   /**
-   * Draw a random tile from this bag.
+   * Draw a random tile from this bag and delete it from this bag.
+   *
    * @return a random tile.
    */
-  public Tile drawRandomTile(){
-    //TODO: Substract this Tile from the remaining ones in the HashMap.
-    HashMap<Tile,Integer> bagToDraw = initializeContent();
-    Tile drawTile = null;
-    Random rd = new Random();
-    int randomInt = rd.nextInt(4);
-    switch (randomInt) {
-      case 0 -> {
-        drawTile = Tile.BLACK_TILE;
-        bagToDraw.remove(Tile.BLACK_TILE);
-      }
-      case 1 -> {
-        drawTile = Tile.BLUE_TILE;
-        bagToDraw.remove(Tile.BLUE_TILE);
-      }
-      case 2 -> {
-        drawTile = Tile.ORANGE_TILE;
-        bagToDraw.remove(Tile.ORANGE_TILE);
-      }
-      case 3 -> {
-        drawTile = Tile.RED_TILE;
-        bagToDraw.remove(Tile.RED_TILE);
-      }
-      case 4 -> {
-        drawTile = Tile.WHITE_TILE;
-        bagToDraw.remove(Tile.WHITE_TILE);
-      }
-      default -> {
-        //do nothing
-      }
+  public Tile drawRandomTile() {
+    if (content.size() == 0) {
+      //the bag is emtpy, so it gets filled with the tiles that were stored in the "box"
+      //in our implementation we call the box the "BagtoStoreUsedTiles"
 
+      content.addAll(box.giveAllTilesBack());
+      Collections.shuffle(content);
+
+      //TODO: TEST
+      System.out.println(content);
     }
-    return drawTile;
+    box.addTile(content.get(0));
+
+    //List#remove is equal to the pop method of a stack
+    return content.remove(0);
   }
 
   @Override
-  HashMap<Tile, Integer> initializeContent(){
-    HashMap<Tile,Integer> content = new HashMap<>();
-    content.put(Tile.BLACK_TILE,20);
-    content.put(Tile.BLUE_TILE,20);
-    content.put(Tile.WHITE_TILE,20);
-    content.put(Tile.RED_TILE,20);
-    content.put(Tile.ORANGE_TILE,20);
-    return content;
+  void initializeContent() {
+    ArrayList<Tile> contentList = new ArrayList<>();
+
+    for (Tile tile : listOfAllTileKinds) {
+      addTilesTo(tile, initialNumberOfEachTile, contentList);
+    }
+
+    //permutes the contentList list
+    Collections.shuffle(contentList);
+    this.content = contentList;
   }
 
-  //TODO: Am Anfang Länge 100. Zufällig gefüllt.
-  //TODO: Draw from -> Liste wird kürzer
-  //TODO: Have Reference to the UsedTiles Box (Maybe have a usedTile Box as field)
-  //TODO: If length 0 -> get filled from UsedTiles RANDOMLY!!
-  //TODO: Singleton
+  private void addTilesTo(Tile tile, int amount, List list) {
+    for (int i = 0; i < amount; i++) {
+      list.add(tile);
+    }
+  }
 }
