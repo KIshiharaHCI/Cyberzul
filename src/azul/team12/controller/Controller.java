@@ -49,18 +49,12 @@ public interface Controller {
   String whosTurnIsIt();
 
   /**
-   * Return
+   * Return the points that the player has.
+   *
    * @param playerName
    * @return
    */
   int getPoints(String playerName);
-
-  int getNegativeTiles(String playerName);
-
-  boolean[][] getWall(String playerName);
-
-  Tile[][] getPatternRows(String playerName);
-
 
   /**
    * Tells the model that the player made his turn.
