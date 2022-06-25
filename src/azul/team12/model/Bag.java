@@ -8,12 +8,13 @@ import java.util.Map;
 
 public abstract class Bag {
 
-  ArrayList<Tile> content;
-
-  public Bag() {
+  Bag() {
     initializeContent();
   }
 
+  /**
+   * Set up the initial content of this bag.
+   */
   abstract void initializeContent();
 
   /**
@@ -21,7 +22,6 @@ public abstract class Bag {
    *
    * @return a copy of the content of this bag.
    */
-  public List<Tile> getContent() {
-    return (List<Tile>) content.clone();
-  }
+  public abstract List<Tile> getContent();
+
 }

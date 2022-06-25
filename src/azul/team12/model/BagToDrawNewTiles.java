@@ -8,7 +8,9 @@ public class BagToDrawNewTiles extends Bag {
 
   private static BagToDrawNewTiles instance;
 
-  public final int INITIAL_NUMBER_OF_EACH_TILE = 1;
+  private ArrayList<Tile> content;
+
+  public final int INITIAL_NUMBER_OF_EACH_TILE = 20;
 
   private BagToStoreUsedTiles box;
 
@@ -26,7 +28,7 @@ public class BagToDrawNewTiles extends Bag {
    *
    * @return a new BagToDrawNewTiles, if it doesn't exist already. The instance to the existing one else.
    */
-  public static synchronized BagToDrawNewTiles getInstance() {
+  static synchronized BagToDrawNewTiles getInstance() {
     if (instance == null) {
       instance = new BagToDrawNewTiles();
     }
@@ -38,7 +40,7 @@ public class BagToDrawNewTiles extends Bag {
    *
    * @return a random tile.
    */
-  public Tile drawRandomTile() {
+  Tile drawRandomTile() {
     if (content.size() == 0) {
       //the bag is emtpy, so it gets filled with the tiles that were stored in the "box"
       //in our implementation we call the box the "BagtoStoreUsedTiles"
@@ -56,9 +58,9 @@ public class BagToDrawNewTiles extends Bag {
   void initializeContent() {
     ArrayList<Tile> contentList = new ArrayList<>();
 
-    Tile[] listOfAllTileKinds = Tile.valuesWithoutEmptyTile();
-    for (Tile tile : listOfAllTileKinds) {
-      addTilesTo(tile, INITIAL_NUMBER_OF_EACH_TILE, contentList);
+    List<Tile> kindsOfTilableTiles = Tile.valuesOfTilableTiles();
+    for (Tile tile : kindsOfTilableTiles) {
+      addTilesToThisBag(tile, INITIAL_NUMBER_OF_EACH_TILE, contentList);
     }
 
     //permutes the contentList list
@@ -66,9 +68,14 @@ public class BagToDrawNewTiles extends Bag {
     this.content = contentList;
   }
 
-  private void addTilesTo(Tile tile, int amount, List list) {
+  private void addTilesToThisBag(Tile tile, int amount, List list) {
     for (int i = 0; i < amount; i++) {
       list.add(tile);
     }
+  }
+
+  @Override
+  public List<Tile> getContent() {
+    return (List<Tile>) content.clone();
   }
 }

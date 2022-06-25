@@ -6,6 +6,7 @@ import java.util.List;
 public class BagToStoreUsedTiles extends Bag {
 
   private static BagToStoreUsedTiles instance;
+  private ArrayList<Tile> content;
 
   /**
    * Has to be private. That is important for the Singleton Design Pattern.
@@ -20,7 +21,7 @@ public class BagToStoreUsedTiles extends Bag {
    *
    * @return a new BagToStoreUsedTiles, if it doesn't exist already. The instance to the existing one else.
    */
-  public static synchronized BagToStoreUsedTiles getInstance() {
+  static synchronized BagToStoreUsedTiles getInstance() {
     if (instance == null) {
       instance = new BagToStoreUsedTiles();
     }
@@ -37,7 +38,7 @@ public class BagToStoreUsedTiles extends Bag {
    *
    * @param tile the tile that is temporarily stored in this box.
    */
-  public void addTile(Tile tile) {
+  void addTile(Tile tile) {
     content.add(tile);
   }
 
@@ -47,9 +48,14 @@ public class BagToStoreUsedTiles extends Bag {
    *
    * @return all Tiles that have been temporarily stored in here.
    */
-  public List<Tile> giveAllTilesBack() {
+  List<Tile> giveAllTilesBack() {
     List<Tile> returnList = content;
     content = new ArrayList<>();
     return returnList;
+  }
+
+  @Override
+  public List<Tile> getContent() {
+    return (List<Tile>) content.clone();
   }
 }

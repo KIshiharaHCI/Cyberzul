@@ -72,7 +72,7 @@ public class Player {
   }
 
   /**
-   * represents drawing Tiles either from the TableCentre or from the Manufacturing Plates
+   * represents drawing Tiles either from the TableCenter or from the Manufacturing Plates
    */
   public Tile[][] drawTiles(/*int pickedRow, int numberOfTilesOfGivenColor*/) {
     System.out.println("Drawing Tiles");
