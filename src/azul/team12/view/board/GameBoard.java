@@ -1,11 +1,9 @@
 package azul.team12.view.board;
 
-import azul.team12.view.board.playerBoard.Plate;
 import azul.team12.view.board.playerBoard.Plates;
 import azul.team12.view.board.playerBoard.PlayerBoard;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,7 +13,7 @@ public class GameBoard extends JPanel {
   private static final long serialVersionUID = 7526472295622776147L;
   //List<PlayerBoard> playerBoardList = new ArrayList<>();
   PlayerBoard currentPlayerBoard;
-  List<Plate> plateList;
+  //  List<Plate> plateList;
   private int numberOfPlayers = 4;// TODO->lang of playerList
   private int numberOfPlates;
 
