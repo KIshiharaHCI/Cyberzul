@@ -1,11 +1,19 @@
 package azul.team12.view;
 
 import azul.team12.view.board.GameBoard;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
-import java.awt.*;
-import javax.swing.*;
+public class AzulView extends JFrame {
 
-public class AzulView extends JFrame{
+  private static final long serialVersionUID = 7526472295622776147L;
 
   private static final String LOGIN_CARD = "login";
   private static final String HSM_CARD = "hotseatmode";
@@ -24,7 +32,7 @@ public class AzulView extends JFrame{
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     gbl = new GridBagLayout();
     //setLayout(new GridBagLayout());
-    setMinimumSize(new Dimension( 1200, 800));
+    setMinimumSize(new Dimension(1200, 800));
     setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     initializeWidgets();
@@ -74,7 +82,6 @@ public class AzulView extends JFrame{
     hsmPanel.add(addPlayerButton);
     hsmPanel.add(playButton);
 
-
     //controller.startGameBoard
   }
 
@@ -82,17 +89,21 @@ public class AzulView extends JFrame{
   private void showHSMCard() {
     showCard(HSM_CARD);
   }
+
   private void showNetworkCard() {
     showCard(NETWORK_CARD);
   }
+
   private void showGameBoard() {
     JPanel gameBoardPanel = new JPanel();
     add(gameBoardPanel, GAMEBOARD_CARD);
     //GameBoard gameBoard = new GameBoard(gbl);
-    GameBoard gameBoard = new GameBoard();
+    GameBoard gameBoard = new GameBoard(this.getWidth(), this.getHeight());
+
     gameBoardPanel.add(gameBoard);
     showCard(GAMEBOARD_CARD);
   }
+
   private void showCard(String card) {
     layout.show(getContentPane(), card);
   }

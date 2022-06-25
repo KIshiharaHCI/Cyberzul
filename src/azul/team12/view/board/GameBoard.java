@@ -1,6 +1,5 @@
 package azul.team12.view.board;
 
-import azul.team12.view.AzulView;
 import azul.team12.view.board.playerBoard.Plate;
 import azul.team12.view.board.playerBoard.Plates;
 import azul.team12.view.board.playerBoard.PlayerBoard;
@@ -16,15 +15,17 @@ public class GameBoard extends JPanel {
 
   List<PlayerBoard> playerBoardList = new ArrayList<>();
   PlayerBoard currentPlayerBoard;
-
   List<Plate> plateList;
   private int numberOfPlayers = 4;// TODO->lang of playerList
   private int numberOfPlates;
-  private int frameWidth = AzulView.WIDTH;
-  private int frameHight = AzulView.HEIGHT;
 
-  public GameBoard() {
+  private int panelDrawWidth;
+  private int panelDrawHeight;
 
+  public GameBoard(int width, int height) {
+
+    panelDrawWidth = width;
+    panelDrawHeight = height;
     setPreferredSize(new Dimension(1200, 800));
     setLayout(new BorderLayout());
     // setBackground(new Color(110,90,120));
@@ -40,7 +41,7 @@ public class GameBoard extends JPanel {
     Plates plates = new Plates(numberOfPlates, this.plateList);
     center.add(plates, BorderLayout.CENTER);
 
-    currentPlayerBoard = new PlayerBoard(300, 900);
+    currentPlayerBoard = new PlayerBoard(400, 300);
     currentPlayerBoard.setBorder(new EmptyBorder(0, 80, 20, 80));
 
     center.add(currentPlayerBoard, BorderLayout.SOUTH);

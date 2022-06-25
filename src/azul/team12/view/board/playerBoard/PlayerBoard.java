@@ -20,14 +20,19 @@ public class PlayerBoard extends JPanel {
   private int minBoardHeight = 180;
   private int minBoardWidth = 300;
 
+  private int panelDrawWidth = 0;
+  private int panelDrawHeight = 0;
+
   public PlayerBoard() {
     initialize();
     createBord();
   }
 
-  public PlayerBoard(int minBoardHeight, int minBoardWidth) {
-    this.minBoardHeight = minBoardHeight;
-    this.minBoardWidth = minBoardWidth;
+
+  public PlayerBoard(int width, int height) {
+    minBoardWidth = width;
+    minBoardHeight = height;
+
     initialize();
     createBordCurrent();
   }
