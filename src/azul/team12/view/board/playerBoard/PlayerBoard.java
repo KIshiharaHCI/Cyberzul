@@ -64,7 +64,6 @@ public class PlayerBoard extends JPanel {
     JPanel center = new JPanel();
     center.setLayout(new GridLayout(1, 2));
     this.patternLines = new PatternLines();
-    setAlignmentX(patternLines.RIGHT_ALIGNMENT);
     this.wall = new Wall();
     center.add(patternLines);
     center.add(wall);
