@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class GameBoard extends JPanel {
-
+  private static final long serialVersionUID = 7526472295622776147L;
   List<PlayerBoard> playerBoardList = new ArrayList<>();
   PlayerBoard currentPlayerBoard;
   List<Plate> plateList;

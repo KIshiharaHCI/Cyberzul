@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 
 public class TableCenterTiles extends JPanel {
+
+  private static final long serialVersionUID = 7526472295622776147L;
   Tile tile;
 
   public TableCenterTiles(Tile tile) {

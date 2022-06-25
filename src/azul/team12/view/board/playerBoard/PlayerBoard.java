@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 public class PlayerBoard extends JPanel {
 
+  private static final long serialVersionUID = 7526472295622776147L;
+
   private int points = 0;
   private int minusPoints = 0;
   private String playerName = "name";

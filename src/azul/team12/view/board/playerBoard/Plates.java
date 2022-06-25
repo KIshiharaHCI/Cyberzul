@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 
 public class Plates extends JPanel {
 
+  private static final long serialVersionUID = 7526472295622776147L;
+
   private final int padding = 5;
   private final int radius = 40;
   private int numberOfPlates = 0;
