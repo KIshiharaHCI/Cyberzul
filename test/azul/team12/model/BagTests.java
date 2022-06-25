@@ -1,0 +1,40 @@
+package azul.team12.model;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class BagTests {
+
+  @Test
+  public void newFactoryDisplay_containsFourTiles() {
+    //arrange
+    FactoryDisplay factoryDisplay = new FactoryDisplay();
+
+    //act
+    int numberOfTilesInFactoryDisplay = factoryDisplay.getContent().size();
+
+    //assert
+    Assertions.assertEquals(4, numberOfTilesInFactoryDisplay);
+  }
+
+  @Test
+  public void testTakeTileWithIndex_afterTakingTiles_FactoryDisplayIsEmpty(){
+    FactoryDisplay factoryDisplay = new FactoryDisplay();
+
+    factoryDisplay.takeTileWithIndex(3);
+    int numberOfTilesInFactoryDisplay = factoryDisplay.getContent().size();
+
+    Assertions.assertEquals(0, numberOfTilesInFactoryDisplay);
+  }
+
+  @Test
+  public void testTakeTileWithIndex_returnsAtLeastOneTile(){
+    FactoryDisplay factoryDisplay = new FactoryDisplay();
+
+
+  }
+}

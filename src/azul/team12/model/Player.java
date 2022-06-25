@@ -36,15 +36,25 @@ public class Player {
   Player(String name) {
     this.name = name;
 
-    //TODO: Test output
-    System.out.println("Creating player: " + name);
-
     this.points = 0;
     this.floorLine = new ArrayList<>();
     this.wall = new boolean[5][5];
     initializePatternLines();
-    drawTiles(4, new FactoryDisplay(), 3);
-    drawTiles(3, TableCenter.getInstance(), 1);
+
+    /*
+    //TODO: Test
+    Offering offering = new FactoryDisplay();
+    System.out.println(drawTiles(4, offering, 3));
+    drawTiles(3, TableCenter.getInstance(), 0);
+
+    //should yield false because the offering is already empty
+    System.out.println(drawTiles(0, offering, 1));
+
+    System.out.println(drawTiles(0,new FactoryDisplay(),2));
+    //should yield false because there is already a tile on this field
+    System.out.println(drawTiles(0,new FactoryDisplay(), 1));
+
+     */
   }
 
   /**
@@ -104,6 +114,7 @@ public class Player {
       patternLines[pickedLine][i] = tiles.get(0);
     }
 
+    /*
     //TODO: Test output
     for (int column = 0; column < patternLines.length; column++) {
       for (int row = 0; row < patternLines[column].length; row++) {
@@ -111,6 +122,8 @@ public class Player {
       }
       System.out.println("");
     }
+
+     */
     return true;
   }
 
@@ -167,14 +180,14 @@ public class Player {
     initializePatternLines();
   }
 
-  void getEndOfGameGetPoints() {
+  void addEndOfGameGetPoints() {
 
   }
 
   /**
    * clean up the PatternRows after each round
    */
-  public void dispose() {
+  void dispose() {
 
   }
 }
