@@ -7,7 +7,7 @@ public class ClientNetworkConnection {
   private static final String HOST = "localhost";
   private static final int PORT = 8080;
 
-  private final GameClientModel model;
+  private final GameModel model;
 
   /**
    * creates the connection a client and the server.
@@ -15,7 +15,7 @@ public class ClientNetworkConnection {
    * @param model          - the model of this client.
    * @throws NullPointerException if passed model is <code>null</code>.
    */
-  public ClientNetworkConnection(GameClientModel model) {
+  public ClientNetworkConnection(GameModel model) {
     this.model = requireNonNull(model);
   }
 

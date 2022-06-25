@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class AzulMain {
   public static void main(String[] args){
     AzulView azulView = new AzulView();
-    azulView.setVisible(true);
+    //azulView.setVisible(true);
 
     ArrayList<Player> playerList = new ArrayList<>();
 

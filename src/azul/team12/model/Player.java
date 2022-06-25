@@ -13,7 +13,7 @@ public class Player {
   private final int NUMBER_OF_PATTERN_LINES = 5;
 
   private final int SIZE_OF_FLOOR_LINE = 7;
-  private final int[] FLOOR_LINE_PENALTIES = {-1,-1,-2,-2,-2,-3,-3};
+  private final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
 
   private WallBackgroundPattern wallBackgroundPattern;
 
@@ -54,8 +54,6 @@ public class Player {
     System.out.println("Content of first Line: " + patternLines[0][0]);
     System.out.println("Content of floor line: " + floorLine);
 
-     */
-
     wall[1][1] = true;
     wall[1][2] = true;
     wall[1][4] = true;
@@ -63,12 +61,21 @@ public class Player {
     wall[2][3] = true;
     wall[4][3] = true;
 
+    wall[1][0] = true;
+
+
+
     patternLines[1][0] = Tile.RED_TILE;
     patternLines[1][1] = Tile.RED_TILE;
 
-    System.out.println(points);
+    floorLine.add(Tile.STARTING_PLAYER_MARKER);
+    floorLine.add(Tile.ORANGE_TILE);
+    floorLine.add(Tile.BLUE_TILE);
     tileWallAndGetPoints();
+
     System.out.println(points);
+    System.out.println(BagToStoreUsedTiles.getInstance().getContent());
+    */
   }
 
   public Tile[][] getPatternLines() {
@@ -128,7 +135,7 @@ public class Player {
     List<Tile> tiles = offering.takeTileWithIndex(indexOfTile);
 
     if (tiles.contains(Tile.STARTING_PLAYER_MARKER)) {
-      if(floorLine.size() < SIZE_OF_FLOOR_LINE) {
+      if (floorLine.size() < SIZE_OF_FLOOR_LINE) {
         floorLine.add(Tile.STARTING_PLAYER_MARKER);
       }
       tiles.remove(Tile.STARTING_PLAYER_MARKER);
@@ -146,10 +153,9 @@ public class Player {
     }
 
     while (tiles.size() > remainingSizeOfLine) {
-      if(floorLine.size() < SIZE_OF_FLOOR_LINE) {
+      if (floorLine.size() < SIZE_OF_FLOOR_LINE) {
         floorLine.add(tiles.get(0));
-      }
-      else{
+      } else {
         BagToStoreUsedTiles.getInstance().addTile(tiles.get(0));
       }
       tiles.remove(0);
@@ -224,6 +230,7 @@ public class Player {
    * Represents the tiling phase, where all points are assigned.
    */
   void tileWallAndGetPoints() {
+    //iterate through every line of patternLines
     for (int rowNumber = 0; rowNumber < patternLines.length; rowNumber++) {
       Tile[] line = patternLines[rowNumber];
       //if the line is not completely full (leftmost field is empty), it gets ignored.
@@ -243,11 +250,22 @@ public class Player {
       line[rowNumber] = Tile.EMPTY_TILE;
 
       //get points
-      points++;
-      stepHorizontally(rowNumber, indexOfTileOnWallPattern, 1);
-      stepHorizontally(rowNumber, indexOfTileOnWallPattern, -1);
-      stepVertically(rowNumber, indexOfTileOnWallPattern, 1);
-      stepVertically(rowNumber, indexOfTileOnWallPattern, -1);
+      int tilesInOneContiguousRow =
+          getHorizontallyAdjacentTiles(rowNumber, indexOfTileOnWallPattern);
+      int tilesInOneContiguousColumn =
+          getVerticallyAdjacentTiles(rowNumber, indexOfTileOnWallPattern);
+
+      if ((tilesInOneContiguousRow == 1) && (tilesInOneContiguousColumn == 1)) {
+        //If the new tile has no neighbours, you only get one point.
+        points++;
+      } else {
+        if (tilesInOneContiguousRow > 1) {
+          points += tilesInOneContiguousRow;
+        }
+        if (tilesInOneContiguousColumn > 1) {
+          points += tilesInOneContiguousColumn;
+        }
+      }
 
       //put the rest of the tiles in the line into the BagToStoreUsedTiles
       //last position doesn't need to get checked since we already tiled that Tile to the wall.
@@ -260,76 +278,71 @@ public class Player {
     }
 
     getMinusPointsForFloorLine();
-
-
-    //TODO: Gib dem Spieler Punkte für die jeweiligen Fliesen ("sofort")
-    //TODO: schreibe die negative Tiles um in Punkte. Also der erste negative Tile ist -1, der zweite ...
   }
 
   /**
    * Subtracts points from the player for every tile that is stored in the floor line.
    * The penalty points for this are defined in FLOOR_LINE_PENALTIES
    */
-  private void getMinusPointsForFloorLine(){
-
-  }
-
-  /*
-  public int getHorizontalNeighbors(int row, int col){
-    int horizontalNeighbors = 0;
-    while(wall[row][col])
-  }
-
-   */
-
-  /**
-   * Recursive method that walks horizontally down the wall as long as the tile (specified by the
-   * row and col values) has adjacent tiles on the wall. It then awards the player a point for that.
-   * It is end-recursive, so it is just as performant as loops.
-   *
-   * @param row       the row position on the wall of the tile.
-   * @param col       the col position on the wall of the tile.
-   * @param direction the direction in which this method walks. <code>+1</code> if the method walks
-   *                  to the right. <code>-1</code> if it walks to the left.
-   */
-  private void stepHorizontally(int row, int col, int direction) {
-    if (((col + direction) >= 0)
-        && ((col + direction) < wall[row].length)) {
-      if (wall[row][col + direction]) {
-        points++;
-        stepHorizontally(row, col + direction, direction);
+  private void getMinusPointsForFloorLine() {
+    for (int i = 0; i < floorLine.size(); i++) {
+      Tile tile = floorLine.get(i);
+      if (tile == Tile.EMPTY_TILE) {
+        break;
+      }
+      points += FLOOR_LINE_PENALTIES[i];
+      if (tile != Tile.STARTING_PLAYER_MARKER) {
+        BagToStoreUsedTiles.getInstance().addTile(tile);
       }
     }
+    floorLine.clear();
   }
 
   /**
-   * Recursive method that walks vertically down the wall as long as the tile (specified by the row
-   * and col values) has adjacent tiles on the wall. It then awards the player a point for that.
-   * It is end-recursive, so it is just as performant as loops.
+   * Get the number of horizontally adjacent Tiles of the tile that is specified by the row and
+   * col values.
    *
-   * @param row       the row position on the wall of the tile.
-   * @param col       the col position on the wall of the tile.
-   * @param direction the direction in which this method walks. <code>+1</code> if the method walks
-   *                  down. <code>-1</code> if it walks up.
+   * @param row the row value of the tile that has just been tiled.
+   * @param col the col value of the tile that has just been tiled.
+   * @return the number of tiles that build a contiguous horizontal line with the new tile.
    */
-  private void stepVertically(int row, int col, int direction) {
-    if (((row + direction) >= 0)
-        && ((row + direction) < wall.length)) {
-      if (wall[row + direction][col]) {
-        points++;
-        stepHorizontally(row + direction, col, direction);
-      }
+  public int getHorizontallyAdjacentTiles(int row, int col) {
+    int horizontallyContiguousTiles = 1;
+
+    //move in the row to the right until you get to a tile that hasn't been tiled yet.
+    while (((col + 1) < wall[row].length) && wall[row][col + 1]) {
+      col++;
     }
+
+    //count how far you can walk left in the row before you reach an entry that hasn't been tiled
+    // yet
+    while (((col - 1) >= 0) && wall[row][col - 1]) {
+      col--;
+      horizontallyContiguousTiles++;
+    }
+
+    return horizontallyContiguousTiles;
+  }
+
+  public int getVerticallyAdjacentTiles(int row, int col) {
+    int verticallyContiguousTiles = 1;
+
+    //move down in the column to the last contiguous tiled Tile in the column
+    while (((row + 1) < wall.length) && wall[row + 1][col]) {
+      row++;
+    }
+
+    //count how far you can walk up in the column before you reach an entry that hasn't been tiled
+    // yet
+    while (((row - 1) >= 0) && wall[row - 1][col]) {
+      row--;
+      verticallyContiguousTiles++;
+    }
+
+    return verticallyContiguousTiles;
   }
 
   void addEndOfGameGetPoints() {
-
-  }
-
-  /**
-   * clean up the PatternRows after each round
-   */
-  void dispose() {
 
   }
 }
