@@ -8,7 +8,7 @@ import java.util.List;
  */
 public enum Tile {
   RED_TILE("red tile"), BLACK_TILE("black tile"), WHITE_TILE("white tile"), BLUE_TILE("blue tile"),
-  ORANGE_TILE("orange tile"), EMPTY_TILE("empty tile"),
+  ORANGE_TILE("orange tile"), EMPTY_TILE("empty"),
   STARTING_PLAYER_MARKER("starting player marker");
 
   String name;

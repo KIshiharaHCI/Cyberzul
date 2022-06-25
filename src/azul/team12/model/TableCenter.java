@@ -8,7 +8,7 @@ import java.util.List;
  * "Tischmitte"
  * One of the two places the player can draw tiles from.
  */
-public class TableCenter extends Bag {
+public class TableCenter extends Offering {
 
   private static TableCenter instance;
   private ArrayList<Tile> content;
@@ -30,6 +30,7 @@ public class TableCenter extends Bag {
     return instance;
   }
 
+  @Override
   void initializeContent() {
     this.content = new ArrayList<>();
     content.add(Tile.STARTING_PLAYER_MARKER);

@@ -1,7 +1,8 @@
 package azul.team12.controller;
 
 import azul.team12.model.Bag;
-import azul.team12.model.Tile;
+import azul.team12.model.FactoryDisplay;
+import azul.team12.model.TableCenter;
 import java.util.List;
 
 /**
@@ -32,14 +33,14 @@ public interface Controller {
    *
    * @return
    */
-  List<Bag> getManufacturingPlates();
+  List<FactoryDisplay> getFactoryDisplays();
 
   /**
    * Return the table center.
    *
    * @return the table center.
    */
-  Bag getTableCenter();
+  TableCenter getTableCenter();
 
   /**
    * Returns the Name of the player who has to make his turn.
@@ -69,10 +70,10 @@ public interface Controller {
    * The model should inform the view with an error message via notify listeners, if the player
    * can't place it on a patter line.
    *
-   * @param tile
+   * @param indexOfTile
    * @param indexOfBag
    */
-  void chooseTileFrom(Tile tile,int indexOfBag);
+  void chooseTileFrom(int indexOfTile,int indexOfBag);
 
   /**
    * Informs the model on which pattern row the player choose to place his tile.

@@ -1,5 +1,8 @@
 package azul.team12.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class contains the information that is depicted on the game board of the player.
  * I.e. his points, the tiles he already tiled and those who lie on his tiling fields.
@@ -7,35 +10,41 @@ package azul.team12.model;
 public class Player {
   private String name;
   private int points;
+  private int NUMBER_OF_PATTERN_LINES = 5;
 
-  private int negativeTiles;
-      //contain the negative points the player acquires during the drawing phase.
+  private List<Tile> floorLine;
+  //contain the negative Tiles the player acquires during the drawing phase.
 
-  public int getNegativeTiles() {
-    return negativeTiles;
+  public List<Tile> getFloorLine() {
+    return floorLine;
   }
 
   public boolean[][] getWall() {
     return wall.clone();
   }
 
-  public Tile[][] getPatternRows() {
-    return patternRows.clone();
+  public Tile[][] getPatternLines() {
+    return patternLines.clone();
   }
 
   private boolean[][] wall;
-      //the wall where the player tiles the tiles and gets his points ("Wand").
+  //the wall where the player tiles the tiles and gets his points ("Wand").
 
-  private Tile[][] patternRows;
-      //the left side on the board where the player places the tiles he draws ("Musterreihen").
+  private Tile[][] patternLines;
+  //the left side on the board where the player places the tiles he draws ("Musterreihen").
 
-  public Player(String name) {
+  Player(String name) {
     this.name = name;
-    System.out.println("Creating player: "+name);
+
+    //TODO: Test output
+    System.out.println("Creating player: " + name);
+
     this.points = 0;
+    this.floorLine = new ArrayList<>();
     this.wall = new boolean[5][5];
-    initializePatternRows();
-    patternRows = drawTiles();
+    initializePatternLines();
+    drawTiles(4, new FactoryDisplay(), 3);
+    drawTiles(3, TableCenter.getInstance(), 1);
   }
 
   /**
@@ -44,23 +53,22 @@ public class Player {
    *
    * @return the initialized empty patternRow
    */
-  private void initializePatternRows() {
+  private void initializePatternLines() {
 
-    System.out.println("Initializing Pattern Rows");
-    this.patternRows = new Tile[5][];
-    patternRows[0] = new Tile[1];
-    patternRows[1] = new Tile[2];
-    patternRows[2] = new Tile[3];
-    patternRows[3] = new Tile[4];
-    patternRows[4] = new Tile[5];
-
-    for (int column = 0; column < patternRows.length; column++) {
-      for (int row = 0; row < patternRows[column].length; row++) {
-        patternRows[column][row] = Tile.EMPTY_TILE;
-        System.out.print(patternRows[column][row]+ ", ");
-      }
-      System.out.println("");
+    this.patternLines = new Tile[NUMBER_OF_PATTERN_LINES][];
+    for (int i = 0; i < 5; i++) {
+      patternLines[i] = new Tile[i + 1];
     }
+
+    for (int column = 0; column < patternLines.length; column++) {
+      for (int row = 0; row < patternLines[column].length; row++) {
+        patternLines[column][row] = Tile.EMPTY_TILE;
+        //TODO: Test output
+        //System.out.print(patternLines[column][row] + ", ");
+      }
+      //System.out.println("");
+    }
+
   }
 
   public String getName() {
@@ -72,40 +80,95 @@ public class Player {
   }
 
   /**
-   * represents drawing Tiles either from the TableCenter or from the Manufacturing Plates
+   * Draw Tiles from an Offering and place them on the chosen pattern line.
+   *
+   * @param pickedLine  the pattern line on which the tiles should be placed.
+   * @param offering    the Offering from which the tiles should be drawn.
+   * @param indexOfTile the index of the tile in the Offering.
+   * @return <true>true</true> if the tiles were successfully placed on the chosen line. <code>false</code> else.
    */
-  public Tile[][] drawTiles(/*int pickedRow, int numberOfTilesOfGivenColor*/) {
-    System.out.println("Drawing Tiles");
-    // TODO: ask team if we should use another bag instance as a parameter here
-    //  to extract the information of pickedRow, numberOfTilesOfGivenColor and TileColor from
-    //event listener: player chooses which row to place the tiles
-    int pickedRow = 4; // is 5th row --- get the input from the controller probably through some event listener
-    int numberOfTilesOfGivenColor = 5; // get the input from the controller
-    Tile myTileColor = Tile.BLACK_TILE; // get the tile color from the controller
-
-    // setting all
-    for (int i = 0; i < numberOfTilesOfGivenColor; i++) {
-      patternRows[pickedRow][i] = myTileColor;
+  boolean drawTiles(int pickedLine, Offering offering, int indexOfTile) {
+    if (!isValidPick(pickedLine, offering, indexOfTile)) {
+      return false;
     }
 
-    for (int column = 0; column < patternRows.length; column++) {
-      for (int row = 0; row < patternRows[column].length; row++) {
-        System.out.print(patternRows[column][row]+ ", ");
+    //acquire the tiles from the chosen offering
+    List<Tile> tiles = offering.takeTileWithIndex(indexOfTile);
+
+    if (tiles.contains(Tile.STARTING_PLAYER_MARKER)) {
+      floorLine.add(Tile.STARTING_PLAYER_MARKER);
+      tiles.remove(Tile.STARTING_PLAYER_MARKER);
+    }
+
+    for (int i = pickedLine; i > pickedLine - tiles.size(); i--) {
+      patternLines[pickedLine][i] = tiles.get(0);
+    }
+
+    //TODO: Test output
+    for (int column = 0; column < patternLines.length; column++) {
+      for (int row = 0; row < patternLines[column].length; row++) {
+        System.out.print(patternLines[column][row] + ", ");
       }
       System.out.println("");
     }
-    return patternRows;
-  };
+    return true;
+  }
+
+  /**
+   * Check if it's possible to draw tiles from the offering and to place them on the desired row.
+   *
+   * @param pickedLine  the pattern line on which the tiles should be placed.
+   * @param offering    the Offering from which the tiles should be drawn.
+   * @param indexOfTile the index of the tile in the Offering.
+   * @return <code>true</code> if the chosen tile can be placed on the chosen line. <code>false</code> else.
+   */
+  private boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
+    List<Tile> tiles = offering.getContent();
+    Tile tile;
+
+    //does this Offering contain any tileable tiles?
+    if (tiles.contains(Tile.STARTING_PLAYER_MARKER)) {
+      if (tiles.size() == 1) {
+        return false;
+      } else {
+        tile = tiles.get(indexOfTile + 1);
+      }
+    } else {
+      if (tiles.size() == 0) {
+        return false;
+      } else {
+        tile = tiles.get(indexOfTile);
+      }
+    }
+
+    //are there free places on the selected row? Only first position of the line has to be checked.
+    if (patternLines[pickedLine][0] != Tile.EMPTY_TILE) {
+      return false;
+    }
+
+    //is the color of the selected tile compatible with the tiles that already lay on the
+    //only last position has to be checked.
+    if ((patternLines[pickedLine][pickedLine] != tile)
+        && patternLines[pickedLine][pickedLine] != Tile.EMPTY_TILE) {
+      return false;
+    }
+
+    return true;
+  }
 
   /**
    * Represents the tiling phase, where all points are assigned.
    */
-  public void tilingPhase(){
+  void tileWallAndGetPoints() {
     //TODO: Gib dem Spieler Punkte für die jeweiligen Fliesen ("sofort")
     //TODO: schreibe die negative Tiles um in Punkte. Also der erste negative Tile ist -1, der zweite ...
     //TODO: leere die patternRows, aber nicht die wall
 
-    initializePatternRows();
+    initializePatternLines();
+  }
+
+  void getEndOfGameGetPoints() {
+
   }
 
   /**

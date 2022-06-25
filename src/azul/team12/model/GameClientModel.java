@@ -11,14 +11,14 @@ public class GameClientModel {
 
     this.playerList = namesOfPlayers;
 
-    /*
+
     // todo: to be deleted:
     loginWithName("Fritz");
 
-     */
+
 
     //TODO:TEST METHOD FOR THE BAGS
-    testTheBags();
+    //testTheBags();
   }
 
   public void loginWithName(String nickname) {
