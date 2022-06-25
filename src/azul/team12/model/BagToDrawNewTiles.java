@@ -52,7 +52,6 @@ public class BagToDrawNewTiles extends Bag {
       content.addAll(box.giveAllTilesBack());
       Collections.shuffle(content);
     }
-    box.addTile(content.get(0));
 
     //List#remove is equal to the pop method of a stack
     return content.remove(0);
