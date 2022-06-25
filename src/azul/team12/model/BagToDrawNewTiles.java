@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Represents the "bag" from the Azul Game. Players are drawing new tiles each round randomly
+ * from this bag to put them on the "factory displays".
+ */
 public class BagToDrawNewTiles extends Bag {
 
   private static BagToDrawNewTiles instance;
@@ -68,6 +72,13 @@ public class BagToDrawNewTiles extends Bag {
     this.content = contentList;
   }
 
+  /**
+   * Add the constant number of tiles to the bag.
+   *
+   * @param tile   - enum of a tileable tile
+   * @param amount - number of tiles (constant)
+   * @param list   - the content list of this bag.
+   */
   private void addTilesToThisBag(Tile tile, int amount, List list) {
     for (int i = 0; i < amount; i++) {
       list.add(tile);
