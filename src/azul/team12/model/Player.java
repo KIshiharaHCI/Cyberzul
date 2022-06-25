@@ -274,6 +274,14 @@ public class Player {
 
   }
 
+  /*
+  public int getHorizontalNeighbors(int row, int col){
+    int horizontalNeighbors = 0;
+    while(wall[row][col])
+  }
+
+   */
+
   /**
    * Recursive method that walks horizontally down the wall as long as the tile (specified by the
    * row and col values) has adjacent tiles on the wall. It then awards the player a point for that.
