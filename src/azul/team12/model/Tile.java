@@ -13,16 +13,6 @@ public enum Tile {
 
   String name;
 
-  /**
-   * The pattern on the wall defining where which tiles may be placed.
-   */
-  private static Tile[][] templateWall =
-      {{BLUE_TILE, ORANGE_TILE, RED_TILE, BLACK_TILE, WHITE_TILE},
-          {WHITE_TILE, BLUE_TILE, ORANGE_TILE, RED_TILE, BLACK_TILE},
-          {BLACK_TILE, WHITE_TILE, BLUE_TILE, ORANGE_TILE, RED_TILE},
-          {RED_TILE, BLACK_TILE, WHITE_TILE, BLUE_TILE, ORANGE_TILE},
-          {ORANGE_TILE, RED_TILE, BLACK_TILE, WHITE_TILE, BLUE_TILE}};
-
   Tile(String name) {
     this.name = name;
   }
@@ -30,10 +20,6 @@ public enum Tile {
   @Override
   public String toString() {
     return this.name;
-  }
-
-  public Tile[][] getTemplateWall() {
-    return templateWall.clone();
   }
 
   /**

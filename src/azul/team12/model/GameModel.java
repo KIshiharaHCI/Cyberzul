@@ -2,19 +2,18 @@ package azul.team12.model;
 
 import java.util.ArrayList;
 
-public class GameClientModel {
+public class GameModel {
 
   private ArrayList<Player> playerList;
 
 
-  public GameClientModel(ArrayList<Player> namesOfPlayers) {
+  public GameModel(ArrayList<Player> namesOfPlayers) {
 
     this.playerList = namesOfPlayers;
 
 
     // todo: to be deleted:
     loginWithName("Fritz");
-
 
 
     //TODO:TEST METHOD FOR THE BAGS
