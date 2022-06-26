@@ -14,6 +14,9 @@ public class Player {
 
   private final int SIZE_OF_FLOOR_LINE = 7;
   private final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
+  private final int POINTS_FOR_COMPLETE_HORIZONTAL_LINE = 2;
+  private final int POINTS_FOR_COMPLETE_VERTICAL_LINE = 7;
+  private final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
 
   private WallBackgroundPattern wallBackgroundPattern;
 
@@ -307,7 +310,7 @@ public class Player {
    * @return the number of tiles that build a contiguous horizontal line with the new tile.
    */
   public int getHorizontallyAdjacentTiles(int row, int col) {
-    int horizontallyContiguousTiles = 1;
+    int horizontallyConsecutiveTiles = 1;
 
     //move in the row to the right until you get to a tile that hasn't been tiled yet.
     while (((col + 1) < wall[row].length) && wall[row][col + 1]) {
@@ -318,14 +321,14 @@ public class Player {
     // yet
     while (((col - 1) >= 0) && wall[row][col - 1]) {
       col--;
-      horizontallyContiguousTiles++;
+      horizontallyConsecutiveTiles++;
     }
 
-    return horizontallyContiguousTiles;
+    return horizontallyConsecutiveTiles;
   }
 
   public int getVerticallyAdjacentTiles(int row, int col) {
-    int verticallyContiguousTiles = 1;
+    int verticallyConsecutiveTiles = 1;
 
     //move down in the column to the last contiguous tiled Tile in the column
     while (((row + 1) < wall.length) && wall[row + 1][col]) {
@@ -336,13 +339,43 @@ public class Player {
     // yet
     while (((row - 1) >= 0) && wall[row - 1][col]) {
       row--;
-      verticallyContiguousTiles++;
+      verticallyConsecutiveTiles++;
     }
 
-    return verticallyContiguousTiles;
+    return verticallyConsecutiveTiles;
   }
 
+  /**
+   * Award additional points to the player because the game ended.
+   */
   void addEndOfGameGetPoints() {
+    //gain points for each complete horizontal line of 5 consecutive tiles on the wall
+    int amountOfRows = wall.length;
+    int amountOfCols = wall[0].length;
+    for(int row = 0; row < amountOfRows; row++){
+      for(int col = 0; col < amountOfCols; col++){
+        if(!wall[row][col]){
+          break;
+        }
+        if(col == amountOfCols - 1){
+          points += POINTS_FOR_COMPLETE_HORIZONTAL_LINE;
+        }
+      }
+    }
 
+    //gain points for each complete vertical line of 5 consecutive tiles on the wall
+    for(int col = 0; col < amountOfCols; col++){
+      for(int row = 0; row < amountOfRows; row++){
+        if(!wall[row][col]){
+          break;
+        }
+        if(row == amountOfRows - 1){
+          points += POINTS_FOR_COMPLETE_VERTICAL_LINE;
+        }
+      }
+    }
+
+
+    //gain 10 points for each color of which you have placed all 5 tiles on your wall
   }
 }
