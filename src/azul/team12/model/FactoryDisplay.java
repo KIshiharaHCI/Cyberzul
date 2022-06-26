@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class FactoryDisplay extends Offering {
 
-  private final int INITIAL_NUMBER_OF_TILES = 4;
+  private static final int INITIAL_NUMBER_OF_TILES = 4;
   private ArrayList<Tile> content;
 
   FactoryDisplay() {

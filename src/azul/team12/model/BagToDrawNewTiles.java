@@ -14,7 +14,7 @@ public class BagToDrawNewTiles extends Bag {
 
   private ArrayList<Tile> content;
 
-  public final int INITIAL_NUMBER_OF_EACH_TILE = 20;
+  public static final int INITIAL_NUMBER_OF_EACH_TILE = 20;
 
   private BagToStoreUsedTiles box;
 

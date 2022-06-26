@@ -1,10 +1,10 @@
 package azul.team12.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static azul.team12.model.Tile.EMPTY_TILE;
 import static azul.team12.model.Tile.STARTING_PLAYER_MARKER;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class contains the information that is depicted on the game board of the player.
@@ -93,10 +93,11 @@ public class Player {
   /**
    * Draw Tiles from an Offering and place them on the chosen pattern line.
    *
-   * @param row the pattern line on which the tiles should be placed.
-   * @param offering        the Offering from which the tiles should be drawn.
-   * @param indexOfTile     the index of the tile in the Offering.
-   * @return <true>true</true> if the tiles were successfully placed on the chosen line. <code>false</code> else.
+   * @param row         the pattern line on which the tiles should be placed.
+   * @param offering    the Offering from which the tiles should be drawn.
+   * @param indexOfTile the index of the tile in the Offering.
+   * @return <true>true</true> if the tiles were successfully placed on the chosen line.
+   * <code>false</code> else.
    */
   boolean drawTiles(int row, Offering offering, int indexOfTile) {
     //check if it's possible to place the chosen tile on the chosen line
@@ -110,21 +111,18 @@ public class Player {
 
     //the cursor says on which position we currently are in the patternLine.
     int cursor = row;
-    while(pickedTiles.size() > 0){
+    while (pickedTiles.size() > 0) {
       //store the SPM somewhere
-      if(pickedTiles.get(0) == STARTING_PLAYER_MARKER){
+      if (pickedTiles.get(0) == STARTING_PLAYER_MARKER) {
         fillFloorLine(pickedTiles.remove(0));
-      }
-      else{
+      } else {
         //the
-        if(patternLines[row][cursor] == EMPTY_TILE){
+        if (patternLines[row][cursor] == EMPTY_TILE) {
           patternLines[row][cursor] = pickedTiles.remove(0);
-        }
-        else{
-          if((cursor - 1) >= 0){
+        } else {
+          if ((cursor - 1) >= 0) {
             cursor--;
-          }
-          else{
+          } else {
             fillFloorLine(pickedTiles.remove(0));
           }
         }
@@ -140,7 +138,7 @@ public class Player {
    *
    * @param tile the tile that should be stored in the floorline.
    */
-  private void fillFloorLine(Tile tile){
+  private void fillFloorLine(Tile tile) {
     if (floorLine.size() < SIZE_OF_FLOOR_LINE) {
       floorLine.add(tile);
     } else {
@@ -154,7 +152,8 @@ public class Player {
    * @param pickedLine  the pattern line on which the tiles should be placed.
    * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
-   * @return <code>true</code> if the chosen tile can be placed on the chosen line. <code>false</code> else.
+   * @return <code>true</code> if the chosen tile can be placed on the chosen line.
+   * <code>false</code> else.
    */
   private boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
     List<Tile> tiles = offering.getContent();
@@ -293,6 +292,14 @@ public class Player {
     return horizontallyConsecutiveTiles;
   }
 
+  /**
+   * Get the number of vertically adjacent Tiles of the tile that is specified by the row and
+   * col values.
+   *
+   * @param row the row value of the tile that has just been tiled.
+   * @param col the col value of the tile that has just been tiled.
+   * @return the number of tiles that build a contiguous horizontal line with the new tile.
+   */
   public int getVerticallyAdjacentTiles(int row, int col) {
     int verticallyConsecutiveTiles = 1;
 
@@ -318,24 +325,24 @@ public class Player {
     //gain points for each complete horizontal line of 5 consecutive tiles on the wall
     int amountOfRows = wall.length;
     int amountOfCols = wall[0].length;
-    for(int row = 0; row < amountOfRows; row++){
-      for(int col = 0; col < amountOfCols; col++){
-        if(!wall[row][col]){
+    for (int row = 0; row < amountOfRows; row++) {
+      for (int col = 0; col < amountOfCols; col++) {
+        if (!wall[row][col]) {
           break;
         }
-        if(col == amountOfCols - 1){
+        if (col == amountOfCols - 1) {
           points += POINTS_FOR_COMPLETE_HORIZONTAL_LINE;
         }
       }
     }
 
     //gain points for each complete vertical line of 5 consecutive tiles on the wall
-    for(int col = 0; col < amountOfCols; col++){
-      for(int row = 0; row < amountOfRows; row++){
-        if(!wall[row][col]){
+    for (int col = 0; col < amountOfCols; col++) {
+      for (int row = 0; row < amountOfRows; row++) {
+        if (!wall[row][col]) {
           break;
         }
-        if(row == amountOfRows - 1){
+        if (row == amountOfRows - 1) {
           points += POINTS_FOR_COMPLETE_VERTICAL_LINE;
         }
       }
@@ -343,12 +350,12 @@ public class Player {
 
     //gain 10 points for each color of which you have placed all 5 tiles on your wall
     List<Tile> tilableTiles = Tile.valuesOfTilableTiles();
-    for(Tile tile : tilableTiles){
-      for(int row = 0; row < wall.length; row++){
-        if(!wall[row][wallPattern.indexOfTileInRow(row,tile)]){
+    for (Tile tile : tilableTiles) {
+      for (int row = 0; row < wall.length; row++) {
+        if (!wall[row][wallPattern.indexOfTileInRow(row, tile)]) {
           break;
         }
-        if(row == (wall.length - 1)){
+        if (row == (wall.length - 1)) {
           points += POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR;
         }
       }
