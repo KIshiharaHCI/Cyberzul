@@ -1,23 +1,19 @@
 package azul.team12.model;
 
+import static java.util.Objects.requireNonNull;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class GameModel {
 
+  private final PropertyChangeSupport support;
   private ArrayList<Player> playerList;
 
 
-  public GameModel(ArrayList<Player> namesOfPlayers) {
-
-    this.playerList = namesOfPlayers;
-
-
-    // todo: to be deleted:
-    loginWithName("Fritz");
-
-
-    //TODO:TEST METHOD FOR THE BAGS
-    //testTheBags();
+  public GameModel() {
+    support = new PropertyChangeSupport(this);
   }
 
   public void loginWithName(String nickname) {
@@ -25,28 +21,15 @@ public class GameModel {
     playerList.add(newPlayer);
   }
 
-  //TODO:TEST METHOD FOR THE BAGS
   /**
-   * Test method in Order to test the bags.
+   * Add a {@link PropertyChangeListener} to the model for getting notified about any changes that
+   * are published by this model.
+   *
+   * @param listener the view that subscribes itself to the model.
    */
-  private void testTheBags() {
-    ArrayList<FactoryDisplay> factoryDisplays = new ArrayList<>();
-    for (int i = 0; i < 9; i++) {
-      factoryDisplays.add(new FactoryDisplay());
-    }
-    System.out.println("Content of first Factory Display: " + factoryDisplays.get(0).getContent());
-    System.out.println("Content of the Table Center " + TableCenter.getInstance().getContent());
-    System.out.println(
-        "Take tile with index 1 (second tile) and all tiles from the same kind from the first " +
-            "Factory Display " +
-            factoryDisplays.get(0).takeTileWithIndex(1));
-    System.out.println("Content of the first Factory Display " + factoryDisplays.get(0).getContent());
-    System.out.println("Content of the Table Center " + TableCenter.getInstance().getContent());
-
-    System.out.println("Take tile with index 0 and all tiles from the same kind from the " +
-        "Table Center " + TableCenter.getInstance().takeTileWithIndex(0));
-
-    System.out.println("Content of the Table Center " + TableCenter.getInstance().getContent());
+  public void addPropertyChangeListener(PropertyChangeListener listener) {
+    requireNonNull(listener);
+    support.addPropertyChangeListener(listener);
   }
 
 }

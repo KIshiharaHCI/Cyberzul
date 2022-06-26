@@ -2,6 +2,7 @@ package azul.team12.controller;
 
 import azul.team12.model.Bag;
 import azul.team12.model.FactoryDisplay;
+import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
 import java.util.List;
 
@@ -70,10 +71,11 @@ public interface Controller {
    * The model should inform the view with an error message via notify listeners, if the player
    * can't place it on a patter line.
    *
-   * @param indexOfTile
-   * @param indexOfBag
+   * @param playerName the name of the player who makes his move.
+   * @param indexOfTile which of the tiles on the Offering was clicked on.
+   * @param offering Either the reference to a Factory Display or a reference to the Table Center.
    */
-  void chooseTileFrom(int indexOfTile,int indexOfBag);
+  void chooseTileFrom(String playerName, int indexOfTile, Offering offering);
 
   /**
    * Informs the model on which pattern row the player choose to place his tile.
