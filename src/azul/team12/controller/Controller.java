@@ -78,6 +78,13 @@ public interface Controller {
   void chooseTileFrom(String playerName, int indexOfTile, Offering offering);
 
   /**
+   * The player playerName tries to finish his turn.
+   *
+   * @param playerName the name of the player who tries to finish his turn.
+   */
+  void endTurn(String playerName);
+
+  /**
    * Informs the model on which pattern row the player choose to place his tile.
    *
    * @param indexOfPatternLine
