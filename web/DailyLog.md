@@ -172,6 +172,7 @@ Q1:
 Q2:
 
 - final tweaks on the bootstrapping submission
+- set up the DailyLog.md
 
 Q3:
 
@@ -244,7 +245,18 @@ Q3:
 
 **20. June, 2022**
 
-Nils 
+_Nils_ 
+
+Q1
+- Finishing the Bootstrapping submission
+- adding a DailyLog.md
+
+Q2
+- none, because I am celebrating my birthday
+
+Q3
+
+- none
 
 _Xue_
 
@@ -313,7 +325,16 @@ Q3:
 
 **21. June, 2022**
 
-Nils
+_Nils_
+
+Q1
+- celebrated my birthday
+
+Q2
+- have to work on another submission
+
+Q3
+- none
 
 _Xue_
 
@@ -387,7 +408,15 @@ Q3:
 
 **22. June, 2022**
 
-Nils
+_Nils_
+Q1
+- worked on another submission
+
+Q2
+- working on another submission
+
+Q3
+- none
 
 _Xue_
 
@@ -455,6 +484,18 @@ Q3:
 
 **23. June, 2022**
 
+_Nils_
+
+Q1
+- Worked on another assignment.
+
+Q2
+- Meet with the team and the tutor.
+- Write the Controller Interface for communication between view and model.
+
+Q3
+- None.
+
 _Xue_
 
 Q1: 
@@ -511,7 +552,7 @@ Q1:
 
 - Meeting with the tutor
 - Working with the group on the integration of view and model
-- Writing the Controller Interface
+- Writing the Controller Interface for the communication between the model and the view.
 
 Q2:
 
@@ -572,3 +613,42 @@ Q2:
 Q3:
 
 - None.
+
+_Nils_
+
+Q1:
+- Rewritten the Bag Classes, BagToDrawNewTiles From, BagToStoreUsedTiles,  Factory Display, TableCenter.
+- They are now able to be used by the model.
+
+- Changed BagToDrawNewTilesFrom and BagToStoreUsed Tiles aswell as the TableCenter so they implement the Singleton Design Pattern.
+
+- Also meeting with the group and discussing the Interface.
+
+Q2:
+- Write the Player class.
+- Write a method in the Player class that enables the Player to pick tiles from Offerings (a subclass of Bag).
+- Write a method in the Player class that enables the Player to place the tiles on the pattern lines.
+- Write a method in the Player class for the points that the player gets after each round.
+- Write a method in the Player class for the points that the player gets at the end of the game.
+
+Q3:
+- None
+
+**26. June, 2022**
+
+_Nils_
+Q1:
+- Written the Player class.
+- Written a method in the Player class that enables the Player to pick tiles from Offerings (a subclass of Bag).
+- Written a method in the Player class that enables the Player to place the tiles on the pattern lines.
+- Written a method in the Player class for the points that the player gets after each round.
+- Written JUnit Tests for the Bag classes.
+
+Q2
+- Write a method in the Player class for the points that the player gets at the end of the game.
+- Write JUnit Tests for the Player Class.
+- Write the model logic so players can be added to the model.
+- Implement the model as observable.
+
+Q3
+None
