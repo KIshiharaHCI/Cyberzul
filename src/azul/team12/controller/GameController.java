@@ -16,26 +16,26 @@ public class GameController implements Controller{
 
   @Override
   public void addPlayer(String name) {
-
+    model.loginWithName(name);
   }
 
   @Override
   public void startGame() {
-
+    model.startGame();
   }
 
   @Override
-  public List<FactoryDisplay> getFactoryDisplays() {
-    return null;
+  public List<Offering> getFactoryDisplays() {
+    return model.getFactoryDisplays();
   }
 
   @Override
-  public TableCenter getTableCenter() {
-    return null;
+  public Offering getTableCenter() {
+    return model.getTableCenter();
   }
 
   @Override
-  public String whosTurnIsIt() {
+  public String getNickOfActivePlayer() {
     return null;
   }
 
@@ -45,7 +45,7 @@ public class GameController implements Controller{
   }
 
   @Override
-  public void endTurn() {
+  public void endTurn(String playerName) {
 
   }
 

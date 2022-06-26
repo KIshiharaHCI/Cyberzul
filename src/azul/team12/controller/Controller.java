@@ -34,21 +34,21 @@ public interface Controller {
    *
    * @return
    */
-  List<FactoryDisplay> getFactoryDisplays();
+  List<Offering> getFactoryDisplays();
 
   /**
    * Return the table center.
    *
    * @return the table center.
    */
-  TableCenter getTableCenter();
+  Offering getTableCenter();
 
   /**
    * Returns the Name of the player who has to make his turn.
    *
    * @return
    */
-  String whosTurnIsIt();
+  String getNickOfActivePlayer();
 
   /**
    * Return the points that the player has.
@@ -57,13 +57,6 @@ public interface Controller {
    * @return
    */
   int getPoints(String playerName);
-
-  /**
-   * Tells the model that the player made his turn.
-   * Ideally, the model informs the view via a notifyListeners Method what operations the player
-   * has to do before he can finish his turn.
-   */
-  void endTurn();
 
   /**
    * Informs the model that a player chose a tile from a manufacturing plate or from the table

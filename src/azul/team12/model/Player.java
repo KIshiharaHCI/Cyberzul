@@ -63,7 +63,7 @@ public class Player {
     return wallPattern;
   }
 
-  public boolean isHasStartingPlayerMarker() {
+  public boolean hasStartingPlayerMarker() {
     return hasStartingPlayerMarker;
   }
 
