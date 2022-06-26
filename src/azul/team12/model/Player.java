@@ -21,6 +21,8 @@ public class Player {
   public static final int POINTS_FOR_COMPLETE_VERTICAL_LINE = 7;
   public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
 
+  private boolean hasStartingPlayerMarker = false;
+
   private WallBackgroundPattern wallPattern;
 
   private ArrayList<Tile> floorLine;
@@ -59,6 +61,10 @@ public class Player {
 
   public WallBackgroundPattern getWallPattern() {
     return wallPattern;
+  }
+
+  public boolean isHasStartingPlayerMarker() {
+    return hasStartingPlayerMarker;
   }
 
   /**
@@ -114,6 +120,7 @@ public class Player {
     while (pickedTiles.size() > 0) {
       //store the SPM somewhere
       if (pickedTiles.get(0) == STARTING_PLAYER_MARKER) {
+        hasStartingPlayerMarker = true;
         fillFloorLine(pickedTiles.remove(0));
       } else {
         //the

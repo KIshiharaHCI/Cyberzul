@@ -1,7 +1,13 @@
 package azul.team12.model.events;
 
 /**
- * The player successfully finished his turn.
+ * The round is finished. That means every tile was taken from every Factory Display and the Table
+ * Center.
  */
-public class RoundFinishedEvent {
+public class RoundFinishedEvent extends GameEvent {
+
+  @Override
+  public String getName() {
+    return "RoundFinishedEvent";
+  }
 }

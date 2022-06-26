@@ -1,7 +1,23 @@
 package azul.team12.model.events;
 
 /**
- * Gives the view the information which players turn is now.
+ * Gives the view the information that the next player has to make his turn now.
+ * The view can get the information about the name of the player who's turn is now.
  */
-public class NextPlayersTurnEvent {
+public class NextPlayersTurnEvent extends GameEvent{
+
+  private final String nickname;
+
+  public NextPlayersTurnEvent(String nickname){
+    this.nickname = nickname;
+  }
+
+  public String getNickname(){
+    return nickname;
+  }
+
+  @Override
+  public String getName() {
+    return "NextPlayersTurnEvent";
+  }
 }
