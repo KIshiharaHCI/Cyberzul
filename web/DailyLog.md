@@ -611,7 +611,6 @@ Q2:
 - Maybe add implement new methods, if still needed
 
 Q3:
-
 - None.
 
 _Nils_
@@ -651,4 +650,5 @@ Q2
 - Implement the model as observable.
 
 Q3
-None
+- None.
+

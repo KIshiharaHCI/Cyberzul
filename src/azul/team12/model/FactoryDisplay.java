@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class FactoryDisplay extends Offering {
 
-  private final int INITIAL_NUMBER_OF_TILES = 4;
+  private static final int INITIAL_NUMBER_OF_TILES = 4;
   private ArrayList<Tile> content;
 
   FactoryDisplay() {
@@ -37,7 +37,7 @@ public class FactoryDisplay extends Offering {
     Tile chosenColor = content.get(indexOfTheTile);
     ArrayList<Tile> returnedTiles = new ArrayList<>();
     for (Tile tile : content) {
-      if (tile == content.get(indexOfTheTile)) {
+      if (tile == chosenColor) {
         returnedTiles.add(tile);
       } else {
         TableCenter.getInstance().addTile(tile);

@@ -33,7 +33,7 @@ public class WallBackgroundPattern {
    *
    * @return a copy of the template wall pattern.
    */
-  public Tile[][] getTemplateWall() {
+  public static Tile[][] getTemplateWall() {
     return templateWall.clone();
   }
 
