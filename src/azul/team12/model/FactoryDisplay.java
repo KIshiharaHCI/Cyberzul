@@ -37,7 +37,7 @@ public class FactoryDisplay extends Offering {
     Tile chosenColor = content.get(indexOfTheTile);
     ArrayList<Tile> returnedTiles = new ArrayList<>();
     for (Tile tile : content) {
-      if (tile == content.get(indexOfTheTile)) {
+      if (tile == chosenColor) {
         returnedTiles.add(tile);
       } else {
         TableCenter.getInstance().addTile(tile);

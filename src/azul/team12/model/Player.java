@@ -3,6 +3,9 @@ package azul.team12.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import static azul.team12.model.Tile.EMPTY_TILE;
+import static azul.team12.model.Tile.STARTING_PLAYER_MARKER;
+
 /**
  * This class contains the information that is depicted on the game board of the player.
  * I.e. his points, the tiles he already tiled and those who lie on his tiling fields.
@@ -10,21 +13,21 @@ import java.util.List;
 public class Player {
   private String name;
   private int points;
-  private final int NUMBER_OF_PATTERN_LINES = 5;
+  public static final int NUMBER_OF_PATTERN_LINES = 5;
 
-  private final int SIZE_OF_FLOOR_LINE = 7;
-  private final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
-  private final int POINTS_FOR_COMPLETE_HORIZONTAL_LINE = 2;
-  private final int POINTS_FOR_COMPLETE_VERTICAL_LINE = 7;
-  private final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
+  public static final int SIZE_OF_FLOOR_LINE = 7;
+  private static final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
+  public static final int POINTS_FOR_COMPLETE_HORIZONTAL_LINE = 2;
+  public static final int POINTS_FOR_COMPLETE_VERTICAL_LINE = 7;
+  public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
 
-  private WallBackgroundPattern wallBackgroundPattern;
+  private WallBackgroundPattern wallPattern;
 
-  private List<Tile> floorLine;
+  private ArrayList<Tile> floorLine;
   //contain the negative Tiles the player acquires during the drawing phase.
 
   public List<Tile> getFloorLine() {
-    return floorLine;
+    return (List<Tile>) floorLine.clone();
   }
 
   public boolean[][] getWall() {
@@ -44,49 +47,18 @@ public class Player {
     this.floorLine = new ArrayList<>();
     this.wall = new boolean[5][5];
 
-    wallBackgroundPattern = new WallBackgroundPattern();
+    wallPattern = new WallBackgroundPattern();
 
     initializePatternLines();
 
-
-    //TODO: Test
-    /*
-    Offering offering = new FactoryDisplay();
-    System.out.println("Offering content: " + offering.getContent());
-    drawTiles(0, offering, 3);
-    System.out.println("Content of first Line: " + patternLines[0][0]);
-    System.out.println("Content of floor line: " + floorLine);
-
-    wall[1][1] = true;
-    wall[1][2] = true;
-    wall[1][4] = true;
-    wall[0][3] = true;
-    wall[2][3] = true;
-    wall[4][3] = true;
-
-    wall[1][0] = true;
-
-
-
-    patternLines[1][0] = Tile.RED_TILE;
-    patternLines[1][1] = Tile.RED_TILE;
-
-    floorLine.add(Tile.STARTING_PLAYER_MARKER);
-    floorLine.add(Tile.ORANGE_TILE);
-    floorLine.add(Tile.BLUE_TILE);
-    tileWallAndGetPoints();
-
-    System.out.println(points);
-    System.out.println(BagToStoreUsedTiles.getInstance().getContent());
-    */
   }
 
   public Tile[][] getPatternLines() {
     return patternLines.clone();
   }
 
-  public WallBackgroundPattern getWallBackgroundPattern() {
-    return wallBackgroundPattern;
+  public WallBackgroundPattern getWallPattern() {
+    return wallPattern;
   }
 
   /**
@@ -104,11 +76,8 @@ public class Player {
 
     for (int column = 0; column < patternLines.length; column++) {
       for (int row = 0; row < patternLines[column].length; row++) {
-        patternLines[column][row] = Tile.EMPTY_TILE;
-        //TODO: Test output
-        //System.out.print(patternLines[column][row] + ", ");
+        patternLines[column][row] = EMPTY_TILE;
       }
-      //System.out.println("");
     }
 
   }
@@ -124,62 +93,59 @@ public class Player {
   /**
    * Draw Tiles from an Offering and place them on the chosen pattern line.
    *
-   * @param pickedLineIndex the pattern line on which the tiles should be placed.
+   * @param row the pattern line on which the tiles should be placed.
    * @param offering        the Offering from which the tiles should be drawn.
    * @param indexOfTile     the index of the tile in the Offering.
    * @return <true>true</true> if the tiles were successfully placed on the chosen line. <code>false</code> else.
    */
-  boolean drawTiles(int pickedLineIndex, Offering offering, int indexOfTile) {
-    if (!isValidPick(pickedLineIndex, offering, indexOfTile)) {
+  boolean drawTiles(int row, Offering offering, int indexOfTile) {
+    //check if it's possible to place the chosen tile on the chosen line
+    //this doesn't yet change the state of the data model!
+    if (!isValidPick(row, offering, indexOfTile)) {
       return false;
     }
 
     //acquire the tiles from the chosen offering
-    List<Tile> tiles = offering.takeTileWithIndex(indexOfTile);
+    List<Tile> pickedTiles = offering.takeTileWithIndex(indexOfTile);
 
-    if (tiles.contains(Tile.STARTING_PLAYER_MARKER)) {
-      if (floorLine.size() < SIZE_OF_FLOOR_LINE) {
-        floorLine.add(Tile.STARTING_PLAYER_MARKER);
+    //the cursor says on which position we currently are in the patternLine.
+    int cursor = row;
+    while(pickedTiles.size() > 0){
+      //store the SPM somewhere
+      if(pickedTiles.get(0) == STARTING_PLAYER_MARKER){
+        fillFloorLine(pickedTiles.remove(0));
       }
-      tiles.remove(Tile.STARTING_PLAYER_MARKER);
-    }
-
-    //if you picked too many tiles, so they don't all fit into the pattern line
-    //put the tiles that you have too many of into the floor line.
-    int remainingSizeOfLine = 0;
-    for (int i = 0; i < patternLines[pickedLineIndex].length; i++) {
-      if (patternLines[pickedLineIndex][i] == Tile.EMPTY_TILE) {
-        remainingSizeOfLine++;
-      } else {
-        break;
+      else{
+        //the
+        if(patternLines[row][cursor] == EMPTY_TILE){
+          patternLines[row][cursor] = pickedTiles.remove(0);
+        }
+        else{
+          if((cursor - 1) >= 0){
+            cursor--;
+          }
+          else{
+            fillFloorLine(pickedTiles.remove(0));
+          }
+        }
       }
     }
-
-    while (tiles.size() > remainingSizeOfLine) {
-      if (floorLine.size() < SIZE_OF_FLOOR_LINE) {
-        floorLine.add(tiles.get(0));
-      } else {
-        BagToStoreUsedTiles.getInstance().addTile(tiles.get(0));
-      }
-      tiles.remove(0);
-    }
-
-    //fill patternLine from right to left
-    for (int i = pickedLineIndex; i > pickedLineIndex - tiles.size(); i--) {
-      patternLines[pickedLineIndex][i] = tiles.get(0);
-    }
-
-    /*
-    //TODO: Test output
-    for (int column = 0; column < patternLines.length; column++) {
-      for (int row = 0; row < patternLines[column].length; row++) {
-        System.out.print(patternLines[column][row] + ", ");
-      }
-      System.out.println("");
-    }
-
-     */
     return true;
+  }
+
+  /**
+   * This method represents the tiles that fall on the ground. If the floorline has still enough
+   * places, the fallen tile gets added on the floor line. Else it gets transfered into the
+   * BagToStoreUsedTiles.
+   *
+   * @param tile the tile that should be stored in the floorline.
+   */
+  private void fillFloorLine(Tile tile){
+    if (floorLine.size() < SIZE_OF_FLOOR_LINE) {
+      floorLine.add(tile);
+    } else {
+      BagToStoreUsedTiles.getInstance().addTile(tile);
+    }
   }
 
   /**
@@ -195,7 +161,7 @@ public class Player {
     Tile tile;
 
     //does this Offering contain any tileable tiles?
-    if (tiles.contains(Tile.STARTING_PLAYER_MARKER)) {
+    if (tiles.contains(STARTING_PLAYER_MARKER)) {
       if (tiles.size() == 1) {
         return false;
       } else {
@@ -210,19 +176,19 @@ public class Player {
     }
 
     //is on the wall in the same row already a tile with that color?
-    if (wall[pickedLine][wallBackgroundPattern.indexOfTileInRow(pickedLine, tile)]) {
+    if (wall[pickedLine][wallPattern.indexOfTileInRow(pickedLine, tile)]) {
       return false;
     }
 
     //are there free places on the selected row? Only first position of the line has to be checked.
-    if (patternLines[pickedLine][0] != Tile.EMPTY_TILE) {
+    if (patternLines[pickedLine][0] != EMPTY_TILE) {
       return false;
     }
 
     //is the color of the selected tile compatible with the tiles that already lay on the
     //only last position has to be checked.
     if ((patternLines[pickedLine][pickedLine] != tile)
-        && patternLines[pickedLine][pickedLine] != Tile.EMPTY_TILE) {
+        && patternLines[pickedLine][pickedLine] != EMPTY_TILE) {
       return false;
     }
 
@@ -237,7 +203,7 @@ public class Player {
     for (int rowNumber = 0; rowNumber < patternLines.length; rowNumber++) {
       Tile[] line = patternLines[rowNumber];
       //if the line is not completely full (leftmost field is empty), it gets ignored.
-      if (line[0] == Tile.EMPTY_TILE) {
+      if (line[0] == EMPTY_TILE) {
         continue;
       }
 
@@ -245,12 +211,12 @@ public class Player {
       Tile tile = patternLines[rowNumber][rowNumber];
 
       //get the position of the tile on the wall pattern
-      int indexOfTileOnWallPattern = wallBackgroundPattern.indexOfTileInRow(rowNumber, tile);
+      int indexOfTileOnWallPattern = wallPattern.indexOfTileInRow(rowNumber, tile);
 
       //put it on the wall and delete the tile from the row
       assert (!wall[rowNumber][indexOfTileOnWallPattern]);
       wall[rowNumber][indexOfTileOnWallPattern] = true;
-      line[rowNumber] = Tile.EMPTY_TILE;
+      line[rowNumber] = EMPTY_TILE;
 
       //get points
       int tilesInOneContiguousRow =
@@ -273,9 +239,9 @@ public class Player {
       //put the rest of the tiles in the line into the BagToStoreUsedTiles
       //last position doesn't need to get checked since we already tiled that Tile to the wall.
       for (int j = 0; j < line.length - 1; j++) {
-        if (line[j] != Tile.EMPTY_TILE) {
+        if (line[j] != EMPTY_TILE) {
           BagToStoreUsedTiles.getInstance().addTile(line[j]);
-          line[j] = Tile.EMPTY_TILE;
+          line[j] = EMPTY_TILE;
         }
       }
     }
@@ -290,11 +256,11 @@ public class Player {
   private void getMinusPointsForFloorLine() {
     for (int i = 0; i < floorLine.size(); i++) {
       Tile tile = floorLine.get(i);
-      if (tile == Tile.EMPTY_TILE) {
+      if (tile == EMPTY_TILE) {
         break;
       }
       points += FLOOR_LINE_PENALTIES[i];
-      if (tile != Tile.STARTING_PLAYER_MARKER) {
+      if (tile != STARTING_PLAYER_MARKER) {
         BagToStoreUsedTiles.getInstance().addTile(tile);
       }
     }
@@ -348,7 +314,7 @@ public class Player {
   /**
    * Award additional points to the player because the game ended.
    */
-  void addEndOfGameGetPoints() {
+  void addEndOfGamePoints() {
     //gain points for each complete horizontal line of 5 consecutive tiles on the wall
     int amountOfRows = wall.length;
     int amountOfCols = wall[0].length;
@@ -375,7 +341,17 @@ public class Player {
       }
     }
 
-
     //gain 10 points for each color of which you have placed all 5 tiles on your wall
+    List<Tile> tilableTiles = Tile.valuesOfTilableTiles();
+    for(Tile tile : tilableTiles){
+      for(int row = 0; row < wall.length; row++){
+        if(!wall[row][wallPattern.indexOfTileInRow(row,tile)]){
+          break;
+        }
+        if(row == (wall.length - 1)){
+          points += POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR;
+        }
+      }
+    }
   }
 }
