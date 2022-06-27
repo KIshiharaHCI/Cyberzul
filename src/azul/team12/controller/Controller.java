@@ -32,7 +32,7 @@ public interface Controller {
    * Tiles are saved in the Bags as ArrayList<Tile>
    *
    *
-   * @return
+   * @return the factory displays
    */
   List<Offering> getFactoryDisplays();
 
@@ -78,10 +78,13 @@ public interface Controller {
   void endTurn(String playerName);
 
   /**
-   * Informs the model on which pattern row the player choose to place his tile.
+   * TODO: @Nils - ich denke, diese Methode habe ich zu stark verändert und sie überhaupt nicht so
+   * gemacht, wie du das angedacht hattest.
    *
-   * @param indexOfPatternLine
-   * @return
+   * Informs the model on which pattern row the player chose to place his tile.
+   *
+   * @param rowOfPatternLine the row of the pattern line selected
+   * @return <code>true</code> if it was a valid pick, <code>false</code> if not
    */
-  boolean placeTileAtPatternLine(int indexOfPatternLine);
+  boolean placeTileAtPatternLine(int rowOfPatternLine);
 }

@@ -1,9 +1,7 @@
 package azul.team12.controller;
 
-import azul.team12.model.FactoryDisplay;
 import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
-import azul.team12.model.TableCenter;
 import java.util.List;
 
 public class GameController implements Controller{
@@ -36,26 +34,26 @@ public class GameController implements Controller{
 
   @Override
   public String getNickOfActivePlayer() {
-    return null;
+    return model.getNickOfActivePlayer();
   }
 
   @Override
   public int getPoints(String playerName) {
-    return 0;
+    return model.getPoints(playerName);
   }
 
   @Override
   public void endTurn(String playerName) {
-
+    model.endTurn();
   }
 
   @Override
   public void chooseTileFrom(String playerName, int indexOfTile, Offering offering) {
-
+    model.notifyTileChosen(playerName, indexOfTile, offering);
   }
 
   @Override
-  public boolean placeTileAtPatternLine(int indexOfPatternLine) {
-    return false;
+  public boolean placeTileAtPatternLine(int rowOfPatternLine) {
+    return model.makeActivePlayerPlaceTile(rowOfPatternLine);
   }
 }

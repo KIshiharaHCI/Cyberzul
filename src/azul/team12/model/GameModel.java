@@ -5,7 +5,10 @@ import static java.util.Objects.requireNonNull;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
+import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.model.events.LoginFailedEvent;
+import azul.team12.model.events.NextPlayersTurnEvent;
+import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -19,9 +22,20 @@ public class GameModel {
 
   private final PropertyChangeSupport support;
   private ArrayList<Player> playerList;
-  private ArrayList<Offering> factoryDisplays;
+  //TODO: @Nils please check what I did: Ich habe die factoryDisplays und die Tischmitte in
+  // einem ArrayList<Offering> zusammengefasst. Das hat keine Auswirkungen für die View
+  // wir geben einfach index 0 für die Tischmitte zurück, aber es war praktisch für die weitere
+  // Implementierung - ändere es jederzeit zurück. Außerdem glaube ich, dass uns dadurch die
+  // View gar nicht mehr das ganze Offering sondern nur noch einen Index zurückgeben muss.
+  // Das habe ich jetzt aber noch nicht geändert. Die Variable unten "currentOffering" könnte dann
+  // durch die Variable "indexOfOffering" ersetzt werden. Mir gefällt diese Lösung, aber vllt
+  // übersehe ich etwas.
+  private ArrayList<Offering> offerings;
   private boolean isGameStarted = false;
   private int indexOfActivePlayer = 0;
+  private int indexOfOffering;
+  private Offering currentOffering;
+  private int currentIndexOfTile;
 
 
   public GameModel() {
@@ -95,16 +109,20 @@ public class GameModel {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.GAME_ALREADY_STARTED));
     }
     else{
+      //TODO: siehe TODO von Zeilen 25 - 28.
+      offerings.add(TableCenter.getInstance());
       int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
       for(int i = 0; i < numberOfFactoryDisplays; i++){
-        factoryDisplays.add(new FactoryDisplay());
+        offerings.add(new FactoryDisplay());
       }
       notifyListeners(new GameStartedEvent());
     }
   }
 
   public List<Offering> getFactoryDisplays(){
-    return (List<Offering>) factoryDisplays.clone();
+    //TODO: siehe TODO von Zeilen 25 - 28.
+    List<Offering> factoryDisplays = offerings.subList(1, offerings.size());
+    return factoryDisplays;
   }
 
   public Offering getTableCenter(){
@@ -137,7 +155,69 @@ public class GameModel {
   }
 
   public void endTurn(){
+    NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
+    notifyListeners(nextPlayersTurnEvent);
+    indexOfActivePlayer++;
+  }
 
+  /**
+   * Return player by name (given by view).
+   *
+   * @param nickname the nickname of the player
+   * @return the player
+   */
+  public Player getPlayerByName(String nickname) {
+    for(Player player : playerList) {
+      if(player.getName().equals(nickname)) {
+        return player;
+      }
+    }
+    System.out.println("To be log - given name by view that is not in the playerList.");
+    return null;
+  }
+
+  /**
+   * informs the view via listeners that it is the next players turn. If the player cannot
+   * place the tile on a pattern line, it still informs the model.
+   *
+   * @param playerName  the player's name
+   * @param indexOfTile the index of the tile that was drawn
+   * @param offering    the offering (factory display or center of the table)
+   */
+  public void notifyTileChosen(String playerName, int indexOfTile, Offering offering) {
+    boolean thereIsAValidPick = false;
+    //TODO: Müssen wir hier einen Thread erstellen, weil: Was ist, wenn ein Spieler bereits ein
+    // Offering auswählt während die andere noch nicht ihre Row ausgewählt hat, um sie zu
+    // platzieren.
+    currentOffering = offering;
+    currentIndexOfTile = indexOfTile;
+    Player player = getPlayerByName(playerName);
+    // check for each line in the pattern lines if there is a valid pick
+    for (int line = 0; line < Player.NUMBER_OF_PATTERN_LINES; line++) {
+      if (player.isValidPick(line, offering, indexOfTile)) {
+        thereIsAValidPick = true;
+      }
+    }
+    // inform listeners if there is a valid pick, if not that it is the next players turn
+    if (!thereIsAValidPick) {
+      IllegalTurnEvent illegalTurnEvent = new IllegalTurnEvent();
+      notifyListeners(illegalTurnEvent);
+    } else {
+      NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
+      notifyListeners(noValidTurnToMakeEvent);
+    }
+  }
+
+  /**
+   * make the active player place the tile he/she has chosen.
+   *
+   * @param rowOfPatternLine the row of the chosen pattern line
+   * @return <code>true</code> if it was a valid pick, <code>false</code> if not
+   */
+  public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
+    String nickActivePlayer = getNickOfActivePlayer();
+    Player activePlayer = getPlayerByName(nickActivePlayer);
+    return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
   }
 
 }
