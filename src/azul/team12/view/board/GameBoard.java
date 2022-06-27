@@ -4,6 +4,9 @@ import azul.team12.view.board.playerBoard.Plates;
 import azul.team12.view.board.playerBoard.PlayerBoard;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -29,6 +32,7 @@ public class GameBoard extends JPanel {
     // setBackground(new Color(110,90,120));
     createLeft();
     createCenter();
+    addEventListener();
   }
 
   private void createCenter() {
@@ -60,4 +64,24 @@ public class GameBoard extends JPanel {
     add(othersPanel, BorderLayout.WEST);
   }
 
+  /**
+   * Add a Listener to the DrawBoard that handles the interactions the user can have with the
+   * GameBoard.
+   * That is: <br>
+   * <li>Clicking on a tile on an offering in order to take every tile of the same color from that
+   * offering </li>
+   * <li>Clicking on a pattern line in order to place as many of the chosen tiles on that line.</li>
+   */
+  private void addEventListener() {
+    addMouseListener(new MouseAdapter() {
+
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        Point point = e.getPoint();
+
+        //TODO: TEST OUTPUT
+        System.out.println("(" + point.x + ", " + point.y + ")");
+      }
+    });
+  }
 }

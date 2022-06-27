@@ -52,7 +52,6 @@ public class PlayerBoard extends JPanel {
     createCenterCurrent();
   }
 
-
   private void createBord() {
     setLayout(new BorderLayout());
     createNorth();
