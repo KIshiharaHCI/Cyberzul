@@ -1,23 +1,26 @@
 package azul.team12.view.board.playerBoard;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import javax.swing.JPanel;
 
-public class Plates extends JPanel {
+public class FactoryDisplayBar extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
   private final int padding = 5;
   private final int radius = 40;
   private int numberOfPlates = 0;
+
 //  private List<Plate> plateList;
 
-  public Plates(int numberOfPlates) {
+  public FactoryDisplayBar(int numberOfPlates) {
     this.numberOfPlates = numberOfPlates;
     setMinimumSize(new Dimension(600, 600));
+
+
   }
+
+
 
 //  public Plates(int numberOfPlates, List<Plate> plateList) {
 //    this.numberOfPlates = numberOfPlates;
@@ -36,8 +39,8 @@ public class Plates extends JPanel {
     Graphics2D g2d = (Graphics2D) g;
     for (int i = 1; i <= this.numberOfPlates; i++) {
       int centerX = padding + (radius * 2 + padding) * i;
-      Plate plate = new Plate(centerX, radius, radius, i);
-      plate.paintComponent(g2d);
+      FactoryDisplayPlate mfPlate = new FactoryDisplayPlate(centerX, radius, radius, i);
+      mfPlate.paintComponent(g2d);
     }
 
   }

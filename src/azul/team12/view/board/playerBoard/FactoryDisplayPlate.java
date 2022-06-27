@@ -1,11 +1,12 @@
 package azul.team12.view.board.playerBoard;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class Plate extends JPanel {
+
+public class FactoryDisplayPlate extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
@@ -14,13 +15,16 @@ public class Plate extends JPanel {
   private int centerX;
   private int centerY;
   private int radius;
+  private Point tilePosition;
 
-  public Plate(int centerX, int centerY, int radius, int position) {
+  public FactoryDisplayPlate(int centerX, int centerY, int radius, int position) {
     this.centerX = centerX;
     this.centerY = centerY;
     this.radius = radius;
     this.position = position;
+    this.tilePosition = new Point(centerX, centerY);
   }
+
 
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
