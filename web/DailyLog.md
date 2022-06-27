@@ -652,3 +652,21 @@ Q2
 Q3
 - None.
 
+**27. June, 2022**
+
+_Nils_
+Q1:
+- Written a method in the Player class for the points that the player gets at the end of the game.
+- Written JUnit Tests for the Player Class.
+- Written the model logic so players can be added to the model.
+- Implemented the model as observable.
+- Implemented the abstract GameEvent Class and implemented all other Events to inherit it.
+- Implemented many methods in the GameController class and their counterpart in the GameModel class.
+
+Q2:
+- Meet the team.
+- Define the remaining steps until the next deadline.
+- Distribute the remaining work on the team members.
+
+Q3:
+- The whole team has to gather.

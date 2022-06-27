@@ -1,12 +1,15 @@
 package azul.team12.model;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 /**
  * Contains Tests for the Player class.
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PlayerTests {
 
   private Player player;
@@ -19,6 +22,14 @@ public class PlayerTests {
   @BeforeEach
   public void createPlayer() {
     player = new Player("Fritz");
+  }
+
+  /**
+   * This has to be BeforeAll and not BeforeEach, because otherwise the BagToDrawNewTiles gets
+   * empty really fast ^^. The ManipulableFactoryDisplays don't return their Tiles...
+   */
+  @BeforeAll
+  public void setUpOfferings(){
     Tile[] redTiles = {Tile.RED_TILE, Tile.RED_TILE, Tile.RED_TILE, Tile.RED_TILE};
     Tile[] blueTiles = {Tile.BLUE_TILE, Tile.BLUE_TILE, Tile.BLUE_TILE, Tile.BLUE_TILE};
     Tile[] blackTiles = {Tile.BLACK_TILE, Tile.BLACK_TILE, Tile.BLACK_TILE, Tile.BLACK_TILE};
