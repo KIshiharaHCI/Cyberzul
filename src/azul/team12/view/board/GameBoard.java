@@ -1,9 +1,12 @@
 package azul.team12.view.board;
 
-import azul.team12.view.board.playerBoard.FactoryDisplayBar;
-import azul.team12.view.board.playerBoard.PlayerBoard;
+import azul.team12.controller.Controller;
+import azul.team12.model.GameModel;
+import azul.team12.view.board.playerBoard.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -22,8 +25,12 @@ public class GameBoard extends JPanel {
   private int panelDrawWidth;
   private int panelDrawHeight;
 
-  public GameBoard(int width, int height) {
+  private GameModel model;
+  private Controller controller;
 
+  public GameBoard(GameModel model, Controller controller, int width, int height) {
+    this.model = model;
+    this.controller = controller;
     panelDrawWidth = width;
     panelDrawHeight = height;
     setPreferredSize(new Dimension(1200, 800));
@@ -31,7 +38,29 @@ public class GameBoard extends JPanel {
     // setBackground(new Color(110,90,120));
     createSideBar();
     createMainPanel();
+    setUpMouseMotionListener();
   }
+
+  /**
+   * Add the mouse motion listener for player.
+   * The Player can drag and drop the tiles with the same colour from the factory dispaly or the middle of the table.
+   */
+
+  private void setUpMouseMotionListener() {
+    addMouseListener(
+            new MouseAdapter() {
+              @Override
+              public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                int xPosition = e.getX();
+                int yPosition = e.getY();
+
+
+              }
+            }
+    );
+  }
+
 
   /**
    * Creates the sidebar and populates it with the thumbnail view of Playerboards of the other players.
