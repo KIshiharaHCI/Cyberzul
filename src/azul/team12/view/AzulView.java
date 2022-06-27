@@ -2,22 +2,19 @@ package azul.team12.view;
 
 import azul.team12.view.board.GameBoard;
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Objects;
+import javax.swing.*;
 
 public class AzulView extends JFrame {
 
   private static final long serialVersionUID = 7526472295622776147L;
   private final Controller controller;
-  private final GameModel model;
 
   private static final String LOGIN_CARD = "login";
   private static final String HSM_CARD = "hotseatmode";
@@ -32,9 +29,8 @@ public class AzulView extends JFrame {
   private JButton playButton;
   private int numberOfPlayers;
 
-  public AzulView(Controller controller, GameModel model) throws HeadlessException {
+  public AzulView(Controller controller) throws HeadlessException {
     this.controller = controller;
-    this.model = model;
 
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     gbl = new GridBagLayout();
@@ -54,8 +50,16 @@ public class AzulView extends JFrame {
     hsmButton = new JButton("Hot Seat Mode");
     networkButton = new JButton("Network Mode");
     addPlayerButton = new JButton("+ Add Player");
+    addPlayerButton.setEnabled(false);
     playButton = new JButton("Play");
-    playButton.setEnabled(false);
+    //playButton.setEnabled(false);
+
+    //Textfields
+    inputNameArea = new JTextArea(1,20);
+    inputNameArea.setLineWrap(true);
+    inputNameArea.setWrapStyleWord(true);
+    inputNameArea.setBorder(new JTextField().getBorder());
+
     //Labels
 
   }
@@ -65,18 +69,22 @@ public class AzulView extends JFrame {
     hsmButton.addActionListener(event -> showHSMCard());
     networkButton.addActionListener(event -> showNetworkCard());
     playButton.addActionListener(event -> showGameBoard());
-    /*
-    addPlayerButton.addActionListener(
-            if (numberOfPlayers > 1) {
-              playButton.setEnabled(true);
-            }
-            if (numberOfPlayers < 5) {
-              panel
-            }
-            //TODO: if numberOfPlayers < 5, add another inputNameArea, else disable button
+    inputNameArea.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent event) {
+        if (event.getKeyCode() != KeyEvent.VK_ENTER) {
+          return;
+        }
+        event.consume();
+        Objects.requireNonNull(inputNameArea);
 
-    );
-    */
+        String nick = inputNameArea.getText();
+        controller.addPlayer(nick);
+        inputNameArea.setText(nick);
+        inputNameArea.setEnabled(false);
+        playButton.setEnabled(true);
+      }
+    });
   }
 
   private void createView() {
@@ -90,7 +98,6 @@ public class AzulView extends JFrame {
     login.add(networkButton);
 
     JPanel hsmPanel = new JPanel();
-    inputNameArea = new JTextArea();
     add(hsmPanel, HSM_CARD);
     hsmPanel.add(new JLabel("Player 1: "));
     hsmPanel.add(inputNameArea);
@@ -113,7 +120,7 @@ public class AzulView extends JFrame {
     JPanel gameBoardPanel = new JPanel();
     add(gameBoardPanel, GAMEBOARD_CARD);
     //GameBoard gameBoard = new GameBoard(gbl);
-    GameBoard gameBoard = new GameBoard(model,controller,this.getWidth(), this.getHeight());
+    GameBoard gameBoard = new GameBoard(controller,this.getWidth(), this.getHeight());
 
     gameBoardPanel.add(gameBoard);
     showCard(GAMEBOARD_CARD);

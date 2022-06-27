@@ -1,10 +1,9 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
 import azul.team12.view.board.playerBoard.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -17,6 +16,7 @@ public class GameBoard extends JPanel {
   private static final long serialVersionUID = 7526472295622776147L;
   //List<PlayerBoard> playerBoardList = new ArrayList<>();
   PlayerBoard currentPlayerBoard;
+  String currentPlayer;
   List<PlayerBoard> otherPlayersBoard;
   //  List<Plate> plateList;
   private int numberOfPlayers = 4;// TODO->lang of playerList
@@ -24,12 +24,11 @@ public class GameBoard extends JPanel {
 
   private int panelDrawWidth;
   private int panelDrawHeight;
+  FactoryDisplayBar displayBar;
 
-  private GameModel model;
-  private Controller controller;
+  private final Controller controller;
 
-  public GameBoard(GameModel model, Controller controller, int width, int height) {
-    this.model = model;
+  public GameBoard(Controller controller, int width, int height) {
     this.controller = controller;
     panelDrawWidth = width;
     panelDrawHeight = height;
@@ -38,27 +37,60 @@ public class GameBoard extends JPanel {
     // setBackground(new Color(110,90,120));
     createSideBar();
     createMainPanel();
+    setUpMouseClickListener();
     setUpMouseMotionListener();
+  }
+
+  public void setUpMouseClickListener() {
+    addMouseListener(
+            new MouseAdapter() {
+              @Override
+              public void mouseClicked(MouseEvent e) {
+
+              }
+            }
+    );
   }
 
   /**
    * Add the mouse motion listener for player.
-   * The Player can drag and drop the tiles with the same colour from the factory dispaly or the middle of the table.
+   * The Player can drag and drop the tiles with the same colour from the factory display or the middle of the table.
    */
 
   private void setUpMouseMotionListener() {
     addMouseListener(
             new MouseAdapter() {
               @Override
+              public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                if (checkOfferingUnderMouse(e.getPoint())) {
+                  //TODO: controller.chooseTileFrom();
+                }
+              }
+              @Override
               public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
-                int xPosition = e.getX();
-                int yPosition = e.getY();
 
+              }
+              @Override
+              public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
 
               }
             }
+
     );
+  }
+
+  /**
+   * Check whether a MouseClick corresponds to a coordinate on an Offering.
+   * @param point The point of the registered mouse click event.
+   * @return
+   */
+  private boolean checkOfferingUnderMouse(Point point) {
+    //if (displayBar.getParent().getLocation())
+
+    return false;
   }
 
 
@@ -78,17 +110,17 @@ public class GameBoard extends JPanel {
   }
 
   /**
-   * Creates the Panel which contains the Playerboard of the current player and the manufacturing plates bar.
+   * Creates the Panel which contains the Playerboard of the current player and the FactoryDisplayBar.
    */
   private void createMainPanel() {
     JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BorderLayout());
-    //TODO: get number of Factory displays in model and add them to the FactoryDisplayBar
-    numberOfPlates = numberOfPlayers * 2 + 1;
+    numberOfPlates = controller.getFactoryDisplays().size();
 
-    FactoryDisplayBar displayBar = new FactoryDisplayBar(numberOfPlates);
+    displayBar = new FactoryDisplayBar(numberOfPlates);
     mainPanel.add(displayBar, BorderLayout.CENTER);
 
+    //TODO: change absolute pixel width height with relative sizing
     currentPlayerBoard = new PlayerBoard(400, 300);
     currentPlayerBoard.setBorder(new EmptyBorder(0, 80, 20, 80));
 

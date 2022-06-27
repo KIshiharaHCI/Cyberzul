@@ -9,13 +9,16 @@ public class FactoryDisplayBar extends JPanel {
 
   private final int padding = 5;
   private final int radius = 40;
-  private int numberOfPlates = 0;
+  private int numberOfPlates;
 
 //  private List<Plate> plateList;
 
   public FactoryDisplayBar(int numberOfPlates) {
     this.numberOfPlates = numberOfPlates;
     setMinimumSize(new Dimension(600, 600));
+    //setSize(new Dimension(gameBoard.getWidth() * 0.5, ));
+
+
 
 
   }
@@ -39,8 +42,8 @@ public class FactoryDisplayBar extends JPanel {
     Graphics2D g2d = (Graphics2D) g;
     for (int i = 1; i <= this.numberOfPlates; i++) {
       int centerX = padding + (radius * 2 + padding) * i;
-      FactoryDisplayPlate mfPlate = new FactoryDisplayPlate(centerX, radius, radius, i);
-      mfPlate.paintComponent(g2d);
+      FactoryDisplayPlate displayPlate = new FactoryDisplayPlate(centerX, radius, radius, i);
+      displayPlate.paintComponent(g2d);
     }
 
   }
