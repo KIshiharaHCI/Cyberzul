@@ -21,7 +21,7 @@ public class GameModel {
   public static final int MAX_PLAYER_NUMBER = 4;
 
   private final PropertyChangeSupport support;
-  private ArrayList<Player> playerList;
+  private ArrayList<Player> playerList = new ArrayList<Player>();
   //TODO: @Nils please check what I did: Ich habe die factoryDisplays und die Tischmitte in
   // einem ArrayList<Offering> zusammengefasst. Das hat keine Auswirkungen für die View
   // wir geben einfach index 0 für die Tischmitte zurück, aber es war praktisch für die weitere
@@ -30,7 +30,7 @@ public class GameModel {
   // Das habe ich jetzt aber noch nicht geändert. Die Variable unten "currentOffering" könnte dann
   // durch die Variable "indexOfOffering" ersetzt werden. Mir gefällt diese Lösung, aber vllt
   // übersehe ich etwas.
-  private ArrayList<Offering> offerings;
+  private ArrayList<Offering> offerings = new ArrayList<Offering>();
   private boolean isGameStarted = false;
   private int indexOfActivePlayer = 0;
   private int indexOfOffering;
@@ -174,6 +174,18 @@ public class GameModel {
     }
     System.out.println("To be log - given name by view that is not in the playerList.");
     return null;
+  }
+
+  /**
+   * Returns the nicknames of all players.
+   * @return List of nicknames.
+   */
+  public List<String> getPlayerNamesList() {
+    List<String> list = new ArrayList<>();
+    for (Player player: playerList) {
+      list.add(player.getName());
+    }
+    return list;
   }
 
   /**

@@ -56,4 +56,9 @@ public class GameController implements Controller{
   public boolean placeTileAtPatternLine(int rowOfPatternLine) {
     return model.makeActivePlayerPlaceTile(rowOfPatternLine);
   }
+
+  @Override
+  public List<String> getPlayerNamesList() {
+    return model.getPlayerNamesList();
+  }
 }
