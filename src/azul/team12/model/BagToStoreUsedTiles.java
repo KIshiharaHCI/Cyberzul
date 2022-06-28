@@ -57,12 +57,13 @@ public class BagToStoreUsedTiles extends Bag {
     return returnList;
   }
 
-  //TODO @Nils - Durch die getContent Methode bekommen wir eine Warning (siehe:
-  // https://gitlab2.cip.ifi.lmu.de/sosy-lab/sep-ss-22/team12/-/pipelines), das möchte ich mit dir
-  // besprechen
   @Override
   public List<Tile> getContent() {
-    return (List<Tile>) content.clone();
+    List<Tile> returnList = new ArrayList<>();
+    for (Tile t : content) {
+      returnList.add(t);
+    }
+    return returnList;
   }
 
 }
