@@ -22,18 +22,19 @@ public class GameModel {
 
   private final PropertyChangeSupport support;
   private List<Player> playerList = new ArrayList<Player>();
+
   //TODO: @Nils please check what I did: Ich habe die factoryDisplays und die Tischmitte in
   // einem ArrayList<Offering> zusammengefasst. Das hat keine Auswirkungen für die View
   // wir geben einfach index 0 für die Tischmitte zurück, aber es war praktisch für die weitere
   // Implementierung - ändere es jederzeit zurück. Außerdem glaube ich, dass uns dadurch die
   // View gar nicht mehr das ganze Offering sondern nur noch einen Index zurückgeben muss.
   // Das habe ich jetzt aber noch nicht geändert. Die Variable unten "currentOffering" könnte dann
-  // durch die Variable "indexOfOffering" ersetzt werden. Mir gefällt diese Lösung, aber vllt
-  // übersehe ich etwas.
-  private ArrayList<Offering> offerings = new ArrayList<Offering>();
+
+  // durch eine Variable "indexOfCurrentOffering" ersetzt werden. Mir gefällt diese Lösung, aber
+  // vielleicht übersehe ich etwas.
+  private ArrayList<Offering> offerings = new ArrayList<>();
   private boolean isGameStarted = false;
   private int indexOfActivePlayer = 0;
-  private int indexOfOffering;
   private Offering currentOffering;
   private int currentIndexOfTile;
 
@@ -121,8 +122,9 @@ public class GameModel {
 
   public List<Offering> getFactoryDisplays(){
     //TODO: siehe TODO von Zeilen 25 - 28.
-    List<Offering> factoryDisplays = offerings.subList(1, offerings.size());
-    return factoryDisplays;
+
+    // return the factory displays being the all but the first offering
+    return offerings.subList(1, offerings.size());
   }
 
   public Offering getTableCenter(){
@@ -156,7 +158,13 @@ public class GameModel {
   public void endTurn(){
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
-    indexOfActivePlayer++;
+    // next player is the next player on the list or the first player, if the last active player
+    // was the last player on the list
+    if (indexOfActivePlayer == playerList.size() - 1) {
+      indexOfActivePlayer = 0;
+    } else {
+      indexOfActivePlayer++;
+    }
   }
 
   /**
@@ -176,10 +184,10 @@ public class GameModel {
   }
 
   /**
-   * Returns the nicknames of all players.
+   * Returns a List with all the nicknames of all players.
    * @return List of nicknames.
    */
-  public List<String> getPlayerList() {
+  public List<String> getPlayerNamesList() {
     List<String> list = new ArrayList<>();
     for (Player player: playerList) {
       list.add(player.getName());

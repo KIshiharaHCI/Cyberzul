@@ -60,6 +60,6 @@ public class GameController implements Controller{
 
   @Override
   public List<String> getPlayerNamesList() {
-    return model.getPlayerList();
+    return model.getPlayerNamesList();
   }
 }
