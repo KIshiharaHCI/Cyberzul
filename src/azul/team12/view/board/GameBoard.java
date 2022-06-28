@@ -46,7 +46,8 @@ public class GameBoard extends JPanel {
             new MouseAdapter() {
               @Override
               public void mouseClicked(MouseEvent e) {
-
+                //TODO: TEST TO PRINT OUT A POINT
+                System.out.println("(" + e.getPoint().x + "," + e.getPoint().y + ")");
               }
             }
     );

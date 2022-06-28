@@ -15,9 +15,9 @@ public class FactoryDisplayBar extends JPanel {
 
   public FactoryDisplayBar(int numberOfPlates) {
     this.numberOfPlates = numberOfPlates;
-    int panelWidth = (int) Math.round( this.getParent().getWidth() * 0.5);
-    int panelHeight = (int) Math.round( this.getParent().getHeight() * 0.5);
-    setSize(new Dimension(panelWidth, panelHeight));
+    //int panelWidth = (int) Math.round( this.getParent().getWidth() * 0.5);
+    //int panelHeight = (int) Math.round( this.getParent().getHeight() * 0.5);
+    //setSize(new Dimension(panelWidth, panelHeight));
     //setSize(new Dimension(gameBoard.getWidth() * 0.5, ));
 
 
