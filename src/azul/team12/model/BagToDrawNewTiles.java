@@ -86,6 +86,9 @@ public class BagToDrawNewTiles extends Bag {
 
   @Override
   public List<Tile> getContent() {
-    return (List<Tile>) content.clone();
-  }
-}
+    List<Tile> returnList = new ArrayList<>();
+    for (Tile t : content) {
+      returnList.add(t);
+    }
+    return returnList;
+  }}
