@@ -6,10 +6,6 @@ import java.util.List;
 /**
  * Represents the "lid of the game box" from the Azul Game. This is where used tiles are moved.
  */
-@SuppressWarnings("unchecked")
-//TODO @Nils - ich habe hier einen Quickfix für die Warning gemacht, die wir durch cie
-// getContent Methode bekommen (siehe:
-// https://gitlab2.cip.ifi.lmu.de/sosy-lab/sep-ss-22/team12/-/pipelines)
 public class BagToStoreUsedTiles extends Bag {
 
   private static BagToStoreUsedTiles instance;
@@ -61,6 +57,9 @@ public class BagToStoreUsedTiles extends Bag {
     return returnList;
   }
 
+  //TODO @Nils - Durch die getContent Methode bekommen wir eine Warning (siehe:
+  // https://gitlab2.cip.ifi.lmu.de/sosy-lab/sep-ss-22/team12/-/pipelines), das möchte ich mit dir
+  // besprechen
   @Override
   public List<Tile> getContent() {
     return (List<Tile>) content.clone();
