@@ -10,6 +10,7 @@ import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
+import azul.team12.model.events.RoundFinishedEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -154,6 +155,10 @@ public class GameModel {
     return 0;
   }
 
+  /**
+   * Ends the turn. Notifies listeners that the turn has ended, sets the index of the active
+   * player accordingly.
+   */
   public void endTurn(){
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
@@ -164,6 +169,7 @@ public class GameModel {
     } else {
       indexOfActivePlayer++;
     }
+    checkRoundFinished();
   }
 
   /**
@@ -236,6 +242,24 @@ public class GameModel {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
+  }
+
+  /**
+   * Checks whether the round is finished and notifies listeneres if this is the case.
+   * The round is finished if none of the offerings still has tiles available.
+   *
+   * @return <code>true</code> if it is finished, <code>false</code> if not
+   */
+  public boolean checkRoundFinished() {
+    for (Offering offering : offerings) {
+      // if any of the offerings still has a content, the round is not yet finished
+      if (!offering.getContent().isEmpty()) {
+        return false;
+      }
+    }
+    RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
+    notifyListeners(roundFinishedEvent);
+    return true;
   }
 
 }
