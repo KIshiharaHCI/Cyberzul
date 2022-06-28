@@ -1,9 +1,7 @@
 package azul.team12.controller;
 
-import azul.team12.model.Bag;
-import azul.team12.model.FactoryDisplay;
-import azul.team12.model.Offering;
-import azul.team12.model.TableCenter;
+import azul.team12.model.*;
+
 import java.util.List;
 
 /**
@@ -87,4 +85,12 @@ public interface Controller {
    * @return <code>true</code> if it was a valid pick, <code>false</code> if not
    */
   boolean placeTileAtPatternLine(int rowOfPatternLine);
+
+  /**
+   * Returns a list with the nicknames of all players.
+   * @return a list with nicknames.
+   */
+  List<String> getPlayerNamesList();
+
+
 }

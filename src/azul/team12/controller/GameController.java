@@ -2,6 +2,7 @@ package azul.team12.controller;
 
 import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
+import azul.team12.model.Player;
 import java.util.List;
 
 public class GameController implements Controller{
@@ -55,5 +56,10 @@ public class GameController implements Controller{
   @Override
   public boolean placeTileAtPatternLine(int rowOfPatternLine) {
     return model.makeActivePlayerPlaceTile(rowOfPatternLine);
+  }
+
+  @Override
+  public List<String> getPlayerNamesList() {
+    return model.getPlayerList();
   }
 }

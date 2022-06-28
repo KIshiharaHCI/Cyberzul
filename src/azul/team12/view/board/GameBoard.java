@@ -32,9 +32,9 @@ public class GameBoard extends JPanel {
     this.controller = controller;
     panelDrawWidth = width;
     panelDrawHeight = height;
-    setPreferredSize(new Dimension(1200, 800));
+    setPreferredSize(new Dimension(panelDrawWidth, panelDrawHeight));
     setLayout(new BorderLayout());
-    // setBackground(new Color(110,90,120));
+
     createSideBar();
     createMainPanel();
     setUpMouseClickListener();
@@ -90,6 +90,7 @@ public class GameBoard extends JPanel {
   private boolean checkOfferingUnderMouse(Point point) {
     //if (displayBar.getParent().getLocation())
 
+
     return false;
   }
 
@@ -103,7 +104,7 @@ public class GameBoard extends JPanel {
     sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
 
     for (int i = 0; i < numberOfPlayers - 1; i++) {
-      PlayerBoard playerBoard = new PlayerBoard();
+      PlayerBoard playerBoard = new PlayerBoard(controller);
       sidebar.add(playerBoard);
     }
     add(sidebar, BorderLayout.WEST);
@@ -121,7 +122,7 @@ public class GameBoard extends JPanel {
     mainPanel.add(displayBar, BorderLayout.CENTER);
 
     //TODO: change absolute pixel width height with relative sizing
-    currentPlayerBoard = new PlayerBoard(400, 300);
+    currentPlayerBoard = new PlayerBoard(controller,400, 300);
     currentPlayerBoard.setBorder(new EmptyBorder(0, 80, 20, 80));
 
     mainPanel.add(currentPlayerBoard, BorderLayout.SOUTH);

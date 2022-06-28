@@ -1,5 +1,7 @@
 package azul.team12.view.board.playerBoard;
 
+import azul.team12.controller.Controller;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,6 +12,7 @@ import javax.swing.JPanel;
 public class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
+  private Controller controller;
 
   private int points = 0;
   private int minusPoints = 0;
@@ -25,13 +28,15 @@ public class PlayerBoard extends JPanel {
   private int panelDrawWidth = 0;
   private int panelDrawHeight = 0;
 
-  public PlayerBoard() {
+  public PlayerBoard(Controller controller) {
+    this.controller = controller;
     initialize();
     createBord();
   }
 
 
-  public PlayerBoard(int width, int height) {
+  public PlayerBoard(Controller controller,int width, int height) {
+    this.controller = controller;
     minBoardWidth = width;
     minBoardHeight = height;
 
@@ -93,7 +98,7 @@ public class PlayerBoard extends JPanel {
     north.setBackground(new Color(110, 150, 100));
     north.setLayout(new GridLayout(1, 2));
     north.add(new JLabel("Points: " + points));
-    north.add(new JLabel("Name: " + playerName));
+    north.add(new JLabel("Name: " + controller.getNickOfActivePlayer()));
     add(north, BorderLayout.NORTH);
   }
 }

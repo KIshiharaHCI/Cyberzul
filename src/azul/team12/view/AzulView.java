@@ -15,6 +15,8 @@ public class AzulView extends JFrame {
 
   private static final long serialVersionUID = 7526472295622776147L;
   private final Controller controller;
+  private int WIDTH_OF_WINDOW = 1200;
+  private int HEIGHT_OF_WINDOW = 800;
 
   private static final String LOGIN_CARD = "login";
   private static final String HSM_CARD = "hotseatmode";
@@ -23,6 +25,7 @@ public class AzulView extends JFrame {
   private final GridBagLayout gbl;
   private CardLayout layout;
   private JTextArea inputNameArea;
+  private JTextArea playerTwoNameArea;
   private JButton hsmButton;
   private JButton networkButton;
   private JButton addPlayerButton;
@@ -35,7 +38,7 @@ public class AzulView extends JFrame {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     gbl = new GridBagLayout();
     //setLayout(new GridBagLayout());
-    setMinimumSize(new Dimension(1200, 800));
+    setMinimumSize(new Dimension(WIDTH_OF_WINDOW, HEIGHT_OF_WINDOW));
     setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     initializeWidgets();
@@ -59,6 +62,11 @@ public class AzulView extends JFrame {
     inputNameArea.setLineWrap(true);
     inputNameArea.setWrapStyleWord(true);
     inputNameArea.setBorder(new JTextField().getBorder());
+
+    playerTwoNameArea = new JTextArea(1,20);
+    playerTwoNameArea.setLineWrap(true);
+    playerTwoNameArea.setWrapStyleWord(true);
+    playerTwoNameArea.setBorder(new JTextField().getBorder());
 
     //Labels
 
@@ -85,6 +93,22 @@ public class AzulView extends JFrame {
         playButton.setEnabled(true);
       }
     });
+    playerTwoNameArea.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent event) {
+        if (event.getKeyCode() != KeyEvent.VK_ENTER) {
+          return;
+        }
+        event.consume();
+        Objects.requireNonNull(playerTwoNameArea);
+
+        String nick = playerTwoNameArea.getText();
+        controller.addPlayer(nick);
+        playerTwoNameArea.setText(nick);
+        playerTwoNameArea.setEnabled(false);
+        playButton.setEnabled(true);
+      }
+    });
   }
 
   private void createView() {
@@ -101,6 +125,8 @@ public class AzulView extends JFrame {
     add(hsmPanel, HSM_CARD);
     hsmPanel.add(new JLabel("Player 1: "));
     hsmPanel.add(inputNameArea);
+    hsmPanel.add(new JLabel("Player 2: "));
+    hsmPanel.add(playerTwoNameArea);
     hsmPanel.add(addPlayerButton);
     hsmPanel.add(playButton);
 
@@ -117,10 +143,13 @@ public class AzulView extends JFrame {
   }
 
   private void showGameBoard() {
+
+    controller.startGame();
+
     JPanel gameBoardPanel = new JPanel();
     add(gameBoardPanel, GAMEBOARD_CARD);
     //GameBoard gameBoard = new GameBoard(gbl);
-    GameBoard gameBoard = new GameBoard(controller,this.getWidth(), this.getHeight());
+    GameBoard gameBoard = new GameBoard(controller,WIDTH_OF_WINDOW, HEIGHT_OF_WINDOW);
 
     gameBoardPanel.add(gameBoard);
     showCard(GAMEBOARD_CARD);
