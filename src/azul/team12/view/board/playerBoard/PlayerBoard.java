@@ -6,6 +6,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -27,6 +29,9 @@ public class PlayerBoard extends JPanel {
 
   private int panelDrawWidth = 0;
   private int panelDrawHeight = 0;
+
+  //contains all offerings. The first element of this list is the TableCenter, every other
+  private List<List<Rectangle>> tiles;
 
   public PlayerBoard(Controller controller) {
     this.controller = controller;

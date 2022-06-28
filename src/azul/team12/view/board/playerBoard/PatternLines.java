@@ -9,7 +9,6 @@ public class PatternLines extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
-  // List<Tile> stones;
   private final int ROWS = 5;
   private final int COLS = 5;
 
