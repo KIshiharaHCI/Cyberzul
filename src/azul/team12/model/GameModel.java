@@ -245,21 +245,22 @@ public class GameModel {
   }
 
   /**
-   * Checks whether the round is finished and notifies listeneres if this is the case.
+   * Checks whether the round is finished and notifies listeners if this is the case.
    * The round is finished if none of the offerings still has tiles available.
-   *
-   * @return <code>true</code> if it is finished, <code>false</code> if not
    */
-  public boolean checkRoundFinished() {
+  public void checkRoundFinished() {
+    boolean roundFinished = true;
     for (Offering offering : offerings) {
       // if any of the offerings still has a content, the round is not yet finished
       if (!offering.getContent().isEmpty()) {
-        return false;
+        roundFinished = false;
+        break;
       }
     }
-    RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
-    notifyListeners(roundFinishedEvent);
-    return true;
+    if (roundFinished) {
+      RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
+      notifyListeners(roundFinishedEvent);
+    }
   }
 
 }
