@@ -1,5 +1,6 @@
 package azul.team12.view;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,5 +19,7 @@ public class Tree<T> {
     private List<Node<T>> children;
   }
 
-
+  public TreeEntry getEntryAtPosition(Point point){
+    return null;
+  }
 }
