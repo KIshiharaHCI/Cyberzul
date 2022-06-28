@@ -1,11 +1,10 @@
 package azul.team12.model;
-
+//TODO: Marco - game finished checker
 import static azul.team12.model.Tile.EMPTY_TILE;
 import static azul.team12.model.Tile.STARTING_PLAYER_MARKER;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * This class contains the information that is depicted on the game board of the player.
  * I.e. his points, the tiles he already tiled and those who lie on his tiling fields.

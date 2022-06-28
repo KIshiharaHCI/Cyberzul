@@ -22,7 +22,7 @@ public class GameModel {
   public static final int MAX_PLAYER_NUMBER = 4;
 
   private final PropertyChangeSupport support;
-  private ArrayList<Player> playerList = new ArrayList<>();
+  private ArrayList<Player> playerList;
   //TODO: @Nils please check what I did: Ich habe die factoryDisplays und die Tischmitte in
   // einem ArrayList<Offering> zusammengefasst. Das hat keine Auswirkungen für die View
   // wir geben einfach index 0 für die Tischmitte zurück, aber es war praktisch für die weitere
@@ -31,7 +31,7 @@ public class GameModel {
   // Das habe ich jetzt aber noch nicht geändert. Die Variable unten "currentOffering" könnte dann
   // durch eine Variable "indexOfCurrentOffering" ersetzt werden. Mir gefällt diese Lösung, aber
   // vielleicht übersehe ich etwas.
-  private ArrayList<Offering> offerings = new ArrayList<>();
+  private ArrayList<Offering> offerings;
   private boolean isGameStarted = false;
   private int indexOfActivePlayer = 0;
   private Offering currentOffering;
@@ -40,6 +40,8 @@ public class GameModel {
 
   public GameModel() {
     support = new PropertyChangeSupport(this);
+    playerList = new ArrayList<>();
+    offerings  = new ArrayList<>();
   }
 
   /**
@@ -210,9 +212,7 @@ public class GameModel {
    */
   public void notifyTileChosen(String playerName, int indexOfTile, Offering offering) {
     boolean thereIsAValidPick = false;
-    //TODO: Müssen wir hier einen Thread erstellen, weil: Was ist, wenn ein Spieler bereits ein
-    // Offering auswählt während die andere noch nicht ihre Row ausgewählt hat, um sie zu
-    // platzieren.
+    //TODO: Marco check
     currentOffering = offering;
     currentIndexOfTile = indexOfTile;
     Player player = getPlayerByName(playerName);
@@ -224,11 +224,12 @@ public class GameModel {
     }
     // inform listeners if there is a valid pick, if not that it is the next players turn
     if (!thereIsAValidPick) {
-      IllegalTurnEvent illegalTurnEvent = new IllegalTurnEvent();
-      notifyListeners(illegalTurnEvent);
-    } else {
       NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
       notifyListeners(noValidTurnToMakeEvent);
+    } else {
+      //TODO: correct name
+      NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent("TODO");
+      notifyListeners(nextPlayersTurnEvent);
     }
   }
 
@@ -261,6 +262,7 @@ public class GameModel {
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       notifyListeners(roundFinishedEvent);
     }
+    //TODO: Marco -- active player index auf player mit startstein
   }
 
 }
