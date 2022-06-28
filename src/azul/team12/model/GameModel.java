@@ -157,7 +157,13 @@ public class GameModel {
   public void endTurn(){
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
-    indexOfActivePlayer++;
+    // next player is the next player on the list or the first player, if the last active player
+    // was the last player on the list
+    if (indexOfActivePlayer == playerList.size() - 1) {
+      indexOfActivePlayer = 0;
+    } else {
+      indexOfActivePlayer++;
+    }
   }
 
   /**
