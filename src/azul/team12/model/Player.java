@@ -162,7 +162,7 @@ public class Player {
    * @return <code>true</code> if the chosen tile can be placed on the chosen line.
    * <code>false</code> else.
    */
-  private boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
+  boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
     List<Tile> tiles = offering.getContent();
     Tile tile;
 
