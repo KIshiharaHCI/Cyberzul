@@ -2,108 +2,74 @@ package azul.team12.view.board.playerBoard;
 
 import azul.team12.controller.Controller;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
   private Controller controller;
+  private int width;
+  private int height;
+  private String nickname;
+  private JPanel playerBoard;
+  private static final int NUMBER_PLAYER_BOARD_ROW = 5;
+  private static final int NUMBER_PLAYER_BOARD_COL = 10;
 
-  private int points = 0;
-  private int minusPoints = 0;
-  private String playerName = "name";
-
-  private PatternLines patternLines;
-
-  private Wall wall;
-
-  private int minBoardHeight = 180;
-  private int minBoardWidth = 300;
-
-  private int panelDrawWidth = 0;
-  private int panelDrawHeight = 0;
-
-  //contains all offerings. The first element of this list is the TableCenter, every other
-  private List<List<Rectangle>> tiles;
 
   public PlayerBoard(Controller controller) {
     this.controller = controller;
-    initialize();
-    createBord();
+
   }
 
 
-  public PlayerBoard(Controller controller,int width, int height) {
+  public PlayerBoard(Controller controller, int width, int height) {
     this.controller = controller;
-    minBoardWidth = width;
-    minBoardHeight = height;
+    this.width = width;
+    this.height = height;
 
-    initialize();
-    createBordCurrent();
   }
-
-  private void initialize() {
-
-    setPreferredSize(new Dimension(minBoardWidth, minBoardHeight));
-    //setBackground(new Color(110,90,120));
-  }
-
-  private void createBordCurrent() {
-    setLayout(new BorderLayout());
-    createNorth();
-    createSouth();
-    createCenterCurrent();
+  public PlayerBoard(Controller controller, String nickname) {
   }
 
 
-  private void createBord() {
-    setLayout(new BorderLayout());
-    createNorth();
-    createSouth();
-    createCenter();
+  @Override
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+
+    try {
+      BufferedImage image = ImageIO.read(new File("img/playerboard.jpg"));
+      g.drawImage(image,0,0,null);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
-  private void createCenter() {
-    JPanel center = new JPanel();
-    center.setLayout(new GridLayout(1, 2));
-    this.patternLines = new PatternLines();
-    this.wall = new Wall();
-    center.add(patternLines);
-    center.add(wall);
-    add(center, BorderLayout.CENTER);
+  private void createPlayerBoard() {
+
+    playerBoard = new JPanel(new GridLayout(NUMBER_PLAYER_BOARD_ROW, NUMBER_PLAYER_BOARD_COL));
+
+    for (int i = 1; i <= NUMBER_PLAYER_BOARD_ROW; i++) {
+      for (int j = 1; j <= NUMBER_PLAYER_BOARD_COL; j++) {
+        if (j >= NUMBER_PLAYER_BOARD_ROW - i) {
+          if (j >= 5) {
+            playerBoard.add(new JButton("pattern lines" + String.valueOf(i)));
+          } else {
+            playerBoard.add(new JButton("wall" + String.valueOf(i)));
+          }
+        } else {
+          playerBoard.add(new JButton());
+        }
+
+      }
+    }
   }
 
-  private void createCenterCurrent() {
-    JPanel center = new JPanel();
-    center.setLayout(new GridLayout(1, 2));
-    this.patternLines = new PatternLines(40);
-    this.wall = new Wall(40);
-    center.add(patternLines);
-    center.add(wall);
-    add(center, BorderLayout.CENTER);
-  }
-
-  private void createSouth() {
-    JPanel south = new JPanel();
-    south.setBackground(new Color(110, 150, 100));
-    south.setLayout(new GridLayout(1, 2));
-    south.add(new JLabel("Minus Points: " + minusPoints));
-    add(south, BorderLayout.SOUTH);
-  }
-
-  private void createNorth() {
-    JPanel north = new JPanel();
-    north.setBackground(new Color(110, 150, 100));
-    north.setLayout(new GridLayout(1, 2));
-    north.add(new JLabel("Points: " + points));
-    north.add(new JLabel("Name: " + controller.getNickOfActivePlayer()));
-    add(north, BorderLayout.NORTH);
-  }
 }

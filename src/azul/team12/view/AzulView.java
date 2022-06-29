@@ -20,7 +20,6 @@ public class AzulView extends JFrame {
   private static final String HSM_CARD = "hotseatmode";
   private static final String NETWORK_CARD = "networkmode";
   private static final String GAMEBOARD_CARD = "gameboard";
-  private final GridBagLayout gbl;
   private CardLayout layout;
   private JTextArea inputNameArea;
   private JTextArea playerTwoNameArea;
@@ -33,8 +32,7 @@ public class AzulView extends JFrame {
     this.controller = controller;
 
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    gbl = new GridBagLayout();
-    setLayout(gbl);
+    setLayout(new BorderLayout());
     setSize(new Dimension(WIDTH_OF_WINDOW, HEIGHT_OF_WINDOW));
 
     initializeWidgets();

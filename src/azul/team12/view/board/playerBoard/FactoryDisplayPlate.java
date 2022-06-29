@@ -33,6 +33,7 @@ public class FactoryDisplayPlate extends JPanel {
 
     URL imgURL = getClass().getClassLoader().getResource("img/manufacturing-plate.png");
     ImageIcon icon = new ImageIcon(imgURL);
+    //TODO: drawImage() with different parameters without use of radius
     g.drawImage(icon.getImage(),
             centerX - radius, centerY - radius,
             radius * 2, radius * 2, null);

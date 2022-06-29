@@ -1,6 +1,10 @@
 package azul.team12.view.board.playerBoard;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class FactoryDisplayBar extends JPanel {
@@ -13,43 +17,18 @@ public class FactoryDisplayBar extends JPanel {
 
 //  private List<Plate> plateList;
 
-  public FactoryDisplayBar(int numberOfPlates) {
-    this.numberOfPlates = numberOfPlates;
+  public FactoryDisplayBar() {
   }
-
-  public void setPanels(){
-    for (int i = 0; i < numberOfPlates; i++) {
-      int centerX = padding + (radius * 2 + padding) * i;
-      FactoryDisplayPlate displayPlate = new FactoryDisplayPlate(100, 100);
-      add(displayPlate);
-    }
-  }
-
-
-
-//  public Plates(int numberOfPlates, List<Plate> plateList) {
-//    this.numberOfPlates = numberOfPlates;
-//    setMinimumSize(new Dimension(600, 600));
-//    this.plateList = plateList;
-//    for (int i = 1; i <= this.numberOfPlates; i++) {
-//      int centerX = padding + (radius * 2 + padding) * i;
-//      Plate plate = new Plate(centerX, radius, radius, i);
-//      this.plateList.add(plate);
-//    }
-//  }
 
 
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    /*
-    Graphics2D g2d = (Graphics2D) g;
-    for (int i = 1; i <= this.numberOfPlates; i++) {
-      int centerX = padding + (radius * 2 + padding) * i;
-      FactoryDisplayPlate displayPlate = new FactoryDisplayPlate(centerX, radius, radius, i);
-      displayPlate.paintComponent(g2d);
+    try {
+      BufferedImage image = ImageIO.read(new File("img/factory_display.png"));
+      g.drawImage(image,0,0,null);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-
-     */
 
   }
 
