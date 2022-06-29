@@ -670,3 +670,35 @@ Q2:
 
 Q3:
 - The whole team has to gather.
+
+**28. June, 2022**
+_Nils_
+Q1:
+- Meet with the team
+- Discussed and assessed the state of the GUI and the code of the GUI
+- planned further steps so the GUI will be ready on time.
+
+Q2:
+- Meeting with Marco and discussing elements of the model
+- Meeting with the Xue, Marco and Kenji to discuss the GUI
+- Break tasks from the GUI down into issues
+- Find a general outline for the GUI
+
+Q3:
+- I need Marco, Kenji and Xue for this.
+- I need access to the code of the view.
+
+**29. June, 2022**
+_Nils_
+Q1:
+- Meet with Marco and discussing elements of the model
+- Meet with the Xue, Marco and Kenji to discuss the GUI
+- Break tasks from the GUI down into issues
+- Find a general outline for the GUI
+- Discussed that the tiles and all other GUI elements should be accessed by iterating through a tree
+
+Q2:
+- If I find the time, reviewing code from Marco
+
+Q3:
+- none
