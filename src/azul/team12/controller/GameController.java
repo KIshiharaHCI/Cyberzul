@@ -23,6 +23,9 @@ public class GameController implements Controller{
   }
 
   @Override
+  public List<Offering> getOfferings() { return model.getOfferings(); }
+
+  @Override
   public List<Offering> getFactoryDisplays() {
     return model.getFactoryDisplays();
   }

@@ -121,6 +121,10 @@ public class GameModel {
     }
   }
 
+  public List<Offering> getOfferings() {
+    return (List<Offering>) offerings.clone();
+  }
+
   public List<Offering> getFactoryDisplays(){
     //TODO: siehe TODO von Zeilen 25 - 28.
 
