@@ -25,9 +25,20 @@ public class FactoryDisplayPlate extends JPanel {
     this.position = position;
 
   }
+  public FactoryDisplayPlate(int width, int height) {
 
+  }
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
 
+    URL imgURL = getClass().getClassLoader().getResource("img/manufacturing-plate.png");
+    ImageIcon icon = new ImageIcon(imgURL);
+    g.drawImage(icon.getImage(),
+            centerX - radius, centerY - radius,
+            radius * 2, radius * 2, null);
+  }
 
+/*
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
 
@@ -37,5 +48,8 @@ public class FactoryDisplayPlate extends JPanel {
         centerX - radius, centerY - radius,
         radius * 2, radius * 2, null);
   }
+
+ */
+
 
 }

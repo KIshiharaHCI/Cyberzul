@@ -2,10 +2,8 @@ package azul.team12.view;
 
 import azul.team12.view.board.GameBoard;
 import azul.team12.controller.Controller;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
+
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Objects;
@@ -15,8 +13,8 @@ public class AzulView extends JFrame {
 
   private static final long serialVersionUID = 7526472295622776147L;
   private final Controller controller;
-  private int WIDTH_OF_WINDOW = 1200;
-  private int HEIGHT_OF_WINDOW = 800;
+  private final int WIDTH_OF_WINDOW = 1200;
+  private final int HEIGHT_OF_WINDOW = 800;
 
   private static final String LOGIN_CARD = "login";
   private static final String HSM_CARD = "hotseatmode";
@@ -30,16 +28,14 @@ public class AzulView extends JFrame {
   private JButton networkButton;
   private JButton addPlayerButton;
   private JButton playButton;
-  private int numberOfPlayers;
 
   public AzulView(Controller controller) throws HeadlessException {
     this.controller = controller;
 
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     gbl = new GridBagLayout();
-    //setLayout(new GridBagLayout());
-    setMinimumSize(new Dimension(WIDTH_OF_WINDOW, HEIGHT_OF_WINDOW));
-    setExtendedState(JFrame.MAXIMIZED_BOTH);
+    setLayout(gbl);
+    setSize(new Dimension(WIDTH_OF_WINDOW, HEIGHT_OF_WINDOW));
 
     initializeWidgets();
     addEventListeners();
@@ -55,7 +51,7 @@ public class AzulView extends JFrame {
     addPlayerButton = new JButton("+ Add Player");
     addPlayerButton.setEnabled(false);
     playButton = new JButton("Play");
-    //playButton.setEnabled(false);
+    playButton.setEnabled(false);
 
     //Textfields
     inputNameArea = new JTextArea(1,20);
@@ -73,40 +69,30 @@ public class AzulView extends JFrame {
   }
 
   private void addEventListeners() {
-    //TODO: swap lambda expressions with controller functions
     hsmButton.addActionListener(event -> showHSMCard());
     networkButton.addActionListener(event -> showNetworkCard());
     playButton.addActionListener(event -> showGameBoard());
-    inputNameArea.addKeyListener(new KeyAdapter() {
+    addTextAreaListener(inputNameArea);
+    addTextAreaListener(playerTwoNameArea);
+  }
+
+  private void addTextAreaListener(JTextArea jTextArea) {
+    jTextArea.addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() != KeyEvent.VK_ENTER) {
           return;
         }
         event.consume();
-        Objects.requireNonNull(inputNameArea);
+        Objects.requireNonNull(jTextArea);
 
-        String nick = inputNameArea.getText();
+        String nick = jTextArea.getText();
         controller.addPlayer(nick);
-        inputNameArea.setText(nick);
-        inputNameArea.setEnabled(false);
-        playButton.setEnabled(true);
-      }
-    });
-    playerTwoNameArea.addKeyListener(new KeyAdapter() {
-      @Override
-      public void keyPressed(KeyEvent event) {
-        if (event.getKeyCode() != KeyEvent.VK_ENTER) {
-          return;
+        jTextArea.setText(nick);
+        jTextArea.setEnabled(false);
+        if (controller.getPlayerNamesList().size() > 1) {
+          playButton.setEnabled(true);
         }
-        event.consume();
-        Objects.requireNonNull(playerTwoNameArea);
-
-        String nick = playerTwoNameArea.getText();
-        controller.addPlayer(nick);
-        playerTwoNameArea.setText(nick);
-        playerTwoNameArea.setEnabled(false);
-        playButton.setEnabled(true);
       }
     });
   }
@@ -123,17 +109,18 @@ public class AzulView extends JFrame {
 
     JPanel hsmPanel = new JPanel();
     add(hsmPanel, HSM_CARD);
+    hsmPanel.add(new JLabel("Please enter usernames and hit ENTER"));
     hsmPanel.add(new JLabel("Player 1: "));
     hsmPanel.add(inputNameArea);
     hsmPanel.add(new JLabel("Player 2: "));
     hsmPanel.add(playerTwoNameArea);
     hsmPanel.add(addPlayerButton);
     hsmPanel.add(playButton);
-
     //controller.startGameBoard
   }
 
-  //TODO: add propertyChange function
+  //TODO: add AzulView extends PropertyChange
+  // override dispose(), propertyChange() methods.
   private void showHSMCard() {
     showCard(HSM_CARD);
   }

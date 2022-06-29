@@ -15,14 +15,14 @@ public class FactoryDisplayBar extends JPanel {
 
   public FactoryDisplayBar(int numberOfPlates) {
     this.numberOfPlates = numberOfPlates;
-    //int panelWidth = (int) Math.round( this.getParent().getWidth() * 0.5);
-    //int panelHeight = (int) Math.round( this.getParent().getHeight() * 0.5);
-    //setSize(new Dimension(panelWidth, panelHeight));
-    //setSize(new Dimension(gameBoard.getWidth() * 0.5, ));
+  }
 
-
-
-
+  public void setPanels(){
+    for (int i = 0; i < numberOfPlates; i++) {
+      int centerX = padding + (radius * 2 + padding) * i;
+      FactoryDisplayPlate displayPlate = new FactoryDisplayPlate(100, 100);
+      add(displayPlate);
+    }
   }
 
 
@@ -41,12 +41,15 @@ public class FactoryDisplayBar extends JPanel {
 
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
+    /*
     Graphics2D g2d = (Graphics2D) g;
     for (int i = 1; i <= this.numberOfPlates; i++) {
       int centerX = padding + (radius * 2 + padding) * i;
       FactoryDisplayPlate displayPlate = new FactoryDisplayPlate(centerX, radius, radius, i);
       displayPlate.paintComponent(g2d);
     }
+
+     */
 
   }
 

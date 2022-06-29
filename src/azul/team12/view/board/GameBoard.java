@@ -103,6 +103,7 @@ public class GameBoard extends JPanel {
   private void createSideBar() {
     JPanel sidebar = new JPanel();
     sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
+    sidebar.setBackground(Color.magenta);
 
     for (int i = 0; i < numberOfPlayers - 1; i++) {
       PlayerBoard playerBoard = new PlayerBoard(controller);
@@ -120,6 +121,8 @@ public class GameBoard extends JPanel {
     numberOfPlates = controller.getFactoryDisplays().size();
 
     displayBar = new FactoryDisplayBar(numberOfPlates);
+    displayBar.setBackground(Color.lightGray);
+    displayBar.setPanels();
     mainPanel.add(displayBar, BorderLayout.CENTER);
 
     //TODO: change absolute pixel width height with relative sizing
