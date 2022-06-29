@@ -111,7 +111,6 @@ public class GameModel {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.GAME_ALREADY_STARTED));
     }
     else{
-      //TODO: siehe TODO von Zeilen 25 - 28.
       offerings.add(TableCenter.getInstance());
       int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
       for(int i = 0; i < numberOfFactoryDisplays; i++){
@@ -126,8 +125,6 @@ public class GameModel {
   }
 
   public List<Offering> getFactoryDisplays(){
-    //TODO: siehe TODO von Zeilen 25 - 28.
-
     // return the factory displays being the all but the first offering
     return offerings.subList(1, offerings.size());
   }
@@ -166,16 +163,34 @@ public class GameModel {
    * player accordingly.
    */
   public void endTurn(){
+    boolean roundFinished = checkRoundFinished();
+    if (roundFinished) {
+      indexOfActivePlayer = giveIndexOfPlayerWithSPM();
+      RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
+      notifyListeners(roundFinishedEvent);
+      } else {
+      indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
+    }
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
-    // next player is the next player on the list or the first player, if the last active player
-    // was the last player on the list
+  }
+
+  /**
+   * Next player is the next player on the list or the first player, if the last active player
+   * was the last player on the list.
+   *
+   * @param indexOfCurrentPlayer index of the current player, most of the time the global
+   *                             variable (indexOfActivePlayer)
+   * @return the index of the player whose turn it is going to be.
+   */
+  public int getIndexOfNextPlayer(int indexOfCurrentPlayer) {
+    int indexOfNextPlayer;
     if (indexOfActivePlayer == playerList.size() - 1) {
-      indexOfActivePlayer = 0;
+      indexOfNextPlayer = 0;
     } else {
-      indexOfActivePlayer++;
+      indexOfNextPlayer = indexOfActivePlayer + 1;
     }
-    checkRoundFinished();
+    return indexOfNextPlayer;
   }
 
   /**
@@ -216,7 +231,6 @@ public class GameModel {
    */
   public void notifyTileChosen(String playerName, int indexOfTile, Offering offering) {
     boolean thereIsAValidPick = false;
-    //TODO: Marco check
     currentOffering = offering;
     currentIndexOfTile = indexOfTile;
     Player player = getPlayerByName(playerName);
@@ -226,14 +240,17 @@ public class GameModel {
         thereIsAValidPick = true;
       }
     }
-    // inform listeners if there is a valid pick, if not that it is the next players turn
-    if (!thereIsAValidPick) {
+    // inform listeners if there is a valid pick, who the next player is
+    // if not: that there is not valid turn to make
+    if (thereIsAValidPick) {
+      int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
+      Player nextPlayer = playerList.get(indexOfNextPlayer);
+      String nextPlayerNick = nextPlayer.getName();
+      NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(nextPlayerNick);
+      notifyListeners(nextPlayersTurnEvent);
+    } else {
       NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
       notifyListeners(noValidTurnToMakeEvent);
-    } else {
-      //TODO: correct name
-      NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent("TODO");
-      notifyListeners(nextPlayersTurnEvent);
     }
   }
 
@@ -250,23 +267,39 @@ public class GameModel {
   }
 
   /**
-   * Checks whether the round is finished and notifies listeners if this is the case.
-   * The round is finished if none of the offerings still has tiles available.
+   * Checks whether the there is still an offering with a non-empty content.
+   *
+   * @return <code>true</code> if the round is finished, <code>false</code> if not.
    */
-  public void checkRoundFinished() {
-    boolean roundFinished = true;
+  public boolean checkRoundFinished() {
     for (Offering offering : offerings) {
       // if any of the offerings still has a content, the round is not yet finished
       if (!offering.getContent().isEmpty()) {
-        roundFinished = false;
-        break;
+        return false;
+        }
+    }
+    return true;
+  }
+
+  /**
+   * Gives back the index of the player with the Start Player Marker.
+   *
+   * @return player's index.
+   */
+  public int giveIndexOfPlayerWithSPM() {
+    int index = 0;
+    for (Player player : playerList) {
+      if (player.hasStartingPlayerMarker()) {
+        return index;
       }
+      index ++;
     }
-    if (roundFinished) {
-      RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
-      notifyListeners(roundFinishedEvent);
-    }
-    //TODO: Marco -- active player index auf player mit startstein
+    //TODO: Marco - when Logger works, log something.
+    System.out.println("We called giveIndexOfPlayer with Start Player Marker when no player had "
+        + "the SPM. Probably this is the case because at the end of the turn noone had the "
+        + "SPM.");
+    throw new IllegalStateException("We called giveIndexOfPlayer with Start Player Marker when "
+        + "no player had the SPM.");
   }
 
 }
