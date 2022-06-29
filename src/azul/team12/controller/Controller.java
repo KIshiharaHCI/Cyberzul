@@ -85,9 +85,6 @@ public interface Controller {
   void endTurn(String playerName);
 
   /**
-   * TODO: @Nils - ich denke, diese Methode habe ich zu stark verändert und sie überhaupt nicht so
-   * gemacht, wie du das angedacht hattest.
-   *
    * Informs the model on which pattern row the player chose to place his tile.
    *
    * @param rowOfPatternLine the row of the pattern line selected
@@ -100,4 +97,14 @@ public interface Controller {
    * @return a list with nicknames.
    */
   List<String> getPlayerNamesList();
+
+  //TODO: @Nils - I decided that it makes more sense to let the view then tell the model
+  // that it should start the tiling phase for all players than to make the model start it
+  // immediately when the round is ended in the endTurn() Method. Please tell me what you think
+  // of it.
+  /**
+   * Tell to Model to start the tiling phase.
+   *
+   */
+  void startTiling();
 }

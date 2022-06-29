@@ -21,6 +21,7 @@ public class Player {
   public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
 
   private boolean hasStartingPlayerMarker = false;
+  private boolean hasEndedTheGame = false;
 
   private WallBackgroundPattern wallPattern;
 
@@ -64,6 +65,10 @@ public class Player {
 
   public boolean hasStartingPlayerMarker() {
     return hasStartingPlayerMarker;
+  }
+
+  public boolean hasEndedTheGame() {
+    return hasEndedTheGame;
   }
 
   /**
@@ -228,6 +233,10 @@ public class Player {
           getHorizontallyAdjacentTiles(rowNumber, indexOfTileOnWallPattern);
       int tilesInOneContiguousColumn =
           getVerticallyAdjacentTiles(rowNumber, indexOfTileOnWallPattern);
+
+      if (tilesInOneContiguousRow == 5) {
+        hasEndedTheGame = true;
+      }
 
       if ((tilesInOneContiguousRow == 1) && (tilesInOneContiguousColumn == 1)) {
         //If the new tile has no neighbours, you only get one point.

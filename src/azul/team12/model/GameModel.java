@@ -3,6 +3,7 @@ package azul.team12.model;
 import static java.util.Objects.requireNonNull;
 
 import azul.team12.model.events.GameEvent;
+import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
@@ -10,10 +11,12 @@ import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
+import azul.team12.model.events.PlayerHasEndedTheGameEvent;
 import azul.team12.model.events.RoundFinishedEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GameModel {
@@ -301,5 +304,58 @@ public class GameModel {
     throw new IllegalStateException("We called giveIndexOfPlayer with Start Player Marker when "
         + "no player had the SPM.");
   }
+
+  /**
+   * Tell each player to tile the wall and get the points accordingly.
+   */
+  public void startTilingPhase() {
+    boolean gameEnded = false;
+    for (Player player : playerList) {
+      player.tileWallAndGetPoints();
+      if (player.hasEndedTheGame()) {
+        PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent =
+            new PlayerHasEndedTheGameEvent(player.getName());
+        notifyListeners(playerHasEndedTheGameEvent);
+        gameEnded = true;
+      }
+      // Loop has to finish, because all players have to finish tiling phase
+    }
+    if (gameEnded) {
+      String winnerName = getPlayerWithMostPoints();
+      GameFinishedEvent gameFinishedEvent = new GameFinishedEvent(winnerName);
+      notifyListeners(gameFinishedEvent);
+    }
+  }
+
+  /**
+   * fFnds the player with the most points.
+   *
+   * @return the name of the player with most points.
+   */
+  public String getPlayerWithMostPoints() {
+    //TODO: What if two players have the same points?
+    ArrayList<Integer> playerPoints = new ArrayList<>();
+    for (Player player : playerList) {
+      playerPoints.add(player.getPoints());
+    }
+    int highestScore = Collections.max(playerPoints);
+    int bestIndex = playerPoints.indexOf(highestScore);
+    Player playerWithMostPoints = playerList.get(bestIndex);
+    String playerNameOfPlayerWithMostPoints = playerWithMostPoints.getName();
+    return playerNameOfPlayerWithMostPoints;
+  }
+
+  //TODO: implement it
+  /**
+   * Takes in the list of players and gives back a list of player names in the order of the
+   * points they have collected.
+   *
+   * @return A List of Players in the order of the points the have currently.
+   */
+  /*
+  public ArrayList<String> getPlayerNamesInOrderOfPoints(ArrayList<Player> playerList) {
+
+  }
+  */
 
 }

@@ -64,4 +64,9 @@ public class GameController implements Controller{
   public List<String> getPlayerNamesList() {
     return model.getPlayerNamesList();
   }
+
+  @Override
+  public void startTiling() {
+    model.startTilingPhase();
+  }
 }
