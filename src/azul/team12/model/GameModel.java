@@ -345,15 +345,15 @@ public class GameModel {
     return playerNameOfPlayerWithMostPoints;
   }
 
-  //TODO: implement it
+  //TODO: @Marco implement it
   /**
-   * Takes in the list of players and gives back a list of player names in the order of the
-   * points they have collected.
+   * Takes in the list of players and gives back a list of player names and their respective points
+   * in the order of the points they have collected.
    *
    * @return A List of Players in the order of the points the have currently.
    */
   /*
-  public ArrayList<String> getPlayerNamesInOrderOfPoints(ArrayList<Player> playerList) {
+  public ArrayList<????> getPlayerNamesAndPointsInOrderOfPoints(ArrayList<Player> playerList) {
 
   }
   */
