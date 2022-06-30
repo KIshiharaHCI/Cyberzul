@@ -289,7 +289,7 @@ public class Player {
    * @param col the col value of the tile that has just been tiled.
    * @return the number of tiles that build a contiguous horizontal line with the new tile.
    */
-  public int getHorizontallyAdjacentTiles(int row, int col) {
+  private int getHorizontallyAdjacentTiles(int row, int col) {
     int horizontallyConsecutiveTiles = 1;
 
     //move in the row to the right until you get to a tile that hasn't been tiled yet.
@@ -315,7 +315,7 @@ public class Player {
    * @param col the col value of the tile that has just been tiled.
    * @return the number of tiles that build a contiguous horizontal line with the new tile.
    */
-  public int getVerticallyAdjacentTiles(int row, int col) {
+  private int getVerticallyAdjacentTiles(int row, int col) {
     int verticallyConsecutiveTiles = 1;
 
     //move down in the column to the last contiguous tiled Tile in the column
