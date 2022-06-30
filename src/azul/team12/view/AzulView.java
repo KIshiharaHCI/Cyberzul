@@ -1,6 +1,7 @@
 package azul.team12.view;
 
 import azul.team12.view.board.GameBoard;
+import azul.team12.view.listeners.TileClickListener;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -10,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
 
 public class AzulView extends JFrame {
 
@@ -53,9 +55,11 @@ public class AzulView extends JFrame {
 
   private void addEventListeners() {
     //TODO: swap lambda expressions with controller functions
+    // use the same listener for every Tile (source/destination) object
+    TileClickListener tileClickListener = new TileClickListener();
     hsmButton.addActionListener(event -> showHSMCard());
     networkButton.addActionListener(event -> showNetworkCard());
-    playButton.addActionListener(event -> showGameBoard());
+    playButton.addActionListener(event -> showGameBoard(tileClickListener));
 
     /*
     addPlayerButton.addActionListener(
@@ -94,12 +98,12 @@ public class AzulView extends JFrame {
     showCard(NETWORK_CARD);
   }
 
-  private void showGameBoard() {
+  private void showGameBoard(TileClickListener tileClickListener) {
     JPanel gameBoardPanel = new JPanel();
     add(gameBoardPanel, GAMEBOARD_CARD);
     //GameBoard gameBoard = new GameBoard(gbl);
-    GameBoard gameBoard = new GameBoard(this.getWidth(), this.getHeight());
-
+    GameBoard gameBoard = new GameBoard(4, tileClickListener);
+    gameBoard.repaint();
     gameBoardPanel.add(gameBoard);
     showCard(GAMEBOARD_CARD);
   }
