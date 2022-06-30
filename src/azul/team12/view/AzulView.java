@@ -28,6 +28,7 @@ public class AzulView extends JFrame {
   private JButton addPlayerButton;
   private JButton playButton;
 
+
   public AzulView(Controller controller) throws HeadlessException {
     this.controller = controller;
 
@@ -114,7 +115,6 @@ public class AzulView extends JFrame {
     hsmPanel.add(playerTwoNameArea);
     hsmPanel.add(addPlayerButton);
     hsmPanel.add(playButton);
-    //controller.startGameBoard
   }
 
   //TODO: add AzulView extends PropertyChange
@@ -131,12 +131,8 @@ public class AzulView extends JFrame {
 
     controller.startGame();
 
-    JPanel gameBoardPanel = new JPanel();
-    add(gameBoardPanel, GAMEBOARD_CARD);
-    //GameBoard gameBoard = new GameBoard(gbl);
-    GameBoard gameBoard = new GameBoard();
-
-    gameBoardPanel.add(gameBoard);
+    GameBoard gameBoard = new GameBoard(controller);
+    add(gameBoard, GAMEBOARD_CARD);
     showCard(GAMEBOARD_CARD);
   }
 
