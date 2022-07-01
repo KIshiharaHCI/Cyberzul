@@ -11,7 +11,7 @@ public class AzulMain {
   public static void main(String[] args){
     GameModel model = new GameModel();
     Controller controller = new GameController(model);
-    AzulView azulView = new AzulView(controller);
+    AzulView azulView = new AzulView();
     azulView.setVisible(true);
 
 
