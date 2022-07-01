@@ -20,7 +20,7 @@ public class Tile extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
-  private final int id;
+  private final int tileId;
   static final int TILE_SIZE = 40;
   private final String BLACK_TILE_PATH = "img/black-tile.png";
   private final String BLUE_TILE_PATH = "img/blue-tile.png";
@@ -41,27 +41,27 @@ public class Tile extends JPanel {
    * Creates a tile.
    *
    * TODO: ID is a index?
-   * @param id
+   * @param tileId
    * @param plateId
    * @param modelTile
    * @param tileClickListener
    */
-  public Tile(int id, int plateId,
+  public Tile(int tileId, int plateId,
       ModelTile modelTile, TileClickListener tileClickListener) {
     setLayout(new GridLayout(1, 1));
-    this.id = id;
+    this.tileId = tileId;
     this.plateId = plateId;
     this.icon = setIcon(modelTile);
     setBorder(BorderFactory.createLineBorder(Color.black));
-    setToolTipText(id + "");
+    setToolTipText(tileId + "");
     label = icon != null ? new JLabel(icon) : new JLabel("");
     add(label);
 
     this.addMouseListener(tileClickListener);
   }
 
-  public int getId() {
-    return id;
+  public int getTileId() {
+    return tileId;
   }
 
   public ImageIcon getIcon() {
