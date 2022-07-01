@@ -54,12 +54,13 @@ public class GameController implements Controller{
 
   @Override
   public void chooseTileFrom(String playerName, int indexOfTile, Offering offering) {
-    System.out.println("Player " + playerName + "has chosen the " + indexOfTile + ". Tile from Offering " + offering.toString());
     model.notifyTileChosen(playerName, indexOfTile, offering);
+    System.out.println("Player " + playerName + " has chosen the " + indexOfTile + ". Tile from Offering " + offering.toString());
   }
 
   @Override
   public boolean placeTileAtPatternLine(int rowOfPatternLine) {
+    System.out.println("Player " + getNickOfActivePlayer() + " tries to place a tile on the " + rowOfPatternLine + ". row of pattern lines.");
     return model.makeActivePlayerPlaceTile(rowOfPatternLine);
   }
 

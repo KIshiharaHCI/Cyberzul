@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  * listens to what tile is clicked on and //TODO: makes the model change accordingly
@@ -79,13 +80,21 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
         "Destination was clicked with cell " + tileDestination.getCell() + " and row "
             + tileDestination.getRow());
     if (source != null) {
-      ImageIcon icon = source.getIcon();
-      tileDestination.setIcon(icon);
-      tileDestination.getLabel().setIcon(icon);
-      source.getLabel().setIcon(null);
-      source.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-      controller.placeTileAtPatternLine(tileDestination.getRow());
-      source = null;
+      // if the player is able to place the tile, place it
+      if (controller.placeTileAtPatternLine(tileDestination.getRow())) {
+        ImageIcon icon = source.getIcon();
+        tileDestination.setIcon(icon);
+        tileDestination.getLabel().setIcon(icon);
+        source.getLabel().setIcon(null);
+        source.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        //TODO: do it with a button on the playboard
+        controller.endTurn(source.getName());
+        showSuccessMessage("Now it is " + controller.getNickOfActivePlayer() + "s turn!");
+        source = null;
+      } else {
+        showErrorMessage("Not a valid turn!");
+      }
+
     } else {
       destination = tileDestination;
     }
@@ -104,5 +113,25 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
       destination.getLabel().setIcon(null);
       destination = null;
     }
+  }
+
+  /**
+   * Show a success message as pop-up window to inform the user of an error.
+   *
+   * @param message the message with information about the error.
+   */
+  private void showSuccessMessage(String message) {
+    JOptionPane.showMessageDialog(null, message, "Yeah!",
+        JOptionPane.ERROR_MESSAGE);
+  }
+
+  /**
+   * Show an error message as pop-up window to inform the user of an error.
+   *
+   * @param message the message with information about the error.
+   */
+  private void showErrorMessage(String message) {
+    JOptionPane.showMessageDialog(null, message, "Error!",
+        JOptionPane.ERROR_MESSAGE);
   }
 }
