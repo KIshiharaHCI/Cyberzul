@@ -1,7 +1,7 @@
 package azul.team12.model;
 //TODO: Marco - game finished checker
-import static azul.team12.model.Tile.EMPTY_TILE;
-import static azul.team12.model.Tile.STARTING_PLAYER_MARKER;
+import static azul.team12.model.ModelTile.EMPTY_TILE;
+import static azul.team12.model.ModelTile.STARTING_PLAYER_MARKER;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +25,11 @@ public class Player {
 
   private WallBackgroundPattern wallPattern;
 
-  private ArrayList<Tile> floorLine;
+  private ArrayList<ModelTile> floorLine;
   //contain the negative Tiles the player acquires during the drawing phase.
 
-  public List<Tile> getFloorLine() {
-    return (List<Tile>) floorLine.clone();
+  public List<ModelTile> getFloorLine() {
+    return (List<ModelTile>) floorLine.clone();
   }
 
   public boolean[][] getWall() {
@@ -39,7 +39,7 @@ public class Player {
   private boolean[][] wall;
   //the wall where the player tiles the tiles and gets his points ("Wand").
 
-  private Tile[][] patternLines;
+  private ModelTile[][] patternLines;
   //the left side on the board where the player places the tiles he draws ("Musterreihen").
 
   Player(String name) {
@@ -55,7 +55,7 @@ public class Player {
 
   }
 
-  public Tile[][] getPatternLines() {
+  public ModelTile[][] getPatternLines() {
     return patternLines.clone();
   }
 
@@ -79,9 +79,9 @@ public class Player {
    */
   private void initializePatternLines() {
 
-    this.patternLines = new Tile[NUMBER_OF_PATTERN_LINES][];
+    this.patternLines = new ModelTile[NUMBER_OF_PATTERN_LINES][];
     for (int i = 0; i < 5; i++) {
-      patternLines[i] = new Tile[i + 1];
+      patternLines[i] = new ModelTile[i + 1];
     }
 
     for (int column = 0; column < patternLines.length; column++) {
@@ -117,7 +117,7 @@ public class Player {
     }
 
     //acquire the tiles from the chosen offering
-    List<Tile> pickedTiles = offering.takeTileWithIndex(indexOfTile);
+    List<ModelTile> pickedTiles = offering.takeTileWithIndex(indexOfTile);
 
     //the cursor says on which position we currently are in the patternLine.
     int cursor = row;
@@ -145,11 +145,11 @@ public class Player {
   /**
    * This method represents the tiles that fall on the ground. If the floorline has still enough
    * places, the fallen tile gets added on the floor line. Else it gets transfered into the
-   * BagToStoreUsedTiles.
+   * BagToStoreUsedModelTiles.
    *
    * @param tile the tile that should be stored in the floorline.
    */
-  private void fillFloorLine(Tile tile) {
+  private void fillFloorLine(ModelTile tile) {
     if (floorLine.size() < SIZE_OF_FLOOR_LINE) {
       floorLine.add(tile);
     } else {
@@ -167,8 +167,8 @@ public class Player {
    * <code>false</code> else.
    */
   boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
-    List<Tile> tiles = offering.getContent();
-    Tile tile;
+    List<ModelTile> tiles = offering.getContent();
+    ModelTile tile;
 
     //does this Offering contain any tileable tiles?
     if (tiles.contains(STARTING_PLAYER_MARKER)) {
@@ -211,14 +211,14 @@ public class Player {
   void tileWallAndGetPoints() {
     //iterate through every line of patternLines
     for (int rowNumber = 0; rowNumber < patternLines.length; rowNumber++) {
-      Tile[] line = patternLines[rowNumber];
+      ModelTile[] line = patternLines[rowNumber];
       //if the line is not completely full (leftmost field is empty), it gets ignored.
       if (line[0] == EMPTY_TILE) {
         continue;
       }
 
       //take the rightmost tile
-      Tile tile = patternLines[rowNumber][rowNumber];
+      ModelTile tile = patternLines[rowNumber][rowNumber];
 
       //get the position of the tile on the wall pattern
       int indexOfTileOnWallPattern = wallPattern.indexOfTileInRow(rowNumber, tile);
@@ -269,7 +269,7 @@ public class Player {
    */
   private void getMinusPointsForFloorLine() {
     for (int i = 0; i < floorLine.size(); i++) {
-      Tile tile = floorLine.get(i);
+      ModelTile tile = floorLine.get(i);
       if (tile == EMPTY_TILE) {
         break;
       }
@@ -364,8 +364,8 @@ public class Player {
     }
 
     //gain 10 points for each color of which you have placed all 5 tiles on your wall
-    List<Tile> tilableTiles = Tile.valuesOfTilableTiles();
-    for (Tile tile : tilableTiles) {
+    List<ModelTile> tilableTiles = ModelTile.valuesOfTilableTiles();
+    for (ModelTile tile : tilableTiles) {
       for (int row = 0; row < wall.length; row++) {
         if (!wall[row][wallPattern.indexOfTileInRow(row, tile)]) {
           break;

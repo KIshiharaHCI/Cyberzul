@@ -22,6 +22,6 @@ public abstract class Bag {
    *
    * @return a copy of the content of this bag.
    */
-  public abstract List<Tile> getContent();
+  public abstract List<ModelTile> getContent();
 
 }

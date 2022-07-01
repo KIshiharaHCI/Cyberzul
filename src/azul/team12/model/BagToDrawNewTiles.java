@@ -12,7 +12,7 @@ public class BagToDrawNewTiles extends Bag {
 
   private static BagToDrawNewTiles instance;
 
-  private ArrayList<Tile> content;
+  private ArrayList<ModelTile> content;
 
   public static final int INITIAL_NUMBER_OF_EACH_TILE = 20;
 
@@ -44,7 +44,7 @@ public class BagToDrawNewTiles extends Bag {
    *
    * @return a random tile.
    */
-  Tile drawRandomTile() {
+  ModelTile drawRandomTile() {
     if (content.size() == 0) {
       //the bag is emtpy, so it gets filled with the tiles that were stored in the "box"
       //in our implementation we call the box the "BagtoStoreUsedTiles"
@@ -59,10 +59,10 @@ public class BagToDrawNewTiles extends Bag {
 
   @Override
   void initializeContent() {
-    ArrayList<Tile> contentList = new ArrayList<>();
+    ArrayList<ModelTile> contentList = new ArrayList<>();
 
-    List<Tile> kindsOfTilableTiles = Tile.valuesOfTilableTiles();
-    for (Tile tile : kindsOfTilableTiles) {
+    List<ModelTile> kindsOfTilableTiles = ModelTile.valuesOfTilableTiles();
+    for (ModelTile tile : kindsOfTilableTiles) {
       addTilesToThisBag(tile, INITIAL_NUMBER_OF_EACH_TILE, contentList);
     }
 
@@ -78,16 +78,16 @@ public class BagToDrawNewTiles extends Bag {
    * @param amount - number of tiles (constant)
    * @param list   - the content list of this bag.
    */
-  private void addTilesToThisBag(Tile tile, int amount, List list) {
+  private void addTilesToThisBag(ModelTile tile, int amount, List list) {
     for (int i = 0; i < amount; i++) {
       list.add(tile);
     }
   }
 
   @Override
-  public List<Tile> getContent() {
-    List<Tile> returnList = new ArrayList<>();
-    for (Tile t : content) {
+  public List<ModelTile> getContent() {
+    List<ModelTile> returnList = new ArrayList<>();
+    for (ModelTile t : content) {
       returnList.add(t);
     }
     return returnList;

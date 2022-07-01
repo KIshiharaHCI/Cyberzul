@@ -1,10 +1,10 @@
 package azul.team12.model;
 
-import static azul.team12.model.Tile.BLACK_TILE;
-import static azul.team12.model.Tile.BLUE_TILE;
-import static azul.team12.model.Tile.ORANGE_TILE;
-import static azul.team12.model.Tile.RED_TILE;
-import static azul.team12.model.Tile.WHITE_TILE;
+import static azul.team12.model.ModelTile.BLACK_TILE;
+import static azul.team12.model.ModelTile.BLUE_TILE;
+import static azul.team12.model.ModelTile.ORANGE_TILE;
+import static azul.team12.model.ModelTile.RED_TILE;
+import static azul.team12.model.ModelTile.WHITE_TILE;
 
 /**
  * Contains a default wall background pattern aswell as methods to get information from it.
@@ -12,7 +12,7 @@ import static azul.team12.model.Tile.WHITE_TILE;
  */
 public class WallBackgroundPattern {
 
-  public final Tile[][] pattern;
+  public final ModelTile[][] pattern;
 
   public WallBackgroundPattern(){
     this.pattern = getTemplateWall();
@@ -21,7 +21,7 @@ public class WallBackgroundPattern {
   /**
    * The pattern on the wall defining where which tiles may be placed.
    */
-  private static final Tile[][] templateWall =
+  private static final ModelTile[][] templateWall =
       {{BLUE_TILE, ORANGE_TILE, RED_TILE, BLACK_TILE, WHITE_TILE},
           {WHITE_TILE, BLUE_TILE, ORANGE_TILE, RED_TILE, BLACK_TILE},
           {BLACK_TILE, WHITE_TILE, BLUE_TILE, ORANGE_TILE, RED_TILE},
@@ -33,7 +33,7 @@ public class WallBackgroundPattern {
    *
    * @return a copy of the template wall pattern.
    */
-  public static Tile[][] getTemplateWall() {
+  public static ModelTile[][] getTemplateWall() {
     return templateWall.clone();
   }
 
@@ -45,7 +45,7 @@ public class WallBackgroundPattern {
    * @param tile the tile that we are looking for.
    * @return the index number of that tile in the specific row.
    */
-  public int indexOfTileInRow(int rowNumber, Tile tile){
+  public int indexOfTileInRow(int rowNumber, ModelTile tile){
     int indexOfTilePosition = 0;
     for(int i = 0; i < pattern[rowNumber].length; i++){
       if(pattern[rowNumber][i] == tile){
