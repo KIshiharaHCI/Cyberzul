@@ -11,7 +11,7 @@ import java.util.List;
 public class TableCenter extends Offering {
 
   private static TableCenter instance;
-  private ArrayList<Tile> content;
+  private ArrayList<ModelTile> content;
 
   private TableCenter() {
     super();
@@ -33,13 +33,13 @@ public class TableCenter extends Offering {
   @Override
   void initializeContent() {
     this.content = new ArrayList<>();
-    content.add(Tile.STARTING_PLAYER_MARKER);
+    content.add(ModelTile.STARTING_PLAYER_MARKER);
   }
 
   /**
    * Add a tile to the TableCenter.
    */
-  void addTile(Tile tile) {
+  void addTile(ModelTile tile) {
     content.add(tile);
   }
 
@@ -52,22 +52,22 @@ public class TableCenter extends Offering {
    * @param indexOfTheTile
    * @return
    */
-  List<Tile> takeTileWithIndex(int indexOfTheTile) {
+  List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
     //The player can only choose "real" tiles. The starting player marker is not a tile, but a
     //marker. So if the player chooses the first tile (index 0), but the first element in
     //this.content is the starting player marker, the index has to be raised by 1.
-    if(content.contains(Tile.STARTING_PLAYER_MARKER)){
+    if(content.contains(ModelTile.STARTING_PLAYER_MARKER)){
       indexOfTheTile++;
     }
 
-    Tile chosenColor = content.get(indexOfTheTile);
-    ArrayList<Tile> returnedTiles = new ArrayList<>();
+    ModelTile chosenColor = content.get(indexOfTheTile);
+    ArrayList<ModelTile> returnedTiles = new ArrayList<>();
 
-    Iterator<Tile> contentIterator = content.iterator();
+    Iterator<ModelTile> contentIterator = content.iterator();
     while(contentIterator.hasNext()){
-      Tile currentTile = contentIterator.next();
+      ModelTile currentTile = contentIterator.next();
       if (currentTile == chosenColor
-          || currentTile == Tile.STARTING_PLAYER_MARKER) {
+          || currentTile == ModelTile.STARTING_PLAYER_MARKER) {
         returnedTiles.add(currentTile);
       }
     }
@@ -76,9 +76,9 @@ public class TableCenter extends Offering {
   }
 
   @Override
-  public List<Tile> getContent() {
-    List<Tile> returnList = new ArrayList<>();
-    for (Tile t : content) {
+  public List<ModelTile> getContent() {
+    List<ModelTile> returnList = new ArrayList<>();
+    for (ModelTile t : content) {
       returnList.add(t);
     }
     return returnList;

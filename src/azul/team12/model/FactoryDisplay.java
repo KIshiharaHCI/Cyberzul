@@ -10,7 +10,7 @@ import java.util.List;
 public class FactoryDisplay extends Offering {
 
   private static final int INITIAL_NUMBER_OF_TILES = 4;
-  private ArrayList<Tile> content;
+  private ArrayList<ModelTile> content;
 
   FactoryDisplay() {
     super();
@@ -33,10 +33,10 @@ public class FactoryDisplay extends Offering {
    * @return all tiles of the same color on this plate.
    */
   @Override
-  List<Tile> takeTileWithIndex(int indexOfTheTile) {
-    Tile chosenColor = content.get(indexOfTheTile);
-    ArrayList<Tile> returnedTiles = new ArrayList<>();
-    for (Tile tile : content) {
+  List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
+    ModelTile chosenColor = content.get(indexOfTheTile);
+    ArrayList<ModelTile> returnedTiles = new ArrayList<>();
+    for (ModelTile tile : content) {
       if (tile == chosenColor) {
         returnedTiles.add(tile);
       } else {
@@ -50,9 +50,9 @@ public class FactoryDisplay extends Offering {
   }
 
   @Override
-  public List<Tile> getContent() {
-    List<Tile> returnList = new ArrayList<>();
-    for (Tile t : content) {
+  public List<ModelTile> getContent() {
+    List<ModelTile> returnList = new ArrayList<>();
+    for (ModelTile t : content) {
       returnList.add(t);
     }
     return returnList;
