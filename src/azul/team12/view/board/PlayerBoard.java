@@ -1,5 +1,6 @@
 package azul.team12.view.board;
 
+import azul.team12.controller.Controller;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,29 +17,34 @@ import javax.swing.JPanel;
 public class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
+  private final Controller controller;
   private final PatternLines patternLines;
   private final Wall wall;
-  private int points = 0;
-  private int minusPoints = 0;
-  private String playerName = "name";
-
+  private String playerName;
+  private int points;
+  //Hardcoded Variable only used by opponent boards constructor
+  private final int minusPoints = 0;
   /**
    * The constructor to create one og the player boards of the opponents.
    */
-  public PlayerBoard() {
+  public PlayerBoard(Controller controller) {
+    this.controller = controller;
+
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setAlignmentX(0.5f);
     setAlignmentY(1.0f);
+
+    initializeClassVariables();
     createOthersFirst();
+
     final JPanel center = new JPanel();
     center.setMaximumSize(new Dimension(300, 260));
     center.setLayout(new GridLayout(1, 2));
-    this.patternLines = new PatternLines();
+    this.patternLines = new PatternLines(controller);
     center.add(patternLines);
     this.wall = new Wall();
     center.add(wall);
     add(center);
-
     createOthersLast();
   }
 
@@ -48,19 +54,28 @@ public class PlayerBoard extends JPanel {
    * @param tileSize
    * @param tileClickListener
    */
-  public PlayerBoard(int tileSize, TileClickListener tileClickListener) {
-
+  public PlayerBoard(Controller controller, int tileSize, TileClickListener tileClickListener) {
+    this.controller = controller;
     setLayout(new BorderLayout());
     final JPanel center = new JPanel();
     center.setLayout(new GridLayout(1, 2));
-    this.patternLines = new PatternLines(tileSize, tileClickListener);
+    this.patternLines = new PatternLines(controller,tileSize, tileClickListener);
     center.add(patternLines);
     this.wall = new Wall(tileSize, tileClickListener);
     center.add(wall);
     add(center, BorderLayout.CENTER);
 
+    initializeClassVariables();
     createNorth();
     addMinusPointsElements();
+  }
+
+  /**
+   * Gets the information about the status of the current player such as name and score from controller.
+   */
+  private void initializeClassVariables() {
+    playerName = controller.getNickOfActivePlayer();
+    points = controller.getPoints(playerName);
   }
 
   /**

@@ -4,10 +4,8 @@ import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+
+import java.awt.*;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -18,6 +16,7 @@ import javax.swing.JPanel;
 public class GameBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
+  private final Controller controller;
 
   private final CenterBoard center;
   private final int numberOfPlayers;
@@ -27,6 +26,7 @@ public class GameBoard extends JPanel {
 
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener, Controller controller) {
 
+    this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
     factoryDisplays = controller.getFactoryDisplays();
 
@@ -34,7 +34,7 @@ public class GameBoard extends JPanel {
     setBackground(Color.lightGray);
     createPanelWithTheBoardsOfOpponents();
 
-    center = new CenterBoard(tileClickListener, factoryDisplays);
+    center = new CenterBoard(controller,tileClickListener, factoryDisplays);
     add(center, BorderLayout.CENTER);
   }
 
@@ -44,7 +44,7 @@ public class GameBoard extends JPanel {
     boardsOfOpponentsPanel.setPreferredSize(new Dimension(300, 300));
     boardsOfOpponentsPanel.setLayout(new GridLayout(numberOfPlayers - 1, 1));
     for (int i = 0; i < numberOfPlayers - 1; i++) {
-      PlayerBoard playerBoard = new PlayerBoard();
+      PlayerBoard playerBoard = new PlayerBoard(controller);
       boardsOfOpponentsPanel.add(playerBoard);
     }
     add(boardsOfOpponentsPanel, BorderLayout.WEST);

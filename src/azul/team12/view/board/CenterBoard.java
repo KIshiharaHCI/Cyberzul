@@ -1,5 +1,6 @@
 package azul.team12.view.board;
 
+import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.BorderLayout;
@@ -16,6 +17,7 @@ import javax.swing.JPanel;
 public class CenterBoard extends JPanel {
 
   private final PlayerBoard currentPlayerBoard;
+  private final Controller controller;
   List<Tile> tileList;
 
   PlatesPanel platesPanel;
@@ -29,17 +31,18 @@ public class CenterBoard extends JPanel {
    *
    * @param tileClickListener the tile click listener
    */
-  public CenterBoard(TileClickListener tileClickListener, List<Offering> factoryDisplays) {
+  public CenterBoard(Controller controller, TileClickListener tileClickListener, List<Offering> factoryDisplays) {
     setLayout(new BorderLayout());
     setPreferredSize(new Dimension(1100, 800));
 
+    this.controller = controller;
     tileList = new ArrayList<>();
     platesPanel = new PlatesPanel(factoryDisplays, this.tileList, tileClickListener);
 
     platesPanel.setPreferredSize(new Dimension(1100, 130));
     add(platesPanel);
 
-    currentPlayerBoard = new PlayerBoard(40, tileClickListener);
+    currentPlayerBoard = new PlayerBoard(controller,40, tileClickListener);
     currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
     add(currentPlayerBoard, BorderLayout.SOUTH);
