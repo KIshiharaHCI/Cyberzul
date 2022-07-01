@@ -1,5 +1,6 @@
 package azul.team12.view.board;
 
+import azul.team12.model.GameModel;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -7,12 +8,21 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 
+/**
+ * The board that shows the player boards of all (2 to 4) players. It also shows the table center
+ * and the factory displays.
+ */
 public class GameBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
   private final CenterBoard center;
   private final int numberOfPlayers;
+
+  public static final int MAX_NUMBERS_OF_PLAYERS = 4;
+  public static final int MIN_NUMBERS_OF_PLAYERS = 2;
+
+  private GameModel model;
 
   private JPanel othersPanel;
 
@@ -29,8 +39,14 @@ public class GameBoard extends JPanel {
     add(center, BorderLayout.CENTER);
   }
 
+  /**
+   * Checks if the number of players is
+   *
+   * @param numberOfPlayers
+   * @return
+   */
   private static boolean isValidNumberOfPlayers(int numberOfPlayers) {
-    return numberOfPlayers <= 4 && numberOfPlayers >= 2;
+    model.
   }
 
   private void createLeft() {

@@ -9,6 +9,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * The board that shows the pattern lines and the wall of each player. It also shows the name,
+ * the points and the minus points of each player.
+ */
 public class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
