@@ -1,5 +1,8 @@
 package azul.team12.view.listeners;
 
+import azul.team12.controller.Controller;
+import azul.team12.model.GameModel;
+import azul.team12.model.Offering;
 import azul.team12.view.board.Tile;
 import azul.team12.view.board.TileDestination;
 import azul.team12.view.board.TileDestinationWall;
@@ -7,6 +10,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
@@ -18,6 +22,14 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
 
   Tile source = null;
   TileDestination destination = null;
+  private Controller controller;
+  private GameModel model;
+
+  public TileClickListener(Controller controller, GameModel model) {
+    this.controller = controller;
+    this.model = model;
+
+  }
 
   /**
    * Depending on the class that has been clicked on
@@ -51,6 +63,8 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
     System.out.println("Source was clicked with id " + tile.getTileId());
     source = tile;
     source.setBorder(BorderFactory.createLineBorder(Color.RED));
+    List<Offering> factoryDisplays = controller.getFactoryDisplays();
+    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(), factoryDisplays.get(source.getPlateId()));
 
   }
 

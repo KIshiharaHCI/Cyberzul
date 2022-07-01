@@ -116,4 +116,8 @@ public class Tile extends JPanel {
 
     return new ImageIcon(resizedimage);
   }
+
+  public int getPlateId() {
+    return plateId;
+  }
 }
