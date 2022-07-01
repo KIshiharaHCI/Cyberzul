@@ -10,41 +10,59 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
+/**
+ * listens to what tile is clicked on and //TODO: makes the model change accordingly
+ */
 public class TileClickListener extends MouseAdapter implements ISourceTileListener,
     IDestinationTileListener, IDestinationWallTileListener {
 
   Tile source = null;
   TileDestination destination = null;
 
+  /**
+   * Depending on the class that has been clicked on
+   *  - source tile (on manufacturing displays or table center --> create red border=
+   *  - destination tile (pattern lines) --> place tile here
+   *  - destination tile (wall) --> place tile here
+   * @param e the event to be processed
+   */
   @Override
   public void mouseClicked(MouseEvent e) {
     Component source = e.getComponent();
     if (source instanceof Tile) {
-
       onSourceTileClick(((Tile) source));
     } else if (source instanceof TileDestination) {
       TileDestination destinationTile = (TileDestination) source;
       onDestinationTileClick(destinationTile);
-    } else if (source instanceof TileDestinationWall) {
+    }
+    // TODO: delete this part, should be done automatically via the model
+    else if (source instanceof TileDestinationWall) {
       TileDestinationWall destinationWallTile = (TileDestinationWall) source;
       onDestinationWallTileClick(destinationWallTile);
     }
 
   }
 
+  /**
+   * create red border around tile if source tile was clicked
+   */
   @Override
   public void onSourceTileClick(Tile tile) {
-    System.out.println("Source was klicked with id " + tile.getId());
+    System.out.println("Source was clicked with id " + tile.getId());
     source = tile;
     source.setBorder(BorderFactory.createLineBorder(Color.RED));
 
   }
 
-
+  /**
+   * place tile of the respective color if destination tile on pattern line was clicked
+   *
+   * @param tileDestination - the source of the event if it is a destination tile
+   */
   @Override
   public void onDestinationTileClick(TileDestination tileDestination) {
     System.out.println(
-        "Destination was klicked with cell " + tileDestination.getCell() + " and row "
+        "Destination was clicked with cell " + tileDestination.getCell() + " and row "
             + tileDestination.getRow());
     if (source != null) {
       ImageIcon icon = source.getIcon();
@@ -58,10 +76,11 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
     }
   }
 
+  //TODO: delete this method, should be done automatically by the model
   @Override
   public void onDestinationWallTileClick(TileDestinationWall destinationWall) {
     System.out.println(
-        "Destination Wall was klicked with cell " + destinationWall.getCell() + " and row "
+        "Destination Wall was clicked with cell " + destinationWall.getCell() + " and row "
             + destinationWall.getRow());
     if (destination != null) {
       ImageIcon icon = destination.getIcon();
