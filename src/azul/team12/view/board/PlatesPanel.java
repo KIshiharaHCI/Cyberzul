@@ -14,17 +14,12 @@ public class PlatesPanel extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
-  private int numberOfPlates = 0;
-  private List<Plate> plateList = new ArrayList<>();
-
-  public PlatesPanel(List<Offering> factoryDisplays, List<Tile> tileList,
-      TileClickListener tileClickListener) {
+  public PlatesPanel(List<Offering> factoryDisplays, TileClickListener tileClickListener) {
     this.setLayout(new FlowLayout());
 
     for (int i = 0; i < factoryDisplays.size(); i++) {
       Plate plate = new Plate(i, tileClickListener, factoryDisplays.get(i).getContent());
       add(plate);
-      this.plateList.add(plate);
     }
   }
 }

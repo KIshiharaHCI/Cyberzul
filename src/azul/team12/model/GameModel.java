@@ -129,7 +129,6 @@ public class GameModel {
 
   public List<Offering> getFactoryDisplays(){
     // return the factory displays being the all but the first offering
-    System.out.println("getFactoryDisplays - offerings.size(): " + offerings.size());
     return offerings.subList(1, offerings.size());
   }
 

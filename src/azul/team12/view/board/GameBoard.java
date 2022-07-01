@@ -1,8 +1,8 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
+import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,7 +25,8 @@ public class GameBoard extends JPanel {
 
   private JPanel boardsOfOpponentsPanel;
 
-  public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener, Controller controller) {
+  public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
+                   Controller controller) {
 
     this.numberOfPlayers = numberOfPlayers;
     factoryDisplays = controller.getFactoryDisplays();
@@ -34,7 +35,8 @@ public class GameBoard extends JPanel {
     setBackground(Color.lightGray);
     createPanelWithTheBoardsOfOpponents();
 
-    center = new CenterBoard(tileClickListener, factoryDisplays);
+    center = new CenterBoard(tileClickListener, factoryDisplays,
+        (TableCenter) controller.getTableCenter());
     add(center, BorderLayout.CENTER);
   }
 
