@@ -78,7 +78,10 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     TileClickListener tileClickListener = new TileClickListener();
     hotSeatModeButton.addActionListener(event -> showHSMCard());
     networkButton.addActionListener(event -> showNetworkCard());
-    playButton.addActionListener(event -> showGameBoard(tileClickListener));
+    playButton.addActionListener(event -> {
+      controller.startGame();
+      showGameBoard(tileClickListener);
+    });
     addPlayerButton.addActionListener(event -> {
           controller.addPlayer(inputField.getText());
           numberOfLoggedInPlayersLabel.setText(
@@ -116,8 +119,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         } else if (loginFailedEvent.getMessage().equals(LoginFailedEvent.LOBBY_IS_FULL)) {
           showErrorMessage("Lobby is full.");
         }
+        //TODO - @ Nils add other events
       }
-      default -> throw new AssertionError("Unknown event");
+      //default -> throw new AssertionError("Unknown event");
     }
   }
 
@@ -183,7 +187,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     JPanel gameBoardPanel = new JPanel();
     add(gameBoardPanel, GAMEBOARD_CARD);
     //GameBoard gameBoard = new GameBoard(gbl);
-    GameBoard gameBoard = new GameBoard(4, tileClickListener);
+    GameBoard gameBoard = new GameBoard(4, tileClickListener, controller);
     gameBoardPanel.add(gameBoard);
     gameBoard.repaint();
     showCard(GAMEBOARD_CARD);
