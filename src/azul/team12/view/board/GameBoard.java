@@ -6,23 +6,35 @@ import azul.team12.view.board.playerBoard.PlayerBoard;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Color;
 
 
 public class GameBoard extends JPanel {
   Controller controller;
+  //activePlayerBoard JPanel (with CardLayout) makes it possible to swap between the different PlayerBoards
   private CardLayout layout;
   private GridBagConstraints gbc;
 
   //Largest primary layer Panels
   private JPanel topPanel,bottomPanel,chatPanel,centerPanel,sideBarPanel;
   //secondary Panels embedded in primary layer Panels
+  //TODO: migrate secondary Panels into suitable Classes
   private JPanel activePlayerBoard,factoryDisplayPanel,tableCenterPanel;
+  //tertiary Panels
+  //TODO: Add these to PlayerBoard
+  private JPanel patternLinesPanel, wallPanel;
   private JPanel playerBoards;
   private JButton endTurnButton;
+
   public GameBoard(Controller controller) {
     this.controller = controller;
     setLayout(new GridBagLayout());
+
+    //TODO: remove setBackground(),add setOpaque() and paint the image assets
+    // (temporary fix to see shape and size of each Panel when debugging)
     setBackground(Color.magenta);
 
     initializeWidgets();
@@ -32,6 +44,10 @@ public class GameBoard extends JPanel {
     addSecondaryLayerPanels();
 
   }
+
+  /**
+   * Uses GridBagConstraints and adds the Primary Panels to GameBoard JPanel.
+   */
   private void addPrimaryLayerPanels() {
     sideBarPanel = new JPanel();
     sideBarPanel.setBackground(Color.blue.brighter().brighter());
@@ -48,8 +64,14 @@ public class GameBoard extends JPanel {
     addComponentWithGridBadConstraints(this,chatPanel,2,1,1,1,GridBagConstraints.BOTH,0.2,0.85);
 
   }
+
+  /**
+   * Uses GridBagConstraints to add the Panels which are contained within centerPanel.
+   * Secondary Panels should be refactored into their own classes in the future.
+   */
   private void addSecondaryLayerPanels() {
     activePlayerBoard = new JPanel();
+    activePlayerBoard.setLayout(new GridBagLayout());
     activePlayerBoard.setBackground(Color.lightGray);
 
     factoryDisplayPanel = new JPanel();
@@ -62,10 +84,8 @@ public class GameBoard extends JPanel {
     addComponentWithGridBadConstraints(centerPanel, factoryDisplayPanel,0,0,1,1,GridBagConstraints.BOTH,0.6,0.5);
     addComponentWithGridBadConstraints(centerPanel, tableCenterPanel,1,0,1,1,GridBagConstraints.BOTH,0.4,0.5);
 
-    tableCenterPanel.add(playerBoards);
+    addComponentWithGridBadConstraints(activePlayerBoard, playerBoards,1,1,1,1,GridBagConstraints.BOTH,1,1);
   }
-
-
 
   private void initializeWidgets() {
     layout = new CardLayout();
@@ -80,8 +100,6 @@ public class GameBoard extends JPanel {
 
     //Buttons
     endTurnButton = new JButton("End Turn");
-    endTurnButton.setBackground(Color.red);
-    endTurnButton.setContentAreaFilled(true);
 
 
   }
@@ -94,7 +112,9 @@ public class GameBoard extends JPanel {
   }
 
   /**
-   * Used to
+   * Used to add the constraints for the JComponent such as JButtons,JPanels,JLabels before adding it into the Panel.
+   *        (it is possible to reuse the same GridBagConstraints instance for multiple components,
+   *        even if the components have different constraints.)
    *
    * @param panel JPanel (with GridBagLayout), on which components will be placed.
    * @param comp JComponent, which will be placed in the Panel.
