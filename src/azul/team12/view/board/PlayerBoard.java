@@ -22,6 +22,9 @@ public class PlayerBoard extends JPanel {
   private int minusPoints = 0;
   private String playerName = "name";
 
+  /**
+   * The constructor to create one og the player boards of the opponents.
+   */
   public PlayerBoard() {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setAlignmentX(0.5f);
@@ -39,6 +42,12 @@ public class PlayerBoard extends JPanel {
     createOthersLast();
   }
 
+  /**
+   * The constructor to create the player board of the active player.
+   *
+   * @param tileSize
+   * @param tileClickListener
+   */
   public PlayerBoard(int tileSize, TileClickListener tileClickListener) {
 
     setLayout(new BorderLayout());
@@ -51,9 +60,22 @@ public class PlayerBoard extends JPanel {
     add(center, BorderLayout.CENTER);
 
     createNorth();
-    createSouth();
+    addMinusPointsElements();
   }
 
+  /**
+   * Opponents Constructor invokes this method in order to add the graphical elements for the
+   * points and the
+   *
+   */
+  private void createOthersFirst() {
+    JPanel north = addPointsAndPlayerNameElements();
+    add(north);
+  }
+
+  /**
+   * Opponents Constructor invokes this method in order to add Minus Points to the game board.
+   */
   private void createOthersLast() {
     JPanel south = new JPanel();
     south.setBackground(new Color(110, 150, 100));
@@ -62,9 +84,18 @@ public class PlayerBoard extends JPanel {
     add(south);
   }
 
-  private void createSouth() {
+  /**
+   * Active player constructor invokes this method
+   */
+  private void addMinusPointsElements() {
     JPanel south = createSouthernPart("Minus Points: ", minusPoints);
     add(south, BorderLayout.SOUTH);
+  }
+
+  private JPanel addPointsAndPlayerNameElements() {
+    JPanel north = createSouthernPart("Points: ", points);
+    north.add(new JLabel("Name: " + playerName));
+    return north;
   }
 
   private JPanel createSouthernPart(String x, int minusPoints) {
@@ -75,19 +106,11 @@ public class PlayerBoard extends JPanel {
     return south;
   }
 
-  private void createOthersFirst() {
-    JPanel north = createNorthernPart();
-    add(north);
-  }
-
-  private JPanel createNorthernPart() {
-    JPanel north = createSouthernPart("Points: ", points);
-    north.add(new JLabel("Name: " + playerName));
-    return north;
-  }
-
+  /**
+   * Active player constructor invokes this method.
+   */
   private void createNorth() {
-    JPanel north = createNorthernPart();
+    JPanel north = addPointsAndPlayerNameElements();
     add(north, BorderLayout.NORTH);
   }
 }
