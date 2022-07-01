@@ -9,6 +9,9 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+/**
+ * The center of the table ("Tischmitte").
+ */
 public class CenterBoard extends JPanel {
 
   private final PlayerBoard currentPlayerBoard;
@@ -21,6 +24,12 @@ public class CenterBoard extends JPanel {
   // TODO->lang of playerList
   private int numberOfPlates;
 
+  /**
+   * Creates the center board based on the number of players and with the tile click listeners.
+   *
+   * @param numberOfPlayers   the number of players
+   * @param tileClickListener the tile click listener
+   */
   public CenterBoard(int numberOfPlayers, TileClickListener tileClickListener) {
     setLayout(new BorderLayout());
     setPreferredSize(new Dimension(1100, 800));
