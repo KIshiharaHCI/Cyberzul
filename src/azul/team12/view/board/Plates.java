@@ -5,6 +5,9 @@ import java.awt.FlowLayout;
 import java.util.List;
 import javax.swing.JPanel;
 
+/**
+ * This is the Panel on which the Factory Displays get positioned.
+ */
 public class Plates extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;

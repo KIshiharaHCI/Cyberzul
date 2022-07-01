@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+/**
+ * Represents a Factory Display on the view.
+ */
 public class Plate extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
@@ -22,11 +25,17 @@ public class Plate extends JPanel {
 
   private final int PLATE_SIZE = 110;
 
-  private final int PADDING_OUTSIDE = 13;
-  private final int PADDING_BETWEEN_TILES = 4;
+  private final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
+  private final int SPACE_BETWEEN_TILES_IN_PXL = 4;
   private int id;
   private List<Tile> tileList;
 
+  /**
+   * Create one Plate.
+   *
+   * @param id the number with which the Plate can be identified.
+   * @param tileClickListener
+   */
   public Plate(int id,
       TileClickListener tileClickListener) {
     setLayout(new GridLayout(1, 1));
@@ -43,25 +52,27 @@ public class Plate extends JPanel {
     final Tile tile1 = new Tile(1, TILE_SIZE, this.id,
         getResizedImageIcon("img/black-tile.png", TILE_SIZE),
         tileClickListener);
-    tile1.setBounds(PADDING_OUTSIDE, PADDING_OUTSIDE, TILE_SIZE, TILE_SIZE);
+    tile1.setBounds(SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, TILE_SIZE, TILE_SIZE);
     plateImageLabel.add(tile1);
     final Tile tile2 = new Tile(2, TILE_SIZE, this.id,
         getResizedImageIcon("img/red-tile.png", TILE_SIZE),
         tileClickListener);
-    tile2.setBounds(PADDING_OUTSIDE + TILE_SIZE + PADDING_BETWEEN_TILES, PADDING_OUTSIDE, TILE_SIZE,
+    tile2.setBounds(SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL,
+        SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, TILE_SIZE,
         TILE_SIZE);
     plateImageLabel.add(tile2);
     final Tile tile3 = new Tile(3, TILE_SIZE, this.id,
         getResizedImageIcon("img/blue-tile.png", TILE_SIZE),
         tileClickListener);
-    tile3.setBounds(PADDING_OUTSIDE, PADDING_OUTSIDE + TILE_SIZE + PADDING_BETWEEN_TILES, TILE_SIZE,
+    tile3.setBounds(
+        SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL, TILE_SIZE,
         TILE_SIZE);
     plateImageLabel.add(tile3);
     final Tile tile4 = new Tile(4, TILE_SIZE, this.id,
         getResizedImageIcon("img/yellow-tile.png", TILE_SIZE),
         tileClickListener);
-    tile4.setBounds(PADDING_OUTSIDE + TILE_SIZE + PADDING_BETWEEN_TILES,
-        PADDING_OUTSIDE + TILE_SIZE + PADDING_BETWEEN_TILES, TILE_SIZE, TILE_SIZE);
+    tile4.setBounds(SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL,
+        SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL, TILE_SIZE, TILE_SIZE);
     plateImageLabel.add(tile4);
     this.tileList.add(tile1);
 

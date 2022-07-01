@@ -32,6 +32,8 @@ public class AzulView extends JFrame {
   private JButton playButton;
   private int numberOfPlayers;
 
+  private GameModel model;
+
   public AzulView(GameModel model, Controller controller) throws HeadlessException {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     gbl = new GridBagLayout();
@@ -41,6 +43,8 @@ public class AzulView extends JFrame {
     initializeWidgets();
     addEventListeners();
     createView();
+
+    this.model = model;
   }
 
   private void initializeWidgets() {

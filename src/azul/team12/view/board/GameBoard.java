@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -19,46 +20,30 @@ public class GameBoard extends JPanel {
   private final CenterBoard center;
   private final int numberOfPlayers;
 
-  public static final int MAX_NUMBERS_OF_PLAYERS = 4;
-  public static final int MIN_NUMBERS_OF_PLAYERS = 2;
-
-  private GameModel model;
-
-  private JPanel othersPanel;
+  private JPanel boardsOfOpponentsPanel;
 
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener) {
-    assert isValidNumberOfPlayers(numberOfPlayers);
 
     this.numberOfPlayers = numberOfPlayers;
 
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
-    createLeft();
+    createPanelWithTheBoardsOfOpponents();
 
     center = new CenterBoard(numberOfPlayers, tileClickListener);
     add(center, BorderLayout.CENTER);
   }
 
-  /**
-   * Checks if the number of players is
-   *
-   * @param numberOfPlayers
-   * @return
-   */
-  private static boolean isValidNumberOfPlayers(int numberOfPlayers) {
-    model.
-  }
-
-  private void createLeft() {
-    othersPanel = new JPanel();
-    othersPanel.setMaximumSize(new Dimension(300, 300));
-    othersPanel.setPreferredSize(new Dimension(300, 300));
-    othersPanel.setLayout(new GridLayout(numberOfPlayers - 1, 1));
+  private void createPanelWithTheBoardsOfOpponents() {
+    boardsOfOpponentsPanel = new JPanel();
+    boardsOfOpponentsPanel.setMaximumSize(new Dimension(300, 300));
+    boardsOfOpponentsPanel.setPreferredSize(new Dimension(300, 300));
+    boardsOfOpponentsPanel.setLayout(new GridLayout(numberOfPlayers - 1, 1));
     for (int i = 0; i < numberOfPlayers - 1; i++) {
       PlayerBoard playerBoard = new PlayerBoard();
-      othersPanel.add(playerBoard);
+      boardsOfOpponentsPanel.add(playerBoard);
     }
-    add(othersPanel, BorderLayout.WEST);
+    add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
 
 
