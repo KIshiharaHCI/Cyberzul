@@ -8,6 +8,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * The tiles on the GameBoard.
+ */
 public class Tile extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
@@ -21,6 +24,16 @@ public class Tile extends JPanel {
 
   private JLabel label;
 
+  /**
+   * Creates a tile.
+   *
+   * TODO: ID is a index?
+   * @param id
+   * @param cellSize
+   * @param plateId
+   * @param icon
+   * @param tileClickListener
+   */
   public Tile(int id, int cellSize, int plateId,
       ImageIcon icon, TileClickListener tileClickListener) {
     setLayout(new GridLayout(1, 1));
