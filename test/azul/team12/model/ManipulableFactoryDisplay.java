@@ -11,14 +11,14 @@ import java.util.List;
  */
 public class ManipulableFactoryDisplay extends FactoryDisplay{
 
-  private ArrayList<Tile> content;
+  private ArrayList<ModelTile> content;
 
   /**
    * Create a Manipulable Factory Display.
    *
    * @param tiles the tiles that it should contain.
    */
-  public ManipulableFactoryDisplay(Tile[] tiles){
+  public ManipulableFactoryDisplay(ModelTile[] tiles){
     manipulateContent(tiles);
   }
 
@@ -29,8 +29,8 @@ public class ManipulableFactoryDisplay extends FactoryDisplay{
    *
    * @param tiles
    */
-  void manipulateContent(Tile[] tiles){
-    ArrayList<Tile> manipulatedContent = new ArrayList<>();
+  void manipulateContent(ModelTile[] tiles){
+    ArrayList<ModelTile> manipulatedContent = new ArrayList<>();
     for(int i = 0; i < tiles.length; i++){
       manipulatedContent.add(tiles[i]);
     }
@@ -44,10 +44,10 @@ public class ManipulableFactoryDisplay extends FactoryDisplay{
    * @return
    */
   @Override
-  List<Tile> takeTileWithIndex(int indexOfTheTile) {
-    Tile chosenColor = content.get(indexOfTheTile);
-    ArrayList<Tile> returnedTiles = new ArrayList<>();
-    for (Tile tile : content) {
+  List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
+    ModelTile chosenColor = content.get(indexOfTheTile);
+    ArrayList<ModelTile> returnedTiles = new ArrayList<>();
+    for (ModelTile tile : content) {
       if (tile == chosenColor) {
         returnedTiles.add(tile);
       }
@@ -59,7 +59,7 @@ public class ManipulableFactoryDisplay extends FactoryDisplay{
   }
 
   @Override
-  public List<Tile> getContent() {
+  public List<ModelTile> getContent() {
     return content;
   }
 }

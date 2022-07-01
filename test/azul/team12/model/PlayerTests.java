@@ -30,11 +30,11 @@ public class PlayerTests {
    */
   @BeforeAll
   public void setUpOfferings(){
-    Tile[] redTiles = {Tile.RED_TILE, Tile.RED_TILE, Tile.RED_TILE, Tile.RED_TILE};
-    Tile[] blueTiles = {Tile.BLUE_TILE, Tile.BLUE_TILE, Tile.BLUE_TILE, Tile.BLUE_TILE};
-    Tile[] blackTiles = {Tile.BLACK_TILE, Tile.BLACK_TILE, Tile.BLACK_TILE, Tile.BLACK_TILE};
-    Tile[] whiteTiles = {Tile.WHITE_TILE, Tile.WHITE_TILE, Tile.WHITE_TILE, Tile.WHITE_TILE};
-    Tile[] orangeTiles = {Tile.ORANGE_TILE, Tile.ORANGE_TILE, Tile.ORANGE_TILE, Tile.ORANGE_TILE};
+    ModelTile[] redTiles = {ModelTile.RED_TILE, ModelTile.RED_TILE, ModelTile.RED_TILE, ModelTile.RED_TILE};
+    ModelTile[] blueTiles = {ModelTile.BLUE_TILE, ModelTile.BLUE_TILE, ModelTile.BLUE_TILE, ModelTile.BLUE_TILE};
+    ModelTile[] blackTiles = {ModelTile.BLACK_TILE, ModelTile.BLACK_TILE, ModelTile.BLACK_TILE, ModelTile.BLACK_TILE};
+    ModelTile[] whiteTiles = {ModelTile.WHITE_TILE, ModelTile.WHITE_TILE, ModelTile.WHITE_TILE, ModelTile.WHITE_TILE};
+    ModelTile[] orangeTiles = {ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE};
     redOffering = new ManipulableFactoryDisplay(redTiles);
     blueOffering = new ManipulableFactoryDisplay(blueTiles);
     blackOffering = new ManipulableFactoryDisplay(blackTiles);
@@ -57,12 +57,12 @@ public class PlayerTests {
   @Test
   public void testDrawTiles_getFilledFromRightToLeft() {
     Offering offering1 = new FactoryDisplay();
-    Tile chosenTileKind = offering1.getContent().get(2);
+    ModelTile chosenTileKind = offering1.getContent().get(2);
 
     player.drawTiles(4, offering1, 2);
-    Tile[][] patternLines = player.getPatternLines();
+    ModelTile[][] patternLines = player.getPatternLines();
 
-    Assertions.assertEquals(Tile.EMPTY_TILE, patternLines[4][0]);
+    Assertions.assertEquals(ModelTile.EMPTY_TILE, patternLines[4][0]);
     Assertions.assertEquals(chosenTileKind, patternLines[4][4]);
   }
 
@@ -180,7 +180,7 @@ public class PlayerTests {
     player.drawTiles(4, blueOffering, 0);
     player.drawTiles(4, blueOffering, 0);
 
-    Assertions.assertEquals(Tile.BLUE_TILE, player.getPatternLines()[4][0]);
+    Assertions.assertEquals(ModelTile.BLUE_TILE, player.getPatternLines()[4][0]);
   }
 
   /**

@@ -15,6 +15,8 @@ public class AzulMain {
     AzulView azulView = new AzulView(model, controller);
     azulView.setVisible(true);
 
+    model.addPropertyChangeListener(azulView);
+
 
   }
 }
