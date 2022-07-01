@@ -84,6 +84,7 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
       tileDestination.getLabel().setIcon(icon);
       source.getLabel().setIcon(null);
       source.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+      controller.placeTileAtPatternLine(tileDestination.getRow());
       source = null;
     } else {
       destination = tileDestination;

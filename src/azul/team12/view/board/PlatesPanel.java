@@ -15,16 +15,19 @@ public class PlatesPanel extends JPanel {
   private static final long serialVersionUID = 7526472295622776147L;
 
   private int numberOfPlates = 0;
-  private List<Plate> plateList = new ArrayList<>();
+  //private List<Plate> plateList = new ArrayList<>();
 
+  //TODO: it makes more sense to start the for loop at one and give offerings and delete the
+  // +1 where the plate is constructed
   public PlatesPanel(List<Offering> factoryDisplays, List<Tile> tileList,
       TileClickListener tileClickListener) {
     this.setLayout(new FlowLayout());
 
     for (int i = 0; i < factoryDisplays.size(); i++) {
-      Plate plate = new Plate(i, tileClickListener, factoryDisplays.get(i).getContent());
+      // we start at 1 because the first offering is the table center
+      Plate plate = new Plate(i + 1, tileClickListener, factoryDisplays.get(i).getContent());
       add(plate);
-      this.plateList.add(plate);
+      //this.plateList.add(plate);
     }
   }
 }
