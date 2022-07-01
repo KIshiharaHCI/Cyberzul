@@ -10,14 +10,14 @@ import javax.swing.JPanel;
 /**
  * This is the Panel on which the Factory Displays get positioned.
  */
-public class Plates extends JPanel {
+public class PlatesPanel extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
   private int numberOfPlates = 0;
   private List<Plate> plateList = new ArrayList<>();
 
-  public Plates(List<Offering> factoryDisplays, List<Tile> tileList,
+  public PlatesPanel(List<Offering> factoryDisplays, List<Tile> tileList,
       TileClickListener tileClickListener) {
     this.setLayout(new FlowLayout());
 
