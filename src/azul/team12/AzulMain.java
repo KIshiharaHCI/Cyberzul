@@ -9,9 +9,10 @@ import java.util.ArrayList;
 
 public class AzulMain {
   public static void main(String[] args){
+    //TODO: Change to Interface Model, not GameModel.
     GameModel model = new GameModel();
     Controller controller = new GameController(model);
-    AzulView azulView = new AzulView();
+    AzulView azulView = new AzulView(model, controller);
     azulView.setVisible(true);
 
 

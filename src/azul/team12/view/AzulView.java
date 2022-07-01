@@ -1,5 +1,8 @@
 package azul.team12.view;
 
+import azul.team12.controller.Controller;
+import azul.team12.controller.GameController;
+import azul.team12.model.GameModel;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.CardLayout;
@@ -29,7 +32,7 @@ public class AzulView extends JFrame {
   private JButton playButton;
   private int numberOfPlayers;
 
-  public AzulView() throws HeadlessException {
+  public AzulView(GameModel model, Controller controller) throws HeadlessException {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     gbl = new GridBagLayout();
     setMinimumSize(new Dimension(1400, 900));
@@ -96,6 +99,13 @@ public class AzulView extends JFrame {
     showCard(NETWORK_CARD);
   }
 
+  /**
+   * shows the GameBoard when Play Button is pressed.
+   *
+   * @param tileClickListener the listener that enables to check whether one has clicked on
+   *                          a tile, the wall as a destination or the pattern lines as a
+   *                          destination.
+   */
   private void showGameBoard(TileClickListener tileClickListener) {
     JPanel gameBoardPanel = new JPanel();
     add(gameBoardPanel, GAMEBOARD_CARD);
