@@ -10,8 +10,10 @@ public class GameBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
   //List<PlayerBoard> playerBoardList = new ArrayList<>();
-
-  private final CenterBoard center;
+  /**
+   *  creates right part of the whole GameBoard with current player and Table Center.
+   */
+    private final CenterBoard center;
   private final int numberOfPlayers;
 
   private JPanel othersPanel;
@@ -34,6 +36,11 @@ public class GameBoard extends JPanel {
     return numberOfPlayers <= 4 && numberOfPlayers >= 2;
   }
 
+  /**
+   * creates left part of the whole GameBoard with other players
+   * (without the player who currently has a turn).
+   */
+
   private void createLeft() {
     othersPanel = new JPanel();
     //othersPanel.setLayout(new BoxLayout(othersPanel, BoxLayout.Y_AXIS));
@@ -50,14 +57,14 @@ public class GameBoard extends JPanel {
     add(othersPanel, BorderLayout.WEST);
   }
 
-  private String calculateNextPosition(String position) {
-    if (position.equals(BorderLayout.NORTH)) {
-      return BorderLayout.CENTER;
-    } else if (position.equals(BorderLayout.CENTER)) {
-      return BorderLayout.SOUTH;
-    }
-    return "";
-  }
+//  private String calculateNextPosition(String position) {
+//    if (position.equals(BorderLayout.NORTH)) {
+//      return BorderLayout.CENTER;
+//    } else if (position.equals(BorderLayout.CENTER)) {
+//      return BorderLayout.SOUTH;
+//    }
+//    return "";
+//  }
 
 
 }

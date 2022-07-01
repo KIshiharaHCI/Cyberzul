@@ -2,8 +2,7 @@ package azul.team12.view.board;
 
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
+import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -15,33 +14,41 @@ public class Tile extends JPanel {
 
   private final int id;
 
-  private int plateNr;
-  private int position;
-
-  private boolean selected = false;
-
+  private int plateId;
   private int cellSize;
 
   private ImageIcon icon;
-  private Image image;
 
-  public Tile(int id, int cellSize, int plateNr,
+  private JLabel label;
+
+  public Tile(int id, int cellSize, int plateId,
       ImageIcon icon, TileClickListener tileClickListener) {
+    setLayout(new GridLayout(1, 1));
     this.id = id;
     this.cellSize = cellSize;
-    this.plateNr = plateNr;
+    this.plateId = plateId;
     this.icon = icon;
-    this.image = icon.getImage();
     setBorder(BorderFactory.createLineBorder(Color.black));
     setToolTipText(id + "");
-    add(new JLabel(icon));
-    repaint();
+    label = icon != null ? new JLabel(icon) : new JLabel("");
+    add(label);
 
     this.addMouseListener(tileClickListener);
   }
 
-  @Override
-  public Dimension getPreferredSize() {
-    return new Dimension(this.cellSize, this.cellSize);
+  public int getId() {
+    return id;
+  }
+
+  public ImageIcon getIcon() {
+    return icon;
+  }
+
+  public void setIcon(ImageIcon icon) {
+    this.icon = icon;
+  }
+
+  public JLabel getLabel() {
+    return label;
   }
 }

@@ -4,8 +4,6 @@ import azul.team12.view.listeners.TileClickListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -65,19 +63,19 @@ public class PatternLines extends JPanel {
 
       for (int x = 1; x <= COLS; x++) {
         if (x <= numberOfSkippedColumns) {
-          currentRow.add(new TileDestination(y, x, tileSize, tileClickListener));
+          currentRow.add(new TileDestination(y, x, tileSize, tileClickListener, null));
         }
       }
       numberOfSkippedColumns++;
       add(currentRow);
     }
 
-    this.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        super.mouseClicked(e);
-      }
-    });
+    //this.addMouseListener(new MouseAdapter() {
+//      @Override
+//      public void mouseClicked(MouseEvent e) {
+//        super.mouseClicked(e);
+//      }
+//    });
   }
 
   /*

@@ -33,7 +33,6 @@ public class PlayerBoard extends JPanel {
     add(center);
 
     createOthersLast();
-    //this(20, tileClickListener);
   }
 
   public PlayerBoard(int tileSize, TileClickListener tileClickListener) {
@@ -60,28 +59,31 @@ public class PlayerBoard extends JPanel {
   }
 
   private void createSouth() {
-    JPanel south = new JPanel();
-    south.setBackground(new Color(110, 150, 100));
-    south.setLayout(new GridLayout(1, 2));
-    south.add(new JLabel("Minus Points: " + minusPoints));
+    JPanel south = createSouthernPart("Minus Points: ", minusPoints);
     add(south, BorderLayout.SOUTH);
   }
 
+  private JPanel createSouthernPart(String x, int minusPoints) {
+    JPanel south = new JPanel();
+    south.setBackground(new Color(110, 150, 100));
+    south.setLayout(new GridLayout(1, 2));
+    south.add(new JLabel(x + minusPoints));
+    return south;
+  }
+
   private void createOthersFirst() {
-    JPanel north = new JPanel();
-    north.setBackground(new Color(110, 150, 100));
-    north.setLayout(new GridLayout(1, 2));
-    north.add(new JLabel("Points: " + points));
-    north.add(new JLabel("Name: " + playerName));
+    JPanel north = createNorthernPart();
     add(north);
   }
 
-  private void createNorth() {
-    JPanel north = new JPanel();
-    north.setBackground(new Color(110, 150, 100));
-    north.setLayout(new GridLayout(1, 2));
-    north.add(new JLabel("Points: " + points));
+  private JPanel createNorthernPart() {
+    JPanel north = createSouthernPart("Points: ", points);
     north.add(new JLabel("Name: " + playerName));
+    return north;
+  }
+
+  private void createNorth() {
+    JPanel north = createNorthernPart();
     add(north, BorderLayout.NORTH);
   }
 }

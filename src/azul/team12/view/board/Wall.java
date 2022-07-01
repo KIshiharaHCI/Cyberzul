@@ -57,12 +57,9 @@ public class Wall extends JPanel {
       currentRow.setLayout(new GridLayout(1, ROWS));
       currentRow.setMaximumSize(
           new Dimension(ROWS * tileSize, COLS * tileSize));
-
-      for (int x = 1; x <= COLS; x++) {
-        currentRow.add(new TileDestination(y, x, tileSize, tileClickListener));
-
+      for (int x = 0; x < COLS; x++) {
+        currentRow.add(new TileDestinationWall(y, x, tileSize, tileClickListener, null));
       }
-
       add(currentRow);
     }
 
