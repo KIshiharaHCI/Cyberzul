@@ -48,7 +48,7 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
    */
   @Override
   public void onSourceTileClick(Tile tile) {
-    System.out.println("Source was clicked with id " + tile.getId());
+    System.out.println("Source was clicked with id " + tile.getTileId());
     source = tile;
     source.setBorder(BorderFactory.createLineBorder(Color.RED));
 
