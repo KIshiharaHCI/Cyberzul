@@ -75,7 +75,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private void addEventListeners() {
     //TODO: swap lambda expressions with controller functions
     // use the same listener for every Tile (source/destination) object
-    TileClickListener tileClickListener = new TileClickListener(controller);
+    TileClickListener tileClickListener = new TileClickListener(controller, model);
     hotSeatModeButton.addActionListener(event -> showHSMCard());
     networkButton.addActionListener(event -> showNetworkCard());
     playButton.addActionListener(event -> {
