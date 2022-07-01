@@ -2,6 +2,7 @@ package azul.team12.controller;
 
 import azul.team12.model.Bag;
 import azul.team12.model.FactoryDisplay;
+import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
 import java.util.List;
@@ -107,4 +108,27 @@ public interface Controller {
    *
    */
   void startTiling();
+
+  /**
+   * gives back the pattern line of a given player.
+   *
+   * @param playerName the name of the player
+   * @return the pattern lines
+   */
+  ModelTile[][] getPatternLinesOfPlayer(String playerName);
+
+  /**
+   * gives back the wall of a given player.
+   *
+   * @param playerName the name of the player
+   * @return the wall
+   */
+  boolean[][] getWallOfPlayer(String playerName);
+
+  /**
+   * get the template wall of tiles for the wall so that we need just booleans to show it.
+   *
+   * @return template wall of tiles.
+   */
+  ModelTile[][] getTemplateWall();
 }

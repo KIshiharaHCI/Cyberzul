@@ -1,7 +1,9 @@
 package azul.team12.controller;
 
 import azul.team12.model.GameModel;
+import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
+import azul.team12.model.WallBackgroundPattern;
 import java.util.List;
 
 public class GameController implements Controller{
@@ -70,4 +72,20 @@ public class GameController implements Controller{
   public void startTiling() {
     model.startTilingPhase();
   }
+
+  @Override
+  public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
+    return model.getPatternLinesOfPlayer(playerName);
+  }
+
+  @Override
+  public boolean[][] getWallOfPlayer(String playerName) {
+    return model.getWallOfPlayer(playerName);
+  }
+
+  @Override
+  public ModelTile[][] getTemplateWall() {
+    return WallBackgroundPattern.getTemplateWall();
+  }
+
 }

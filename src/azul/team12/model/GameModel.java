@@ -346,6 +346,30 @@ public class GameModel {
     return playerNameOfPlayerWithMostPoints;
   }
 
+
+  /**
+   * gives back the pattern Lines of a given player.
+   *
+   * @param playerName the name of the player
+   * @return the pattern Lines
+   */
+  public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
+    Player player = getPlayerByName(playerName);
+    return player.getPatternLines();
+  }
+
+
+  /**
+   * gives back the wall of a given player.
+   *
+   * @param playerName the name of the player
+   * @return the wall
+   */
+  public boolean[][] getWallOfPlayer(String playerName) {
+    Player player = getPlayerByName(playerName);
+    return player.getWall();
+  }
+
   //TODO: @Marco implement it
   /**
    * Takes in the list of players and gives back a list of player names and their respective points
