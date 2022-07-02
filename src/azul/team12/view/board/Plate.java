@@ -51,11 +51,9 @@ public class Plate extends JPanel {
     int space_from_top = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
     for (int i = 0; i < content.size(); i++) {
           Tile tile = new Tile(i, this.plateId, content.get(i), tileClickListener);
-          System.out.println("tile: " + tile);
           tileList.add(tile);
           tile.setBounds(space_from_left, space_from_top, Tile.TILE_SIZE, Tile.TILE_SIZE);
           plateImageLabel.add(tile);
-          System.out.println("i: " + i);
           // move tiles to the right after first and second tile
           // move down after second tile
           if (i == 0 || i == 2) {

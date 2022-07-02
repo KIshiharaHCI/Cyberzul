@@ -28,6 +28,7 @@ public class Tile extends JPanel {
   private final String WHITE_TILE_PATH = "img/white-tile.png";
   //TODO: make yellow, and in model yellow too
   private final String ORANGE_TILE_PATH = "img/yellow-tile.png";
+  private final String STARTING_PLAYER_MARKER_PATH = "img/start-player-button.png";
 
 
   private int plateId;
@@ -84,6 +85,9 @@ public class Tile extends JPanel {
       }
       case ORANGE_TILE -> {
         return getResizedImageIcon(ORANGE_TILE_PATH);
+      }
+      case STARTING_PLAYER_MARKER -> {
+        return getResizedImageIcon(STARTING_PLAYER_MARKER_PATH);
       }
       default ->
         throw new AssertionError("Unknown Tile!");

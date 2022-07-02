@@ -2,11 +2,12 @@ package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
+import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.ArrayList;
+import java.awt.GridLayout;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -18,13 +19,11 @@ public class CenterBoard extends JPanel {
 
   private final PlayerBoard currentPlayerBoard;
   private final Controller controller;
+  private TableCenter tableCenter;
   List<Tile> tileList;
 
   PlatesPanel platesPanel;
-  private Tile selectedTile = null;
-  private Tile draggedTile = null;
-  // TODO->lang of playerList
-  private int numberOfPlates;
+  TableCenterPanel tableCenterPanel;
 
   /**
    * Creates the center board based on the number of players and with the tile click listeners.
@@ -32,20 +31,25 @@ public class CenterBoard extends JPanel {
    * @param tileClickListener the tile click listener
    */
   public CenterBoard(Controller controller, TileClickListener tileClickListener, List<Offering> factoryDisplays) {
-    setLayout(new BorderLayout());
+    this.controller = controller;
+  this.tableCenter = (TableCenter) controller.getTableCenter();
+    setLayout(new GridLayout(3,1));
     setPreferredSize(new Dimension(1100, 800));
 
-    this.controller = controller;
-    tileList = new ArrayList<>();
-    platesPanel = new PlatesPanel(factoryDisplays, this.tileList, tileClickListener);
+    platesPanel = new PlatesPanel(factoryDisplays, tileClickListener);
 
     platesPanel.setPreferredSize(new Dimension(1100, 130));
     add(platesPanel);
 
+    tableCenterPanel = new TableCenterPanel(tableCenter,tileClickListener);
+    platesPanel.setPreferredSize(new Dimension(1100,10));
+    add(tableCenterPanel);
+
     currentPlayerBoard = new PlayerBoard(controller,40, tileClickListener);
+
     currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
-    add(currentPlayerBoard, BorderLayout.SOUTH);
+    add(currentPlayerBoard);
 
   }
 
