@@ -643,14 +643,31 @@ Q1:
 - Written a method in the Player class for the points that the player gets after each round.
 - Written JUnit Tests for the Bag classes.
 
-Q2
+Q2:
 - Write a method in the Player class for the points that the player gets at the end of the game.
 - Write JUnit Tests for the Player Class.
 - Write the model logic so players can be added to the model.
 - Implement the model as observable.
 
-Q3
+Q3:
 - None.
+
+_Marco_ 
+
+Q1:
+- Research what is a Singleton
+- Code review BagClasses Nils
+- Bug Fixing
+
+Q2:
+- Decide which Logger to use
+- Build logger
+- Write explanation on how to use it on Zulip for team mates
+- Review Player Class another time with new methods
+
+Q3:
+- None.
+
 
 **27. June, 2022**
 
@@ -671,6 +688,24 @@ Q2:
 Q3:
 - The whole team has to gather.
 
+_Marco_
+
+Q1:
+- Decide which Logger to use
+- Try to build logger
+- Write explanation on how to use it on Zulip for team mates
+- Review Player Class another time with new methods
+
+Q2:
+- Review Player Class
+- Try to build logger again
+- Team-Meeting
+- Continue implementation of Game Model
+
+- Q3:
+- The configuration of the Logger with the XML file/ or the .properties file didn't work.
+
+
 **28. June, 2022**
 _Nils_
 Q1:
@@ -688,6 +723,24 @@ Q3:
 - I need Marco, Kenji and Xue for this.
 - I need access to the code of the view.
 
+_Marco_
+Q1:
+- Stackoverflow question for Logger
+- Wrote method notifyTileChosen(String playerName, int indexOfTile, Offering offering)
+- Wrote method makeActivePlayerPlaceTile(int rowOfPatternLine)
+- Wrote method getPlayerByName
+- Implement GameController methods
+
+Q2:
+- Team Meeting with Iurii and Kenji (connecting model and view)
+- Minor code improvements
+- checkRoundFinished
+- Team Meeting with Nils (talking about model, warnings, ...)
+
+Q3:
+- Logger still doesn't work.
+- HotSeatMode should soon be working.
+
 **29. June, 2022**
 _Nils_
 Q1:
@@ -702,3 +755,72 @@ Q2:
 
 Q3:
 - none
+
+_Marco_
+Q1:
+- Team Meeting with Iurii and Kenji (connecting model and view)
+- Minor code improvements
+- checkRoundFinished Method
+- Team Meeting with Nils (talking about model, warnings, ...)
+
+Q2:
+- getOfferings-Methode
+- implement Game ended methods
+- todos in Model
+- implement tiles may be put directly into bottom line
+
+Q3:
+- Logger still doesn't work.
+- HotSeatMode should soon be working.
+
+**30. June, 2022**
+
+_Marco_
+
+Q1:
+- getOfferings-Methode
+- implement Game ended methods
+- improve endTurn-Method
+- create new Event
+- make GameEndEvent give Winner Name
+
+Q2:
+- Meeting with Chris & Team (discuss Logger)
+- implement tiles may be put directly into bottom line
+- Review Player Class from Nils
+
+Q3:
+- Time.
+
+**1. July, 2022**
+
+_Marco_
+
+Q1:
+- Meeting with Xue, Kenji, Nils.
+- Create Issues together
+
+Q2:
+- Meeting with Xue, Nils.
+- Finish View together so that it works.
+  (- Review Player Class from Nils,
+  (- Other Issues.)
+
+Q3:
+- Time.
+
+**2. July, 2022**
+
+_Marco_
+
+Q1:
+- meeting with Nils, later Kenji and Xue, too
+  - connecting view and model (e.g.: use chooseTileFunction, use events, etc.)
+  - creating JavaDoc for view
+
+Q2:
+- meeting with Chris
+- continue finishing that it is possible to play the game - all day
+
+Q3:
+- time
