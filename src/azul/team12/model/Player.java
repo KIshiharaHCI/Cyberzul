@@ -70,10 +70,10 @@ public class Player {
     String patternLinesAsString = "\n";
     ModelTile currentModelTile;
     int columWidthInCharacters = 15;
-    for (int column = 0; column < patternLines.length; column++) {
-      for (int row = 0; row < patternLines[column].length; row++) {
-        patternLinesAsString += patternLines[column][row].toString();
-        currentModelTile = patternLines[column][row];
+    for (int row = 0; row < patternLines.length; row++) {
+      for (int column = 0; column < patternLines[row].length; column++) {
+        patternLinesAsString += patternLines[row][column].toString();
+        currentModelTile = patternLines[row][column];
         for (int i = currentModelTile.toString().length(); i < columWidthInCharacters; i++) {
           patternLinesAsString += " ";
         }
