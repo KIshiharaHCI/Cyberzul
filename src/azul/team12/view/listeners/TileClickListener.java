@@ -33,10 +33,10 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
   }
 
   /**
-   * Depending on the class that has been clicked on
-   *  - source tile (on manufacturing displays or table center --> create red border=
-   *  - destination tile (pattern lines) --> place tile here
-   *  - destination tile (wall) --> place tile here
+   * Depending on the class that has been clicked on - source tile (on manufacturing displays or
+   * table center --> create red border= - destination tile (pattern lines) --> place tile here -
+   * destination tile (wall) --> place tile here
+   *
    * @param e the event to be processed
    */
   @Override
@@ -61,12 +61,14 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
    */
   @Override
   public void onSourceTileClick(Tile tile) {
-    System.out.println("The " + tile.getTileId() + ". tile on offering " + tile.getPlateId() + " was clicked.");
+    System.out.println(
+        "The " + tile.getTileId() + ". tile on offering " + tile.getPlateId() + " was clicked.");
     source = tile;
     source.setBorder(BorderFactory.createLineBorder(Color.RED));
     // offerings, not factoryDisplays, because the first factory displays has id one not zero
     List<Offering> offerings = controller.getOfferings();
-    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(), offerings.get(source.getPlateId()));
+    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(),
+        offerings.get(source.getPlateId()));
 
   }
 
@@ -87,7 +89,9 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
         tileDestination.setIcon(icon);
         tileDestination.getLabel().setIcon(icon);
         source.getLabel().setIcon(null);
-        source.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        source.setOpaque(false);
+        source.getLabel().setVisible(false);
+        source.setBorder(BorderFactory.createEmptyBorder());
         //TODO: do it with a button on the playboard
         controller.endTurn(source.getName());
         showSuccessMessage("Now it is " + controller.getNickOfActivePlayer() + "s turn!");

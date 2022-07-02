@@ -11,6 +11,8 @@ import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,7 +36,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JButton networkButton;
   private JButton addPlayerButton;
   private JButton playButton;
+  private JButton testFourPlayersButton;
+  private JButton testThreePlayersButton;
+  private JButton testTwoPlayersButton;
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
+
 
   private GameModel model;
   private Controller controller;
@@ -67,6 +73,10 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     networkButton = new JButton("Network Mode");
     addPlayerButton = new JButton("+ Add Player");
     playButton = new JButton("Play");
+    //temporary button to test the view
+    testFourPlayersButton = new JButton("Test of 4 Players");
+    testThreePlayersButton = new JButton("Test of 3 Players");
+    testTwoPlayersButton = new JButton("Test of 2 Players");
     //Labels
     pleaseEnterNameLabel = new JLabel("Please enter your nickname:");
     selectModeLabel = new JLabel("Select Mode");
@@ -88,7 +98,42 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           inputField.setText("");
         }
     );
+    testFourPlayersButton.addActionListener(event -> {
+        List<String> fourUserNameForTest = new ArrayList<>(List.of("Iurri", "Kenji", "Marco", "Nils"));
+        for(String name : fourUserNameForTest){
+            controller.addPlayer(name);
+        }
+        controller.startGame();
+        addNewGameBoard(tileClickListener);
+        showCard(GAMEBOARD_CARD);
+
+    }
+    );
+    testThreePlayersButton.addActionListener(event -> {
+              List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "schönen", "Tag"));
+              for(String name : threeUserNameForTest){
+                controller.addPlayer(name);
+              }
+              controller.startGame();
+              addNewGameBoard(tileClickListener);
+              showCard(GAMEBOARD_CARD);
+
+            }
+    );
+    testTwoPlayersButton.addActionListener(event -> {
+              List<String> twoUserNameForTest = new ArrayList<>(List.of("Feier", "Abend"));
+              for (String name : twoUserNameForTest) {
+                controller.addPlayer(name);
+
+                controller.startGame();
+                addNewGameBoard(tileClickListener);
+                showCard(GAMEBOARD_CARD);
+
+              }
+            }
+    );
   }
+
   @Override
   public void propertyChange(PropertyChangeEvent event) {
     SwingUtilities.invokeLater(new Runnable() {
@@ -98,7 +143,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
     });
   }
-
   /**
    * Handles the events that get fired from the model to the listeners of the model.
    *
@@ -164,6 +208,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     hotSeatModePanel.add(inputField);
     hotSeatModePanel.add(addPlayerButton);
     hotSeatModePanel.add(playButton);
+    hotSeatModePanel.add(testFourPlayersButton);
+    hotSeatModePanel.add(testThreePlayersButton);
+    hotSeatModePanel.add(testTwoPlayersButton);
   }
   private void showHSMCard() {
     showCard(HOT_SEAT_MODE_CARD);
