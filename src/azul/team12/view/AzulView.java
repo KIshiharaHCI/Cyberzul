@@ -11,6 +11,8 @@ import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,6 +37,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JButton networkButton;
   private JButton addPlayerButton;
   private JButton playButton;
+
+  private JButton testFourPlayersButton;
   private JLabel numberOfLoggedInPlayersLabel;
   private int numberOfPlayers;
 
@@ -68,6 +72,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     networkButton = new JButton("Network Mode");
     addPlayerButton = new JButton("+ Add Player");
     playButton = new JButton("Play");
+    //temporary button to test the view
+    testFourPlayersButton = new JButton("Test of 4 Players");
     //Labels
 
   }
@@ -89,6 +95,17 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           inputField.setText("");
         }
     );
+    testFourPlayersButton.addActionListener(event -> {
+        List<String> userNameForTest = new ArrayList<>(List.of("Iurri", "Kenji", "Marco", "Nils"));
+        for(String name : userNameForTest){
+            controller.addPlayer(name);
+        }
+        controller.startGame();
+        showGameBoard(tileClickListener);
+
+    }
+    );
+
   }
 
   @Override
@@ -165,6 +182,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     hotSeatModePanel.add(inputField);
     hotSeatModePanel.add(addPlayerButton);
     hotSeatModePanel.add(playButton);
+    hotSeatModePanel.add(testFourPlayersButton);
   }
 
   //TODO: add propertyChange function
