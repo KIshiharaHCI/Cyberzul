@@ -4,6 +4,7 @@ import azul.team12.view.listeners.TileClickListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -19,85 +20,71 @@ public class PatternLines extends JPanel {
 
   private final int tileSize;
 
+  /**
+   * Constructor for the other players.
+   */
   public PatternLines() {
-    setBackground(new Color(110, 150, 100));
-    setPreferredSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
-    setMaximumSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
-    setMinimumSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    setAlignmentX(1.0f);
-    setAlignmentY(1.0f);
     this.tileSize = DEFAULT_TILE_SIZE;
-    int numberOfSkippedColumns = 1;
-    for (int y = 0; y < ROWS; y++) {
-      final JPanel currentRow = new JPanel();
-      currentRow.setAlignmentX(1.0f);
-      currentRow.setAlignmentY(1.0f);
-      currentRow.setLayout(new GridLayout(1, numberOfSkippedColumns));
-      currentRow.setMaximumSize(
-          new Dimension(numberOfSkippedColumns * tileSize, COLS * tileSize));
-
-      for (int x = 1; x <= COLS; x++) {
-        if (x <= numberOfSkippedColumns) {
-          currentRow.add(new TileWithoutListener(y, x, tileSize));
-        }
-      }
-      numberOfSkippedColumns++;
-      add(currentRow);
-    }
+    setProps();
+    addTilesWithoutListener();
   }
 
   public PatternLines(int tileSize, TileClickListener tileClickListener) {
+    this.tileSize = tileSize;
+    setProps();
+    addTilesWithListener(tileSize, tileClickListener);
+  }
+
+  private void setProps() {
     setBackground(new Color(110, 150, 100));
-    setPreferredSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setAlignmentX(1.0f);
-    this.tileSize = tileSize;
-    int numberOfSkippedColumns = 1;
-    for (int y = 0; y < ROWS; y++) {
-      final JPanel currentRow = new JPanel();
-      currentRow.setAlignmentX(1.0f);
-      currentRow.setLayout(new GridLayout(1, numberOfSkippedColumns));
-      currentRow.setMaximumSize(
-          new Dimension(numberOfSkippedColumns * tileSize, y * tileSize));
 
-      for (int x = 1; x <= COLS; x++) {
-        if (x <= numberOfSkippedColumns) {
-          currentRow.add(new TileDestination(y, x, tileSize, tileClickListener, null));
+  }
+
+  private void addTilesWithListener(int tileSize, TileClickListener tileClickListener) {
+    int numberOfSkippedColumns = 1;
+    for (int row = 0; row < ROWS; row++) {
+      final JPanel currentRow = new JPanel();
+      setPropsToCurrRow(tileSize, numberOfSkippedColumns, row, currentRow);
+
+      for (int x = 0; x < COLS; x++) {
+        if (x < numberOfSkippedColumns) {
+          currentRow.add(new TileDestination(row, x, tileSize, tileClickListener, null));
         }
       }
       numberOfSkippedColumns++;
       add(currentRow);
     }
-
-    //this.addMouseListener(new MouseAdapter() {
-//      @Override
-//      public void mouseClicked(MouseEvent e) {
-//        super.mouseClicked(e);
-//      }
-//    });
   }
 
-  /*
-  protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
+  private void setPropsToCurrRow(int tileSize, int numberOfSkippedColumns, int row,
+      JPanel currentRow) {
+    currentRow.setLayout(new GridLayout(1, numberOfSkippedColumns, 4, 4));
+    // for alignment on the right
+    currentRow.setAlignmentX(1.0f);
+    //padding
+    currentRow.setBorder(BorderFactory.createEmptyBorder(2, 4, 2, 4));
+    // TileDestination is not transparent, but everything else on the current row is transparent
+    currentRow.setOpaque(false);
+    // for no stretching of the row
+    currentRow.setMaximumSize(
+        new Dimension(numberOfSkippedColumns * (tileSize + 4) + 4, row * (tileSize + 4) + 4));
+  }
 
-    Graphics2D g2D = (Graphics2D) g;
-    int numberOfSkippedColumns = 4;
-    int leftUpperCornerY = 5;
-    for (int y = 0; y < ROWS; y++) {
-      for (int x = COLS - 1; x >= 0; x--) {
-        int leftUpperCornerX = (tileSize + 5) * x;
-
-        if (x >= numberOfSkippedColumns) {
-          g2D.setColor(Color.WHITE);
-          g2D.drawRect(leftUpperCornerX, leftUpperCornerY, tileSize, tileSize);
-          g2D.fillRect(leftUpperCornerX, leftUpperCornerY, tileSize, tileSize);
+  private void addTilesWithoutListener() {
+    int numberOfSkippedColumns = 1;
+    for (int row = 0; row < ROWS; row++) {
+      final JPanel currentRow = new JPanel();
+      setPropsToCurrRow(tileSize, numberOfSkippedColumns, row, currentRow);
+      for (int col = 0; col < COLS; col++) {
+        if (col < numberOfSkippedColumns) {
+          currentRow.add(new TileWithoutListener(row, col, tileSize));
         }
       }
-      numberOfSkippedColumns--;
-      leftUpperCornerY = leftUpperCornerY + (tileSize + 5);
+      numberOfSkippedColumns++;
+      add(currentRow);
     }
   }
-   */
+
 }

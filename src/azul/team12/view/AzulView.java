@@ -5,7 +5,12 @@ import azul.team12.view.listeners.TileClickListener;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,7 +38,6 @@ public class AzulView extends JFrame {
   public AzulView() throws HeadlessException {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     gbl = new GridBagLayout();
-    //setLayout(new GridBagLayout());
     setMinimumSize(new Dimension(1200, 800));
     setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -70,6 +74,7 @@ public class AzulView extends JFrame {
 
   private void createView() {
     JPanel panel = new JPanel(layout);
+    setLayout(new GridLayout(1, 2));
     setContentPane(panel);
 
     JPanel login = new JPanel();
@@ -100,11 +105,23 @@ public class AzulView extends JFrame {
 
   private void showGameBoard(TileClickListener tileClickListener) {
     JPanel gameBoardPanel = new JPanel();
-    add(gameBoardPanel, GAMEBOARD_CARD);
-    //GameBoard gameBoard = new GameBoard(gbl);
+
+    gameBoardPanel.setLayout(new GridLayout(1, 1));
+    URL imgURL1 = getClass().getClassLoader().getResource("img/background.jpg");
+    ImageIcon icon1 = new ImageIcon(
+        new ImageIcon(imgURL1).getImage()
+            .getScaledInstance((int) Math.round(this.getWidth() * 1.5),
+                (int) Math.round(this.getHeight() * 1.5), Image.SCALE_DEFAULT));
+    JLabel background = new JLabel(icon1);
+    background.setLayout(new GridLayout(1, 1));
+
     GameBoard gameBoard = new GameBoard(4, tileClickListener);
-    gameBoard.repaint();
-    gameBoardPanel.add(gameBoard);
+    background.setBorder(BorderFactory.createEmptyBorder(80, 160, 80, 160));
+    background.add(gameBoard);
+    gameBoardPanel.add(background);
+    background.setOpaque(false);
+    //gameBoard.repaint();
+    add(gameBoardPanel, GAMEBOARD_CARD);
     showCard(GAMEBOARD_CARD);
   }
 

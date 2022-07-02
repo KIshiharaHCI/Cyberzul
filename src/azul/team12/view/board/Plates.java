@@ -1,93 +1,60 @@
 package azul.team12.view.board;
 
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.FlowLayout;
-import java.util.List;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 public class Plates extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
+
+  private final int PLATE_SIZE = 116;
+
   private int numberOfPlates = 0;
-  private List<Plate> plateList;
 
-  //private List<Tile> tileList;
-
-  public Plates(int numberOfPlates, List<Plate> plateList, List<Tile> tileList,
-      TileClickListener tileClickListener) {
-    this.setLayout(new FlowLayout());
+  public Plates(int numberOfPlates, TileClickListener tileClickListener) {
     this.numberOfPlates = numberOfPlates;
-    this.plateList = plateList;
+    JPanel content = new JPanel();
+    if (Math.ceil(numberOfPlates / 5f) == 1) {
+      content.setLayout(new GridLayout(1, numberOfPlates));
+      content.setOpaque(false);
+      content.setPreferredSize(new Dimension(PLATE_SIZE * numberOfPlates,
+          PLATE_SIZE));
 
-    for (int i = 1; i <= this.numberOfPlates; i++) {
-      Plate plate = new Plate(i, tileClickListener);
-      add(plate);
-      this.plateList.add(plate);
+      for (int i = 1; i <= this.numberOfPlates; i++) {
+        Plate plate = new Plate(i, tileClickListener);
+        content.add(plate);
+      }
+    } else {
+      content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+      content.setAlignmentX(0.5f);
+      content.setOpaque(false);
+      JPanel contentNorth = new JPanel(new GridLayout(1, 5));
+      contentNorth.setOpaque(false);
+      contentNorth.setPreferredSize(new Dimension(PLATE_SIZE * 5, PLATE_SIZE));
+      JPanel contentSouth = new JPanel(new GridLayout(1, numberOfPlates - 5));
+      contentSouth.setOpaque(false);
+      contentSouth.setPreferredSize(new Dimension(PLATE_SIZE * (numberOfPlates - 5), PLATE_SIZE));
+      contentSouth.setMaximumSize(new Dimension(PLATE_SIZE * (numberOfPlates - 5), PLATE_SIZE));
+      content.add(contentNorth);
+      content.add(contentSouth);
+
+      for (int i = 1; i <= 5; i++) {
+        Plate plate = new Plate(i, tileClickListener);
+        contentNorth.add(plate);
+      }
+
+      for (int i = 1; i <= numberOfPlates - 5; i++) {
+        Plate plate = new Plate(i + 5, tileClickListener);
+        contentSouth.add(plate);
+      }
     }
+    setBackground(Color.DARK_GRAY);
+    content.setBackground(Color.DARK_GRAY);
+
+    add(content);
   }
-
-//  public Plates(int numberOfPlates) {
-//    this.numberOfPlates = numberOfPlates;
-//    setMinimumSize(new Dimension(600, 600));
-//  }
-
-//  public Plates(int numberOfPlates, List<Plate> plateList, List<Tile> tileList,
-//      TileClickListener tileClickListener) {
-//    this.setLayout(new FlowLayout());
-//    this.numberOfPlates = numberOfPlates;
-//
-//    this.plateList = plateList;
-//    this.tileList = tileList;
-//
-//    for (int i = 1; i <= this.numberOfPlates; i++) {
-//      int centerX = padding + radius + (radius * 2 + padding) * (i - 1);
-//      Plate plate = new Plate(centerX, radius, radius, i, tileClickListener);
-//      add(plate);
-//      this.plateList.add(plate);
-//    }
-//  }
-//
-//  @Override
-//  public Dimension getPreferredSize() {
-//    return new Dimension(1200, 180);
-//  }
-//
-////  protected void paintComponent(Graphics g) {
-////    super.paintComponent(g);
-////    Graphics2D g2d = (Graphics2D) g;
-////    for (int i = 1; i <= this.numberOfPlates; i++) {
-////      int centerX = padding + radius + (radius * 2 + padding) * (i - 1);
-////      if (i == 1) {
-////        centerX = padding + radius;
-////      }
-////      Plate plate = new Plate(centerX, radius, radius, i);
-////      plate.paintComponent(g2d);
-////
-////    }
-////  }
-//
-//
-//  public int getPadding() {
-//    return padding;
-//  }
-//
-//  public int getRadius() {
-//    return radius;
-//  }
-//
-//  public int getNumberOfPlates() {
-//    return numberOfPlates;
-//  }
-//
-//  public void setNumberOfPlates(int numberOfPlates) {
-//    this.numberOfPlates = numberOfPlates;
-//  }
-//
-//  public List<Plate> getPlateList() {
-//    return plateList;
-//  }
-//
-//  public void setPlateList(List<Plate> plateList) {
-//    this.plateList = plateList;
-//  }
 }

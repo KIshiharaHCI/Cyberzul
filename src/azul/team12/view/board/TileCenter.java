@@ -6,36 +6,30 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Tile extends JPanel {
+public class TileCenter extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
-  private final int id;
-
-  private int plateId;
   private int cellSize;
+  private int row;
+  private int column;
 
   private ImageIcon icon;
 
   private JLabel label;
 
-  public Tile(int id, int cellSize, int plateId,
+  public TileCenter(int row, int col, int cellSize,
       ImageIcon icon, TileClickListener tileClickListener) {
     setLayout(new GridLayout(1, 1));
-    this.id = id;
+    this.row = row;
+    this.column = col;
     this.cellSize = cellSize;
-    this.plateId = plateId;
     this.icon = icon;
-    setToolTipText(id + "");
     label = icon != null ? new JLabel(icon) : new JLabel("");
     add(label);
     label.setVisible(icon != null);
 
     this.addMouseListener(tileClickListener);
-  }
-
-  public int getId() {
-    return id;
   }
 
   public ImageIcon getIcon() {
@@ -50,11 +44,8 @@ public class Tile extends JPanel {
     return label;
   }
 
-  public int getPlateId() {
-    return plateId;
-  }
-
   public int getCellSize() {
     return cellSize;
   }
 }
+

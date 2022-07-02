@@ -20,19 +20,23 @@ public class PlayerBoard extends JPanel {
 
   public PlayerBoard() {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
     setAlignmentX(0.5f);
     setAlignmentY(1.0f);
     createOthersFirst();
     final JPanel center = new JPanel();
-    center.setMaximumSize(new Dimension(300, 260));
+
     center.setLayout(new GridLayout(1, 2));
+    center.setMaximumSize(new Dimension(380, 260));
     this.patternLines = new PatternLines();
     center.add(patternLines);
+
     this.wall = new Wall();
     center.add(wall);
     add(center);
-
-    createOthersLast();
+    createNorth();
+    createSouth();
+    //createOthersLast();
   }
 
   public PlayerBoard(int tileSize, TileClickListener tileClickListener) {

@@ -2,7 +2,6 @@ package azul.team12.view.board;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -17,12 +16,11 @@ public class TileWithoutListener extends JPanel {
     this.cell = cell;
     this.row = row;
     this.size = size;
-    add(new JLabel("icon"));
-    setPreferredSize(new Dimension(size, size));
-    setMaximumSize(new Dimension(size, size));
-    setMinimumSize(new Dimension(size, size));
+    add(new JLabel(""));
+//    setPreferredSize(new Dimension(size, size));
+//    setMaximumSize(new Dimension(size, size));
+//    setMinimumSize(new Dimension(size, size));
     setBackground(Color.WHITE);
-    setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
   }
 

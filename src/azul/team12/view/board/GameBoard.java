@@ -2,18 +2,16 @@ package azul.team12.view.board;
 
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 public class GameBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  //List<PlayerBoard> playerBoardList = new ArrayList<>();
   /**
-   *  creates right part of the whole GameBoard with current player and Table Center.
+   * creates right part of the whole GameBoard with current player and Table Center.
    */
-    private final CenterBoard center;
+  private final CenterBoard center;
   private final int numberOfPlayers;
 
   private JPanel othersPanel;
@@ -23,9 +21,7 @@ public class GameBoard extends JPanel {
 
     this.numberOfPlayers = numberOfPlayers;
 
-    //  setPreferredSize(new Dimension(width, height));
     setLayout(new BorderLayout());
-    // setBackground(new Color(110,90,120));
     createLeft();
 
     center = new CenterBoard(numberOfPlayers, tileClickListener);
@@ -37,16 +33,14 @@ public class GameBoard extends JPanel {
   }
 
   /**
-   * creates left part of the whole GameBoard with other players
-   * (without the player who currently has a turn).
+   * creates left part of the whole GameBoard with other players (without the player who currently
+   * has a turn).
    */
 
   private void createLeft() {
     othersPanel = new JPanel();
-    //othersPanel.setLayout(new BoxLayout(othersPanel, BoxLayout.Y_AXIS));
-    othersPanel.setMaximumSize(new Dimension(300, 300));
-    othersPanel.setPreferredSize(new Dimension(300, 300));
     othersPanel.setLayout(new GridLayout(numberOfPlayers - 1, 1));
+
     for (int i = 0; i < numberOfPlayers - 1; i++) {
       PlayerBoard playerBoard = new PlayerBoard();
 

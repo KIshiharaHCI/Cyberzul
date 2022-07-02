@@ -1,6 +1,7 @@
 package azul.team12.view.listeners;
 
 import azul.team12.view.board.Tile;
+import azul.team12.view.board.TileCenter;
 import azul.team12.view.board.TileDestination;
 import azul.team12.view.board.TileDestinationWall;
 import java.awt.Color;
@@ -11,22 +12,24 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 public class TileClickListener extends MouseAdapter implements ISourceTileListener,
-    IDestinationTileListener, IDestinationWallTileListener {
+    ISourceCenterTileListener, IDestinationTileListener, IDestinationWallTileListener {
 
   Tile source = null;
+  TileCenter sourceCenter = null;
   TileDestination destination = null;
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    Component source = e.getComponent();
-    if (source instanceof Tile) {
-
-      onSourceTileClick(((Tile) source));
-    } else if (source instanceof TileDestination) {
-      TileDestination destinationTile = (TileDestination) source;
+    Component component = e.getComponent();
+    if (component instanceof Tile) {
+      onSourceTileClick(((Tile) component));
+    } else if (component instanceof TileCenter) {
+      onSourceTileCenterClick((TileCenter) component);
+    } else if (component instanceof TileDestination) {
+      TileDestination destinationTile = (TileDestination) component;
       onDestinationTileClick(destinationTile);
-    } else if (source instanceof TileDestinationWall) {
-      TileDestinationWall destinationWallTile = (TileDestinationWall) source;
+    } else if (component instanceof TileDestinationWall) {
+      TileDestinationWall destinationWallTile = (TileDestinationWall) component;
       onDestinationWallTileClick(destinationWallTile);
     }
 
@@ -35,8 +38,18 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
   @Override
   public void onSourceTileClick(Tile tile) {
     System.out.println("Source was klicked with id " + tile.getId());
+    if (tile.getIcon() == null) {
+      return;
+    }
+    if (sourceCenter != null) {
+      sourceCenter.setBorder(BorderFactory.createEmptyBorder());
+
+      sourceCenter = null;
+    }
     source = tile;
+
     source.setBorder(BorderFactory.createLineBorder(Color.RED));
+
 
   }
 
@@ -51,10 +64,19 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
       tileDestination.setIcon(icon);
       tileDestination.getLabel().setIcon(icon);
       source.getLabel().setIcon(null);
-      source.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+      source.setIcon(null);
+      source.setOpaque(false);
+      source.getLabel().setVisible(false);
+      source.setBorder(BorderFactory.createEmptyBorder());
       source = null;
     } else {
+      if (tileDestination.getIcon() == null) {
+        return;
+      }
       destination = tileDestination;
+      if (destination.getIcon() != null) {
+        destination.setBorder(BorderFactory.createLineBorder(Color.RED));
+      }
     }
   }
 
@@ -68,7 +90,24 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
       destinationWall.setIcon(icon);
       destinationWall.getLabel().setIcon(icon);
       destination.getLabel().setIcon(null);
+      destination.setIcon(null);
+      destination.setBorder(BorderFactory.createEmptyBorder());
       destination = null;
     }
+  }
+
+  @Override
+  public void onSourceTileCenterClick(TileCenter tileCenter) {
+    if (tileCenter.getIcon() == null) {
+      return;
+    }
+    if (source != null) {
+      source.setBorder(BorderFactory.createEmptyBorder());
+      source = null;
+    }
+    sourceCenter = tileCenter;
+
+    sourceCenter.setBorder(BorderFactory.createLineBorder(Color.RED));
+
   }
 }

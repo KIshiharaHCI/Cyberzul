@@ -5,7 +5,6 @@ import azul.team12.view.listeners.TileClickListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,13 +25,12 @@ public class TileDestinationWall extends JPanel {
     this.row = row;
     this.cellSize = cellSize;
     this.icon = icon;
-    label = icon != null ? new JLabel(icon) : new JLabel("icon");
+    label = icon != null ? new JLabel(icon) : new JLabel("");
     add(label);
     setPreferredSize(new Dimension(cellSize, cellSize));
     setMaximumSize(new Dimension(cellSize, cellSize));
     setMinimumSize(new Dimension(cellSize, cellSize));
     setBackground(Color.WHITE);
-    setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
     addMouseListener(tileClickListener);
   }
