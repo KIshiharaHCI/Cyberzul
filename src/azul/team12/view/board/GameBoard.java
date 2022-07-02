@@ -2,7 +2,6 @@ package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
-import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
 
 import java.awt.*;
@@ -52,4 +51,11 @@ public class GameBoard extends JPanel {
   }
 
 
+  public void disposeCurrentPlayerBoard() {
+    //center.getCurrentPlayerBoard().disposeLabelsPatternLinesAndWall();
+    center.disposeOldPlayerBoard();
+    center.createNewPlayerBoard();
+    center.revalidate();
+
+  }
 }

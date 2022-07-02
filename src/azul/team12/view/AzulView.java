@@ -16,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -35,11 +34,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JButton networkButton;
   private JButton addPlayerButton;
   private JButton playButton;
-  private JLabel numberOfLoggedInPlayersLabel;
-  private int numberOfPlayers;
+  private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
 
   private GameModel model;
   private Controller controller;
+  private GameBoard gameBoard;
 
   /**
    * Create the Graphical User Interface of Azul.
@@ -69,18 +68,18 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     addPlayerButton = new JButton("+ Add Player");
     playButton = new JButton("Play");
     //Labels
-
+    pleaseEnterNameLabel = new JLabel("Please enter your nickname:");
+    selectModeLabel = new JLabel("Select Mode");
   }
 
   private void addEventListeners() {
-    //TODO: swap lambda expressions with controller functions
-    // use the same listener for every Tile (source/destination) object
     TileClickListener tileClickListener = new TileClickListener(controller, model);
     hotSeatModeButton.addActionListener(event -> showHSMCard());
     networkButton.addActionListener(event -> showNetworkCard());
     playButton.addActionListener(event -> {
       controller.startGame();
-      showGameBoard(tileClickListener);
+      addNewGameBoard(tileClickListener);
+      showCard(GAMEBOARD_CARD);
     });
     addPlayerButton.addActionListener(event -> {
           controller.addPlayer(inputField.getText());
@@ -90,7 +89,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         }
     );
   }
-
   @Override
   public void propertyChange(PropertyChangeEvent event) {
     SwingUtilities.invokeLater(new Runnable() {
@@ -121,10 +119,13 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         }
         //TODO - @ Nils add other events
       }
+      case "NextPlayersTurnEvent" -> {
+        System.out.println("NextPlayersTurnEvent triggered " + "(sout at AzulView 125.)");
+        clearBoard();
+      }
       //default -> throw new AssertionError("Unknown event");
     }
   }
-
   /**
    * Show an error message as pop-up window to inform the user of an error.
    *
@@ -141,13 +142,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
     JPanel login = new JPanel();
     add(login, LOGIN_CARD);
-    login.add(new JLabel("Select Mode"));
+    login.add(selectModeLabel);
     login.add(hotSeatModeButton);
     login.add(networkButton);
 
     createHotSeatModeCard();
-
-    //controller.startGameBoard
   }
 
   /**
@@ -161,13 +160,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     numberOfLoggedInPlayersLabel =
         new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
     hotSeatModePanel.add(numberOfLoggedInPlayersLabel);
-    hotSeatModePanel.add(new JLabel("Please enter your nickname:"));
+    hotSeatModePanel.add(pleaseEnterNameLabel);
     hotSeatModePanel.add(inputField);
     hotSeatModePanel.add(addPlayerButton);
     hotSeatModePanel.add(playButton);
   }
-
-  //TODO: add propertyChange function
   private void showHSMCard() {
     showCard(HOT_SEAT_MODE_CARD);
   }
@@ -183,16 +180,21 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    *                          a tile, the wall as a destination or the pattern lines as a
    *                          destination.
    */
-  private void showGameBoard(TileClickListener tileClickListener) {
+  private void addNewGameBoard(TileClickListener tileClickListener) {
     JPanel gameBoardPanel = new JPanel();
     add(gameBoardPanel, GAMEBOARD_CARD);
-    //GameBoard gameBoard = new GameBoard(gbl);
-    GameBoard gameBoard = new GameBoard(4, tileClickListener, controller);
+    int numberOfPlayers = controller.getPlayerNamesList().size();
+    gameBoard = new GameBoard(numberOfPlayers, tileClickListener, controller);
     gameBoardPanel.add(gameBoard);
     gameBoard.repaint();
-    showCard(GAMEBOARD_CARD);
   }
 
+  /**
+   * Clears Pattern Lines, Wall and Labels of current player.
+   */
+  private void clearBoard() {
+    gameBoard.disposeCurrentPlayerBoard();
+  }
   private void showCard(String card) {
     layout.show(getContentPane(), card);
   }

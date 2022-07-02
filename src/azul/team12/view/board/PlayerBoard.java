@@ -18,9 +18,11 @@ public class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
   private final Controller controller;
-  private final PatternLines patternLines;
-  private final Wall wall;
+  private PatternLines patternLines;
+  private Wall wall;
+  private TileClickListener tileClickListener;
   private String playerName;
+  private JPanel center;
   private int points;
   //Hardcoded Variable only used by opponent boards constructor
   private final int minusPoints = 0;
@@ -56,18 +58,29 @@ public class PlayerBoard extends JPanel {
    */
   public PlayerBoard(Controller controller, int tileSize, TileClickListener tileClickListener) {
     this.controller = controller;
+    this.tileClickListener = tileClickListener;
+
     setLayout(new BorderLayout());
-    final JPanel center = new JPanel();
+    center = new JPanel();
     center.setLayout(new GridLayout(1, 2));
-    this.patternLines = new PatternLines(controller,tileSize, tileClickListener);
-    center.add(patternLines);
-    this.wall = new Wall(tileSize, tileClickListener);
-    center.add(wall);
+    createCenterPanel();
     add(center, BorderLayout.CENTER);
 
     initializeClassVariables();
     createNorth();
     addMinusPointsElements();
+  }
+
+  /**
+   * Used by Constructor and disposeLabelsPatternLinesAndWall() Methods to create the current player board.
+   * Refactored out of Constructor because playerBoard will be updated after every NextPlayersTurnEvent.
+   */
+  private void createCenterPanel() {
+
+    patternLines = new PatternLines(controller,Tile.TILE_SIZE, tileClickListener);
+    center.add(patternLines);
+    wall = new Wall(Tile.TILE_SIZE, tileClickListener);
+    center.add(wall);
   }
 
   /**
@@ -127,5 +140,13 @@ public class PlayerBoard extends JPanel {
   private void createNorth() {
     JPanel north = addPointsAndPlayerNameElements();
     add(north, BorderLayout.NORTH);
+  }
+
+  public void disposeLabelsPatternLinesAndWall() {
+    //overrides variables with ones for new active player
+    //center.removeAll();
+    initializeClassVariables();
+    createCenterPanel();
+
   }
 }

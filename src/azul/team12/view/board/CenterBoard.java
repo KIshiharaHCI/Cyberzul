@@ -17,9 +17,10 @@ import javax.swing.JPanel;
  */
 public class CenterBoard extends JPanel {
 
-  private final PlayerBoard currentPlayerBoard;
+  private PlayerBoard currentPlayerBoard;
   private final Controller controller;
   private TableCenter tableCenter;
+  private TileClickListener tileClickListener;
   List<Tile> tileList;
 
   PlatesPanel platesPanel;
@@ -32,7 +33,8 @@ public class CenterBoard extends JPanel {
    */
   public CenterBoard(Controller controller, TileClickListener tileClickListener, List<Offering> factoryDisplays) {
     this.controller = controller;
-  this.tableCenter = (TableCenter) controller.getTableCenter();
+    this.tableCenter = (TableCenter) controller.getTableCenter();
+    this.tileClickListener = tileClickListener;
     setLayout(new GridLayout(3,1));
     setPreferredSize(new Dimension(1100, 800));
 
@@ -45,12 +47,18 @@ public class CenterBoard extends JPanel {
     platesPanel.setPreferredSize(new Dimension(1100,10));
     add(tableCenterPanel);
 
-    currentPlayerBoard = new PlayerBoard(controller,40, tileClickListener);
-
-    currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-
-    add(currentPlayerBoard);
+    createNewPlayerBoard();
 
   }
 
+  public void createNewPlayerBoard() {
+    currentPlayerBoard = new PlayerBoard(controller,40, tileClickListener);
+
+    currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+    add(currentPlayerBoard);
+  }
+
+  public void disposeOldPlayerBoard() {
+    this.remove(currentPlayerBoard);
+  }
 }
