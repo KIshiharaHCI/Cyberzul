@@ -127,9 +127,9 @@ public interface Controller {
    * gives back the wall of a given player.
    *
    * @param playerName the name of the player
-   * @return the wall
+   * @return the wall as tiles
    */
-  boolean[][] getWallOfPlayer(String playerName);
+  ModelTile[][] getWallOfPlayerAsTiles(String playerName);
 
   /**
    * get the template wall of tiles for the wall so that we need just booleans to show it.

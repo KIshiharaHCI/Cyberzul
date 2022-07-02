@@ -365,14 +365,30 @@ public class GameModel {
 
 
   /**
-   * gives back the wall of a given player.
+   * gives back the wall of a given player based on his/her wall represented in booleans.
    *
    * @param playerName the name of the player
    * @return the wall
    */
-  public boolean[][] getWallOfPlayer(String playerName) {
+  public ModelTile[][] getWallOfPlayer(String playerName) {
+
     Player player = getPlayerByName(playerName);
-    return player.getWall();
+    ModelTile[][] templateWall = WallBackgroundPattern.getTemplateWall();
+    boolean[][] wallAsBools = player.getWall();
+    ModelTile[][] playerWall = new ModelTile[5][5];
+
+    for (int row = 0; row < wallAsBools.length; row++) {
+      for (int col = 0; col < wallAsBools[row].length; col++) {
+        if (wallAsBools[row][col]) {
+          playerWall[row][col] = templateWall[row][col];
+        } else {
+          playerWall[row][col] = ModelTile.EMPTY_TILE;
+        }
+      }
+    }
+
+    return playerWall;
+
   }
 
   //TODO: @Marco implement it
