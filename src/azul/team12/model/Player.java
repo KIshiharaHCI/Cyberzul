@@ -156,6 +156,7 @@ public class Player {
       } else {
         //the
         if (patternLines[row][cursor] == EMPTY_TILE) {
+          System.out.println("Tile is added to patternLines[" + row + "][" + cursor + "]");
           patternLines[row][cursor] = pickedTiles.remove(0);
         } else {
           if ((cursor - 1) >= 0) {
@@ -216,11 +217,14 @@ public class Player {
 
     //is on the wall in the same row already a tile with that color?
     if (wall[pickedLine][wallPattern.indexOfTileInRow(pickedLine, tile)]) {
+      System.out.println("Reason for FALSE is that on the same row already exists "
+          + "a tile with that color.");
       return false;
     }
 
     //are there free places on the selected row? Only first position of the line has to be checked.
     if (patternLines[pickedLine][0] != EMPTY_TILE) {
+      System.out.println("Reason for FALSE is that there are now free places on that row.");
       return false;
     }
 
@@ -228,6 +232,8 @@ public class Player {
     //only last position has to be checked.
     if ((patternLines[pickedLine][pickedLine] != tile)
         && patternLines[pickedLine][pickedLine] != EMPTY_TILE) {
+      System.out.println("Reason for FALSE is that the tile color is not compatible with "
+          + "other tiles on that line. ");
       return false;
     }
 
