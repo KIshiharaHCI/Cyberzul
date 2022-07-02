@@ -1,2 +1,4 @@
-package azul.team12.model;public interface Model {
+package azul.team12.model;
+//TODO: implement interface!
+public interface Model {
 }

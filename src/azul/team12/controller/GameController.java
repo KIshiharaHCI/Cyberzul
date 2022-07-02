@@ -80,7 +80,7 @@ public class GameController implements Controller{
   }
 
   @Override
-  public boolean[][] getWallOfPlayer(String playerName) {
+  public ModelTile[][] getWallOfPlayerAsTiles(String playerName) {
     return model.getWallOfPlayer(playerName);
   }
 
