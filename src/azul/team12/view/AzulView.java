@@ -124,12 +124,10 @@ public class AzulView extends JFrame implements PropertyChangeListener {
               List<String> twoUserNameForTest = new ArrayList<>(List.of("Feier", "Abend"));
               for (String name : twoUserNameForTest) {
                 controller.addPlayer(name);
-
-                controller.startGame();
-                addNewGameBoard(tileClickListener);
-                showCard(GAMEBOARD_CARD);
-
               }
+              controller.startGame();
+              addNewGameBoard(tileClickListener);
+              showCard(GAMEBOARD_CARD);
             }
     );
   }
