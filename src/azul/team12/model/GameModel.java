@@ -173,6 +173,7 @@ public class GameModel {
       indexOfActivePlayer = giveIndexOfPlayerWithSPM();
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       notifyListeners(roundFinishedEvent);
+      startTilingPhase();
       } else {
       indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
       System.out.println("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());

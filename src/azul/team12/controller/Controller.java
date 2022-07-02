@@ -105,16 +105,6 @@ public interface Controller {
    */
   List<String> getPlayerNamesList();
 
-  //TODO: @Nils - I decided that it makes more sense to let the view then tell the model
-  // that it should start the tiling phase for all players than to make the model start it
-  // immediately when the round is ended in the endTurn() Method. Please tell me what you think
-  // of it.
-  /**
-   * Tell to Model to start the tiling phase.
-   *
-   */
-  void startTiling();
-
   /**
    * gives back the pattern line of a given player.
    *

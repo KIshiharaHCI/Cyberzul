@@ -75,11 +75,6 @@ public class GameController implements Controller{
   }
 
   @Override
-  public void startTiling() {
-    model.startTilingPhase();
-  }
-
-  @Override
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
     return model.getPatternLinesOfPlayer(playerName);
   }
