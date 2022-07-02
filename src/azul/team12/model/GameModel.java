@@ -175,7 +175,7 @@ public class GameModel {
       notifyListeners(roundFinishedEvent);
       } else {
       indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
-      //System.out.println("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
+      System.out.println("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
     }
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);

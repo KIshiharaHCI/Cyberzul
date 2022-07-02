@@ -39,8 +39,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JButton playButton;
 
   private JButton testFourPlayersButton;
-  private JButton testThreePlayersButton;
-  private JButton testTwoPlayersButton;
   private JLabel numberOfLoggedInPlayersLabel;
   private int numberOfPlayers;
 
@@ -76,8 +74,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     playButton = new JButton("Play");
     //temporary button to test the view
     testFourPlayersButton = new JButton("Test of 4 Players");
-    testThreePlayersButton = new JButton("Test of 3 Players");
-    testTwoPlayersButton = new JButton("Test of 2 Players");
     //Labels
 
   }
@@ -100,32 +96,12 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         }
     );
     testFourPlayersButton.addActionListener(event -> {
-        List<String> fourUserNameForTest = new ArrayList<>(List.of("Iurri", "Kenji", "Marco", "Nils"));
-        for(String name : fourUserNameForTest){
+        List<String> userNameForTest = new ArrayList<>(List.of("Iurri", "Kenji", "Marco", "Nils"));
+        for(String name : userNameForTest){
             controller.addPlayer(name);
         }
         controller.startGame();
         showGameBoard(tileClickListener);
-
-    }
-    );
-    testThreePlayersButton.addActionListener(event -> {
-      List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "Schönen", "Tag"));
-      for(String name : threeUserNameForTest){
-        controller.addPlayer(name);
-      }
-      controller.startGame();
-              showGameBoard(tileClickListener);
-
-    }
-    );
-    testTwoPlayersButton.addActionListener(event -> {
-      List<String> twoUserNameForTest = new ArrayList<>(List.of("Feier", "Abend"));
-      for(String name : twoUserNameForTest){
-        controller.addPlayer(name);
-      }
-      controller.startGame();
-      showGameBoard(tileClickListener);
 
     }
     );
@@ -207,8 +183,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     hotSeatModePanel.add(addPlayerButton);
     hotSeatModePanel.add(playButton);
     hotSeatModePanel.add(testFourPlayersButton);
-    hotSeatModePanel.add(testThreePlayersButton);
-    hotSeatModePanel.add(testTwoPlayersButton);
   }
 
   //TODO: add propertyChange function

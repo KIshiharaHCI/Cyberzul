@@ -59,6 +59,31 @@ public class Player {
     return patternLines.clone();
   }
 
+  //TODO: Create PatternLinesModel class and make this method to a @Override toString() in it;
+  /**
+   * get the Pattern Lines as a string with a column width of 15 characters (for testing purposes)
+   *
+   * @return the pattern lines as string
+   */
+  public String getPatterLinesAsString() {
+    ModelTile[][] patternLines = getPatternLines();
+    String patternLinesAsString = "\n";
+    ModelTile currentModelTile;
+    int columWidthInCharacters = 15;
+    for (int column = 0; column < patternLines.length; column++) {
+      for (int row = 0; row < patternLines[column].length; row++) {
+        patternLinesAsString += patternLines[column][row].toString();
+        currentModelTile = patternLines[column][row];
+        for (int i = currentModelTile.toString().length(); i < columWidthInCharacters; i++) {
+          patternLinesAsString += " ";
+        }
+        patternLinesAsString += "| ";
+      }
+      patternLinesAsString += "\n";
+    }
+    return patternLinesAsString;
+  }
+
   public WallBackgroundPattern getWallPattern() {
     return wallPattern;
   }
@@ -113,6 +138,8 @@ public class Player {
     //check if it's possible to place the chosen tile on the chosen line
     //this doesn't yet change the state of the data model!
     if (!isValidPick(row, offering, indexOfTile)) {
+      System.out.println("FALSE - Row " + row + " tile number " + indexOfTile + " is not a "
+          + "valid pick! (in Player Class)");
       return false;
     }
 
@@ -139,6 +166,8 @@ public class Player {
         }
       }
     }
+    System.out.println("TRUE - Row " + row + " tile number " + indexOfTile + " is a valid pick!"
+        + " (in Player Class)");
     return true;
   }
 
