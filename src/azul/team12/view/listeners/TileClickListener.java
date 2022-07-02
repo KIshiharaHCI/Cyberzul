@@ -61,11 +61,12 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
    */
   @Override
   public void onSourceTileClick(Tile tile) {
-    System.out.println("Source was clicked with id " + tile.getTileId());
+    System.out.println("The " + tile.getTileId() + ". tile on offering " + tile.getPlateId() + " was clicked.");
     source = tile;
     source.setBorder(BorderFactory.createLineBorder(Color.RED));
-    List<Offering> factoryDisplays = controller.getFactoryDisplays();
-    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(), factoryDisplays.get(source.getPlateId()));
+    // offerings, not factoryDisplays, because the first factory displays has id one not zero
+    List<Offering> offerings = controller.getOfferings();
+    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(), offerings.get(source.getPlateId()));
 
   }
 
