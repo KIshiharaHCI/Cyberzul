@@ -3,7 +3,6 @@ package azul.team12.view.board.playerBoard;
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.model.FactoryDisplay;
-import jdk.internal.icu.text.UnicodeSet;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -31,14 +30,14 @@ public class PlayerBoard extends JPanel {
     gbc = new GridBagConstraints();
 
     addPrimaryLayerPanels();
-    addButtonsToPatternLinesPanel();
-    addListenersToPatternLinesButtons();
+    //addButtonsToPatternLinesPanel();
+    //addListenersToPatternLinesButtons();
 
 
     URL resource = getClass().getResource("/img/factory_display.png");
     try {
       image = ImageIO.read(resource);
-      repaint();
+      //repaint();
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -65,7 +64,7 @@ public class PlayerBoard extends JPanel {
           String[] tokens = input.trim().split("\\s+");
           //TODO: calculate index of location on patternlines based on x y Cell coordinates in tokens and swap with 1
           //TODO: Change String FactoryDisplay to Type Offering
-          controller.chooseTileFrom(controller.getNickOfActivePlayer(),1, new FactoryDisplay());
+          //controller.chooseTileFrom(controller.getNickOfActivePlayer(),1, new FactoryDisplay());
         }
       });
     }
@@ -142,11 +141,12 @@ public class PlayerBoard extends JPanel {
    * Used for painting background image later on.
    * @param g the <code>Graphics</code> object to protect
    */
+  /*
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     g.drawImage(image, 0, 0, this);
   }
-
+   */
 
 }
