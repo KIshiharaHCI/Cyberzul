@@ -1,9 +1,12 @@
 package azul.team12.view.board;
 
+import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -11,6 +14,13 @@ import javax.swing.JPanel;
 
 public class TileDestination extends JPanel {
 
+  private final String BLACK_TILE_PATH = "img/black-tile.png";
+  private final String BLUE_TILE_PATH = "img/blue-tile.png";
+  private final String RED_TILE_PATH = "img/red-tile.png";
+  private final String WHITE_TILE_PATH = "img/white-tile.png";
+  //TODO: make yellow, and in model yellow too
+  private final String ORANGE_TILE_PATH = "img/yellow-tile.png";
+  private final String STARTING_PLAYER_MARKER_PATH = "img/start-player-button.png";
   private final int cell;
   private final int row;
   private final int cellSize;
@@ -19,18 +29,21 @@ public class TileDestination extends JPanel {
 
   private JLabel label;
 
+  private ModelTile modelTile;
+
   public TileDestination(int cell, int row, int cellSize, TileClickListener tileClickListener,
-      ImageIcon icon) {
+      ModelTile modelTile) {
     setLayout(new GridLayout(1, 1));
     this.cell = cell;
     this.row = row;
     this.cellSize = cellSize;
-    this.icon = icon;
+    this.modelTile = modelTile;
+    this.icon = modelTile.equals(ModelTile.EMPTY_TILE) ? null : setIcon(modelTile);
     this.setBackground(Color.WHITE);
     if (icon != null) {
       label = new JLabel(icon);
     } else {
-      label = new JLabel("icon");
+      label = new JLabel("");
     }
     add(label);
 
@@ -41,6 +54,38 @@ public class TileDestination extends JPanel {
     setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
     addMouseListener(tileClickListener);
+  }
+
+  public ImageIcon setIcon(ModelTile modelTile) {
+    switch (modelTile) {
+      case BLACK_TILE -> {
+        return getResizedImageIcon(BLACK_TILE_PATH);
+      }
+      case RED_TILE -> {
+        return getResizedImageIcon(RED_TILE_PATH);
+      }
+      case BLUE_TILE -> {
+        return getResizedImageIcon(BLUE_TILE_PATH);
+      }
+      case WHITE_TILE -> {
+        return getResizedImageIcon(WHITE_TILE_PATH);
+      }
+      case ORANGE_TILE -> {
+        return getResizedImageIcon(ORANGE_TILE_PATH);
+      }
+      case STARTING_PLAYER_MARKER -> {
+        return getResizedImageIcon(STARTING_PLAYER_MARKER_PATH);
+      }
+      default -> throw new AssertionError("Unknown Tile!");
+
+    }
+  }
+
+  private ImageIcon getResizedImageIcon(String path) {
+    URL imgURL1 = getClass().getClassLoader().getResource(path);
+    return new ImageIcon(
+        new ImageIcon(imgURL1).getImage()
+            .getScaledInstance(this.cellSize, this.cellSize, Image.SCALE_DEFAULT));
   }
 
   @Override
@@ -74,5 +119,13 @@ public class TileDestination extends JPanel {
 
   public void setLabel(JLabel label) {
     this.label = label;
+  }
+
+  public ModelTile getModelTile() {
+    return modelTile;
+  }
+
+  public void setModelTile(ModelTile modelTile) {
+    this.modelTile = modelTile;
   }
 }
