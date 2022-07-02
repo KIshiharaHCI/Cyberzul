@@ -43,6 +43,11 @@ public class GameController implements Controller{
   }
 
   @Override
+  public String getNickOfNextPlayer() {
+    return model.getPlayerNamesList().get(model.getIndexOfNextPlayer(model.getIndexOfActivePlayer()));
+  }
+
+  @Override
   public int getPoints(String playerName) {
     return model.getPoints(playerName);
   }

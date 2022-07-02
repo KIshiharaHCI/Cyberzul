@@ -236,7 +236,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   }
 
   /**
-   * Removes all Panels
+   * Removes all Widgets related to the last player who ended their turn and adds new Widgets for the active player.
    */
   private void updateCenterBoard() {
     gameBoard.getCenterBoard().removeAllPanels();
@@ -245,20 +245,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     gameBoard.updateCurrentPlayerBoard();
     gameBoard.validate();
   }
-  /**
-   * Updates Factory Displays.
-   *
-   */
-  private void updateFactoryPlates() {
-    gameBoard.updateFactoryPlates();
-  }
 
-  /**
-   * Clears Pattern Lines, Wall and Labels of current player and replaces it with updated Playerboard.
-   */
-  private void updateBoard() {
-    gameBoard.updateCurrentPlayerBoard();
-  }
   private void showCard(String card) {
     layout.show(getContentPane(), card);
   }
