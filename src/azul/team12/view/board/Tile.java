@@ -18,10 +18,9 @@ import javax.swing.JPanel;
  */
 public class Tile extends JPanel {
 
-  private static final long serialVersionUID = 7526472295622776147L;
-
-  private final int tileId;
   static final int TILE_SIZE = 40;
+  private static final long serialVersionUID = 7526472295622776147L;
+  private final int tileId;
   private final String BLACK_TILE_PATH = "img/black-tile.png";
   private final String BLUE_TILE_PATH = "img/blue-tile.png";
   private final String RED_TILE_PATH = "img/red-tile.png";
@@ -38,10 +37,13 @@ public class Tile extends JPanel {
 
   private JLabel label;
 
+  private ModelTile modelTile;
+
   /**
    * Creates a tile.
-   *
+   * <p>
    * TODO: ID is a index?
+   *
    * @param tileId
    * @param plateId
    * @param modelTile
@@ -52,6 +54,7 @@ public class Tile extends JPanel {
     setLayout(new GridLayout(1, 1));
     this.tileId = tileId;
     this.plateId = plateId;
+    this.modelTile = modelTile;
     this.icon = setIcon(modelTile);
     setBorder(BorderFactory.createLineBorder(Color.black));
     setToolTipText(tileId + "");
@@ -67,6 +70,10 @@ public class Tile extends JPanel {
 
   public ImageIcon getIcon() {
     return icon;
+  }
+
+  public void setIcon(ImageIcon icon) {
+    this.icon = icon;
   }
 
   public ImageIcon setIcon(ModelTile modelTile) {
@@ -89,14 +96,9 @@ public class Tile extends JPanel {
       case STARTING_PLAYER_MARKER -> {
         return getResizedImageIcon(STARTING_PLAYER_MARKER_PATH);
       }
-      default ->
-        throw new AssertionError("Unknown Tile!");
+      default -> throw new AssertionError("Unknown Tile!");
 
     }
-  }
-
-  public void setIcon(ImageIcon icon) {
-    this.icon = icon;
   }
 
   public JLabel getLabel() {
@@ -105,6 +107,7 @@ public class Tile extends JPanel {
 
   /**
    * Resizes according to the given TILE_SIZE and sets it according to the given path.
+   *
    * @param path path of the icon
    * @return ImageIcon with given TILE_SIZE and path
    */
@@ -123,5 +126,13 @@ public class Tile extends JPanel {
 
   public int getPlateId() {
     return plateId;
+  }
+
+  public ModelTile getModelTile() {
+    return modelTile;
+  }
+
+  public void setModelTile(ModelTile modelTile) {
+    this.modelTile = modelTile;
   }
 }

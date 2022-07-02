@@ -2,6 +2,7 @@ package azul.team12.view.listeners;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
+import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.view.board.Tile;
 import azul.team12.view.board.TileDestination;
@@ -86,11 +87,13 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
       // if the player is able to place the tile, place it
       if (controller.placeTileAtPatternLine(tileDestination.getRow())) {
         ImageIcon icon = source.getIcon();
+        tileDestination.setModelTile(source.getModelTile());
         tileDestination.setIcon(icon);
         tileDestination.getLabel().setIcon(icon);
         source.getLabel().setIcon(null);
         source.setOpaque(false);
         source.getLabel().setVisible(false);
+        source.setModelTile(ModelTile.EMPTY_TILE);
         source.setBorder(BorderFactory.createEmptyBorder());
         //TODO: do it with a button on the playboard
         controller.endTurn(source.getName());

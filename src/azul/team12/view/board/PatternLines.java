@@ -12,18 +12,17 @@ import javax.swing.JPanel;
 public class PatternLines extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private final Controller controller;
-  private ModelTile[][] currentPatternLines;
   private static final int DEFAULT_TILE_SIZE = 25;
-
+  private final Controller controller;
   private final int ROWS = 5;
   private final int COLS = 5;
-
   private final int tileSize;
+  private ModelTile[][] currentPatternLines;
 
   public PatternLines(Controller controller) {
     this.controller = controller;
-    currentPatternLines = this.controller.getPatternLinesOfPlayer(controller.getNickOfActivePlayer());
+    currentPatternLines = this.controller.getPatternLinesOfPlayer(
+        controller.getNickOfActivePlayer());
 
     setBackground(new Color(110, 150, 100));
     setPreferredSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
@@ -55,7 +54,8 @@ public class PatternLines extends JPanel {
 
   public PatternLines(Controller controller, int tileSize, TileClickListener tileClickListener) {
     this.controller = controller;
-    currentPatternLines = this.controller.getPatternLinesOfPlayer(controller.getNickOfActivePlayer());
+    currentPatternLines = this.controller.getPatternLinesOfPlayer(
+        controller.getNickOfActivePlayer());
 
     setBackground(new Color(110, 150, 100));
     setPreferredSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
@@ -74,7 +74,14 @@ public class PatternLines extends JPanel {
         if (x < numberOfSkippedColumns) {
           //TODO: if tileAtXY == true -> getTileEnumXY -> currentRow.add(new TileWithoutListener)
           //TODO: repaint tiles
-          currentRow.add(new TileDestination(y, x, tileSize, tileClickListener, null));
+          ModelTile modelTile = currentPatternLines[y][x];
+          if (modelTile.toString().equals(ModelTile.EMPTY_TILE.toString())) {
+            currentRow.add(
+                new TileDestination(y, x, tileSize, tileClickListener, ModelTile.EMPTY_TILE));
+
+          } else {
+            currentRow.add(new TileDestination(y, x, tileSize, tileClickListener, modelTile));
+          }
         }
       }
       numberOfSkippedColumns++;
