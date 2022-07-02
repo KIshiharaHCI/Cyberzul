@@ -121,15 +121,17 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     );
     testTwoPlayersButton.addActionListener(event -> {
               List<String> twoUserNameForTest = new ArrayList<>(List.of("Feier", "Abend"));
-              for(String name : twoUserNameForTest){
+              for (String name : twoUserNameForTest) {
                 controller.addPlayer(name);
-              }
-              controller.startGame();
-              showGameBoard(tileClickListener);
 
+                controller.startGame();
+                showGameBoard(tileClickListener);
+
+              }
             }
     );
   }
+
 
   @Override
   public void propertyChange(PropertyChangeEvent event) {
@@ -140,7 +142,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
     });
   }
-
   /**
    * Handles the events that get fired from the model to the listeners of the model.
    *
