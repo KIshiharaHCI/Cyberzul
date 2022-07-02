@@ -226,6 +226,9 @@ public class GameModel {
     }
     return list;
   }
+  public int getIndexOfActivePlayer() {
+    return indexOfActivePlayer;
+  }
 
   /**
    * informs the view via listeners that it is the next players turn. If the player cannot

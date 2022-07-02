@@ -40,35 +40,43 @@ public class CenterBoard extends JPanel {
     setPreferredSize(new Dimension(1100, 800));
 
     createNewPlatesPanel();
-
-
     createNewTableCenter();
-
-
     createNewPlayerBoard();
 
   }
 
 
-
+  /**
+   * Used by Constructor and AzulView to create and add a new PlayerBoard panel.
+   */
   void createNewPlayerBoard() {
     currentPlayerBoard = new PlayerBoard(controller,40, tileClickListener);
 
     currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
     add(currentPlayerBoard);
   }
+
+  /**
+   * Used by Constructor and AzulView to create and add a new Plates panel.
+   */
   void createNewPlatesPanel() {
     List<Offering> factoryDisplays = controller.getFactoryDisplays();
     platesPanel = new PlatesPanel(factoryDisplays, tileClickListener);
     platesPanel.setPreferredSize(new Dimension(1100, 130));
     add(platesPanel);
   }
+  /**
+   * Used by Constructor and AzulView to create and add a new TableCenter panel.
+   */
   void createNewTableCenter() {
     tableCenterPanel = new TableCenterPanel(tableCenter,tileClickListener);
     platesPanel.setPreferredSize(new Dimension(1100,10));
     add(tableCenterPanel);
   }
 
+  /**
+   * Removes all Panels of the last player who ended their turn.
+   */
   public void removeAllPanels() {
     remove(tableCenterPanel);
     remove(platesPanel);

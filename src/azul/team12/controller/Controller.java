@@ -54,9 +54,15 @@ public interface Controller {
   /**
    * Returns the Name of the player who has to make his turn.
    *
-   * @return
+   * @return name of active player.
    */
   String getNickOfActivePlayer();
+
+  /**
+   * Returns the Name of the next player about to make their turn.
+   * @return name of next player.
+   */
+  String getNickOfNextPlayer();
 
   /**
    * Return the points that the player has.
@@ -131,4 +137,6 @@ public interface Controller {
    * @return template wall of tiles.
    */
   ModelTile[][] getTemplateWall();
+
+
 }

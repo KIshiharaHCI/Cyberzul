@@ -96,8 +96,8 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
         source.setModelTile(ModelTile.EMPTY_TILE);
         source.setBorder(BorderFactory.createEmptyBorder());
         //TODO: do it with a button on the playboard
+        showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
         controller.endTurn(source.getName());
-        showSuccessMessage("Now it is " + controller.getNickOfActivePlayer() + "s turn!");
         source = null;
       } else {
         showErrorMessage("Not a valid turn!");
