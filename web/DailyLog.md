@@ -4,17 +4,15 @@ Every team member answers the following three questions every day before 10 AM.:
 2. What am I going to do today?
 3. What are the problems that I am facing right now? And are there dependencies for my work?
 
+**14. June, 2022:**
 
-**14. June, 2022:** 
-
-_Marco_ 
+_Marco_
 
 Q2:
 
 - Borrow the Azul game from Stadtbibliothek Moosach.
 
-
-**17. June, 2022** 
+**17. June, 2022**
 
 _Nils_
 
@@ -49,25 +47,24 @@ Q3:
 
 - Nothing severe so far. First of all I need to learn how to work with Git/GitLab.
 
-
 _Marco_
 
 Q1:
 
-- We played the game together, 
-- Finishing some of the organizing (e.g. creating the chat), 
+- We played the game together,
+- Finishing some of the organizing (e.g. creating the chat),
 - Thinking of the overall structure of the project: which classes, methods, etc. will we use.
 
-Q2: 
+Q2:
 
 - Today we had our first meeting with Chris, afterwards we helped each other out with setting up Gitlab.
 
 Q3:
 
-- Nothing severe so far, just trying to figure out what is a realistic timeframe for the milestones, I'll create tomorrow morning.
+- Nothing severe so far, just trying to figure out what is a realistic timeframe for the milestones, I'll create
+  tomorrow morning.
 
-
-**18. June, 2022** 
+**18. June, 2022**
 
 _Nils_
 
@@ -90,23 +87,22 @@ Q3:
 
 - none
 
-
 _Xue_
 
-Q1: 
+Q1:
 
 - We had our kick off meeting with Chris ,
 - afterwards we helped each other to set up Gitlab.
 
-Q2: 
+Q2:
+
 - Figure out how Git / Gitlab works,
 - Zoom Meeting with Marco and Nils for folder structure of our project.
 
-Q3: 
+Q3:
 
 - Nothing severe so far.
 - First of all I need to learn how to work with Git/GitLab.
-
 
 _Iurii_
 
@@ -115,52 +111,47 @@ Q1:
 - gitlab setup and correct java version
 - first group meetings with tutor
 
-Q2: 
+Q2:
 
 - meeting with Kenji to programme playerbord together
 
-Q3: 
+Q3:
 
 - none
 
-
 _Kenji_
 
-Q1: 
+Q1:
 
 - We had the tutor meeting with Chris, and I worked on setting up gitlab and Intellij.
 
-Q2: 
+Q2:
 
 - Meeting Iurii and working on creating a view for the project and pushing it on the main branch.
 - A game window should open after starting the program.
 
-Q3: 
+Q3:
 
-- None. 
+- None.
 
-
-_Marco_ 
+_Marco_
 
 Q1:
 
-- First meeting with Chris, 
+- First meeting with Chris,
 - afterwards we helped each other out with setting up Gitlab.
 
 Q2:
 
-- I will setup a Trello-Board for our Team, 
-- I will create some Milestones, 
+- I will setup a Trello-Board for our Team,
+- I will create some Milestones,
 - Meeting with Xue and Nils for creating the/ a first class-structure.
-
 
 Q3:
 
 - Nothing severe so far, just trying to figure out what is a realistic timeframe for the milestones.
 
-
 **19. June, 2022**
-
 
 _Nils_
 
@@ -178,80 +169,79 @@ Q3:
 
 - none
 
-
 _Xue_
 
-Q1: 
+Q1:
 
 - Class Structure design with Marco and Nils
 
-Q2: 
+Q2:
 
 - Read how to create changelog.
 
-Q3: 
+Q3:
 
 - none
-
 
 _Iurii_
 
 Q1:
 
-- Creation of playerbord. 
-- Meeting with Kenji. 
+- Creation of playerbord.
+- Meeting with Kenji.
 - New branch view for pairing work.
 
-Q2: 
+Q2:
 
-- Creation of playerbord. 
+- Creation of playerbord.
 - Meeting with Kenji
 
-Q3: 
+Q3:
 
 - none
 
 _Kenji_
 
-Q1: 
+Q1:
+
 - Assisting Iurii in pushing local Playerboard branch to view branch.
 
-Q2: 
+Q2:
 
 - Researching how to add images to buttons/components, deciding on which to use for the Playerboard.
 - Adding an SSH key for secure access to Gitlab.
 
-Q3: 
+Q3:
 
 - None
-
 
 _Marco_
 
 Q1:
 
-- Trello Board, 
+- Trello Board,
 - Created Class Structure and first methods with Xue and Nils.
 
-Q2: 
+Q2:
 
-- Research Design Patterns for our project, 
+- Research Design Patterns for our project,
 - Read how to create changelog.
 
-Q3: 
+Q3:
 
 - None.
 
-
 **20. June, 2022**
 
-_Nils_ 
+_Nils_
 
 Q1
+
 - Finishing the Bootstrapping submission
 - adding a DailyLog.md
 
 Q2
+
 - none, because I am celebrating my birthday
 
 Q3
@@ -260,23 +250,22 @@ Q3
 
 _Xue_
 
-Q1: 
+Q1:
 
 - Learn how to work with Git and how to create a ChangeLog
 
-Q2: 
+Q2:
 
 - Figure out how to create DailyLog ;
 - Try to get more details about our project structure and methods
 
-Q3: 
+Q3:
 
 - none (Maybe it takes time getting used to work with Gitlab/Git.)
 
-
 _Iurii_
 
-Q1: 
+Q1:
 
 - I created first version of View and pushed it. Had a mieting with Kenji.
 
@@ -284,32 +273,31 @@ Q2:
 
 - Ready how to create changelog.
 
-Q3: 
+Q3:
 
 - None
 
-
 _Kenji_
 
-Q1: 
+Q1:
 
-- Adding an SSH key to Gitlab. 
-- Research how to add images to JButtons, 
+- Adding an SSH key to Gitlab.
+- Research how to add images to JButtons,
 - finding images to use as tiles.
 
-Q2: 
+Q2:
 
-- Check Issue how to write a Dailylog, 
-- improve readability of view branch, 
+- Check Issue how to write a Dailylog,
+- improve readability of view branch,
 - add images to resource folder.
 
-Q3: 
+Q3:
 
 - none
 
-_Marco_ 
+_Marco_
 
-Q1: 
+Q1:
 
 - Research Design Patterns for our project,
 - Read how to create changelog.
@@ -322,28 +310,30 @@ Q3:
 
 - None.
 
-
 **21. June, 2022**
 
 _Nils_
 
 Q1
+
 - celebrated my birthday
 
 Q2
+
 - have to work on another submission
 
 Q3
+
 - none
 
 _Xue_
 
-Q1: 
+Q1:
 
 - Try to Figure out how to create DailyLog ;
 - Try to get more details about our project structure and methods
 
-Q2: 
+Q2:
 
 - Keep on with details about our project structure
 - Ceate a new branch to implement our Methods (talk about it with Marco and Nils before I start )
@@ -360,34 +350,34 @@ Q1:
 - Change Buttons in playerBord to components
 - Create Wall
 
-Q2: 
+Q2:
 
 - Meeting with Kenji.
 
-Q3: 
+Q3:
 
-- None. 
+- None.
 
 _Kenji_
 
-Q1: 
+Q1:
 
 - Started working on tile images, researching how to edit images/illustrations with Adobe PS.
 
 Q2:
 
-- Pair programming with Iurii, 
-- divide work, 
-- discuss issues, 
+- Pair programming with Iurii,
+- divide work,
+- discuss issues,
 - and add tile images to the resource folder.
 
-Q3: 
+Q3:
 
 - none
 
 _Marco_
 
-Q1: 
+Q1:
 
 - Think about process
 - Create first version of initializePatternRows() Method
@@ -398,9 +388,9 @@ Q2:
 - Create A3 image of Process(es) to have an overview
 - Create new Issues for myself which methods I want to implement
 - Team-Meeting
-  - Talk about group name
-  - Talk about difference between Sprint Planning and Daily Meetings
-  - Discuss next steps: Integration of View and Model
+    - Talk about group name
+    - Talk about difference between Sprint Planning and Daily Meetings
+    - Discuss next steps: Integration of View and Model
 
 Q3:
 
@@ -410,28 +400,31 @@ Q3:
 
 _Nils_
 Q1
+
 - worked on another submission
 
 Q2
+
 - working on another submission
 
 Q3
+
 - none
 
 _Xue_
 
-Q1: 
+Q1:
 
 - Kept on with details about our project structure,
 - Ceated a new branch "methods" to implement our Methods (implemented method "Tile drawRandomTile()")
 - Team Meeting
 
-Q2: 
+Q2:
 
 - Keep on with details about our project structure and methods
 - Team Meeting
 
-Q3: 
+Q3:
 
 - none
 
@@ -439,12 +432,12 @@ _Iurii_
 
 Q1:
 
-- Meeting with Kenji, 
+- Meeting with Kenji,
 - discussion about initial windows and pairprogramming.
 
 Q2:
 
-- Thing about View strukture, 
+- Thing about View strukture,
 - begin with programming manufacturenPlates and TableCenter
 
 Q3:
@@ -453,25 +446,25 @@ Q3:
 
 _Kenji_
 
-Q1: 
+Q1:
 
 - Pair programming with Iurii, divide work, discuss issues
 
-Q2: 
+Q2:
 
-- Add tile images to the resource folder in view branch. 
+- Add tile images to the resource folder in view branch.
 - Optimize layout of startscreen.
 
-Q3: 
+Q3:
 
 - none
 
-_Marco_ 
+_Marco_
 
 - Think about process
 - Team-Meeting:
-  - Talk about group name 
-  - Talk about difference between Sprint Planning and Daily Meetings
+    - Talk about group name
+    - Talk about difference between Sprint Planning and Daily Meetings
 
 Q2:
 
@@ -487,27 +480,30 @@ Q3:
 _Nils_
 
 Q1
+
 - Worked on another assignment.
 
 Q2
+
 - Meet with the team and the tutor.
 - Write the Controller Interface for communication between view and model.
 
 Q3
+
 - None.
 
 _Xue_
 
-Q1: 
+Q1:
 
 - Keep on with details about our project structure and methods
 
-Q2: 
+Q2:
 
 - Keep on with details about our project structure and methods
 - Team Meeting
 
-Q3: 
+Q3:
 
 - None.
 
@@ -528,9 +524,9 @@ Q3:
 
 _Kenji_
 
-Marco 
+Marco
 
-Q1: 
+Q1:
 
 - Sadly, had no time due to other duties.
 
@@ -542,7 +538,6 @@ Q2:
 Q3:
 
 - None.
-
 
 **24. June, 2022**
 
@@ -563,8 +558,7 @@ Q3:
 
 - None
 
-
-_Marco_ 
+_Marco_
 
 Q1:
 
@@ -597,9 +591,9 @@ Q3:
 
 - None.
 
-_Marco_ 
+_Marco_
 
-Q1: 
+Q1:
 
 - Working with group: discussing new methods and splitting up work
 
@@ -611,19 +605,23 @@ Q2:
 - Maybe add implement new methods, if still needed
 
 Q3:
+
 - None.
 
 _Nils_
 
 Q1:
-- Rewritten the Bag Classes, BagToDrawNewTiles From, BagToStoreUsedTiles,  Factory Display, TableCenter.
+
+- Rewritten the Bag Classes, BagToDrawNewTiles From, BagToStoreUsedTiles, Factory Display, TableCenter.
 - They are now able to be used by the model.
 
-- Changed BagToDrawNewTilesFrom and BagToStoreUsed Tiles aswell as the TableCenter so they implement the Singleton Design Pattern.
+- Changed BagToDrawNewTilesFrom and BagToStoreUsed Tiles aswell as the TableCenter so they implement the Singleton
+  Design Pattern.
 
 - Also meeting with the group and discussing the Interface.
 
 Q2:
+
 - Write the Player class.
 - Write a method in the Player class that enables the Player to pick tiles from Offerings (a subclass of Bag).
 - Write a method in the Player class that enables the Player to place the tiles on the pattern lines.
@@ -631,25 +629,37 @@ Q2:
 - Write a method in the Player class for the points that the player gets at the end of the game.
 
 Q3:
+
 - None
 
 **26. June, 2022**
 
 _Nils_
 Q1:
+
 - Written the Player class.
 - Written a method in the Player class that enables the Player to pick tiles from Offerings (a subclass of Bag).
 - Written a method in the Player class that enables the Player to place the tiles on the pattern lines.
 - Written a method in the Player class for the points that the player gets after each round.
 - Written JUnit Tests for the Bag classes.
 
+<<<<<<< HEAD
 Q2:
+=======
+Q2
+
+>>>>>>> view_midSubmission
 - Write a method in the Player class for the points that the player gets at the end of the game.
 - Write JUnit Tests for the Player Class.
 - Write the model logic so players can be added to the model.
 - Implement the model as observable.
 
+<<<<<<< HEAD
 Q3:
+=======
+Q3
+
+>>>>>>> view_midSubmission
 - None.
 
 _Marco_ 
@@ -673,6 +683,7 @@ Q3:
 
 _Nils_
 Q1:
+
 - Written a method in the Player class for the points that the player gets at the end of the game.
 - Written JUnit Tests for the Player Class.
 - Written the model logic so players can be added to the model.
@@ -681,11 +692,13 @@ Q1:
 - Implemented many methods in the GameController class and their counterpart in the GameModel class.
 
 Q2:
+
 - Meet the team.
 - Define the remaining steps until the next deadline.
 - Distribute the remaining work on the team members.
 
 Q3:
+
 - The whole team has to gather.
 
 _Marco_
@@ -709,17 +722,20 @@ Q2:
 **28. June, 2022**
 _Nils_
 Q1:
+
 - Meet with the team
 - Discussed and assessed the state of the GUI and the code of the GUI
 - planned further steps so the GUI will be ready on time.
 
 Q2:
+
 - Meeting with Marco and discussing elements of the model
 - Meeting with the Xue, Marco and Kenji to discuss the GUI
 - Break tasks from the GUI down into issues
 - Find a general outline for the GUI
 
 Q3:
+
 - I need Marco, Kenji and Xue for this.
 - I need access to the code of the view.
 
@@ -744,6 +760,7 @@ Q3:
 **29. June, 2022**
 _Nils_
 Q1:
+
 - Meet with Marco and discussing elements of the model
 - Meet with the Xue, Marco and Kenji to discuss the GUI
 - Break tasks from the GUI down into issues
@@ -751,6 +768,7 @@ Q1:
 - Discussed that the tiles and all other GUI elements should be accessed by iterating through a tree
 
 Q2:
+
 - If I find the time, reviewing code from Marco
 
 Q3:
@@ -774,6 +792,17 @@ Q3:
 - HotSeatMode should soon be working.
 
 **30. June, 2022**
+_Nils_
+Q1:
+- Meet with Marco and discussed the model code.
+
+Q2:
+- Meet with Chris and the team and discuss the state of the game.
+- Work on the view so it runs.
+
+Q3:
+- The code of the view that is already written.
+
 
 _Marco_
 
@@ -793,6 +822,27 @@ Q3:
 - Time.
 
 **1. July, 2022**
+_Nils_
+
+Q1:
+
+- Meet with the team and worked on the version of the GUI of Xue and Kenji for 4 hours.
+
+Q2:
+
+- Meet with Marco and Xue and work on the GUI of Iiuri.
+- Make the code of Iiuri understandable. Change method names from "CreateSouth" and "OtherPanel" into comprehensible
+  names. Add Comments and JavaDoc in the view code of Iiuri.
+- Connect the view with the model.
+- show player names on the view
+- use controller to place tiles on the view
+- show tiles on factorydisplays on the view
+- show tiles on patternlines on the view
+- show tiles on wall on the view
+
+Q3:
+
+- I need the code from Iiuri. He send us the code as .zip file via WhatsApp.
 
 _Marco_
 
@@ -824,3 +874,6 @@ Q2:
 
 Q3:
 - time
+
+
+

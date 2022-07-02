@@ -1,63 +1,61 @@
 package azul.team12.view.board;
 
-import azul.team12.view.board.playerBoard.Plates;
-import azul.team12.view.board.playerBoard.PlayerBoard;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import azul.team12.controller.Controller;
+import azul.team12.model.Offering;
+import azul.team12.view.listeners.TileClickListener;
 
+import java.awt.*;
+import java.util.List;
+import javax.swing.JPanel;
+
+/**
+ * The board that shows the player boards of all (2 to 4) players. It also shows the table center
+ * and the factory displays.
+ */
 public class GameBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  //List<PlayerBoard> playerBoardList = new ArrayList<>();
-  PlayerBoard currentPlayerBoard;
-  //  List<Plate> plateList;
-  private int numberOfPlayers = 4;// TODO->lang of playerList
-  private int numberOfPlates;
+  private final Controller controller;
 
-  private int panelDrawWidth;
-  private int panelDrawHeight;
+  private final CenterBoard center;
+  private final int numberOfPlayers;
+  private List<Offering> factoryDisplays;
 
-  public GameBoard(int width, int height) {
+  private JPanel boardsOfOpponentsPanel;
 
-    panelDrawWidth = width;
-    panelDrawHeight = height;
-    setPreferredSize(new Dimension(1200, 800));
+  public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
+                   Controller controller) {
+
+    this.controller = controller;
+    this.numberOfPlayers = numberOfPlayers;
+    factoryDisplays = controller.getFactoryDisplays();
+
     setLayout(new BorderLayout());
-    // setBackground(new Color(110,90,120));
-    createLeft();
-    createCenter();
-  }
+    setBackground(Color.lightGray);
+    createPanelWithTheBoardsOfOpponents();
 
-  private void createCenter() {
-    JPanel center = new JPanel();
-    center.setLayout(new BorderLayout());
-    numberOfPlates = numberOfPlayers * 2 + 1;
-//    plateList = new ArrayList<>();
-//    Plates plates = new Plates(numberOfPlates, this.plateList);
-    Plates plates = new Plates(numberOfPlates);
-    center.add(plates, BorderLayout.CENTER);
-
-    currentPlayerBoard = new PlayerBoard(400, 300);
-    currentPlayerBoard.setBorder(new EmptyBorder(0, 80, 20, 80));
-
-    center.add(currentPlayerBoard, BorderLayout.SOUTH);
+    center = new CenterBoard(controller,tileClickListener, factoryDisplays);
     add(center, BorderLayout.CENTER);
   }
 
-  private void createLeft() {
-    JPanel othersPanel = new JPanel();
-    othersPanel.setLayout(new BoxLayout(othersPanel, BoxLayout.Y_AXIS));
-
+  private void createPanelWithTheBoardsOfOpponents() {
+    boardsOfOpponentsPanel = new JPanel();
+    boardsOfOpponentsPanel.setMaximumSize(new Dimension(300, 300));
+    boardsOfOpponentsPanel.setPreferredSize(new Dimension(300, 300));
+    boardsOfOpponentsPanel.setLayout(new GridLayout(numberOfPlayers - 1, 1));
     for (int i = 0; i < numberOfPlayers - 1; i++) {
-      PlayerBoard playerBoard = new PlayerBoard();
-
-      //playerBoardList.add(playerBoard);
-      othersPanel.add(playerBoard);
+      PlayerBoard playerBoard = new PlayerBoard(controller);
+      boardsOfOpponentsPanel.add(playerBoard);
     }
-    add(othersPanel, BorderLayout.WEST);
+    add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
 
+
+  public void disposeCurrentPlayerBoard() {
+    //center.getCurrentPlayerBoard().disposeLabelsPatternLinesAndWall();
+    center.disposeOldPlayerBoard();
+    center.createNewPlayerBoard();
+    center.revalidate();
+
+  }
 }

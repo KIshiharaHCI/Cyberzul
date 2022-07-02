@@ -18,5 +18,5 @@ public abstract class Offering extends Bag{
    * @param indexOfTheTile the index of the Tile that should be chosen, e.g. the first tile (Index 0)
    * @return all tiles of the same color on this plate.
    */
-  abstract List<Tile> takeTileWithIndex(int indexOfTheTile);
+  abstract List<ModelTile> takeTileWithIndex(int indexOfTheTile);
 }

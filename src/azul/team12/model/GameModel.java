@@ -11,8 +11,10 @@ import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
+import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.model.events.PlayerHasEndedTheGameEvent;
 import azul.team12.model.events.RoundFinishedEvent;
+import azul.team12.view.board.PatternLines;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -173,6 +175,7 @@ public class GameModel {
       notifyListeners(roundFinishedEvent);
       } else {
       indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
+      System.out.println("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
     }
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
@@ -249,8 +252,8 @@ public class GameModel {
       int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
       Player nextPlayer = playerList.get(indexOfNextPlayer);
       String nextPlayerNick = nextPlayer.getName();
-      NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(nextPlayerNick);
-      notifyListeners(nextPlayersTurnEvent);
+      PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
+      notifyListeners(playerHasChosenTileEvent);
     } else {
       NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
       notifyListeners(noValidTurnToMakeEvent);
@@ -343,6 +346,30 @@ public class GameModel {
     Player playerWithMostPoints = playerList.get(bestIndex);
     String playerNameOfPlayerWithMostPoints = playerWithMostPoints.getName();
     return playerNameOfPlayerWithMostPoints;
+  }
+
+
+  /**
+   * gives back the pattern Lines of a given player.
+   *
+   * @param playerName the name of the player
+   * @return the pattern Lines
+   */
+  public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
+    Player player = getPlayerByName(playerName);
+    return player.getPatternLines();
+  }
+
+
+  /**
+   * gives back the wall of a given player.
+   *
+   * @param playerName the name of the player
+   * @return the wall
+   */
+  public boolean[][] getWallOfPlayer(String playerName) {
+    Player player = getPlayerByName(playerName);
+    return player.getWall();
   }
 
   //TODO: @Marco implement it

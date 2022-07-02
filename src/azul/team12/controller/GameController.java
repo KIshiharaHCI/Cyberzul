@@ -1,7 +1,9 @@
 package azul.team12.controller;
 
 import azul.team12.model.GameModel;
+import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
+import azul.team12.model.WallBackgroundPattern;
 import java.util.List;
 
 public class GameController implements Controller{
@@ -53,10 +55,12 @@ public class GameController implements Controller{
   @Override
   public void chooseTileFrom(String playerName, int indexOfTile, Offering offering) {
     model.notifyTileChosen(playerName, indexOfTile, offering);
+    System.out.println("Player " + playerName + " has chosen the " + indexOfTile + ". Tile from Offering " + offering.toString());
   }
 
   @Override
   public boolean placeTileAtPatternLine(int rowOfPatternLine) {
+    System.out.println("Player " + getNickOfActivePlayer() + " tries to place a tile on the " + rowOfPatternLine + ". row of pattern lines.");
     return model.makeActivePlayerPlaceTile(rowOfPatternLine);
   }
 
@@ -69,4 +73,20 @@ public class GameController implements Controller{
   public void startTiling() {
     model.startTilingPhase();
   }
+
+  @Override
+  public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
+    return model.getPatternLinesOfPlayer(playerName);
+  }
+
+  @Override
+  public boolean[][] getWallOfPlayer(String playerName) {
+    return model.getWallOfPlayer(playerName);
+  }
+
+  @Override
+  public ModelTile[][] getTemplateWall() {
+    return WallBackgroundPattern.getTemplateWall();
+  }
+
 }
