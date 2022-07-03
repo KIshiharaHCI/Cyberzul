@@ -178,6 +178,19 @@ public class Player {
     return true;
   }
 
+  void placeTileInFloorLine(Offering offering, int indexOfTile) {
+    //acquire the tiles from the chosen offering
+    List<ModelTile> pickedTiles = offering.takeTileWithIndex(indexOfTile);
+
+    for(ModelTile modelTile : pickedTiles) {
+      System.out.println("Model Tile in offering: " + modelTile);
+    }
+    while (pickedTiles.size() > 0) {
+      fillFloorLine(pickedTiles.remove(0));
+    }
+
+  }
+
   /**
    * This method represents the tiles that fall on the ground. If the floorline has still enough
    * places, the fallen tile gets added on the floor line. Else it gets transfered into the

@@ -81,6 +81,9 @@ public class PlayerBoard extends JPanel {
     JButton floorLineButton = new JButton("Floor Line");
     floorLineButton.addActionListener(e -> {
       controller.placeTileAtFloorLine();
+      //TODO: In PlayerBoard we give a success message, as we wanted to delete it anyway, I
+      //decided not to add it.
+      controller.endTurn(controller.getNickOfActivePlayer());
     });
     south.add(floorLineButton);
     south.add(new JLabel(""));
