@@ -1195,3 +1195,25 @@ Q3:
 - none. time ,how to implement the codes and support team better
 
 
+_Marco_ 
+
+Q1:
+- meeting with Chris
+- meeting with team from 15 to 22 o'clock
+  - model starts tiling phase now automatically
+  - create method for view to get the wall of a player as ModelTile[][]
+  - write debugging output methods for bug fixing pattern lines placement
+  - communication and task creation
+
+Q2:
+- meeting with team
+  - create CHANGELOG.md
+  - create README.md
+  - create JAR-file with Nils.
+  - Bugfixing pattern line
+  - Creation of Tasks
+
+Q3:
+- None.
+
+
