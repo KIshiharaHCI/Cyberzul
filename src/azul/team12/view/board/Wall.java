@@ -65,17 +65,17 @@ public class Wall extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setAlignmentX(1.0f);
     this.buttonSize = Tile.TILE_SIZE;
-    for (int y = 0; y < ROWS; y++) {
+    for (int row = 0; row < ROWS; row++) {
       currentRow = new JPanel();
       currentRow.setAlignmentX(0.1f);
       currentRow.setLayout(new GridLayout(1, COLS));
       currentRow.setMaximumSize(
           new Dimension(ROWS * Tile.TILE_SIZE, COLS * Tile.TILE_SIZE));
 
-      for (int x = 0; x < COLS; x++) {
-        ModelTile tileXY =  wall[x][y];
+      for (int col = 0; col < COLS; col++) {
+        ModelTile tileXY =  wall[row][col];
         //TODO: if xy Tile has been placed, add corresponding icon to TileDestinationWall at xy
-        currentRow.add(new TileDestinationWall(y, x, Tile.TILE_SIZE, tileClickListener,tileXY));
+        currentRow.add(new TileDestinationWall(col, row, Tile.TILE_SIZE, tileClickListener,tileXY));
       }
       add(currentRow);
     }
