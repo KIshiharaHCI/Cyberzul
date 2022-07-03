@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -117,7 +118,7 @@ public class PlayerBoard extends JPanel {
    * Active player constructor invokes this method
    */
   private void addMinusPointsElements() {
-    JPanel south = createSouthernPart("Minus Points: ", minusPoints);
+    JPanel south = createSouthernPartWithFloorLine("Floor Line", "Minus Points: ", minusPoints);
     add(south, BorderLayout.SOUTH);
   }
 
@@ -127,6 +128,16 @@ public class PlayerBoard extends JPanel {
     north.add(new JLabel("Name: " + playerName));
     north.add(minusPointsLabel);
     return north;
+  }
+
+  private JPanel createSouthernPartWithFloorLine(String buttonText, String stringMinusPoints, int minusPoints) {
+    JPanel south = new JPanel();
+    south.setBackground(new Color(110, 150, 100));
+    south.setLayout(new GridLayout(1, 3));
+    south.add(new JLabel(stringMinusPoints + minusPoints));
+    south.add(new JButton(buttonText));
+    south.add(new JLabel(""));
+    return south;
   }
 
   private JPanel createSouthernPart(String x, int minusPoints) {
