@@ -16,6 +16,8 @@ public class Wall extends JPanel {
   private static final long serialVersionUID = 7526472295622776147L;
   private Controller controller;
   private ModelTile[][] wall;
+  private ModelTile[][] templateWall;
+
   private final int DEFAULT_TILE_SIZE = 25;
   private JPanel currentRow;
   private final int ROWS = 5;
@@ -59,6 +61,7 @@ public class Wall extends JPanel {
   public Wall(Controller controller,TileClickListener tileClickListener) {
     this.controller = controller;
     wall = controller.getWallOfPlayerAsTiles(controller.getNickOfActivePlayer());
+    templateWall = controller.getTemplateWall();
 
     setBackground(new Color(110, 150, 100));
     setPreferredSize(new Dimension((Tile.TILE_SIZE + 2) * ROWS, (Tile.TILE_SIZE + 2) * COLS));
@@ -74,8 +77,11 @@ public class Wall extends JPanel {
 
       for (int col = 0; col < COLS; col++) {
         ModelTile tileXY =  wall[row][col];
-        //TODO: if xy Tile has been placed, add corresponding icon to TileDestinationWall at xy
-        currentRow.add(new TileDestinationWall(col, row, Tile.TILE_SIZE, tileClickListener,tileXY));
+        if (tileXY.equals(ModelTile.EMPTY_TILE)) {
+          currentRow.add(new TileDestination(col,row,Tile.TILE_SIZE,templateWall[row][col]));
+        } else {
+          currentRow.add(new TileDestinationWall(col, row, Tile.TILE_SIZE, tileClickListener,tileXY));
+        }
       }
       add(currentRow);
     }
