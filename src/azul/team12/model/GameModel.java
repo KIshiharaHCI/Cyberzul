@@ -38,6 +38,7 @@ public class GameModel {
   // vielleicht übersehe ich etwas.
   private ArrayList<Offering> offerings;
   private boolean isGameStarted = false;
+  private boolean hasGameEnded = false;
   private int indexOfActivePlayer = 0;
   private Offering currentOffering;
   private int currentIndexOfTile;
@@ -116,12 +117,21 @@ public class GameModel {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.GAME_ALREADY_STARTED));
     }
     else{
-      offerings.add(TableCenter.getInstance());
-      int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
-      for(int i = 0; i < numberOfFactoryDisplays; i++){
-        offerings.add(new FactoryDisplay());
-      }
+      setUpOfferings();
       notifyListeners(new GameStartedEvent());
+    }
+  }
+
+  /**
+   * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
+   * list.
+   */
+  private void setUpOfferings(){
+    offerings = new ArrayList<>();
+    offerings.add(TableCenter.getInstance());
+    int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
+    for(int i = 0; i < numberOfFactoryDisplays; i++){
+      offerings.add(new FactoryDisplay());
     }
   }
 
@@ -173,6 +183,9 @@ public class GameModel {
       indexOfActivePlayer = giveIndexOfPlayerWithSPM();
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       startTilingPhase();
+      if(!hasGameEnded){
+        setUpOfferings();
+      }
       notifyListeners(roundFinishedEvent);
       } else {
       indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
@@ -316,18 +329,18 @@ public class GameModel {
    * Tell each player to tile the wall and get the points accordingly.
    */
   public void startTilingPhase() {
-    boolean gameEnded = false;
+    hasGameEnded = false;
     for (Player player : playerList) {
       player.tileWallAndGetPoints();
       if (player.hasEndedTheGame()) {
         PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent =
             new PlayerHasEndedTheGameEvent(player.getName());
         notifyListeners(playerHasEndedTheGameEvent);
-        gameEnded = true;
+        hasGameEnded = true;
       }
       // Loop has to finish, because all players have to finish tiling phase
     }
-    if (gameEnded) {
+    if (hasGameEnded) {
       String winnerName = getPlayerWithMostPoints();
       GameFinishedEvent gameFinishedEvent = new GameFinishedEvent(winnerName);
       notifyListeners(gameFinishedEvent);
