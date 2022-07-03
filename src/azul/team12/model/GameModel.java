@@ -295,7 +295,7 @@ public class GameModel {
   }
 
   /**
-   * make the active player place the tile he/she has chosen.
+   * makes the active player place the tile he/she has chosen on a given pattern line.
    *
    * @param rowOfPatternLine the row of the chosen pattern line
    * @return <code>true</code> if it was a valid pick, <code>false</code> if not
@@ -304,6 +304,16 @@ public class GameModel {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
+  }
+
+  /**
+   * makes the active player place the tile he/she has chosen directly into the floor line.
+   */
+  public void tileFallsDown() {
+    String nickActivePlayer = getNickOfActivePlayer();
+    Player activePlayer = getPlayerByName(nickActivePlayer);
+    System.out.println(nickActivePlayer + " tries to place a tile directly into the floor line.");
+    activePlayer.placeTileInFloorLine(currentOffering, currentIndexOfTile);
   }
 
   /**
