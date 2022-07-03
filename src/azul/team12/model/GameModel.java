@@ -174,6 +174,23 @@ public class GameModel {
   }
 
   /**
+   * Return the minus points the player acquired during this round because of Tiles that fell to
+   * the flore.
+   *
+   * @param playerName the name of the player whose minus points we want to know.
+   * @return the number of points he already has.
+   */
+  public int getMinusPoints(String nickname){
+    for(Player player : playerList){
+      if(player.getName().equals(nickname)){
+        return player.getMinusPoints();
+      }
+    }
+    notifyListeners(new PlayerDoesNotExistEvent(nickname));
+    return 0;
+  }
+
+  /**
    * Ends the turn. Notifies listeners that the turn has ended, sets the index of the active
    * player accordingly.
    */

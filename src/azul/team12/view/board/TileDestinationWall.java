@@ -1,5 +1,6 @@
 package azul.team12.view.board;
 
+import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,64 +10,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class TileDestinationWall extends JPanel {
-
-  private final int cell;
-  private final int row;
-  private final int cellSize;
-
-  private ImageIcon icon;
-  private JLabel label;
-
+/**
+ * Subclass of TileDestination. Saves the information about each
+ * Tile such as the TileclickListener, ImageIcons of Tiles, column and row.
+ */
+public class TileDestinationWall extends TileDestination {
   public TileDestinationWall(int cell, int row, int cellSize, TileClickListener tileClickListener,
-      ImageIcon icon) {
-    setLayout(new GridLayout(1, 1));
-    this.cell = cell;
-    this.row = row;
-    this.cellSize = cellSize;
-    this.icon = icon;
-    label = icon != null ? new JLabel(icon) : new JLabel("icon");
-    add(label);
-    setPreferredSize(new Dimension(cellSize, cellSize));
-    setMaximumSize(new Dimension(cellSize, cellSize));
-    setMinimumSize(new Dimension(cellSize, cellSize));
-    setBackground(Color.WHITE);
-    setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-    addMouseListener(tileClickListener);
-  }
-
-  @Override
-  public Dimension getPreferredSize() {
-    return new Dimension(cellSize + 2, cellSize + 2);
-  }
-
-  public int getCell() {
-    return cell;
-  }
-
-  public int getRow() {
-    return row;
-  }
-
-  public int getCellSize() {
-    return cellSize;
-  }
-
-  public ImageIcon getIcon() {
-    return icon;
-  }
-
-  public void setIcon(ImageIcon icon) {
-    this.icon = icon;
-  }
-
-  public JLabel getLabel() {
-    return label;
-  }
-
-  public void setLabel(JLabel label) {
-    this.label = label;
+                             ModelTile modelTile) {
+    super(cell, row, cellSize, tileClickListener,modelTile);
   }
 }
 

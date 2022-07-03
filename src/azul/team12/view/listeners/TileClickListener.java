@@ -6,6 +6,7 @@ import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.view.board.Tile;
 import azul.team12.view.board.TileDestination;
+import azul.team12.view.board.TileDestinationPatternLines;
 import azul.team12.view.board.TileDestinationWall;
 import java.awt.Color;
 import java.awt.Component;
@@ -45,7 +46,7 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
     Component source = e.getComponent();
     if (source instanceof Tile) {
       onSourceTileClick(((Tile) source));
-    } else if (source instanceof TileDestination) {
+    } else if (source instanceof TileDestinationPatternLines) {
       TileDestination destinationTile = (TileDestination) source;
       onDestinationTileClick(destinationTile);
     }

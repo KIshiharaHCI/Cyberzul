@@ -67,10 +67,19 @@ public interface Controller {
   /**
    * Return the points that the player has.
    *
-   * @param playerName
-   * @return
+   * @param playerName the name of the player whose points we want to know.
+   * @return the number of points he already has.
    */
   int getPoints(String playerName);
+
+  /**
+   * Return the minus points the player acquired during this round because of Tiles that fell to
+   * the flore.
+   *
+   * @param playerName the name of the player whose minus points we want to know.
+   * @return the number of points he already has.
+   */
+  int getMinusPoints(String playerName);
 
   /**
    * Informs the model that a player chose a tile from a manufacturing plate or from the table
