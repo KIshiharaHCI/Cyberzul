@@ -178,9 +178,28 @@ public class Player {
     return true;
   }
 
+  /**
+   * Draw Tiles from an Offering and place them directly to the floor Line.
+   *
+   * @param offering    the Offering from which the tiles should be drawn.
+   * @param indexOfTile the index of the tile in the Offering.
+   */
   void placeTileInFloorLine(Offering offering, int indexOfTile) {
+    //TODO: make this methods more readable @Nils
+    //Hotfix
+    //mid-development view design changes made the StartingPlayerMarker clickable
+    // -> it has its own index
+    //since the methods were designs so that it is not clickable these 3 lines fix the bug where
+    //the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
+    //the last tile of the table center causes an OutOfBoundsExceptions
+    if(offering.getContent().contains(STARTING_PLAYER_MARKER)){
+      indexOfTile--;
+    }
+
     //acquire the tiles from the chosen offering
     List<ModelTile> pickedTiles = offering.takeTileWithIndex(indexOfTile);
+
+
 
     for(ModelTile modelTile : pickedTiles) {
       System.out.println("Model Tile in offering: " + modelTile);
