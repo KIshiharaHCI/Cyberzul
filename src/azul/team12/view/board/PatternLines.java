@@ -63,22 +63,22 @@ public class PatternLines extends JPanel {
     setAlignmentX(1.0f);
     this.tileSize = tileSize;
     int numberOfSkippedColumns = 1;
-    for (int y = 0; y < ROWS; y++) {
+    for (int row = 0; row < ROWS; row++) {
       JPanel currentRow = new JPanel();
       currentRow.setAlignmentX(1.0f);
       currentRow.setLayout(new GridLayout(1, numberOfSkippedColumns));
       currentRow.setMaximumSize(
-          new Dimension(numberOfSkippedColumns * tileSize, y * tileSize));
+          new Dimension(numberOfSkippedColumns * tileSize, row * tileSize));
 
-      for (int x = 0; x < COLS; x++) {
-        if (x < numberOfSkippedColumns) {
-          ModelTile modelTile = currentPatternLines[y][x];
+      for (int col = 0; col < COLS; col++) {
+        if (col < numberOfSkippedColumns) {
+          ModelTile modelTile = currentPatternLines[row][col];
           if (modelTile.toString().equals(ModelTile.EMPTY_TILE.toString())) {
             currentRow.add(
-                new TileDestination(y, x, tileSize, tileClickListener, ModelTile.EMPTY_TILE));
+                new TileDestination(col, row, tileSize, tileClickListener, ModelTile.EMPTY_TILE));
 
           } else {
-            currentRow.add(new TileDestination(y, x, tileSize, tileClickListener, modelTile));
+            currentRow.add(new TileDestination(col, row, tileSize, tileClickListener, modelTile));
           }
         }
       }
