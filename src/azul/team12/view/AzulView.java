@@ -5,12 +5,11 @@ import azul.team12.model.GameModel;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
+
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JButton testThreePlayersButton;
   private JButton testTwoPlayersButton;
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
+  private JLabel gameLogoLabel;
 
 
   private GameModel model;
@@ -76,6 +76,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     //Labels
     pleaseEnterNameLabel = new JLabel("Please enter your nickname:");
     selectModeLabel = new JLabel("Select Mode");
+    URL resource = getClass().getClassLoader().getResource("img/gamelogo.png");
+    ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("img/gamelogo.png"));
+    gameLogoLabel = new JLabel(icon);
   }
 
   private void addEventListeners() {
@@ -183,12 +186,16 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     JPanel panel = new JPanel(layout);
     setContentPane(panel);
 
-    JPanel login = new JPanel();
-    add(login, LOGIN_CARD);
-    login.add(selectModeLabel);
-    login.add(hotSeatModeButton);
-    login.add(networkButton);
+    JPanel login = new JPanel(new GridLayout(2,1));
+    login.add(gameLogoLabel);
+    JPanel container = new JPanel();
+    login.add(container);
 
+    container.add(selectModeLabel);
+    container.add(hotSeatModeButton);
+    container.add(networkButton);
+
+    add(login, LOGIN_CARD);
 
     createHotSeatModeCard();
   }
