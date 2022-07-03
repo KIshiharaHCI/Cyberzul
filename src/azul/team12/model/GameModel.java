@@ -314,7 +314,12 @@ public class GameModel {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     System.out.println(nickActivePlayer + " tries to place a tile directly into the floor line.");
-    activePlayer.placeTileInFloorLine(currentOffering, currentIndexOfTile);
+    if(currentOffering == null){
+      notifyListeners(new IllegalTurnEvent());
+    }
+    else {
+      activePlayer.placeTileInFloorLine(currentOffering, currentIndexOfTile);
+    }
   }
 
   /**

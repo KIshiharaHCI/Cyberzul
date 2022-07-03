@@ -170,6 +170,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
         showErrorMessage("User " + gameFinishedEvent.getWINNER() + " won.");
       }
+      case "IllegalTurnEvent" ->{
+        showErrorMessage("Illegal turn.");
+      }
        //default -> throw new AssertionError("Unknown event");
     }
   }
