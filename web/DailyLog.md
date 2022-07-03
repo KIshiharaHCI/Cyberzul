@@ -524,6 +524,18 @@ Q3:
 
 _Kenji_
 
+Q1:
+
+- Worked on other assignment
+
+Q2:
+
+- Meeting with tutor and team.
+
+Q3:
+
+- None.
+
 Marco
 
 Q1:
@@ -632,6 +644,21 @@ Q3:
 
 - None
 
+_Kenji_
+
+Q1:
+
+- Worked on other assignment
+
+Q2:
+
+- Worked on other assignment
+
+Q3:
+
+- None.
+
+
 **26. June, 2022**
 
 _Nils_
@@ -678,6 +705,23 @@ Q2:
 Q3:
 - None.
 
+_Kenji_
+
+Q1:
+
+- Worked on other assignment
+- Group meeting about model and view
+
+Q2:
+
+- Work with Xue on alternative implementation of view to make mousePressed Elements 
+  like Tiles distinguishable by coordinates.
+
+Q3:
+
+- None.
+
+
 
 **27. June, 2022**
 
@@ -718,8 +762,8 @@ Q2:
 - Q3:
 - The configuration of the Logger with the XML file/ or the .properties file didn't work.
 
-
 **28. June, 2022**
+
 _Nils_
 Q1:
 
@@ -757,6 +801,20 @@ Q3:
 - Logger still doesn't work.
 - HotSeatMode should soon be working.
 
+_Kenji_
+
+Q1:
+
+- Added MouseMotionListeners and controller function calls
+
+Q2:
+
+- Meeting/pair programming with Iurii, Marco connecting model and view
+
+Q3:
+
+- Understanding how getLocation works
+
 **29. June, 2022**
 _Nils_
 Q1:
@@ -791,6 +849,23 @@ Q3:
 - Logger still doesn't work.
 - HotSeatMode should soon be working.
 
+_Kenji_
+
+Q1:
+
+- Pair programming with Marco and Iurii
+- discussed in team meeting ideas how to save coordinates of game items on view
+- assigned issue of creating tree data structure to save coordinates to myself
+
+Q2:
+
+- create tree structure
+- be able to save coordinates in tree when tile is created
+
+Q3:
+
+- none
+
 **30. June, 2022**
 _Nils_
 Q1:
@@ -820,6 +895,22 @@ Q2:
 
 Q3:
 - Time.
+
+_Kenji_
+
+Q1:
+
+- bug fixing view, incorporating controllerm experimenting with FactoryDisplay
+
+Q2:
+
+- researching how layout management should be done
+- created new view branch and recreated Panel positions with Gridbaglayout
+
+Q3:
+
+- concerned about side effects between paintComponent for painting Image assets
+  and overflow of component
 
 **1. July, 2022**
 _Nils_
@@ -859,6 +950,25 @@ Q2:
 Q3:
 - Time.
 
+  _Kenji_
+
+Q1:
+
+- Meeting with Xue, Marco, Nils.
+- create Issues together
+- work on new view branch
+
+Q2:
+
+- understanding code of branch view_midSubmission
+- research about BackgroundPanel as solution for adding scaled images in Components
+- worked on view_midSubmission in parallel with Nils and Marco. Worked on adding 
+  update Label function in playerBoard.
+
+Q3:
+
+- refactoring takes more time in this branch.
+
 **2. July, 2022**
 
 _Marco_
@@ -875,5 +985,41 @@ Q2:
 Q3:
 - time
 
+_Kenji_
+
+Q1:
+
+- Improved readability of view classes
+- Added Controller to each Constructor called from GameBoard
+- updated JLabel methods in PlayerBoard
+
+Q2:
+
+- Team meeting with Chris
+- continue working on Issues
+
+Q3:
+
+- communication with team
+
+**3. July, 2022**
+
+_Kenji_
+
+Q1:
+
+- Added updateCenterBoard function to update playerboard, factoryDisplay,tablecenter
+- created new issues
+- decided on working only in view_midSubmission and main branch.
+
+Q2:
+
+- working on Issue how to update Wall during tiling phase
+- working on Issue fix only selected destination tile showing on Pattern Lines
+- create JSON protocol
+
+Q3:
+
+- none.
 
 
