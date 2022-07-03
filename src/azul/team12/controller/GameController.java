@@ -74,6 +74,10 @@ public class GameController implements Controller{
     return model.makeActivePlayerPlaceTile(rowOfPatternLine);
   }
 
+  public void placeTileAtFloorLine() {
+    model.tileFallsDown();
+  }
+
   @Override
   public List<String> getPlayerNamesList() {
     return model.getPlayerNamesList();

@@ -2,9 +2,11 @@ package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
+import azul.team12.model.Player;
 import azul.team12.view.listeners.TileClickListener;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -32,23 +34,31 @@ public class GameBoard extends JPanel {
 
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
-    createPanelWithTheBoardsOfOpponents();
+    //createPanelWithTheBoardsOfOpponents();
 
     center = new CenterBoard(controller,tileClickListener);
     add(center, BorderLayout.CENTER);
   }
 
+  /*
   private void createPanelWithTheBoardsOfOpponents() {
     boardsOfOpponentsPanel = new JPanel();
     boardsOfOpponentsPanel.setMaximumSize(new Dimension(300, 300));
     boardsOfOpponentsPanel.setPreferredSize(new Dimension(300, 300));
     boardsOfOpponentsPanel.setLayout(new GridLayout(numberOfPlayers - 1, 1));
-    for (int i = 0; i < numberOfPlayers - 1; i++) {
-      PlayerBoard playerBoard = new PlayerBoard(controller);
-      boardsOfOpponentsPanel.add(playerBoard);
+
+    List<String> listOfActivePlayers = controller.getPlayerNamesList();
+    for (int i = 0; i < listOfActivePlayers.size(); i++) {
+      String nameOfOpponent = controller.getNickOfActivePlayer();
+      if(!nameOfOpponent.equals(listOfActivePlayers.get(i))){
+        PlayerBoard playerBoard = new PlayerBoard(controller,new TileClickListener(null,null),nameOfOpponent);
+        boardsOfOpponentsPanel.add(playerBoard);
+      }
     }
     add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
+
+   */
 
   /**
    * Used by view to update all widgets in Center Board.

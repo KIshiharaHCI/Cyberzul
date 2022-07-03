@@ -129,6 +129,7 @@ public class GameModel {
   private void setUpOfferings(){
     offerings = new ArrayList<>();
     offerings.add(TableCenter.getInstance());
+    TableCenter.getInstance().addStartPlayerMarker();
     int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
     for(int i = 0; i < numberOfFactoryDisplays; i++){
       offerings.add(new FactoryDisplay());
@@ -177,7 +178,7 @@ public class GameModel {
    * Return the minus points the player acquired during this round because of Tiles that fell to
    * the flore.
    *
-   * @param playerName the name of the player whose minus points we want to know.
+   * @param nickname the name of the player whose minus points we want to know.
    * @return the number of points he already has.
    */
   public int getMinusPoints(String nickname){
@@ -295,7 +296,7 @@ public class GameModel {
   }
 
   /**
-   * make the active player place the tile he/she has chosen.
+   * makes the active player place the tile he/she has chosen on a given pattern line.
    *
    * @param rowOfPatternLine the row of the chosen pattern line
    * @return <code>true</code> if it was a valid pick, <code>false</code> if not
@@ -304,6 +305,16 @@ public class GameModel {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
+  }
+
+  /**
+   * makes the active player place the tile he/she has chosen directly into the floor line.
+   */
+  public void tileFallsDown() {
+    String nickActivePlayer = getNickOfActivePlayer();
+    Player activePlayer = getPlayerByName(nickActivePlayer);
+    System.out.println(nickActivePlayer + " tries to place a tile directly into the floor line.");
+    activePlayer.placeTileInFloorLine(currentOffering, currentIndexOfTile);
   }
 
   /**

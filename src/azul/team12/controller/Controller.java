@@ -109,6 +109,11 @@ public interface Controller {
   boolean placeTileAtPatternLine(int rowOfPatternLine);
 
   /**
+   *
+   */
+  void placeTileAtFloorLine();
+
+  /**
    * Returns a list with the nicknames of all players.
    * @return a list with nicknames.
    */
