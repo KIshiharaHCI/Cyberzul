@@ -163,11 +163,12 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
       case "NextPlayersTurnEvent" -> {
         System.out.println("NextPlayersTurnEvent triggered " + "(sout at AzulView 125.)");
-        clearBoard();
+        updateCenterBoard();
       }
       //default -> throw new AssertionError("Unknown event");
     }
   }
+
   /**
    * Show an error message as pop-up window to inform the user of an error.
    *
@@ -235,10 +236,28 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   }
 
   /**
-   * Clears Pattern Lines, Wall and Labels of current player.
+   * Removes all Panels
    */
-  private void clearBoard() {
-    gameBoard.disposeCurrentPlayerBoard();
+  private void updateCenterBoard() {
+    gameBoard.getCenterBoard().removeAllPanels();
+    gameBoard.updateFactoryPlates();
+    gameBoard.updateTable();
+    gameBoard.updateCurrentPlayerBoard();
+    gameBoard.validate();
+  }
+  /**
+   * Updates Factory Displays.
+   *
+   */
+  private void updateFactoryPlates() {
+    gameBoard.updateFactoryPlates();
+  }
+
+  /**
+   * Clears Pattern Lines, Wall and Labels of current player and replaces it with updated Playerboard.
+   */
+  private void updateBoard() {
+    gameBoard.updateCurrentPlayerBoard();
   }
   private void showCard(String card) {
     layout.show(getContentPane(), card);

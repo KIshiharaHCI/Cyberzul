@@ -34,7 +34,7 @@ public class GameBoard extends JPanel {
     setBackground(Color.lightGray);
     createPanelWithTheBoardsOfOpponents();
 
-    center = new CenterBoard(controller,tileClickListener, factoryDisplays);
+    center = new CenterBoard(controller,tileClickListener);
     add(center, BorderLayout.CENTER);
   }
 
@@ -50,12 +50,20 @@ public class GameBoard extends JPanel {
     add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
 
-
-  public void disposeCurrentPlayerBoard() {
-    //center.getCurrentPlayerBoard().disposeLabelsPatternLinesAndWall();
-    center.disposeOldPlayerBoard();
+  public CenterBoard getCenterBoard() {
+    return center;
+  }
+  public void updateCurrentPlayerBoard() {
     center.createNewPlayerBoard();
     center.revalidate();
 
+  }
+  public void updateFactoryPlates() {
+    center.createNewPlatesPanel();
+    center.revalidate();
+  }
+  public void updateTable() {
+    center.createNewTableCenter();
+    center.revalidate();
   }
 }
