@@ -135,7 +135,11 @@ public class PlayerBoard extends JPanel {
     south.setBackground(new Color(110, 150, 100));
     south.setLayout(new GridLayout(1, 3));
     south.add(new JLabel(stringMinusPoints + minusPoints));
-    south.add(new JButton(buttonText));
+    JButton floorLineButton = new JButton(buttonText);
+    floorLineButton.addActionListener(e -> {
+      controller.placeTileAtFloorLine();
+    });
+    south.add(floorLineButton);
     south.add(new JLabel(""));
     return south;
   }
