@@ -18,3 +18,10 @@ Execute the jar-file with command:
 ## How to play the game
 
 You can find game instructions on [this website](https://tesera.ru/images/items/1108676/EN-Azul-Rules.pdf). 
+
+## Image sources
+
+No attribution required for all images except table-center.png
+
+[Source](https://commons.wikimedia.org/wiki/File:Picnic_table.jpg) for table-center.png
+under the [creative commons license](https://creativecommons.org/licenses/by-sa/4.0/deed.en). This image was alterd.
