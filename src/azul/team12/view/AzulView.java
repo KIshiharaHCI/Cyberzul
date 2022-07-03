@@ -2,6 +2,7 @@ package azul.team12.view;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
+import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
@@ -164,6 +165,10 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         //TODO: PlatesPanel nach Kenjis Vorbild updaten
+      }
+      case "GameFinishedEvent" -> {
+        GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
+        showErrorMessage("User " + gameFinishedEvent.getWINNER() + " won.");
       }
        //default -> throw new AssertionError("Unknown event");
     }
