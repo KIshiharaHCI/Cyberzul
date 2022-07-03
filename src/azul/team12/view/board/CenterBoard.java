@@ -36,8 +36,8 @@ public class CenterBoard extends JPanel {
     this.tableCenter = (TableCenter) controller.getTableCenter();
     this.tileClickListener = tileClickListener;
 
-    setLayout(new GridLayout(3,1));
-    setPreferredSize(new Dimension(1100, 800));
+    setLayout(new GridLayout(3, 1));
+    setPreferredSize(new Dimension(1100, 780));
 
     createNewPlatesPanel();
     createNewTableCenter();
@@ -50,7 +50,8 @@ public class CenterBoard extends JPanel {
    * Used by Constructor and AzulView to create and add a new PlayerBoard panel.
    */
   void createNewPlayerBoard() {
-    currentPlayerBoard = new PlayerBoard(controller,40, tileClickListener);
+    currentPlayerBoard =
+        new PlayerBoard(controller, tileClickListener, controller.getNickOfActivePlayer());
 
     currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
     add(currentPlayerBoard);
@@ -65,12 +66,13 @@ public class CenterBoard extends JPanel {
     platesPanel.setPreferredSize(new Dimension(1100, 130));
     add(platesPanel);
   }
+
   /**
    * Used by Constructor and AzulView to create and add a new TableCenter panel.
    */
   void createNewTableCenter() {
-    tableCenterPanel = new TableCenterPanel(tableCenter,tileClickListener);
-    platesPanel.setPreferredSize(new Dimension(1100,10));
+    tableCenterPanel = new TableCenterPanel(tableCenter, tileClickListener);
+    platesPanel.setPreferredSize(new Dimension(1100, 10));
     add(tableCenterPanel);
   }
 

@@ -33,7 +33,6 @@ public class TableCenter extends Offering {
   @Override
   void initializeContent() {
     this.content = new ArrayList<>();
-    content.add(ModelTile.STARTING_PLAYER_MARKER);
   }
 
   /**
@@ -82,5 +81,9 @@ public class TableCenter extends Offering {
       returnList.add(t);
     }
     return returnList;
+  }
+
+  public void addStartPlayerMarker(){
+    content.add(ModelTile.STARTING_PLAYER_MARKER);
   }
 }
