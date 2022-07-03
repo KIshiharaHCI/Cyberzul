@@ -25,7 +25,7 @@ public class PlayerBoard extends JPanel {
   private JPanel center;
   private int points;
   //Hardcoded Variable only used by opponent boards constructor
-  private final int minusPoints = 0;
+  private int minusPoints = 0;
   /**
    * The constructor to create one og the player boards of the opponents.
    */
@@ -89,6 +89,7 @@ public class PlayerBoard extends JPanel {
   private void initializeClassVariables() {
     playerName = controller.getNickOfActivePlayer();
     points = controller.getPoints(playerName);
+    minusPoints = controller.getMinusPoints(playerName);
   }
 
   /**
@@ -122,7 +123,9 @@ public class PlayerBoard extends JPanel {
 
   private JPanel addPointsAndPlayerNameElements() {
     JPanel north = createSouthernPart("Points: ", points);
+    JLabel minusPointsLabel = new JLabel("Minus Points: " + minusPoints);
     north.add(new JLabel("Name: " + playerName));
+    north.add(minusPointsLabel);
     return north;
   }
 
