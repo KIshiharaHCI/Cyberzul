@@ -53,6 +53,11 @@ public class GameController implements Controller{
   }
 
   @Override
+  public int getMinusPoints(String playerName){
+    return model.getMinusPoints(playerName);
+  }
+
+  @Override
   public void endTurn(String playerName) {
     model.endTurn();
   }

@@ -24,7 +24,7 @@ public class TableCenterPanel extends JPanel {
   private int TABLE_CENTER_HEIGHT_IN_PXL = 260;
 
   private final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
-  private final int SPACE_BETWEEN_TILES_IN_PXL = 4;
+  private final int SPACE_BETWEEN_TILES_IN_PXL = 44;
 
   private List<Tile> tileList;
   private final int plateId = 0;

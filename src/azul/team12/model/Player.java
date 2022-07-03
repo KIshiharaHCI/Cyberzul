@@ -322,6 +322,24 @@ public class Player {
     floorLine.clear();
   }
 
+  //TODO: This method gets obsolete if we implemented the visible floor line.
+  /**
+   * Returns the number of MinusPoints that the player acquired over te
+   *
+   * @return
+   */
+  public int getMinusPoints(){
+    int minusPoints = 0;
+    for (int i = 0; i < floorLine.size(); i++) {
+      ModelTile tile = floorLine.get(i);
+      if (tile == EMPTY_TILE) {
+        break;
+      }
+      minusPoints += FLOOR_LINE_PENALTIES[i];
+    }
+    return minusPoints;
+  }
+
   /**
    * Get the number of horizontally adjacent Tiles of the tile that is specified by the row and
    * col values.
