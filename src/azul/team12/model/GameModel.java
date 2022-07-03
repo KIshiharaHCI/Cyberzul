@@ -365,6 +365,20 @@ public class GameModel {
     return playerNameOfPlayerWithMostPoints;
   }
 
+  /**
+   * Order and save the players with its points.
+   * @return a list of players with points in descending order.
+   */
+  public List<String> rankingPlayerWithPoints() {
+    List<String> nameListOfPlayers = new ArrayList<>();
+    Collections.sort(playerList, (o1, o2) -> -Integer.compare(o1.getPoints(), o2.getPoints()));
+    for (Player player : playerList) {
+      nameListOfPlayers.add(player.getName());
+
+    }
+    System.out.println(nameListOfPlayers);
+    return nameListOfPlayers;
+  }
 
   /**
    * gives back the pattern Lines of a given player.
