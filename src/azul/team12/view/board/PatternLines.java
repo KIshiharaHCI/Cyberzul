@@ -62,8 +62,7 @@ public class PatternLines extends JPanel {
 
       for (int x = 0; x < COLS; x++) {
         if (x < numberOfSkippedColumns) {
-          //TODO: if tileAtXY == true -> getTileEnumXY -> currentRow.add(new TileWithoutListener)
-          //TODO: repaint tiles
+
           ModelTile modelTile = currentPatternLines[y][x];
           if (modelTile.toString().equals(ModelTile.EMPTY_TILE.toString())) {
             currentRow.add(
@@ -91,7 +90,8 @@ public class PatternLines extends JPanel {
     // for no stretching of the row
     currentRow.setMaximumSize(
         new Dimension(numberOfSkippedColumns * (tileSize + 4) + 4, row * (tileSize + 4) + 4));
-    setMinimumSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
+    currentRow.setMinimumSize(
+        new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
   }
 
 

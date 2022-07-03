@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -30,12 +31,7 @@ public class Wall extends JPanel {
     this.buttonSize = DEFAULT_TILE_SIZE;
     for (int y = 0; y < ROWS; y++) {
       final JPanel currentRow = new JPanel();
-      currentRow.setAlignmentX(0.2f);
-      currentRow.setAlignmentY(1.0f);
-      currentRow.setLayout(new GridLayout(1, COLS));
-      currentRow.setMaximumSize(
-          new Dimension(ROWS * buttonSize, COLS * buttonSize));
-
+      this.setPropsToCurrRow(buttonSize, COLS, y, currentRow);
       for (int x = 0; x < COLS; x++) {
         currentRow.add(new TileWithoutListener(y, x, buttonSize));
 
@@ -49,14 +45,12 @@ public class Wall extends JPanel {
     setBackground(new Color(110, 150, 100));
     setPreferredSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    setAlignmentX(1.0f);
+    setAlignmentX(0.1f);
     this.buttonSize = tileSize;
     for (int y = 0; y < ROWS; y++) {
       final JPanel currentRow = new JPanel();
-      currentRow.setAlignmentX(0.1f);
-      currentRow.setLayout(new GridLayout(1, ROWS));
-      currentRow.setMaximumSize(
-          new Dimension(ROWS * tileSize, COLS * tileSize));
+      this.setPropsToCurrRow(tileSize, COLS, y, currentRow);
+
       for (int x = 0; x < COLS; x++) {
         currentRow.add(new TileDestinationWall(y, x, tileSize, tileClickListener, null));
       }
@@ -77,24 +71,21 @@ public class Wall extends JPanel {
     this.buttonSize = buttonSize;
   }
 
-  /*
-  protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-
-    Graphics2D g2D = (Graphics2D) g;
-    int idx;
-    int idy = 5;
-
-    for (int y = 0; y < ROWS; y++) {
-      for (int x = 0; x < COLS; x++) {
-        idx = (buttonSize + 5) * x;
-        g2D.setColor(Color.WHITE);
-        g2D.drawRect(idx, idy, buttonSize, buttonSize);
-        g2D.fillRect(idx, idy, buttonSize, buttonSize);
-      }
-      idy = idy + (buttonSize + 5);
-    }
+  private void setPropsToCurrRow(int tileSize, int COLS, int row,
+      JPanel currentRow) {
+    currentRow.setLayout(new GridLayout(1, COLS, 4, 4));
+    // for alignment on the right
+    currentRow.setAlignmentX(0.1f);
+    //padding
+    currentRow.setBorder(BorderFactory.createEmptyBorder(2, 4, 2, 4));
+    // TileDestination is not transparent, but everything else on the current row is transparent
+    currentRow.setOpaque(false);
+    // for no stretching of the row
+    currentRow.setMaximumSize(
+        new Dimension(COLS * (tileSize + 4) + 4, row * (tileSize + 4) + 4));
+    currentRow.setMinimumSize(
+        new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
   }
-  */
+
 
 }

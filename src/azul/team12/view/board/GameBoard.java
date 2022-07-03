@@ -3,8 +3,10 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -24,7 +26,7 @@ public class GameBoard extends JPanel {
   private JPanel boardsOfOpponentsPanel;
 
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
-                   Controller controller) {
+      Controller controller) {
 
     this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
@@ -34,7 +36,7 @@ public class GameBoard extends JPanel {
     setBackground(Color.lightGray);
     createPanelWithTheBoardsOfOpponents();
 
-    center = new CenterBoard(controller,tileClickListener);
+    center = new CenterBoard(controller, tileClickListener);
     add(center, BorderLayout.CENTER);
   }
 
@@ -42,7 +44,7 @@ public class GameBoard extends JPanel {
     boardsOfOpponentsPanel = new JPanel();
     boardsOfOpponentsPanel.setMaximumSize(new Dimension(300, 300));
     boardsOfOpponentsPanel.setPreferredSize(new Dimension(300, 300));
-    boardsOfOpponentsPanel.setLayout(new GridLayout(numberOfPlayers - 1, 1));
+    boardsOfOpponentsPanel.setLayout(new GridLayout(3, 1));
     for (int i = 0; i < numberOfPlayers - 1; i++) {
       PlayerBoard playerBoard = new PlayerBoard(controller);
       boardsOfOpponentsPanel.add(playerBoard);
@@ -53,15 +55,18 @@ public class GameBoard extends JPanel {
   public CenterBoard getCenterBoard() {
     return center;
   }
+
   public void updateCurrentPlayerBoard() {
     center.createNewPlayerBoard();
     center.revalidate();
 
   }
+
   public void updateFactoryPlates() {
     center.createNewPlatesPanel();
     center.revalidate();
   }
+
   public void updateTable() {
     center.createNewTableCenter();
     center.revalidate();

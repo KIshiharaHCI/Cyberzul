@@ -25,7 +25,7 @@ public class TileDestinationWall extends JPanel {
     this.row = row;
     this.cellSize = cellSize;
     this.icon = icon;
-    label = icon != null ? new JLabel(icon) : new JLabel("icon");
+    label = icon != null ? new JLabel(icon) : new JLabel("");
     add(label);
     setPreferredSize(new Dimension(cellSize, cellSize));
     setMaximumSize(new Dimension(cellSize, cellSize));
