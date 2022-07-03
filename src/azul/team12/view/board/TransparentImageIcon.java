@@ -22,7 +22,7 @@ public class TransparentIcon implements Icon {
     }
 
     /**
-     * Paints the wrapped icon with this <CODE>TransparentIcon</CODE>'s transparency.
+     * Paints the wrapped icon with this TransparentIcon's transparency.
      *
      * @param c The component to which the icon is painted
      * @param g the graphics context
