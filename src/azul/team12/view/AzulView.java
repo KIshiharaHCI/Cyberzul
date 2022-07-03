@@ -161,7 +161,10 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         System.out.println("NextPlayersTurnEvent triggered " + "(sout at AzulView 125.)");
         updateCenterBoard();
       }
-      //default -> throw new AssertionError("Unknown event");
+      case "RoundeFinishedEvent" -> {
+
+      }
+       //default -> throw new AssertionError("Unknown event");
     }
   }
 
