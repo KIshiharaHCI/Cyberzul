@@ -524,6 +524,18 @@ Q3:
 
 _Kenji_
 
+Q1:
+
+- Worked on other assignment
+
+Q2:
+
+- Meeting with tutor and team.
+
+Q3:
+
+- None.
+
 Marco
 
 Q1:
@@ -632,6 +644,21 @@ Q3:
 
 - None
 
+_Kenji_
+
+Q1:
+
+- Worked on other assignment
+
+Q2:
+
+- Worked on other assignment
+
+Q3:
+
+- None.
+
+
 **26. June, 2022**
 
 _Nils_
@@ -643,16 +670,72 @@ Q1:
 - Written a method in the Player class for the points that the player gets after each round.
 - Written JUnit Tests for the Bag classes.
 
+<<<<<<< HEAD
+Q2:
+=======
 Q2
 
+>>>>>>> view_midSubmission
 - Write a method in the Player class for the points that the player gets at the end of the game.
 - Write JUnit Tests for the Player Class.
 - Write the model logic so players can be added to the model.
 - Implement the model as observable.
 
+<<<<<<< HEAD
+Q3:
+=======
 Q3
 
+>>>>>>> view_midSubmission
 - None.
+
+_Marco_ 
+
+Q1:
+- Research what is a Singleton
+- Code review BagClasses Nils
+- Bug Fixing
+
+Q2:
+- Decide which Logger to use
+- Build logger
+- Write explanation on how to use it on Zulip for team mates
+- Review Player Class another time with new methods
+
+Q3:
+- None.
+
+_Kenji_
+
+Q1:
+
+- Worked on other assignment
+- Group meeting about model and view
+
+Q2:
+
+- Work with Xue on alternative implementation of view to make mousePressed Elements 
+  like Tiles distinguishable by coordinates.
+
+Q3:
+
+- None.
+
+_Xue_
+
+Q1:
+
+- Reviewed code Nils (Superclass Bag and its Subclasses)
+
+Q2:
+
+- Starts to implement new methods (talk with team (if needed))
+
+Q3:
+
+- None.
+
+
 
 **27. June, 2022**
 
@@ -676,7 +759,35 @@ Q3:
 
 - The whole team has to gather.
 
+_Marco_
+
+Q1:
+- Decide which Logger to use
+- Try to build logger
+- Write explanation on how to use it on Zulip for team mates
+- Review Player Class another time with new methods
+
+Q2:
+- Review Player Class
+- Try to build logger again
+- Team-Meeting
+- Continue implementation of Game Model
+
+- Q3:
+- The configuration of the Logger with the XML file/ or the .properties file didn't work.
+
+_Xue_
+
+Q1:
+- Reviewed/Understood code written by Nils (subpackage model) and talked with team
+
+Q2:
+- Team-Meeting
+Q3:
+- None.
+
 **28. June, 2022**
+
 _Nils_
 Q1:
 
@@ -696,6 +807,49 @@ Q3:
 - I need Marco, Kenji and Xue for this.
 - I need access to the code of the view.
 
+_Marco_
+Q1:
+- Stackoverflow question for Logger
+- Wrote method notifyTileChosen(String playerName, int indexOfTile, Offering offering)
+- Wrote method makeActivePlayerPlaceTile(int rowOfPatternLine)
+- Wrote method getPlayerByName
+- Implement GameController methods
+
+Q2:
+- Team Meeting with Iurii and Kenji (connecting model and view)
+- Minor code improvements
+- checkRoundFinished
+- Team Meeting with Nils (talking about model, warnings, ...)
+
+Q3:
+- Logger still doesn't work.
+- HotSeatMode should soon be working.
+
+_Kenji_
+
+Q1:
+
+- Added MouseMotionListeners and controller function calls
+
+Q2:
+
+- Meeting/pair programming with Iurii, Marco connecting model and view
+
+Q3:
+
+- Understanding how getLocation works
+
+_Xue_
+
+Q1:
+- Team Meeting
+
+Q2:
+- Meeting with the Team to discuss GUI
+
+Q3:
+- How to save the locations of the tiles on the Game board
+
 **29. June, 2022**
 _Nils_
 Q1:
@@ -711,8 +865,52 @@ Q2:
 - If I find the time, reviewing code from Marco
 
 Q3:
+- none
+
+_Marco_
+Q1:
+- Team Meeting with Iurii and Kenji (connecting model and view)
+- Minor code improvements
+- checkRoundFinished Method
+- Team Meeting with Nils (talking about model, warnings, ...)
+
+Q2:
+- getOfferings-Methode
+- implement Game ended methods
+- todos in Model
+- implement tiles may be put directly into bottom line
+
+Q3:
+- Logger still doesn't work.
+- HotSeatMode should soon be working.
+
+_Kenji_
+
+Q1:
+
+- Pair programming with Marco and Iurii
+- discussed in team meeting ideas how to save coordinates of game items on view
+- assigned issue of creating tree data structure to save coordinates to myself
+
+Q2:
+
+- create tree structure
+- be able to save coordinates in tree when tile is created
+
+Q3:
 
 - none
+
+_Xue_
+
+Q1:
+- Meet with the Team to discuss GUI
+
+Q2:
+- Work with Kenji to save locations of tile in tree structure as discussed
+
+Q3:
+- Try to find alternative way to show the tiles in grid layout with buttons
 
 **30. June, 2022**
 _Nils_
@@ -725,6 +923,51 @@ Q2:
 
 Q3:
 - The code of the view that is already written.
+
+
+_Marco_
+
+Q1:
+- getOfferings-Methode
+- implement Game ended methods
+- improve endTurn-Method
+- create new Event
+- make GameEndEvent give Winner Name
+
+Q2:
+- Meeting with Chris & Team (discuss Logger)
+- implement tiles may be put directly into bottom line
+- Review Player Class from Nils
+
+Q3:
+- Time.
+
+_Kenji_
+
+Q1:
+
+- bug fixing view, incorporating controllerm experimenting with FactoryDisplay
+
+Q2:
+
+- researching how layout management should be done
+- created new view branch and recreated Panel positions with Gridbaglayout
+
+Q3:
+
+- concerned about side effects between paintComponent for painting Image assets
+  and overflow of component
+
+_Xue_
+
+Q1:
+- Worked with Kenji to save locations of tile in tree structure as discussed
+
+Q2:
+- Work with Kenji to recreated Panels with Gridbaglayout
+
+Q3:
+- Resize with Gridbaglayout
 
 **1. July, 2022**
 _Nils_
@@ -748,3 +991,138 @@ Q2:
 Q3:
 
 - I need the code from Iiuri. He send us the code as .zip file via WhatsApp.
+
+_Marco_
+
+Q1:
+- Meeting with Xue, Kenji, Nils.
+- Create Issues together
+
+Q2:
+- Meeting with Xue, Nils.
+- Finish View together so that it works.
+  (- Review Player Class from Nils,
+  (- Other Issues.)
+
+Q3:
+- Time.
+
+  _Kenji_
+
+Q1:
+
+- Meeting with Xue, Marco, Nils.
+- create Issues together
+- work on new view branch
+
+Q2:
+
+- understanding code of branch view_midSubmission
+- research about BackgroundPanel as solution for adding scaled images in Components
+- worked on view_midSubmission in parallel with Nils and Marco. Worked on adding 
+  update Label function in playerBoard.
+
+Q3:
+
+- refactoring takes more time in this branch.
+
+_Xue_
+
+Q1:
+- Meet with Kenji, Marco, Nils
+- Create Issues together and worked on new view branch
+
+Q2:
+- Team Meeting to discuss the version of view
+- Understand code of branch view_midSubmission and work on view_midSubmission
+
+Q3:
+
+- Understanding and integration of the codes
+
+**2. July, 2022**
+
+_Marco_
+
+Q1:
+- meeting with Nils, later Kenji and Xue, too
+  - connecting view and model (e.g.: use chooseTileFunction, use events, etc.)
+  - creating JavaDoc for view
+
+Q2:
+- meeting with Chris
+- continue finishing that it is possible to play the game - all day
+
+Q3:
+- time
+
+_Kenji_
+
+Q1:
+
+- Improved readability of view classes
+- Added Controller to each Constructor called from GameBoard
+- updated JLabel methods in PlayerBoard
+
+Q2:
+
+- Team meeting with Chris
+- continue working on Issues
+
+Q3:
+
+- communication with team
+
+_Xue_
+
+Q1:
+- Meet and worked with Kenji, Marco, Nils
+
+Q2:
+- Meeting with Chris
+
+- Team Meeting to discuss the further steps
+
+- Working on branch view_midSubmission
+
+Q3:
+- Time and need to implement the codes
+
+**3. July, 2022**
+
+_Kenji_
+
+Q1:
+
+- Added updateCenterBoard function to update playerboard, factoryDisplay,tablecenter
+- created new issues
+- decided on working only in view_midSubmission and main branch.
+
+Q2:
+
+- working on Issue how to update Wall during tiling phase
+- working on Issue fix only selected destination tile showing on Pattern Lines
+- create JSON protocol
+
+Q3:
+
+- none.
+
+_Xue_
+
+Q1:
+- Meet with Chris
+
+- Team Meeting to discuss the further steps
+
+- Worked on branch view_midSubmission
+
+Q2:
+- finish method handleModelUpdate
+- create JSON protocol
+
+Q3:
+- none.
+  time ,how to implement the codes and support team better
+
+

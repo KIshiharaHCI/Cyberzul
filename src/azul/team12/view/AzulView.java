@@ -11,15 +11,11 @@ import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class AzulView extends JFrame implements PropertyChangeListener {
 
@@ -189,6 +185,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     login.add(hotSeatModeButton);
     login.add(networkButton);
 
+
     createHotSeatModeCard();
   }
 
@@ -236,7 +233,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   }
 
   /**
-   * Removes all Panels
+   * Removes all Widgets related to the last player who ended their turn and adds new Widgets for the active player.
    */
   private void updateCenterBoard() {
     gameBoard.getCenterBoard().removeAllPanels();
@@ -245,20 +242,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     gameBoard.updateCurrentPlayerBoard();
     gameBoard.validate();
   }
-  /**
-   * Updates Factory Displays.
-   *
-   */
-  private void updateFactoryPlates() {
-    gameBoard.updateFactoryPlates();
-  }
 
-  /**
-   * Clears Pattern Lines, Wall and Labels of current player and replaces it with updated Playerboard.
-   */
-  private void updateBoard() {
-    gameBoard.updateCurrentPlayerBoard();
-  }
   private void showCard(String card) {
     layout.show(getContentPane(), card);
   }

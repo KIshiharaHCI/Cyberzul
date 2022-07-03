@@ -54,9 +54,15 @@ public interface Controller {
   /**
    * Returns the Name of the player who has to make his turn.
    *
-   * @return
+   * @return name of active player.
    */
   String getNickOfActivePlayer();
+
+  /**
+   * Returns the Name of the next player about to make their turn.
+   * @return name of next player.
+   */
+  String getNickOfNextPlayer();
 
   /**
    * Return the points that the player has.
@@ -99,16 +105,6 @@ public interface Controller {
    */
   List<String> getPlayerNamesList();
 
-  //TODO: @Nils - I decided that it makes more sense to let the view then tell the model
-  // that it should start the tiling phase for all players than to make the model start it
-  // immediately when the round is ended in the endTurn() Method. Please tell me what you think
-  // of it.
-  /**
-   * Tell to Model to start the tiling phase.
-   *
-   */
-  void startTiling();
-
   /**
    * gives back the pattern line of a given player.
    *
@@ -121,9 +117,9 @@ public interface Controller {
    * gives back the wall of a given player.
    *
    * @param playerName the name of the player
-   * @return the wall
+   * @return the wall as tiles
    */
-  boolean[][] getWallOfPlayer(String playerName);
+  ModelTile[][] getWallOfPlayerAsTiles(String playerName);
 
   /**
    * get the template wall of tiles for the wall so that we need just booleans to show it.
@@ -131,4 +127,6 @@ public interface Controller {
    * @return template wall of tiles.
    */
   ModelTile[][] getTemplateWall();
+
+
 }

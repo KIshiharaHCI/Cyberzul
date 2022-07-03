@@ -43,6 +43,11 @@ public class GameController implements Controller{
   }
 
   @Override
+  public String getNickOfNextPlayer() {
+    return model.getPlayerNamesList().get(model.getIndexOfNextPlayer(model.getIndexOfActivePlayer()));
+  }
+
+  @Override
   public int getPoints(String playerName) {
     return model.getPoints(playerName);
   }
@@ -70,17 +75,12 @@ public class GameController implements Controller{
   }
 
   @Override
-  public void startTiling() {
-    model.startTilingPhase();
-  }
-
-  @Override
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
     return model.getPatternLinesOfPlayer(playerName);
   }
 
   @Override
-  public boolean[][] getWallOfPlayer(String playerName) {
+  public ModelTile[][] getWallOfPlayerAsTiles(String playerName) {
     return model.getWallOfPlayer(playerName);
   }
 

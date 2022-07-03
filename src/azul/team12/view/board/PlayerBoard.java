@@ -141,12 +141,4 @@ public class PlayerBoard extends JPanel {
     JPanel north = addPointsAndPlayerNameElements();
     add(north, BorderLayout.NORTH);
   }
-
-  public void disposeLabelsPatternLinesAndWall() {
-    //overrides variables with ones for new active player
-    //center.removeAll();
-    initializeClassVariables();
-    createCenterPanel();
-
-  }
 }
