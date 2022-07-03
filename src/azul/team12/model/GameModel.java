@@ -129,6 +129,7 @@ public class GameModel {
   private void setUpOfferings(){
     offerings = new ArrayList<>();
     offerings.add(TableCenter.getInstance());
+    TableCenter.getInstance().addStartPlayerMarker();
     int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
     for(int i = 0; i < numberOfFactoryDisplays; i++){
       offerings.add(new FactoryDisplay());
@@ -177,7 +178,7 @@ public class GameModel {
    * Return the minus points the player acquired during this round because of Tiles that fell to
    * the flore.
    *
-   * @param playerName the name of the player whose minus points we want to know.
+   * @param nickname the name of the player whose minus points we want to know.
    * @return the number of points he already has.
    */
   public int getMinusPoints(String nickname){
