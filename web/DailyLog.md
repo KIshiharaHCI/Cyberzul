@@ -721,6 +721,20 @@ Q3:
 
 - None.
 
+_Xue_
+
+Q1:
+
+- Reviewed code Nils (Superclass Bag and its Subclasses)
+
+Q2:
+
+- Starts to implement new methods (talk with team (if needed))
+
+Q3:
+
+- None.
+
 
 
 **27. June, 2022**
@@ -761,6 +775,16 @@ Q2:
 
 - Q3:
 - The configuration of the Logger with the XML file/ or the .properties file didn't work.
+
+_Xue_
+
+Q1:
+- Reviewed/Understood code written by Nils (subpackage model) and talked with team
+
+Q2:
+- Team-Meeting
+Q3:
+- None.
 
 **28. June, 2022**
 
@@ -815,6 +839,17 @@ Q3:
 
 - Understanding how getLocation works
 
+_Xue_
+
+Q1:
+- Team Meeting
+
+Q2:
+- Meeting with the Team to discuss GUI
+
+Q3:
+- How to save the locations of the tiles on the Game board
+
 **29. June, 2022**
 _Nils_
 Q1:
@@ -866,6 +901,17 @@ Q3:
 
 - none
 
+_Xue_
+
+Q1:
+- Meet with the Team to discuss GUI
+
+Q2:
+- Work with Kenji to save locations of tile in tree structure as discussed
+
+Q3:
+- Try to find alternative way to show the tiles in grid layout with buttons
+
 **30. June, 2022**
 _Nils_
 Q1:
@@ -911,6 +957,17 @@ Q3:
 
 - concerned about side effects between paintComponent for painting Image assets
   and overflow of component
+
+_Xue_
+
+Q1:
+- Worked with Kenji to save locations of tile in tree structure as discussed
+
+Q2:
+- Work with Kenji to recreated Panels with Gridbaglayout
+
+Q3:
+- Resize with Gridbaglayout
 
 **1. July, 2022**
 _Nils_
@@ -969,6 +1026,20 @@ Q3:
 
 - refactoring takes more time in this branch.
 
+_Xue_
+
+Q1:
+- Meet with Kenji, Marco, Nils
+- Create Issues together and worked on new view branch
+
+Q2:
+- Team Meeting to discuss the version of view
+- Understand code of branch view_midSubmission and work on view_midSubmission
+
+Q3:
+
+- Understanding and integration of the codes
+
 **2. July, 2022**
 
 _Marco_
@@ -1002,6 +1073,21 @@ Q3:
 
 - communication with team
 
+_Xue_
+
+Q1:
+- Meet and worked with Kenji, Marco, Nils
+
+Q2:
+- Meeting with Chris
+
+- Team Meeting to discuss the further steps
+
+- Working on branch view_midSubmission
+
+Q3:
+- Time and need to implement the codes
+
 **3. July, 2022**
 
 _Kenji_
@@ -1021,5 +1107,22 @@ Q2:
 Q3:
 
 - none.
+
+_Xue_
+
+Q1:
+- Meet with Chris
+
+- Team Meeting to discuss the further steps
+
+- Worked on branch view_midSubmission
+
+Q2:
+- finish method handleModelUpdate
+- create JSON protocol
+
+Q3:
+- none.
+  time ,how to implement the codes and support team better
 
 
