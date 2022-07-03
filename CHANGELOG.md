@@ -18,6 +18,7 @@ and this project adheres to [ Semantic Versioning ]( https://semver.org/spec/v2.
 - Network Multiplayer Mode.
 - The rules of Azul are validated by the server.
 - Restarting and forfeiting the game is possible.
+- Chat to inform the players of GameEvents and send each other messages 
 
 ## [1.0.0] - 2022-07-03 
 ### Added
@@ -35,12 +36,12 @@ and this project adheres to [ Semantic Versioning ]( https://semver.org/spec/v2.
 - DailyLog.md - containing the daily logs of the team
 - README.md 
 - JSON-Protocol
+- Added JUnit tests using JUnit 5.8.1 for the bag classes and the player class 
 
 ### Changed
 - Nothing
 
-[Unreleased]: https://gitlab2.cip.ifi.lmu.de/sosy-lab/sep-ss-22/team12/-/releases 
-[1.0.1]: 
+[Unreleased]: https://gitlab2.cip.ifi.lmu.de/sosy-lab/sep-ss-22/team12/-/releases
 
 
 
