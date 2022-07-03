@@ -138,9 +138,18 @@ public class Player {
     //check if it's possible to place the chosen tile on the chosen line
     //this doesn't yet change the state of the data model!
     if (!isValidPick(row, offering, indexOfTile)) {
-      System.out.println("FALSE - Row " + row + " tile number " + indexOfTile + " is not a "
-          + "valid pick! (in Player Class)");
       return false;
+    }
+
+    //TODO: make this methods more readable @Nils
+    //Hotfix
+    //mid-development view design changes made the StartingPlayerMarker clickable
+    // -> it has its own index
+    //since the methods were designs so that it is not clickable these 3 lines fix the bug where
+    //the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
+    //the last tile of the table center causes an OutOfBoundsExceptions
+    if(offering.getContent().contains(STARTING_PLAYER_MARKER)){
+      indexOfTile--;
     }
 
     //acquire the tiles from the chosen offering
@@ -156,7 +165,6 @@ public class Player {
       } else {
         //the
         if (patternLines[row][cursor] == EMPTY_TILE) {
-          System.out.println("Tile is added to patternLines[" + row + "][" + cursor + "]");
           patternLines[row][cursor] = pickedTiles.remove(0);
         } else {
           if ((cursor - 1) >= 0) {
@@ -167,8 +175,6 @@ public class Player {
         }
       }
     }
-    System.out.println("TRUE - Row " + row + " tile number " + indexOfTile + " is a valid pick!"
-        + " (in Player Class)");
     return true;
   }
 
@@ -205,7 +211,7 @@ public class Player {
       if (tiles.size() == 1) {
         return false;
       } else {
-        tile = tiles.get(indexOfTile + 1);
+        tile = tiles.get(indexOfTile);
       }
     } else {
       if (tiles.size() == 0) {
