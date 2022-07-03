@@ -72,8 +72,6 @@ public class PatternLines extends JPanel {
 
       for (int x = 0; x < COLS; x++) {
         if (x < numberOfSkippedColumns) {
-          //TODO: if tileAtXY == true -> getTileEnumXY -> currentRow.add(new TileWithoutListener)
-          //TODO: repaint tiles
           ModelTile modelTile = currentPatternLines[y][x];
           if (modelTile.toString().equals(ModelTile.EMPTY_TILE.toString())) {
             currentRow.add(

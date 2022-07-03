@@ -1,5 +1,7 @@
 package azul.team12.view.board;
 
+import azul.team12.controller.Controller;
+import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,14 +14,21 @@ import javax.swing.JPanel;
 public class Wall extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-
+  private Controller controller;
+  private ModelTile[][] wall;
   private final int DEFAULT_TILE_SIZE = 25;
+  private JPanel currentRow;
   private final int ROWS = 5;
   private final int COLS = 5;
 
   private final int buttonSize;
 
-  public Wall() {
+  /**
+   * Constructor solely used to create other players side panel.
+   */
+  public Wall(Controller controller) {
+    this.controller = controller;
+
     setBackground(new Color(110, 150, 100));
     setPreferredSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
     setMaximumSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
@@ -29,7 +38,7 @@ public class Wall extends JPanel {
     setAlignmentY(1.0f);
     this.buttonSize = DEFAULT_TILE_SIZE;
     for (int y = 0; y < ROWS; y++) {
-      final JPanel currentRow = new JPanel();
+      currentRow = new JPanel();
       currentRow.setAlignmentX(0.2f);
       currentRow.setAlignmentY(1.0f);
       currentRow.setLayout(new GridLayout(1, COLS));
@@ -38,27 +47,33 @@ public class Wall extends JPanel {
 
       for (int x = 0; x < COLS; x++) {
         currentRow.add(new TileWithoutListener(y, x, buttonSize));
-
       }
       add(currentRow);
     }
   }
 
+  /**
+   * Constructor used by current playerBoard. Starts empty and should appear with Tile images after Tiling phase.
+   * @param tileClickListener
+   */
+  public Wall(Controller controller,TileClickListener tileClickListener) {
+    this.controller = controller;
+    wall = controller.getWallOfPlayerAsTiles(controller.getNickOfActivePlayer());
 
-  public Wall(int tileSize, TileClickListener tileClickListener) {
     setBackground(new Color(110, 150, 100));
-    setPreferredSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
+    setPreferredSize(new Dimension((Tile.TILE_SIZE + 2) * ROWS, (Tile.TILE_SIZE + 2) * COLS));
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setAlignmentX(1.0f);
-    this.buttonSize = tileSize;
+    this.buttonSize = Tile.TILE_SIZE;
     for (int y = 0; y < ROWS; y++) {
-      final JPanel currentRow = new JPanel();
+      currentRow = new JPanel();
       currentRow.setAlignmentX(0.1f);
-      currentRow.setLayout(new GridLayout(1, ROWS));
+      currentRow.setLayout(new GridLayout(1, COLS));
       currentRow.setMaximumSize(
-          new Dimension(ROWS * tileSize, COLS * tileSize));
+          new Dimension(ROWS * Tile.TILE_SIZE, COLS * Tile.TILE_SIZE));
       for (int x = 0; x < COLS; x++) {
-        currentRow.add(new TileDestinationWall(y, x, tileSize, tileClickListener, null));
+        //TODO: if xy Tile has been placed, add corresponding icon to TileDestinationWall at xy
+        currentRow.add(new TileDestinationWall(y, x, Tile.TILE_SIZE, tileClickListener, null));
       }
       add(currentRow);
     }
@@ -69,12 +84,6 @@ public class Wall extends JPanel {
         super.mouseClicked(e);
       }
     });
-  }
-
-
-  public Wall(int buttonSize) {
-    setBackground(new Color(110, 150, 100));
-    this.buttonSize = buttonSize;
   }
 
   /*

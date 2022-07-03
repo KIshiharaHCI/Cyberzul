@@ -44,7 +44,7 @@ public class PlayerBoard extends JPanel {
     center.setLayout(new GridLayout(1, 2));
     this.patternLines = new PatternLines(controller);
     center.add(patternLines);
-    this.wall = new Wall();
+    this.wall = new Wall(controller);
     center.add(wall);
     add(center);
     createOthersLast();
@@ -77,9 +77,9 @@ public class PlayerBoard extends JPanel {
    */
   private void createCenterPanel() {
 
-    patternLines = new PatternLines(controller,Tile.TILE_SIZE, tileClickListener);
+    patternLines = new PatternLines(controller,Tile.TILE_SIZE,tileClickListener);
     center.add(patternLines);
-    wall = new Wall(Tile.TILE_SIZE, tileClickListener);
+    wall = new Wall(controller,tileClickListener);
     center.add(wall);
   }
 
