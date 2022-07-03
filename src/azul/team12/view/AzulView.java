@@ -237,16 +237,16 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   }
 
   /**
-   * Removes all Widgets related to the last player who ended their turn and adds new Widgets for the active player.
+   * Updates all Widgets in the Center Board for the new active player.
    */
   private void updateCenterBoard() {
-    gameBoard.getCenterBoard().removeAllPanels();
-    gameBoard.updateFactoryPlates();
-    gameBoard.updateTable();
-    gameBoard.updateCurrentPlayerBoard();
-    gameBoard.validate();
+    gameBoard.updateCenterBoard();
   }
 
+  /**
+   * Used by EventListener to change the Panels being shown such as the Login panel, Gameboard panel, etc.
+   * @param card the name of the panel to show.
+   */
   private void showCard(String card) {
     layout.show(getContentPane(), card);
   }

@@ -83,6 +83,13 @@ public class CenterBoard extends JPanel {
     remove(currentPlayerBoard);
   }
 
-
-
+  /**
+   * Updates the current state of the CenterBoard by clearing and adding updated instances of each widget.
+   */
+  public void updateCenterBoard() {
+    removeAllPanels();
+    createNewPlatesPanel();
+    createNewTableCenter();
+    createNewPlayerBoard();
+  }
 }

@@ -12,6 +12,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Superclass of TileDestinationPatternLines and TileDestinationWall. Saves the information about each
+ * Tile such as the TileclickListener, ImageIcons of Tiles, column and row.
+ */
 public class TileDestination extends JPanel {
 
   private final String BLACK_TILE_PATH = "img/black-tile.png";
