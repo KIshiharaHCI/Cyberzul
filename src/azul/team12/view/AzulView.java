@@ -3,6 +3,7 @@ package azul.team12.view;
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.events.GameFinishedEvent;
+import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
@@ -185,6 +186,15 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
       case "IllegalTurnEvent" -> {
         showErrorMessage("Illegal turn.");
+      }
+      case "GameNotStartableEvent" -> {
+        GameNotStartableEvent gameNotStartableEvent = (GameNotStartableEvent) customMadeGameEvent;
+        if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.GAME_ALREADY_STARTED)) {
+          showErrorMessage(GameNotStartableEvent.GAME_ALREADY_STARTED);
+        } else if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.NOT_ENOUGH_PLAYER)) {
+          showErrorMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER);
+        }
+
       }
       //default -> throw new AssertionError("Unknown event");
     }
