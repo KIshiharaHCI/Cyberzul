@@ -6,6 +6,7 @@ import azul.team12.view.listeners.TileClickListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -59,26 +60,34 @@ public class PatternLines extends JPanel {
 
     setBackground(new Color(110, 150, 100));
     setPreferredSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
+    setMaximumSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
+    setMinimumSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setAlignmentX(1.0f);
+    setAlignmentY(1.0f);
     this.tileSize = tileSize;
     int numberOfSkippedColumns = 1;
     for (int row = 0; row < ROWS; row++) {
       JPanel currentRow = new JPanel();
+      currentRow.setLayout(new GridLayout(1, numberOfSkippedColumns, 2, 2));
       currentRow.setAlignmentX(1.0f);
-      currentRow.setLayout(new GridLayout(1, numberOfSkippedColumns));
+      currentRow.setAlignmentY(1.0f);
       currentRow.setMaximumSize(
-          new Dimension(numberOfSkippedColumns * tileSize, row * tileSize));
+          new Dimension(numberOfSkippedColumns * (tileSize + 2) + 2, row * (tileSize + 2) + 2));
+      currentRow.setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
+      currentRow.setOpaque(false);
 
       for (int col = 0; col < COLS; col++) {
         if (col < numberOfSkippedColumns) {
           ModelTile modelTile = currentPatternLines[row][col];
           if (modelTile.toString().equals(ModelTile.EMPTY_TILE.toString())) {
             currentRow.add(
-                new TileDestinationPatternLines(col, row, tileSize, tileClickListener, ModelTile.EMPTY_TILE));
+                new TileDestinationPatternLines(col, row, tileSize, tileClickListener,
+                    ModelTile.EMPTY_TILE));
 
           } else {
-            currentRow.add(new TileDestinationPatternLines(col, row, tileSize, tileClickListener, modelTile));
+            currentRow.add(
+                new TileDestinationPatternLines(col, row, tileSize, tileClickListener, modelTile));
           }
         }
       }

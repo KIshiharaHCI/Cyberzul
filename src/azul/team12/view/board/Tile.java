@@ -2,13 +2,11 @@ package azul.team12.view.board;
 
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -56,7 +54,6 @@ public class Tile extends JPanel {
     this.plateId = plateId;
     this.modelTile = modelTile;
     this.icon = setIcon(modelTile);
-    setBorder(BorderFactory.createLineBorder(Color.black));
     setToolTipText(tileId + "");
     label = icon != null ? new JLabel(icon) : new JLabel("");
     add(label);

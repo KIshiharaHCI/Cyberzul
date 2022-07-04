@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * The board that shows the pattern lines and the wall of each player. It also shows the name,
- * the points and the minus points of each player.
+ * The board that shows the pattern lines and the wall of each player. It also shows the name, the
+ * points and the minus points of each player.
  */
 public class PlayerBoard extends JPanel {
 
@@ -31,7 +31,8 @@ public class PlayerBoard extends JPanel {
    *
    * @param tileClickListener
    */
-  public PlayerBoard(Controller controller, TileClickListener tileClickListener, String playerName) {
+  public PlayerBoard(Controller controller, TileClickListener tileClickListener,
+      String playerName) {
     this.controller = controller;
     this.playerName = playerName;
     this.tileClickListener = tileClickListener;
@@ -48,19 +49,21 @@ public class PlayerBoard extends JPanel {
   }
 
   /**
-   * Used by Constructor and disposeLabelsPatternLinesAndWall() Methods to create the current player board.
-   * Refactored out of Constructor because playerBoard will be updated after every NextPlayersTurnEvent.
+   * Used by Constructor and disposeLabelsPatternLinesAndWall() Methods to create the current player
+   * board. Refactored out of Constructor because playerBoard will be updated after every
+   * NextPlayersTurnEvent.
    */
   private void createCenterPanel() {
 
-    patternLines = new PatternLines(controller,Tile.TILE_SIZE,tileClickListener);
+    patternLines = new PatternLines(controller, Tile.TILE_SIZE, tileClickListener);
     center.add(patternLines);
-    wall = new Wall(controller,tileClickListener);
+    wall = new Wall(controller, tileClickListener);
     center.add(wall);
   }
 
   /**
-   * Gets the information about the status of the current player such as name and score from controller.
+   * Gets the information about the status of the current player such as name and score from
+   * controller.
    */
   private void initializeClassVariables() {
     points = controller.getPoints(playerName);
@@ -68,7 +71,7 @@ public class PlayerBoard extends JPanel {
   }
 
   private void addPointsAndPlayerNameElements() {
-    JPanel north = createSouthernPart("Points: ", points);
+    JPanel north = createNorthernPart("Points: ", points);
     north.add(new JLabel("Name: " + playerName));
     add(north, BorderLayout.NORTH);
   }
@@ -77,7 +80,7 @@ public class PlayerBoard extends JPanel {
     JPanel south = new JPanel();
     south.setBackground(new Color(110, 150, 100));
     south.setLayout(new GridLayout(1, 3));
-    south.add(new JLabel("Minus Points: " + minusPoints));
+    south.add(new JLabel("   Minus Points: " + minusPoints));
     JButton floorLineButton = new JButton("Floor Line");
     floorLineButton.addActionListener(e -> {
       controller.placeTileAtFloorLine();
@@ -85,14 +88,14 @@ public class PlayerBoard extends JPanel {
     });
     south.add(floorLineButton);
     south.add(new JLabel(""));
-    add(south,BorderLayout.SOUTH);
+    add(south, BorderLayout.SOUTH);
   }
 
-  private JPanel createSouthernPart(String x, int minusPoints) {
-    JPanel south = new JPanel();
-    south.setBackground(new Color(110, 150, 100));
-    south.setLayout(new GridLayout(1, 2));
-    south.add(new JLabel(x + minusPoints));
-    return south;
+  private JPanel createNorthernPart(String x, int minusPoints) {
+    JPanel north = new JPanel();
+    north.setBackground(new Color(110, 150, 100));
+    north.setLayout(new GridLayout(1, 2));
+    north.add(new JLabel("   " + x + minusPoints));
+    return north;
   }
 }
