@@ -1,9 +1,7 @@
 package azul.team12.controller;
 
-import azul.team12.model.GameModel;
-import azul.team12.model.ModelTile;
-import azul.team12.model.Offering;
-import azul.team12.model.WallBackgroundPattern;
+import azul.team12.model.*;
+
 import java.util.List;
 
 public class GameController implements Controller{
@@ -96,6 +94,11 @@ public class GameController implements Controller{
   @Override
   public ModelTile[][] getTemplateWall() {
     return WallBackgroundPattern.getTemplateWall();
+  }
+
+  @Override
+  public List<Player> rankingPlayerWithPoints() {
+    return model.rankingPlayerWithPoints();
   }
 
 }

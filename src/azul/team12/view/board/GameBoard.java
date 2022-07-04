@@ -1,6 +1,7 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
+import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
 
@@ -23,6 +24,8 @@ public class GameBoard extends JPanel {
 
   private JPanel boardsOfOpponentsPanel;
 
+  private JPanel rankingBoardPanel;
+
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
                    Controller controller) {
 
@@ -32,10 +35,20 @@ public class GameBoard extends JPanel {
 
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
-    createPanelWithTheBoardsOfOpponents();
-
+    //createPanelWithTheBoardsOfOpponents();
     center = new CenterBoard(controller,tileClickListener);
     add(center, BorderLayout.CENTER);
+    createRankingBoardPanel();
+
+  }
+
+  private void createRankingBoardPanel() {
+    JPanel rankingBoardPanel = new JPanel();
+    rankingBoardPanel.setMaximumSize(new Dimension(300, 300));
+    rankingBoardPanel.setPreferredSize(new Dimension(300, 300));
+    rankingBoardPanel.setLayout(new FlowLayout());
+    rankingBoardPanel.add(new RankingBoard(controller));
+    add(rankingBoardPanel, BorderLayout.WEST);
   }
 
   private void createPanelWithTheBoardsOfOpponents() {

@@ -1,10 +1,7 @@
 package azul.team12.controller;
 
-import azul.team12.model.Bag;
-import azul.team12.model.FactoryDisplay;
-import azul.team12.model.ModelTile;
-import azul.team12.model.Offering;
-import azul.team12.model.TableCenter;
+import azul.team12.model.*;
+
 import java.util.List;
 
 /**
@@ -143,4 +140,5 @@ public interface Controller {
   ModelTile[][] getTemplateWall();
 
 
+  List<Player> rankingPlayerWithPoints();
 }
