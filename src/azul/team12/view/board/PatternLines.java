@@ -3,11 +3,8 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 public class PatternLines extends JPanel {
@@ -25,13 +22,7 @@ public class PatternLines extends JPanel {
     currentPatternLines = this.controller.getPatternLinesOfPlayer(
         controller.getNickOfActivePlayer());
 
-    setBackground(new Color(110, 150, 100));
-    setPreferredSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
-    setMaximumSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
-    setMinimumSize(new Dimension((DEFAULT_TILE_SIZE + 2) * ROWS, (DEFAULT_TILE_SIZE + 2) * COLS));
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    setAlignmentX(1.0f);
-    setAlignmentY(1.0f);
+    ViewHelper.setProperties(DEFAULT_TILE_SIZE, ROWS, COLS, this);
     this.tileSize = DEFAULT_TILE_SIZE;
     int numberOfSkippedColumns = 1;
     for (int yRow = 0; yRow < ROWS; yRow++) {
@@ -53,30 +44,36 @@ public class PatternLines extends JPanel {
     }
   }
 
+  /**
+   * The constructor of {@link PatternLines}.
+   *
+   * @param controller:        The controller.
+   * @param tileSize:          The size of the smallest element on the {@link PatternLines} board.
+   * @param tileClickListener: The listener for click events.
+   */
   public PatternLines(Controller controller, int tileSize, TileClickListener tileClickListener) {
     this.controller = controller;
     currentPatternLines = this.controller.getPatternLinesOfPlayer(
         controller.getNickOfActivePlayer());
 
-    setBackground(new Color(110, 150, 100));
-    setPreferredSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
-    setMaximumSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
-    setMinimumSize(new Dimension((tileSize + 2) * ROWS, (tileSize + 2) * COLS));
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    setAlignmentX(1.0f);
-    setAlignmentY(1.0f);
+    ViewHelper.setProperties(tileSize, ROWS, COLS, this);
     this.tileSize = tileSize;
+    initialize(tileSize, tileClickListener);
+  }
+
+  /**
+   * Initializes all the components of the {@link PatternLines}.
+   *
+   * @param tileSize:          The size of the smallest element.
+   * @param tileClickListener: The listener to react on click events on the {@link PatternLines}
+   *                           board.
+   */
+  private void initialize(int tileSize, TileClickListener tileClickListener) {
     int numberOfSkippedColumns = 1;
     for (int row = 0; row < ROWS; row++) {
       JPanel currentRow = new JPanel();
-      currentRow.setLayout(new GridLayout(1, numberOfSkippedColumns, 2, 2));
       currentRow.setAlignmentX(1.0f);
-      currentRow.setAlignmentY(1.0f);
-      currentRow.setMaximumSize(
-          new Dimension(numberOfSkippedColumns * (tileSize + 2) + 2, row * (tileSize + 2) + 2));
-      currentRow.setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
-      currentRow.setOpaque(false);
-
+      ViewHelper.setPropertiesOfCurrentRow(tileSize, numberOfSkippedColumns, row, currentRow);
       for (int col = 0; col < COLS; col++) {
         if (col < numberOfSkippedColumns) {
           ModelTile modelTile = currentPatternLines[row][col];
@@ -84,7 +81,6 @@ public class PatternLines extends JPanel {
             currentRow.add(
                 new TileDestinationPatternLines(col, row, tileSize, tileClickListener,
                     ModelTile.EMPTY_TILE));
-
           } else {
             currentRow.add(
                 new TileDestinationPatternLines(col, row, tileSize, tileClickListener, modelTile));

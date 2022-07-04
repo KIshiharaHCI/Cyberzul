@@ -51,7 +51,8 @@ public class GameBoard extends JPanel {
     for (int i = 0; i < listOfActivePlayers.size(); i++) {
       String nameOfOpponent = controller.getNickOfActivePlayer();
       if (!nameOfOpponent.equals(listOfActivePlayers.get(i))) {
-        PlayerBoard playerBoard = new PlayerBoard(controller, new TileClickListener(null, null),
+        // listener is null, because no click events should happen here.
+        PlayerBoard playerBoard = new PlayerBoard(controller, null,
             nameOfOpponent);
         boardsOfOpponentsPanel.add(playerBoard);
       }

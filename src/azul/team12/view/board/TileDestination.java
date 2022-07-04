@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.URL;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -77,7 +76,6 @@ public class TileDestination extends JPanel {
     setMaximumSize(new Dimension(cellSize, cellSize));
     setMinimumSize(new Dimension(cellSize, cellSize));
 
-    setBorder(BorderFactory.createLineBorder(Color.BLACK));
   }
 
   private ImageIcon setTransparentIcon(ModelTile modelTile) {
