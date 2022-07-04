@@ -106,7 +106,8 @@ public interface Controller {
   boolean placeTileAtPatternLine(int rowOfPatternLine);
 
   /**
-   *
+   * Informs the model that the user has put the tiles of a chosen offering directly to the
+   * floor lines.
    */
   void placeTileAtFloorLine();
 

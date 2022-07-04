@@ -7,14 +7,13 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.URL;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Superclass of TileDestinationPatternLines and TileDestinationWall. Saves the information about each
- * Tile such as the TileclickListener, ImageIcons of Tiles, column and row.
+ * Superclass of TileDestinationPatternLines and TileDestinationWall. Saves the information about
+ * each Tile such as the TileclickListener, ImageIcons of Tiles, column and row.
  */
 public class TileDestination extends JPanel {
 
@@ -55,9 +54,51 @@ public class TileDestination extends JPanel {
     setMaximumSize(new Dimension(cellSize, cellSize));
     setMinimumSize(new Dimension(cellSize, cellSize));
 
-    setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
     addMouseListener(tileClickListener);
+  }
+
+  public TileDestination(int cell, int row, int cellSize, ModelTile modelTile) {
+    setLayout(new GridLayout(1, 1));
+    this.cell = cell;
+    this.row = row;
+    this.cellSize = cellSize;
+    this.modelTile = modelTile;
+    this.icon = modelTile.equals(ModelTile.EMPTY_TILE) ? null : setTransparentIcon(modelTile);
+    this.setBackground(Color.WHITE);
+    if (icon != null) {
+      label = new JLabel(icon);
+    } else {
+      label = new JLabel("");
+    }
+    add(label);
+
+    setPreferredSize(new Dimension(cellSize, cellSize));
+    setMaximumSize(new Dimension(cellSize, cellSize));
+    setMinimumSize(new Dimension(cellSize, cellSize));
+
+  }
+
+  private ImageIcon setTransparentIcon(ModelTile modelTile) {
+    switch (modelTile) {
+      case BLACK_TILE -> {
+        return new TransparentImageIcon(getResizedImageIcon(BLACK_TILE_PATH), 0.25F);
+
+      }
+      case RED_TILE -> {
+        return new TransparentImageIcon(getResizedImageIcon(RED_TILE_PATH), 0.25F);
+      }
+      case BLUE_TILE -> {
+        return new TransparentImageIcon(getResizedImageIcon(BLUE_TILE_PATH), 0.25F);
+      }
+      case WHITE_TILE -> {
+        return new TransparentImageIcon(getResizedImageIcon(WHITE_TILE_PATH), 0.25F);
+      }
+      case ORANGE_TILE -> {
+        return new TransparentImageIcon(getResizedImageIcon(ORANGE_TILE_PATH), 0.25F);
+      }
+      default -> throw new AssertionError("Unknown Tile!");
+
+    }
   }
 
   public ImageIcon setIcon(ModelTile modelTile) {

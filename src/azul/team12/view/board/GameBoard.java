@@ -27,7 +27,7 @@ public class GameBoard extends JPanel {
   private JPanel rankingBoardPanel;
 
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
-                   Controller controller) {
+      Controller controller) {
 
     this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
@@ -35,7 +35,7 @@ public class GameBoard extends JPanel {
 
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
-    //createPanelWithTheBoardsOfOpponents();
+    createPanelWithTheBoardsOfOpponents();
     center = new CenterBoard(controller,tileClickListener);
     add(center, BorderLayout.CENTER);
     createRankingBoardPanel();
@@ -51,17 +51,26 @@ public class GameBoard extends JPanel {
     add(rankingBoardPanel, BorderLayout.WEST);
   }
 
+
   private void createPanelWithTheBoardsOfOpponents() {
     boardsOfOpponentsPanel = new JPanel();
-    boardsOfOpponentsPanel.setMaximumSize(new Dimension(300, 300));
-    boardsOfOpponentsPanel.setPreferredSize(new Dimension(300, 300));
-    boardsOfOpponentsPanel.setLayout(new GridLayout(numberOfPlayers - 1, 1));
-    for (int i = 0; i < numberOfPlayers - 1; i++) {
-      PlayerBoard playerBoard = new PlayerBoard(controller);
-      boardsOfOpponentsPanel.add(playerBoard);
+    boardsOfOpponentsPanel.setMaximumSize(new Dimension(450, 500));
+    boardsOfOpponentsPanel.setPreferredSize(new Dimension(450, 500));
+    boardsOfOpponentsPanel.setLayout(new GridLayout(3, 1));
+
+    List<String> listOfActivePlayers = controller.getPlayerNamesList();
+    for (int i = 0; i < listOfActivePlayers.size(); i++) {
+      String nameOfOpponent = controller.getNickOfActivePlayer();
+      if (!nameOfOpponent.equals(listOfActivePlayers.get(i))) {
+        // listener is null, because no click events should happen here.
+        PlayerBoard playerBoard = new PlayerBoard(controller, null,
+            nameOfOpponent);
+        boardsOfOpponentsPanel.add(playerBoard);
+      }
     }
     add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
+
 
   /**
    * Used by view to update all widgets in Center Board.

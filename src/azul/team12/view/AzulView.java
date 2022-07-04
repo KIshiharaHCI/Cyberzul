@@ -2,20 +2,28 @@ package azul.team12.view;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
+import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class AzulView extends JFrame implements PropertyChangeListener {
 
@@ -36,6 +44,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JButton testThreePlayersButton;
   private JButton testTwoPlayersButton;
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
+  private JLabel gameLogoLabel;
 
 
   private GameModel model;
@@ -54,7 +63,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     this.controller = controller;
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     gbl = new GridBagLayout();
-    setMinimumSize(new Dimension(1400, 900));
+    setMinimumSize(new Dimension(1570, 960));
     setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     initializeWidgets();
@@ -76,6 +85,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     //Labels
     pleaseEnterNameLabel = new JLabel("Please enter your nickname:");
     selectModeLabel = new JLabel("Select Mode");
+    URL resource = getClass().getClassLoader().getResource("img/gamelogo.png");
+    ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("img/gamelogo.png"));
+    gameLogoLabel = new JLabel(icon);
   }
 
   private void addEventListeners() {
@@ -95,36 +107,37 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         }
     );
     testFourPlayersButton.addActionListener(event -> {
-        List<String> fourUserNameForTest = new ArrayList<>(List.of("Iurri", "Kenji", "Marco", "Nils"));
-        for(String name : fourUserNameForTest){
+          List<String> fourUserNameForTest = new ArrayList<>(
+              List.of("Iurri", "Kenji", "Marco", "Nils"));
+          for (String name : fourUserNameForTest) {
             controller.addPlayer(name);
-        }
-        controller.startGame();
-        addNewGameBoard(tileClickListener);
-        showCard(GAMEBOARD_CARD);
+          }
+          controller.startGame();
+          addNewGameBoard(tileClickListener);
+          showCard(GAMEBOARD_CARD);
 
-    }
+        }
     );
     testThreePlayersButton.addActionListener(event -> {
-              List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "schönen", "Tag"));
-              for(String name : threeUserNameForTest){
-                controller.addPlayer(name);
-              }
-              controller.startGame();
-              addNewGameBoard(tileClickListener);
-              showCard(GAMEBOARD_CARD);
+          List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "schönen", "Tag"));
+          for (String name : threeUserNameForTest) {
+            controller.addPlayer(name);
+          }
+          controller.startGame();
+          addNewGameBoard(tileClickListener);
+          showCard(GAMEBOARD_CARD);
 
-            }
+        }
     );
     testTwoPlayersButton.addActionListener(event -> {
-              List<String> twoUserNameForTest = new ArrayList<>(List.of("Feier", "Abend"));
-              for (String name : twoUserNameForTest) {
-                controller.addPlayer(name);
-              }
-              controller.startGame();
-              addNewGameBoard(tileClickListener);
-              showCard(GAMEBOARD_CARD);
-            }
+          List<String> twoUserNameForTest = new ArrayList<>(List.of("Feier", "Abend"));
+          for (String name : twoUserNameForTest) {
+            controller.addPlayer(name);
+          }
+          controller.startGame();
+          addNewGameBoard(tileClickListener);
+          showCard(GAMEBOARD_CARD);
+        }
     );
   }
 
@@ -137,6 +150,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
     });
   }
+
   /**
    * Handles the events that get fired from the model to the listeners of the model.
    *
@@ -165,7 +179,14 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         updateCenterBoard();
         //TODO: PlatesPanel nach Kenjis Vorbild updaten
       }
-       //default -> throw new AssertionError("Unknown event");
+      case "GameFinishedEvent" -> {
+        GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
+        showErrorMessage("User " + gameFinishedEvent.getWINNER() + " won.");
+      }
+      case "IllegalTurnEvent" -> {
+        showErrorMessage("Illegal turn.");
+      }
+      //default -> throw new AssertionError("Unknown event");
     }
   }
 
@@ -183,12 +204,16 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     JPanel panel = new JPanel(layout);
     setContentPane(panel);
 
-    JPanel login = new JPanel();
-    add(login, LOGIN_CARD);
-    login.add(selectModeLabel);
-    login.add(hotSeatModeButton);
-    login.add(networkButton);
+    JPanel login = new JPanel(new GridLayout(2, 1));
+    login.add(gameLogoLabel);
+    JPanel container = new JPanel();
+    login.add(container);
 
+    container.add(selectModeLabel);
+    container.add(hotSeatModeButton);
+    container.add(networkButton);
+
+    add(login, LOGIN_CARD);
 
     createHotSeatModeCard();
   }
@@ -212,6 +237,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     hotSeatModePanel.add(testThreePlayersButton);
     hotSeatModePanel.add(testTwoPlayersButton);
   }
+
   private void showHSMCard() {
     showCard(HOT_SEAT_MODE_CARD);
   }
@@ -223,9 +249,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   /**
    * shows the GameBoard when Play Button is pressed.
    *
-   * @param tileClickListener the listener that enables to check whether one has clicked on
-   *                          a tile, the wall as a destination or the pattern lines as a
-   *                          destination.
+   * @param tileClickListener the listener that enables to check whether one has clicked on a tile,
+   *                          the wall as a destination or the pattern lines as a destination.
    */
   private void addNewGameBoard(TileClickListener tileClickListener) {
     JPanel gameBoardPanel = new JPanel();
@@ -244,7 +269,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   }
 
   /**
-   * Used by EventListener to change the Panels being shown such as the Login panel, Gameboard panel, etc.
+   * Used by EventListener to change the Panels being shown such as the Login panel, Gameboard
+   * panel, etc.
+   *
    * @param card the name of the panel to show.
    */
   private void showCard(String card) {
