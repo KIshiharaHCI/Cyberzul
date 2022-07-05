@@ -5,6 +5,8 @@ import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
 
 public class PatternLines extends JPanel {
@@ -16,6 +18,8 @@ public class PatternLines extends JPanel {
   private final int COLS = 5;
   private final int tileSize;
   private ModelTile[][] currentPatternLines;
+
+  private List<JPanel> currentRows = new ArrayList<>();
 
   public PatternLines(Controller controller) {
     this.controller = controller;
@@ -68,7 +72,7 @@ public class PatternLines extends JPanel {
    * @param tileClickListener: The listener to react on click events on the {@link PatternLines}
    *                           board.
    */
-  private void initialize(int tileSize, TileClickListener tileClickListener) {
+  public void initialize(int tileSize, TileClickListener tileClickListener) {
     int numberOfSkippedColumns = 1;
     for (int row = 0; row < ROWS; row++) {
       JPanel currentRow = new JPanel();
@@ -89,6 +93,13 @@ public class PatternLines extends JPanel {
       }
       numberOfSkippedColumns++;
       add(currentRow);
+      this.currentRows.add(currentRow);
+    }
+  }
+
+  public void remove() {
+    for (JPanel currentRow : this.currentRows) {
+      this.remove(currentRow);
     }
   }
 

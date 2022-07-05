@@ -4,7 +4,6 @@ import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -17,14 +16,13 @@ import javax.swing.JPanel;
  */
 public class CenterBoard extends JPanel {
 
-  private PlayerBoard currentPlayerBoard;
   private final Controller controller;
-  private TableCenter tableCenter;
-  private TileClickListener tileClickListener;
   List<Tile> tileList;
-
   PlatesPanel platesPanel;
   TableCenterPanel tableCenterPanel;
+  private PlayerBoard currentPlayerBoard;
+  private TableCenter tableCenter;
+  private TileClickListener tileClickListener;
 
   /**
    * Creates the center board based on the number of players and with the tile click listeners.
@@ -86,12 +84,17 @@ public class CenterBoard extends JPanel {
   }
 
   /**
-   * Updates the current state of the CenterBoard by clearing and adding updated instances of each widget.
+   * Updates the current state of the CenterBoard by clearing and adding updated instances of each
+   * widget.
    */
   public void updateCenterBoard() {
     removeAllPanels();
     createNewPlatesPanel();
     createNewTableCenter();
     createNewPlayerBoard();
+  }
+
+  public TableCenterPanel getTableCenterPanel() {
+    return tableCenterPanel;
   }
 }

@@ -2,8 +2,13 @@ package azul.team12.view.listeners;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
-import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
+import azul.team12.model.TableCenter;
+import azul.team12.view.board.CenterBoard;
+import azul.team12.view.board.PatternLines;
+import azul.team12.view.board.Plate;
+import azul.team12.view.board.PlatesPanel;
+import azul.team12.view.board.TableCenterPanel;
 import azul.team12.view.board.Tile;
 import azul.team12.view.board.TileDestination;
 import azul.team12.view.board.TileDestinationPatternLines;
@@ -66,7 +71,7 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
     System.out.println(
         "The " + tile.getTileId() + ". tile on offering " + tile.getPlateId() + " was clicked.");
     source = tile;
-    source.setBorder(BorderFactory.createLineBorder(Color.RED));
+    source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
     // offerings, not factoryDisplays, because the first factory displays has id one not zero
     List<Offering> offerings = controller.getOfferings();
     controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(),
@@ -87,15 +92,26 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
     if (source != null) {
       // if the player is able to place the tile, place it
       if (controller.placeTileAtPatternLine(tileDestination.getRow())) {
-        ImageIcon icon = source.getIcon();
-        tileDestination.setModelTile(source.getModelTile());
-        tileDestination.setIcon(icon);
-        tileDestination.getLabel().setIcon(icon);
-        source.getLabel().setIcon(null);
-        source.setOpaque(false);
-        source.getLabel().setVisible(false);
-        source.setModelTile(ModelTile.EMPTY_TILE);
+        PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
+        patternLinesView.remove();
+        patternLinesView.initialize(Tile.TILE_SIZE, this);
+
         source.setBorder(BorderFactory.createEmptyBorder());
+        if (source.getPlateId() > 0) {
+          Plate plate = (Plate) source.getParent().getParent();
+          PlatesPanel platesPanel = (PlatesPanel) plate.getParent();
+          platesPanel.remove();
+          platesPanel.initialize(controller.getFactoryDisplays(), this);
+
+          CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
+          TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();
+          tableCenterPanel.remove();
+          tableCenterPanel.initialize(this, (TableCenter) controller.getTableCenter());
+        } else if (source.getPlateId() == 0) {
+          TableCenterPanel tableCenterPanel = (TableCenterPanel) source.getParent().getParent();
+          tableCenterPanel.remove();
+          tableCenterPanel.initialize(this, (TableCenter) controller.getTableCenter());
+        }
         //TODO: do it with a button on the playboard
         showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
         controller.endTurn(source.getName());

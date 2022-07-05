@@ -24,6 +24,8 @@ public class Plate extends JPanel {
   private int plateId;
   private List<Tile> tileList;
 
+  private JLabel plateImageLabel;
+
   /**
    * Create one Plate.
    *
@@ -33,7 +35,7 @@ public class Plate extends JPanel {
   public Plate(int plateId,
       TileClickListener tileClickListener, List<ModelTile> content) {
     setLayout(new GridLayout(1, 1));
-    JLabel plateImageLabel = new JLabel(
+    plateImageLabel = new JLabel(
         getResizedImageIcon("img/manufacturing-plate.png", PLATE_SIZE));
     setOpaque(false);
     add(plateImageLabel);
@@ -42,6 +44,11 @@ public class Plate extends JPanel {
     // plateImageLabel.setLayout(plateLayout);
     this.plateId = plateId;
     this.tileList = new ArrayList<>();
+
+    initialize(tileClickListener, content);
+  }
+
+  public void initialize(TileClickListener tileClickListener, List<ModelTile> content) {
     int space_from_left = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
     int space_from_top = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
     for (int i = 0; i < content.size(); i++) {
@@ -60,19 +67,11 @@ public class Plate extends JPanel {
     }
   }
 
-//  private ImageIcon getResizedRoundImageIcon(String path, int size) {
-//    URL imgURL1 = getClass().getClassLoader().getResource(path);
-//    ImageIcon icon1 = new ImageIcon(imgURL1);
-//    BufferedImage resizedimage = new BufferedImage(size, size,
-//        BufferedImage.TYPE_INT_RGB);
-//    Graphics2D g2 = resizedimage.createGraphics();
-//    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-//        RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-//    g2.setClip(new Double(0, 0, size, size));
-//    g2.drawImage(icon1.getImage(), 0, 0, size, size, null);
-//
-//    return new ImageIcon(resizedimage);
-//  }
+  public void remove() {
+    for (Tile tile : tileList) {
+      this.remove(tile);
+    }
+  }
 
   private ImageIcon getResizedImageIcon(String path, int size) {
     URL imgURL1 = getClass().getClassLoader().getResource(path);

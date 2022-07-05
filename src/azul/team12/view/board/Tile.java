@@ -16,7 +16,7 @@ import javax.swing.JPanel;
  */
 public class Tile extends JPanel {
 
-  static final int TILE_SIZE = 40;
+  public static final int TILE_SIZE = 40;
   private static final long serialVersionUID = 7526472295622776147L;
   private final int tileId;
   private final String BLACK_TILE_PATH = "img/black-tile.png";

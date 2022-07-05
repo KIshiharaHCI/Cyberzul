@@ -19,26 +19,32 @@ import javax.swing.JPanel;
 public class TableCenterPanel extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-
-  private int TABLE_CENTER_SIZE_WIDTH_IN_PXL = 1100;
-  private int TABLE_CENTER_HEIGHT_IN_PXL = 260;
-
   private final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
   private final int SPACE_BETWEEN_TILES_IN_PXL = 44;
-
-  private List<Tile> tileList;
   private final int plateId = 0;
+  private int TABLE_CENTER_SIZE_WIDTH_IN_PXL = 1100;
+  private int TABLE_CENTER_HEIGHT_IN_PXL = 260;
+  private List<Tile> tileList;
+  private JLabel tableCenterImageLabel;
+  private TableCenter tableCenter;
 
   public TableCenterPanel(TableCenter tableCenter, TileClickListener tileClickListener) {
-    JLabel tableCenterImageLabel = new JLabel(
+    this.tableCenter = tableCenter;
+    this.tileList = new ArrayList<>();
+
+    initialize(tileClickListener, tableCenter);
+
+  }
+
+  public void initialize(TileClickListener tileClickListener,
+      TableCenter tableCenter) {
+    this.tableCenter = tableCenter;
+    tableCenterImageLabel = new JLabel(
         getResizedImageIcon("img/table-center.png"));
     add(tableCenterImageLabel);
     tableCenterImageLabel.setBounds(0, 0, TABLE_CENTER_SIZE_WIDTH_IN_PXL,
         TABLE_CENTER_HEIGHT_IN_PXL);
-
-    this.tileList = new ArrayList<>();
     List<ModelTile> modelTiles = tableCenter.getContent();
-
     for (int i = 0; i < modelTiles.size(); i++) {
       Tile tile = new Tile(i, this.plateId, modelTiles.get(i), tileClickListener);
       System.out.println("tile: " + tile);
@@ -54,7 +60,13 @@ public class TableCenterPanel extends JPanel {
       }
       tableCenterImageLabel.add(tile);
     }
+  }
 
+  public void remove() {
+    for (Tile tile : this.tileList) {
+      this.tableCenterImageLabel.remove(tile);
+      this.remove(tableCenterImageLabel);
+    }
   }
 
   /**
@@ -78,5 +90,7 @@ public class TableCenterPanel extends JPanel {
     return new ImageIcon(resizedimage);
   }
 
-
+  public JLabel getTableCenterImageLabel() {
+    return tableCenterImageLabel;
+  }
 }
