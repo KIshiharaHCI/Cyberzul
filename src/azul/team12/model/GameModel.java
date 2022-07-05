@@ -18,6 +18,7 @@ import azul.team12.view.board.PatternLines;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -399,18 +400,15 @@ public class GameModel {
   }
 
   /**
-   * Order and save the players with its points.
+   * Ranking the players with its points.
+   *
    * @return a list of players with points in descending order.
    */
-  public List<String> rankingPlayerWithPoints() {
-    List<String> nameListOfPlayers = new ArrayList<>();
-    Collections.sort(playerList, (o1, o2) -> -Integer.compare(o1.getPoints(), o2.getPoints()));
-    for (Player player : playerList) {
-      nameListOfPlayers.add(player.getName());
+  public List<Player> rankingPlayerWithPoints() {
+    List<Player> playerRankingList = playerList;
+    Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(o1.getPoints(), o2.getPoints()));
+    return playerRankingList;
 
-    }
-    System.out.println(nameListOfPlayers);
-    return nameListOfPlayers;
   }
 
   /**
