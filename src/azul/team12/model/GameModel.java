@@ -11,6 +11,7 @@ import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
+import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.model.events.PlayerHasEndedTheGameEvent;
@@ -134,6 +135,7 @@ public class GameModel {
       e.printStackTrace();
     }
 
+    //TODO: If player has already chosen something and then forfeits
     LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
     getPlayerByName(getNickOfActivePlayer()).setAIPlayer(true);
     makeAIPlayerMakeAMove(getNickOfActivePlayer());
@@ -223,18 +225,8 @@ public class GameModel {
         setUpOfferings();
       }
       notifyListeners(roundFinishedEvent);
-      } else {
-      //if it is an AI player, we want to see what he/she did, therefore we will wait
-      if (getPlayerByName(getNickOfActivePlayer()).isAIPlayer()) {
-        try {
-          Thread.currentThread().sleep(3 * SLEEP_TIME);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-      indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
-      //LOGGER.info("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
     }
+    indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
 
@@ -251,6 +243,8 @@ public class GameModel {
     }
   }
 
+
+  //TODO!!!! Something is wrong with the SPM - AI does not pick the SPM.
   /**
    * makes the active AI Player place a tile randomly.
    *
@@ -417,11 +411,18 @@ public class GameModel {
     currentIndexOfTile = indexOfTile;
     Player player = getPlayerByName(playerName);
 
-    int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
-    Player nextPlayer = playerList.get(indexOfNextPlayer);
-    String nextPlayerNick = nextPlayer.getName();
-    PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
-    notifyListeners(playerHasChosenTileEvent);
+    // inform listeners if there is a valid pick, who the next player is
+    // if not: that there is not valid turn to make
+    if (thereIsAValidPick) {
+      int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
+      Player nextPlayer = playerList.get(indexOfNextPlayer);
+      String nextPlayerNick = nextPlayer.getName();
+      PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
+      notifyListeners(playerHasChosenTileEvent);
+    } else {
+      NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
+      notifyListeners(noValidTurnToMakeEvent);
+    }
 
   }
 
