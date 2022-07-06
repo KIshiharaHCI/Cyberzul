@@ -209,7 +209,12 @@ public class Player {
     List<ModelTile> pickedTiles = offering.takeTileWithIndex(indexOfTile);
 
     while (pickedTiles.size() > 0) {
-      fillFloorLine(pickedTiles.remove(0));
+      if (pickedTiles.get(0) == STARTING_PLAYER_MARKER) {
+        hasStartingPlayerMarker = true;
+        fillFloorLine(pickedTiles.remove(0));
+      }  else {
+        fillFloorLine(pickedTiles.remove(0));
+      }
     }
 
   }

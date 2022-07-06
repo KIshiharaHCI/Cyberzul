@@ -30,6 +30,7 @@ public class GameModel {
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
   private int SLEEP_TIME = 100;
+  private int numberOfFactoryDisplaysAtTheBeginningOfEachRound;
 
   private final PropertyChangeSupport support;
   private ArrayList<Player> playerList;
@@ -115,6 +116,7 @@ public class GameModel {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.GAME_ALREADY_STARTED));
     }
     else{
+      numberOfFactoryDisplaysAtTheBeginningOfEachRound = (playerList.size() * 2) + 1;
       setUpOfferings();
       notifyListeners(new GameStartedEvent());
     }
@@ -150,7 +152,7 @@ public class GameModel {
     offerings = new ArrayList<>();
     offerings.add(TableCenter.getInstance());
     TableCenter.getInstance().addStartPlayerMarker();
-    int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
+    int numberOfFactoryDisplays = numberOfFactoryDisplaysAtTheBeginningOfEachRound;
     for(int i = 0; i < numberOfFactoryDisplays; i++){
       offerings.add(new FactoryDisplay());
     }
@@ -263,75 +265,108 @@ public class GameModel {
       }
     }
 
-    // if the table center has no tiles on it and there are no factory displays anymore
-    // -- > there is nothing to choose and we inform the user and throw an exception
-    if (TableCenter.getInstance().getContent().size() > 0 || getOfferings().size() > 1) {
-      //TODO: maybe implement this for real players. However, real players will never arrive at this
-      // point
-      int randomOfferingIndex;
-      if (getOfferings().size() == 1) {
-        LOGGER.info("getOfferings.size was 1 when " + getNickOfActivePlayer() + " tried to "
-            + "get a random tile.");
-        randomOfferingIndex = 0;
-      } else if (TableCenter.getInstance().getContent().size() == 0) {
-        // if the table center is empty we substract one from the offerings size - 1, get the
-        // random number between it and add + 1 on it. So that we have a random factory display
-        LOGGER.info("Table center was empty when " + getNickOfActivePlayer() + " tried to get "
-            + "a random tile.");
-        if (offeringsClone.size() == 1) {
-          randomOfferingIndex = 0;
-        } else {
-          randomOfferingIndex = (int) ((Math.random() * (offeringsClone.size() - 1)) + 1);
-        }
-      } else {
-        LOGGER.info("Table center was neither 0 nor was get Offerings 1 when " +
-            getNickOfActivePlayer() + " tried to get a random tile.");
-        randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
-      }
-
-
-      // get a random offering
-      Offering randomOffering = offeringsClone.get(randomOfferingIndex);
-      int offeringsSize = randomOffering.getContent().size();
-      int randomOfferingTileIndex;
-
-      // you cannot just pick the SPM and put it to the floor line
-      if (randomOfferingIndex == 0
-          && TableCenter.getInstance().getContent().contains(ModelTile.STARTING_PLAYER_MARKER)) {
-        offeringsSize--;
-        randomOfferingTileIndex = (int) ((Math.random() * offeringsSize) + 1);
-      } else {
-        // get a random tile on that offering
-        randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
-        notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOffering);
-      }
-
-
-      //check which pattern line is still available for this player
-      Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
-      for (int patternLine = 0; patternLine < activeAIPlayer.getPatternLines().length; patternLine++) {
-        if (activeAIPlayer.isValidPick(patternLine, randomOffering, randomOfferingTileIndex)) {
-          LOGGER.info(nickOfAIPlayer + " tries to place a "  +
-              randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
-              + "line " + patternLine);
-          makeActivePlayerPlaceTile(patternLine);
-          break;
-        } else if (patternLine == activeAIPlayer.getPatternLines().length - 1) {
-          LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line. "
-              + "Places it on the floor line");
-          tileFallsDown();
-        }
-      }
-
-      endTurn();
-    } else {
+    if (TableCenter.getInstance().getContent().size() == 0 && getOfferings().size() == 1) {
       LOGGER.info("No player was able to make a turn anymore.");
       notifyListeners(new GameInIllegalStateEvent());
       restartGame();
       throw new IllegalStateException("The game has reached an illegal state. Noone was able to "
           + "make a turn. Game was restarted automatically.");
+    } else {
+      // get a random offering and a random tile on that offering
+      int randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
+      Offering randomOffering = offeringsClone.get(randomOfferingIndex);
+      int offeringsSize = randomOffering.getContent().size();
+      int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
+      notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOffering);
+
+      Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
+      //check which pattern line is still available
+      for (int i = 0; i < activeAIPlayer.getPatternLines().length; i++) {
+        if (activeAIPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
+          LOGGER.info(nickOfAIPlayer + " tries to place a "  +
+              randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
+              + "line " + i);
+          makeActivePlayerPlaceTile(i);
+          break;
+        } else if (i == activeAIPlayer.getPatternLines().length - 1) {
+          LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line "
+              + "places it on the floor line");
+          tileFallsDown();
+        }
+      }
+
+      endTurn();
     }
-  }
+
+
+    // From when I was trying to fix bugs, but destroyed the AI:
+
+    /* // if the table center has no tiles on it and there are no factory displays anymore
+    // -- > there is nothing to choose and we inform the user and throw an exception
+    if (TableCenter.getInstance().getContent().size() == 0 && getOfferings().size() == 1) {
+      LOGGER.info("No player was able to make a turn anymore.");
+      notifyListeners(new GameInIllegalStateEvent());
+      restartGame();
+      throw new IllegalStateException("The game has reached an illegal state. Noone was able to "
+          + "make a turn. Game was restarted automatically.");
+    } else {
+        //TODO: maybe implement this for real players. However, real players will never arrive at this
+        // point
+
+        // Choose the offering
+        int randomOfferingIndex;
+        if (getOfferings().size() == 1) {
+          LOGGER.info("getOfferings.size was 1 when " + getNickOfActivePlayer() + " tried to "
+              + "get a random tile.");
+          randomOfferingIndex = 0;
+        } else if (getOfferings().size() ==  numberOfFactoryDisplaysAtTheBeginningOfEachRound + 1) {
+          // in the first turn of a round take from factory displays
+          randomOfferingIndex = (int) (Math.random() * (offeringsClone.size() - 1) + 1);
+        } else if (TableCenter.getInstance().getContent().size() == 0) {
+          // if the table center is empty we substract one from the offerings size - 1, get the
+          // random number between it and add + 1 on it. So that we have a random factory display
+          LOGGER.info("Table center was empty when " + getNickOfActivePlayer() + " tried to get "
+              + "a random tile.");
+          randomOfferingIndex = (int) ((Math.random() * (offeringsClone.size() - 1)) + 1);
+        } else if (TableCenter.getInstance().getContent().size() > 0
+            && getOfferings().size() > 1) {
+          LOGGER.info("Table center was neither 0 nor was get Offerings 1 when " +
+              getNickOfActivePlayer() + " tried to get a random tile.");
+          randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
+        } else {
+          randomOfferingIndex = 0;
+        }
+
+        // get a random offering
+        Offering randomOffering = offeringsClone.get(randomOfferingIndex);
+        int offeringsSize = randomOffering.getContent().size();
+        int randomOfferingTileIndex;
+
+        // get a random tile on that offering
+        randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
+        notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOffering);
+
+
+
+        //check which pattern line is still available for this player
+        Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
+        for (int patternLine = 0; patternLine < activeAIPlayer.getPatternLines().length; patternLine++) {
+          if (activeAIPlayer.isValidPick(patternLine, randomOffering, randomOfferingTileIndex)) {
+            LOGGER.info(nickOfAIPlayer + " tries to place a "  +
+                randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
+                + "line " + patternLine);
+            makeActivePlayerPlaceTile(patternLine);
+            break;
+          } else if (patternLine == activeAIPlayer.getPatternLines().length - 1) {
+            LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line. "
+                + "Places it on the floor line");
+            tileFallsDown();
+          }
+        }
+
+        endTurn();
+      }*/
+    }
 
   /**
    * ends the game and sets up everything for a new game.
@@ -411,18 +446,11 @@ public class GameModel {
     currentIndexOfTile = indexOfTile;
     Player player = getPlayerByName(playerName);
 
-    // inform listeners if there is a valid pick, who the next player is
-    // if not: that there is not valid turn to make
-    if (thereIsAValidPick) {
-      int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
-      Player nextPlayer = playerList.get(indexOfNextPlayer);
-      String nextPlayerNick = nextPlayer.getName();
-      PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
-      notifyListeners(playerHasChosenTileEvent);
-    } else {
-      NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
-      notifyListeners(noValidTurnToMakeEvent);
-    }
+    int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
+    Player nextPlayer = playerList.get(indexOfNextPlayer);
+    String nextPlayerNick = nextPlayer.getName();
+    PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
+    notifyListeners(playerHasChosenTileEvent);
 
   }
 
