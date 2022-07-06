@@ -4,8 +4,9 @@ import azul.team12.controller.Controller;
 import azul.team12.view.listeners.TileClickListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-import javax.swing.JButton;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -38,10 +39,13 @@ public class PlayerBoard extends JPanel {
     this.tileClickListener = tileClickListener;
 
     setLayout(new BorderLayout());
+    JPanel coverOverCenter = new JPanel();
+    coverOverCenter.setBackground(new Color(110, 150, 100));
     center = new JPanel();
-    center.setLayout(new GridLayout(1, 2));
+    //center.setLayout(new GridLayout(1, 2));
     createCenterPanel();
-    add(center, BorderLayout.CENTER);
+    coverOverCenter.add(center);
+    add(coverOverCenter, BorderLayout.CENTER);
 
     initializeClassVariables();
     addPointsAndPlayerNameElements();
@@ -54,11 +58,22 @@ public class PlayerBoard extends JPanel {
    * NextPlayersTurnEvent.
    */
   private void createCenterPanel() {
-
+    setProperties(Tile.TILE_SIZE, 5, 10, center);
     patternLines = new PatternLines(controller, Tile.TILE_SIZE, tileClickListener);
     center.add(patternLines);
     wall = new Wall(controller, tileClickListener);
     center.add(wall);
+  }
+
+  void setProperties(int tileSize, int rows, int cols, JPanel panel) {
+    panel.setBackground(new Color(110, 150, 100));
+
+    panel.setPreferredSize(new Dimension((tileSize + 2) * cols, (tileSize + 2) * rows));
+    panel.setMaximumSize(new Dimension((tileSize + 2) * cols, (tileSize + 2) * rows));
+    panel.setMinimumSize(new Dimension((tileSize + 2) * cols, (tileSize + 2) * rows));
+    panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+    panel.setAlignmentX(0.5f);
+    panel.setAlignmentY(1.0f);
   }
 
   /**
@@ -77,17 +92,7 @@ public class PlayerBoard extends JPanel {
   }
 
   private void addMinusPointsElements() {
-    JPanel south = new JPanel();
-    south.setBackground(new Color(110, 150, 100));
-    south.setLayout(new GridLayout(1, 3));
-    south.add(new JLabel("   Minus Points: " + minusPoints));
-    JButton floorLineButton = new JButton("Floor Line");
-    floorLineButton.addActionListener(e -> {
-      controller.placeTileAtFloorLine();
-      controller.endTurn(controller.getNickOfActivePlayer());
-    });
-    south.add(floorLineButton);
-    south.add(new JLabel(""));
+    FloorLinePanel south = new FloorLinePanel(controller, tileClickListener, minusPoints);
     add(south, BorderLayout.SOUTH);
   }
 
