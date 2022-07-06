@@ -5,7 +5,6 @@ import azul.team12.view.listeners.TileClickListener;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -22,7 +21,6 @@ public class Plate extends JPanel {
   private final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
   private final int SPACE_BETWEEN_TILES_IN_PXL = 4;
   private int plateId;
-  private List<Tile> tileList;
 
   private JLabel plateImageLabel;
 
@@ -43,7 +41,6 @@ public class Plate extends JPanel {
     plateImageLabel.setBounds(0, 0, PLATE_SIZE, PLATE_SIZE);
     // plateImageLabel.setLayout(plateLayout);
     this.plateId = plateId;
-    this.tileList = new ArrayList<>();
 
     initialize(tileClickListener, content);
   }
@@ -52,24 +49,22 @@ public class Plate extends JPanel {
     int space_from_left = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
     int space_from_top = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
     for (int i = 0; i < content.size(); i++) {
-      Tile tile = new Tile(i, this.plateId, content.get(i), tileClickListener);
-      tileList.add(tile);
+      //calculates the col and row from left-right,top-down
+      // column: 1 1 2 2; row 1 2 1 2
+      int column = i / 2 + 1;
+      int row = i % 2 + 1;
+      SourceTile tile = new SourceTile(column,row,content.get(i),i,plateId,tileClickListener);
       tile.setBounds(space_from_left, space_from_top, Tile.TILE_SIZE, Tile.TILE_SIZE);
       plateImageLabel.add(tile);
       // move tiles to the right after first and second tile
       // move down after second tile
-      if (i == 0 || i == 2) {
+
+      if (row == 1) {
         space_from_left += Tile.TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL;
-      } else if (i == 1) {
+      } else {
         space_from_left = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
         space_from_top += Tile.TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL;
       }
-    }
-  }
-
-  public void remove() {
-    for (Tile tile : tileList) {
-      this.remove(tile);
     }
   }
 

@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 public class CenterBoard extends JPanel {
 
   private final Controller controller;
-  List<Tile> tileList;
   PlatesPanel platesPanel;
   TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;

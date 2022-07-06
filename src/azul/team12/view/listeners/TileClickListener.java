@@ -4,15 +4,8 @@ import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
-import azul.team12.view.board.CenterBoard;
-import azul.team12.view.board.PatternLines;
-import azul.team12.view.board.Plate;
-import azul.team12.view.board.PlatesPanel;
-import azul.team12.view.board.TableCenterPanel;
-import azul.team12.view.board.Tile;
-import azul.team12.view.board.TileDestination;
-import azul.team12.view.board.TileDestinationPatternLines;
-import azul.team12.view.board.TileDestinationWall;
+import azul.team12.view.board.*;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -27,8 +20,8 @@ import javax.swing.JOptionPane;
  */
 public class TileClickListener extends MouseAdapter implements ISourceTileListener,
     IDestinationTileListener, IDestinationWallTileListener {
-
-  Tile source = null;
+//TODO: migrate source to TTile
+  SourceTile source = null;
   TileDestination destination = null;
   private Controller controller;
   private GameModel model;
@@ -49,8 +42,8 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
   @Override
   public void mouseClicked(MouseEvent e) {
     Component source = e.getComponent();
-    if (source instanceof Tile) {
-      onSourceTileClick(((Tile) source));
+    if (source instanceof SourceTile) {
+      onSourceTileClick(((SourceTile) source));
     } else if (source instanceof TileDestinationPatternLines) {
       TileDestination destinationTile = (TileDestination) source;
       onDestinationTileClick(destinationTile);
@@ -67,15 +60,15 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
    * create red border around tile if source tile was clicked
    */
   @Override
-  public void onSourceTileClick(Tile tile) {
+  public void onSourceTileClick(SourceTile tile) {
     System.out.println(
         "The " + tile.getTileId() + ". tile on offering " + tile.getPlateId() + " was clicked.");
     source = tile;
-    source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+    tile.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
     // offerings, not factoryDisplays, because the first factory displays has id one not zero
     List<Offering> offerings = controller.getOfferings();
-    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(),
-        offerings.get(source.getPlateId()));
+    controller.chooseTileFrom(model.getNickOfActivePlayer(), tile.getTileId(),
+        offerings.get(tile.getPlateId()));
 
   }
 
