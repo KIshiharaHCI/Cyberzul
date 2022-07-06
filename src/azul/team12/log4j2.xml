@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+  <Properties>
+    <Property name="log-path">log/${date:yyyy-MM-dd HH-mm-ss-SSS}</Property>
+    <Property name="archive">${log-path}/archive</Property>
+  </Properties>
+
+  <Appenders>
+    <RollingFile name="RollingFile-Appender"
+      fileName="${log-path}/rollingfile.log"
+      filePattern="${archive}/rollingfile.log.%d{yyyy-MM-dd@HH-mm}.gz">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="30 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="30"/>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <Root level="info" additivity="false">
+      <appender-ref ref="fileLogger" />
+    </Root>
+  </Loggers>
+</Configuration>
