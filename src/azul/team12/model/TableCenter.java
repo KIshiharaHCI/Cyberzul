@@ -11,7 +11,7 @@ import java.util.List;
 public class TableCenter extends Offering {
 
   private static TableCenter instance;
-  private ArrayList<ModelTile> content;
+  private static ArrayList<ModelTile> content;
 
   private TableCenter() {
     super();

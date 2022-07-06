@@ -101,4 +101,9 @@ public class GameController implements Controller{
     return model.rankingPlayerWithPoints();
   }
 
+  @Override
+  public void forfeitGame() {
+    model.forfeitGame();
+  }
+
 }
