@@ -22,6 +22,7 @@ public class Player {
 
   private boolean hasStartingPlayerMarker = false;
   private boolean hasEndedTheGame = false;
+  private boolean isAIPlayer = false;
 
   private WallBackgroundPattern wallPattern;
 
@@ -94,6 +95,14 @@ public class Player {
 
   public boolean hasEndedTheGame() {
     return hasEndedTheGame;
+  }
+
+  public boolean isAIPlayer() {
+    return isAIPlayer;
+  }
+
+  public void setAIPlayer(boolean AIPlayer) {
+    isAIPlayer = AIPlayer;
   }
 
   /**

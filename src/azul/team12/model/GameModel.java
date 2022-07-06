@@ -121,21 +121,25 @@ public class GameModel {
   }
 
   /**
-   * forfeits the game, removes all tiles from the table center, initializes the
-   * bag to store used tiles and the bag to draw new tiles, notifies listeners that the game has
-   * been forfeit.
+   * forfeits the game, sets the player who forfeited to be an AI-Player and
+   * makes him/her do the next move.
    */
   public void forfeitGame() {
     LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
-    TableCenter.getInstance().initializeContent();
-    BagToStoreUsedTiles.getInstance().initializeContent();
-    BagToDrawNewTiles.getInstance().initializeContent();
-    isGameStarted = false;
-    hasGameEnded = false;
-    playerList = new ArrayList<>();
-    offerings = new ArrayList<>();
+
+    //if we want to make the game end, we will need these lines again
+    //TableCenter.getInstance().initializeContent();
+    //BagToStoreUsedTiles.getInstance().initializeContent();
+    //BagToDrawNewTiles.getInstance().initializeContent();
+    //isGameStarted = false;
+    //hasGameEnded = false;
+    //playerList = new ArrayList<>();
+    //offerings = new ArrayList<>();
     notifyListeners(gameForfeitedEvent);
+    LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
+    getPlayerByName(getNickOfActivePlayer()).setAIPlayer(true);
+    makeAIPlayerMakeAMove(getNickOfActivePlayer());
 
   }
 
@@ -228,6 +232,50 @@ public class GameModel {
     }
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
+
+    //checking if the next Player has left the game / is an AI-Player
+    if (playerList.get(indexOfActivePlayer).isAIPlayer()) {
+      String nickOfAIPlayer = getNickOfActivePlayer();
+      makeAIPlayerMakeAMove(nickOfAIPlayer);
+    }
+  }
+
+  /**
+   * makes the active AI Player place a tile randomly.
+   *
+   * @param nickOfAIPlayer the name of the active player.
+   */
+  public void makeAIPlayerMakeAMove(String nickOfAIPlayer) {
+    // get not empty offerings
+    List<Offering> offeringsClone = getOfferings();
+    for (Offering offering : getOfferings()) {
+      if (offering.getContent().isEmpty()) {
+        offeringsClone.remove(offering);
+      }
+    }
+
+    // get a random offering and a random tile on that offering
+    int randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
+    Offering randomOffering = offeringsClone.get(randomOfferingIndex);
+    int offeringsSize = randomOffering.getContent().size();
+    int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
+    notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOffering);
+
+    Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
+    //check which pattern line is still available
+    for (int i = 0; i < activeAIPlayer.getPatternLines().length; i++) {
+      if (activeAIPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
+        LOGGER.info(nickOfAIPlayer + " tries to place a "  +
+            randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
+            + "line " + i);
+        makeActivePlayerPlaceTile(i);
+        break;
+      } else if (i == activeAIPlayer.getPatternLines().length - 1) {
+        LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line "
+            + "places it on the floor line");
+        tileFallsDown();
+      }
+    }
   }
 
   /**
