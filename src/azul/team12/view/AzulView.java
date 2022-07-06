@@ -5,6 +5,7 @@ import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
+import azul.team12.model.events.GameInIllegalStateEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
@@ -189,9 +190,15 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         //TODO: PlatesPanel nach Kenjis Vorbild updaten
 
       }
+      case "PlayerHasPlacedTileEvent" -> {
+        updateCenterBoard();
+        updateRankingBoard();
+      }
       case "GameFinishedEvent" -> {
         GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
-        showErrorMessage("User " + gameFinishedEvent.getWINNER() + " won.");
+        showInfoMessage("User " + gameFinishedEvent.getWINNER() + " won.");
+        controller.restartGame();
+        showHSMCard();
       }
       case "IllegalTurnEvent" -> {
         showErrorMessage("Illegal turn.");
@@ -205,7 +212,14 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         }
       }
       case "GameForfeitedEvent" -> {
-        //showHSMCard();
+        //TODO: Replace everything by instance of - so I can get the name of the player here
+        // as the Event is set up to
+        showErrorMessage("A " + controller.getNickOfActivePlayer() + " has forfeited the game. "
+            + "He/she will be replaced by an AI.");
+      }
+      case "GameInIllegalStateEvent" -> {
+        showErrorMessage(GameInIllegalStateEvent.getMESSAGE());
+        showHSMCard();
       }
       //default -> throw new AssertionError("Unknown event");
     }
@@ -219,6 +233,16 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private void showErrorMessage(String message) {
     JOptionPane.showMessageDialog(null, message, "Error!",
         JOptionPane.ERROR_MESSAGE);
+  }
+
+  /**
+   * Show a info message as pop-up window to inform the user of an error.
+   *
+   * @param message the message with information about the information.
+   */
+  private void showInfoMessage(String message) {
+    JOptionPane.showMessageDialog(null, message, "Information!",
+        JOptionPane.INFORMATION_MESSAGE);
   }
 
   private void createView() {

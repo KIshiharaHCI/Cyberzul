@@ -144,7 +144,12 @@ public interface Controller {
   List<Player> rankingPlayerWithPoints();
 
   /**
-   * tells the model that a given player forfeit the game.
+   * tells the model that a given player forfeit the game. Replaces him/her by an AI player.
    */
   void forfeitGame();
+
+  /**
+   * restart the game.
+   */
+  void restartGame();
 }

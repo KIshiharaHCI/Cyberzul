@@ -47,7 +47,6 @@ public class TableCenterPanel extends JPanel {
     List<ModelTile> modelTiles = tableCenter.getContent();
     for (int i = 0; i < modelTiles.size(); i++) {
       Tile tile = new Tile(i, this.plateId, modelTiles.get(i), tileClickListener);
-      System.out.println("tile: " + tile);
       tileList.add(tile);
       if (i < 18) {
         tile.setBounds(SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + (i * SPACE_BETWEEN_TILES_IN_PXL),

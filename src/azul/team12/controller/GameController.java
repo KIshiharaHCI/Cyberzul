@@ -106,4 +106,7 @@ public class GameController implements Controller{
     model.forfeitGame();
   }
 
+  @Override
+  public void restartGame() { model.restartGame(); }
+
 }

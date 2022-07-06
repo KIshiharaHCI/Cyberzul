@@ -208,11 +208,6 @@ public class Player {
     //acquire the tiles from the chosen offering
     List<ModelTile> pickedTiles = offering.takeTileWithIndex(indexOfTile);
 
-
-
-    for(ModelTile modelTile : pickedTiles) {
-      System.out.println("Model Tile in offering: " + modelTile);
-    }
     while (pickedTiles.size() > 0) {
       fillFloorLine(pickedTiles.remove(0));
     }
@@ -271,7 +266,7 @@ public class Player {
 
     //are there free places on the selected row? Only first position of the line has to be checked.
     if (patternLines[pickedLine][0] != EMPTY_TILE) {
-      System.out.println("Reason for FALSE is that there are now free places on that row.");
+      System.out.println("Reason for FALSE is that there are no free places on that row.");
       return false;
     }
 

@@ -2,26 +2,23 @@ package azul.team12.model;
 
 import static java.util.Objects.requireNonNull;
 
-import azul.team12.AzulMain;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
+import azul.team12.model.events.GameInIllegalStateEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
-import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.model.events.PlayerHasEndedTheGameEvent;
 import azul.team12.model.events.PlayerHasPlacedTileEvent;
 import azul.team12.model.events.RoundFinishedEvent;
-import azul.team12.view.board.PatternLines;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +28,7 @@ public class GameModel {
 
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
-  private int SLEEP_TIME = 50;
+  private int SLEEP_TIME = 100;
 
   private final PropertyChangeSupport support;
   private ArrayList<Player> playerList;
@@ -137,15 +134,6 @@ public class GameModel {
       e.printStackTrace();
     }
 
-
-    //if we want to make the game end, we will need these lines again
-    //TableCenter.getInstance().initializeContent();
-    //BagToStoreUsedTiles.getInstance().initializeContent();
-    //BagToDrawNewTiles.getInstance().initializeContent();
-    //isGameStarted = false;
-    //hasGameEnded = false;
-    //playerList = new ArrayList<>();
-    //offerings = new ArrayList<>();
     LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
     getPlayerByName(getNickOfActivePlayer()).setAIPlayer(true);
     makeAIPlayerMakeAMove(getNickOfActivePlayer());
@@ -236,6 +224,14 @@ public class GameModel {
       }
       notifyListeners(roundFinishedEvent);
       } else {
+      //if it is an AI player, we want to see what he/she did, therefore we will wait
+      if (getPlayerByName(getNickOfActivePlayer()).isAIPlayer()) {
+        try {
+          Thread.currentThread().sleep(3 * SLEEP_TIME);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
       indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
       //LOGGER.info("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
     }
@@ -249,7 +245,7 @@ public class GameModel {
     }
 
     //checking if the next Player has left the game / is an AI-Player
-    if (playerList.get(indexOfActivePlayer).isAIPlayer()) {
+    if (playerList.get(indexOfActivePlayer).isAIPlayer() && !hasGameEnded) {
       String nickOfAIPlayer = getNickOfActivePlayer();
       makeAIPlayerMakeAMove(nickOfAIPlayer);
     }
@@ -265,43 +261,97 @@ public class GameModel {
     List<Offering> offeringsClone = getOfferings();
     for (Offering offering : getOfferings()) {
       if (offering.getContent().isEmpty()) {
-        offeringsClone.remove(offering);
-      }
-    }
-
-    // get a random offering and a random tile on that offering
-    int randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
-    Offering randomOffering = offeringsClone.get(randomOfferingIndex);
-    int offeringsSize = randomOffering.getContent().size();
-    int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
-    notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOffering);
-
-    try {
-      Thread.currentThread().sleep(SLEEP_TIME);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
-    //check which pattern line is still available
-    for (int patternLine = 0; patternLine < activeAIPlayer.getPatternLines().length; patternLine++) {
-      if (activeAIPlayer.isValidPick(patternLine, randomOffering, randomOfferingTileIndex)) {
-        LOGGER.info(nickOfAIPlayer + " tries to place a "  +
-            randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
-            + "line " + patternLine);
-        makeActivePlayerPlaceTile(patternLine);
-        try {
-          Thread.currentThread().sleep(SLEEP_TIME);
-        } catch (Exception e) {
-          e.printStackTrace();
+        if (offering instanceof TableCenter) {
+          // do nothing
+        } else {
+          offeringsClone.remove(offering);
         }
-        break;
-      } else if (patternLine == activeAIPlayer.getPatternLines().length - 1) {
-        LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line "
-            + "places it on the floor line");
-        tileFallsDown();
       }
     }
+
+    // if the table center has no tiles on it and there are no factory displays anymore
+    // -- > there is nothing to choose and we inform the user and throw an exception
+    if (TableCenter.getInstance().getContent().size() > 0 || getOfferings().size() > 1) {
+      //TODO: maybe implement this for real players. However, real players will never arrive at this
+      // point
+      int randomOfferingIndex;
+      if (getOfferings().size() == 1) {
+        LOGGER.info("getOfferings.size was 1 when " + getNickOfActivePlayer() + " tried to "
+            + "get a random tile.");
+        randomOfferingIndex = 0;
+      } else if (TableCenter.getInstance().getContent().size() == 0) {
+        // if the table center is empty we substract one from the offerings size - 1, get the
+        // random number between it and add + 1 on it. So that we have a random factory display
+        LOGGER.info("Table center was empty when " + getNickOfActivePlayer() + " tried to get "
+            + "a random tile.");
+        if (offeringsClone.size() == 1) {
+          randomOfferingIndex = 0;
+        } else {
+          randomOfferingIndex = (int) ((Math.random() * (offeringsClone.size() - 1)) + 1);
+        }
+      } else {
+        LOGGER.info("Table center was neither 0 nor was get Offerings 1 when " +
+            getNickOfActivePlayer() + " tried to get a random tile.");
+        randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
+      }
+
+
+      // get a random offering
+      Offering randomOffering = offeringsClone.get(randomOfferingIndex);
+      int offeringsSize = randomOffering.getContent().size();
+      int randomOfferingTileIndex;
+
+      // you cannot just pick the SPM and put it to the floor line
+      if (randomOfferingIndex == 0
+          && TableCenter.getInstance().getContent().contains(ModelTile.STARTING_PLAYER_MARKER)) {
+        offeringsSize--;
+        randomOfferingTileIndex = (int) ((Math.random() * offeringsSize) + 1);
+      } else {
+        // get a random tile on that offering
+        randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
+        notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOffering);
+      }
+
+
+      //check which pattern line is still available for this player
+      Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
+      for (int patternLine = 0; patternLine < activeAIPlayer.getPatternLines().length; patternLine++) {
+        if (activeAIPlayer.isValidPick(patternLine, randomOffering, randomOfferingTileIndex)) {
+          LOGGER.info(nickOfAIPlayer + " tries to place a "  +
+              randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
+              + "line " + patternLine);
+          makeActivePlayerPlaceTile(patternLine);
+          break;
+        } else if (patternLine == activeAIPlayer.getPatternLines().length - 1) {
+          LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line. "
+              + "Places it on the floor line");
+          tileFallsDown();
+        }
+      }
+
+      endTurn();
+    } else {
+      LOGGER.info("No player was able to make a turn anymore.");
+      notifyListeners(new GameInIllegalStateEvent());
+      restartGame();
+      throw new IllegalStateException("The game has reached an illegal state. Noone was able to "
+          + "make a turn. Game was restarted automatically.");
+    }
+  }
+
+  /**
+   * ends the game and sets up everything for a new game.
+   */
+  public void restartGame() {
+
+    TableCenter.getInstance().initializeContent();
+    BagToStoreUsedTiles.getInstance().initializeContent();
+    BagToDrawNewTiles.getInstance().initializeContent();
+    isGameStarted = false;
+    hasGameEnded = false;
+    playerList = new ArrayList<>();
+    offerings = new ArrayList<>();
+
   }
 
   /**
@@ -398,6 +448,8 @@ public class GameModel {
     Player activePlayer = getPlayerByName(nickActivePlayer);
     LOGGER.info(nickActivePlayer + " tries to place a tile directly into the floor line.");
     if(currentOffering == null){
+      LOGGER.info("current Offering was null, when player "+ getNickOfActivePlayer() + " tried "
+          + "to place a tile from it on the floor line.");
       notifyListeners(new IllegalTurnEvent());
     }
     else {
