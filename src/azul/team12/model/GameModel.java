@@ -422,10 +422,6 @@ public class GameModel {
    */
   public List<Player> rankingPlayerWithPoints() {
     List<Player> playerRankingList = playerList;
-    /*List<Integer> playerPointsList = new ArrayList<>();
-    for (Player player : playerList) {
-      playerPointsList = Collections.singletonList(player.getPoints() - player.getMinusPoints());
-    }*/
     Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
     return playerRankingList;
 

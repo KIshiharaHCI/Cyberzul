@@ -289,6 +289,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     gameBoard.updateCenterBoard();
   }
 
+  /**
+   * Updates the game rankings.
+   */
   private void updateRankingBoard() {
     gameBoard.updateRankingBoard();
 
