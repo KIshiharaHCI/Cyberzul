@@ -400,13 +400,17 @@ public class GameModel {
   }
 
   /**
-   * Ranking the players with its points.
+   * Ranking the players according its points.
    *
    * @return a list of players with points in descending order.
    */
   public List<Player> rankingPlayerWithPoints() {
     List<Player> playerRankingList = playerList;
-    Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(o1.getPoints(), o2.getPoints()));
+    /*List<Integer> playerPointsList = new ArrayList<>();
+    for (Player player : playerList) {
+      playerPointsList = Collections.singletonList(player.getPoints() - player.getMinusPoints());
+    }*/
+    Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
     return playerRankingList;
 
   }

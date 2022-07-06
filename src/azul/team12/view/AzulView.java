@@ -107,6 +107,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           inputField.setText("");
         }
     );
+
     testFourPlayersButton.addActionListener(event -> {
           List<String> fourUserNameForTest = new ArrayList<>(
               List.of("Iurri", "Kenji", "Marco", "Nils"));
@@ -175,10 +176,13 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       case "NextPlayersTurnEvent" -> {
         System.out.println("NextPlayersTurnEvent triggered " + "(sout at AzulView 125.)");
         updateCenterBoard();
+        updateRankingBoard();
       }
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
+        updateRankingBoard();
         //TODO: PlatesPanel nach Kenjis Vorbild updaten
+
       }
       case "GameFinishedEvent" -> {
         GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
@@ -277,6 +281,12 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private void updateCenterBoard() {
     gameBoard.updateCenterBoard();
   }
+
+  private void updateRankingBoard() {
+    gameBoard.updateRankingBoard();
+
+  }
+
 
   /**
    * Used by EventListener to change the Panels being shown such as the Login panel, Gameboard

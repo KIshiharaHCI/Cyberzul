@@ -1,7 +1,6 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
 import azul.team12.model.Player;
 
 
@@ -18,15 +17,17 @@ public class RankingBoard extends JPanel {
     private final Controller controller;
     private JPanel rankingBoardPanel;
 
-    private final List<Player> playersList;
+    private List<Player> playersList;
 
 
     /**
      * The constructor to create the ranking board showing the points of the players.
+     * @param controller
+     * @param playersList
      */
-    public RankingBoard(Controller controller) {
+    public RankingBoard(Controller controller, List<Player> playersList) {
         this.controller = controller;
-        playersList = controller.rankingPlayerWithPoints();
+        this.playersList = controller.rankingPlayerWithPoints();
 
         createRankingArea();
 
@@ -37,14 +38,22 @@ public class RankingBoard extends JPanel {
      */
     private void createRankingArea() {
         rankingBoardPanel = new JPanel();
+        setBackground(Color.GREEN);
         rankingBoardPanel.setMaximumSize(new Dimension(300, 260));
-        rankingBoardPanel.setLayout(new FlowLayout());
-
+        rankingBoardPanel.setLayout(new GridLayout(playersList.size(), 1));
         add(rankingBoardPanel, BorderLayout.CENTER);
-
         for (Player player : playersList) {
-            rankingBoardPanel.add(new JLabel(player.getName() + player.getPoints()));
+            rankingBoardPanel.add(new JLabel(player.getName() + ": " + controller.getPoints(player.getName())));
         }
+    }
+
+    /**
+     * Updates the current points of all players.
+     */
+    public void updateRankingBoard() {
+        remove(rankingBoardPanel);
+        playersList = controller.rankingPlayerWithPoints();
+        createRankingArea();
     }
 
 
