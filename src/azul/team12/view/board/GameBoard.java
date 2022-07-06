@@ -3,6 +3,7 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
+import azul.team12.view.AzulView;
 import azul.team12.view.listeners.TileClickListener;
 
 import java.awt.*;
@@ -36,7 +37,7 @@ public class GameBoard extends JPanel {
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
     createPanelWithTheBoardsOfOpponents();
-    center = new CenterBoard(controller,tileClickListener);
+    center = new CenterBoard(controller, tileClickListener);
     add(center, BorderLayout.CENTER);
     createRankingBoardPanel();
 

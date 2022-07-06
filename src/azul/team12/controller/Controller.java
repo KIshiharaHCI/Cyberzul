@@ -142,4 +142,9 @@ public interface Controller {
 
 
   List<Player> rankingPlayerWithPoints();
+
+  /**
+   * tells the model that a given player forfeit the game.
+   */
+  void forfeitGame();
 }

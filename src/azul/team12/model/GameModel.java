@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import azul.team12.AzulMain;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
+import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
@@ -39,9 +40,7 @@ public class GameModel {
   private Offering currentOffering;
   private int currentIndexOfTile;
 
-  private static final Logger LOGGER = LogManager.getLogger(AzulMain.class);
-
-
+  private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
 
   public GameModel() {
     support = new PropertyChangeSupport(this);
@@ -119,6 +118,25 @@ public class GameModel {
       setUpOfferings();
       notifyListeners(new GameStartedEvent());
     }
+  }
+
+  /**
+   * forfeits the game, removes all tiles from the table center, initializes the
+   * bag to store used tiles and the bag to draw new tiles, notifies listeners that the game has
+   * been forfeit.
+   */
+  public void forfeitGame() {
+    LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
+    GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
+    TableCenter.getInstance().initializeContent();
+    BagToStoreUsedTiles.getInstance().initializeContent();
+    BagToDrawNewTiles.getInstance().initializeContent();
+    isGameStarted = false;
+    hasGameEnded = false;
+    playerList = new ArrayList<>();
+    offerings = new ArrayList<>();
+    notifyListeners(gameForfeitedEvent);
+
   }
 
   /**
@@ -206,7 +224,7 @@ public class GameModel {
       notifyListeners(roundFinishedEvent);
       } else {
       indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
-      LOGGER.info("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
+      //LOGGER.info("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
     }
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
@@ -448,17 +466,5 @@ public class GameModel {
 
   }
 
-  //TODO: @Marco implement it
-  /**
-   * Takes in the list of players and gives back a list of player names and their respective points
-   * in the order of the points they have collected.
-   *
-   * @return A List of Players in the order of the points the have currently.
-   */
-  /*
-  public ArrayList<????> getPlayerNamesAndPointsInOrderOfPoints(ArrayList<Player> playerList) {
-
-  }
-  */
 
 }
