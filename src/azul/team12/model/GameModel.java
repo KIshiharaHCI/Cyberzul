@@ -15,6 +15,7 @@ import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.model.events.PlayerHasEndedTheGameEvent;
+import azul.team12.model.events.PlayerHasPlacedTileEvent;
 import azul.team12.model.events.RoundFinishedEvent;
 import azul.team12.view.board.PatternLines;
 import java.beans.PropertyChangeListener;
@@ -30,6 +31,7 @@ public class GameModel {
 
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
+  private int SLEEP_TIME = 50;
 
   private final PropertyChangeSupport support;
   private ArrayList<Player> playerList;
@@ -127,6 +129,14 @@ public class GameModel {
   public void forfeitGame() {
     LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
+    notifyListeners(gameForfeitedEvent);
+
+    try {
+      Thread.currentThread().sleep(2 * SLEEP_TIME);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
 
     //if we want to make the game end, we will need these lines again
     //TableCenter.getInstance().initializeContent();
@@ -136,7 +146,6 @@ public class GameModel {
     //hasGameEnded = false;
     //playerList = new ArrayList<>();
     //offerings = new ArrayList<>();
-    notifyListeners(gameForfeitedEvent);
     LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
     getPlayerByName(getNickOfActivePlayer()).setAIPlayer(true);
     makeAIPlayerMakeAMove(getNickOfActivePlayer());
@@ -233,6 +242,12 @@ public class GameModel {
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
 
+    try {
+      Thread.currentThread().sleep(SLEEP_TIME);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     //checking if the next Player has left the game / is an AI-Player
     if (playerList.get(indexOfActivePlayer).isAIPlayer()) {
       String nickOfAIPlayer = getNickOfActivePlayer();
@@ -261,16 +276,27 @@ public class GameModel {
     int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
     notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOffering);
 
+    try {
+      Thread.currentThread().sleep(SLEEP_TIME);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
     //check which pattern line is still available
-    for (int i = 0; i < activeAIPlayer.getPatternLines().length; i++) {
-      if (activeAIPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
+    for (int patternLine = 0; patternLine < activeAIPlayer.getPatternLines().length; patternLine++) {
+      if (activeAIPlayer.isValidPick(patternLine, randomOffering, randomOfferingTileIndex)) {
         LOGGER.info(nickOfAIPlayer + " tries to place a "  +
             randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
-            + "line " + i);
-        makeActivePlayerPlaceTile(i);
+            + "line " + patternLine);
+        makeActivePlayerPlaceTile(patternLine);
+        try {
+          Thread.currentThread().sleep(SLEEP_TIME);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
         break;
-      } else if (i == activeAIPlayer.getPatternLines().length - 1) {
+      } else if (patternLine == activeAIPlayer.getPatternLines().length - 1) {
         LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line "
             + "places it on the floor line");
         tileFallsDown();
@@ -340,24 +366,13 @@ public class GameModel {
     currentOffering = offering;
     currentIndexOfTile = indexOfTile;
     Player player = getPlayerByName(playerName);
-    // check for each line in the pattern lines if there is a valid pick
-    for (int line = 0; line < Player.NUMBER_OF_PATTERN_LINES; line++) {
-      if (player.isValidPick(line, offering, indexOfTile)) {
-        thereIsAValidPick = true;
-      }
-    }
-    // inform listeners if there is a valid pick, who the next player is
-    // if not: that there is not valid turn to make
-    if (thereIsAValidPick) {
-      int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
-      Player nextPlayer = playerList.get(indexOfNextPlayer);
-      String nextPlayerNick = nextPlayer.getName();
-      PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
-      notifyListeners(playerHasChosenTileEvent);
-    } else {
-      NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
-      notifyListeners(noValidTurnToMakeEvent);
-    }
+
+    int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
+    Player nextPlayer = playerList.get(indexOfNextPlayer);
+    String nextPlayerNick = nextPlayer.getName();
+    PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
+    notifyListeners(playerHasChosenTileEvent);
+
   }
 
   /**
@@ -369,6 +384,8 @@ public class GameModel {
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
     LOGGER.info(getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine + ".");
     String nickActivePlayer = getNickOfActivePlayer();
+    PlayerHasPlacedTileEvent playerHasPlacedTileEvent = new PlayerHasPlacedTileEvent(nickActivePlayer);
+    notifyListeners(playerHasPlacedTileEvent);
     Player activePlayer = getPlayerByName(nickActivePlayer);
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
   }
@@ -385,6 +402,8 @@ public class GameModel {
     }
     else {
       activePlayer.placeTileInFloorLine(currentOffering, currentIndexOfTile);
+      PlayerHasPlacedTileEvent playerHasPlacedTileEvent = new PlayerHasPlacedTileEvent(nickActivePlayer);
+      notifyListeners(playerHasPlacedTileEvent);
     }
   }
 
