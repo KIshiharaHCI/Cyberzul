@@ -173,7 +173,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         //TODO - @ Nils add other events
       }
       case "NextPlayersTurnEvent" -> {
-        System.out.println("NextPlayersTurnEvent triggered " + "(sout at AzulView 125.)");
+
         updateCenterBoard();
       }
       case "RoundFinishedEvent" -> {
@@ -194,7 +194,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         } else if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.NOT_ENOUGH_PLAYER)) {
           showErrorMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER);
         }
-
       }
       //default -> throw new AssertionError("Unknown event");
     }
