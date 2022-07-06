@@ -1,13 +1,12 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
+import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
+import azul.team12.view.AzulView;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+
+import java.awt.*;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -28,6 +27,9 @@ public class GameBoard extends JPanel {
 
   private JPanel rankingBoardPanel;
 
+  private RankingBoard rankingBoard;
+
+
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
       Controller controller) {
 
@@ -40,16 +42,15 @@ public class GameBoard extends JPanel {
     createPanelWithTheBoardsOfOpponents();
     center = new CenterBoard(controller, tileClickListener);
     add(center, BorderLayout.CENTER);
-    // createRankingBoardPanel();
+
+    createRankingBoardPanel();
 
   }
 
   private void createRankingBoardPanel() {
-    JPanel rankingBoardPanel = new JPanel();
-    rankingBoardPanel.setMaximumSize(new Dimension(300, 300));
-    rankingBoardPanel.setPreferredSize(new Dimension(300, 300));
-    rankingBoardPanel.setLayout(new FlowLayout());
-    rankingBoardPanel.add(new RankingBoard(controller));
+    rankingBoardPanel = new JPanel();
+    rankingBoard = new RankingBoard(controller, controller.rankingPlayerWithPoints());
+    rankingBoardPanel.add(rankingBoard);
     add(rankingBoardPanel, BorderLayout.WEST);
   }
 
@@ -80,5 +81,14 @@ public class GameBoard extends JPanel {
   public void updateCenterBoard() {
     center.updateCenterBoard();
     validate();
+  }
+
+  /**
+   * Update the Points and oder players according their points in the descending order when the round ends.
+   */
+  public void updateRankingBoard() {
+    rankingBoard.updateRankingBoard();
+    validate();
+
   }
 }

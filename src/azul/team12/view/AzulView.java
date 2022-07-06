@@ -1,8 +1,10 @@
 package azul.team12.view;
 
+import azul.team12.AzulMain;
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.events.GameFinishedEvent;
+import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
@@ -25,11 +27,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AzulView extends JFrame implements PropertyChangeListener {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
+  private static final Logger LOGGER = LogManager.getLogger(AzulView.class);
   private static final String LOGIN_CARD = "login";
   private static final String HOT_SEAT_MODE_CARD = "hotseatmode";
   private static final String NETWORK_CARD = "networkmode";
@@ -107,6 +112,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           inputField.setText("");
         }
     );
+
     testFourPlayersButton.addActionListener(event -> {
           List<String> fourUserNameForTest = new ArrayList<>(
               List.of("Iurri", "Kenji", "Marco", "Nils"));
@@ -161,6 +167,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     Object customMadeGameEvent = event.getNewValue();
 
     String eventName = event.getPropertyName();
+    LOGGER.info(eventName);
 
     switch (eventName) {
       case "LoginFailedEvent" -> {
@@ -173,12 +180,14 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         //TODO - @ Nils add other events
       }
       case "NextPlayersTurnEvent" -> {
-        System.out.println("NextPlayersTurnEvent triggered " + "(sout at AzulView 125.)");
         updateCenterBoard();
+        updateRankingBoard();
       }
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
+        updateRankingBoard();
         //TODO: PlatesPanel nach Kenjis Vorbild updaten
+
       }
       case "GameFinishedEvent" -> {
         GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
@@ -194,7 +203,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         } else if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.NOT_ENOUGH_PLAYER)) {
           showErrorMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER);
         }
-
+      }
+      case "GameForfeitedEvent" -> {
+        showHSMCard();
       }
       //default -> throw new AssertionError("Unknown event");
     }
@@ -277,6 +288,12 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private void updateCenterBoard() {
     gameBoard.updateCenterBoard();
   }
+
+  private void updateRankingBoard() {
+    gameBoard.updateRankingBoard();
+
+  }
+
 
   /**
    * Used by EventListener to change the Panels being shown such as the Login panel, Gameboard

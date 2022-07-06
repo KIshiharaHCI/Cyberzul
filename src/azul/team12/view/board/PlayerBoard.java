@@ -94,6 +94,8 @@ public class PlayerBoard extends JPanel {
   private void addMinusPointsElements() {
     FloorLinePanel south = new FloorLinePanel(controller, tileClickListener, minusPoints);
     add(south, BorderLayout.SOUTH);
+
+
   }
 
   private JPanel createNorthernPart(String x, int minusPoints) {
