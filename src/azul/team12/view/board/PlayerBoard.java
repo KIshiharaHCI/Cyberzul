@@ -45,7 +45,7 @@ public class PlayerBoard extends JPanel {
 
     initializeClassVariables();
     addPointsAndPlayerNameElements();
-    addMinusPointsElements();
+    addMinusPointsFloorLineAndForfeitElements();
   }
 
   /**
@@ -76,10 +76,10 @@ public class PlayerBoard extends JPanel {
     add(north, BorderLayout.NORTH);
   }
 
-  private void addMinusPointsElements() {
+  private void addMinusPointsFloorLineAndForfeitElements() {
     JPanel south = new JPanel();
     south.setBackground(new Color(110, 150, 100));
-    south.setLayout(new GridLayout(1, 3));
+    south.setLayout(new GridLayout(1, 4));
     south.add(new JLabel("   Minus Points: " + minusPoints));
     JButton floorLineButton = new JButton("Floor Line");
     floorLineButton.addActionListener(e -> {
@@ -88,7 +88,15 @@ public class PlayerBoard extends JPanel {
     });
     south.add(floorLineButton);
     south.add(new JLabel(""));
+    // TODO: Add "Do you really want to?"
+    JButton forfeitGame = new JButton("Forfeit Game");
+    forfeitGame.addActionListener(e -> {
+      controller.forfeitGame();
+    });
+    south.add(forfeitGame, BorderLayout.SOUTH);
     add(south, BorderLayout.SOUTH);
+
+
   }
 
   private JPanel createNorthernPart(String x, int minusPoints) {

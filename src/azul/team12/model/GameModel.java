@@ -2,8 +2,10 @@ package azul.team12.model;
 
 import static java.util.Objects.requireNonNull;
 
+import azul.team12.AzulMain;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
+import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameModel {
 
@@ -29,14 +33,6 @@ public class GameModel {
 
   private final PropertyChangeSupport support;
   private ArrayList<Player> playerList;
-  //TODO: @Nils please check what I did: Ich habe die factoryDisplays und die Tischmitte in
-  // einem ArrayList<Offering> zusammengefasst. Das hat keine Auswirkungen für die View
-  // wir geben einfach index 0 für die Tischmitte zurück, aber es war praktisch für die weitere
-  // Implementierung - ändere es jederzeit zurück. Außerdem glaube ich, dass uns dadurch die
-  // View gar nicht mehr das ganze Offering sondern nur noch einen Index zurückgeben muss.
-  // Das habe ich jetzt aber noch nicht geändert. Die Variable unten "currentOffering" könnte dann
-  // durch eine Variable "indexOfCurrentOffering" ersetzt werden. Mir gefällt diese Lösung, aber
-  // vielleicht übersehe ich etwas.
   private ArrayList<Offering> offerings;
   private boolean isGameStarted = false;
   private boolean hasGameEnded = false;
@@ -44,6 +40,7 @@ public class GameModel {
   private Offering currentOffering;
   private int currentIndexOfTile;
 
+  private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
 
   public GameModel() {
     support = new PropertyChangeSupport(this);
@@ -121,6 +118,25 @@ public class GameModel {
       setUpOfferings();
       notifyListeners(new GameStartedEvent());
     }
+  }
+
+  /**
+   * forfeits the game, removes all tiles from the table center, initializes the
+   * bag to store used tiles and the bag to draw new tiles, notifies listeners that the game has
+   * been forfeit.
+   */
+  public void forfeitGame() {
+    LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
+    GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
+    TableCenter.getInstance().initializeContent();
+    BagToStoreUsedTiles.getInstance().initializeContent();
+    BagToDrawNewTiles.getInstance().initializeContent();
+    isGameStarted = false;
+    hasGameEnded = false;
+    playerList = new ArrayList<>();
+    offerings = new ArrayList<>();
+    notifyListeners(gameForfeitedEvent);
+
   }
 
   /**
@@ -208,7 +224,7 @@ public class GameModel {
       notifyListeners(roundFinishedEvent);
       } else {
       indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
-      System.out.println("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
+      //LOGGER.info("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
     }
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
@@ -244,7 +260,7 @@ public class GameModel {
         return player;
       }
     }
-    System.out.println("To be log - given name by view that is not in the playerList.");
+    LOGGER.debug("The model was given a name by view that is not in the playerList.");
     return null;
   }
 
@@ -303,6 +319,7 @@ public class GameModel {
    * @return <code>true</code> if it was a valid pick, <code>false</code> if not
    */
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
+    LOGGER.info(getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine + ".");
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
@@ -314,7 +331,7 @@ public class GameModel {
   public void tileFallsDown() {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
-    System.out.println(nickActivePlayer + " tries to place a tile directly into the floor line.");
+    LOGGER.info(nickActivePlayer + " tries to place a tile directly into the floor line.");
     if(currentOffering == null){
       notifyListeners(new IllegalTurnEvent());
     }
@@ -351,8 +368,7 @@ public class GameModel {
       }
       index ++;
     }
-    //TODO: Marco - when Logger works, log something.
-    System.out.println("We called giveIndexOfPlayer with Start Player Marker when no player had "
+    LOGGER.debug("We called giveIndexOfPlayer with Start Player Marker when no player had "
         + "the SPM. Probably this is the case because at the end of the turn noone had the "
         + "SPM.");
     throw new IllegalStateException("We called giveIndexOfPlayer with Start Player Marker when "
@@ -400,13 +416,13 @@ public class GameModel {
   }
 
   /**
-   * Ranking the players with its points.
+   * Ranking the players according its points.
    *
    * @return a list of players with points in descending order.
    */
   public List<Player> rankingPlayerWithPoints() {
     List<Player> playerRankingList = playerList;
-    Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(o1.getPoints(), o2.getPoints()));
+    Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
     return playerRankingList;
 
   }
@@ -450,17 +466,5 @@ public class GameModel {
 
   }
 
-  //TODO: @Marco implement it
-  /**
-   * Takes in the list of players and gives back a list of player names and their respective points
-   * in the order of the points they have collected.
-   *
-   * @return A List of Players in the order of the points the have currently.
-   */
-  /*
-  public ArrayList<????> getPlayerNamesAndPointsInOrderOfPoints(ArrayList<Player> playerList) {
-
-  }
-  */
 
 }

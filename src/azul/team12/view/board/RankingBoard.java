@@ -1,11 +1,11 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
 import azul.team12.model.Player;
 
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.List;
 
@@ -14,38 +14,49 @@ import java.util.List;
  */
 
 public class RankingBoard extends JPanel {
+  private final Controller controller;
+  private JPanel rankingBoardPanel;
+  private List<Player> playersList;
+  private static final String GAME_RANKING = "RANKING";
+  private static final int COL = 1;
 
-    private final Controller controller;
-    private JPanel rankingBoardPanel;
+  /**
+   * The constructor to create the ranking board showing the points of the players.
+   * @param controller controller used to combine the model with view.
+   */
+  public RankingBoard(Controller controller) {
+    this.controller = controller;
+    this.playersList = controller.rankingPlayerWithPoints();
 
-    private final List<Player> playersList;
-
-
-    /**
-     * The constructor to create the ranking board showing the points of the players.
-     */
-    public RankingBoard(Controller controller) {
-        this.controller = controller;
-        playersList = controller.rankingPlayerWithPoints();
-
-        createRankingArea();
+    createRankingArea();
 
     }
 
-    /**
-     * create the ranking area with the players' name and their points.
-     */
-    private void createRankingArea() {
-        rankingBoardPanel = new JPanel();
-        rankingBoardPanel.setMaximumSize(new Dimension(300, 260));
-        rankingBoardPanel.setLayout(new FlowLayout());
+  /**
+   * create the ranking area with the players' name and their points.
+   */
+  private void createRankingArea() {
+    rankingBoardPanel = new JPanel();
+    Border border = BorderFactory.createTitledBorder(GAME_RANKING);
 
-        add(rankingBoardPanel, BorderLayout.CENTER);
+    rankingBoardPanel.setBorder(border);
 
-        for (Player player : playersList) {
-            rankingBoardPanel.add(new JLabel(player.getName() + player.getPoints()));
-        }
+    rankingBoardPanel.setMaximumSize(new Dimension(600, 300));
+    rankingBoardPanel.setLayout(new GridLayout(playersList.size(), COL));
+    add(rankingBoardPanel, BorderLayout.CENTER);
+    for (Player player : playersList) {
+        rankingBoardPanel.add(new JLabel(player.getName() + ": " + controller.getPoints(player.getName())));
     }
+  }
+
+  /**
+   * Updates the current points of all players.
+   */
+  public void updateRankingBoard() {
+    remove(rankingBoardPanel);
+    playersList = controller.rankingPlayerWithPoints();
+    createRankingArea();
+  }
 
 
 }
