@@ -43,6 +43,7 @@ public abstract class TileDecorator extends JPanel implements Tile {
     @Override
     public void setIcon(Float opacity) {
         if (path.equals("empty")) {
+            add(label);
             return;
         }
         URL imgURL1 = getClass().getClassLoader().getResource(pathList.get(path));

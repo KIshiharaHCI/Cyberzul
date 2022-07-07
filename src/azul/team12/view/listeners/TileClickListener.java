@@ -19,10 +19,10 @@ import javax.swing.JOptionPane;
  * listens to what tile is clicked on and //TODO: makes the model change accordingly
  */
 public class TileClickListener extends MouseAdapter implements ISourceTileListener,
-    IDestinationTileListener, IDestinationWallTileListener {
+    IDestinationTileListener {
 //TODO: migrate source to TTile
   SourceTile source = null;
-  TileDestination destination = null;
+  DestinationTile destination = null;
   private Controller controller;
   private GameModel model;
 
@@ -44,14 +44,9 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
     Component source = e.getComponent();
     if (source instanceof SourceTile) {
       onSourceTileClick(((SourceTile) source));
-    } else if (source instanceof TileDestinationPatternLines) {
-      TileDestination destinationTile = (TileDestination) source;
+    } else if (source instanceof DestinationTile) {
+      DestinationTile destinationTile = (DestinationTile) source;
       onDestinationTileClick(destinationTile);
-    }
-    // TODO: delete this part, should be done automatically via the model
-    else if (source instanceof TileDestinationWall) {
-      TileDestinationWall destinationWallTile = (TileDestinationWall) source;
-      onDestinationWallTileClick(destinationWallTile);
     }
 
   }
@@ -78,9 +73,9 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
    * @param tileDestination - the source of the event if it is a destination tile
    */
   @Override
-  public void onDestinationTileClick(TileDestination tileDestination) {
+  public void onDestinationTileClick(DestinationTile tileDestination) {
     System.out.println(
-        "Destination was clicked with cell " + tileDestination.getCell() + " and row "
+        "Destination was clicked with cell " + tileDestination.getColumn() + " and row "
             + tileDestination.getRow());
     if (source != null) {
       // if the player is able to place the tile, place it
@@ -118,20 +113,7 @@ public class TileClickListener extends MouseAdapter implements ISourceTileListen
     }
   }
 
-  //TODO: delete this method, should be done automatically by the model
-  @Override
-  public void onDestinationWallTileClick(TileDestinationWall destinationWall) {
-    System.out.println(
-        "Destination Wall was clicked with cell " + destinationWall.getCell() + " and row "
-            + destinationWall.getRow());
-    if (destination != null) {
-      ImageIcon icon = destination.getIcon();
-      destinationWall.setIcon(icon);
-      destinationWall.getLabel().setIcon(icon);
-      destination.getLabel().setIcon(null);
-      destination = null;
-    }
-  }
+
 
   /**
    * Show a success message as pop-up window to inform the user of an error.

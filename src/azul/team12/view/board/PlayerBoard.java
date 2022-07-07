@@ -57,7 +57,7 @@ public class PlayerBoard extends JPanel {
 
     patternLines = new PatternLines(controller, Tile.TILE_SIZE, tileClickListener);
     center.add(patternLines);
-    wall = new Wall(controller, tileClickListener);
+    wall = new Wall(controller,tileClickListener);
     center.add(wall);
   }
 
