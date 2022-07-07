@@ -126,6 +126,14 @@ public interface Controller {
   ModelTile[][] getPatternLinesOfPlayer(String playerName);
 
   /**
+   * gives back the floor line of a given player.
+   *
+   * @param playerName the name of the player
+   * @return the pattern line
+   */
+  List<ModelTile> getFloorLineOfPlayer(String playerName);
+
+  /**
    * gives back the wall of a given player.
    *
    * @param playerName the name of the player
