@@ -16,7 +16,7 @@ public class WallTile extends TileDecorator {
      * @param row       Y-Coordinate in given container
      * @param modelTile contains the tile color information.
      */
-    public WallTile(int col, int row, ModelTile modelTile,Float opacity) {
+    public WallTile(int col, int row, ModelTile modelTile, Float opacity) {
         super(col, row, modelTile);
         setIcon(opacity);
     }
