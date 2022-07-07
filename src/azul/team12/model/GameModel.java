@@ -245,8 +245,6 @@ public class GameModel {
     }
   }
 
-
-  //TODO!!!! Something is wrong with the SPM - AI does not pick the SPM.
   /**
    * makes the active AI Player place a tile randomly.
    *
@@ -257,14 +255,14 @@ public class GameModel {
     List<Offering> offeringsClone = getOfferings();
     for (Offering offering : getOfferings()) {
       if (offering.getContent().isEmpty()) {
-        if (offering instanceof TableCenter) {
-          // do nothing
-        } else {
+        if (!(offering instanceof TableCenter)) {
           offeringsClone.remove(offering);
         }
       }
     }
 
+    // if there are no offerings anymore and the table center is empty, it is not possible to make
+    // another turn
     if (TableCenter.getInstance().getContent().size() == 0 && getOfferings().size() == 1) {
       LOGGER.info("No player was able to make a turn anymore.");
       notifyListeners(new GameInIllegalStateEvent());
@@ -272,15 +270,18 @@ public class GameModel {
       throw new IllegalStateException("The game has reached an illegal state. Noone was able to "
           + "make a turn. Game was restarted automatically.");
     } else {
-      // get a random offering and a random tile on that offering
+
+      // get a random offering
       int randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
       Offering randomOffering = offeringsClone.get(randomOfferingIndex);
       int offeringsSize = randomOffering.getContent().size();
+
+      // get a random tile on that offering
       int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
       notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOffering);
 
       Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
-      //check which pattern line is still available
+      //check all pattern lines from first to last if we can place the tile there
       for (int i = 0; i < activeAIPlayer.getPatternLines().length; i++) {
         if (activeAIPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
           LOGGER.info(nickOfAIPlayer + " tries to place a "  +
