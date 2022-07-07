@@ -11,7 +11,6 @@ import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
-import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.model.events.PlayerHasEndedTheGameEvent;
@@ -220,7 +219,6 @@ public class GameModel {
   public void endTurn(){
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
-      indexOfActivePlayer = giveIndexOfPlayerWithSPM();
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       startTilingPhase();
       if(!hasGameEnded){
@@ -228,7 +226,7 @@ public class GameModel {
       }
       notifyListeners(roundFinishedEvent);
     }
-    indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
+    indexOfActivePlayer = getIndexOfNextPlayer();
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
 
@@ -386,15 +384,15 @@ public class GameModel {
 
   /**
    * Next player is the next player on the list or the first player, if the last active player
-   * was the last player on the list.
+   * was the last player on the list; or the player with the SPM if round is finished.
    *
-   * @param indexOfCurrentPlayer index of the current player, most of the time the global
-   *                             variable (indexOfActivePlayer)
    * @return the index of the player whose turn it is going to be.
    */
-  public int getIndexOfNextPlayer(int indexOfCurrentPlayer) {
+  public int getIndexOfNextPlayer() {
     int indexOfNextPlayer;
-    if (indexOfActivePlayer == playerList.size() - 1) {
+    if (checkRoundFinished()) {
+      indexOfNextPlayer = getIndexOfPlayerWithSPM();
+    } else if (indexOfActivePlayer == playerList.size() - 1) {
       indexOfNextPlayer = 0;
     } else {
       indexOfNextPlayer = indexOfActivePlayer + 1;
@@ -447,7 +445,7 @@ public class GameModel {
     currentIndexOfTile = indexOfTile;
     Player player = getPlayerByName(playerName);
 
-    int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
+    int indexOfNextPlayer = getIndexOfNextPlayer();
     Player nextPlayer = playerList.get(indexOfNextPlayer);
     String nextPlayerNick = nextPlayer.getName();
     PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
@@ -509,7 +507,7 @@ public class GameModel {
    *
    * @return player's index.
    */
-  public int giveIndexOfPlayerWithSPM() {
+  public int getIndexOfPlayerWithSPM() {
     int index = 0;
     for (Player player : playerList) {
       if (player.hasStartingPlayerMarker()) {
