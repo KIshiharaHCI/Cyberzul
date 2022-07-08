@@ -55,7 +55,7 @@ public class FloorLinePanel extends JPanel {
       //} else {
       List<ModelTile> currentTile = controller.getFloorLineOfPlayer(controller.getNickOfActivePlayer());
       if (currentTile.size() > col) {
-        WallTile filledFloorLineTile = new WallTile(col,1, currentTile.get(col), 1f);
+        WallTile filledFloorLineTile = new WallTile(col,1, currentTile.get(col - 1), 1f);
         contentBottom.add(filledFloorLineTile);
       } else {
         DestinationTile emptyFloorLineTile = new DestinationTile(col, 1, ModelTile.EMPTY_TILE, tileClickListener);
