@@ -99,7 +99,7 @@ public class GameModel implements Model {
 
   }
 
-  public void forfeitGame() {
+  public void cancelGame() {
     LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
     TableCenter.getInstance().initializeContent();
@@ -110,6 +110,10 @@ public class GameModel implements Model {
     playerList = new ArrayList<>();
     offerings = new ArrayList<>();
     notifyListeners(gameForfeitedEvent);
+  }
+
+  public void replaceActivePlayerByAI() {
+    //TODO:
   }
 
   /**

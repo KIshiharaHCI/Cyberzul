@@ -53,7 +53,10 @@ public interface Model {
    * initializes the bag to store used tiles and the bag to draw new tiles from scratch,
    * notifies listeners that the game has been forfeit.
    */
-  void forfeitGame();
+  void cancelGame();
+
+  //TODO ! --> See AI branch
+  void replaceActivePlayerByAI();
 
   /**
    * Ends the turn. Fires {@link RoundFinishedEvent} if the round has finished,
