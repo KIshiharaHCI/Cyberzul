@@ -23,6 +23,11 @@ public class GameController implements Controller{
   }
 
   @Override
+  public void restartGame() {
+    model.restartGame();
+  }
+
+  @Override
   public List<Offering> getOfferings() { return model.getOfferings(); }
 
   @Override
@@ -106,8 +111,13 @@ public class GameController implements Controller{
   }
 
   @Override
-  public void forfeitGame() {
-    model.forfeitGame();
+  public void replaceActivePlayerByAI() {
+    model.replaceActivePlayerByAI();
+  }
+
+  @Override
+  public void cancelGameForAllPlayers() {
+    model.cancelGame();
   }
 
 }

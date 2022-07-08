@@ -41,14 +41,22 @@ public interface Model {
    * Tries to start the game. Fires {@link GameNotStartableEvent} if that is
    * not possible, fires {@link GameStartedEvent} if it was.
    */
-  public void startGame();
+  void startGame();
+
+  /**
+   * sets up everything for a new game with the same players.
+   */
+  void restartGame();
 
   /**
    * Forfeits the game, fires {@link GameForfeitedEvent}, removes all tiles from the table center,
    * initializes the bag to store used tiles and the bag to draw new tiles from scratch,
    * notifies listeners that the game has been forfeit.
    */
-  void forfeitGame();
+  void cancelGame();
+
+  //TODO ! --> See AI branch
+  void replaceActivePlayerByAI();
 
   /**
    * Ends the turn. Fires {@link RoundFinishedEvent} if the round has finished,

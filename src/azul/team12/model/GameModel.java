@@ -85,7 +85,21 @@ public class GameModel implements Model {
     }
   }
 
-  public void forfeitGame() {
+  //TODO: @Marco test it if it works, when the buttons are there
+  // TODO: Should we fire GameStartedEvent?
+  public void restartGame() {
+
+    TableCenter.getInstance().initializeContent();
+    BagToStoreUsedTiles.getInstance().initializeContent();
+    BagToDrawNewTiles.getInstance().initializeContent();
+    isGameStarted = false;
+    hasGameEnded = false;
+    playerList = new ArrayList<>();
+    offerings = new ArrayList<>();
+
+  }
+
+  public void cancelGame() {
     LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
     TableCenter.getInstance().initializeContent();
@@ -96,6 +110,10 @@ public class GameModel implements Model {
     playerList = new ArrayList<>();
     offerings = new ArrayList<>();
     notifyListeners(gameForfeitedEvent);
+  }
+
+  public void replaceActivePlayerByAI() {
+    //TODO:
   }
 
   /**
