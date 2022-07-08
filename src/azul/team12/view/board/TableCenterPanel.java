@@ -3,15 +3,13 @@ package azul.team12.view.board;
 import azul.team12.model.ModelTile;
 import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * The tiles on the center of the table ("Tischmitte") (Center Board class)
@@ -24,7 +22,7 @@ public class TableCenterPanel extends JPanel {
   private final int plateId = 0;
   private int TABLE_CENTER_SIZE_WIDTH_IN_PXL = 1100;
   private int TABLE_CENTER_HEIGHT_IN_PXL = 260;
-  private List<Tile> tileList;
+  private List<SourceTile> tileList;
   private JLabel tableCenterImageLabel;
   private TableCenter tableCenter;
 
@@ -46,7 +44,9 @@ public class TableCenterPanel extends JPanel {
         TABLE_CENTER_HEIGHT_IN_PXL);
     List<ModelTile> modelTiles = tableCenter.getContent();
     for (int i = 0; i < modelTiles.size(); i++) {
-      TileSource tile = new TileSource(i, this.plateId, modelTiles.get(i), tileClickListener);
+      int col = i / 18 + 1;
+      int row = i % 18 + 1;
+      SourceTile tile = new SourceTile(col, row, modelTiles.get(i), i, plateId, tileClickListener);
       System.out.println("tile: " + tile);
       tileList.add(tile);
       if (i < 18) {
@@ -56,14 +56,13 @@ public class TableCenterPanel extends JPanel {
         tile.setBounds(
             SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + ((i - 18) * SPACE_BETWEEN_TILES_IN_PXL),
             SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, Tile.TILE_SIZE, Tile.TILE_SIZE);
-
       }
       tableCenterImageLabel.add(tile);
     }
   }
 
   public void remove() {
-    for (Tile tile : this.tileList) {
+    for (SourceTile tile : this.tileList) {
       this.tableCenterImageLabel.remove(tile);
       this.remove(tableCenterImageLabel);
     }

@@ -26,6 +26,12 @@ public interface Controller {
   void startGame();
 
   /**
+   * Signals the model that the previous game should be restarted with the same players.
+   * The model initializes everything.
+   */
+  void restartGame();
+
+  /**
    * Gives the view the information about the manufacturing plates and the table center.
    * Tiles are saved in the Bags as ArrayList<Tile>
    * @return
@@ -86,9 +92,9 @@ public interface Controller {
    *
    * @param playerName the name of the player who makes his move.
    * @param indexOfTile which of the tiles on the Offering was clicked on.
-   * @param offering Either the reference to a Factory Display or a reference to the Table Center.
+   * @param offeringIndex index of the offering where the tile is chosen from.
    */
-  void chooseTileFrom(String playerName, int indexOfTile, Offering offering);
+  void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex);
 
   /**
    * The player playerName tries to finish his turn.

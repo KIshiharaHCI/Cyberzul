@@ -4,12 +4,10 @@ import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
-import java.awt.Dimension;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 
 /**
  * The center of the table ("Tischmitte").
@@ -19,7 +17,6 @@ public class CenterBoard extends JPanel {
   private final int WIDTH = 1100;
   private final int HEIGHT = 780;
   private final Controller controller;
-  List<Tile> tileList;
   PlatesPanel platesPanel;
   TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;
@@ -33,7 +30,7 @@ public class CenterBoard extends JPanel {
    */
   public CenterBoard(Controller controller, TileClickListener tileClickListener) {
     this.controller = controller;
-    this.tableCenter = (TableCenter) controller.getTableCenter();
+    this.tableCenter = (TableCenter) controller.getOfferings().get(0);
     this.tileClickListener = tileClickListener;
 
 //    setLayout(new GridLayout(3, 1));
@@ -74,7 +71,7 @@ public class CenterBoard extends JPanel {
    * Used by Constructor and AzulView to create and add a new Plates panel.
    */
   void createNewPlatesPanel() {
-    List<Offering> factoryDisplays = controller.getFactoryDisplays();
+    List<Offering> factoryDisplays = controller.getOfferings().subList(1,controller.getOfferings().size());
     platesPanel = new PlatesPanel(factoryDisplays, tileClickListener);
     platesPanel.setPreferredSize(new Dimension(1100, 130));
     add(platesPanel);

@@ -1,14 +1,12 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
-import azul.team12.view.AzulView;
 import azul.team12.view.listeners.TileClickListener;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import javax.swing.JPanel;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -35,7 +33,7 @@ public class GameBoard extends JPanel {
 
     this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
-    factoryDisplays = controller.getFactoryDisplays();
+    factoryDisplays = controller.getOfferings().subList(1, controller.getOfferings().size());
 
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
@@ -68,6 +66,7 @@ public class GameBoard extends JPanel {
         // listener is null, because no click events should happen here.
         PlayerBoard playerBoard = new PlayerBoard(controller, null,
             nameOfOpponent);
+
         boardsOfOpponentsPanel.add(playerBoard);
       }
     }
