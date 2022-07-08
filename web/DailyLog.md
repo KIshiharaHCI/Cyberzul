@@ -1292,3 +1292,24 @@ Q2:
 Q3:
 
 - I need to coordinate the network design with the team.
+
+**8. July, 2022**
+
+Q1:
+
+- meet with Chris
+- discussed new view
+- discussed client-server-architecture
+- started implementing client-server-architecture
+
+Q2:
+
+- implement the client-server-architecture as disconnected from the rest of the other programs
+- i will write two test main classes, so I can test the client-server-architecture without having to mess with other
+  classes.
+- meet with Xue and Marco
+
+Q3:
+
+- the main class is not refactored yet, so it will be challenging to implement it. We wanted to user an interface for it.
+- it is difficult for Xue to start implementing the Chat if the client-server-architecture is not ready yet.
