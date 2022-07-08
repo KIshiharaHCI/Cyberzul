@@ -1,8 +1,8 @@
 package azul.team12.view.listeners;
 
-import azul.team12.view.board.TileDestination;
+import azul.team12.view.board.DestinationTile;
 
 public interface IDestinationTileListener {
 
-  void onDestinationTileClick(TileDestination tileDestination);
+  void onDestinationTileClick(DestinationTile tileDestination);
 }

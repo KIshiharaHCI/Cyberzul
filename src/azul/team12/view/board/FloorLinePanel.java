@@ -3,11 +3,10 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 public class FloorLinePanel extends JPanel {
 
@@ -48,16 +47,20 @@ public class FloorLinePanel extends JPanel {
   private void addBottomRow() {
     JPanel contentBottom = new JPanel();
     ViewHelper.setPropertiesOfCurrentRow(Tile.TILE_SIZE, 7, 1, contentBottom);
-    // controller.getFloorLine.getContent() -> List<ModelTile> modelTiles
-    for (int col = 0; col < NUMBER_OF_FLOOR_TILES; col++) {
+    for (int col = 1; col <= NUMBER_OF_FLOOR_TILES; col++) {
       // if (modelTiles.size() > col) {
       //ModelTile modelTile = modelTiles[col];
       // TileDestinationFloorLine tileDestinationFloorLine = new TileDestinationFloorLine(col, 0,
       //          tileClickListener, modelTile);
       //} else {
-      TileDestinationFloorLine tileDestinationFloorLine = new TileDestinationFloorLine(col, 0,
-          tileClickListener, ModelTile.EMPTY_TILE);
-      contentBottom.add(tileDestinationFloorLine);
+      List<ModelTile> currentTile = controller.getFloorLineOfPlayer(controller.getNickOfActivePlayer());
+      if (currentTile.size() > col) {
+        WallTile filledFloorLineTile = new WallTile(col,1, currentTile.get(col - 1), 1f);
+        contentBottom.add(filledFloorLineTile);
+      } else {
+        DestinationTile emptyFloorLineTile = new DestinationTile(col, 1, ModelTile.EMPTY_TILE, tileClickListener);
+        contentBottom.add(emptyFloorLineTile);
+      }
     }
     this.add(contentBottom);
   }

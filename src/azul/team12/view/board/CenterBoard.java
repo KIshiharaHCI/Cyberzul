@@ -19,7 +19,6 @@ public class CenterBoard extends JPanel {
   private final int WIDTH = 1100;
   private final int HEIGHT = 780;
   private final Controller controller;
-  List<Tile> tileList;
   PlatesPanel platesPanel;
   TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;

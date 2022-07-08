@@ -1,13 +1,14 @@
 package azul.team12.network.communicated;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Optional;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 /**

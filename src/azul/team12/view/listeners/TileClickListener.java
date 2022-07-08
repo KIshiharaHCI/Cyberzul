@@ -4,33 +4,22 @@ import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
-import azul.team12.view.board.CenterBoard;
-import azul.team12.view.board.PatternLines;
-import azul.team12.view.board.Plate;
-import azul.team12.view.board.PlatesPanel;
-import azul.team12.view.board.TableCenterPanel;
-import azul.team12.view.board.Tile;
-import azul.team12.view.board.TileAcceptor;
-import azul.team12.view.board.TileDestination;
-import azul.team12.view.board.TileDestinationFloorLine;
-import azul.team12.view.board.TileDestinationPatternLines;
-import azul.team12.view.board.TileDestinationWall;
-import azul.team12.view.board.TileSource;
-import java.awt.Color;
-import java.awt.Component;
+import azul.team12.view.board.*;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
 
 /**
  * listens to what tile is clicked on and //TODO: makes the model change accordingly
  */
+
 public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
-  TileSource source = null;
-  TileDestination destination = null;
+  SourceTile source = null;
+  DestinationTile destination = null;
   private Controller controller;
   private GameModel model;
 
@@ -53,17 +42,36 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
     if (tile instanceof TileAcceptor) {
       ((TileAcceptor) tile).acceptClick(this);
     }
+
   }
 
+  /**
+   * create red border around tile if source tile was clicked
+   */
+  @Override
+  public void visitOnClick(SourceTile sourceTile) {
+    source = sourceTile;
+    source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+    // offerings, not factoryDisplays, because the first factory displays has id one not zero
+    List<Offering> offerings = controller.getOfferings();
+    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(),
+            offerings.get(source.getPlateId()));
 
+  }
+
+  @Override
+  public void visitOnClick(DestinationTile destinationTile) {
+    onDestinationTileClick(destinationTile);
+  }
   /**
    * place tile of the respective color if destination tile on pattern line was clicked
    *
    * @param tileDestination - the source of the event if it is a destination tile
    */
-  public void onDestinationTileClick(TileDestinationPatternLines tileDestination) {
+  public void onDestinationTileClick(DestinationTile tileDestination) {
+
     System.out.println(
-        "Destination was clicked with cell " + tileDestination.getCell() + " and row "
+        "Destination was clicked with cell " + tileDestination.getColumn() + " and row "
             + tileDestination.getRow());
     if (source != null) {
       // if the player is able to place the tile, place it
@@ -101,7 +109,6 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
     }
   }
 
-
   /**
    * Show a success message as pop-up window to inform the user of an error.
    *
@@ -122,35 +129,4 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         JOptionPane.ERROR_MESSAGE);
   }
 
-  @Override
-  public void visitOnClick(TileDestinationPatternLines patternLinesTile) {
-    onDestinationTileClick(patternLinesTile);
-  }
-
-  /**
-   * create red border around tile if source tile was clicked
-   */
-
-  @Override
-  public void visitOnClick(TileSource tileSource) {
-    source = tileSource;
-    source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-    // offerings, not factoryDisplays, because the first factory displays has id one not zero
-    List<Offering> offerings = controller.getOfferings();
-    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(),
-        offerings.get(source.getPlateId()));
-
-  }
-
-  @Override
-  public void visitOnClick(TileDestinationFloorLine floorLineTile) {
-    controller.placeTileAtFloorLine();
-    // draw newly floor line
-    controller.endTurn(controller.getNickOfActivePlayer());
-  }
-
-  @Override
-  public void visitOnClick(TileDestinationWall tileDestinationWall) {
-    //onDestinationWallTileClick(tileDestinationWall);
-  }
 }
