@@ -1,5 +1,6 @@
 package azul.team12.network.server;
 
+import azul.team12.model.GameModel;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,6 +24,8 @@ public class ServerNetworkConnection {
   private final ServerSocket socket;
 
   private final List<ClientMessageHandler> clientHandlers;
+
+  private GameModel modelModel;
 
   private final Runnable connectionAcceptor = new Runnable() {
 
@@ -48,10 +51,12 @@ public class ServerNetworkConnection {
    *
    * @throws IOException thrown when the socket is unable to be created at the given port
    */
-  public ServerNetworkConnection() throws IOException {
+  public ServerNetworkConnection(GameModel gameModel) throws IOException {
     executorService = Executors.newCachedThreadPool();
     socket = new ServerSocket(PORT);
     clientHandlers = Collections.synchronizedList(new ArrayList<>());
+
+    this.modelModel = gameModel;
   }
 
   /**
@@ -89,7 +94,7 @@ public class ServerNetworkConnection {
    * @param nickname The name to be looked up.
    * @return <code>true</code> if no other client has taken this name, <code >false</code> otherwise.
    */
-  public boolean nicknameAvailable(String nickname) {
+  public synchronized boolean nicknameAvailable(String nickname) {
     synchronized (clientHandlers) {
       for (ClientMessageHandler handler : clientHandlers) {
         if (nickname.equals(handler.getNickname())) {
@@ -97,8 +102,6 @@ public class ServerNetworkConnection {
         }
       }
       return true;
-      // Alternatively with a stream:
-      // return clientHandlers.stream().anyMatch(x -> x.getNickname().equals(nickname));
     }
   }
 

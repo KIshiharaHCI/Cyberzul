@@ -4,6 +4,7 @@ import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
+import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
@@ -181,6 +182,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         updateCenterBoard();
         updateRankingBoard();
       }
+      case "LoggedInEvent" -> showErrorMessage("successfully logged in");
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         updateRankingBoard();

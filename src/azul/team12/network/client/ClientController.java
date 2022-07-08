@@ -17,7 +17,7 @@ public class ClientController implements Controller {
 
   @Override
   public void addPlayer(String name) {
-    model.addPlayer(name);
+    model.logInWithName(name);
   }
 
   @Override

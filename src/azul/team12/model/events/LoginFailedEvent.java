@@ -15,6 +15,7 @@ public class LoginFailedEvent extends GameEvent{
     switch(message){
       case LOBBY_IS_FULL -> this.message = LOBBY_IS_FULL;
       case NICKNAME_ALREADY_TAKEN -> this.message = NICKNAME_ALREADY_TAKEN;
+      case ALREADY_LOGGED_IN -> this.message = ALREADY_LOGGED_IN;
       default -> throw new AssertionError("This message is unknown to this event.");
     }
   }

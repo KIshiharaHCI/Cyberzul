@@ -103,14 +103,4 @@ public class ClientModel {
     notifyListeners(new LoginFailedEvent(message));
   }
 
-  /**
-   * Send a login request to the server.
-   *
-   * @param nickname the chosen nickname of the chat participant.
-   */
-  public void addPlayer(final String nickname) {
-    this.nickname = nickname;
-    getConnection().sendLogin(nickname);
-  }
-
 }

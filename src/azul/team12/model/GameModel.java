@@ -8,6 +8,7 @@ import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
+import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.NoValidTurnToMakeEvent;
@@ -97,6 +98,7 @@ public class GameModel {
       if (nicknameFree) {
         Player newPlayer = new Player(nickname);
         playerList.add(newPlayer);
+        notifyListeners(new LoggedInEvent());
       }
     }
   }
