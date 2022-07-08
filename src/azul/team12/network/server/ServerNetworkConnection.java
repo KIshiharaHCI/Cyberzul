@@ -1,7 +1,6 @@
 package azul.team12.network.server;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -82,6 +81,20 @@ public class ServerNetworkConnection {
   }
 
   /**
+   * Broadcasts a message to all clients.
+   *
+   * @param message The message as JSONObject that is to be broadcast.
+   * @throws IOException Thrown when failing to access the input- or output-stream.
+   */
+  public void broadcastToAll(JSONObject message) throws IOException{
+    synchronized (clientHandlers) {
+      for(ClientMessageHandler handler : clientHandlers){
+        handler.send(message);
+      }
+    }
+  }
+
+  /**
    * Add a new handler to the list of connected clients.
    *
    * @param handler The new {@link ClientMessageHandler handler}
@@ -98,7 +111,7 @@ public class ServerNetworkConnection {
    * @param nickname The name to be looked up.
    * @return <code>true</code> if no other client has taken this name, <code >false</code> otherwise.
    */
-  public synchronized boolean nicknameAvailable(String nickname) {
+  public synchronized boolean tryLogIn(String nickname) {
     synchronized (clientHandlers) {
       for (ClientMessageHandler handler : clientHandlers) {
         if (nickname.equals(handler.getNickname())) {

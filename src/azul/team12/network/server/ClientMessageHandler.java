@@ -8,7 +8,6 @@ import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -117,7 +116,7 @@ public class ClientMessageHandler implements Runnable {
     switch (JsonMessage.typeOf(object)) {
       case LOGIN -> handleLogin(object);
       case POST_MESSAGE -> handlePostMessage(object);
-      //case START_GAME -> controller.
+      case START_GAME -> controller.startGame();
       default -> throw new AssertionError("Unable to handle message " + object);
     }
   }
@@ -138,12 +137,13 @@ public class ClientMessageHandler implements Runnable {
     }
 
     String nick = JsonMessage.getNickname(object);
-    if (!serverConnection.nicknameAvailable(nick)) {
+    if (!serverConnection.tryLogIn(nick)) {
       send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_ALREADY_TAKEN));
       return;
     }
 
     setNickname(nick);
+    controller.addPlayer(nick);
     send(JsonMessage.loginSuccess());
     serverConnection.broadcast(this, JsonMessage.userJoined(nick));
   }

@@ -31,7 +31,10 @@ public enum JsonMessage {
   PLACE_TILE_AT_FLOOR_LINE("place tile at floor line"),
   PLACE_TILE_AT_PATTERN_LINE("place tile at pattern line"),
   RANKING_PLAYER_WITH_POINTS("ranking player with points"),
-  START_GAME("start game");
+  START_GAME("start game"),
+
+  //Methods from the Server
+  GAME_STARTED("game started");
 
   public static final String TYPE_FIELD = "type";
 
