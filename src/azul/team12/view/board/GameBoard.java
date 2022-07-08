@@ -49,7 +49,7 @@ public class GameBoard extends JPanel {
 
   private void createRankingBoardPanel() {
     rankingBoardPanel = new JPanel();
-    rankingBoard = new RankingBoard(controller, controller.rankingPlayerWithPoints());
+    rankingBoard = new RankingBoard(controller);
     rankingBoardPanel.add(rankingBoard);
     add(rankingBoardPanel, BorderLayout.EAST);
   }
@@ -84,7 +84,7 @@ public class GameBoard extends JPanel {
   }
 
   /**
-   * Update the Points and oder players according their points in the descending order when the round ends.
+   * Update the Points and oder players according to their points in the descending order when the round ends.
    */
   public void updateRankingBoard() {
     rankingBoard.updateRankingBoard();
