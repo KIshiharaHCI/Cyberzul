@@ -13,6 +13,7 @@ public class FloorLinePanel extends JPanel {
   private final Controller controller;
   private final int NUMBER_OF_FLOOR_TILES = 7;
   private TileClickListener tileClickListener;
+  private JPanel contentBottom, contentUpper;
 
   public FloorLinePanel(Controller controller, TileClickListener tileClickListener,
       int minusPoints) {
@@ -27,8 +28,8 @@ public class FloorLinePanel extends JPanel {
 //      controller.endTurn(controller.getNickOfActivePlayer());
 //    });
     // add(floorLineButton);
-    addUpperRow();
-    addBottomRow();
+    addUpperNumbersRow();
+    addBottomTilesRow();
   }
 
   private void setProperties(int tileSize, int rows, int cols, JPanel panel) {
@@ -44,8 +45,8 @@ public class FloorLinePanel extends JPanel {
     panel.setAlignmentY(1.0f);
   }
 
-  private void addBottomRow() {
-    JPanel contentBottom = new JPanel();
+  private void addBottomTilesRow() {
+    contentBottom = new JPanel();
     ViewHelper.setPropertiesOfCurrentRow(Tile.TILE_SIZE, 7, 1, contentBottom);
     for (int col = 1; col <= NUMBER_OF_FLOOR_TILES; col++) {
 
@@ -61,8 +62,8 @@ public class FloorLinePanel extends JPanel {
     this.add(contentBottom);
   }
 
-  private void addUpperRow() {
-    JPanel contentUpper = new JPanel();
+  private void addUpperNumbersRow() {
+    contentUpper = new JPanel();
     ViewHelper.setPropertiesOfCurrentRow(Tile.TILE_SIZE, 7, 1, contentUpper);
     for (int i = 0; i < NUMBER_OF_FLOOR_TILES; i++) {
       String text;
@@ -76,5 +77,10 @@ public class FloorLinePanel extends JPanel {
       contentUpper.add(new JLabel(text));
     }
     this.add(contentUpper);
+  }
+
+  public void updateBottomTilesRow() {
+    remove(contentBottom);
+    addBottomTilesRow();
   }
 }

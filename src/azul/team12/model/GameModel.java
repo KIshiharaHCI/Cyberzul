@@ -164,6 +164,7 @@ public class GameModel implements Model {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     LOGGER.info(nickActivePlayer + " tries to place a tile directly into the floor line.");
+    //
     if(currentOffering == null){
       notifyListeners(new IllegalTurnEvent());
     }

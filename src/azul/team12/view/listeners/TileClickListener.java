@@ -74,27 +74,24 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
             + tileDestination.getRow());
     if (source != null) {
       // if the player is able to place the tile, place it
-      if (controller.placeTileAtPatternLine(tileDestination.getRow())) {
-        PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
-        patternLinesView.remove();
-        patternLinesView.initialize(Tile.TILE_SIZE, this);
+      if (tileDestination.getParent().getParent() instanceof FloorLinePanel) {
+        controller.placeTileAtFloorLine();
 
-        source.setBorder(BorderFactory.createEmptyBorder());
-        if (source.getPlateId() > 0) {
-          Plate plate = (Plate) source.getParent().getParent();
-          PlatesPanel platesPanel = (PlatesPanel) plate.getParent();
-          platesPanel.remove();
-          platesPanel.initialize(controller.getOfferings().subList(1,controller.getOfferings().size()), this);
+        FloorLinePanel floorLinePanel = (FloorLinePanel) tileDestination.getParent().getParent();
+        floorLinePanel.updateBottomTilesRow();
 
-          CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
-          TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();
-          tableCenterPanel.remove();
-          tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
-        } else if (source.getPlateId() == 0) {
-          TableCenterPanel tableCenterPanel = (TableCenterPanel) source.getParent().getParent();
-          tableCenterPanel.remove();
-          tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
+        resetOffering();
+        showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
+        controller.endTurn(source.getName());
+        source = null;
+      } else if (controller.placeTileAtPatternLine(tileDestination.getRow())) {
+
+        if (tileDestination.getParent().getParent() instanceof PatternLines) {
+          PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
+          patternLinesView.remove();
+          patternLinesView.initialize(Tile.TILE_SIZE, this);
         }
+        resetOffering();
         //TODO: do it with a button on the playboard
         showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
         controller.endTurn(source.getName());
@@ -105,6 +102,25 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
     } else {
       destination = tileDestination;
+    }
+  }
+
+  private void resetOffering() {
+    source.setBorder(BorderFactory.createEmptyBorder());
+    if (source.getPlateId() > 0) {
+      Plate plate = (Plate) source.getParent().getParent();
+      PlatesPanel platesPanel = (PlatesPanel) plate.getParent();
+      platesPanel.remove();
+      platesPanel.initialize(controller.getOfferings().subList(1,controller.getOfferings().size()), this);
+
+      CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
+      TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();
+      tableCenterPanel.remove();
+      tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
+    } else if (source.getPlateId() == 0) {
+      TableCenterPanel tableCenterPanel = (TableCenterPanel) source.getParent().getParent();
+      tableCenterPanel.remove();
+      tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
     }
   }
 
