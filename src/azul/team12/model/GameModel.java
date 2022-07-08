@@ -12,7 +12,7 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-public class GameModel {
+public class GameModel implements Model {
 
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
@@ -44,6 +44,13 @@ public class GameModel {
     support.removePropertyChangeListener(listener);
   }
 
+  /**
+   * Notify subscribed listeners that the state of the model has changed. To this end, a specific
+   * {@link azul.team12.model.events.GameEvent} gets fired such that the attached observers (i.e., {@link
+   * PropertyChangeListener}) can distinguish between what exactly has changed.
+   *
+   * @param event A concrete implementation of {@link azul.team12.model.events.GameEvent}
+   */
   private void notifyListeners(GameEvent event) {
     support.firePropertyChange(event.getName(), null, event);
   }
@@ -91,6 +98,10 @@ public class GameModel {
     notifyListeners(gameForfeitedEvent);
   }
 
+  /**
+   * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
+   * list.
+   */
   private void setUpOfferings(){
     offerings = new ArrayList<>();
     offerings.add(TableCenter.getInstance());

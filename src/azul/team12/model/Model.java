@@ -32,15 +32,6 @@ public interface Model {
   void removePropertyChangeListener(PropertyChangeListener listener);
 
   /**
-   * Notify subscribed listeners that the state of the model has changed. To this end, a specific
-   * {@link azul.team12.model.events.GameEvent} gets fired such that the attached observers (i.e., {@link
-   * PropertyChangeListener}) can distinguish between what exactly has changed.
-   *
-   * @param event A concrete implementation of {@link azul.team12.model.events.GameEvent}
-   */
-  void notifyListeners(GameEvent event);
-
-  /**
    * A player trys to log in. Fires {@link LoginFailedEvent} if that was not possible.
    *
    * @param nickname the name that the player chose with his login attempt.
@@ -59,12 +50,6 @@ public interface Model {
    * notifies listeners that the game has been forfeit.
    */
   void forfeitGame();
-
-  /**
-   * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
-   * list.
-   */
-  void setUpOfferings();
 
   /**
    * Ends the turn. Fires {@link RoundFinishedEvent} if the round has finished,
