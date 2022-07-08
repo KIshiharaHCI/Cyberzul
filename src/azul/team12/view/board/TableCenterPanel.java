@@ -3,15 +3,13 @@ package azul.team12.view.board;
 import azul.team12.model.ModelTile;
 import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * The tiles on the center of the table ("Tischmitte") (Center Board class)

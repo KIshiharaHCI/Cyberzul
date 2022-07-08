@@ -1194,26 +1194,101 @@ Q3:
 
 - none. time ,how to implement the codes and support team better
 
-
-_Marco_ 
+_Marco_
 
 Q1:
+
 - meeting with Chris
 - meeting with team from 15 to 22 o'clock
-  - model starts tiling phase now automatically
-  - create method for view to get the wall of a player as ModelTile[][]
-  - write debugging output methods for bug fixing pattern lines placement
-  - communication and task creation
+    - model starts tiling phase now automatically
+    - create method for view to get the wall of a player as ModelTile[][]
+    - write debugging output methods for bug fixing pattern lines placement
+    - communication and task creation
 
 Q2:
+
 - meeting with team
-  - create CHANGELOG.md
-  - create README.md
-  - create JAR-file with Nils.
-  - Bugfixing pattern line
-  - Creation of Tasks
+    - create CHANGELOG.md
+    - create README.md
+    - create JAR-file with Nils.
+    - Bugfixing pattern line
+    - Creation of Tasks
 
 Q3:
+
 - None.
 
+**4. July, 2022**
 
+_Nils_
+
+Q1:
+
+- meet with team online
+- show the correct points for each player
+- show the correct number of minus points on the floor line for each player
+- fix the bug where it is sometimes still possible to place tiles of different colors in the same row.
+- fixed a bug where placing the Starting Player Marker in the floor line would lead to an exception
+- wrote the JSON Protocol
+- prepared the submission
+- packed the jar
+- checked if everything works as intended for the submission
+
+Q2:
+
+- meet with team
+- dry run the presentation
+- coordinate the next tasks
+- plan the network connection
+
+Q3:
+
+- many merge conflicts and merge bubbles of the team and me, because we all pushed to the main branch
+
+**5. July, 2022**
+
+_Nils_
+
+Q1:
+
+- meet with team
+- dry run of the presentation
+- coordinated the next tasks
+- planned the network connection
+
+Q2:
+
+- work on another assignment
+
+Q3:
+
+- none
+
+**6. July, 2022**
+
+Q1:
+
+- work on another assignment
+
+Q2:
+
+- work on another assignment
+
+Q3:
+
+- none
+
+**7. July, 2022**
+
+Q1:
+
+- worked on another assignment
+
+Q2:
+
+- meet with Chris
+- implement the network connection
+
+Q3:
+
+- I need to coordinate the network design with the team.

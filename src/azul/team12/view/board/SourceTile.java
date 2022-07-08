@@ -1,13 +1,14 @@
 package azul.team12.view.board;
 
 import azul.team12.model.ModelTile;
+import azul.team12.view.listeners.OnClickVisitor;
 import azul.team12.view.listeners.TileClickListener;
 
 /**
  * The Tiles on the Factory Displays and Table Center which can be selected
  * to place on the Pattern Lines or the Floor Line.
  */
-public class SourceTile extends TileDecorator {
+public class SourceTile extends TileDecorator implements TileAcceptor {
 
     private final int tileId;
     private final int plateId;
@@ -45,4 +46,8 @@ public class SourceTile extends TileDecorator {
         return tileId;
     }
 
+    @Override
+    public void acceptClick(OnClickVisitor visitor) {
+        visitor.visitOnClick(this);
+    }
 }

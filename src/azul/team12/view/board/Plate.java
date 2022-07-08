@@ -2,9 +2,12 @@ package azul.team12.view.board;
 
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
+
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -23,8 +26,9 @@ public class Plate extends JPanel {
   private int plateId;
 
   private JLabel plateImageLabel;
+  private ArrayList<SourceTile> tileList = new ArrayList<>();
 
-  /**
+    /**
    * Create one Plate.
    *
    * @param plateId           the number with which the Plate can be identified.
@@ -54,6 +58,7 @@ public class Plate extends JPanel {
       int column = i / 2 + 1;
       int row = i % 2 + 1;
       SourceTile tile = new SourceTile(column,row,content.get(i),i,plateId,tileClickListener);
+      tileList.add(tile);
       tile.setBounds(space_from_left, space_from_top, Tile.TILE_SIZE, Tile.TILE_SIZE);
       plateImageLabel.add(tile);
       // move tiles to the right after first and second tile

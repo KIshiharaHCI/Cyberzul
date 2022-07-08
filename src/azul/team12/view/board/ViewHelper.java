@@ -13,6 +13,10 @@ import javax.swing.JPanel;
  */
 public class ViewHelper {
 
+  public static final int PADDING = 2;
+
+  public static final Color PLAY_BOARD_COLOR = new Color(110, 150, 100);
+
   /**
    * Sets properties to a line of {@link PatternLines} or {@link Wall}
    *
@@ -42,10 +46,13 @@ public class ViewHelper {
    * @param tileSize: the size of one tile that should be shown.
    */
   static void setProperties(int tileSize, int rows, int cols, JPanel panel) {
-    panel.setBackground(new Color(110, 150, 100));
-    panel.setPreferredSize(new Dimension((tileSize + 2) * rows, (tileSize + 2) * cols));
-    panel.setMaximumSize(new Dimension((tileSize + 2) * rows, (tileSize + 2) * cols));
-    panel.setMinimumSize(new Dimension((tileSize + 2) * rows, (tileSize + 2) * cols));
+    panel.setBackground(PLAY_BOARD_COLOR);
+   // panel.setPreferredSize(new Dimension((tileSize + PADDING) * cols + PADDING,
+        //(tileSize + PADDING) * rows + PADDING));
+    panel.setMaximumSize(new Dimension((tileSize + PADDING) * cols + PADDING,
+        (tileSize + PADDING) * rows + PADDING));
+    panel.setMinimumSize(new Dimension((tileSize + PADDING) * cols + PADDING,
+        (tileSize + PADDING) * rows + PADDING));
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(1.0f);
     panel.setAlignmentY(1.0f);

@@ -1,30 +1,16 @@
 package azul.team12.model;
 
-import static java.util.Objects.requireNonNull;
+import azul.team12.model.events.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import azul.team12.AzulMain;
-import azul.team12.model.events.GameEvent;
-import azul.team12.model.events.GameFinishedEvent;
-import azul.team12.model.events.GameForfeitedEvent;
-import azul.team12.model.events.GameNotStartableEvent;
-import azul.team12.model.events.GameStartedEvent;
-import azul.team12.model.events.IllegalTurnEvent;
-import azul.team12.model.events.LoginFailedEvent;
-import azul.team12.model.events.NextPlayersTurnEvent;
-import azul.team12.model.events.NoValidTurnToMakeEvent;
-import azul.team12.model.events.PlayerDoesNotExistEvent;
-import azul.team12.model.events.PlayerHasChosenTileEvent;
-import azul.team12.model.events.PlayerHasEndedTheGameEvent;
-import azul.team12.model.events.RoundFinishedEvent;
-import azul.team12.view.board.PatternLines;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import static java.util.Objects.requireNonNull;
 
 public class GameModel {
 
@@ -436,6 +422,17 @@ public class GameModel {
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
     Player player = getPlayerByName(playerName);
     return player.getPatternLines();
+  }
+
+  /**
+   * gives back the floor line of a given player.
+   *
+    * @param playerName the name of the player
+   * @return the floor line
+   */
+  public List<ModelTile> getFloorLineOfPlayer(String playerName) {
+    Player player = getPlayerByName(playerName);
+    return player.getFloorLine();
   }
 
 

@@ -3,11 +3,9 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Wall extends JPanel {
 

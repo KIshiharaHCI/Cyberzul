@@ -1,14 +1,12 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
 import azul.team12.model.Offering;
-import azul.team12.view.AzulView;
 import azul.team12.view.listeners.TileClickListener;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import javax.swing.JPanel;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -51,7 +49,7 @@ public class GameBoard extends JPanel {
     rankingBoardPanel = new JPanel();
     rankingBoard = new RankingBoard(controller);
     rankingBoardPanel.add(rankingBoard);
-    add(rankingBoardPanel, BorderLayout.WEST);
+    add(rankingBoardPanel, BorderLayout.EAST);
   }
 
 
