@@ -61,8 +61,8 @@ public class GameController implements Controller{
   }
 
   @Override
-  public void chooseTileFrom(String playerName, int indexOfTile, Offering offering) {
-    model.notifyTileChosen(playerName, indexOfTile, offering);
+  public void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex) {
+    model.notifyTileChosen(playerName, indexOfTile, offeringIndex);
     System.out.println("Player " + playerName + " has chosen the " + indexOfTile + ". Tile from Offering " + offering.toString());
   }
 

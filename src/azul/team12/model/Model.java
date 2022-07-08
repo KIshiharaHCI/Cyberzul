@@ -62,11 +62,11 @@ public interface Model {
    * Informs the view via listeners that it is the next players turn. If the player cannot
    * place the tile on a pattern line, it still informs the model.
    *
-   * @param playerName  the player's name
-   * @param indexOfTile the index of the tile that was drawn
-   * @param offering    the offering (factory display or center of the table)
+   * @param playerName    the player's name
+   * @param indexOfTile   the index of the tile that was drawn
+   * @param offeringIndex the offering (factory display or center of the table)
    */
-  void notifyTileChosen(String playerName, int indexOfTile, Offering offering);
+  void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex);
 
   /**
    * Makes the active player place the tile he/she has chosen on a given pattern line.

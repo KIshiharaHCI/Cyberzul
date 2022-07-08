@@ -86,9 +86,9 @@ public interface Controller {
    *
    * @param playerName the name of the player who makes his move.
    * @param indexOfTile which of the tiles on the Offering was clicked on.
-   * @param offering Either the reference to a Factory Display or a reference to the Table Center.
+   * @param offeringIndex index of the offering where the tile is chosen from.
    */
-  void chooseTileFrom(String playerName, int indexOfTile, Offering offering);
+  void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex);
 
   /**
    * The player playerName tries to finish his turn.

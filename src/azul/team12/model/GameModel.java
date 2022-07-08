@@ -127,14 +127,15 @@ public class GameModel implements Model {
     notifyListeners(nextPlayersTurnEvent);
   }
 
-  public void notifyTileChosen(String playerName, int indexOfTile, Offering offering) {
+  public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
     boolean thereIsAValidPick = false;
-    currentOffering = offering;
+    List<Offering> offeringsClone = getOfferings();
+    currentOffering = offeringsClone.get(offeringIndex);
     currentIndexOfTile = indexOfTile;
     Player player = getPlayerByName(playerName);
     // check for each line in the pattern lines if there is a valid pick
     for (int line = 0; line < Player.NUMBER_OF_PATTERN_LINES; line++) {
-      if (player.isValidPick(line, offering, indexOfTile)) {
+      if (player.isValidPick(line, currentOffering, indexOfTile)) {
         thereIsAValidPick = true;
       }
     }
