@@ -24,6 +24,7 @@ public class GameBoard extends JPanel {
   private JPanel boardsOfOpponentsPanel;
 
   private JPanel rankingBoardPanel;
+  private JPanel settingsPanel = new JPanel(null);
 
   private RankingBoard rankingBoard;
 
@@ -37,6 +38,7 @@ public class GameBoard extends JPanel {
 
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
+
     createPanelWithTheBoardsOfOpponents();
     center = new CenterBoard(controller, tileClickListener);
     add(center, BorderLayout.CENTER);
