@@ -1,6 +1,5 @@
 package azul.team12.model;
 
-import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
@@ -94,7 +93,7 @@ public interface Model {
    *
    * @return player's index.
    */
-  int giveIndexOfPlayerWithSPM();
+  int getIndexOfPlayerWithSPM();
 
   /**
    * Tell each player to tile the wall and get the points accordingly.
@@ -120,7 +119,7 @@ public interface Model {
 
   /**
    * Next player is the next player on the list or the first player, if the last active player
-   * was the last player on the list.
+   * was the last player on the list; or the player with the SPM if round is finished.
    *
    * @return the index of the player whose turn it is going to be.
    */

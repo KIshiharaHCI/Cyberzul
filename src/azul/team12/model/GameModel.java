@@ -115,7 +115,7 @@ public class GameModel implements Model {
   public void endTurn(){
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
-      indexOfActivePlayer = giveIndexOfPlayerWithSPM();
+      indexOfActivePlayer = getIndexOfPlayerWithSPM();
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       startTilingPhase();
       if(!hasGameEnded){
@@ -184,7 +184,7 @@ public class GameModel implements Model {
     return true;
   }
 
-  public int giveIndexOfPlayerWithSPM() {
+  public int getIndexOfPlayerWithSPM() {
     int index = 0;
     for (Player player : playerList) {
       if (player.hasStartingPlayerMarker()) {
@@ -237,13 +237,14 @@ public class GameModel implements Model {
 
   }
 
-  //TODO changes from AI branch here, too. Add it in comment, too.
   public int getIndexOfNextPlayer() {
     int indexOfNextPlayer;
-    if (getIndexOfActivePlayer() == playerList.size() - 1) {
+    if (checkRoundFinished()) {
+      indexOfNextPlayer = getIndexOfPlayerWithSPM();
+    } else if (indexOfActivePlayer == playerList.size() - 1) {
       indexOfNextPlayer = 0;
     } else {
-      indexOfNextPlayer = getIndexOfActivePlayer() + 1;
+      indexOfNextPlayer = indexOfActivePlayer + 1;
     }
     return indexOfNextPlayer;
   }
