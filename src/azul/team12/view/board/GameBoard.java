@@ -51,7 +51,7 @@ public class GameBoard extends JPanel {
     rankingBoardPanel = new JPanel();
     rankingBoard = new RankingBoard(controller);
     rankingBoardPanel.add(rankingBoard);
-    add(rankingBoardPanel, BorderLayout.WEST);
+    add(rankingBoardPanel, BorderLayout.EAST);
   }
 
 

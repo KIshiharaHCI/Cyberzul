@@ -437,6 +437,17 @@ public class GameModel implements Model{
     return player.getPatternLines();
   }
 
+  /**
+   * gives back the floor line of a given player.
+   *
+    * @param playerName the name of the player
+   * @return the floor line
+   */
+  public List<ModelTile> getFloorLineOfPlayer(String playerName) {
+    Player player = getPlayerByName(playerName);
+    return player.getFloorLine();
+  }
+
 
   /**
    * gives back the wall of a given player based on his/her wall represented in booleans.

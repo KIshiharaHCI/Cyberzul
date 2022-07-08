@@ -87,6 +87,11 @@ public class GameController implements Controller{
   }
 
   @Override
+  public List<ModelTile> getFloorLineOfPlayer(String playerName) {
+    return model.getFloorLineOfPlayer(playerName);
+  }
+
+  @Override
   public ModelTile[][] getWallOfPlayerAsTiles(String playerName) {
     return model.getWallOfPlayer(playerName);
   }

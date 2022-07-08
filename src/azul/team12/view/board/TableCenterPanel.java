@@ -46,7 +46,7 @@ public class TableCenterPanel extends JPanel {
         TABLE_CENTER_HEIGHT_IN_PXL);
     List<ModelTile> modelTiles = tableCenter.getContent();
     for (int i = 0; i < modelTiles.size(); i++) {
-      Tile tile = new Tile(i, this.plateId, modelTiles.get(i), tileClickListener);
+      TileSource tile = new TileSource(i, this.plateId, modelTiles.get(i), tileClickListener);
       System.out.println("tile: " + tile);
       tileList.add(tile);
       if (i < 18) {
