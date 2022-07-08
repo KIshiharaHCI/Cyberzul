@@ -23,6 +23,11 @@ public class GameController implements Controller{
   }
 
   @Override
+  public void restartGame() {
+    model.restartGame();
+  }
+
+  @Override
   public List<Offering> getOfferings() { return model.getOfferings(); }
 
   @Override

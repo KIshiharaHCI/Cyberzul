@@ -26,6 +26,12 @@ public interface Controller {
   void startGame();
 
   /**
+   * Signals the model that the previous game should be restarted with the same players.
+   * The model initializes everything.
+   */
+  void restartGame();
+
+  /**
    * Gives the view the information about the manufacturing plates and the table center.
    * Tiles are saved in the Bags as ArrayList<Tile>
    * @return
