@@ -1,12 +1,20 @@
 package azul.team12.network.client;
 
 import azul.team12.controller.Controller;
+import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
 import java.util.List;
 
 public class ClientController implements Controller {
+
+  Model model;
+
+  public ClientController(Model model){
+    this.model = model;
+  }
+
   @Override
   public void addPlayer(String name) {
 

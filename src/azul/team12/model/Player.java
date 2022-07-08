@@ -208,6 +208,8 @@ public class Player {
       fillFloorLine(pickedTiles.remove(0));
     }
 
+    System.out.println(floorLine);
+
   }
 
   /**
