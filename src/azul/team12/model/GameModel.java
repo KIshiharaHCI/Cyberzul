@@ -115,17 +115,14 @@ public class GameModel implements Model {
   public void endTurn(){
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
-      indexOfActivePlayer = getIndexOfPlayerWithSPM();
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       startTilingPhase();
       if(!hasGameEnded){
         setUpOfferings();
       }
       notifyListeners(roundFinishedEvent);
-      } else {
-      indexOfActivePlayer = getIndexOfNextPlayer();
-      //LOGGER.info("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
     }
+    indexOfActivePlayer = getIndexOfNextPlayer();
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
   }
