@@ -2,7 +2,8 @@ package azul.team12.network.server;
 
 import static java.util.Objects.requireNonNull;
 
-import azul.team12.network.shared.JsonMessage;
+import azul.team12.model.events.LoginFailedEvent;
+import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -121,13 +122,13 @@ public class ClientMessageHandler implements Runnable {
    */
   private void handleLogin(JSONObject object) throws IOException {
     if (nickname != null) {
-      send(JsonMessage.loginFailed());
+      send(JsonMessage.loginFailed(LoginFailedEvent.ALREADY_LOGGED_IN));
       return;
     }
 
     String nick = JsonMessage.getNickname(object);
     if (!serverConnection.nicknameAvailable(nick)) {
-      send(JsonMessage.loginFailed());
+      send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_ALREADY_TAKEN));
       return;
     }
 

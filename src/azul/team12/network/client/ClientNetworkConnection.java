@@ -1,6 +1,6 @@
 package azul.team12.network.client;
 
-import azul.team12.network.shared.JsonMessage;
+import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -9,10 +9,8 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 /**
  * The network-connection of the client. Establishes a connection to the server and takes
@@ -102,12 +100,12 @@ public class ClientNetworkConnection {
 
   public void handleMessage(JSONObject object) {
     switch (JsonMessage.typeOf(object)) {
-      case LOGIN_SUCCESS:
-        model.loggedIn();
-        break;
-      case LOGIN_FAILED:
-        model.loginFailed();
-        break;
+      case LOGIN_SUCCESS -> model.loggedIn();
+      case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
+
+
+      //TODO: Commented out code
+      /*
       case USER_JOINED:
         handleUserJoined(object);
         break;
@@ -117,10 +115,15 @@ public class ClientNetworkConnection {
       case MESSAGE:
         handleUserTextMessage(object);
         break;
-      default:
-        throw new AssertionError("Unhandled message: " + object);
+
+       */
+      default -> throw new AssertionError("Unhandled message: " + object);
     }
   }
+
+  //TODO: Commented out code
+  /*
+
 
   private void handleUserLeft(JSONObject object) {
     if (model.isLoggedIn()) {
@@ -147,6 +150,8 @@ public class ClientNetworkConnection {
     model.addTextMessage(nick, time, content);
   }
 
+
+   */
 
   /**
    * Stop the network-connection.
@@ -182,6 +187,24 @@ public class ClientNetworkConnection {
     send(login);
   }
 
+  //TODO: Commented out code
+  /*
+
+  /**
+   * Send a chat message to the server.
+   *
+   * @param chatMessage The {@link UserTextMessage} containing the message of the user.
+   */
+
+  /*
+  public void sendMessage(UserTextMessage chatMessage) {
+    JSONObject message = JsonMessage.postMessage(chatMessage.getContent());
+    send(message);
+  }
+
+
+   */
+
   private synchronized void send(JSONObject message) {
     try {
       writer.write(message + System.lineSeparator());
@@ -191,3 +214,4 @@ public class ClientNetworkConnection {
     }
   }
 }
+

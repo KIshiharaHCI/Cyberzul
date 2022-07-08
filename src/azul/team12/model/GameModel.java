@@ -2,7 +2,6 @@ package azul.team12.model;
 
 import static java.util.Objects.requireNonNull;
 
-import azul.team12.AzulMain;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
@@ -16,11 +15,9 @@ import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.model.events.PlayerHasEndedTheGameEvent;
 import azul.team12.model.events.RoundFinishedEvent;
-import azul.team12.view.board.PatternLines;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -72,10 +69,10 @@ public class GameModel {
 
   /**
    * Notify subscribed listeners that the state of the model has changed. To this end, a specific
-   * {@link azul.team12.model.events.GameEvent} gets fired such that the attached observers (i.e., {@link
+   * {@link GameEvent} gets fired such that the attached observers (i.e., {@link
    * PropertyChangeListener}) can distinguish between what exactly has changed.
    *
-   * @param event A concrete implementation of {@link azul.team12.model.events.GameEvent}
+   * @param event A concrete implementation of {@link GameEvent}
    */
   private void notifyListeners(GameEvent event) {
     support.firePropertyChange(event.getName(), null, event);

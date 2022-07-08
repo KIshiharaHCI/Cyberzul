@@ -7,6 +7,7 @@ public class LoginFailedEvent extends GameEvent{
 
   public static final String LOBBY_IS_FULL = "Lobby is full.";
   public static final String NICKNAME_ALREADY_TAKEN = "Nickname already taken.";
+  public static final String ALREADY_LOGGED_IN = "You are already logged in.";
 
   private final String message;
 

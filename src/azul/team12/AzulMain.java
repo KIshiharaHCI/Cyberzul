@@ -3,6 +3,8 @@ package azul.team12;
 import azul.team12.controller.Controller;
 import azul.team12.controller.GameController;
 import azul.team12.model.GameModel;
+import azul.team12.network.client.ClientController;
+import azul.team12.network.client.ClientModel;
 import azul.team12.view.AzulView;
 import azul.team12.model.Player;
 import java.util.ArrayList;
@@ -21,9 +23,10 @@ public class AzulMain {
     Configurator.setRootLevel(Level.INFO);
     LOGGER.trace("Entering the AzulGame application");
     LOGGER.info("Logging something.");
-    GameModel model = new GameModel();
-    Controller controller = new GameController(model);
-    AzulView azulView = new AzulView(model, controller);
+    //TODO: HIER WURDE GAMEMODEL ZU CLIENTMODEL UND GAMECONTROLLER ZU CLIENTCONTROLLER
+    ClientModel model = new ClientModel();
+    Controller controller = new ClientController(model);
+    AzulView azulView = new AzulView(new GameModel(), controller);
     azulView.setVisible(true);
 
     model.addPropertyChangeListener(azulView);

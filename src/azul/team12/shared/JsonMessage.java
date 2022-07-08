@@ -1,4 +1,4 @@
-package azul.team12.network.shared;
+package azul.team12.shared;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -22,6 +22,8 @@ public enum JsonMessage {
   public static final String CONTENT_FIELD = "content";
 
   public static final String TIME_FIELD = "time";
+
+  public static final String ADDITIONAL_INFORMATION = "additional information";
 
   private final String jsonName;
 
@@ -60,9 +62,9 @@ public enum JsonMessage {
     }
   }
 
-  public static JSONObject loginFailed() {
+  public static JSONObject loginFailed(String reasonForDeniedLogin) {
     try {
-      return createMessageOfType(LOGIN_FAILED);
+      return createMessageOfType(LOGIN_FAILED).put(ADDITIONAL_INFORMATION,reasonForDeniedLogin);
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
@@ -115,6 +117,14 @@ public enum JsonMessage {
   public static String getNickname(JSONObject object) {
     try {
       return object.getString(NICK_FIELD);
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to read a json object.", e);
+    }
+  }
+
+  public static String getAdditionalInformation(JSONObject object){
+    try {
+      return object.getString(ADDITIONAL_INFORMATION);
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to read a json object.", e);
     }
