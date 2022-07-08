@@ -33,7 +33,7 @@ public class GameBoard extends JPanel {
 
     this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
-    factoryDisplays = controller.getFactoryDisplays();
+    factoryDisplays = controller.getOfferings().subList(1, controller.getOfferings().size());
 
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
@@ -66,6 +66,7 @@ public class GameBoard extends JPanel {
         // listener is null, because no click events should happen here.
         PlayerBoard playerBoard = new PlayerBoard(controller, null,
             nameOfOpponent);
+
         boardsOfOpponentsPanel.add(playerBoard);
       }
     }

@@ -85,16 +85,16 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
           Plate plate = (Plate) source.getParent().getParent();
           PlatesPanel platesPanel = (PlatesPanel) plate.getParent();
           platesPanel.remove();
-          platesPanel.initialize(controller.getFactoryDisplays(), this);
+          platesPanel.initialize(controller.getOfferings().subList(1,controller.getOfferings().size()), this);
 
           CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
           TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();
           tableCenterPanel.remove();
-          tableCenterPanel.initialize(this, (TableCenter) controller.getTableCenter());
+          tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
         } else if (source.getPlateId() == 0) {
           TableCenterPanel tableCenterPanel = (TableCenterPanel) source.getParent().getParent();
           tableCenterPanel.remove();
-          tableCenterPanel.initialize(this, (TableCenter) controller.getTableCenter());
+          tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
         }
         //TODO: do it with a button on the playboard
         showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
