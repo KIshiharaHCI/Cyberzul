@@ -52,7 +52,7 @@ public class Plate extends JPanel {
     int space_from_left = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
     int space_from_top = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
     for (int i = 0; i < content.size(); i++) {
-      Tile tile = new Tile(i, this.plateId, content.get(i), tileClickListener);
+      TileSource tile = new TileSource(i, this.plateId, content.get(i), tileClickListener);
       tileList.add(tile);
       tile.setBounds(space_from_left, space_from_top, Tile.TILE_SIZE, Tile.TILE_SIZE);
       plateImageLabel.add(tile);

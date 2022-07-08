@@ -6,8 +6,6 @@ import azul.team12.view.listeners.TileClickListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -74,10 +72,10 @@ public class Wall extends JPanel {
       for (int col = 0; col < COLS; col++) {
         ModelTile tileXY = wall[row][col];
         if (tileXY.equals(ModelTile.EMPTY_TILE)) {
-          currentRow.add(new TileDestination(col, row, Tile.TILE_SIZE, templateWall[row][col]));
+          currentRow.add(new TileDestinationWallTransparent(col, row, templateWall[row][col]));
         } else {
           currentRow.add(
-              new TileDestinationWall(col, row, Tile.TILE_SIZE, tileClickListener, tileXY));
+              new TileDestinationWall(col, row, tileClickListener, tileXY));
         }
       }
       add(currentRow);

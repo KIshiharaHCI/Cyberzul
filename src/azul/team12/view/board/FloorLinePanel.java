@@ -48,9 +48,15 @@ public class FloorLinePanel extends JPanel {
   private void addBottomRow() {
     JPanel contentBottom = new JPanel();
     ViewHelper.setPropertiesOfCurrentRow(Tile.TILE_SIZE, 7, 1, contentBottom);
+    // controller.getFloorLine.getContent() -> List<ModelTile> modelTiles
     for (int col = 0; col < NUMBER_OF_FLOOR_TILES; col++) {
+      // if (modelTiles.size() > col) {
+      //ModelTile modelTile = modelTiles[col];
+      // TileDestinationFloorLine tileDestinationFloorLine = new TileDestinationFloorLine(col, 0,
+      //          tileClickListener, modelTile);
+      //} else {
       TileDestinationFloorLine tileDestinationFloorLine = new TileDestinationFloorLine(col, 0,
-          Tile.TILE_SIZE, tileClickListener, ModelTile.EMPTY_TILE);
+          tileClickListener, ModelTile.EMPTY_TILE);
       contentBottom.add(tileDestinationFloorLine);
     }
     this.add(contentBottom);
