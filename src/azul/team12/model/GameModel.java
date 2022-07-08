@@ -236,6 +236,9 @@ public class GameModel {
       e.printStackTrace();
     }
 
+    //TODO: Add to main branch
+    //TODO: Fix bug, when 4 players are playing and more than one is AI player
+
     //checking if the next Player has left the game / is an AI-Player
     if (playerList.get(indexOfActivePlayer).isAIPlayer() && !hasGameEnded) {
       String nickOfAIPlayer = getNickOfActivePlayer();
@@ -244,7 +247,7 @@ public class GameModel {
   }
 
   /**
-   * makes the active AI Player place a tile randomly.
+   * makes a given player place a tile randomly.
    *
    * @param nickOfAIPlayer the name of the active player.
    */
@@ -367,8 +370,11 @@ public class GameModel {
       }*/
     }
 
+
+
+    //TODO: @Marco test it if it works, when the buttons are there
   /**
-   * ends the game and sets up everything for a new game.
+   * sets up everything for a new game with the same players.
    */
   public void restartGame() {
 
