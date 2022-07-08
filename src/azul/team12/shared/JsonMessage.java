@@ -70,7 +70,15 @@ public enum JsonMessage {
 
   //Controller methods
 
-  public static JSONObject chooseTileFrom(String playerName, int indexOfTile, int indexOfOffering) {
+  /**
+   * Create a JSONMessage that tells the server which tile the player choose and from which
+   * offering.
+   *
+   * @param indexOfTile     the index of the tile in the Offering.
+   * @param indexOfOffering <code>0</code> means the TableCenter. Every following index is a FactoryDisplay.
+   * @return A JSONMessage telling the server that a tile was chosen by the player, and which one.
+   */
+  public static JSONObject chooseTileFrom(int indexOfTile, int indexOfOffering) {
     try {
       JSONObject jsonObject = createMessageOfType(CHOOSE_TILE_FROM);
       jsonObject.put(INDEX_OF_TILE_FIELD, indexOfTile);
@@ -112,6 +120,25 @@ public enum JsonMessage {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
   }
+
+  /**
+   * This message is created by the server in order to inform the clients of the content of all
+   * Offerings.
+   *
+   * @return A JSONObject that contains the TableCenter at index 0 and FactoryDisplays at all other
+   * positions.
+   */
+  //TODO: OFFERINGS ZURÜCKGEBEN
+  /*
+  public static JSONObject createMessageWithAllOfferings() {
+    try {
+
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+   */
 
 
   public static JSONObject login(String nickname) {

@@ -1,6 +1,8 @@
 package azul.team12.network.server;
 
+import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
+import azul.team12.model.Model;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -25,7 +27,8 @@ public class ServerNetworkConnection {
 
   private final List<ClientMessageHandler> clientHandlers;
 
-  private GameModel modelModel;
+  private Model model;
+  private Controller controller;
 
   private final Runnable connectionAcceptor = new Runnable() {
 
@@ -35,7 +38,7 @@ public class ServerNetworkConnection {
         while (!Thread.currentThread().isInterrupted()) {
           Socket clientSocket = socket.accept();
           ClientMessageHandler handler =
-              new ClientMessageHandler(ServerNetworkConnection.this, clientSocket);
+              new ClientMessageHandler(ServerNetworkConnection.this, clientSocket,controller,model);
           addHandler(handler);
           executorService.execute(handler);
         }
@@ -51,12 +54,13 @@ public class ServerNetworkConnection {
    *
    * @throws IOException thrown when the socket is unable to be created at the given port
    */
-  public ServerNetworkConnection(GameModel gameModel) throws IOException {
+  public ServerNetworkConnection(Model gameModel, Controller controller) throws IOException {
+    this.model = gameModel;
+    this.controller = controller;
     executorService = Executors.newCachedThreadPool();
     socket = new ServerSocket(PORT);
     clientHandlers = Collections.synchronizedList(new ArrayList<>());
 
-    this.modelModel = gameModel;
   }
 
   /**
