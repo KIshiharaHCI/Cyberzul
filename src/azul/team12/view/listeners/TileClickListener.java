@@ -54,8 +54,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
     source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
     // offerings, not factoryDisplays, because the first factory displays has id one not zero
     List<Offering> offerings = controller.getOfferings();
-    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(),
-            offerings.get(source.getPlateId()));
+    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(), source.getPlateId());
 
   }
 

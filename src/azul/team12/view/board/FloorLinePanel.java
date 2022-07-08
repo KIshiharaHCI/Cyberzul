@@ -48,14 +48,10 @@ public class FloorLinePanel extends JPanel {
     JPanel contentBottom = new JPanel();
     ViewHelper.setPropertiesOfCurrentRow(Tile.TILE_SIZE, 7, 1, contentBottom);
     for (int col = 1; col <= NUMBER_OF_FLOOR_TILES; col++) {
-      // if (modelTiles.size() > col) {
-      //ModelTile modelTile = modelTiles[col];
-      // TileDestinationFloorLine tileDestinationFloorLine = new TileDestinationFloorLine(col, 0,
-      //          tileClickListener, modelTile);
-      //} else {
-      List<ModelTile> currentTile = controller.getFloorLineOfPlayer(controller.getNickOfActivePlayer());
-      if (currentTile.size() > col) {
-        WallTile filledFloorLineTile = new WallTile(col,1, currentTile.get(col - 1), 1f);
+
+      List<ModelTile> floorLineOfPlayer = controller.getFloorLineOfPlayer(controller.getNickOfActivePlayer());
+      if (floorLineOfPlayer.size() >= col) {
+        WallTile filledFloorLineTile = new WallTile(col,1, floorLineOfPlayer.get(col - 1), 1f);
         contentBottom.add(filledFloorLineTile);
       } else {
         DestinationTile emptyFloorLineTile = new DestinationTile(col, 1, ModelTile.EMPTY_TILE, tileClickListener);
