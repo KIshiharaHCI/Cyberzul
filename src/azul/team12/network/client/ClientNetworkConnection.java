@@ -9,6 +9,8 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -103,13 +105,18 @@ public class ClientNetworkConnection {
       case LOGIN_SUCCESS -> model.loggedIn();
       case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
       case GAME_STARTED -> model.gameStarted();
-      case USER_JOINED -> {
+      case Player_JOINED -> {
         //TODO IMPLEMENT CHAT HERE @XUE
+        handlePlayerJoined(object);
         }
       //TODO: Commented out code
-      case USER_LEFT -> {
+      case PLAYER_LEFT -> {
         //TODO: IMPLEMENT CHAT HERE @XUE
+        handlePlayerLeft(object);
         }
+      case MESSAGE -> {
+        handlePlayerTextMessage(object);
+      }
       /*
       case USER_JOINED:
         handleUserJoined(object);
@@ -124,6 +131,32 @@ public class ClientNetworkConnection {
        */
       default -> throw new AssertionError("Unhandled message: " + object);
     }
+  }
+
+
+  private void handlePlayerJoined(JSONObject jsonObject) {
+    if (model.isLoggedIn()) {
+      String nickname = JsonMessage.getNickname(jsonObject);
+      model.logInWithName(nickname);
+    }
+  }
+
+  private void handlePlayerLeft(JSONObject jsonObject) {
+    if (model.isLoggedIn()) {
+      String nickname = JsonMessage.getNickname(jsonObject);
+      model.playerLeft(nickname);
+    }
+  }
+
+  private void handlePlayerTextMessage(JSONObject jsonObject) {
+    if (!model.isLoggedIn()) {
+      return;
+    }
+
+    String nickname = JsonMessage.getNickname(jsonObject);
+    Date time = JsonMessage.getTime(jsonObject);
+    String content = JsonMessage.getContent(jsonObject);
+    model.addTextMessage(nickname, time, content);
   }
 
   //TODO: Commented out code

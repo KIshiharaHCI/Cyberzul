@@ -1,5 +1,7 @@
 package azul.team12.network.server;
 
+import azul.team12.controller.Controller;
+import azul.team12.model.Model;
 import azul.team12.shared.JsonMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,12 +13,14 @@ import java.util.Date;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Handles the chat messages that are sent from the clients to the server.
+ * Handles the chat messages that are sent from the players to the server.
  */
 public class ChatMessageHandler extends ClientMessageHandler {
 
   private String nickname;
   private ServerNetworkConnection serverConnection;
+  private Controller controller;
+  private Model model;
   private static final String AZUL_STRATEGY = """
           Azul - Strategy:
           Focus on Negative Points.    Azul is point based, which causes us to focus on the amount of points we are gaining.
@@ -37,9 +41,9 @@ public class ChatMessageHandler extends ClientMessageHandler {
    * @param socket The specific socket that belongs to this player
    * @throws IOException Thrown when failing to retrieve the In- or Output-stream.
    */
-  public ChatMessageHandler(ServerNetworkConnection serverConnection, Socket socket)
+  public ChatMessageHandler(ServerNetworkConnection serverConnection, Socket socket, Controller controller, Model model)
           throws IOException {
-    super(serverConnection, socket);
+    super(serverConnection, socket, controller, model);
 
     }
 

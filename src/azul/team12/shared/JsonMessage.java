@@ -12,9 +12,10 @@ import org.json.JSONObject;
 
 public enum JsonMessage {
 
+  //chat messages
   LOGIN("login"), LOGIN_SUCCESS("login success"), LOGIN_FAILED("login failed"),
-  USER_JOINED("user joined"), POST_MESSAGE("post message"), MESSAGE("message"),
-  USER_LEFT("user left"), CHEAT_MESSAGE("cheat message"),
+  Player_JOINED("player joined"), POST_MESSAGE("post message"), MESSAGE("message"),
+  PLAYER_LEFT("Player left"), CHEAT_MESSAGE("cheat message"),
 
   //Controller methods
   CHOOSE_TILE_FROM("choose tile from"),

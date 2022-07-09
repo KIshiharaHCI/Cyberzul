@@ -2,12 +2,15 @@ package azul.team12.network.client;
 
 import static java.util.Objects.requireNonNull;
 
-import azul.team12.model.events.GameEvent;
-import azul.team12.model.events.GameStartedEvent;
-import azul.team12.model.events.LoggedInEvent;
-import azul.team12.model.events.LoginFailedEvent;
+import azul.team12.model.events.*;
+import azul.team12.network.client.messages.Message;
+import azul.team12.network.client.messages.PlayerTextMessage;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class ClientModel {
 
@@ -16,6 +19,8 @@ public class ClientModel {
   private ClientNetworkConnection connection;
   private String nickname;
 
+  private final List<Message> playerMessages;
+
   public ClientModel(){
 
     loggedIn = false;
@@ -23,6 +28,8 @@ public class ClientModel {
     support = new PropertyChangeSupport(this);
 
     setConnection(new ClientNetworkConnection(this));
+
+    playerMessages = new ArrayList<>();
   }
 
   /**
@@ -109,5 +116,29 @@ public class ClientModel {
    */
   public void gameStarted(){
     notifyListeners(new GameStartedEvent());
+  }
+
+  /**
+   * Notify the Listeners that one Player lefts the game.
+   * @param nickname The name of the player who lefts the game.
+   */
+  public void playerLeft(final String nickname) {
+    this.nickname = nickname;
+    notifyListeners(new GameForfeitedEvent(nickname));
+
+  }
+
+  /**
+   * Add a text message to the list of chat messages.
+   * Used by the network layer to update the model accordingly.
+   *
+   * @param nickname The name of the player that has sent this message.
+   * @param date     The date when the chat message was sent.
+   * @param content  The actual content (text) that the player had sent.
+   */
+  public void addTextMessage(String nickname, Date date, String content) {
+    PlayerTextMessage message = new PlayerTextMessage(nickname, date, content);
+    playerMessages.add(message);
+    notifyListeners(new PlayerAddedMessageEvent(message));
   }
 }
