@@ -102,9 +102,14 @@ public class ClientNetworkConnection {
     switch (JsonMessage.typeOf(object)) {
       case LOGIN_SUCCESS -> model.loggedIn();
       case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
-
-
+      case GAME_STARTED -> model.gameStarted();
+      case USER_JOINED -> {
+        //TODO IMPLEMENT CHAT HERE @XUE
+        }
       //TODO: Commented out code
+      case USER_LEFT -> {
+        //TODO: IMPLEMENT CHAT HERE @XUE
+        }
       /*
       case USER_JOINED:
         handleUserJoined(object);

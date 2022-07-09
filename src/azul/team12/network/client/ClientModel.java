@@ -3,6 +3,7 @@ package azul.team12.network.client;
 import static java.util.Objects.requireNonNull;
 
 import azul.team12.model.events.GameEvent;
+import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import java.beans.PropertyChangeListener;
@@ -103,4 +104,10 @@ public class ClientModel {
     notifyListeners(new LoginFailedEvent(message));
   }
 
+  /**
+   * Notify the listeners that the game has started.
+   */
+  public void gameStarted(){
+    notifyListeners(new GameStartedEvent());
+  }
 }

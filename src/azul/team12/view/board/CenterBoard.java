@@ -4,20 +4,19 @@ import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
 
 /**
  * The center of the table ("Tischmitte").
  */
 public class CenterBoard extends JPanel {
 
+  private final int WIDTH = 1100;
+  private final int HEIGHT = 780;
   private final Controller controller;
-  List<Tile> tileList;
   PlatesPanel platesPanel;
   TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;
@@ -31,16 +30,29 @@ public class CenterBoard extends JPanel {
    */
   public CenterBoard(Controller controller, TileClickListener tileClickListener) {
     this.controller = controller;
-    this.tableCenter = (TableCenter) controller.getTableCenter();
+    this.tableCenter = (TableCenter) controller.getOfferings().get(0);
     this.tileClickListener = tileClickListener;
 
-    setLayout(new GridLayout(3, 1));
-    setPreferredSize(new Dimension(1100, 780));
-
+//    setLayout(new GridLayout(3, 1));
+//    setPreferredSize(new Dimension(1100, 780));
+    setProperties(this);
     createNewPlatesPanel();
     createNewTableCenter();
     createNewPlayerBoard();
 
+  }
+
+  private void setProperties(JPanel panel) {
+    panel.setBackground(new Color(110, 150, 100));
+    panel.setPreferredSize(
+        new Dimension(WIDTH, HEIGHT));
+    panel.setMaximumSize(
+        new Dimension(WIDTH, HEIGHT));
+    panel.setMinimumSize(
+        new Dimension(WIDTH, HEIGHT));
+    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    panel.setAlignmentX(1.0f);
+    panel.setAlignmentY(1.0f);
   }
 
 
@@ -59,7 +71,7 @@ public class CenterBoard extends JPanel {
    * Used by Constructor and AzulView to create and add a new Plates panel.
    */
   void createNewPlatesPanel() {
-    List<Offering> factoryDisplays = controller.getFactoryDisplays();
+    List<Offering> factoryDisplays = controller.getOfferings().subList(1,controller.getOfferings().size());
     platesPanel = new PlatesPanel(factoryDisplays, tileClickListener);
     platesPanel.setPreferredSize(new Dimension(1100, 130));
     add(platesPanel);
@@ -70,7 +82,7 @@ public class CenterBoard extends JPanel {
    */
   void createNewTableCenter() {
     tableCenterPanel = new TableCenterPanel(tableCenter, tileClickListener);
-    platesPanel.setPreferredSize(new Dimension(1100, 10));
+    //platesPanel.setPreferredSize(new Dimension(1100, 10));
     add(tableCenterPanel);
   }
 

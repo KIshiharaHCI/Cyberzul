@@ -3,11 +3,11 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JPanel;
 
 public class PatternLines extends JPanel {
 
@@ -83,11 +83,10 @@ public class PatternLines extends JPanel {
           ModelTile modelTile = currentPatternLines[row][col];
           if (modelTile.toString().equals(ModelTile.EMPTY_TILE.toString())) {
             currentRow.add(
-                new TileDestinationPatternLines(col, row, tileSize, tileClickListener,
-                    ModelTile.EMPTY_TILE));
+                    new DestinationTile(col, row, ModelTile.EMPTY_TILE, tileClickListener)
+            );
           } else {
-            currentRow.add(
-                new TileDestinationPatternLines(col, row, tileSize, tileClickListener, modelTile));
+            currentRow.add(new DestinationTile(col, row, modelTile, tileClickListener));
           }
         }
       }

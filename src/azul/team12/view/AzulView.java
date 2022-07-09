@@ -175,6 +175,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           showErrorMessage("Nickname is already taken.");
         } else if (loginFailedEvent.getMessage().equals(LoginFailedEvent.LOBBY_IS_FULL)) {
           showErrorMessage("Lobby is full.");
+        } else if(loginFailedEvent.getMessage().equals(LoginFailedEvent.ALREADY_LOGGED_IN)){
+          showErrorMessage("Already logged in.");
         }
         //TODO - @ Nils add other events
       }

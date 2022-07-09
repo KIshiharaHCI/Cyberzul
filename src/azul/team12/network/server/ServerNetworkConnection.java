@@ -1,6 +1,7 @@
 package azul.team12.network.server;
 
-import azul.team12.model.GameModel;
+import azul.team12.controller.Controller;
+import azul.team12.model.Model;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -25,7 +26,8 @@ public class ServerNetworkConnection {
 
   private final List<ClientMessageHandler> clientHandlers;
 
-  private GameModel modelModel;
+  private Model model;
+  private Controller controller;
 
   private final Runnable connectionAcceptor = new Runnable() {
 
@@ -35,7 +37,7 @@ public class ServerNetworkConnection {
         while (!Thread.currentThread().isInterrupted()) {
           Socket clientSocket = socket.accept();
           ClientMessageHandler handler =
-              new ClientMessageHandler(ServerNetworkConnection.this, clientSocket);
+              new ClientMessageHandler(ServerNetworkConnection.this, clientSocket,controller,model);
           addHandler(handler);
           executorService.execute(handler);
         }
@@ -51,12 +53,13 @@ public class ServerNetworkConnection {
    *
    * @throws IOException thrown when the socket is unable to be created at the given port
    */
-  public ServerNetworkConnection(GameModel gameModel) throws IOException {
+  public ServerNetworkConnection(Model gameModel, Controller controller) throws IOException {
+    this.model = gameModel;
+    this.controller = controller;
     executorService = Executors.newCachedThreadPool();
     socket = new ServerSocket(PORT);
     clientHandlers = Collections.synchronizedList(new ArrayList<>());
 
-    this.modelModel = gameModel;
   }
 
   /**
@@ -78,6 +81,20 @@ public class ServerNetworkConnection {
   }
 
   /**
+   * Broadcasts a message to all clients.
+   *
+   * @param message The message as JSONObject that is to be broadcast.
+   * @throws IOException Thrown when failing to access the input- or output-stream.
+   */
+  public void broadcastToAll(JSONObject message) throws IOException{
+    synchronized (clientHandlers) {
+      for(ClientMessageHandler handler : clientHandlers){
+        handler.send(message);
+      }
+    }
+  }
+
+  /**
    * Add a new handler to the list of connected clients.
    *
    * @param handler The new {@link ClientMessageHandler handler}
@@ -94,7 +111,7 @@ public class ServerNetworkConnection {
    * @param nickname The name to be looked up.
    * @return <code>true</code> if no other client has taken this name, <code >false</code> otherwise.
    */
-  public synchronized boolean nicknameAvailable(String nickname) {
+  public synchronized boolean tryLogIn(String nickname) {
     synchronized (clientHandlers) {
       for (ClientMessageHandler handler : clientHandlers) {
         if (nickname.equals(handler.getNickname())) {

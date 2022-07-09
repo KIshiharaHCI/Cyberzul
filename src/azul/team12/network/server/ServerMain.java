@@ -1,6 +1,9 @@
 package azul.team12.network.server;
 
+import azul.team12.controller.Controller;
+import azul.team12.controller.GameController;
 import azul.team12.model.GameModel;
+import azul.team12.model.Model;
 import java.io.IOException;
 
 /**
@@ -16,8 +19,9 @@ public class ServerMain {
    * Launch the azul server.
    */
   public static void main(String[] args) throws IOException {
-    GameModel gameModel = new GameModel();
-    final ServerNetworkConnection connection = new ServerNetworkConnection(gameModel);
+    Model gameModel = new GameModel();
+    Controller controller = new GameController(gameModel);
+    final ServerNetworkConnection connection = new ServerNetworkConnection(gameModel,controller);
     connection.start();
 
     Runtime.getRuntime().addShutdownHook(new Thread() {

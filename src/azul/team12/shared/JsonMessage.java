@@ -1,5 +1,6 @@
 package azul.team12.shared;
 
+import azul.team12.model.Offering;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -13,7 +14,27 @@ public enum JsonMessage {
 
   LOGIN("login"), LOGIN_SUCCESS("login success"), LOGIN_FAILED("login failed"),
   USER_JOINED("user joined"), POST_MESSAGE("post message"), MESSAGE("message"),
-  USER_LEFT("user left"), CHEAT_MESSAGE("cheat message");
+  USER_LEFT("user left"), CHEAT_MESSAGE("cheat message"),
+
+  //Controller methods
+  CHOOSE_TILE_FROM("choose tile from"),
+  END_TURN("end turn"),
+  FORFEIT("forfeit"),
+  GET_NICK_OF_ACTIVE_PLAYER("get nick of active player"),
+  GET_NICK_OF_NEXT_PLAYER("get nick of next player"),
+  GET_OFFERINGS("get offerings"),
+  GET_PATTERN_LINES_OF_PLAYER("get pattern lines of player"),
+  GET_PLAYER_NAMES_LIST("get player names list"),
+  GET_POINTS("get points"),
+  GET_TEMPLATE_WALL("get template wall"),
+  GET_WALL_OF_PLAYER_AS_TILES("get wall of player as tiles"),
+  PLACE_TILE_AT_FLOOR_LINE("place tile at floor line"),
+  PLACE_TILE_AT_PATTERN_LINE("place tile at pattern line"),
+  RANKING_PLAYER_WITH_POINTS("ranking player with points"),
+  START_GAME("start game"),
+
+  //Methods from the Server
+  GAME_STARTED("game started");
 
   public static final String TYPE_FIELD = "type";
 
@@ -24,6 +45,10 @@ public enum JsonMessage {
   public static final String TIME_FIELD = "time";
 
   public static final String ADDITIONAL_INFORMATION = "additional information";
+
+  public static final String INDEX_OF_TILE_FIELD = "index of tile ";
+
+  public static final String INDEX_OF_OFFERING_FIELD = "index of offering";
 
   private final String jsonName;
 
@@ -46,6 +71,79 @@ public enum JsonMessage {
         () -> new IllegalArgumentException(String.format("Unknown message type '%s'", typeName)));
   }
 
+  //Controller methods
+
+  /**
+   * Create a JSONMessage that tells the server which tile the player choose and from which
+   * offering.
+   *
+   * @param indexOfTile     the index of the tile in the Offering.
+   * @param indexOfOffering <code>0</code> means the TableCenter. Every following index is a FactoryDisplay.
+   * @return A JSONMessage telling the server that a tile was chosen by the player, and which one.
+   */
+  public static JSONObject chooseTileFrom(int indexOfTile, int indexOfOffering) {
+    try {
+      JSONObject jsonObject = createMessageOfType(CHOOSE_TILE_FROM);
+      jsonObject.put(INDEX_OF_TILE_FIELD, indexOfTile);
+      jsonObject.put(INDEX_OF_OFFERING_FIELD, indexOfOffering);
+      return jsonObject;
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+  /**
+   * Create a JSONObject by passing only the name of the method.
+   * I.e. "createJSONMessage(END_TURN);
+   *
+   * @param methodName the name of the method in the Controller Interface.
+   * @return a JSONObject containing the information that this specific method was invoked.
+   */
+  public static JSONObject createJSONmessage(JsonMessage methodName) {
+    try {
+      return createMessageOfType(methodName);
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+  /**
+   * Create a JSONObject by passing only the name of the method and the nick of the player.
+   * I.e. "createJSONMessage(GET_POINTS,jonas123);
+   *
+   * @param methodName the name of the method in the Controller Interface.
+   * @param nickname   the nickname of the player that is passed to the method.
+   * @return a JSONObject containing the information that this specific method was invoked with the
+   * name of the player with whom the method was invoked.
+   */
+  public static JSONObject createJSONmessage(JsonMessage methodName, String nickname) {
+    try {
+      return createMessageOfType(methodName).put(NICK_FIELD, nickname);
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+  /**
+   * This message is created by the server in order to inform the clients of the content of all
+   * Offerings.
+   *
+   * @return A JSONObject that contains the TableCenter at index 0 and FactoryDisplays at all other
+   * positions.
+   */
+  //TODO: OFFERINGS ZURÜCKGEBEN
+  /*
+  public static JSONObject createMessageWithAllOfferings() {
+    try {
+
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+   */
+
+
   public static JSONObject login(String nickname) {
     try {
       return createMessageOfType(LOGIN).put(NICK_FIELD, nickname);
@@ -64,7 +162,7 @@ public enum JsonMessage {
 
   public static JSONObject loginFailed(String reasonForDeniedLogin) {
     try {
-      return createMessageOfType(LOGIN_FAILED).put(ADDITIONAL_INFORMATION,reasonForDeniedLogin);
+      return createMessageOfType(LOGIN_FAILED).put(ADDITIONAL_INFORMATION, reasonForDeniedLogin);
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
@@ -134,7 +232,7 @@ public enum JsonMessage {
     }
   }
 
-  public static String getAdditionalInformation(JSONObject object){
+  public static String getAdditionalInformation(JSONObject object) {
     try {
       return object.getString(ADDITIONAL_INFORMATION);
     } catch (JSONException e) {

@@ -3,13 +3,9 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Wall extends JPanel {
 
@@ -22,7 +18,7 @@ public class Wall extends JPanel {
   private ModelTile[][] wall;
   private ModelTile[][] templateWall;
   private JPanel currentRow;
-
+//TODO: remove other players side panel methods
   /**
    * Constructor solely used to create other players side panel.
    */
@@ -56,7 +52,7 @@ public class Wall extends JPanel {
    * Constructor used by current playerBoard. Starts empty and should appear with Tile images after
    * Tiling phase.
    *
-   * @param tileClickListener
+   * @param tileClickListener //TODO: remove after decoupling other players panel
    */
   public Wall(Controller controller, TileClickListener tileClickListener) {
     this.controller = controller;
@@ -74,22 +70,13 @@ public class Wall extends JPanel {
       for (int col = 0; col < COLS; col++) {
         ModelTile tileXY = wall[row][col];
         if (tileXY.equals(ModelTile.EMPTY_TILE)) {
-          currentRow.add(new TileDestination(col, row, Tile.TILE_SIZE, templateWall[row][col]));
+          currentRow.add(new WallTile(col, row, templateWall[row][col], 0.3f));
         } else {
-          currentRow.add(
-              new TileDestinationWall(col, row, Tile.TILE_SIZE, tileClickListener, tileXY));
+          currentRow.add(new WallTile(col, row, tileXY, 1f)
+          );
         }
       }
       add(currentRow);
     }
-
-//    this.addMouseListener(new MouseAdapter() {
-//      @Override
-//      public void mouseClicked(MouseEvent e) {
-//        super.mouseClicked(e);
-//      }
-//    });
   }
-
-
 }

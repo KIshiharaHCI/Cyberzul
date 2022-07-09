@@ -6,9 +6,9 @@ import java.util.List;
 
 public class GameController implements Controller{
 
-  private GameModel model;
+  private Model model;
 
-  public GameController(GameModel model){
+  public GameController(Model model){
     this.model = model;
   }
 
@@ -20,6 +20,11 @@ public class GameController implements Controller{
   @Override
   public void startGame() {
     model.startGame();
+  }
+
+  @Override
+  public void restartGame() {
+    model.restartGame();
   }
 
   @Override
@@ -42,7 +47,7 @@ public class GameController implements Controller{
 
   @Override
   public String getNickOfNextPlayer() {
-    return model.getPlayerNamesList().get(model.getIndexOfNextPlayer(model.getIndexOfActivePlayer()));
+    return model.getPlayerNamesList().get(model.getIndexOfNextPlayer());
   }
 
   @Override
@@ -61,9 +66,8 @@ public class GameController implements Controller{
   }
 
   @Override
-  public void chooseTileFrom(String playerName, int indexOfTile, Offering offering) {
-    model.notifyTileChosen(playerName, indexOfTile, offering);
-    System.out.println("Player " + playerName + " has chosen the " + indexOfTile + ". Tile from Offering " + offering.toString());
+  public void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex) {
+    model.notifyTileChosen(playerName, indexOfTile, offeringIndex);
   }
 
   @Override
@@ -84,6 +88,11 @@ public class GameController implements Controller{
   @Override
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
     return model.getPatternLinesOfPlayer(playerName);
+  }
+
+  @Override
+  public List<ModelTile> getFloorLineOfPlayer(String playerName) {
+    return model.getFloorLineOfPlayer(playerName);
   }
 
   @Override

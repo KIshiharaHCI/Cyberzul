@@ -2,6 +2,8 @@ package azul.team12.network.server;
 
 import static java.util.Objects.requireNonNull;
 
+import azul.team12.controller.Controller;
+import azul.team12.model.Model;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
@@ -32,6 +34,11 @@ public class ClientMessageHandler implements Runnable {
 
   private String nickname;
 
+  private Controller controller;
+
+  private Model model;
+
+
   /**
    * Set up a new {@link ClientMessageHandler} that deals with incoming and outgoing message for a
    * single connected client. The specific objects are created from the given socket.
@@ -40,8 +47,10 @@ public class ClientMessageHandler implements Runnable {
    * @param socket The specific socket that belongs to this client
    * @throws IOException Thrown when failing to retrieve the In- or Output-stream.
    */
-  public ClientMessageHandler(ServerNetworkConnection connection, Socket socket)
+  public ClientMessageHandler(ServerNetworkConnection connection, Socket socket, Controller controller, Model model)
       throws IOException {
+    this.controller = controller;
+    this.model = model;
     serverConnection = requireNonNull(connection);
     this.socket = requireNonNull(socket);
     reader =
@@ -107,6 +116,7 @@ public class ClientMessageHandler implements Runnable {
     switch (JsonMessage.typeOf(object)) {
       case LOGIN -> handleLogin(object);
       case POST_MESSAGE -> handlePostMessage(object);
+      case START_GAME -> controller.startGame();
       default -> throw new AssertionError("Unable to handle message " + object);
     }
   }
@@ -127,12 +137,13 @@ public class ClientMessageHandler implements Runnable {
     }
 
     String nick = JsonMessage.getNickname(object);
-    if (!serverConnection.nicknameAvailable(nick)) {
+    if (!serverConnection.tryLogIn(nick)) {
       send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_ALREADY_TAKEN));
       return;
     }
 
     setNickname(nick);
+    controller.addPlayer(nick);
     send(JsonMessage.loginSuccess());
     serverConnection.broadcast(this, JsonMessage.userJoined(nick));
   }

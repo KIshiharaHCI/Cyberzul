@@ -26,6 +26,11 @@ public class ClientController implements Controller {
   }
 
   @Override
+  public void restartGame() {
+
+  }
+
+  @Override
   public List<Offering> getOfferings() {
     return null;
   }
@@ -61,7 +66,7 @@ public class ClientController implements Controller {
   }
 
   @Override
-  public void chooseTileFrom(String playerName, int indexOfTile, Offering offering) {
+  public void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex) {
 
   }
 
@@ -88,6 +93,11 @@ public class ClientController implements Controller {
   @Override
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
     return new ModelTile[0][];
+  }
+
+  @Override
+  public List<ModelTile> getFloorLineOfPlayer(String playerName) {
+    return null;
   }
 
   @Override
