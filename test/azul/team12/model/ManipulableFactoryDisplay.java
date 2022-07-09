@@ -9,7 +9,7 @@ import java.util.List;
  * might forget to change it back. Also, by changing it back, the test class might not compile
  * anymore.
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("processing")
 
 public class ManipulableFactoryDisplay extends FactoryDisplay{
 

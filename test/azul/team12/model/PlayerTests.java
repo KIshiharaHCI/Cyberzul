@@ -10,7 +10,7 @@ import org.junit.jupiter.api.TestInstance;
  * Contains Tests for the Player class.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SuppressWarnings("unchecked")
+@SuppressWarnings("processing")
 
 public class PlayerTests {
 
