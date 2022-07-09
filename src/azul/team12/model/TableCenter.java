@@ -32,7 +32,7 @@ public class TableCenter extends Offering {
 
   @Override
   void initializeContent() {
-    this.content = new ArrayList<>();
+    TableCenter.content = new ArrayList<>();
   }
 
   /**
