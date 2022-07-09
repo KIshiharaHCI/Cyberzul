@@ -113,13 +113,77 @@ public class GameModel implements Model {
   }
 
   public void replaceActivePlayerByAI() {
-    //TODO:
+    LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
+    GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
+    notifyListeners(gameForfeitedEvent);
+
+    /*try {
+      Thread.currentThread().sleep(2 * SLEEP_TIME);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }*/
+
+    //TODO: If player has already chosen something and then forfeits
+    LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
+    getPlayerByName(getNickOfActivePlayer()).setAIPlayer(true);
+    makeAIPlayerMakeAMove(getNickOfActivePlayer());
   }
 
-  /**
-   * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
-   * list.
-   */
+  public void makeAIPlayerMakeAMove(String nickOfAIPlayer) {
+    // get not empty offerings
+    List<Offering> offeringsClone = getOfferings();
+    for (Offering offering : getOfferings()) {
+      if (offering.getContent().isEmpty()) {
+        if (!(offering instanceof TableCenter)) {
+          offeringsClone.remove(offering);
+        }
+      }
+    }
+
+    // if there are no offerings anymore and the table center is empty, it is not possible to make
+    // another turn
+    if (TableCenter.getInstance().getContent().size() == 0 && getOfferings().size() == 1) {
+      LOGGER.info("No player was able to make a turn anymore.");
+      notifyListeners(new GameInIllegalStateEvent());
+      restartGame();
+      throw new IllegalStateException("The game has reached an illegal state. Noone was able to "
+          + "make a turn. Game was restarted automatically.");
+    } else {
+
+      // get a random offering
+      int randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
+      Offering randomOffering = offeringsClone.get(randomOfferingIndex);
+      int offeringsSize = randomOffering.getContent().size();
+
+      // get a random tile on that offering
+      int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
+      notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOfferingIndex);
+
+      Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
+      //check all pattern lines from first to last if we can place the tile there
+      for (int i = 0; i < activeAIPlayer.getPatternLines().length; i++) {
+        if (activeAIPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
+          LOGGER.info(nickOfAIPlayer + " tries to place a " +
+              randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
+              + "line " + i);
+          makeActivePlayerPlaceTile(i);
+          break;
+        } else if (i == activeAIPlayer.getPatternLines().length - 1) {
+          LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line "
+              + "places it on the floor line");
+          tileFallsDown();
+        }
+      }
+
+      endTurn();
+    }
+  }
+
+
+    /**
+     * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
+     * list.
+     */
   private void setUpOfferings(){
     offerings = new ArrayList<>();
     offerings.add(TableCenter.getInstance());
@@ -143,6 +207,20 @@ public class GameModel implements Model {
     indexOfActivePlayer = getIndexOfNextPlayer();
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
+
+    //TODO: Check if AI-player sometimes uses table center, when there are other options,
+    // but not in the first round.
+    //TODO: Check if SPM is used in the right way --> makes player be first in next round.
+    //TODO: Fix bug, when 4 players are playing and more than one is AI player
+
+
+
+    //checking if the next Player has left the game / is an AI-Player
+    if (playerList.get(indexOfActivePlayer).isAIPlayer() && !hasGameEnded) {
+      String nickOfAIPlayer = getNickOfActivePlayer();
+      makeAIPlayerMakeAMove(nickOfAIPlayer);
+    }
+
   }
 
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
@@ -182,7 +260,7 @@ public class GameModel implements Model {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     LOGGER.info(nickActivePlayer + " tries to place a tile directly into the floor line.");
-    //
+    // check for null, because offering is none, if player die not choose on an offering before
     if(currentOffering == null){
       notifyListeners(new IllegalTurnEvent());
     }

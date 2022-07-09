@@ -55,8 +55,18 @@ public interface Model {
    */
   void cancelGame();
 
-  //TODO ! --> See AI branch
+  /**
+   * forfeits the game, sets the player who forfeited to be an AI-Player and
+   * makes him/her do the next move.
+   */
   void replaceActivePlayerByAI();
+
+  /**
+   * makes a given player place a tile randomly. Used for AI-Players.
+   *
+   * @param nickOfAIPlayer the name of the active player.
+   */
+  void makeAIPlayerMakeAMove(String nickOfAIPlayer);
 
   /**
    * Ends the turn. Fires {@link RoundFinishedEvent} if the round has finished,
