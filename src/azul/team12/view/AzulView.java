@@ -1,10 +1,8 @@
 package azul.team12.view;
 
-import azul.team12.AzulMain;
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
+import azul.team12.model.Model;
 import azul.team12.model.events.GameFinishedEvent;
-import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
@@ -53,7 +51,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JLabel gameLogoLabel;
 
 
-  private GameModel model;
+  private Model model;
   private Controller controller;
   private GameBoard gameBoard;
 
@@ -64,7 +62,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    * @param controller the controller that is used to communicate with the view.
    * @throws HeadlessException
    */
-  public AzulView(GameModel model, Controller controller) throws HeadlessException {
+  public AzulView(Model model, Controller controller) throws HeadlessException {
     this.model = model;
     this.controller = controller;
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

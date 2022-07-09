@@ -6,9 +6,9 @@ import java.util.List;
 
 public class GameController implements Controller{
 
-  private GameModel model;
+  private Model model;
 
-  public GameController(GameModel model){
+  public GameController(Model model){
     this.model = model;
   }
 
