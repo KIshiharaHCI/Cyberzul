@@ -142,6 +142,10 @@ public class Player {
     this.points = points;
   }
 
+  public void clearWallPattern() {
+    this.wallPattern = new WallBackgroundPattern();
+  }
+
   /**
    * Draw Tiles from an Offering and place them on the chosen pattern line.
    *

@@ -100,6 +100,7 @@ public class GameModel implements Model {
     for (Player player : playerList) {
       player.initializePatternLines();
       player.clearFloorline();
+      player.clearWallPattern();
       player.setAIPlayer(false);
       player.setPoints(0);
     }
