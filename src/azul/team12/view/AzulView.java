@@ -1,34 +1,22 @@
 package azul.team12.view;
 
-import azul.team12.AzulMain;
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.events.GameFinishedEvent;
-import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.HeadlessException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class AzulView extends JFrame implements PropertyChangeListener {
 
@@ -39,7 +27,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private static final String HOT_SEAT_MODE_CARD = "hotseatmode";
   private static final String NETWORK_CARD = "networkmode";
   private static final String GAMEBOARD_CARD = "gameboard";
-  private final GridBagLayout gbl;
+  private static final int FRAME_WIDTH = 1400;
+  private static final int FRAME_HEIGHT = 800;
+  private static final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
   private CardLayout layout;
   private JTextField inputField;
   private JButton hotSeatModeButton;
@@ -68,9 +58,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     this.model = model;
     this.controller = controller;
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    gbl = new GridBagLayout();
-    setMinimumSize(new Dimension(1570, 960));
-    setExtendedState(JFrame.MAXIMIZED_BOTH);
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
+    setResizable(false);
 
     initializeWidgets();
     addEventListeners();
@@ -223,6 +213,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
   private void createView() {
     JPanel panel = new JPanel(layout);
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
     setContentPane(panel);
 
     JPanel login = new JPanel(new GridLayout(2, 1));
@@ -245,6 +237,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    */
   private void createHotSeatModeCard() {
     JPanel hotSeatModePanel = new JPanel();
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
     inputField = new JTextField(10);
     add(hotSeatModePanel, HOT_SEAT_MODE_CARD);
     numberOfLoggedInPlayersLabel =
