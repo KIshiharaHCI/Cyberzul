@@ -9,15 +9,15 @@ import java.util.List;
 
 public class ClientController implements Controller {
 
-  ClientModel model;
+  Model model;
 
-  public ClientController(ClientModel model) {
+  public ClientController(Model model) {
     this.model = model;
   }
 
   @Override
   public void addPlayer(String name) {
-    model.logInWithName(name);
+    model.loginWithName(name);
   }
 
   @Override

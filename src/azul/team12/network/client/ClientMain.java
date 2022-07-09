@@ -1,6 +1,8 @@
 package azul.team12.network.client;
 
+import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
+import azul.team12.model.Model;
 import azul.team12.view.AzulView;
 
 /**
@@ -12,15 +14,15 @@ public class ClientMain {
 
   public static void main(String[] args) {
 
-    ClientModel model = new ClientModel();
-    ClientController controller = new ClientController(model);
+    Model model = new ClientModel();
+    Controller controller = new ClientController(model);
     
-    AzulView azulView = new AzulView(new GameModel(), controller);
+    AzulView azulView = new AzulView(model, controller);
 
     model.addPropertyChangeListener(azulView);
 
     ClientNetworkConnection connection = new ClientNetworkConnection(model);
-    model.setConnection(connection);
+    ((ClientModel) model).setConnection(connection);
     connection.start();
 
     azulView.setVisible(true);

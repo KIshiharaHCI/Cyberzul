@@ -1,5 +1,6 @@
 package azul.team12.network.client;
 
+import azul.team12.model.Model;
 import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,8 +28,8 @@ public class ClientNetworkConnection {
   private BufferedReader reader;
   private Thread thread;
 
-  public ClientNetworkConnection(ClientModel model) {
-    this.model = model;
+  public ClientNetworkConnection(Model model) {
+    this.model = (ClientModel) model;
   }
 
   /**

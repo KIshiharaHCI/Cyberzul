@@ -2,6 +2,7 @@ package azul.team12.view.listeners;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
+import azul.team12.model.Model;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
 import azul.team12.view.board.*;
@@ -21,9 +22,9 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   SourceTile source = null;
   DestinationTile destination = null;
   private Controller controller;
-  private GameModel model;
+  private Model model;
 
-  public TileClickListener(Controller controller, GameModel model) {
+  public TileClickListener(Controller controller, Model model) {
     this.controller = controller;
     this.model = model;
 

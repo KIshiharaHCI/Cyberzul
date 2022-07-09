@@ -2,14 +2,19 @@ package azul.team12.network.client;
 
 import static java.util.Objects.requireNonNull;
 
+import azul.team12.model.Model;
+import azul.team12.model.ModelTile;
+import azul.team12.model.Offering;
+import azul.team12.model.Player;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
-public class ClientModel {
+public class ClientModel implements Model {
 
   private final PropertyChangeSupport support;
   private boolean loggedIn;
@@ -47,6 +52,131 @@ public class ClientModel {
     support.removePropertyChangeListener(listener);
   }
 
+  @Override
+  public void startGame() {
+
+  }
+
+  @Override
+  public void restartGame() {
+
+  }
+
+  @Override
+  public void forfeitGame() {
+
+  }
+
+  @Override
+  public void endTurn() {
+
+  }
+
+  @Override
+  public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
+
+  }
+
+  @Override
+  public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
+    return false;
+  }
+
+  @Override
+  public void tileFallsDown() {
+
+  }
+
+  @Override
+  public boolean checkRoundFinished() {
+    return false;
+  }
+
+  @Override
+  public int getIndexOfPlayerWithSPM() {
+    return 0;
+  }
+
+  @Override
+  public void startTilingPhase() {
+
+  }
+
+  @Override
+  public String getPlayerWithMostPoints() {
+    return null;
+  }
+
+  @Override
+  public List<Player> rankingPlayerWithPoints() {
+    return null;
+  }
+
+  @Override
+  public int getIndexOfNextPlayer() {
+    return 0;
+  }
+
+  @Override
+  public Player getPlayerByName(String nickname) {
+    return null;
+  }
+
+  @Override
+  public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
+    return new ModelTile[0][];
+  }
+
+  @Override
+  public List<ModelTile> getFloorLineOfPlayer(String playerName) {
+    return null;
+  }
+
+  @Override
+  public ModelTile[][] getWallOfPlayer(String playerName) {
+    return new ModelTile[0][];
+  }
+
+  @Override
+  public List<String> getPlayerNamesList() {
+    return null;
+  }
+
+  @Override
+  public List<Offering> getOfferings() {
+    return null;
+  }
+
+  @Override
+  public int getIndexOfActivePlayer() {
+    return 0;
+  }
+
+  @Override
+  public int getPoints(String nickname) {
+    return 0;
+  }
+
+  @Override
+  public int getMinusPoints(String nickname) {
+    return 0;
+  }
+
+  @Override
+  public List<Offering> getFactoryDisplays() {
+    return null;
+  }
+
+  @Override
+  public Offering getTableCenter() {
+    return null;
+  }
+
+  @Override
+  public String getNickOfActivePlayer() {
+    return null;
+  }
+
   /**
    * Notify subscribed listeners that the state of the model has changed. To this end, a specific
    * {@link GameEvent} gets fired such that the attached observers (i.e., {@link
@@ -82,7 +212,7 @@ public class ClientModel {
    *
    * @param nickname the chosen nickname of the chat participant.
    */
-  public void logInWithName(final String nickname) {
+  public void loginWithName(final String nickname) {
     this.nickname = nickname;
     getConnection().sendLogin(nickname);
   }

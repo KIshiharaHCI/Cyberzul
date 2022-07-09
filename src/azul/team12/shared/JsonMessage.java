@@ -1,12 +1,16 @@
 package azul.team12.shared;
 
+import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
+import azul.team12.model.Player;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -105,6 +109,43 @@ public enum JsonMessage {
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
+  }
+
+  /**
+   * Provides the ClientModels with all information that is needed to start the game.
+   *
+   * @param offering
+   * @return
+   */
+  public static JSONObject createGameStartedMessage(List<Offering> offerings, List<String> playerNames){
+    try {
+      JSONObject returnObject = createMessageOfType(GAME_STARTED);
+
+      JSONArray playerNamesArray = new JSONArray();
+
+      return returnObject;
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+  /**
+   * This method creates a JSONArray containing all Offerings. The first Offering is the Table
+   * Center.
+   *
+   * @param offerings a list of all offerings in the game.
+   * @return a two dimensional array containing the contents of all offerings.
+   */
+  public static JSONArray createObjectContainingOfferings(List<Offering> offerings){
+      JSONArray offeringsArray = new JSONArray();
+      for(Offering o : offerings){
+        JSONArray currentOffering = new JSONArray();
+        for(ModelTile tile : o.getContent()){
+          currentOffering.put(tile.toString());
+        }
+        offeringsArray.put(currentOffering);
+      }
+      return offeringsArray;
   }
 
   /**
