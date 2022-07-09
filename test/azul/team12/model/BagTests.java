@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Contains Tests for the Bag Class.
  */
+@SuppressWarnings("unchecked")
 public class BagTests {
 
   /**
