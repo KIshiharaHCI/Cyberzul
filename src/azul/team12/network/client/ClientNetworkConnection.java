@@ -106,29 +106,15 @@ public class ClientNetworkConnection {
       case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
       case GAME_STARTED -> model.gameStarted();
       case Player_JOINED -> {
-        //TODO IMPLEMENT CHAT HERE @XUE
         handlePlayerJoined(object);
         }
-      //TODO: Commented out code
       case PLAYER_LEFT -> {
-        //TODO: IMPLEMENT CHAT HERE @XUE
         handlePlayerLeft(object);
         }
       case MESSAGE -> {
         handlePlayerTextMessage(object);
       }
-      /*
-      case USER_JOINED:
-        handleUserJoined(object);
-        break;
-      case USER_LEFT:
-        handleUserLeft(object);
-        break;
-      case MESSAGE:
-        handleUserTextMessage(object);
-        break;
 
-       */
       default -> throw new AssertionError("Unhandled message: " + object);
     }
   }
@@ -158,38 +144,6 @@ public class ClientNetworkConnection {
     String content = JsonMessage.getContent(jsonObject);
     model.addTextMessage(nickname, time, content);
   }
-
-  //TODO: Commented out code
-  /*
-
-
-  private void handleUserLeft(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userLeft(nick);
-    }
-  }
-
-  private void handleUserJoined(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userJoined(nick);
-    }
-  }
-
-  private void handleUserTextMessage(JSONObject object) {
-    if (!model.isLoggedIn()) {
-      return;
-    }
-
-    String nick = JsonMessage.getNickname(object);
-    Date time = JsonMessage.getTime(object);
-    String content = JsonMessage.getContent(object);
-    model.addTextMessage(nick, time, content);
-  }
-
-
-   */
 
   /**
    * Stop the network-connection.

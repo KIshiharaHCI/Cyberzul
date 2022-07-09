@@ -17,8 +17,8 @@ import static java.util.Objects.requireNonNull;
  */
 public class ChatMessageHandler extends ClientMessageHandler {
 
-  private String nickname;
-  private ServerNetworkConnection serverConnection;
+  private static String nickname;
+  private static ServerNetworkConnection serverConnection;
   private Controller controller;
   private Model model;
   private static final String AZUL_STRATEGY = """
