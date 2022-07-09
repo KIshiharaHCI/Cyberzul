@@ -13,7 +13,7 @@ public enum JsonMessage {
 
   LOGIN("login"), LOGIN_SUCCESS("login success"), LOGIN_FAILED("login failed"),
   USER_JOINED("user joined"), POST_MESSAGE("post message"), MESSAGE("message"),
-  USER_LEFT("user left");
+  USER_LEFT("user left"), CHEAT_MESSAGE("cheat message");
 
   public static final String TYPE_FIELD = "type";
 
@@ -105,6 +105,18 @@ public enum JsonMessage {
       message.put(TIME_FIELD, convertDateToString(time));
 
       return message;
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+  public static JSONObject createCheatMessage(String nickname, String content) {
+    try {
+      JSONObject cheatMessage = createMessageOfType(CHEAT_MESSAGE);
+      cheatMessage.put(CONTENT_FIELD, content);
+      cheatMessage.put(NICK_FIELD, nickname);
+
+      return cheatMessage;
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
