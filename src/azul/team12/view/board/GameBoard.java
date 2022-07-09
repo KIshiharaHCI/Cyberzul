@@ -15,11 +15,11 @@ import java.util.List;
 public class GameBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private final Controller controller;
+  private transient final Controller controller;
 
   private final CenterBoard center;
   private final int numberOfPlayers;
-  private List<Offering> factoryDisplays;
+  private transient List<Offering> factoryDisplays;
 
   private JPanel boardsOfOpponentsPanel;
 

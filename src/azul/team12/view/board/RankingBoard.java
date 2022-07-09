@@ -14,9 +14,9 @@ import java.util.List;
  */
 
 public class RankingBoard extends JPanel {
-  private final Controller controller;
+  private transient final Controller controller;
   private JPanel rankingBoardPanel;
-  private List<Player> playersList;
+  private transient List<Player> playersList;
   private static final String GAME_RANKING = "RANKING";
   private static final int COL = 1;
 

@@ -51,8 +51,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JLabel gameLogoLabel;
 
 
-  private Model model;
-  private Controller controller;
+  private transient Model model;
+  private transient Controller controller;
   private GameBoard gameBoard;
 
   /**

@@ -14,7 +14,7 @@ public class Wall extends JPanel {
   private final int ROWS = 5;
   private final int COLS = 5;
   private final int buttonSize;
-  private Controller controller;
+  private transient Controller controller;
   private ModelTile[][] wall;
   private ModelTile[][] templateWall;
   private JPanel currentRow;
