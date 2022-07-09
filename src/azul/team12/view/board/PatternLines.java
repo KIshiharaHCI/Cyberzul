@@ -101,5 +101,7 @@ public class PatternLines extends JPanel {
       this.remove(currentRow);
     }
   }
-
+  public int getTileSize() {
+    return tileSize;
+  }
 }

@@ -63,10 +63,10 @@ public abstract class TileDecorator extends JPanel implements Tile {
      * @return resized Image based on given Tile Size.
      */
     private Image resizeImage(ImageIcon icon) {
-        BufferedImage resizedimage = new BufferedImage(TILE_SIZE, TILE_SIZE,
+        BufferedImage resizedimage = new BufferedImage(tileSize, tileSize,
                 BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = resizedimage.createGraphics();
-        g2.drawImage(icon.getImage(), 0, 0, TILE_SIZE, TILE_SIZE, null);
+        g2.drawImage(icon.getImage(), 0, 0, tileSize, tileSize, null);
 
         return resizedimage;
     }

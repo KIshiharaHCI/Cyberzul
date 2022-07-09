@@ -89,7 +89,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         if (tileDestination.getParent().getParent() instanceof PatternLines) {
           PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
           patternLinesView.remove();
-          patternLinesView.initialize(Tile.TILE_SIZE, this);
+          patternLinesView.initialize(patternLinesView.getTileSize(), this);
         }
         resetOffering();
         //TODO: do it with a button on the playboard

@@ -51,11 +51,11 @@ public class TableCenterPanel extends JPanel {
       tileList.add(tile);
       if (i < 18) {
         tile.setBounds(SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + (i * SPACE_BETWEEN_TILES_IN_PXL),
-            SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, Tile.TILE_SIZE, Tile.TILE_SIZE);
+            SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, Tile.NORMAL_TILE_SIZE, Tile.NORMAL_TILE_SIZE);
       } else {
         tile.setBounds(
             SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + ((i - 18) * SPACE_BETWEEN_TILES_IN_PXL),
-            SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, Tile.TILE_SIZE, Tile.TILE_SIZE);
+            SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, Tile.NORMAL_TILE_SIZE, Tile.NORMAL_TILE_SIZE);
       }
       tableCenterImageLabel.add(tile);
     }
