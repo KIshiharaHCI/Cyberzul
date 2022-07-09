@@ -10,18 +10,19 @@ import java.awt.*;
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
  * points and the minus points of each player.
  */
-public class PlayerBoard extends JPanel {
+public abstract class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private final Controller controller;
+  protected Controller controller;
   private PatternLines patternLines;
   private Wall wall;
   private TileClickListener tileClickListener;
   private String playerName;
   private JPanel center;
+  protected JPanel north;
   private int points;
   private int minusPoints = 0;
-  private JButton forfeitButton, cancelGameButton, restartGameButton;
+  protected int tileSize;
 
 
   /**
@@ -30,10 +31,11 @@ public class PlayerBoard extends JPanel {
    * @param tileClickListener
    */
   public PlayerBoard(Controller controller, TileClickListener tileClickListener,
-      String playerName) {
+      String playerName, int tileSize) {
     this.controller = controller;
     this.playerName = playerName;
     this.tileClickListener = tileClickListener;
+    this.tileSize = tileSize;
 
     setLayout(new BorderLayout());
     JPanel coverOverCenter = new JPanel();
@@ -45,7 +47,7 @@ public class PlayerBoard extends JPanel {
     add(coverOverCenter, BorderLayout.CENTER);
 
     initializeClassVariables();
-    initializeButtons();
+
     addPointsAndPlayerNameElements();
     addMinusPointsElements();
   }
@@ -56,10 +58,10 @@ public class PlayerBoard extends JPanel {
    * NextPlayersTurnEvent.
    */
   private void createCenterPanel() {
-    setProperties(Tile.TILE_SIZE, 5, 10, center);
-    patternLines = new PatternLines(controller, Tile.TILE_SIZE, tileClickListener);
+    setProperties(tileSize, 5, 10, center);
+    patternLines = new PatternLines(controller, tileSize, tileClickListener);
     center.add(patternLines);
-    wall = new Wall(controller,tileClickListener);
+    wall = new Wall(controller, tileSize, tileClickListener);
     center.add(wall);
   }
 
@@ -86,33 +88,11 @@ public class PlayerBoard extends JPanel {
   /**
    * initializes Forfeit Button
    */
-  private void initializeButtons() {
-    forfeitButton = new JButton("FORFEIT");
-    forfeitButton.setPreferredSize(new Dimension(25,10));
-    forfeitButton.addActionListener(event -> {
-      controller.replaceActivePlayerByAI();
-      System.out.println("Forfeit Button has been clicked");
-    });
 
-    cancelGameButton = new JButton("CANCEL");
-    cancelGameButton.addActionListener(event -> {
-      controller.cancelGameForAllPlayers();
-      System.out.println("Cancel Button has been pressed.");
-    });
-
-    restartGameButton = new JButton("RESTART");
-    restartGameButton.addActionListener(event -> {
-      controller.restartGame();
-      System.out.println("Game has been restarted.");
-    });
-  }
 
   private void addPointsAndPlayerNameElements() {
-    JPanel north = createNorthernPart("Points: ", points);
+    north = createNorthernPart("Points: ", points);
     north.add(new JLabel("Name: " + playerName));
-    north.add(forfeitButton);
-    north.add(cancelGameButton);
-    north.add(restartGameButton);
     add(north, BorderLayout.NORTH);
   }
 

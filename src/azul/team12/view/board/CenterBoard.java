@@ -61,7 +61,7 @@ public class CenterBoard extends JPanel {
    */
   void createNewPlayerBoard() {
     currentPlayerBoard =
-        new PlayerBoard(controller, tileClickListener, controller.getNickOfActivePlayer());
+        new ActivePlayerBoard(controller, tileClickListener, controller.getNickOfActivePlayer());
 
     currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
     add(currentPlayerBoard);

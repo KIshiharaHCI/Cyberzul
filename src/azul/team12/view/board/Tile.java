@@ -20,7 +20,8 @@ public interface Tile {
           "starting player marker", STARTING_PLAYER_MARKER_PATH
   );
   int TILE_SIZE = 30;
-
+  int NORMAL_TILE_SIZE = 36;
+  int SMALL_TILE_SIZE = 23;
   /**
    * Set a Tile Image for the paint Method to call
    *

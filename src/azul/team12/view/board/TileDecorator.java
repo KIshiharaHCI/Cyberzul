@@ -18,6 +18,7 @@ public abstract class TileDecorator extends JPanel implements Tile {
     final int ROW;
     final String path;
     final JLabel label = new JLabel();
+    final int tileSize;
 
     /**
      * Constructor to be called from subclasses. Used for initializing Image URL path and
@@ -27,10 +28,11 @@ public abstract class TileDecorator extends JPanel implements Tile {
      * @param row Y-Coordinate in given container
      * @param modelTile contains the tile color information.
      */
-    public TileDecorator(int col, int row, ModelTile modelTile) {
+    public TileDecorator(int col, int row, ModelTile modelTile, int tileSize) {
         COLUMN = col;
         ROW = row;
         path = modelTile.toString();
+        this.tileSize = tileSize;
 
         setLayout(new GridLayout(1, 1));
     }

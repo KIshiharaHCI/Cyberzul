@@ -46,7 +46,7 @@ public class TableCenterPanel extends JPanel {
     for (int i = 0; i < modelTiles.size(); i++) {
       int col = i / 18 + 1;
       int row = i % 18 + 1;
-      SourceTile tile = new SourceTile(col, row, modelTiles.get(i), i, plateId, tileClickListener);
+      SourceTile tile = new SourceTile(col, row, modelTiles.get(i), i, plateId,Tile.NORMAL_TILE_SIZE, tileClickListener);
       //System.out.println("tile: " + tile);
       tileList.add(tile);
       if (i < 18) {

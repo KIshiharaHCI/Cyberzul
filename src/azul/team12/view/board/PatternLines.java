@@ -83,10 +83,10 @@ public class PatternLines extends JPanel {
           ModelTile modelTile = currentPatternLines[row][col];
           if (modelTile.toString().equals(ModelTile.EMPTY_TILE.toString())) {
             currentRow.add(
-                    new DestinationTile(col, row, ModelTile.EMPTY_TILE, tileClickListener)
+                    new DestinationTile(col, row, ModelTile.EMPTY_TILE, tileClickListener,tileSize)
             );
           } else {
-            currentRow.add(new DestinationTile(col, row, modelTile, tileClickListener));
+            currentRow.add(new DestinationTile(col, row, modelTile, tileClickListener,tileSize));
           }
         }
       }

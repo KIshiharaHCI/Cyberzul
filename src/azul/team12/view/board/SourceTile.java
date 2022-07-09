@@ -4,6 +4,8 @@ import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.OnClickVisitor;
 import azul.team12.view.listeners.TileClickListener;
 
+import java.awt.*;
+
 /**
  * The Tiles on the Factory Displays and Table Center which can be selected
  * to place on the Pattern Lines or the Floor Line.
@@ -24,11 +26,12 @@ public class SourceTile extends TileDecorator implements TileAcceptor {
      * @param plateId identifier for which Plate/Table Center was selected
      * @param listener used for listening for MouseClickedEvents
      */
-    public SourceTile(int col, int row, ModelTile modelTile, int tileId, int plateId,
+    public SourceTile(int col, int row, ModelTile modelTile, int tileId, int plateId, int tileSize,
                       TileClickListener listener) {
-        super(col,row,modelTile);
+        super(col,row,modelTile,tileSize);
         this.tileId = tileId;
         this.plateId = plateId;
+        setPreferredSize(new Dimension(tileSize,tileSize));
         setIcon(1f);
         addMouseListener(listener);
     }

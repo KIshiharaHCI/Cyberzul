@@ -62,13 +62,10 @@ public class GameBoard extends JPanel {
     boardsOfOpponentsPanel.setLayout(new GridLayout(3, 1));
 
     List<String> listOfActivePlayers = controller.getPlayerNamesList();
-    for (int i = 0; i < listOfActivePlayers.size(); i++) {
-      String nameOfOpponent = controller.getNickOfActivePlayer();
-      if (!nameOfOpponent.equals(listOfActivePlayers.get(i))) {
-        // listener is null, because no click events should happen here.
-        PlayerBoard playerBoard = new PlayerBoard(controller, null,
-            nameOfOpponent);
-
+    for (String opponentPlayer : listOfActivePlayers) {
+      if (!opponentPlayer.equals(controller.getNickOfActivePlayer())) {
+        PlayerBoard playerBoard = new SmallPlayerBoard(controller, null,
+                opponentPlayer);
         boardsOfOpponentsPanel.add(playerBoard);
       }
     }

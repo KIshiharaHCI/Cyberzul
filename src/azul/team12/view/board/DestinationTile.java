@@ -10,9 +10,9 @@ import java.awt.*;
  * Tiles on the Pattern Line and the Floor Line
  */
 public class DestinationTile extends TileDecorator implements TileAcceptor {
-    public DestinationTile(int col, int row, ModelTile modelTile, TileClickListener listener) {
-        super(col, row, modelTile);
-        setPreferredSize(new Dimension(Tile.TILE_SIZE,Tile.TILE_SIZE));
+    public DestinationTile(int col, int row, ModelTile modelTile, TileClickListener listener,int preferredTileSize) {
+        super(col, row, modelTile,preferredTileSize);
+        setPreferredSize(new Dimension(preferredTileSize,preferredTileSize));
         setIcon(1f);
         addMouseListener(listener);
     }
