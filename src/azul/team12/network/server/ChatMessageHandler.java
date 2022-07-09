@@ -66,7 +66,8 @@ public class ChatMessageHandler extends ClientMessageHandler {
    * @param object A {@link JSONObject} containing the data for a post-message.
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
-  public void handlePostMessage(JSONObject object) throws IOException {
+
+  public void handlePostChatMessage(JSONObject object) throws IOException {
     if (nickname == null || nickname.isBlank()) {
       System.out.println("Please login before sending messages.");
     }

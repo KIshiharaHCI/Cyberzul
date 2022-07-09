@@ -14,7 +14,7 @@ public enum JsonMessage {
 
   //chat messages
   LOGIN("login"), LOGIN_SUCCESS("login success"), LOGIN_FAILED("login failed"),
-  Player_JOINED("player joined"), POST_MESSAGE("post message"), MESSAGE("message"),
+  PlAYER_JOINED("player joined"), POST_MESSAGE("post message"), MESSAGE("message"),
   PLAYER_LEFT("Player left"), CHEAT_MESSAGE("cheat message"),
 
   //Controller methods
@@ -169,17 +169,17 @@ public enum JsonMessage {
     }
   }
 
-  public static JSONObject userJoined(String nickname) {
+  public static JSONObject playerJoined(String nickname) {
     try {
-      return createMessageOfType(USER_JOINED).put(NICK_FIELD, nickname);
+      return createMessageOfType(PlAYER_JOINED).put(NICK_FIELD, nickname);
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
   }
 
-  public static JSONObject userLeft(String nickname) {
+  public static JSONObject playerLeft(String nickname) {
     try {
-      return createMessageOfType(USER_LEFT).put(NICK_FIELD, nickname);
+      return createMessageOfType(PLAYER_LEFT).put(NICK_FIELD, nickname);
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }

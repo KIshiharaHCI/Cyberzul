@@ -34,9 +34,11 @@ public class ClientMessageHandler implements Runnable {
 
   private String nickname;
 
-  private Controller controller;
+  private final Controller controller;
 
-  private Model model;
+  private final Model model;
+
+
 
 
   /**
@@ -57,6 +59,7 @@ public class ClientMessageHandler implements Runnable {
         new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
     writer = new BufferedWriter(
         new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
+
   }
 
   @Override
@@ -115,7 +118,8 @@ public class ClientMessageHandler implements Runnable {
   private void handleMessage(JSONObject object) throws IOException {
     switch (JsonMessage.typeOf(object)) {
       case LOGIN -> handleLogin(object);
-      case POST_MESSAGE -> handlePostMessage(object);
+      case POST_MESSAGE -> new ChatMessageHandler(serverConnection, socket, controller, model).handlePostChatMessage(object);
+      case CHEAT_MESSAGE -> new ChatMessageHandler(serverConnection, socket, controller, model).handleCheatMessage(object);
       case START_GAME -> controller.startGame();
       default -> throw new AssertionError("Unable to handle message " + object);
     }
@@ -145,8 +149,9 @@ public class ClientMessageHandler implements Runnable {
     setNickname(nick);
     controller.addPlayer(nick);
     send(JsonMessage.loginSuccess());
-    serverConnection.broadcast(this, JsonMessage.userJoined(nick));
+    serverConnection.broadcast(this, JsonMessage.playerJoined(nick));
   }
+
 
   /**
    * Process a post-message from the client which contains the information of a message that is
@@ -166,6 +171,7 @@ public class ClientMessageHandler implements Runnable {
     serverConnection.broadcast(this, message);
   }
 
+
   /**
    * Closes the connection of this specific client handler.
    */
@@ -173,7 +179,7 @@ public class ClientMessageHandler implements Runnable {
     String nick = getNickname();
     try {
       if (nick != null) {
-        serverConnection.broadcast(this, JsonMessage.userLeft(nick));
+        serverConnection.broadcast(this, JsonMessage.playerLeft(nick));
         setNickname(null);
       }
       serverConnection.handlerClosed(this);

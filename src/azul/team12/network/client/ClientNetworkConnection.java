@@ -105,7 +105,7 @@ public class ClientNetworkConnection {
       case LOGIN_SUCCESS -> model.loggedIn();
       case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
       case GAME_STARTED -> model.gameStarted();
-      case Player_JOINED -> {
+      case PlAYER_JOINED -> {
         handlePlayerJoined(object);
         }
       case PLAYER_LEFT -> {
