@@ -44,7 +44,9 @@ public interface Model {
   void startGame();
 
   /**
-   * sets up everything for a new game with the same players.
+   * sets up the offerings new, deletes all entries from pattern lines and the floor line of
+   * all players, fires {@link GameStartedEvent}, makes all players non-AI-players and sets
+   * their points to zero.
    */
   void restartGame();
 

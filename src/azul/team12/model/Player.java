@@ -111,7 +111,7 @@ public class Player {
    *
    * @return the initialized empty patternRow
    */
-  private void initializePatternLines() {
+  void initializePatternLines() {
 
     this.patternLines = new ModelTile[NUMBER_OF_PATTERN_LINES][];
     for (int i = 0; i < 5; i++) {
@@ -126,12 +126,20 @@ public class Player {
 
   }
 
+  void clearFloorline() {
+    this.floorLine = new ArrayList<>();
+  }
+
   public String getName() {
     return name;
   }
 
   public int getPoints() {
     return points;
+  }
+
+  public void setPoints(int points) {
+    this.points = points;
   }
 
   /**

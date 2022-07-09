@@ -88,7 +88,6 @@ public class GameModel implements Model {
   }
 
   //TODO: @Marco test it if it works, when the buttons are there
-  // TODO: Should we fire GameStartedEvent?
   public void restartGame() {
 
     TableCenter.getInstance().initializeContent();
@@ -96,8 +95,17 @@ public class GameModel implements Model {
     BagToDrawNewTiles.getInstance().initializeContent();
     isGameStarted = false;
     hasGameEnded = false;
-    playerList = new ArrayList<>();
     offerings = new ArrayList<>();
+    setUpOfferings();
+    for (Player player : playerList) {
+      player.initializePatternLines();
+      player.clearFloorline();
+      player.setAIPlayer(false);
+      player.setPoints(0);
+    }
+
+    notifyListeners(new GameStartedEvent());
+
 
   }
 
