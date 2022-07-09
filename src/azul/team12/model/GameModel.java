@@ -143,10 +143,8 @@ public class GameModel implements Model {
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
 
-    //TODO: Check if AI-player sometimes uses table center, when there are other options,
-    // but not in the first round.
-    //TODO: Check if SPM is used in the right way --> makes player be first in next round.
-    //TODO: Fix bug, when 4 players are playing and more than one is AI player
+    //TODO: Check if SPM is used in the right way --> makes player be first in next round. @Marco
+    //TODO: Fix bug, when 4 players are playing and more than one is AI player @Marco
     LOGGER.info(playerList.get(indexOfActivePlayer).getName() + " is now active player. Is he an "
         + "AI-Player? " + playerList.get(indexOfActivePlayer).isAIPlayer());
 
@@ -166,14 +164,6 @@ public class GameModel implements Model {
     LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
     notifyListeners(gameForfeitedEvent);
-
-    // needed so that listener has time to be notified, tile should not be placed before event
-    // arrives in model
-    try {
-      Thread.currentThread().sleep(5 * SLEEP_TIME);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
 
     //TODO: If player has already chosen something and then forfeits
     LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
@@ -288,12 +278,13 @@ public class GameModel implements Model {
   }
 
   public int getIndexOfPlayerWithSPM() {
-    int index = 0;
-    for (Player player : playerList) {
+    for (int i = 0; i < playerList.size(); i++) {
+      Player player = playerList.get(i);
       if (player.hasStartingPlayerMarker()) {
-        return index;
+        LOGGER.info(player.getName() + " with index " + i + " was the player "
+            + "with the SPM.");
+        return i;
       }
-      index ++;
     }
     LOGGER.debug("We called giveIndexOfPlayer with Start Player Marker when no player had "
         + "the SPM. Probably this is the case because at the end of the turn noone had the "
