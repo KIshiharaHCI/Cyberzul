@@ -16,7 +16,7 @@ build:
     - find -name "*.java" > sources.txt
     - cat sources.txt
     - mkdir $OUTPUT_PATH
-    - javac -d $OUTPUT_PATH -Xlint:all -Werror -g -cp "$CLASSPATH:$(cat libraries.txt)" @sources.txt
+    - javac -d $OUTPUT_PATH -Xlint:all,-processing -Werror -g -cp "$CLASSPATH:$(cat libraries.txt)" @sources.txt
   artifacts:
     paths:
     # Keep compiled java files and list of files
