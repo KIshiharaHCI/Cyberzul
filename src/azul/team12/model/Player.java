@@ -97,8 +97,8 @@ public class Player {
     return isAIPlayer;
   }
 
-  public void setAIPlayer(boolean isAIPlayer) {
-    isAIPlayer = isAIPlayer;
+  public void setAIPlayer(boolean aIPlayer) {
+    isAIPlayer = aIPlayer;
   }
 
   public boolean hasEndedTheGame() {

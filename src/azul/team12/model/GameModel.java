@@ -17,6 +17,8 @@ public class GameModel implements Model {
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
 
+  private int SLEEP_TIME = 100;
+
   private final PropertyChangeSupport support;
   private ArrayList<Player> playerList;
   private ArrayList<Offering> offerings;
@@ -112,16 +114,66 @@ public class GameModel implements Model {
     notifyListeners(gameForfeitedEvent);
   }
 
+
+    /**
+     * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
+     * list.
+     */
+  private void setUpOfferings(){
+    offerings = new ArrayList<>();
+    offerings.add(TableCenter.getInstance());
+    TableCenter.getInstance().addStartPlayerMarker();
+    int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
+    for(int i = 0; i < numberOfFactoryDisplays; i++){
+      offerings.add(new FactoryDisplay());
+    }
+  }
+
+  public void endTurn(){
+    boolean roundFinished = checkRoundFinished();
+    if (roundFinished) {
+      RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
+      startTilingPhase();
+      if(!hasGameEnded){
+        setUpOfferings();
+      }
+      notifyListeners(roundFinishedEvent);
+    }
+    indexOfActivePlayer = getIndexOfNextPlayer();
+    NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
+    notifyListeners(nextPlayersTurnEvent);
+
+    //TODO: Check if AI-player sometimes uses table center, when there are other options,
+    // but not in the first round.
+    //TODO: Check if SPM is used in the right way --> makes player be first in next round.
+    //TODO: Fix bug, when 4 players are playing and more than one is AI player
+    LOGGER.info(playerList.get(indexOfActivePlayer).getName() + " is now active player. Is he an "
+        + "AI-Player? " + playerList.get(indexOfActivePlayer).isAIPlayer());
+
+
+
+    //checking if the next Player has left the game / is an AI-Player
+    if (playerList.get(indexOfActivePlayer).isAIPlayer() && !hasGameEnded) {
+      LOGGER.info(getNickOfActivePlayer() + " makes an move automatically, because he/she "
+          + "is an AI-Player.");
+      String nickOfAIPlayer = getNickOfActivePlayer();
+      makeAIPlayerMakeAMove(nickOfAIPlayer);
+    }
+
+  }
+
   public void replaceActivePlayerByAI() {
     LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
     notifyListeners(gameForfeitedEvent);
 
-    /*try {
-      Thread.currentThread().sleep(2 * SLEEP_TIME);
+    // needed so that listener has time to be notified, tile should not be placed before event
+    // arrives in model
+    try {
+      Thread.currentThread().sleep(5 * SLEEP_TIME);
     } catch (Exception e) {
       e.printStackTrace();
-    }*/
+    }
 
     //TODO: If player has already chosen something and then forfeits
     LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
@@ -177,50 +229,6 @@ public class GameModel implements Model {
 
       endTurn();
     }
-  }
-
-
-    /**
-     * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
-     * list.
-     */
-  private void setUpOfferings(){
-    offerings = new ArrayList<>();
-    offerings.add(TableCenter.getInstance());
-    TableCenter.getInstance().addStartPlayerMarker();
-    int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
-    for(int i = 0; i < numberOfFactoryDisplays; i++){
-      offerings.add(new FactoryDisplay());
-    }
-  }
-
-  public void endTurn(){
-    boolean roundFinished = checkRoundFinished();
-    if (roundFinished) {
-      RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
-      startTilingPhase();
-      if(!hasGameEnded){
-        setUpOfferings();
-      }
-      notifyListeners(roundFinishedEvent);
-    }
-    indexOfActivePlayer = getIndexOfNextPlayer();
-    NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
-    notifyListeners(nextPlayersTurnEvent);
-
-    //TODO: Check if AI-player sometimes uses table center, when there are other options,
-    // but not in the first round.
-    //TODO: Check if SPM is used in the right way --> makes player be first in next round.
-    //TODO: Fix bug, when 4 players are playing and more than one is AI player
-
-
-
-    //checking if the next Player has left the game / is an AI-Player
-    if (playerList.get(indexOfActivePlayer).isAIPlayer() && !hasGameEnded) {
-      String nickOfAIPlayer = getNickOfActivePlayer();
-      makeAIPlayerMakeAMove(nickOfAIPlayer);
-    }
-
   }
 
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
