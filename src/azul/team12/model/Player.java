@@ -21,6 +21,7 @@ public class Player {
   public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
 
   private boolean hasStartingPlayerMarker = false;
+  private boolean isAIPlayer = false;
   private boolean hasEndedTheGame = false;
 
   private WallBackgroundPattern wallPattern;
@@ -90,6 +91,14 @@ public class Player {
 
   public boolean hasStartingPlayerMarker() {
     return hasStartingPlayerMarker;
+  }
+
+  public boolean isAIPlayer() {
+    return isAIPlayer;
+  }
+
+  public void setAIPlayer(boolean isAIPlayer) {
+    isAIPlayer = isAIPlayer;
   }
 
   public boolean hasEndedTheGame() {
