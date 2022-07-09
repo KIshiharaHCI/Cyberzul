@@ -102,16 +102,16 @@ public class GameModel implements Model {
   }
 
   public void cancelGame() {
-    LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
-    GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
+    LOGGER.info(getNickOfActivePlayer() + " wants to end the game for all player.");
+    GameCanceledEvent gameCanceledEvent = new GameCanceledEvent(getNickOfActivePlayer());
     TableCenter.getInstance().initializeContent();
     BagToStoreUsedTiles.getInstance().initializeContent();
     BagToDrawNewTiles.getInstance().initializeContent();
     isGameStarted = false;
-    hasGameEnded = false;
+    hasGameEnded = true;
     playerList = new ArrayList<>();
     offerings = new ArrayList<>();
-    notifyListeners(gameForfeitedEvent);
+    notifyListeners(gameCanceledEvent);
   }
 
 

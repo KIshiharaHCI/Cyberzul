@@ -204,8 +204,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           showErrorMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER);
         }
       }
-      case "GameForfeitedEvent" -> {
-        //showHSMCard();
+      case "GameCanceledEvent" -> {
+        showHSMCard();
       }
       //default -> throw new AssertionError("Unknown event");
     }
