@@ -19,6 +19,8 @@ public abstract class TileDecorator extends JPanel implements Tile {
     final String path;
     final JLabel label = new JLabel();
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Constructor to be called from subclasses. Used for initializing Image URL path and
      * cell XY coordinates in a given Component such as Plate, TableCenter, PatternLines, Wall.

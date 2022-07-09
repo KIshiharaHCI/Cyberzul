@@ -8,6 +8,8 @@ import azul.team12.model.ModelTile;
 
 public class WallTile extends TileDecorator {
 
+    private static final long serialVersionUID = 9L;
+
     /**
      * Constructor to be called from subclasses. Used for initializing Image URL path and
      * cell XY coordinates on the Wall.

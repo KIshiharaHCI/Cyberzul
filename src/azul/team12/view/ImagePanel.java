@@ -11,6 +11,8 @@ public class ImagePanel extends JPanel {
 
     private BufferedImage image;
 
+    private static final long serialVersionUID = 10L;
+
     public ImagePanel(final URL imgURL1) {
         try {
             image = ImageIO.read(imgURL1);

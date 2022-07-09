@@ -15,6 +15,8 @@ public class FloorLinePanel extends JPanel {
   private TileClickListener tileClickListener;
   private JPanel contentBottom, contentUpper;
 
+  private static final long serialVersionUID = 4L;
+
   public FloorLinePanel(Controller controller, TileClickListener tileClickListener,
       int minusPoints) {
     this.controller = controller;

@@ -23,6 +23,8 @@ public class CenterBoard extends JPanel {
   private TableCenter tableCenter;
   private TileClickListener tileClickListener;
 
+  private static final long serialVersionUID = 5L;
+
   /**
    * Creates the center board based on the number of players and with the tile click listeners.
    *
