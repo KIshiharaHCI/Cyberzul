@@ -403,7 +403,8 @@ public class GameModel implements Model {
   }
 
   public List<Offering> getOfferings() {
-    return (List<Offering>) offerings.clone();
+    @SuppressWarnings("unchecked") List<Offering> offeringsClone = (List<Offering>) offerings.clone();
+    return offeringsClone;
   }
 
   public int getIndexOfActivePlayer() {
