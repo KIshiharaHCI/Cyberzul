@@ -12,10 +12,12 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-public class GameModel {
+public class GameModel implements Model {
 
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
+
+  private int SLEEP_TIME = 100;
 
   private final PropertyChangeSupport support;
   private ArrayList<Player> playerList;
@@ -34,23 +36,11 @@ public class GameModel {
     offerings  = new ArrayList<>();
   }
 
-  /**
-   * Add a {@link PropertyChangeListener} to the model for getting notified about any changes that
-   * are published by this model.
-   *
-   * @param listener the view that subscribes itself to the model.
-   */
   public void addPropertyChangeListener(PropertyChangeListener listener) {
     requireNonNull(listener);
     support.addPropertyChangeListener(listener);
   }
 
-  /**
-   * Remove a listener from the model. From then on it will no longer get notified about any events
-   * fired by the model.
-   *
-   * @param listener the view that is to be unsubscribed from the model.
-   */
   public void removePropertyChangeListener(PropertyChangeListener listener) {
     requireNonNull(listener);
     support.removePropertyChangeListener(listener);
@@ -67,11 +57,6 @@ public class GameModel {
     support.firePropertyChange(event.getName(), null, event);
   }
 
-  /**
-   * A player trys to log in. Fires {@link LoginFailedEvent} if that was not possible.
-   *
-   * @param nickname the name that the player chose with his login attempt.
-   */
   public void loginWithName(String nickname) {
     boolean nicknameFree = true;
     if (playerList.size() >= MAX_PLAYER_NUMBER) {
@@ -90,10 +75,6 @@ public class GameModel {
     }
   }
 
-  /**
-   * Tries to start the game. Fires {@link GameNotStartableEvent} if that is
-   * not possible.
-   */
   public void startGame() {
     if (playerList.size() < MIN_PLAYER_NUMBER) {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.NOT_ENOUGH_PLAYER));
@@ -106,29 +87,46 @@ public class GameModel {
     }
   }
 
-  /**
-   * forfeits the game, removes all tiles from the table center, initializes the
-   * bag to store used tiles and the bag to draw new tiles, notifies listeners that the game has
-   * been forfeit.
-   */
-  public void forfeitGame() {
-    LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
-    GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
+  //TODO: @Marco test it if it works, when the buttons are there
+  public void restartGame() {
+
     TableCenter.getInstance().initializeContent();
     BagToStoreUsedTiles.getInstance().initializeContent();
     BagToDrawNewTiles.getInstance().initializeContent();
     isGameStarted = false;
     hasGameEnded = false;
-    playerList = new ArrayList<>();
     offerings = new ArrayList<>();
-    notifyListeners(gameForfeitedEvent);
+    setUpOfferings();
+    for (Player player : playerList) {
+      player.initializePatternLines();
+      player.clearFloorline();
+      player.setAIPlayer(false);
+      player.setPoints(0);
+    }
+
+    notifyListeners(new GameStartedEvent());
+
 
   }
 
-  /**
-   * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
-   * list.
-   */
+  public void cancelGame() {
+    LOGGER.info(getNickOfActivePlayer() + " wants to end the game for all player.");
+    GameCanceledEvent gameCanceledEvent = new GameCanceledEvent(getNickOfActivePlayer());
+    TableCenter.getInstance().initializeContent();
+    BagToStoreUsedTiles.getInstance().initializeContent();
+    BagToDrawNewTiles.getInstance().initializeContent();
+    isGameStarted = false;
+    hasGameEnded = true;
+    playerList = new ArrayList<>();
+    offerings = new ArrayList<>();
+    notifyListeners(gameCanceledEvent);
+  }
+
+
+    /**
+     * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
+     * list.
+     */
   private void setUpOfferings(){
     offerings = new ArrayList<>();
     offerings.add(TableCenter.getInstance());
@@ -139,155 +137,114 @@ public class GameModel {
     }
   }
 
-  public List<Offering> getOfferings() {
-    return (List<Offering>) offerings.clone();
-  }
-
-  public List<Offering> getFactoryDisplays(){
-    // return the factory displays being the all but the first offering
-    return offerings.subList(1, offerings.size());
-  }
-
-  public Offering getTableCenter(){
-    return TableCenter.getInstance();
-  }
-
-  /**
-   * Returns the nickname of the player who has to make his turn.
-   *
-   * @return the nickname of the player who has to make his turn.
-   */
-  public String getNickOfActivePlayer(){
-    return playerList.get(indexOfActivePlayer).getName();
-  }
-
-  /**
-   * Returns the number of points the player with the specified nickname has.
-   *
-   * @param nickname name of the player.
-   * @return the points this player has.
-   */
-  public int getPoints(String nickname){
-    for(Player player : playerList){
-      if(player.getName().equals(nickname)){
-        return player.getPoints();
-      }
-    }
-    notifyListeners(new PlayerDoesNotExistEvent(nickname));
-    return 0;
-  }
-
-  /**
-   * Return the minus points the player acquired during this round because of Tiles that fell to
-   * the flore.
-   *
-   * @param nickname the name of the player whose minus points we want to know.
-   * @return the number of points he already has.
-   */
-  public int getMinusPoints(String nickname){
-    for(Player player : playerList){
-      if(player.getName().equals(nickname)){
-        return player.getMinusPoints();
-      }
-    }
-    notifyListeners(new PlayerDoesNotExistEvent(nickname));
-    return 0;
-  }
-
-  /**
-   * Ends the turn. Notifies listeners that the turn has ended, sets the index of the active
-   * player accordingly.
-   */
   public void endTurn(){
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
-      indexOfActivePlayer = giveIndexOfPlayerWithSPM();
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       startTilingPhase();
       if(!hasGameEnded){
         setUpOfferings();
       }
       notifyListeners(roundFinishedEvent);
-      } else {
-      indexOfActivePlayer = getIndexOfNextPlayer(indexOfActivePlayer);
-      //LOGGER.info("Player " + getNickOfActivePlayer() + "s pattern lines: " + getPlayerByName(getNickOfActivePlayer()).getPatterLinesAsString());
     }
+    indexOfActivePlayer = getIndexOfNextPlayer();
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
     notifyListeners(nextPlayersTurnEvent);
-  }
 
-  /**
-   * Next player is the next player on the list or the first player, if the last active player
-   * was the last player on the list.
-   *
-   * @param indexOfCurrentPlayer index of the current player, most of the time the global
-   *                             variable (indexOfActivePlayer)
-   * @return the index of the player whose turn it is going to be.
-   */
-  public int getIndexOfNextPlayer(int indexOfCurrentPlayer) {
-    int indexOfNextPlayer;
-    if (indexOfActivePlayer == playerList.size() - 1) {
-      indexOfNextPlayer = 0;
-    } else {
-      indexOfNextPlayer = indexOfActivePlayer + 1;
+    //TODO: Check if SPM is used in the right way --> makes player be first in next round. @Marco
+    //TODO: Fix bug, when 4 players are playing and more than one is AI player @Marco
+    LOGGER.info(playerList.get(indexOfActivePlayer).getName() + " is now active player. Is he an "
+        + "AI-Player? " + playerList.get(indexOfActivePlayer).isAIPlayer());
+
+
+
+    //checking if the next Player has left the game / is an AI-Player
+    if (playerList.get(indexOfActivePlayer).isAIPlayer() && !hasGameEnded) {
+      LOGGER.info(getNickOfActivePlayer() + " makes an move automatically, because he/she "
+          + "is an AI-Player.");
+      String nickOfAIPlayer = getNickOfActivePlayer();
+      makeAIPlayerMakeAMove(nickOfAIPlayer);
     }
-    return indexOfNextPlayer;
+
   }
 
-  /**
-   * Return player by name (given by view).
-   *
-   * @param nickname the nickname of the player
-   * @return the player
-   */
-  public Player getPlayerByName(String nickname) {
-    for(Player player : playerList) {
-      if(player.getName().equals(nickname)) {
-        return player;
+  public void replaceActivePlayerByAI() {
+    LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
+    GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
+    notifyListeners(gameForfeitedEvent);
+
+    //TODO: If player has already chosen something and then forfeits
+    LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
+    getPlayerByName(getNickOfActivePlayer()).setAIPlayer(true);
+    makeAIPlayerMakeAMove(getNickOfActivePlayer());
+  }
+
+  public void makeAIPlayerMakeAMove(String nickOfAIPlayer) {
+    // get not empty offerings
+    List<Offering> offeringsClone = getOfferings();
+    for (Offering offering : getOfferings()) {
+      if (offering.getContent().isEmpty()) {
+        if (!(offering instanceof TableCenter)) {
+          offeringsClone.remove(offering);
+        }
       }
     }
-    LOGGER.debug("The model was given a name by view that is not in the playerList.");
-    return null;
-  }
 
-  /**
-   * Returns the nicknames of all players.
-   * @return List of nicknames.
-   */
-  public List<String> getPlayerNamesList() {
-    List<String> list = new ArrayList<>();
-    for (Player player: playerList) {
-      list.add(player.getName());
+    // if there are no offerings anymore and the table center is empty, it is not possible to make
+    // another turn
+    if (TableCenter.getInstance().getContent().size() == 0 && getOfferings().size() == 1) {
+      LOGGER.info("No player was able to make a turn anymore.");
+      notifyListeners(new GameInIllegalStateEvent());
+      restartGame();
+      throw new IllegalStateException("The game has reached an illegal state. Noone was able to "
+          + "make a turn. Game was restarted automatically.");
+    } else {
+
+      // get a random offering
+      int randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
+      Offering randomOffering = offeringsClone.get(randomOfferingIndex);
+      int offeringsSize = randomOffering.getContent().size();
+
+      // get a random tile on that offering
+      int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
+      notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOfferingIndex);
+
+      Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
+      //check all pattern lines from first to last if we can place the tile there
+      for (int i = 0; i < activeAIPlayer.getPatternLines().length; i++) {
+        if (activeAIPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
+          LOGGER.info(nickOfAIPlayer + " tries to place a " +
+              randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
+              + "line " + i);
+          makeActivePlayerPlaceTile(i);
+          break;
+        } else if (i == activeAIPlayer.getPatternLines().length - 1) {
+          LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line "
+              + "places it on the floor line");
+          tileFallsDown();
+        }
+      }
+
+      endTurn();
     }
-    return list;
-  }
-  public int getIndexOfActivePlayer() {
-    return indexOfActivePlayer;
   }
 
-  /**
-   * informs the view via listeners that it is the next players turn. If the player cannot
-   * place the tile on a pattern line, it still informs the model.
-   *
-   * @param playerName  the player's name
-   * @param indexOfTile the index of the tile that was drawn
-   * @param offering    the offering (factory display or center of the table)
-   */
-  public void notifyTileChosen(String playerName, int indexOfTile, Offering offering) {
+  public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
     boolean thereIsAValidPick = false;
-    currentOffering = offering;
+    List<Offering> offeringsClone = getOfferings();
+    currentOffering = offeringsClone.get(offeringIndex);
     currentIndexOfTile = indexOfTile;
     Player player = getPlayerByName(playerName);
     // check for each line in the pattern lines if there is a valid pick
     for (int line = 0; line < Player.NUMBER_OF_PATTERN_LINES; line++) {
-      if (player.isValidPick(line, offering, indexOfTile)) {
+      if (player.isValidPick(line, currentOffering, indexOfTile)) {
         thereIsAValidPick = true;
       }
     }
     // inform listeners if there is a valid pick, who the next player is
     // if not: that there is not valid turn to make
     if (thereIsAValidPick) {
-      int indexOfNextPlayer = getIndexOfNextPlayer(indexOfActivePlayer);
+      int indexOfNextPlayer = getIndexOfNextPlayer();
       Player nextPlayer = playerList.get(indexOfNextPlayer);
       String nextPlayerNick = nextPlayer.getName();
       PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
@@ -298,12 +255,6 @@ public class GameModel {
     }
   }
 
-  /**
-   * makes the active player place the tile he/she has chosen on a given pattern line.
-   *
-   * @param rowOfPatternLine the row of the chosen pattern line
-   * @return <code>true</code> if it was a valid pick, <code>false</code> if not
-   */
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
     LOGGER.info(getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine + ".");
     String nickActivePlayer = getNickOfActivePlayer();
@@ -311,13 +262,11 @@ public class GameModel {
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
   }
 
-  /**
-   * makes the active player place the tile he/she has chosen directly into the floor line.
-   */
   public void tileFallsDown() {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     LOGGER.info(nickActivePlayer + " tries to place a tile directly into the floor line.");
+    // check for null, because offering is none, if player die not choose on an offering before
     if(currentOffering == null){
       notifyListeners(new IllegalTurnEvent());
     }
@@ -326,11 +275,6 @@ public class GameModel {
     }
   }
 
-  /**
-   * Checks whether the there is still an offering with a non-empty content.
-   *
-   * @return <code>true</code> if the round is finished, <code>false</code> if not.
-   */
   public boolean checkRoundFinished() {
     for (Offering offering : offerings) {
       // if any of the offerings still has a content, the round is not yet finished
@@ -341,18 +285,14 @@ public class GameModel {
     return true;
   }
 
-  /**
-   * Gives back the index of the player with the Start Player Marker.
-   *
-   * @return player's index.
-   */
-  public int giveIndexOfPlayerWithSPM() {
-    int index = 0;
-    for (Player player : playerList) {
+  public int getIndexOfPlayerWithSPM() {
+    for (int i = 0; i < playerList.size(); i++) {
+      Player player = playerList.get(i);
       if (player.hasStartingPlayerMarker()) {
-        return index;
+        LOGGER.info(player.getName() + " with index " + i + " was the player "
+            + "with the SPM.");
+        return i;
       }
-      index ++;
     }
     LOGGER.debug("We called giveIndexOfPlayer with Start Player Marker when no player had "
         + "the SPM. Probably this is the case because at the end of the turn noone had the "
@@ -361,9 +301,6 @@ public class GameModel {
         + "no player had the SPM.");
   }
 
-  /**
-   * Tell each player to tile the wall and get the points accordingly.
-   */
   public void startTilingPhase() {
     hasGameEnded = false;
     for (Player player : playerList) {
@@ -383,11 +320,6 @@ public class GameModel {
     }
   }
 
-  /**
-   * fFnds the player with the most points.
-   *
-   * @return the name of the player with most points.
-   */
   public String getPlayerWithMostPoints() {
     //TODO: What if two players have the same points?
     ArrayList<Integer> playerPoints = new ArrayList<>();
@@ -397,15 +329,9 @@ public class GameModel {
     int highestScore = Collections.max(playerPoints);
     int bestIndex = playerPoints.indexOf(highestScore);
     Player playerWithMostPoints = playerList.get(bestIndex);
-    String playerNameOfPlayerWithMostPoints = playerWithMostPoints.getName();
-    return playerNameOfPlayerWithMostPoints;
+    return playerWithMostPoints.getName();
   }
 
-  /**
-   * Ranking the players according its points.
-   *
-   * @return a list of players with points in descending order.
-   */
   public List<Player> rankingPlayerWithPoints() {
     List<Player> playerRankingList = playerList;
     Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
@@ -413,35 +339,39 @@ public class GameModel {
 
   }
 
-  /**
-   * gives back the pattern Lines of a given player.
-   *
-   * @param playerName the name of the player
-   * @return the pattern Lines
-   */
+  public int getIndexOfNextPlayer() {
+    int indexOfNextPlayer;
+    if (checkRoundFinished()) {
+      indexOfNextPlayer = getIndexOfPlayerWithSPM();
+    } else if (indexOfActivePlayer == playerList.size() - 1) {
+      indexOfNextPlayer = 0;
+    } else {
+      indexOfNextPlayer = indexOfActivePlayer + 1;
+    }
+    return indexOfNextPlayer;
+  }
+
+  public Player getPlayerByName(String nickname) {
+    for(Player player : playerList) {
+      if(player.getName().equals(nickname)) {
+        return player;
+      }
+    }
+    LOGGER.debug("The model was given a name by view that is not in the playerList.");
+    return null;
+  }
+
+
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
     Player player = getPlayerByName(playerName);
     return player.getPatternLines();
   }
 
-  /**
-   * gives back the floor line of a given player.
-   *
-    * @param playerName the name of the player
-   * @return the floor line
-   */
   public List<ModelTile> getFloorLineOfPlayer(String playerName) {
     Player player = getPlayerByName(playerName);
     return player.getFloorLine();
   }
 
-
-  /**
-   * gives back the wall of a given player based on his/her wall represented in booleans.
-   *
-   * @param playerName the name of the player
-   * @return the wall
-   */
   public ModelTile[][] getWallOfPlayer(String playerName) {
 
     Player player = getPlayerByName(playerName);
@@ -463,5 +393,53 @@ public class GameModel {
 
   }
 
+  public List<String> getPlayerNamesList() {
+    List<String> list = new ArrayList<>();
+    for (Player player: playerList) {
+      list.add(player.getName());
+    }
+    return list;
+  }
+
+  public List<Offering> getOfferings() {
+    return (List<Offering>) offerings.clone();
+  }
+
+  public int getIndexOfActivePlayer() {
+    return indexOfActivePlayer;
+  }
+
+  public int getPoints(String nickname){
+    for(Player player : playerList){
+      if(player.getName().equals(nickname)){
+        return player.getPoints();
+      }
+    }
+    notifyListeners(new PlayerDoesNotExistEvent(nickname));
+    return 0;
+  }
+
+  public int getMinusPoints(String nickname){
+    for(Player player : playerList){
+      if(player.getName().equals(nickname)){
+        return player.getMinusPoints();
+      }
+    }
+    notifyListeners(new PlayerDoesNotExistEvent(nickname));
+    return 0;
+  }
+
+  public List<Offering> getFactoryDisplays(){
+    // return the factory displays being the all but the first offering
+    return offerings.subList(1, offerings.size());
+  }
+
+  public Offering getTableCenter(){
+    return TableCenter.getInstance();
+  }
+
+  public String getNickOfActivePlayer(){
+    return playerList.get(indexOfActivePlayer).getName();
+  }
 
 }

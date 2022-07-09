@@ -21,6 +21,7 @@ public class PlayerBoard extends JPanel {
   private JPanel center;
   private int points;
   private int minusPoints = 0;
+  private JButton forfeitButton, cancelGameButton, restartGameButton;
 
 
   /**
@@ -44,6 +45,7 @@ public class PlayerBoard extends JPanel {
     add(coverOverCenter, BorderLayout.CENTER);
 
     initializeClassVariables();
+    initializeButtons();
     addPointsAndPlayerNameElements();
     addMinusPointsElements();
   }
@@ -81,9 +83,36 @@ public class PlayerBoard extends JPanel {
     minusPoints = controller.getMinusPoints(playerName);
   }
 
+  /**
+   * initializes Forfeit Button
+   */
+  private void initializeButtons() {
+    forfeitButton = new JButton("FORFEIT");
+    forfeitButton.setPreferredSize(new Dimension(25,10));
+    forfeitButton.addActionListener(event -> {
+      controller.replaceActivePlayerByAI();
+      System.out.println("Forfeit Button has been clicked");
+    });
+
+    cancelGameButton = new JButton("CANCEL");
+    cancelGameButton.addActionListener(event -> {
+      controller.cancelGameForAllPlayers();
+      System.out.println("Cancel Button has been pressed.");
+    });
+
+    restartGameButton = new JButton("RESTART");
+    restartGameButton.addActionListener(event -> {
+      controller.restartGame();
+      System.out.println("Game has been restarted.");
+    });
+  }
+
   private void addPointsAndPlayerNameElements() {
     JPanel north = createNorthernPart("Points: ", points);
     north.add(new JLabel("Name: " + playerName));
+    north.add(forfeitButton);
+    north.add(cancelGameButton);
+    north.add(restartGameButton);
     add(north, BorderLayout.NORTH);
   }
 

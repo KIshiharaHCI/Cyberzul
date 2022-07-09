@@ -24,6 +24,7 @@ public class GameBoard extends JPanel {
   private JPanel boardsOfOpponentsPanel;
 
   private JPanel rankingBoardPanel;
+  private JPanel settingsPanel = new JPanel(null);
 
   private RankingBoard rankingBoard;
 
@@ -33,10 +34,11 @@ public class GameBoard extends JPanel {
 
     this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
-    factoryDisplays = controller.getFactoryDisplays();
+    factoryDisplays = controller.getOfferings().subList(1, controller.getOfferings().size());
 
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
+
     createPanelWithTheBoardsOfOpponents();
     center = new CenterBoard(controller, tileClickListener);
     add(center, BorderLayout.CENTER);
@@ -66,6 +68,7 @@ public class GameBoard extends JPanel {
         // listener is null, because no click events should happen here.
         PlayerBoard playerBoard = new PlayerBoard(controller, null,
             nameOfOpponent);
+
         boardsOfOpponentsPanel.add(playerBoard);
       }
     }

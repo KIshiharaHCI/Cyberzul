@@ -21,6 +21,7 @@ public class Player {
   public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
 
   private boolean hasStartingPlayerMarker = false;
+  private boolean isAIPlayer = false;
   private boolean hasEndedTheGame = false;
 
   private WallBackgroundPattern wallPattern;
@@ -92,6 +93,14 @@ public class Player {
     return hasStartingPlayerMarker;
   }
 
+  public boolean isAIPlayer() {
+    return isAIPlayer;
+  }
+
+  public void setAIPlayer(boolean aIPlayer) {
+    isAIPlayer = aIPlayer;
+  }
+
   public boolean hasEndedTheGame() {
     return hasEndedTheGame;
   }
@@ -102,7 +111,7 @@ public class Player {
    *
    * @return the initialized empty patternRow
    */
-  private void initializePatternLines() {
+  void initializePatternLines() {
 
     this.patternLines = new ModelTile[NUMBER_OF_PATTERN_LINES][];
     for (int i = 0; i < 5; i++) {
@@ -117,12 +126,20 @@ public class Player {
 
   }
 
+  void clearFloorline() {
+    this.floorLine = new ArrayList<>();
+  }
+
   public String getName() {
     return name;
   }
 
   public int getPoints() {
     return points;
+  }
+
+  public void setPoints(int points) {
+    this.points = points;
   }
 
   /**
@@ -262,7 +279,7 @@ public class Player {
 
     //are there free places on the selected row? Only first position of the line has to be checked.
     if (patternLines[pickedLine][0] != EMPTY_TILE) {
-      System.out.println("Reason for FALSE is that there are now free places on that row.");
+      System.out.println("Reason for FALSE is that there are no free places on that row.");
       return false;
     }
 
