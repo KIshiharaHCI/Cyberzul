@@ -126,7 +126,7 @@ public class GameModel implements Model {
       player.initializePatternLines();
       player.clearFloorline();
       player.clearWallPattern();
-      player.setAIPlayer(false);
+      player.setAiPlayer(false);
       player.setPoints(0);
     }
 
@@ -186,10 +186,10 @@ public class GameModel implements Model {
     //TODO: Check if SPM is used in the right way --> makes player be first in next round. @Marco
     //TODO: Fix bug, when 4 players are playing and more than one is AI player @Marco
     LOGGER.info(playerList.get(indexOfActivePlayer).getName() + " is now active player. Is he an "
-        + "AI-Player? " + playerList.get(indexOfActivePlayer).isAIPlayer());
+        + "AI-Player? " + playerList.get(indexOfActivePlayer).isAiPlayer());
 
     //checking if the next Player has left the game / is an AI-Player
-    if (playerList.get(indexOfActivePlayer).isAIPlayer() && !hasGameEnded) {
+    if (playerList.get(indexOfActivePlayer).isAiPlayer() && !hasGameEnded) {
       LOGGER.info(getNickOfActivePlayer() + " makes an move automatically, because he/she "
           + "is an AI-Player.");
       String nickOfAiPlayer = getNickOfActivePlayer();
@@ -208,7 +208,7 @@ public class GameModel implements Model {
 
     //TODO: If player has already chosen something and then forfeits
     LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
-    getPlayerByName(getNickOfActivePlayer()).setAIPlayer(true);
+    getPlayerByName(getNickOfActivePlayer()).setAiPlayer(true);
     makeAiPlayerMakeMove(getNickOfActivePlayer());
   }
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Tiles that the player can choose from
+ * The Tiles that the player can choose from.
  */
 public enum ModelTile {
   RED_TILE("red tile"), BLACK_TILE("black tile"), WHITE_TILE("white tile"), BLUE_TILE("blue tile"),
@@ -28,8 +28,8 @@ public enum ModelTile {
     ModelTile[] allValues = ModelTile.values();
     List<ModelTile> valuesOfTilesThatCanBeTiled = new ArrayList<>();
     for (int i = 0; i < allValues.length; i++) {
-      if (allValues[i] != ModelTile.EMPTY_TILE &&
-          allValues[i] != ModelTile.STARTING_PLAYER_MARKER) {
+      if (allValues[i] != ModelTile.EMPTY_TILE
+          && allValues[i] != ModelTile.STARTING_PLAYER_MARKER) {
         valuesOfTilesThatCanBeTiled.add(allValues[i]);
       }
     }

@@ -27,8 +27,7 @@ public class BagToDrawNewTiles extends Bag {
    * This method is used so this class can be a Singleton: Only one single instance of this class
    * can be created. If it already exists, the existing instance is returned.
    *
-   * @return a new BagToDrawNewTiles, if it doesn't exist already. The instance to the existing one
-   * else.
+   * @return a new BagToDrawNewTiles, if it doesn't exist already. Else instance of existing.
    */
   static synchronized BagToDrawNewTiles getInstance() {
     if (instance == null) {

@@ -46,8 +46,8 @@ public class TableCenter extends Offering {
    * on this TableCenter aswell. If the TableCenter contains the StartingPlayerMarker, return this
    * one aswell. Then delete every tile that was returned from this TableCenter.
    *
-   * @param indexOfTheTile
-   * @return
+   * @param indexOfTheTile the index of the tile on the table center.
+   * @return the tiles that will move to the pattern lines.
    */
   List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
     //The player can only choose "real" tiles. The starting player marker is not a tile, but a

@@ -1,5 +1,4 @@
 package azul.team12.model;
-//TODO: Marco - game finished checker
 
 import static azul.team12.model.ModelTile.EMPTY_TILE;
 import static azul.team12.model.ModelTile.STARTING_PLAYER_MARKER;
@@ -22,7 +21,7 @@ public class Player {
   private String name;
   private int points;
   private boolean hasStartingPlayerMarker = false;
-  private boolean isAIPlayer = false;
+  private boolean isAiPlayer = false;
   private boolean hasEndedTheGame = false;
 
   private WallBackgroundPattern wallPattern;
@@ -44,14 +43,22 @@ public class Player {
     initializePatternLines();
 
   }
-  //the wall where the player tiles the tiles and gets his points ("Wand").
 
+  /**
+   * Get the floor line where the player receives his/her minus points.
+
+   * @return the floor line.
+   */
   public List<ModelTile> getFloorLine() {
-    @SuppressWarnings("unchecked") List<ModelTile> floorLineClone = (List<ModelTile>) floorLine.clone();
+    @SuppressWarnings("unchecked") List<ModelTile> floorLineClone =
+        (List<ModelTile>) floorLine.clone();
     return floorLineClone;
   }
   //the left side on the board where the player places the tiles he draws ("Musterreihen").
 
+  /**
+   * The wall where the player tiles his/her tiles.
+   */
   public boolean[][] getWall() {
     return wall.clone();
   }
@@ -63,7 +70,7 @@ public class Player {
   //TODO: Create PatternLinesModel class and make this method to a @Override toString() in it;
 
   /**
-   * get the Pattern Lines as a string with a column width of 15 characters (for testing purposes)
+   * Get the Pattern Lines as a string with a column width of 15 characters (for testing purposes).
    *
    * @return the pattern lines as string
    */
@@ -94,12 +101,12 @@ public class Player {
     return hasStartingPlayerMarker;
   }
 
-  public boolean isAIPlayer() {
-    return isAIPlayer;
+  public boolean isAiPlayer() {
+    return isAiPlayer;
   }
 
-  public void setAIPlayer(boolean aIPlayer) {
-    isAIPlayer = aIPlayer;
+  public void setAiPlayer(boolean aiPlayer) {
+    isAiPlayer = aiPlayer;
   }
 
   public boolean hasEndedTheGame() {
@@ -148,14 +155,14 @@ public class Player {
   }
 
   /**
-   * Draw Tiles from an Offering and place them on the chosen pattern line.
-   *
-   * @param row         the pattern line on which the tiles should be placed.
-   * @param offering    the Offering from which the tiles should be drawn.
-   * @param indexOfTile the index of the tile in the Offering.
-   * @return <true>true</true> if the tiles were successfully placed on the chosen line.
-   * <code>false</code> else.
-   */
+  * Draw Tiles from an Offering and place them on the chosen pattern line.
+  *
+  * @param row         the pattern line on which the tiles should be placed.
+  * @param offering    the Offering from which the tiles should be drawn.
+  * @param indexOfTile the index of the tile in the Offering.
+  * @return <true>true</true> if the tiles were successfully placed on the chosen line.
+  *      <code>false</code> else.
+  */
   boolean drawTiles(int row, Offering offering, int indexOfTile) {
     //check if it's possible to place the chosen tile on the chosen line
     //this doesn't yet change the state of the data model!
@@ -252,7 +259,7 @@ public class Player {
    * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
    * @return <code>true</code> if the chosen tile can be placed on the chosen line.
-   * <code>false</code> else.
+   *     <code>false</code> else.
    */
   boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
     List<ModelTile> tiles = offering.getContent();
@@ -375,11 +382,10 @@ public class Player {
   }
 
   //TODO: This method gets obsolete if we implemented the visible floor line.
-
   /**
-   * Returns the number of MinusPoints that the player acquired over te
+   * Returns the number of MinusPoints that the player acquired over the round.
    *
-   * @return
+   * @return the minus points.
    */
   public int getMinusPoints() {
     int minusPoints = 0;
