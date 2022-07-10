@@ -6,14 +6,14 @@ package azul.team12.model.events;
  */
 public class GameCanceledEvent extends GameEvent {
 
-  public final String CANCLER;
+  public final String nameOfPersonThatCanceled;
 
   public GameCanceledEvent(String nickname) {
-    this.CANCLER = nickname;
+    this.nameOfPersonThatCanceled = nickname;
   }
 
-  public String getCancler() {
-    return CANCLER;
+  public String getNameOfPersonThatCanceled() {
+    return nameOfPersonThatCanceled;
   }
 
   @Override

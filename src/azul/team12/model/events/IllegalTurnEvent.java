@@ -1,6 +1,8 @@
 package azul.team12.model.events;
 
-//TODO: @Marco @Nils add JavaDoc
+/**
+ * Gets fired when a user tried to make an illegal turn.
+ */
 public class IllegalTurnEvent extends GameEvent {
 
   @Override

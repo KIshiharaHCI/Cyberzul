@@ -10,6 +10,12 @@ public class LoginFailedEvent extends GameEvent {
 
   private final String message;
 
+  /**
+   * Constructs the event.
+   *
+
+   * @param message provides information why the login failed.
+   */
   public LoginFailedEvent(String message) {
     switch (message) {
       case LOBBY_IS_FULL -> this.message = LOBBY_IS_FULL;

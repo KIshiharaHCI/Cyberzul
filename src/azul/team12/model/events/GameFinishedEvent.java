@@ -6,14 +6,14 @@ package azul.team12.model.events;
  */
 public class GameFinishedEvent extends GameEvent {
 
-  public final String WINNER;
+  public final String winner;
 
   public GameFinishedEvent(String nickname) {
-    this.WINNER = nickname;
+    this.winner = nickname;
   }
 
-  public String getWINNER() {
-    return WINNER;
+  public String getWinner() {
+    return winner;
   }
 
   @Override

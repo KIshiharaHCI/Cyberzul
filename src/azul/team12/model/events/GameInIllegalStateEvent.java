@@ -10,7 +10,7 @@ public class GameInIllegalStateEvent extends GameEvent {
   private static final String MESSAGE = "You have arrived at an illegal state, where no "
       + "player can make another turn. The game will be ended and you can restart it.";
 
-  public static String getMESSAGE() {
+  public static String getMessage() {
     return MESSAGE;
   }
 
