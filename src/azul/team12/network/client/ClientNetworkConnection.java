@@ -2,7 +2,6 @@ package azul.team12.network.client;
 
 import azul.team12.model.Model;
 import azul.team12.shared.JsonMessage;
-import azul.team12.view.board.Tile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -132,7 +131,7 @@ public class ClientNetworkConnection {
   private void handleGameStarted(JSONObject object) throws JSONException {
     JSONArray offerings = object.getJSONArray(JsonMessage.OFFERINGS_FIELD);
     JSONArray playerNames = object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD);
-    model.gameStarted(offerings, playerNames);
+    model.handleGameStarted(offerings, playerNames);
   }
 
   //TODO: Commented out code

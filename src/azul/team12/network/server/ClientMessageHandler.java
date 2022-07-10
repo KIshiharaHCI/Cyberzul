@@ -44,10 +44,11 @@ public class ClientMessageHandler implements Runnable {
    * single connected client. The specific objects are created from the given socket.
    *
    * @param connection The connection handler that manages all the connected clients
-   * @param socket The specific socket that belongs to this client
+   * @param socket     The specific socket that belongs to this client
    * @throws IOException Thrown when failing to retrieve the In- or Output-stream.
    */
-  public ClientMessageHandler(ServerNetworkConnection connection, Socket socket, Controller controller, Model model)
+  public ClientMessageHandler(ServerNetworkConnection connection, Socket socket,
+                              Controller controller, Model model)
       throws IOException {
     this.controller = controller;
     this.model = model;
@@ -116,10 +117,10 @@ public class ClientMessageHandler implements Runnable {
     switch (JsonMessage.typeOf(object)) {
       case LOGIN -> handleLogin(object);
       case POST_MESSAGE -> handlePostMessage(object);
-      case START_GAME -> {
-        //TODO: TEST SOUT
-        System.out.println("Start Game in ClientMessageHandler");
-        controller.startGame();}
+      case START_GAME -> controller.startGame();
+      case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
+      case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
+      case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
       default -> throw new AssertionError("Unable to handle message " + object);
     }
   }
@@ -149,6 +150,18 @@ public class ClientMessageHandler implements Runnable {
     controller.addPlayer(nick);
     send(JsonMessage.loginSuccess());
     serverConnection.broadcast(this, JsonMessage.userJoined(nick));
+  }
+
+  /**
+   * Checks if it is this players turn (which allows him to make moves)
+   *
+   * @return <code>true</code> if its this players turn. <code>false</code> else.
+   */
+  private boolean isItThisPlayersTurn() {
+    if (model.getNickOfActivePlayer().equals(nickname)) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -201,5 +214,69 @@ public class ClientMessageHandler implements Runnable {
     }
     writer.write(string);
     writer.flush();
+  }
+
+  /**
+   * Check if it's the players turn and if it is, notify the model about what Tile the player chose.
+   * If it's not this players turn, inform him that he has to wait until he can make his next move.
+   *
+   * @param object the message that the client sent to the server.
+   */
+  private void handleNotifyTileChosen(JSONObject object) {
+    try {
+      if (isItThisPlayersTurn()) {
+        int indexOfTile = Integer.parseInt(object.getString(JsonMessage.INDEX_OF_TILE_FIELD));
+        int indexOfOffering =
+            Integer.parseInt(object.getString(JsonMessage.INDEX_OF_OFFERING_FIELD));
+        model.notifyTileChosen(nickname, indexOfTile, indexOfOffering);
+      } else {
+        //notify the client that he has to wait and can't do his turn right now.
+        send(JsonMessage.createMessageOfType(JsonMessage.NOT_YOUR_TURN));
+      }
+    } catch (JSONException | IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Check if it's the players turn and if it is, notify the model that the tile should be placed
+   * at the pattern line that is specified in the JSON Object that was sent from the client to the
+   * server.
+   * If it's not this players turn, inform him that he has to wait until he can make his next move.
+   *
+   * @param object the JSON Object that was sent from the client to the server.
+   */
+  private void handlePlaceTileInPatternLine(JSONObject object) {
+    try {
+      if (isItThisPlayersTurn()) {
+        int indexOfPatternLine =
+            Integer.parseInt(object.getString(JsonMessage.INDEX_OF_PATTERN_LINE_FIELD));
+        model.makeActivePlayerPlaceTile(indexOfPatternLine);
+      } else {
+        //notify the client that he has to wait and can't do his turn right now.
+        send(JsonMessage.createMessageOfType(JsonMessage.NOT_YOUR_TURN));
+      }
+    } catch (JSONException | IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Check if it's the players turn. If yes, let the player place the tile in the floor line.
+   * If it's not this players turn, inform him that he has to wait until the can make his next move.
+   *
+   * @param object
+   */
+  private void handlePlaceTileInFloorLine(JSONObject object) {
+    try {
+      if (isItThisPlayersTurn()) {
+        model.tileFallsDown();
+      } else {
+        //notify the client that he has to wait and can't do his turn right now.
+        send(JsonMessage.createMessageOfType(JsonMessage.NOT_YOUR_TURN));
+      }
+    } catch (JSONException | IOException e) {
+      e.printStackTrace();
+    }
   }
 }

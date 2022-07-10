@@ -87,14 +87,6 @@ public interface Model {
   void tileFallsDown();
 
   /**
-   * Tell each player to tile the wall and get the points accordingly.
-   * Fires {@link PlayerHasEndedTheGameEvent} if a player has ended the game in this
-   * tiling phase, fires {@link GameFinishedEvent} at the end of this tiling phase in
-   * which someone has ended the game.
-   */
-  void startTilingPhase();
-
-  /**
    * Finds the player with the most points.
    *
    * @return the name of the player with most points.
@@ -107,6 +99,13 @@ public interface Model {
    * @return a list of players with points in descending order.
    */
   List<String> rankingPlayerWithPoints();
+
+  /**
+   * The active player is the player who has to do his turn in this round.
+   *
+   * @return the index of the player whose turn is now.
+   */
+  int getIndexOfActivePlayer();
 
   /**
    * Next player is the next player on the list or the first player, if the last active player

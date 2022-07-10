@@ -42,7 +42,7 @@ public class GameController implements Controller{
 
   @Override
   public String getNickOfActivePlayer() {
-    return model.getNickOfActivePlayer();
+    return model.getPlayerNamesList().get(model.getIndexOfActivePlayer());
   }
 
   @Override

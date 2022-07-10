@@ -19,25 +19,19 @@ public enum JsonMessage {
   USER_JOINED("user joined"), POST_MESSAGE("post message"), MESSAGE("message"),
   USER_LEFT("user left"),
 
-  //Controller methods
-  CHOOSE_TILE_FROM("choose tile from"),
+  //messages from the client to the server
   END_TURN("end turn"),
-  FORFEIT("forfeit"),
-  GET_NICK_OF_ACTIVE_PLAYER("get nick of active player"),
-  GET_NICK_OF_NEXT_PLAYER("get nick of next player"),
-  GET_OFFERINGS("get offerings"),
-  GET_PATTERN_LINES_OF_PLAYER("get pattern lines of player"),
-  GET_PLAYER_NAMES_LIST("get player names list"),
-  GET_POINTS("get points"),
-  GET_TEMPLATE_WALL("get template wall"),
-  GET_WALL_OF_PLAYER_AS_TILES("get wall of player as tiles"),
-  PLACE_TILE_AT_FLOOR_LINE("place tile at floor line"),
-  PLACE_TILE_AT_PATTERN_LINE("place tile at pattern line"),
-  RANKING_PLAYER_WITH_POINTS("ranking player with points"),
+  FORFEIT_GAME("forfeit game"),
   START_GAME("start game"),
+  RESTART_GAME("restart game"),
+  NOTIFY_TILE_CHOSEN("notify tile chosen"),
+  PLACE_TILE_IN_PATTERN_LINE("place tile in pattern line"),
+  PLACE_TILE_IN_FLOOR_LINE("place tile in floor line"),
 
-  //Methods from the Server
-  GAME_STARTED("game started");
+  //messages from the server to the client
+  GAME_STARTED("game started"),
+  NOT_YOUR_TURN("it is not your turn"),
+  NEXT_PLAYERS_TURN("next players turn");
 
   public static final String TYPE_FIELD = "type";
 
@@ -56,6 +50,10 @@ public enum JsonMessage {
   public static final String INDEX_OF_TILE_FIELD = "index of tile ";
 
   public static final String INDEX_OF_OFFERING_FIELD = "index of offering";
+
+  public static final String INDEX_OF_ACTIVE_PLAYER_FIELD = "index of active player";
+
+  public static final String INDEX_OF_PATTERN_LINE_FIELD = "index of pattern line";
 
   private final String jsonName;
 
@@ -88,9 +86,9 @@ public enum JsonMessage {
    * @param indexOfOffering <code>0</code> means the TableCenter. Every following index is a FactoryDisplay.
    * @return A JSONMessage telling the server that a tile was chosen by the player, and which one.
    */
-  public static JSONObject chooseTileFrom(int indexOfTile, int indexOfOffering) {
+  public static JSONObject notifyTileChosenMessage(int indexOfTile, int indexOfOffering) {
     try {
-      JSONObject jsonObject = createMessageOfType(CHOOSE_TILE_FROM);
+      JSONObject jsonObject = createMessageOfType(NOTIFY_TILE_CHOSEN);
       jsonObject.put(INDEX_OF_TILE_FIELD, indexOfTile);
       jsonObject.put(INDEX_OF_OFFERING_FIELD, indexOfOffering);
       return jsonObject;
@@ -102,13 +100,15 @@ public enum JsonMessage {
   /**
    * Provides the ClientModels with all information that is needed to start the game.
    *
-   * @param offering
-   * @return
+   * @param offerings   contains the TableCenter and the FactoryDisplays.
+   * @param playerNames contains the names of the player.
+   * @return a message that can be send to all clients, informing them that the game started.
    */
-  public static JSONObject createGameStartedMessage(List<Offering> offerings, List<String> playerNames){
+  public static JSONObject createGameStartedMessage(List<Offering> offerings,
+                                                    List<String> playerNames) {
     try {
       JSONObject returnObject = createMessageOfType(GAME_STARTED);
-      returnObject.put(OFFERINGS_FIELD,createArrayContainingOfferings(offerings));
+      returnObject.put(OFFERINGS_FIELD, createArrayContainingOfferings(offerings));
       returnObject.put(PLAYER_NAMES_FIELD, createArrayContainingPlayerNames(playerNames));
 
       return returnObject;
@@ -124,16 +124,16 @@ public enum JsonMessage {
    * @param offerings a list of all offerings in the game.
    * @return a two dimensional array containing the contents of all offerings.
    */
-  public static JSONArray createArrayContainingOfferings(List<Offering> offerings){
-      JSONArray offeringsArray = new JSONArray();
-      for(Offering o : offerings){
-        JSONArray currentOffering = new JSONArray();
-        for(ModelTile tile : o.getContent()){
-          currentOffering.put(tile.toString());
-        }
-        offeringsArray.put(currentOffering);
+  public static JSONArray createArrayContainingOfferings(List<Offering> offerings) {
+    JSONArray offeringsArray = new JSONArray();
+    for (Offering o : offerings) {
+      JSONArray currentOffering = new JSONArray();
+      for (ModelTile tile : o.getContent()) {
+        currentOffering.put(tile.toString());
       }
-      return offeringsArray;
+      offeringsArray.put(currentOffering);
+    }
+    return offeringsArray;
   }
 
   /**
@@ -142,12 +142,19 @@ public enum JsonMessage {
    * @param playerNames
    * @return
    */
-  public static JSONArray createArrayContainingPlayerNames(List<String> playerNames){
+  public static JSONArray createArrayContainingPlayerNames(List<String> playerNames) {
     JSONArray playerNamesArray = new JSONArray();
-    for(String nick : playerNames){
+    for (String nick : playerNames) {
       playerNamesArray.put(nick);
     }
     return playerNamesArray;
+  }
+
+  public static JSONObject createNextPlayersTurnMessage(List<Offering> offerings,
+                                                        String nameOfPlayerWhoEndedHisTurn,
+                                                        ModelTile[][] newPatternLinesOfPlayerWhoEndedHisTurn,
+                                                        List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn) {
+    return null;
   }
 
   /**
@@ -185,8 +192,6 @@ public enum JsonMessage {
   }
 
    */
-
-
   public static JSONObject login(String nickname) {
     try {
       return createMessageOfType(LOGIN).put(NICK_FIELD, nickname);
@@ -251,8 +256,8 @@ public enum JsonMessage {
     }
   }
 
-  public static JSONObject createMessageOfType(JsonMessage type) throws JSONException{
-      return new JSONObject().put(TYPE_FIELD, type.getJsonName());
+  public static JSONObject createMessageOfType(JsonMessage type) throws JSONException {
+    return new JSONObject().put(TYPE_FIELD, type.getJsonName());
   }
 
   public static String getNickname(JSONObject object) {

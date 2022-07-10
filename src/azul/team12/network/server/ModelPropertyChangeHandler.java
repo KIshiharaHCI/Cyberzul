@@ -2,7 +2,9 @@ package azul.team12.network.server;
 
 import azul.team12.model.GameModel;
 import azul.team12.model.Model;
+import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
+import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -34,11 +36,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
-        try {
-          handleModelUpdate(event);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+        handleModelUpdate(event);
       }
     });
   }
@@ -48,19 +46,50 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
    *
    * @param event the event that was fired from the model.
    */
-  private void handleModelUpdate(PropertyChangeEvent event) throws IOException {
-      Object customMadeGameEvent = event.getNewValue();
+  private void handleModelUpdate(PropertyChangeEvent event) {
+    Object customMadeGameEvent = event.getNewValue();
 
-      String eventName = event.getPropertyName();
+    String eventName = event.getPropertyName();
 
-      switch (eventName) {
-        case "GameStartedEvent" -> {
-          //TODO: TEST SOUT
-          System.out.println("Game Started in ModelPropertyChangeHandler");
-          List<Offering> offerings = model.getOfferings();
-          List<String> playerNames = model.getPlayerNamesList();
-          connection.broadcastToAll(JsonMessage.createGameStartedMessage(offerings,playerNames));}
-        default -> throw new AssertionError("Unknown event: " + eventName);
-      }
+    switch (eventName) {
+      case "GameStartedEvent" -> handleGameStartedEvent();
+      case "NextPlayersTurnEvent" -> handleNextPlayersTurnEvent(customMadeGameEvent);
+      default -> throw new AssertionError("Unknown event: " + eventName);
+    }
+  }
+
+  /**
+   * If the model informs this listener that the game started, this listener fetches the content
+   * of the offerings and the player names and broadcasts them to all clients.
+   */
+  private void handleGameStartedEvent() {
+    try {
+      List<Offering> offerings = model.getOfferings();
+      List<String> playerNames = model.getPlayerNamesList();
+      connection.broadcastToAll(JsonMessage.createGameStartedMessage(offerings, playerNames));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void handleNextPlayersTurnEvent(Object customMadeGameEvent) {
+    try {
+      NextPlayersTurnEvent nextPlayersTurnEvent = (NextPlayersTurnEvent) customMadeGameEvent;
+
+
+      String nameOfPlayerWhoEndedHisTurn = nextPlayersTurnEvent.getNameOfPlayerWhoEndedHisTurn();
+      ModelTile[][] newPatternLinesOfPlayerWhoEndedHisTurn =
+          model.getPatternLinesOfPlayer(nameOfPlayerWhoEndedHisTurn);
+      List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn =
+          model.getFloorLineOfPlayer(nameOfPlayerWhoEndedHisTurn);
+
+      List<Offering> offerings = model.getOfferings();
+
+      connection.broadcastToAll(
+          JsonMessage.createNextPlayersTurnMessage(offerings, nameOfPlayerWhoEndedHisTurn,
+              newPatternLinesOfPlayerWhoEndedHisTurn, newFloorLineOfPlayerWhoEndedHisTurn));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

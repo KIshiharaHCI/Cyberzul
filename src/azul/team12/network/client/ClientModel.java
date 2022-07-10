@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import azul.team12.model.ClientFactoryDisplay;
 import azul.team12.model.ClientTableCenter;
-import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
@@ -30,7 +29,8 @@ public class ClientModel implements Model {
   private ClientNetworkConnection connection;
   private String thisPlayersName;
 
-  private int indexOfActivePlayer = 0;
+  private int indexOfActivePlayer;
+  private int indexOfNextPlayer;
   private ArrayList<ClientPlayer> playerList = new ArrayList<>();
   protected ArrayList<Offering> offerings;
 
@@ -93,16 +93,11 @@ public class ClientModel implements Model {
 
   @Override
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
-    return true;
+    return false;
   }
 
   @Override
   public void tileFallsDown() {
-
-  }
-
-  @Override
-  public void startTilingPhase() {
 
   }
 
@@ -126,9 +121,13 @@ public class ClientModel implements Model {
   }
 
   @Override
+  public int getIndexOfActivePlayer() {
+    return indexOfActivePlayer;
+  }
+
+  @Override
   public int getIndexOfNextPlayer() {
-    //TODO: FOR TEST PURPOSES SIMPLIFIED
-    return 0;
+    return indexOfNextPlayer;
   }
 
   @Override
@@ -180,6 +179,8 @@ public class ClientModel implements Model {
     for (Player player: playerList) {
       list.add(player.getName());
     }
+    //TODO: Test sout
+    System.out.println(list);
     return list;
   }
 
@@ -244,10 +245,11 @@ public class ClientModel implements Model {
    * Update all information in the model that is needed by the view to start showing the game.
    * Then notify the listeners that the game has started.
    */
-  public void gameStarted(JSONArray offerings, JSONArray playerNames) throws JSONException{
+  public void handleGameStarted(JSONArray offerings, JSONArray playerNames) throws JSONException{
     updateOfferings(offerings);
     setUpClientPlayersByName(playerNames);
     indexOfActivePlayer = 0;
+    indexOfNextPlayer = 1;
     notifyListeners(new GameStartedEvent());
   }
 

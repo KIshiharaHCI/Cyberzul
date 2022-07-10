@@ -43,7 +43,7 @@ public class GameModel implements Model {
   public GameModel() {
     support = new PropertyChangeSupport(this);
     playerList = new ArrayList<>();
-    offerings  = new ArrayList<>();
+    offerings = new ArrayList<>();
   }
 
   public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -91,8 +91,7 @@ public class GameModel implements Model {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.NOT_ENOUGH_PLAYER));
     } else if (isGameStarted) {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.GAME_ALREADY_STARTED));
-    }
-    else{
+    } else {
       setUpOfferings();
       notifyListeners(new GameStartedEvent());
     }
@@ -129,28 +128,29 @@ public class GameModel implements Model {
    * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
    * list.
    */
-  private void setUpOfferings(){
+  private void setUpOfferings() {
     offerings = new ArrayList<>();
     offerings.add(TableCenter.getInstance());
     TableCenter.getInstance().addStartPlayerMarker();
     int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
-    for(int i = 0; i < numberOfFactoryDisplays; i++){
+    for (int i = 0; i < numberOfFactoryDisplays; i++) {
       offerings.add(new FactoryDisplay());
     }
   }
 
-  public void endTurn(){
+  public void endTurn() {
+    String nameOfPlayerWhoEndedHisTurn = getNickOfActivePlayer();
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       startTilingPhase();
-      if(!hasGameEnded){
+      if (!hasGameEnded) {
         setUpOfferings();
       }
       notifyListeners(roundFinishedEvent);
     }
     indexOfActivePlayer = getIndexOfNextPlayer();
-    NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
+    NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer(),nameOfPlayerWhoEndedHisTurn);
     notifyListeners(nextPlayersTurnEvent);
   }
 
@@ -172,7 +172,8 @@ public class GameModel implements Model {
       int indexOfNextPlayer = getIndexOfNextPlayer();
       Player nextPlayer = playerList.get(indexOfNextPlayer);
       String nextPlayerNick = nextPlayer.getName();
-      PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
+      PlayerHasChosenTileEvent playerHasChosenTileEvent =
+          new PlayerHasChosenTileEvent(nextPlayerNick);
       notifyListeners(playerHasChosenTileEvent);
     } else {
       NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
@@ -181,7 +182,9 @@ public class GameModel implements Model {
   }
 
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
-    LOGGER.info(getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine + ".");
+    LOGGER.info(
+        getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine +
+            ".");
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
@@ -191,10 +194,9 @@ public class GameModel implements Model {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     LOGGER.info(nickActivePlayer + " tries to place a tile directly into the floor line.");
-    if(currentOffering == null){
+    if (currentOffering == null) {
       notifyListeners(new IllegalTurnEvent());
-    }
-    else {
+    } else {
       activePlayer.placeTileInFloorLine(currentOffering, currentIndexOfTile);
     }
   }
@@ -204,7 +206,7 @@ public class GameModel implements Model {
       // if any of the offerings still has a content, the round is not yet finished
       if (!offering.getContent().isEmpty()) {
         return false;
-        }
+      }
     }
     return true;
   }
@@ -215,7 +217,7 @@ public class GameModel implements Model {
       if (player.hasStartingPlayerMarker()) {
         return index;
       }
-      index ++;
+      index++;
     }
     LOGGER.debug("We called giveIndexOfPlayer with Start Player Marker when no player had "
         + "the SPM. Probably this is the case because at the end of the turn noone had the "
@@ -257,7 +259,8 @@ public class GameModel implements Model {
 
   public List<String> rankingPlayerWithPoints() {
     List<String> playerNamesRankingList = getPlayerNamesList();
-    Collections.sort(playerNamesRankingList, (o1, o2) -> -Integer.compare(getPoints(o1), getPoints(o2)));
+    Collections.sort(playerNamesRankingList,
+        (o1, o2) -> -Integer.compare(getPoints(o1), getPoints(o2)));
     return playerNamesRankingList;
   }
 
@@ -274,8 +277,8 @@ public class GameModel implements Model {
   }
 
   public Player getPlayerByName(String nickname) {
-    for(Player player : playerList) {
-      if(player.getName().equals(nickname)) {
+    for (Player player : playerList) {
+      if (player.getName().equals(nickname)) {
         return player;
       }
     }
@@ -316,7 +319,7 @@ public class GameModel implements Model {
 
   public List<String> getPlayerNamesList() {
     List<String> list = new ArrayList<>();
-    for (Player player: playerList) {
+    for (Player player : playerList) {
       list.add(player.getName());
     }
     return list;
@@ -333,9 +336,9 @@ public class GameModel implements Model {
     return indexOfActivePlayer;
   }
 
-  public int getPoints(String nickname){
-    for(Player player : playerList){
-      if(player.getName().equals(nickname)){
+  public int getPoints(String nickname) {
+    for (Player player : playerList) {
+      if (player.getName().equals(nickname)) {
         return player.getPoints();
       }
     }
@@ -343,9 +346,9 @@ public class GameModel implements Model {
     return 0;
   }
 
-  public int getMinusPoints(String nickname){
-    for(Player player : playerList){
-      if(player.getName().equals(nickname)){
+  public int getMinusPoints(String nickname) {
+    for (Player player : playerList) {
+      if (player.getName().equals(nickname)) {
         return player.getMinusPoints();
       }
     }
@@ -353,16 +356,16 @@ public class GameModel implements Model {
     return 0;
   }
 
-  public List<Offering> getFactoryDisplays(){
+  public List<Offering> getFactoryDisplays() {
     // return the factory displays being the all but the first offering
     return offerings.subList(1, offerings.size());
   }
 
-  public Offering getTableCenter(){
+  public Offering getTableCenter() {
     return TableCenter.getInstance();
   }
 
-  public String getNickOfActivePlayer(){
+  public String getNickOfActivePlayer() {
     return playerList.get(indexOfActivePlayer).getName();
   }
 
