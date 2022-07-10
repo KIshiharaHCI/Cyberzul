@@ -46,10 +46,22 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   }
 
   /**
-   * create red border around tile if source tile was clicked
+   * Select the {@link Tile} from an {@link Offering}.
+   *
+   * @param sourceTile: The {@link Tile} klicked on.
    */
   @Override
   public void visitOnClick(SourceTile sourceTile) {
+    // second time click on the selected tile => unselect the tile
+    if (sourceTile.equals(source)) {
+      source.setBorder(BorderFactory.createEmptyBorder());
+      source = null;
+      return;
+      // another tile selected after selecting one tile => unselect the first one
+    } else if (source != null ) {
+      source.setBorder(BorderFactory.createEmptyBorder());
+    }
+    // select the current tile
     source = sourceTile;
     source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
     // offerings, not factoryDisplays, because the first factory displays has id one not zero
