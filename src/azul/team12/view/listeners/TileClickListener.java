@@ -4,13 +4,23 @@ import azul.team12.controller.Controller;
 import azul.team12.model.Model;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
-import azul.team12.view.board.*;
-
-import javax.swing.*;
-import java.awt.*;
+import azul.team12.view.board.CenterBoard;
+import azul.team12.view.board.DestinationTile;
+import azul.team12.view.board.FloorLinePanel;
+import azul.team12.view.board.PatternLines;
+import azul.team12.view.board.Plate;
+import azul.team12.view.board.PlatesPanel;
+import azul.team12.view.board.SourceTile;
+import azul.team12.view.board.TableCenterPanel;
+import azul.team12.view.board.Tile;
+import azul.team12.view.board.TileAcceptor;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 
 /**
  * listens to what tile is clicked on and //TODO: makes the model change accordingly
@@ -58,7 +68,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
       source = null;
       return;
       // another tile selected after selecting one tile => unselect the first one
-    } else if (source != null ) {
+    } else if (source != null) {
       source.setBorder(BorderFactory.createEmptyBorder());
     }
     // select the current tile
@@ -66,7 +76,8 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
     source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
     // offerings, not factoryDisplays, because the first factory displays has id one not zero
     List<Offering> offerings = controller.getOfferings();
-    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(), source.getPlateId());
+    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(),
+        source.getPlateId());
 
   }
 
@@ -74,6 +85,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   public void visitOnClick(DestinationTile destinationTile) {
     onDestinationTileClick(destinationTile);
   }
+
   /**
    * place tile of the respective color if destination tile on pattern line was clicked
    *
@@ -123,7 +135,8 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
       Plate plate = (Plate) source.getParent().getParent();
       PlatesPanel platesPanel = (PlatesPanel) plate.getParent();
       platesPanel.remove();
-      platesPanel.initialize(controller.getOfferings().subList(1,controller.getOfferings().size()), this);
+      platesPanel.initialize(controller.getOfferings().subList(1, controller.getOfferings().size()),
+          this);
 
       CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
       TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();

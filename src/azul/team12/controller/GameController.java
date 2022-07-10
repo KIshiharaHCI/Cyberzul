@@ -1,14 +1,17 @@
 package azul.team12.controller;
 
-import azul.team12.model.*;
-
+import azul.team12.model.Model;
+import azul.team12.model.ModelTile;
+import azul.team12.model.Offering;
+import azul.team12.model.Player;
+import azul.team12.model.WallBackgroundPattern;
 import java.util.List;
 
-public class GameController implements Controller{
+public class GameController implements Controller {
 
   private Model model;
 
-  public GameController(Model model){
+  public GameController(Model model) {
     this.model = model;
   }
 
@@ -28,7 +31,9 @@ public class GameController implements Controller{
   }
 
   @Override
-  public List<Offering> getOfferings() { return model.getOfferings(); }
+  public List<Offering> getOfferings() {
+    return model.getOfferings();
+  }
 
   @Override
   public List<Offering> getFactoryDisplays() {
@@ -56,7 +61,7 @@ public class GameController implements Controller{
   }
 
   @Override
-  public int getMinusPoints(String playerName){
+  public int getMinusPoints(String playerName) {
     return model.getMinusPoints(playerName);
   }
 
@@ -72,7 +77,9 @@ public class GameController implements Controller{
 
   @Override
   public boolean placeTileAtPatternLine(int rowOfPatternLine) {
-    System.out.println("Player " + getNickOfActivePlayer() + " tries to place a tile on the " + rowOfPatternLine + ". row of pattern lines.");
+    System.out.println(
+        "Player " + getNickOfActivePlayer() + " tries to place a tile on the " + rowOfPatternLine
+            + ". row of pattern lines.");
     return model.makeActivePlayerPlaceTile(rowOfPatternLine);
   }
 
@@ -112,7 +119,7 @@ public class GameController implements Controller{
 
   @Override
   public void replaceActivePlayerByAI() {
-    model.replaceActivePlayerByAI();
+    model.replaceActivePlayerByAi();
   }
 
   @Override

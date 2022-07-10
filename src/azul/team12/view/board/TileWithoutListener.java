@@ -7,12 +7,10 @@ import javax.swing.JPanel;
 
 public class TileWithoutListener extends JPanel {
 
+  private static final long serialVersionUID = 8L;
   private final int cell;
   private final int row;
-
   private final int size;
-
-  private static final long serialVersionUID = 8L;
 
   public TileWithoutListener(int cell, int row, int size) {
     this.cell = cell;

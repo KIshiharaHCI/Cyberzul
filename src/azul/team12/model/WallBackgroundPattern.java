@@ -7,16 +7,10 @@ import static azul.team12.model.ModelTile.RED_TILE;
 import static azul.team12.model.ModelTile.WHITE_TILE;
 
 /**
- * Contains a default wall background pattern aswell as methods to get information from it.
- * Later it will contain the possibility to create a personal background pattern.
+ * Contains a default wall background pattern aswell as methods to get information from it. Later it
+ * will contain the possibility to create a personal background pattern.
  */
 public class WallBackgroundPattern {
-
-  public final ModelTile[][] pattern;
-
-  public WallBackgroundPattern(){
-    this.pattern = getTemplateWall();
-  }
 
   /**
    * The pattern on the wall defining where which tiles may be placed.
@@ -27,6 +21,11 @@ public class WallBackgroundPattern {
           {BLACK_TILE, WHITE_TILE, BLUE_TILE, ORANGE_TILE, RED_TILE},
           {RED_TILE, BLACK_TILE, WHITE_TILE, BLUE_TILE, ORANGE_TILE},
           {ORANGE_TILE, RED_TILE, BLACK_TILE, WHITE_TILE, BLUE_TILE}};
+  public final ModelTile[][] pattern;
+
+  public WallBackgroundPattern() {
+    this.pattern = getTemplateWall();
+  }
 
   /**
    * Returns a copy of the template wall pattern.
@@ -42,13 +41,13 @@ public class WallBackgroundPattern {
    * the black tile?'
    *
    * @param rowNumber the number of the row of the wall.
-   * @param tile the tile that we are looking for.
+   * @param tile      the tile that we are looking for.
    * @return the index number of that tile in the specific row.
    */
-  public int indexOfTileInRow(int rowNumber, ModelTile tile){
+  public int indexOfTileInRow(int rowNumber, ModelTile tile) {
     int indexOfTilePosition = 0;
-    for(int i = 0; i < pattern[rowNumber].length; i++){
-      if(pattern[rowNumber][i] == tile){
+    for (int i = 0; i < pattern[rowNumber].length; i++) {
+      if (pattern[rowNumber][i] == tile) {
         return i;
       }
     }

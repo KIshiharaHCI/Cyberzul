@@ -17,15 +17,10 @@ public enum ModelTile {
     this.name = name;
   }
 
-  @Override
-  public String toString() {
-    return this.name;
-  }
-
   /**
-   * The method ModelTile.values() returns all values of this enum. Since Empty ModelTile is not a real tile,
-   * it often makes sense to exclude it from the list of tiles.
-   * Same goes for the StartingPlayerMarker.
+   * The method ModelTile.values() returns all values of this enum. Since Empty ModelTile is not a
+   * real tile, it often makes sense to exclude it from the list of tiles. Same goes for the
+   * StartingPlayerMarker.
    *
    * @return the values of all tileable ModelTiles, that can be tiled to the wall.
    */
@@ -39,6 +34,11 @@ public enum ModelTile {
       }
     }
     return valuesOfTilesThatCanBeTiled;
+  }
+
+  @Override
+  public String toString() {
+    return this.name;
   }
 
 }

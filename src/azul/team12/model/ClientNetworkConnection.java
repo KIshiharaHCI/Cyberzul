@@ -12,7 +12,7 @@ public class ClientNetworkConnection {
   /**
    * creates the connection a client and the server.
    *
-   * @param model          - the model of this client.
+   * @param model - the model of this client.
    * @throws NullPointerException if passed model is <code>null</code>.
    */
   public ClientNetworkConnection(GameModel model) {

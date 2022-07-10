@@ -2,9 +2,14 @@ package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
 import azul.team12.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
@@ -59,7 +64,7 @@ public class PlayerBoard extends JPanel {
     setProperties(Tile.TILE_SIZE, 5, 10, center);
     patternLines = new PatternLines(controller, Tile.TILE_SIZE, tileClickListener);
     center.add(patternLines);
-    wall = new Wall(controller,tileClickListener);
+    wall = new Wall(controller, tileClickListener);
     center.add(wall);
   }
 
@@ -88,7 +93,7 @@ public class PlayerBoard extends JPanel {
    */
   private void initializeButtons() {
     forfeitButton = new JButton("FORFEIT");
-    forfeitButton.setPreferredSize(new Dimension(25,10));
+    forfeitButton.setPreferredSize(new Dimension(25, 10));
     forfeitButton.addActionListener(event -> {
       controller.replaceActivePlayerByAI();
       System.out.println("Forfeit Button has been clicked");

@@ -7,19 +7,19 @@ package azul.team12.model.events;
 
 public class PlayerHasEndedTheGameEvent extends GameEvent {
 
-    public final String ENDER;
+  public final String ENDER;
 
-    public PlayerHasEndedTheGameEvent(String nickname){
-      this.ENDER = nickname;
-    }
+  public PlayerHasEndedTheGameEvent(String nickname) {
+    this.ENDER = nickname;
+  }
 
-    public String getENDER() {
-      return ENDER;
-    }
+  public String getENDER() {
+    return ENDER;
+  }
 
-    @Override
-    public String getName(){
-      return "PlayerHasEndedTheGameEvent";
-    }
+  @Override
+  public String getName() {
+    return "PlayerHasEndedTheGameEvent";
+  }
 
 }

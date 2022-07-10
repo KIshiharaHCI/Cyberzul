@@ -1,5 +1,5 @@
 package azul.team12.network.client;
 
-public class Register{
+public class Register {
 
 }

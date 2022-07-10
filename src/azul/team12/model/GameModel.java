@@ -1,25 +1,37 @@
 package azul.team12.model;
 
-import azul.team12.model.events.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import static java.util.Objects.requireNonNull;
 
+import azul.team12.model.events.GameCanceledEvent;
+import azul.team12.model.events.GameEvent;
+import azul.team12.model.events.GameFinishedEvent;
+import azul.team12.model.events.GameForfeitedEvent;
+import azul.team12.model.events.GameInIllegalStateEvent;
+import azul.team12.model.events.GameNotStartableEvent;
+import azul.team12.model.events.GameStartedEvent;
+import azul.team12.model.events.IllegalTurnEvent;
+import azul.team12.model.events.LoginFailedEvent;
+import azul.team12.model.events.NextPlayersTurnEvent;
+import azul.team12.model.events.NoValidTurnToMakeEvent;
+import azul.team12.model.events.PlayerDoesNotExistEvent;
+import azul.team12.model.events.PlayerHasChosenTileEvent;
+import azul.team12.model.events.PlayerHasEndedTheGameEvent;
+import azul.team12.model.events.RoundFinishedEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static java.util.Objects.requireNonNull;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameModel implements Model {
 
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
-
-  private int SLEEP_TIME = 100;
-
+  private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
   private final PropertyChangeSupport support;
+  private int SLEEP_TIME = 100;
   private ArrayList<Player> playerList;
   private ArrayList<Offering> offerings;
   private boolean isGameStarted = false;
@@ -28,12 +40,10 @@ public class GameModel implements Model {
   private Offering currentOffering;
   private int currentIndexOfTile;
 
-  private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
-
   public GameModel() {
     support = new PropertyChangeSupport(this);
     playerList = new ArrayList<>();
-    offerings  = new ArrayList<>();
+    offerings = new ArrayList<>();
   }
 
   public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -48,8 +58,8 @@ public class GameModel implements Model {
 
   /**
    * Notify subscribed listeners that the state of the model has changed. To this end, a specific
-   * {@link azul.team12.model.events.GameEvent} gets fired such that the attached observers (i.e., {@link
-   * PropertyChangeListener}) can distinguish between what exactly has changed.
+   * {@link azul.team12.model.events.GameEvent} gets fired such that the attached observers (i.e.,
+   * {@link PropertyChangeListener}) can distinguish between what exactly has changed.
    *
    * @param event A concrete implementation of {@link azul.team12.model.events.GameEvent}
    */
@@ -80,8 +90,7 @@ public class GameModel implements Model {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.NOT_ENOUGH_PLAYER));
     } else if (isGameStarted) {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.GAME_ALREADY_STARTED));
-    }
-    else{
+    } else {
       setUpOfferings();
       notifyListeners(new GameStartedEvent());
     }
@@ -124,26 +133,26 @@ public class GameModel implements Model {
   }
 
 
-    /**
-     * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
-     * list.
-     */
-  private void setUpOfferings(){
+  /**
+   * Creates the Table Center and as many Factory Displays as needed and saves it in the offerings
+   * list.
+   */
+  private void setUpOfferings() {
     offerings = new ArrayList<>();
     offerings.add(TableCenter.getInstance());
     TableCenter.getInstance().addStartPlayerMarker();
     int numberOfFactoryDisplays = (playerList.size() * 2) + 1;
-    for(int i = 0; i < numberOfFactoryDisplays; i++){
+    for (int i = 0; i < numberOfFactoryDisplays; i++) {
       offerings.add(new FactoryDisplay());
     }
   }
 
-  public void endTurn(){
+  public void endTurn() {
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       startTilingPhase();
-      if(!hasGameEnded){
+      if (!hasGameEnded) {
         setUpOfferings();
       }
       notifyListeners(roundFinishedEvent);
@@ -156,8 +165,6 @@ public class GameModel implements Model {
     //TODO: Fix bug, when 4 players are playing and more than one is AI player @Marco
     LOGGER.info(playerList.get(indexOfActivePlayer).getName() + " is now active player. Is he an "
         + "AI-Player? " + playerList.get(indexOfActivePlayer).isAIPlayer());
-
-
 
     //checking if the next Player has left the game / is an AI-Player
     if (playerList.get(indexOfActivePlayer).isAIPlayer() && !hasGameEnded) {
@@ -248,7 +255,8 @@ public class GameModel implements Model {
       int indexOfNextPlayer = getIndexOfNextPlayer();
       Player nextPlayer = playerList.get(indexOfNextPlayer);
       String nextPlayerNick = nextPlayer.getName();
-      PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(nextPlayerNick);
+      PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(
+          nextPlayerNick);
       notifyListeners(playerHasChosenTileEvent);
     } else {
       NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
@@ -257,7 +265,9 @@ public class GameModel implements Model {
   }
 
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
-    LOGGER.info(getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine + ".");
+    LOGGER.info(
+        getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine
+            + ".");
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
@@ -268,10 +278,9 @@ public class GameModel implements Model {
     Player activePlayer = getPlayerByName(nickActivePlayer);
     LOGGER.info(nickActivePlayer + " tries to place a tile directly into the floor line.");
     // check for null, because offering is none, if player die not choose on an offering before
-    if(currentOffering == null){
+    if (currentOffering == null) {
       notifyListeners(new IllegalTurnEvent());
-    }
-    else {
+    } else {
       activePlayer.placeTileInFloorLine(currentOffering, currentIndexOfTile);
     }
   }
@@ -281,7 +290,7 @@ public class GameModel implements Model {
       // if any of the offerings still has a content, the round is not yet finished
       if (!offering.getContent().isEmpty()) {
         return false;
-        }
+      }
     }
     return true;
   }
@@ -335,7 +344,8 @@ public class GameModel implements Model {
 
   public List<Player> rankingPlayerWithPoints() {
     List<Player> playerRankingList = playerList;
-    Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
+    Collections.sort(playerRankingList,
+        (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
     return playerRankingList;
 
   }
@@ -353,8 +363,8 @@ public class GameModel implements Model {
   }
 
   public Player getPlayerByName(String nickname) {
-    for(Player player : playerList) {
-      if(player.getName().equals(nickname)) {
+    for (Player player : playerList) {
+      if (player.getName().equals(nickname)) {
         return player;
       }
     }
@@ -396,7 +406,7 @@ public class GameModel implements Model {
 
   public List<String> getPlayerNamesList() {
     List<String> list = new ArrayList<>();
-    for (Player player: playerList) {
+    for (Player player : playerList) {
       list.add(player.getName());
     }
     return list;
@@ -411,9 +421,9 @@ public class GameModel implements Model {
     return indexOfActivePlayer;
   }
 
-  public int getPoints(String nickname){
-    for(Player player : playerList){
-      if(player.getName().equals(nickname)){
+  public int getPoints(String nickname) {
+    for (Player player : playerList) {
+      if (player.getName().equals(nickname)) {
         return player.getPoints();
       }
     }
@@ -421,9 +431,9 @@ public class GameModel implements Model {
     return 0;
   }
 
-  public int getMinusPoints(String nickname){
-    for(Player player : playerList){
-      if(player.getName().equals(nickname)){
+  public int getMinusPoints(String nickname) {
+    for (Player player : playerList) {
+      if (player.getName().equals(nickname)) {
         return player.getMinusPoints();
       }
     }
@@ -431,16 +441,16 @@ public class GameModel implements Model {
     return 0;
   }
 
-  public List<Offering> getFactoryDisplays(){
+  public List<Offering> getFactoryDisplays() {
     // return the factory displays being the all but the first offering
     return offerings.subList(1, offerings.size());
   }
 
-  public Offering getTableCenter(){
+  public Offering getTableCenter() {
     return TableCenter.getInstance();
   }
 
-  public String getNickOfActivePlayer(){
+  public String getNickOfActivePlayer() {
     return playerList.get(indexOfActivePlayer).getName();
   }
 

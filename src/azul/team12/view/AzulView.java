@@ -202,7 +202,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         GameNotStartableEvent gameNotStartableEvent = (GameNotStartableEvent) customMadeGameEvent;
         if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.GAME_ALREADY_STARTED)) {
           showErrorMessage(GameNotStartableEvent.GAME_ALREADY_STARTED);
-        } else if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.NOT_ENOUGH_PLAYER)) {
+        } else if (gameNotStartableEvent.getMessage()
+            .equals(GameNotStartableEvent.NOT_ENOUGH_PLAYER)) {
           showErrorMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER);
         }
       }

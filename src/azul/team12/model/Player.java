@@ -1,25 +1,26 @@
 package azul.team12.model;
 //TODO: Marco - game finished checker
+
 import static azul.team12.model.ModelTile.EMPTY_TILE;
 import static azul.team12.model.ModelTile.STARTING_PLAYER_MARKER;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
- * This class contains the information that is depicted on the game board of the player.
- * I.e. his points, the tiles he already tiled and those who lie on his tiling fields.
+ * This class contains the information that is depicted on the game board of the player. I.e. his
+ * points, the tiles he already tiled and those who lie on his tiling fields.
  */
 public class Player {
-  private String name;
-  private int points;
-  public static final int NUMBER_OF_PATTERN_LINES = 5;
 
+  public static final int NUMBER_OF_PATTERN_LINES = 5;
   public static final int SIZE_OF_FLOOR_LINE = 7;
-  private static final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
   public static final int POINTS_FOR_COMPLETE_HORIZONTAL_LINE = 2;
   public static final int POINTS_FOR_COMPLETE_VERTICAL_LINE = 7;
   public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
-
+  private static final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
+  private String name;
+  private int points;
   private boolean hasStartingPlayerMarker = false;
   private boolean isAIPlayer = false;
   private boolean hasEndedTheGame = false;
@@ -28,21 +29,8 @@ public class Player {
 
   private ArrayList<ModelTile> floorLine;
   //contain the negative Tiles the player acquires during the drawing phase.
-
-  public List<ModelTile> getFloorLine() {
-    @SuppressWarnings("unchecked") List<ModelTile> floorLineClone = (List<ModelTile>) floorLine.clone();
-    return floorLineClone;
-  }
-
-  public boolean[][] getWall() {
-    return wall.clone();
-  }
-
   private boolean[][] wall;
-  //the wall where the player tiles the tiles and gets his points ("Wand").
-
   private ModelTile[][] patternLines;
-  //the left side on the board where the player places the tiles he draws ("Musterreihen").
 
   Player(String name) {
     this.name = name;
@@ -56,12 +44,24 @@ public class Player {
     initializePatternLines();
 
   }
+  //the wall where the player tiles the tiles and gets his points ("Wand").
+
+  public List<ModelTile> getFloorLine() {
+    @SuppressWarnings("unchecked") List<ModelTile> floorLineClone = (List<ModelTile>) floorLine.clone();
+    return floorLineClone;
+  }
+  //the left side on the board where the player places the tiles he draws ("Musterreihen").
+
+  public boolean[][] getWall() {
+    return wall.clone();
+  }
 
   public ModelTile[][] getPatternLines() {
     return patternLines.clone();
   }
 
   //TODO: Create PatternLinesModel class and make this method to a @Override toString() in it;
+
   /**
    * get the Pattern Lines as a string with a column width of 15 characters (for testing purposes)
    *
@@ -107,8 +107,8 @@ public class Player {
   }
 
   /**
-   * Initializes the patternRows with an empty two-dimensional array.
-   * The first array has length 1. The second array has length 2. etc...
+   * Initializes the patternRows with an empty two-dimensional array. The first array has length 1.
+   * The second array has length 2. etc...
    *
    * @return the initialized empty patternRow
    */
@@ -170,7 +170,7 @@ public class Player {
     //since the methods were designs so that it is not clickable these 3 lines fix the bug where
     //the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
     //the last tile of the table center causes an OutOfBoundsExceptions
-    if(offering.getContent().contains(STARTING_PLAYER_MARKER)){
+    if (offering.getContent().contains(STARTING_PLAYER_MARKER)) {
       indexOfTile--;
     }
 
@@ -214,16 +214,14 @@ public class Player {
     //since the methods were designs so that it is not clickable these 3 lines fix the bug where
     //the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
     //the last tile of the table center causes an OutOfBoundsExceptions
-    if(offering.getContent().contains(STARTING_PLAYER_MARKER)){
+    if (offering.getContent().contains(STARTING_PLAYER_MARKER)) {
       indexOfTile--;
     }
 
     //acquire the tiles from the chosen offering
     List<ModelTile> pickedTiles = offering.takeTileWithIndex(indexOfTile);
 
-
-
-    for(ModelTile modelTile : pickedTiles) {
+    for (ModelTile modelTile : pickedTiles) {
       System.out.println("Model Tile in offering: " + modelTile);
     }
     while (pickedTiles.size() > 0) {
@@ -359,8 +357,8 @@ public class Player {
   }
 
   /**
-   * Subtracts points from the player for every tile that is stored in the floor line.
-   * The penalty points for this are defined in FLOOR_LINE_PENALTIES
+   * Subtracts points from the player for every tile that is stored in the floor line. The penalty
+   * points for this are defined in FLOOR_LINE_PENALTIES
    */
   private void getMinusPointsForFloorLine() {
     for (int i = 0; i < floorLine.size(); i++) {
@@ -377,12 +375,13 @@ public class Player {
   }
 
   //TODO: This method gets obsolete if we implemented the visible floor line.
+
   /**
    * Returns the number of MinusPoints that the player acquired over te
    *
    * @return
    */
-  public int getMinusPoints(){
+  public int getMinusPoints() {
     int minusPoints = 0;
     for (int i = 0; i < floorLine.size(); i++) {
       ModelTile tile = floorLine.get(i);
@@ -395,8 +394,8 @@ public class Player {
   }
 
   /**
-   * Get the number of horizontally adjacent Tiles of the tile that is specified by the row and
-   * col values.
+   * Get the number of horizontally adjacent Tiles of the tile that is specified by the row and col
+   * values.
    *
    * @param row the row value of the tile that has just been tiled.
    * @param col the col value of the tile that has just been tiled.
@@ -421,8 +420,8 @@ public class Player {
   }
 
   /**
-   * Get the number of vertically adjacent Tiles of the tile that is specified by the row and
-   * col values.
+   * Get the number of vertically adjacent Tiles of the tile that is specified by the row and col
+   * values.
    *
    * @param row the row value of the tile that has just been tiled.
    * @param col the col value of the tile that has just been tiled.

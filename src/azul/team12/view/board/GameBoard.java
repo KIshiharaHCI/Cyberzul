@@ -3,10 +3,12 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.List;
+import javax.swing.JPanel;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -85,7 +87,8 @@ public class GameBoard extends JPanel {
   }
 
   /**
-   * Update the Points and oder players according to their points in the descending order when the round ends.
+   * Update the Points and oder players according to their points in the descending order when the
+   * round ends.
    */
   public void updateRankingBoard() {
     rankingBoard.updateRankingBoard();
