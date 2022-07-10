@@ -43,13 +43,28 @@ public class GameBoard extends JPanel {
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);
 
-    createPanelWithTheBoardsOfOpponents();
+    createOpponentsPanel();
+    createChatPanel();
+
     center = new CenterBoard(controller, tileClickListener,frameDimension);
     center.setBackground(Color.red);
     add(center, BorderLayout.CENTER);
 
     //createRankingBoardPanel();
 
+  }
+
+  private void createChatPanel() {
+    //TODO: replace temporary chatPanel with Iurii's Chat class, remove Background
+    JPanel chatPanel = new JPanel();
+    Dimension chatPanelDimension = new Dimension(
+            (int) (frameDimension.width * 0.3),
+            (int) (frameDimension.height * 0.94)
+    );
+    chatPanel.setMinimumSize(chatPanelDimension);
+    chatPanel.setMaximumSize(chatPanelDimension);
+    chatPanel.setBackground(Color.blue);
+    add(chatPanel,BorderLayout.EAST);
   }
 
   private void createRankingBoardPanel() {
@@ -60,17 +75,22 @@ public class GameBoard extends JPanel {
   }
 
 
-  private void createPanelWithTheBoardsOfOpponents() {
+  private void createOpponentsPanel() {
     boardsOfOpponentsPanel = new JPanel();
-    boardsOfOpponentsPanel.setMaximumSize(new Dimension(280, 658));
-    boardsOfOpponentsPanel.setPreferredSize(new Dimension(280, 658));
+    Dimension opponentsPanelDimension = new Dimension(
+            (int) (frameDimension.width * 0.2),
+            (int) (frameDimension.height * 0.94)
+    );
+    boardsOfOpponentsPanel.setMaximumSize(opponentsPanelDimension);
+    boardsOfOpponentsPanel.setPreferredSize(opponentsPanelDimension);
     boardsOfOpponentsPanel.setLayout(new GridLayout(3, 1));
 
     List<String> listOfActivePlayers = controller.getPlayerNamesList();
+    Dimension playerBoardDimension = new Dimension(frameDimension.width - 20, 200);
     for (String opponentPlayer : listOfActivePlayers) {
       if (!opponentPlayer.equals(controller.getNickOfActivePlayer())) {
         PlayerBoard playerBoard = new SmallPlayerBoard(controller, null,
-                opponentPlayer);
+                opponentPlayer,playerBoardDimension);
         boardsOfOpponentsPanel.add(playerBoard);
       }
     }

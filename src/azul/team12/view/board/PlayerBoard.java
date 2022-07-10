@@ -23,6 +23,9 @@ public abstract class PlayerBoard extends JPanel {
   private int points;
   private int minusPoints = 0;
   protected int tileSize;
+  Dimension panelDimension;
+  //Wraps PatternLines, Wall, Points Labels, Playername, Floorline
+  private JPanel playerBoardWrapper;
 
 
   /**
@@ -31,20 +34,17 @@ public abstract class PlayerBoard extends JPanel {
    * @param tileClickListener
    */
   public PlayerBoard(Controller controller, TileClickListener tileClickListener,
-      String playerName, int tileSize) {
+      String playerName, int tileSize, Dimension panelDimension) {
     this.controller = controller;
     this.playerName = playerName;
     this.tileClickListener = tileClickListener;
     this.tileSize = tileSize;
+    this.panelDimension = panelDimension;
 
-    setLayout(new BorderLayout());
-    JPanel coverOverCenter = new JPanel();
-    coverOverCenter.setOpaque(false);
-    patternLinesAndWallPanel = new JPanel();
-    //center.setLayout(new GridLayout(1, 2));
-    createCenterPanel();
-    coverOverCenter.add(patternLinesAndWallPanel);
-    add(coverOverCenter, BorderLayout.CENTER);
+    playerBoardWrapper =  setPlayerBoardWrapperSize();
+    createPatternLinesAndWallPanel();
+    playerBoardWrapper.add(patternLinesAndWallPanel, BorderLayout.CENTER);
+    add(playerBoardWrapper, BorderLayout.CENTER);
 
     initializeClassVariables();
 
@@ -52,12 +52,15 @@ public abstract class PlayerBoard extends JPanel {
     addMinusPointsElements();
   }
 
+  abstract JPanel setPlayerBoardWrapperSize();
+
   /**
    * Used by Constructor and disposeLabelsPatternLinesAndWall() Methods to create the current player
    * board. Refactored out of Constructor because playerBoard will be updated after every
    * NextPlayersTurnEvent.
    */
-  private void createCenterPanel() {
+  private void createPatternLinesAndWallPanel() {
+    patternLinesAndWallPanel = new JPanel();
     setProperties(tileSize, 5, 10, patternLinesAndWallPanel);
     patternLines = new PatternLines(controller, tileSize, tileClickListener);
     patternLinesAndWallPanel.add(patternLines);

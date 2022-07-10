@@ -20,11 +20,11 @@ public class CenterBoard extends JPanel {
   TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;
   private JPanel platesAndTableCenterPanel;
-
+  private JPanel rightSideBarPanel;
   private transient TileClickListener tileClickListener;
 
   private static final long serialVersionUID = 5L;
-  private Dimension panelDimension;
+  private Dimension panelDimension, topPanelDimension, bottomPanelDimension;
 
   /**
    * Creates the center board based on the number of players and with the tile click listeners.
@@ -37,7 +37,7 @@ public class CenterBoard extends JPanel {
     this.tileClickListener = tileClickListener;
     this.panelDimension = panelDimension;
 
-    computeCenterBoardSize();
+    computePanelSizes();
     setProperties();
     setPlatesAndTableCenterPanel();
     createNewPlatesPanel();
@@ -47,31 +47,34 @@ public class CenterBoard extends JPanel {
   }
 
   /**
-   * Calculates the relative Size based on the Dimensions of the Dimensions of GameBoard.
+   * Calculates the relative Size for "this", PlateAndTableCenterPanel and PlayerBoard based on the Dimensions of the GameBoard.
    */
-  private void computeCenterBoardSize() {
+  private void computePanelSizes() {
+    System.out.println(panelDimension.height );
     panelDimension = new Dimension(
-            (int) (panelDimension.getHeight() * 0.94),
-            (int) ((panelDimension.getWidth() * 0.5) * 0.7)
+            (int) (panelDimension.height * 0.94),
+            (int) (panelDimension.width * 0.5)
     );
+    topPanelDimension = new Dimension(
+            (int) (panelDimension.width * 0.87),
+            (int) (panelDimension.height * 0.45));
+    bottomPanelDimension = new Dimension(
+            (int) (panelDimension.width * 0.87),
+            (int) (panelDimension.height * 0.55));
+
     setMinimumSize(panelDimension);
     setMaximumSize(panelDimension);
-
   }
   private void setProperties() {
-    setBackground(new Color(110, 150, 100));
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    setAlignmentX(1.0f);
-    setAlignmentY(1.0f);
+    setLayout(new BorderLayout());
+    setAlignmentY(Component.LEFT_ALIGNMENT);
   }
 
   private void setPlatesAndTableCenterPanel() {
     platesAndTableCenterPanel = new JPanel();
-    platesAndTableCenterPanel.setSize(new Dimension(
-            (int) panelDimension.getWidth(),
-            (int) (panelDimension.getHeight() * 0.45)
-    ));
-    add(platesAndTableCenterPanel);
+    platesAndTableCenterPanel.setMinimumSize(topPanelDimension);
+    platesAndTableCenterPanel.setMaximumSize(topPanelDimension);
+    add(platesAndTableCenterPanel,BorderLayout.NORTH);
   }
 
   /**
@@ -79,10 +82,10 @@ public class CenterBoard extends JPanel {
    */
   void createNewPlayerBoard() {
     currentPlayerBoard =
-        new ActivePlayerBoard(controller, tileClickListener, controller.getNickOfActivePlayer(),panelDimension);
+        new ActivePlayerBoard(controller, tileClickListener, controller.getNickOfActivePlayer(), bottomPanelDimension);
 
     currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-    add(currentPlayerBoard);
+    add(currentPlayerBoard, BorderLayout.CENTER);
   }
 
   /**
@@ -92,8 +95,8 @@ public class CenterBoard extends JPanel {
     List<Offering> factoryDisplays = controller.getOfferings().subList(1,controller.getOfferings().size());
     platesPanel = new PlatesPanel(factoryDisplays, tileClickListener);
     platesPanel.setPreferredSize(new Dimension(
-            (int) (panelDimension.getWidth() * 0.6),
-            (int) (panelDimension.getHeight() * 0.4)
+            (int) (topPanelDimension.getWidth() * 0.6),
+            (int) (topPanelDimension.getHeight() * 0.4)
     ));
     platesAndTableCenterPanel.add(platesPanel);
   }
@@ -103,8 +106,8 @@ public class CenterBoard extends JPanel {
    */
   void createNewTableCenter() {
     Dimension platesAndTableCenterPanelDimension = new Dimension(
-            platesAndTableCenterPanel.getWidth(),
-            platesAndTableCenterPanel.getHeight()
+            (int) topPanelDimension.getWidth(),
+            (int) topPanelDimension.getHeight()
     );
     tableCenterPanel = new TableCenterPanel(controller, tileClickListener, platesAndTableCenterPanelDimension);
     //platesPanel.setPreferredSize(new Dimension(1100, 10));
