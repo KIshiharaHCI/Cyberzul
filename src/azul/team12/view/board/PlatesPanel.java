@@ -21,9 +21,8 @@ public class PlatesPanel extends JPanel {
   // +1 where the plate is constructed
 
   public PlatesPanel(List<Offering> factoryDisplays, TileClickListener tileClickListener) {
-    this.setLayout(null);
     setAlignmentX(Component.LEFT_ALIGNMENT);
-    setBackground(Color.blue);
+
 
     initialize(factoryDisplays, tileClickListener);
   }

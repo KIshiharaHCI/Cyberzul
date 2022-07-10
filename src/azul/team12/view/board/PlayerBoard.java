@@ -41,7 +41,7 @@ public abstract class PlayerBoard extends JPanel {
     this.tileSize = tileSize;
     this.panelDimension = panelDimension;
 
-    playerBoardWrapper =  setPlayerBoardWrapperSize();
+    setPlayerBoardWrapperSize();
     createPatternLinesAndWallPanel();
     playerBoardWrapper.add(patternLinesAndWallPanel, BorderLayout.CENTER);
     add(playerBoardWrapper, BorderLayout.CENTER);
@@ -52,7 +52,17 @@ public abstract class PlayerBoard extends JPanel {
     addMinusPointsElements();
   }
 
-  abstract JPanel setPlayerBoardWrapperSize();
+  void setPlayerBoardWrapperSize (){
+    playerBoardWrapper = new JPanel(new BorderLayout());
+    Dimension wrapperDimension = new Dimension(
+            (int) (panelDimension.width * 0.87),
+            (int) (panelDimension.height * 0.55)
+    );
+
+    playerBoardWrapper.setMaximumSize(wrapperDimension);
+    playerBoardWrapper.setMinimumSize(wrapperDimension);
+    playerBoardWrapper.setOpaque(false);
+  }
 
   /**
    * Used by Constructor and disposeLabelsPatternLinesAndWall() Methods to create the current player
@@ -96,12 +106,12 @@ public abstract class PlayerBoard extends JPanel {
   private void addPointsAndPlayerNameElements() {
     north = createNorthernPart("Points: ", points);
     north.add(new JLabel("Name: " + playerName));
-    add(north, BorderLayout.NORTH);
+    playerBoardWrapper.add(north, BorderLayout.NORTH);
   }
 
   private void addMinusPointsElements() {
     FloorLinePanel south = new FloorLinePanel(controller, tileClickListener, minusPoints);
-    add(south, BorderLayout.SOUTH);
+    playerBoardWrapper.add(south, BorderLayout.SOUTH);
 
 
   }
