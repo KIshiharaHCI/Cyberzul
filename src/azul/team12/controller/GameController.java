@@ -36,16 +36,6 @@ public class GameController implements Controller {
   }
 
   @Override
-  public List<Offering> getFactoryDisplays() {
-    return model.getFactoryDisplays();
-  }
-
-  @Override
-  public Offering getTableCenter() {
-    return model.getTableCenter();
-  }
-
-  @Override
   public String getNickOfActivePlayer() {
     return model.getNickOfActivePlayer();
   }

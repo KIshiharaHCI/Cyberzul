@@ -25,13 +25,17 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Contains the playing field of the Azul game, the list of players and the list of offerings.
+ *
+ */
 public class GameModel implements Model {
 
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
   private final PropertyChangeSupport support;
-  private int SLEEP_TIME = 100;
+  private int sleepTime = 100;
   private ArrayList<Player> playerList;
   private ArrayList<Offering> offerings;
   private boolean isGameStarted = false;
@@ -40,6 +44,10 @@ public class GameModel implements Model {
   private Offering currentOffering;
   private int currentIndexOfTile;
 
+  /**
+   * Constructs a new game, initializes the property change support, the player list, and the
+   * offerings.
+   */
   public GameModel() {
     support = new PropertyChangeSupport(this);
     playerList = new ArrayList<>();
@@ -67,6 +75,9 @@ public class GameModel implements Model {
     support.firePropertyChange(event.getName(), null, event);
   }
 
+  /**
+   * see {@link Model}.
+   */
   public void loginWithName(String nickname) {
     boolean nicknameFree = true;
     if (playerList.size() >= MAX_PLAYER_NUMBER) {
@@ -85,6 +96,9 @@ public class GameModel implements Model {
     }
   }
 
+  /**
+   * see {@link Model}.
+   */
   public void startGame() {
     if (playerList.size() < MIN_PLAYER_NUMBER) {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.NOT_ENOUGH_PLAYER));
@@ -96,7 +110,9 @@ public class GameModel implements Model {
     }
   }
 
-  //TODO: @Marco test it if it works, when the buttons are there
+  /**
+   * see {@link Model}.
+   */
   public void restartGame() {
 
     TableCenter.getInstance().initializeContent();
@@ -119,9 +135,11 @@ public class GameModel implements Model {
 
   }
 
+  /**
+   * see {@link Model}.
+   */
   public void cancelGame() {
     LOGGER.info(getNickOfActivePlayer() + " wants to end the game for all player.");
-    GameCanceledEvent gameCanceledEvent = new GameCanceledEvent(getNickOfActivePlayer());
     TableCenter.getInstance().initializeContent();
     BagToStoreUsedTiles.getInstance().initializeContent();
     BagToDrawNewTiles.getInstance().initializeContent();
@@ -129,6 +147,7 @@ public class GameModel implements Model {
     hasGameEnded = true;
     playerList = new ArrayList<>();
     offerings = new ArrayList<>();
+    GameCanceledEvent gameCanceledEvent = new GameCanceledEvent(getNickOfActivePlayer());
     notifyListeners(gameCanceledEvent);
   }
 
@@ -147,6 +166,9 @@ public class GameModel implements Model {
     }
   }
 
+  /**
+   * see {@link Model}.
+   */
   public void endTurn() {
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
@@ -170,12 +192,15 @@ public class GameModel implements Model {
     if (playerList.get(indexOfActivePlayer).isAIPlayer() && !hasGameEnded) {
       LOGGER.info(getNickOfActivePlayer() + " makes an move automatically, because he/she "
           + "is an AI-Player.");
-      String nickOfAIPlayer = getNickOfActivePlayer();
-      makeAiPlayerMakeMove(nickOfAIPlayer);
+      String nickOfAiPlayer = getNickOfActivePlayer();
+      makeAiPlayerMakeMove(nickOfAiPlayer);
     }
 
   }
 
+  /**
+   * see {@link Model}.
+   */
   public void replaceActivePlayerByAi() {
     LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
@@ -187,6 +212,9 @@ public class GameModel implements Model {
     makeAiPlayerMakeMove(getNickOfActivePlayer());
   }
 
+  /**
+   * see {@link Model}.
+   */
   public void makeAiPlayerMakeMove(String nickOfAiPlayer) {
     // get not empty offerings
     List<Offering> offeringsClone = getOfferings();
@@ -217,16 +245,16 @@ public class GameModel implements Model {
       int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
       notifyTileChosen(nickOfAiPlayer, randomOfferingTileIndex, randomOfferingIndex);
 
-      Player activeAIPlayer = getPlayerByName(nickOfAiPlayer);
+      Player activeAiPlayer = getPlayerByName(nickOfAiPlayer);
       //check all pattern lines from first to last if we can place the tile there
-      for (int i = 0; i < activeAIPlayer.getPatternLines().length; i++) {
-        if (activeAIPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
-          LOGGER.info(nickOfAiPlayer + " tries to place a " +
-              randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
+      for (int i = 0; i < activeAiPlayer.getPatternLines().length; i++) {
+        if (activeAiPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
+          LOGGER.info(nickOfAiPlayer + " tries to place a "
+              + randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
               + "line " + i);
           makeActivePlayerPlaceTile(i);
           break;
-        } else if (i == activeAIPlayer.getPatternLines().length - 1) {
+        } else if (i == activeAiPlayer.getPatternLines().length - 1) {
           LOGGER.info(nickOfAiPlayer + " was not able to place the tile on a pattern line "
               + "places it on the floor line");
           tileFallsDown();
@@ -237,8 +265,11 @@ public class GameModel implements Model {
     }
   }
 
+  /**
+   * see {@link Model}.
+   */
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
-    boolean thereIsAValidPick = false;
+    boolean thereIsValidPick = false;
     List<Offering> offeringsClone = getOfferings();
     currentOffering = offeringsClone.get(offeringIndex);
     currentIndexOfTile = indexOfTile;
@@ -246,12 +277,12 @@ public class GameModel implements Model {
     // check for each line in the pattern lines if there is a valid pick
     for (int line = 0; line < Player.NUMBER_OF_PATTERN_LINES; line++) {
       if (player.isValidPick(line, currentOffering, indexOfTile)) {
-        thereIsAValidPick = true;
+        thereIsValidPick = true;
       }
     }
     // inform listeners if there is a valid pick, who the next player is
     // if not: that there is not valid turn to make
-    if (thereIsAValidPick) {
+    if (thereIsValidPick) {
       int indexOfNextPlayer = getIndexOfNextPlayer();
       Player nextPlayer = playerList.get(indexOfNextPlayer);
       String nextPlayerNick = nextPlayer.getName();
@@ -264,6 +295,9 @@ public class GameModel implements Model {
     }
   }
 
+  /**
+   * see {@link Model}.
+   */
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
     LOGGER.info(
         getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine
@@ -273,6 +307,9 @@ public class GameModel implements Model {
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
   }
 
+  /**
+   * see {@link Model}.
+   */
   public void tileFallsDown() {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
@@ -285,6 +322,9 @@ public class GameModel implements Model {
     }
   }
 
+  /**
+   * see {@link Model}.
+   */
   public boolean checkRoundFinished() {
     for (Offering offering : offerings) {
       // if any of the offerings still has a content, the round is not yet finished
@@ -295,6 +335,9 @@ public class GameModel implements Model {
     return true;
   }
 
+  /**
+   * see {@link Model}.
+   */
   public int getIndexOfPlayerWithSpm() {
     for (int i = 0; i < playerList.size(); i++) {
       Player player = playerList.get(i);
@@ -311,6 +354,9 @@ public class GameModel implements Model {
         + "no player had the SPM.");
   }
 
+  /**
+   * see {@link Model}.
+   */
   public void startTilingPhase() {
     hasGameEnded = false;
     for (Player player : playerList) {
@@ -330,6 +376,9 @@ public class GameModel implements Model {
     }
   }
 
+  /**
+   * see {@link Model}.
+   */
   public String getPlayerWithMostPoints() {
     //TODO: What if two players have the same points?
     ArrayList<Integer> playerPoints = new ArrayList<>();
@@ -342,6 +391,9 @@ public class GameModel implements Model {
     return playerWithMostPoints.getName();
   }
 
+  /**
+   * see {@link Model}.
+   */
   public List<Player> rankingPlayerWithPoints() {
     List<Player> playerRankingList = playerList;
     Collections.sort(playerRankingList,
@@ -350,6 +402,9 @@ public class GameModel implements Model {
 
   }
 
+  /**
+   * see {@link Model}.
+   */
   public int getIndexOfNextPlayer() {
     int indexOfNextPlayer;
     if (checkRoundFinished()) {
@@ -362,6 +417,9 @@ public class GameModel implements Model {
     return indexOfNextPlayer;
   }
 
+  /**
+   * see {@link Model}.
+   */
   public Player getPlayerByName(String nickname) {
     for (Player player : playerList) {
       if (player.getName().equals(nickname)) {
@@ -372,17 +430,25 @@ public class GameModel implements Model {
     return null;
   }
 
-
+  /**
+   * see {@link Model}.
+   */
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
     Player player = getPlayerByName(playerName);
     return player.getPatternLines();
   }
 
+  /**
+   * see {@link Model}.
+   */
   public List<ModelTile> getFloorLineOfPlayer(String playerName) {
     Player player = getPlayerByName(playerName);
     return player.getFloorLine();
   }
 
+  /**
+   * see {@link Model}.
+   */
   public ModelTile[][] getWallOfPlayer(String playerName) {
 
     Player player = getPlayerByName(playerName);
@@ -404,6 +470,9 @@ public class GameModel implements Model {
 
   }
 
+  /**
+   * see {@link Model}.
+   */
   public List<String> getPlayerNamesList() {
     List<String> list = new ArrayList<>();
     for (Player player : playerList) {
@@ -412,15 +481,25 @@ public class GameModel implements Model {
     return list;
   }
 
+  /**
+   * see {@link Model}.
+   */
   public List<Offering> getOfferings() {
-    @SuppressWarnings("unchecked") List<Offering> offeringsClone = (List<Offering>) offerings.clone();
+    @SuppressWarnings("unchecked") List<Offering> offeringsClone =
+        (List<Offering>) offerings.clone();
     return offeringsClone;
   }
 
+  /**
+   * see {@link Model}.
+   */
   public int getIndexOfActivePlayer() {
     return indexOfActivePlayer;
   }
 
+  /**
+   * see {@link Model}.
+   */
   public int getPoints(String nickname) {
     for (Player player : playerList) {
       if (player.getName().equals(nickname)) {
@@ -431,6 +510,9 @@ public class GameModel implements Model {
     return 0;
   }
 
+  /**
+   * see {@link Model}.
+   */
   public int getMinusPoints(String nickname) {
     for (Player player : playerList) {
       if (player.getName().equals(nickname)) {
@@ -441,15 +523,24 @@ public class GameModel implements Model {
     return 0;
   }
 
+  /**
+   * see {@link Model}.
+   */
   public List<Offering> getFactoryDisplays() {
     // return the factory displays being the all but the first offering
     return offerings.subList(1, offerings.size());
   }
 
+  /**
+   * see {@link Model}.
+   */
   public Offering getTableCenter() {
     return TableCenter.getInstance();
   }
 
+  /**
+   * see {@link Model}.
+   */
   public String getNickOfActivePlayer() {
     return playerList.get(indexOfActivePlayer).getName();
   }

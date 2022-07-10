@@ -40,21 +40,6 @@ public interface Controller {
   List<Offering> getOfferings();
 
   /**
-   * Gives the view the information about the manufacturing plates. Tiles are saved in the Bags as
-   * ArrayList<Tile>
-   *
-   * @return the factory displays
-   */
-  List<Offering> getFactoryDisplays();
-
-  /**
-   * Return the table center.
-   *
-   * @return the table center.
-   */
-  Offering getTableCenter();
-
-  /**
    * Returns the Name of the player who has to make his turn.
    *
    * @return name of active player.

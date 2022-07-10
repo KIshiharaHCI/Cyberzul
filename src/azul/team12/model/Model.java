@@ -190,6 +190,11 @@ public interface Model {
    */
   List<String> getPlayerNamesList();
 
+  /**
+   * Returns the list of offerings.
+   *
+   * @return the offerings.
+   */
   List<Offering> getOfferings();
 
   int getIndexOfActivePlayer();
@@ -211,10 +216,6 @@ public interface Model {
    * @return the number of points he already has.
    */
   int getMinusPoints(String nickname);
-
-  List<Offering> getFactoryDisplays();
-
-  Offering getTableCenter();
 
   /**
    * Returns the nickname of the player who has to make his turn.
