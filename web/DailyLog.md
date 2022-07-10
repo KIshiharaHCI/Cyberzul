@@ -1266,6 +1266,8 @@ Q3:
 
 **6. July, 2022**
 
+_Nils_
+
 Q1:
 
 - work on another assignment
@@ -1279,6 +1281,8 @@ Q3:
 - none
 
 **7. July, 2022**
+
+_Nils_
 
 Q1:
 
@@ -1294,6 +1298,8 @@ Q3:
 - I need to coordinate the network design with the team.
 
 **8. July, 2022**
+
+_Nils_
 
 Q1:
 
@@ -1311,5 +1317,36 @@ Q2:
 
 Q3:
 
-- the main class is not refactored yet, so it will be challenging to implement it. We wanted to user an interface for it.
+- the main class is not refactored yet, so it will be challenging to implement it. We wanted to user an interface for
+  it.
 - it is difficult for Xue to start implementing the Chat if the client-server-architecture is not ready yet.
+
+**9. July, 2022**
+
+Q1:
+
+- worked on the network connection
+
+Q2:
+
+- implement the network connection so you can start the game
+
+Q3:
+
+- I rely heavily on the functioning code of other developers
+
+**10. July, 2022**
+
+Q1:
+
+- the network connection is built, but it is not possible yet to show the game board
+
+Q2:
+
+- make it possible to show the gameboard via network connection and make moves
+
+Q3:
+
+- spagetti code. Instead of having one person who is responsible for his classes, we have many people writing multiple
+  methods in every class. That way, we have redundant methods, that almost do the same. We also have methods that are
+  not used in the way that they were intended to use.
