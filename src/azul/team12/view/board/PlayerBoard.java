@@ -39,7 +39,7 @@ public abstract class PlayerBoard extends JPanel {
 
     setLayout(new BorderLayout());
     JPanel coverOverCenter = new JPanel();
-    coverOverCenter.setBackground(new Color(110, 150, 100));
+    coverOverCenter.setBackground(Color.red);
     center = new JPanel();
     //center.setLayout(new GridLayout(1, 2));
     createCenterPanel();

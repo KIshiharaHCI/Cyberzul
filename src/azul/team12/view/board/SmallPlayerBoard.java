@@ -13,6 +13,6 @@ public class SmallPlayerBoard extends PlayerBoard {
      * @param playerName
      */
     public SmallPlayerBoard(Controller controller, TileClickListener tileClickListener, String playerName) {
-        super(controller, tileClickListener, playerName,Tile.NORMAL_TILE_SIZE);
+        super(controller, tileClickListener, playerName,Tile.SMALL_TILE_SIZE);
     }
 }
