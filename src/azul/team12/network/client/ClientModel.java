@@ -121,22 +121,14 @@ public class ClientModel implements Model {
 
   @Override
   public List<Player> rankingPlayerWithPoints() {
-    List<String> playerRankingList = this.getPlayerNamesList();
-    Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
-    return playerRankingList;
+    //TODO: FOR TEST PURPOSES SIMPLIFIED
+    return new ArrayList<>();
   }
 
   @Override
   public int getIndexOfNextPlayer() {
-    int indexOfNextPlayer;
-    if (checkRoundFinished()) {
-      indexOfNextPlayer = getIndexOfPlayerWithSPM();
-    } else if (indexOfActivePlayer == playerList.size() - 1) {
-      indexOfNextPlayer = 0;
-    } else {
-      indexOfNextPlayer = indexOfActivePlayer + 1;
-    }
-    return indexOfNextPlayer;
+    //TODO: FOR TEST PURPOSES SIMPLIFIED
+    return 0;
   }
 
   @Override

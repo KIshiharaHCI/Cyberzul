@@ -97,7 +97,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
           tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
         }
         //TODO: do it with a button on the playboard
-        showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
+        //showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
         controller.endTurn(source.getName());
         source = null;
       } else {
