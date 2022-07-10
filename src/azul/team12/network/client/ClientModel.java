@@ -93,7 +93,7 @@ public class ClientModel implements Model {
 
   @Override
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
-    return false;
+    return true;
   }
 
   @Override
@@ -248,9 +248,6 @@ public class ClientModel implements Model {
     updateOfferings(offerings);
     setUpClientPlayersByName(playerNames);
     indexOfActivePlayer = 0;
-
-    //TODO: TEST SOUT
-    System.out.println("Game Started");
     notifyListeners(new GameStartedEvent());
   }
 
@@ -270,9 +267,6 @@ public class ClientModel implements Model {
 
   @Override
   public List<Offering> getOfferings() {
-    //TODO: TEST SOUT
-    System.out.println(offerings.get(0).getContent().toString());
-
     return (List<Offering>) offerings.clone();
   }
 
@@ -320,8 +314,6 @@ public class ClientModel implements Model {
    * @param offerings
    */
   private void updateOfferings(JSONArray offerings) throws JSONException {
-    //TODO: TEST SOUT
-    System.out.println("Offerings updated");
     ArrayList<Offering> returnOfferingsList = new ArrayList<>();
 
     //update TableCenter
