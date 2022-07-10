@@ -8,6 +8,7 @@ import java.awt.*;
 
 public class ActivePlayerBoard extends PlayerBoard {
     private JButton forfeitButton, cancelGameButton, restartGameButton;
+    private Dimension panelDimension;
 
     /**
      * The constructor to create a playerboard for a given player.
@@ -16,10 +17,26 @@ public class ActivePlayerBoard extends PlayerBoard {
      * @param tileClickListener
      * @param playerName
      */
-    public ActivePlayerBoard(Controller controller, TileClickListener tileClickListener, String playerName) {
+    public ActivePlayerBoard(Controller controller, TileClickListener tileClickListener,
+                             String playerName, Dimension panelDimension) {
         super(controller, tileClickListener, playerName, Tile.NORMAL_TILE_SIZE);
+        this.panelDimension = panelDimension;
+        setActivePlayerBoardSize();
         initializeButtons();
     }
+
+    /**
+     * Calculates the panelSize for "this" based on the parent Panel Center Board.
+     */
+    private void setActivePlayerBoardSize() {
+        panelDimension = new Dimension(
+                (int) (panelDimension.width * 0.87),
+                (int) (panelDimension.height * 0.55)
+        );
+        setMaximumSize(panelDimension);
+        setMinimumSize(panelDimension);
+    }
+
     private void initializeButtons() {
         forfeitButton = new JButton("FORFEIT");
         forfeitButton.setPreferredSize(new Dimension(25,10));
