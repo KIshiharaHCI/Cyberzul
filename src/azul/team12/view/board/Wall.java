@@ -55,9 +55,9 @@ public class Wall extends JPanel {
    *
    * @param tileClickListener //TODO: remove after decoupling other players panel
    */
-  public Wall(Controller controller, int tileSize,TileClickListener tileClickListener) {
+  public Wall(String playerName, Controller controller, int tileSize,TileClickListener tileClickListener) {
     this.controller = controller;
-    wall = controller.getWallOfPlayerAsTiles(controller.getNickOfActivePlayer());
+    wall = controller.getWallOfPlayerAsTiles(playerName);
     templateWall = controller.getTemplateWall();
 
     ViewHelper.setProperties(tileSize, ROWS, COLS, this);

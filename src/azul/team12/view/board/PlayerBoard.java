@@ -27,6 +27,7 @@ public abstract class PlayerBoard extends JPanel {
   //Wraps PatternLines, Wall, Points Labels, Playername, Floorline
   private JPanel playerBoardWrapper;
 
+  private FloorLinePanel floorLinePanel;
 
   /**
    * The constructor to create a playerboard for a given player.
@@ -72,9 +73,9 @@ public abstract class PlayerBoard extends JPanel {
   private void createPatternLinesAndWallPanel() {
     patternLinesAndWallPanel = new JPanel();
     setProperties(tileSize, 5, 10, patternLinesAndWallPanel);
-    patternLines = new PatternLines(controller, tileSize, tileClickListener);
+    patternLines = new PatternLines(playerName, controller, tileSize, tileClickListener);
     patternLinesAndWallPanel.add(patternLines);
-    wall = new Wall(controller, tileSize, tileClickListener);
+    wall = new Wall(playerName, controller, tileSize, tileClickListener);
     patternLinesAndWallPanel.add(wall);
   }
 
@@ -110,8 +111,8 @@ public abstract class PlayerBoard extends JPanel {
   }
 
   private void addMinusPointsElements() {
-    FloorLinePanel south = new FloorLinePanel(controller, tileClickListener, minusPoints);
-    playerBoardWrapper.add(south, BorderLayout.SOUTH);
+    floorLinePanel = new FloorLinePanel(playerName, controller, tileClickListener, minusPoints);
+    playerBoardWrapper.add(floorLinePanel, BorderLayout.SOUTH);
 
 
   }
@@ -122,5 +123,9 @@ public abstract class PlayerBoard extends JPanel {
     north.setLayout(new GridLayout(1, 1));
     north.add(new JLabel("   " + x + minusPoints));
     return north;
+  }
+
+  public FloorLinePanel getFloorLinePanel() {
+    return floorLinePanel;
   }
 }

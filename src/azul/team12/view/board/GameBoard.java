@@ -4,6 +4,7 @@ import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
 
+import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -28,6 +29,7 @@ public class GameBoard extends JPanel {
 
   private RankingBoard rankingBoard;
   private Dimension frameDimension;
+  private List<PlayerBoard> otherPlayerBoards;
 
 
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
@@ -69,6 +71,7 @@ public class GameBoard extends JPanel {
   }
 
   private void createOpponentsPanel() {
+    otherPlayerBoards = new ArrayList<>();
     boardsOfOpponentsPanel = new JPanel();
     Dimension opponentsPanelDimension = new Dimension(
             (int) (frameDimension.width * 0.25),
@@ -84,6 +87,7 @@ public class GameBoard extends JPanel {
       if (!opponentPlayer.equals(controller.getNickOfActivePlayer())) {
         PlayerBoard playerBoard = new SmallPlayerBoard(controller, null,
                 opponentPlayer,playerBoardDimension);
+        otherPlayerBoards.add(playerBoard);
         boardsOfOpponentsPanel.add(playerBoard);
       }
     }
@@ -107,4 +111,33 @@ public class GameBoard extends JPanel {
     validate();
 
   }
+  public void updateOtherPlayerBoards() {
+
+    for (PlayerBoard othersPlayerBoard : otherPlayerBoards) {
+      boardsOfOpponentsPanel.remove(othersPlayerBoard);
+    }
+    otherPlayerBoards.clear();
+    List<String> listOfActivePlayers = controller.getPlayerNamesList();
+    String nameOfCurrentPlayer = controller.getNickOfActivePlayer();
+    int indexOfCurrentPlayer = listOfActivePlayers.indexOf(nameOfCurrentPlayer);
+    Dimension playerBoardDimension = new Dimension(frameDimension.width - 20, 200);
+    initializeOnePart(indexOfCurrentPlayer + 1, listOfActivePlayers.size(), listOfActivePlayers,
+        playerBoardDimension);
+
+    initializeOnePart(0, indexOfCurrentPlayer, listOfActivePlayers, playerBoardDimension);
+
+
+  }
+
+  private void initializeOnePart(int indexOfCurrentPlayer, int listOfActivePlayersSize,
+      List<String> listOfActivePlayers, Dimension playerBoardDimension) {
+    for (int i = indexOfCurrentPlayer; i < listOfActivePlayersSize; i++) {
+      PlayerBoard playerBoard = new SmallPlayerBoard(controller, null,
+          listOfActivePlayers.get(i), playerBoardDimension);
+      boardsOfOpponentsPanel.add(playerBoard);
+      otherPlayerBoards.add(playerBoard);
+
+    }
+  }
+
 }

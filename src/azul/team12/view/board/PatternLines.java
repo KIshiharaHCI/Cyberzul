@@ -55,14 +55,12 @@ public class PatternLines extends JPanel {
    * @param tileSize:          The size of the smallest element on the {@link PatternLines} board.
    * @param tileClickListener: The listener for click events.
    */
-  public PatternLines(Controller controller, int tileSize, TileClickListener tileClickListener) {
+  public PatternLines(String userName, Controller controller, int tileSize, TileClickListener tileClickListener) {
     this.controller = controller;
-    currentPatternLines = this.controller.getPatternLinesOfPlayer(
-        controller.getNickOfActivePlayer());
 
     ViewHelper.setProperties(tileSize, ROWS, COLS, this);
     this.tileSize = tileSize;
-    initialize(tileSize, tileClickListener);
+    initialize(tileSize, userName, tileClickListener);
   }
 
   /**
@@ -72,7 +70,9 @@ public class PatternLines extends JPanel {
    * @param tileClickListener: The listener to react on click events on the {@link PatternLines}
    *                           board.
    */
-  public void initialize(int tileSize, TileClickListener tileClickListener) {
+  public void initialize(int tileSize, String userName, TileClickListener tileClickListener) {
+    currentPatternLines = this.controller.getPatternLinesOfPlayer(
+        userName);
     int numberOfSkippedColumns = 1;
     for (int row = 0; row < ROWS; row++) {
       JPanel currentRow = new JPanel();

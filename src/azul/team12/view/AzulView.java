@@ -176,6 +176,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
       case "NextPlayersTurnEvent" -> {
         updateCenterBoard();
+        updateOtherPlayerBoards();
         updateRankingBoard();
       }
       case "RoundFinishedEvent" -> {
@@ -301,6 +302,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
   }
 
+  private void updateOtherPlayerBoards() {
+    gameBoard.updateOtherPlayerBoards();
+  }
 
   /**
    * Used by EventListener to change the Panels being shown such as the Login panel, Gameboard

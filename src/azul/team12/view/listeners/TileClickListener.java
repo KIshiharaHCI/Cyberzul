@@ -78,7 +78,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         controller.placeTileAtFloorLine();
 
         FloorLinePanel floorLinePanel = (FloorLinePanel) tileDestination.getParent().getParent();
-        floorLinePanel.updateBottomTilesRow();
+        floorLinePanel.updateBottomTilesRow(controller.getNickOfActivePlayer());
 
         resetOffering();
         showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
@@ -89,7 +89,9 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         if (tileDestination.getParent().getParent() instanceof PatternLines) {
           PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
           patternLinesView.remove();
-          patternLinesView.initialize(patternLinesView.getTileSize(), this);
+          patternLinesView.initialize(patternLinesView.getTileSize(), controller.getNickOfActivePlayer(), this);
+          PlayerBoard playerBoard = (PlayerBoard) patternLinesView.getParent().getParent().getParent();
+          playerBoard.getFloorLinePanel().updateBottomTilesRow(controller.getNickOfActivePlayer());
         }
         resetOffering();
         //TODO: do it with a button on the playboard

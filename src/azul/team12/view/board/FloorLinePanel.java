@@ -17,7 +17,7 @@ public class FloorLinePanel extends JPanel {
 
   private static final long serialVersionUID = 4L;
 
-  public FloorLinePanel(Controller controller, TileClickListener tileClickListener,
+  public FloorLinePanel(String userName, Controller controller, TileClickListener tileClickListener,
       int minusPoints) {
     this.controller = controller;
     this.tileClickListener = tileClickListener;
@@ -31,7 +31,7 @@ public class FloorLinePanel extends JPanel {
 //    });
     // add(floorLineButton);
     addUpperNumbersRow();
-    addBottomTilesRow();
+    addBottomTilesRow(userName);
   }
 
   private void setProperties(int tileSize, int rows, int cols, JPanel panel) {
@@ -47,12 +47,12 @@ public class FloorLinePanel extends JPanel {
     panel.setAlignmentY(1.0f);
   }
 
-  private void addBottomTilesRow() {
+  private void addBottomTilesRow(String userName) {
     contentBottom = new JPanel();
     ViewHelper.setPropertiesOfCurrentRow(Tile.TILE_SIZE, 7, 1, contentBottom);
     for (int col = 1; col <= NUMBER_OF_FLOOR_TILES; col++) {
 
-      List<ModelTile> floorLineOfPlayer = controller.getFloorLineOfPlayer(controller.getNickOfActivePlayer());
+      List<ModelTile> floorLineOfPlayer = controller.getFloorLineOfPlayer(userName);
       if (floorLineOfPlayer.size() >= col) {
         WallTile filledFloorLineTile = new WallTile(col,1, floorLineOfPlayer.get(col - 1),Tile.NORMAL_TILE_SIZE, 1f);
         contentBottom.add(filledFloorLineTile);
@@ -81,8 +81,8 @@ public class FloorLinePanel extends JPanel {
     this.add(contentUpper);
   }
 
-  public void updateBottomTilesRow() {
+  public void updateBottomTilesRow(String userName) {
     remove(contentBottom);
-    addBottomTilesRow();
+    addBottomTilesRow(userName);
   }
 }
