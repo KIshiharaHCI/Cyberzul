@@ -16,12 +16,14 @@ public class CenterBoard extends JPanel {
 
   private final int WIDTH = 1100;
   private final int HEIGHT = 780;
-  private final Controller controller;
+  private transient final Controller controller;
   PlatesPanel platesPanel;
   TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;
-  private TableCenter tableCenter;
-  private TileClickListener tileClickListener;
+  private transient TableCenter tableCenter;
+  private transient TileClickListener tileClickListener;
+
+  private static final long serialVersionUID = 5L;
 
   /**
    * Creates the center board based on the number of players and with the tile click listeners.

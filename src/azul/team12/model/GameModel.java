@@ -100,6 +100,7 @@ public class GameModel implements Model {
     for (Player player : playerList) {
       player.initializePatternLines();
       player.clearFloorline();
+      player.clearWallPattern();
       player.setAIPlayer(false);
       player.setPoints(0);
     }
@@ -402,7 +403,8 @@ public class GameModel implements Model {
   }
 
   public List<Offering> getOfferings() {
-    return (List<Offering>) offerings.clone();
+    @SuppressWarnings("unchecked") List<Offering> offeringsClone = (List<Offering>) offerings.clone();
+    return offeringsClone;
   }
 
   public int getIndexOfActivePlayer() {

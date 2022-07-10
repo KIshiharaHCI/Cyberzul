@@ -78,7 +78,7 @@ public class BagToDrawNewTiles extends Bag {
    * @param amount - number of tiles (constant)
    * @param list   - the content list of this bag.
    */
-  private void addTilesToThisBag(ModelTile tile, int amount, List list) {
+  private void addTilesToThisBag(ModelTile tile, int amount, List<ModelTile> list) {
     for (int i = 0; i < amount; i++) {
       list.add(tile);
     }

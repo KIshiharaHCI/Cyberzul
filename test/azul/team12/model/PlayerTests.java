@@ -10,6 +10,8 @@ import org.junit.jupiter.api.TestInstance;
  * Contains Tests for the Player class.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SuppressWarnings("processing")
+
 public class PlayerTests {
 
   private Player player;

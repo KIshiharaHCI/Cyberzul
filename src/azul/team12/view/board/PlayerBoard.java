@@ -13,10 +13,10 @@ import java.awt.*;
 public abstract class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  protected Controller controller;
+  private transient final Controller controller;
   private PatternLines patternLines;
   private Wall wall;
-  private TileClickListener tileClickListener;
+  private transient TileClickListener tileClickListener;
   private String playerName;
   private JPanel center;
   protected JPanel north;

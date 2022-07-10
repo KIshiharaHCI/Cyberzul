@@ -15,6 +15,8 @@ public class SourceTile extends TileDecorator implements TileAcceptor {
     private final int tileId;
     private final int plateId;
 
+    private static final long serialVersionUID = 2L;
+
     /**
      * Calls the Constructor of the Superclass and
      * sets the Tile ID and Plate ID used when notifying the GameModel.

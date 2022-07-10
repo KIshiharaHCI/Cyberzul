@@ -22,9 +22,9 @@ public class TableCenterPanel extends JPanel {
   private final int plateId = 0;
   private int TABLE_CENTER_SIZE_WIDTH_IN_PXL = 1100;
   private int TABLE_CENTER_HEIGHT_IN_PXL = 260;
-  private List<SourceTile> tileList;
+  private transient List<SourceTile> tileList;
   private JLabel tableCenterImageLabel;
-  private TableCenter tableCenter;
+  private transient TableCenter tableCenter;
 
   public TableCenterPanel(TableCenter tableCenter, TileClickListener tileClickListener) {
     this.tableCenter = tableCenter;

@@ -30,7 +30,8 @@ public class Player {
   //contain the negative Tiles the player acquires during the drawing phase.
 
   public List<ModelTile> getFloorLine() {
-    return (List<ModelTile>) floorLine.clone();
+    @SuppressWarnings("unchecked") List<ModelTile> floorLineClone = (List<ModelTile>) floorLine.clone();
+    return floorLineClone;
   }
 
   public boolean[][] getWall() {
@@ -140,6 +141,10 @@ public class Player {
 
   public void setPoints(int points) {
     this.points = points;
+  }
+
+  public void clearWallPattern() {
+    this.wallPattern = new WallBackgroundPattern();
   }
 
   /**

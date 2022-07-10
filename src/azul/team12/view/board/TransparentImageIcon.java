@@ -15,9 +15,10 @@ import javax.swing.ImageIcon;
 
 public class TransparentImageIcon extends ImageIcon {
 
-    private Icon icon;
-    private Image image;
+    private transient Icon icon;
+    private transient Image image;
     private float opacity;
+    private static final long serialVersionUID = 6L;
 
     public TransparentImageIcon(ImageIcon icon, float opacity) {
         this.icon = icon;

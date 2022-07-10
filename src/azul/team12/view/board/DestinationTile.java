@@ -13,6 +13,7 @@ public class DestinationTile extends TileDecorator implements TileAcceptor {
     public DestinationTile(int col, int row, ModelTile modelTile, TileClickListener listener,int preferredTileSize) {
         super(col, row, modelTile,preferredTileSize);
         setPreferredSize(new Dimension(preferredTileSize,preferredTileSize));
+
         setIcon(1f);
         addMouseListener(listener);
     }

@@ -10,10 +10,12 @@ import java.util.List;
 
 public class FloorLinePanel extends JPanel {
 
-  private final Controller controller;
+  private transient final Controller controller;
   private final int NUMBER_OF_FLOOR_TILES = 7;
-  private TileClickListener tileClickListener;
+  private transient TileClickListener tileClickListener;
   private JPanel contentBottom, contentUpper;
+
+  private static final long serialVersionUID = 4L;
 
   public FloorLinePanel(Controller controller, TileClickListener tileClickListener,
       int minusPoints) {

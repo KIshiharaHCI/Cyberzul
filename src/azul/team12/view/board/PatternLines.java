@@ -13,13 +13,13 @@ public class PatternLines extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
   private static final int DEFAULT_TILE_SIZE = 25;
-  private final Controller controller;
+  private transient final Controller controller;
   private final int ROWS = 5;
   private final int COLS = 5;
   private final int tileSize;
   private ModelTile[][] currentPatternLines;
 
-  private List<JPanel> currentRows = new ArrayList<>();
+  private transient List<JPanel> currentRows = new ArrayList<>();
 
   public PatternLines(Controller controller) {
     this.controller = controller;

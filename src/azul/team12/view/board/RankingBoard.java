@@ -14,12 +14,13 @@ import java.util.List;
  */
 
 public class RankingBoard extends JPanel {
-  private final Controller controller;
+  private transient final Controller controller;
   private JPanel rankingBoardPanel;
-  private List<Player> playersList;
+  private transient List<Player> playersList;
   private static final String GAME_RANKING = "RANKING";
   private static final int COL = 1;
 
+  private static final long serialVersionUID = 7L;
   /**
    * The constructor to create the ranking board showing the points of the players.
    * @param controller controller used to combine the model with view.

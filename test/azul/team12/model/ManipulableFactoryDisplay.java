@@ -9,6 +9,8 @@ import java.util.List;
  * might forget to change it back. Also, by changing it back, the test class might not compile
  * anymore.
  */
+@SuppressWarnings("processing")
+
 public class ManipulableFactoryDisplay extends FactoryDisplay{
 
   private ArrayList<ModelTile> content;

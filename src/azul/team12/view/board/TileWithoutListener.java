@@ -12,6 +12,8 @@ public class TileWithoutListener extends JPanel {
 
   private final int size;
 
+  private static final long serialVersionUID = 8L;
+
   public TileWithoutListener(int cell, int row, int size) {
     this.cell = cell;
     this.row = row;

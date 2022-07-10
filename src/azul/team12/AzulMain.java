@@ -3,6 +3,7 @@ package azul.team12;
 import azul.team12.controller.Controller;
 import azul.team12.controller.GameController;
 import azul.team12.model.GameModel;
+import azul.team12.model.Model;
 import azul.team12.view.AzulView;
 import azul.team12.model.Player;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class AzulMain {
     Configurator.setRootLevel(Level.INFO);
     LOGGER.trace("Entering the AzulGame application");
     LOGGER.info("Logging something.");
-    GameModel model = new GameModel();
+    Model model = new GameModel();
     Controller controller = new GameController(model);
     AzulView azulView = new AzulView(model, controller);
     azulView.setVisible(true);

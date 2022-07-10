@@ -9,7 +9,9 @@ import java.net.URL;
 
 public class ImagePanel extends JPanel {
 
-    private BufferedImage image;
+    private transient BufferedImage image;
+
+    private static final long serialVersionUID = 10L;
 
     public ImagePanel(final URL imgURL1) {
         try {
