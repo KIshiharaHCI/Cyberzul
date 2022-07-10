@@ -17,11 +17,13 @@ public class CenterBoard extends JPanel {
   private final int HEIGHT = 780;
   private transient final Controller controller;
   PlatesPanel platesPanel;
+  RankingBoard rankingBoard;
   TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;
   private JPanel platesAndTableCenterPanel;
   private JPanel boardAndPlatesAndTablePanel;
   private JPanel rightSideBarPanel;
+  private JPanel rankingBoardPanel;
   private transient TileClickListener tileClickListener;
 
   private static final long serialVersionUID = 5L;
@@ -59,6 +61,11 @@ public class CenterBoard extends JPanel {
     setMaximumSize(rightSideBarDimension);
     setMinimumSize(rightSideBarDimension);
     //setPreferredSize(rightSideBarDimension);
+    JPanel rankingBoardPanel = new JPanel();
+    rankingBoard = new RankingBoard(controller);
+    rankingBoardPanel.add(rankingBoard);
+    rightSideBarPanel.add(rankingBoardPanel);
+
     setBackground(Color.blue.brighter());
 
   }
@@ -69,7 +76,7 @@ public class CenterBoard extends JPanel {
   private void computePanelSizes() {
     System.out.println(panelDimension.height);
     panelDimension = new Dimension(
-            (int) (panelDimension.width * 0.5),
+            (int) (panelDimension.width * 0.45),
             (int) (panelDimension.height * 0.94)
     );
     topPanelDimension = new Dimension(
@@ -150,5 +157,10 @@ public class CenterBoard extends JPanel {
 
   public TableCenterPanel getTableCenterPanel() {
     return tableCenterPanel;
+  }
+
+  public void updateRankingBoard() {
+    rankingBoard.updateRankingBoard();
+    validate();
   }
 }

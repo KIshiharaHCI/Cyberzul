@@ -23,7 +23,7 @@ public class GameBoard extends JPanel {
 
   private JPanel boardsOfOpponentsPanel;
 
-  private JPanel rankingBoardPanel;
+
   private JPanel settingsPanel = new JPanel(null);
 
   private RankingBoard rankingBoard;
@@ -67,18 +67,10 @@ public class GameBoard extends JPanel {
     add(chatPanel,BorderLayout.EAST);
   }
 
-  private void createRankingBoardPanel() {
-    rankingBoardPanel = new JPanel();
-    rankingBoard = new RankingBoard(controller);
-    rankingBoardPanel.add(rankingBoard);
-    add(rankingBoardPanel, BorderLayout.EAST);
-  }
-
-
   private void createOpponentsPanel() {
     boardsOfOpponentsPanel = new JPanel();
     Dimension opponentsPanelDimension = new Dimension(
-            (int) (frameDimension.width * 0.2),
+            (int) (frameDimension.width * 0.25),
             (int) (frameDimension.height * 0.94)
     );
     boardsOfOpponentsPanel.setMaximumSize(opponentsPanelDimension);
@@ -110,7 +102,7 @@ public class GameBoard extends JPanel {
    * Update the Points and oder players according to their points in the descending order when the round ends.
    */
   public void updateRankingBoard() {
-    rankingBoard.updateRankingBoard();
+    center.updateRankingBoard();
     validate();
 
   }
