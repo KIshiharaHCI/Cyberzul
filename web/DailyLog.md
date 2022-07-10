@@ -1323,6 +1323,8 @@ Q3:
 
 **9. July, 2022**
 
+_Nils_
+
 Q1:
 
 - worked on the network connection
@@ -1337,6 +1339,8 @@ Q3:
 
 **10. July, 2022**
 
+_Nils_
+
 Q1:
 
 - the network connection is built, but it is not possible yet to show the game board
@@ -1349,4 +1353,4 @@ Q3:
 
 - spagetti code. Instead of having one person who is responsible for his classes, we have many people writing multiple
   methods in every class. That way, we have redundant methods, that almost do the same. We also have methods that are
-  not used in the way that they were intended to use.
+  not used in the way that they were intended to use. This makes the work tedious and slow.
