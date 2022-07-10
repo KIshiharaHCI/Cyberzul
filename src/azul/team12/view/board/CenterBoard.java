@@ -65,7 +65,6 @@ public class CenterBoard extends JPanel {
     rankingBoard = new RankingBoard(controller);
     rankingBoardPanel.add(rankingBoard);
     rightSideBarPanel.add(rankingBoardPanel);
-
     setBackground(Color.blue.brighter());
 
   }
@@ -80,10 +79,10 @@ public class CenterBoard extends JPanel {
             (int) (panelDimension.height * 0.94)
     );
     topPanelDimension = new Dimension(
-            (int) (panelDimension.width * 0.7),
+            (int) (panelDimension.width * 0.8),
             (int) (panelDimension.height * 0.45));
     bottomPanelDimension = new Dimension(
-            (int) (panelDimension.width * 0.7),
+            (int) (panelDimension.width * 0.8),
             (int) (panelDimension.height * 0.55));
 
   }
@@ -94,7 +93,7 @@ public class CenterBoard extends JPanel {
   }
 
   private void setPlatesAndTableCenterPanel() {
-    platesAndTableCenterPanel = new JPanel();
+    platesAndTableCenterPanel = new JPanel(new BorderLayout());
     platesAndTableCenterPanel.setMinimumSize(topPanelDimension);
     platesAndTableCenterPanel.setMaximumSize(topPanelDimension);
     boardAndPlatesAndTablePanel.add(platesAndTableCenterPanel, BorderLayout.NORTH);
@@ -119,20 +118,16 @@ public class CenterBoard extends JPanel {
     platesPanel = new PlatesPanel(factoryDisplays, tileClickListener);
     platesPanel.setPreferredSize(new Dimension(
             (int) (topPanelDimension.width * 0.6), topPanelDimension.height));
-    platesAndTableCenterPanel.add(platesPanel);
+    platesAndTableCenterPanel.add(platesPanel, BorderLayout.CENTER);
   }
 
   /**
    * Used by Constructor and AzulView to create and add a new TableCenter panel.
    */
   void createNewTableCenter() {
-    Dimension platesAndTableCenterPanelDimension = new Dimension(
-            (int) topPanelDimension.getWidth(),
-            (int) topPanelDimension.getHeight()
-    );
-    tableCenterPanel = new TableCenterPanel(controller, tileClickListener, platesAndTableCenterPanelDimension);
+    tableCenterPanel = new TableCenterPanel(controller, tileClickListener, topPanelDimension);
     //platesPanel.setPreferredSize(new Dimension(1100, 10));
-    platesAndTableCenterPanel.add(tableCenterPanel);
+    platesAndTableCenterPanel.add(tableCenterPanel, BorderLayout.EAST);
   }
 
   /**

@@ -50,8 +50,8 @@ public class TableCenterPanel extends JPanel {
    */
   private void setTableCenterPanelSize() {
     panelDimension = new Dimension(
-            (int) (panelDimension.getHeight()),
-            (int) (panelDimension.getWidth() * 0.4)
+            (int) (panelDimension.getWidth() * 0.4),
+            (int) (panelDimension.getHeight())
     );
     setMinimumSize(panelDimension);
     setMaximumSize(panelDimension);
