@@ -56,13 +56,14 @@ public class GameBoard extends JPanel {
 
   private void createChatPanel() {
     //TODO: replace temporary chatPanel with Iurii's Chat class, remove Background
-    JPanel chatPanel = new JPanel();
+    ChatPanel chatPanel = new ChatPanel();
     Dimension chatPanelDimension = new Dimension(
             (int) (frameDimension.width * 0.3),
             (int) (frameDimension.height * 0.94)
     );
     chatPanel.setMinimumSize(chatPanelDimension);
     chatPanel.setMaximumSize(chatPanelDimension);
+    chatPanel.setPreferredSize(chatPanelDimension);
     chatPanel.setBackground(Color.blue);
     add(chatPanel,BorderLayout.EAST);
   }
