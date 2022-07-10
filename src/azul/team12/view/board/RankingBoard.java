@@ -1,8 +1,6 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.Player;
-
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,7 +14,7 @@ import java.util.List;
 public class RankingBoard extends JPanel {
   private final Controller controller;
   private JPanel rankingBoardPanel;
-  private List<Player> playersList;
+  private List<String> playerNamesList;
   private static final String GAME_RANKING = "RANKING";
   private static final int COL = 1;
 
@@ -26,7 +24,7 @@ public class RankingBoard extends JPanel {
    */
   public RankingBoard(Controller controller) {
     this.controller = controller;
-    this.playersList = controller.rankingPlayerWithPoints();
+    this.playerNamesList = controller.rankingPlayerWithPoints();
 
     createRankingArea();
 
@@ -42,10 +40,10 @@ public class RankingBoard extends JPanel {
     rankingBoardPanel.setBorder(border);
 
     rankingBoardPanel.setMaximumSize(new Dimension(600, 300));
-    rankingBoardPanel.setLayout(new GridLayout(playersList.size(), COL));
+    rankingBoardPanel.setLayout(new GridLayout(playerNamesList.size(), COL));
     add(rankingBoardPanel, BorderLayout.CENTER);
-    for (Player player : playersList) {
-        rankingBoardPanel.add(new JLabel(player.getName() + ": " + controller.getPoints(player.getName())));
+    for (String playerName : playerNamesList) {
+        rankingBoardPanel.add(new JLabel(playerName + ": " + controller.getPoints(playerName)));
     }
   }
 
@@ -54,7 +52,7 @@ public class RankingBoard extends JPanel {
    */
   public void updateRankingBoard() {
     remove(rankingBoardPanel);
-    playersList = controller.rankingPlayerWithPoints();
+    playerNamesList = controller.rankingPlayerWithPoints();
     createRankingArea();
   }
 

@@ -111,7 +111,7 @@ public class ClientController implements Controller {
   }
 
   @Override
-  public List<Player> rankingPlayerWithPoints() {
+  public List<String> rankingPlayerWithPoints() {
     return null;
   }
 

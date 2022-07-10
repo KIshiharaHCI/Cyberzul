@@ -118,9 +118,9 @@ public interface Model {
   /**
    * Ranking the players according its points.
    *
-   * @return a list of players with points in descending order.
+   * @return a list of players' names with points in descending order.
    */
-  List<Player> rankingPlayerWithPoints();
+  List<String> rankingPlayerWithPoints();
 
   /**
    * Next player is the next player on the list or the first player, if the last active player

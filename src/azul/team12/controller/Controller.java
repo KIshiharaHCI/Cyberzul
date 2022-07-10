@@ -154,8 +154,11 @@ public interface Controller {
    */
   ModelTile[][] getTemplateWall();
 
-
-  List<Player> rankingPlayerWithPoints();
+  /**
+   * Rank the players according to their points in descending order.
+   * @return A list of players' names.
+   */
+  List<String> rankingPlayerWithPoints();
 
   /**
    * tells the model that a given player forfeit the game.
