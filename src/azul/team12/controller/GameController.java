@@ -106,7 +106,7 @@ public class GameController implements Controller{
   }
 
   @Override
-  public List<Player> rankingPlayerWithPoints() {
+  public List<String> rankingPlayerWithPoints() {
     return model.rankingPlayerWithPoints();
   }
 

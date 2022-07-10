@@ -120,7 +120,7 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public List<Player> rankingPlayerWithPoints() {
+  public List<String> rankingPlayerWithPoints() {
     //TODO: FOR TEST PURPOSES SIMPLIFIED
     return new ArrayList<>();
   }
