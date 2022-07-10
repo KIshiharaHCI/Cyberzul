@@ -13,12 +13,12 @@ import java.awt.*;
 public abstract class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private transient final Controller controller;
+  protected transient final Controller controller;
   private PatternLines patternLines;
   private Wall wall;
   private transient TileClickListener tileClickListener;
   private String playerName;
-  private JPanel center;
+  private JPanel patternLinesAndWallPanel;
   protected JPanel north;
   private int points;
   private int minusPoints = 0;
@@ -39,11 +39,11 @@ public abstract class PlayerBoard extends JPanel {
 
     setLayout(new BorderLayout());
     JPanel coverOverCenter = new JPanel();
-    coverOverCenter.setBackground(Color.red);
-    center = new JPanel();
+    coverOverCenter.setOpaque(false);
+    patternLinesAndWallPanel = new JPanel();
     //center.setLayout(new GridLayout(1, 2));
     createCenterPanel();
-    coverOverCenter.add(center);
+    coverOverCenter.add(patternLinesAndWallPanel);
     add(coverOverCenter, BorderLayout.CENTER);
 
     initializeClassVariables();
@@ -58,11 +58,11 @@ public abstract class PlayerBoard extends JPanel {
    * NextPlayersTurnEvent.
    */
   private void createCenterPanel() {
-    setProperties(tileSize, 5, 10, center);
+    setProperties(tileSize, 5, 10, patternLinesAndWallPanel);
     patternLines = new PatternLines(controller, tileSize, tileClickListener);
-    center.add(patternLines);
+    patternLinesAndWallPanel.add(patternLines);
     wall = new Wall(controller, tileSize, tileClickListener);
-    center.add(wall);
+    patternLinesAndWallPanel.add(wall);
   }
 
   void setProperties(int tileSize, int rows, int cols, JPanel panel) {
@@ -106,7 +106,7 @@ public abstract class PlayerBoard extends JPanel {
   private JPanel createNorthernPart(String x, int minusPoints) {
     JPanel north = new JPanel();
     north.setBackground(new Color(110, 150, 100));
-    north.setLayout(new GridLayout(1, 2));
+    north.setLayout(new GridLayout(1, 1));
     north.add(new JLabel("   " + x + minusPoints));
     return north;
   }

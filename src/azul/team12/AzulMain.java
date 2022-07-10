@@ -5,8 +5,6 @@ import azul.team12.controller.GameController;
 import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.view.AzulView;
-import azul.team12.model.Player;
-import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -27,23 +27,28 @@ public class GameBoard extends JPanel {
   private JPanel settingsPanel = new JPanel(null);
 
   private RankingBoard rankingBoard;
+  private Dimension frameDimension;
 
 
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
-      Controller controller) {
+      Controller controller, Dimension frameDimension) {
 
     this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
     factoryDisplays = controller.getOfferings().subList(1, controller.getOfferings().size());
 
+    this.frameDimension = frameDimension;
     setLayout(new BorderLayout());
     setBackground(Color.lightGray);
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
 
     createPanelWithTheBoardsOfOpponents();
-    center = new CenterBoard(controller, tileClickListener);
+    center = new CenterBoard(controller, tileClickListener,frameDimension);
+    center.setBackground(Color.red);
     add(center, BorderLayout.CENTER);
 
-    createRankingBoardPanel();
+    //createRankingBoardPanel();
 
   }
 
@@ -57,8 +62,8 @@ public class GameBoard extends JPanel {
 
   private void createPanelWithTheBoardsOfOpponents() {
     boardsOfOpponentsPanel = new JPanel();
-    boardsOfOpponentsPanel.setMaximumSize(new Dimension(450, 500));
-    boardsOfOpponentsPanel.setPreferredSize(new Dimension(450, 500));
+    boardsOfOpponentsPanel.setMaximumSize(new Dimension(280, 658));
+    boardsOfOpponentsPanel.setPreferredSize(new Dimension(280, 658));
     boardsOfOpponentsPanel.setLayout(new GridLayout(3, 1));
 
     List<String> listOfActivePlayers = controller.getPlayerNamesList();

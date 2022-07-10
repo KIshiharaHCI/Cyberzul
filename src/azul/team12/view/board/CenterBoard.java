@@ -24,37 +24,40 @@ public class CenterBoard extends JPanel {
   private transient TileClickListener tileClickListener;
 
   private static final long serialVersionUID = 5L;
+  private Dimension frameDimension;
 
   /**
    * Creates the center board based on the number of players and with the tile click listeners.
    *
    * @param tileClickListener the tile click listener
    */
-  public CenterBoard(Controller controller, TileClickListener tileClickListener) {
+  public CenterBoard(Controller controller, TileClickListener tileClickListener, Dimension frameDimension) {
     this.controller = controller;
     this.tableCenter = (TableCenter) controller.getOfferings().get(0);
     this.tileClickListener = tileClickListener;
-
-//    setLayout(new GridLayout(3, 1));
-//    setPreferredSize(new Dimension(1100, 780));
-    setProperties(this);
+    this.frameDimension = frameDimension;
+    computeCenterBoardSize();
+    setProperties();
     createNewPlatesPanel();
     createNewTableCenter();
     createNewPlayerBoard();
 
   }
 
-  private void setProperties(JPanel panel) {
-    panel.setBackground(new Color(110, 150, 100));
-    panel.setPreferredSize(
-        new Dimension(WIDTH, HEIGHT));
-    panel.setMaximumSize(
-        new Dimension(WIDTH, HEIGHT));
-    panel.setMinimumSize(
-        new Dimension(WIDTH, HEIGHT));
-    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-    panel.setAlignmentX(1.0f);
-    panel.setAlignmentY(1.0f);
+  private void computeCenterBoardSize() {
+    int height = (int) (frameDimension.getHeight() * 0.94);
+    int width = (int) ((frameDimension.getWidth() * 0.5) * 0.7);
+    frameDimension = new Dimension(width, height);
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
+
+  }
+
+  private void setProperties() {
+    setBackground(new Color(110, 150, 100));
+    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    setAlignmentX(1.0f);
+    setAlignmentY(1.0f);
   }
 
 

@@ -29,7 +29,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private static final String GAMEBOARD_CARD = "gameboard";
   private static final int FRAME_WIDTH = 1400;
   private static final int FRAME_HEIGHT = 800;
-  private static final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
+  private final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
   private CardLayout layout;
   private JTextField inputField;
   private JButton hotSeatModeButton;
@@ -60,7 +60,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);
-    setResizable(false);
+    setResizable(true);
 
     initializeWidgets();
     addEventListeners();
@@ -171,7 +171,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
       case "GameStartedEvent" -> {
         updateCenterBoard();
-        updateRankingBoard();
+//        TODO: add RankingBoard at correct position
+//        updateRankingBoard();
       }
       case "NextPlayersTurnEvent" -> {
         updateCenterBoard();
@@ -217,11 +218,13 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
   private void createView() {
     JPanel panel = new JPanel(layout);
-    setMinimumSize(frameDimension);
-    setMaximumSize(frameDimension);
+    panel.setMinimumSize(frameDimension);
+    panel.setMaximumSize(frameDimension);
     setContentPane(panel);
 
     JPanel login = new JPanel(new GridLayout(2, 1));
+    login.setMinimumSize(frameDimension);
+    login.setMaximumSize(frameDimension);
     login.add(gameLogoLabel);
     JPanel container = new JPanel();
     login.add(container);
@@ -273,9 +276,12 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    */
   private void addNewGameBoard(TileClickListener tileClickListener) {
     JPanel gameBoardPanel = new JPanel();
+    gameBoardPanel.setMinimumSize(frameDimension);
+    gameBoardPanel.setMaximumSize(frameDimension);
     add(gameBoardPanel, GAMEBOARD_CARD);
     int numberOfPlayers = controller.getPlayerNamesList().size();
-    gameBoard = new GameBoard(numberOfPlayers, tileClickListener, controller);
+    gameBoard = new GameBoard(numberOfPlayers, tileClickListener, controller, frameDimension);
+
     gameBoardPanel.add(gameBoard);
     gameBoard.repaint();
   }
@@ -304,5 +310,13 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    */
   private void showCard(String card) {
     layout.show(getContentPane(), card);
+  }
+
+  /**
+   * Getter for AzulView JFrame width
+   * @return
+   */
+  public Dimension getFrameDimension () {
+    return frameDimension;
   }
 }
