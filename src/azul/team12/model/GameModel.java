@@ -164,12 +164,12 @@ public class GameModel implements Model {
       LOGGER.info(getNickOfActivePlayer() + " makes an move automatically, because he/she "
           + "is an AI-Player.");
       String nickOfAIPlayer = getNickOfActivePlayer();
-      makeAIPlayerMakeAMove(nickOfAIPlayer);
+      makeAiPlayerMakeMove(nickOfAIPlayer);
     }
 
   }
 
-  public void replaceActivePlayerByAI() {
+  public void replaceActivePlayerByAi() {
     LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
     notifyListeners(gameForfeitedEvent);
@@ -177,10 +177,10 @@ public class GameModel implements Model {
     //TODO: If player has already chosen something and then forfeits
     LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
     getPlayerByName(getNickOfActivePlayer()).setAIPlayer(true);
-    makeAIPlayerMakeAMove(getNickOfActivePlayer());
+    makeAiPlayerMakeMove(getNickOfActivePlayer());
   }
 
-  public void makeAIPlayerMakeAMove(String nickOfAIPlayer) {
+  public void makeAiPlayerMakeMove(String nickOfAiPlayer) {
     // get not empty offerings
     List<Offering> offeringsClone = getOfferings();
     for (Offering offering : getOfferings()) {
@@ -208,19 +208,19 @@ public class GameModel implements Model {
 
       // get a random tile on that offering
       int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
-      notifyTileChosen(nickOfAIPlayer, randomOfferingTileIndex, randomOfferingIndex);
+      notifyTileChosen(nickOfAiPlayer, randomOfferingTileIndex, randomOfferingIndex);
 
-      Player activeAIPlayer = getPlayerByName(nickOfAIPlayer);
+      Player activeAIPlayer = getPlayerByName(nickOfAiPlayer);
       //check all pattern lines from first to last if we can place the tile there
       for (int i = 0; i < activeAIPlayer.getPatternLines().length; i++) {
         if (activeAIPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
-          LOGGER.info(nickOfAIPlayer + " tries to place a " +
+          LOGGER.info(nickOfAiPlayer + " tries to place a " +
               randomOffering.getContent().get(randomOfferingTileIndex).toString() + " on pattern "
               + "line " + i);
           makeActivePlayerPlaceTile(i);
           break;
         } else if (i == activeAIPlayer.getPatternLines().length - 1) {
-          LOGGER.info(nickOfAIPlayer + " was not able to place the tile on a pattern line "
+          LOGGER.info(nickOfAiPlayer + " was not able to place the tile on a pattern line "
               + "places it on the floor line");
           tileFallsDown();
         }
@@ -286,7 +286,7 @@ public class GameModel implements Model {
     return true;
   }
 
-  public int getIndexOfPlayerWithSPM() {
+  public int getIndexOfPlayerWithSpm() {
     for (int i = 0; i < playerList.size(); i++) {
       Player player = playerList.get(i);
       if (player.hasStartingPlayerMarker()) {
@@ -343,7 +343,7 @@ public class GameModel implements Model {
   public int getIndexOfNextPlayer() {
     int indexOfNextPlayer;
     if (checkRoundFinished()) {
-      indexOfNextPlayer = getIndexOfPlayerWithSPM();
+      indexOfNextPlayer = getIndexOfPlayerWithSpm();
     } else if (indexOfActivePlayer == playerList.size() - 1) {
       indexOfNextPlayer = 0;
     } else {

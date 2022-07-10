@@ -12,6 +12,11 @@ import azul.team12.model.events.RoundFinishedEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+/**
+ * The main interface of the Azul model for the graphical user-interface. It provides all
+ * necessary methods for accessing and manipulating the data such that a game can be played
+ * successfully.
+ */
 public interface Model {
 
   /**
@@ -28,6 +33,7 @@ public interface Model {
    *
    * @param listener the view that is to be unsubscribed from the model.
    */
+
   void removePropertyChangeListener(PropertyChangeListener listener);
 
   /**
@@ -61,14 +67,14 @@ public interface Model {
    * forfeits the game, sets the player who forfeited to be an AI-Player and
    * makes him/her do the next move.
    */
-  void replaceActivePlayerByAI();
+  void replaceActivePlayerByAi();
 
   /**
    * makes a given player place a tile randomly. Used for AI-Players.
    *
-   * @param nickOfAIPlayer the name of the active player.
+   * @param nickOfAiPlayer the name of the active player.
    */
-  void makeAIPlayerMakeAMove(String nickOfAIPlayer);
+  void makeAiPlayerMakeMove(String nickOfAiPlayer);
 
   /**
    * Ends the turn. Fires {@link RoundFinishedEvent} if the round has finished,
@@ -113,7 +119,7 @@ public interface Model {
    *
    * @return player's index.
    */
-  int getIndexOfPlayerWithSPM();
+  int getIndexOfPlayerWithSpm();
 
   /**
    * Tell each player to tile the wall and get the points accordingly.
@@ -151,7 +157,8 @@ public interface Model {
    * @param nickname the nickname of the player
    * @return the player
    */
-   Player getPlayerByName(String nickname);
+
+  Player getPlayerByName(String nickname);
 
   /**
    * gives back the pattern Lines of a given player.
@@ -177,9 +184,11 @@ public interface Model {
    */
   ModelTile[][] getWallOfPlayer(String playerName);
 
+
   /**
    * Returns the nicknames of all players.
-   * @return list of nicknames.
+   *
+   * @return the nicknames as strings.
    */
   List<String> getPlayerNamesList();
 
