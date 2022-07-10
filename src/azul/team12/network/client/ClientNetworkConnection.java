@@ -2,6 +2,7 @@ package azul.team12.network.client;
 
 import azul.team12.model.Model;
 import azul.team12.shared.JsonMessage;
+import azul.team12.view.board.Tile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,18 +101,18 @@ public class ClientNetworkConnection {
     System.out.println("Input loop ended.");
   }
 
-  public void handleMessage(JSONObject object) {
+  public void handleMessage(JSONObject object) throws JSONException {
     switch (JsonMessage.typeOf(object)) {
       case LOGIN_SUCCESS -> model.loggedIn();
       case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
-      case GAME_STARTED -> model.gameStarted();
+      case GAME_STARTED -> handleGameStarted(object);
       case USER_JOINED -> {
         //TODO IMPLEMENT CHAT HERE @XUE
-        }
+      }
       //TODO: Commented out code
       case USER_LEFT -> {
         //TODO: IMPLEMENT CHAT HERE @XUE
-        }
+      }
       /*
       case USER_JOINED:
         handleUserJoined(object);
@@ -125,6 +127,12 @@ public class ClientNetworkConnection {
        */
       default -> throw new AssertionError("Unhandled message: " + object);
     }
+  }
+
+  private void handleGameStarted(JSONObject object) throws JSONException {
+    JSONArray offerings = object.getJSONArray(JsonMessage.OFFERINGS_FIELD);
+    JSONArray playerNames = object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD);
+    model.gameStarted(offerings, playerNames);
   }
 
   //TODO: Commented out code
@@ -208,14 +216,24 @@ public class ClientNetworkConnection {
     send(message);
   }
 
-
    */
 
-  private synchronized void send(JSONObject message) {
+
+  synchronized void send(JSONObject message) {
     try {
       writer.write(message + System.lineSeparator());
       writer.flush();
     } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  synchronized void send(JsonMessage messageType) {
+    try {
+      JSONObject message = JsonMessage.createMessageOfType(messageType);
+      writer.write(message + System.lineSeparator());
+      writer.flush();
+    } catch (IOException | JSONException e) {
       e.printStackTrace();
     }
   }

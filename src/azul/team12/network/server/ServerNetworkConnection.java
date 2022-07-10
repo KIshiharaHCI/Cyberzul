@@ -28,6 +28,7 @@ public class ServerNetworkConnection {
 
   private Model model;
   private Controller controller;
+  private ModelPropertyChangeHandler modelPropertyChangeHandler;
 
   private final Runnable connectionAcceptor = new Runnable() {
 
@@ -60,6 +61,7 @@ public class ServerNetworkConnection {
     socket = new ServerSocket(PORT);
     clientHandlers = Collections.synchronizedList(new ArrayList<>());
 
+    modelPropertyChangeHandler = new ModelPropertyChangeHandler(this, model);
   }
 
   /**

@@ -116,7 +116,10 @@ public class ClientMessageHandler implements Runnable {
     switch (JsonMessage.typeOf(object)) {
       case LOGIN -> handleLogin(object);
       case POST_MESSAGE -> handlePostMessage(object);
-      case START_GAME -> controller.startGame();
+      case START_GAME -> {
+        //TODO: TEST SOUT
+        System.out.println("Start Game in ClientMessageHandler");
+        controller.startGame();}
       default -> throw new AssertionError("Unable to handle message " + object);
     }
   }

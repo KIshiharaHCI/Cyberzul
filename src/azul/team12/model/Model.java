@@ -87,20 +87,6 @@ public interface Model {
   void tileFallsDown();
 
   /**
-   * Checks whether there is still an offering with a non-empty content.
-   *
-   * @return <code>true</code> if the round is finished, <code>false</code> if not.
-   */
-  boolean checkRoundFinished();
-
-  /**
-   * Gives back the index of the player with the Start Player Marker.
-   *
-   * @return player's index.
-   */
-  int getIndexOfPlayerWithSPM();
-
-  /**
    * Tell each player to tile the wall and get the points accordingly.
    * Fires {@link PlayerHasEndedTheGameEvent} if a player has ended the game in this
    * tiling phase, fires {@link GameFinishedEvent} at the end of this tiling phase in
@@ -169,8 +155,6 @@ public interface Model {
   List<String> getPlayerNamesList();
 
   List<Offering> getOfferings();
-
-  int getIndexOfActivePlayer();
 
   /**
    * Returns the number of points the player with the specified nickname has.

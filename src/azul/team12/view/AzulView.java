@@ -56,6 +56,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private Model model;
   private Controller controller;
   private GameBoard gameBoard;
+  private TileClickListener tileClickListener;
 
   /**
    * Create the Graphical User Interface of Azul.
@@ -97,13 +98,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   }
 
   private void addEventListeners() {
-    TileClickListener tileClickListener = new TileClickListener(controller, model);
+    tileClickListener = new TileClickListener(controller, model);
     hotSeatModeButton.addActionListener(event -> showHSMCard());
     networkButton.addActionListener(event -> showNetworkCard());
     playButton.addActionListener(event -> {
       controller.startGame();
-      addNewGameBoard(tileClickListener);
-      showCard(GAMEBOARD_CARD);
     });
     addPlayerButton.addActionListener(event -> {
           controller.addPlayer(inputField.getText());
@@ -171,6 +170,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
     switch (eventName) {
       case "GameStartedEvent" -> {
+        addNewGameBoard(tileClickListener);
         showCard(GAMEBOARD_CARD);
       }
       case "LoginFailedEvent" -> {
@@ -213,7 +213,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       case "GameForfeitedEvent" -> {
         showHSMCard();
       }
-      //default -> throw new AssertionError("Unknown event");
+      default -> throw new AssertionError("Unknown event");
     }
   }
 

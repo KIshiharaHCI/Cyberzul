@@ -33,6 +33,10 @@ public class GameBoard extends JPanel {
 
     this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
+
+    //TODO: TEST SOUT
+    System.out.println(controller.getOfferings().get(0).getContent().toString());
+
     factoryDisplays = controller.getOfferings().subList(1, controller.getOfferings().size());
 
     setLayout(new BorderLayout());

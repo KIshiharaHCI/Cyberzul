@@ -10,8 +10,8 @@ import java.util.List;
  * I.e. his points, the tiles he already tiled and those who lie on his tiling fields.
  */
 public class Player {
-  private String name;
-  private int points;
+  protected String name;
+  protected int points;
   public static final int NUMBER_OF_PATTERN_LINES = 5;
 
   public static final int SIZE_OF_FLOOR_LINE = 7;
@@ -23,9 +23,9 @@ public class Player {
   private boolean hasStartingPlayerMarker = false;
   private boolean hasEndedTheGame = false;
 
-  private WallBackgroundPattern wallPattern;
+  protected WallBackgroundPattern wallPattern;
 
-  private ArrayList<ModelTile> floorLine;
+  protected ArrayList<ModelTile> floorLine;
   //contain the negative Tiles the player acquires during the drawing phase.
 
   public List<ModelTile> getFloorLine() {
@@ -36,13 +36,13 @@ public class Player {
     return wall.clone();
   }
 
-  private boolean[][] wall;
+  protected boolean[][] wall;
   //the wall where the player tiles the tiles and gets his points ("Wand").
 
-  private ModelTile[][] patternLines;
+  protected ModelTile[][] patternLines;
   //the left side on the board where the player places the tiles he draws ("Musterreihen").
 
-  Player(String name) {
+  protected Player(String name) {
     this.name = name;
 
     this.points = 0;

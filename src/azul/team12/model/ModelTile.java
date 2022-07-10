@@ -7,8 +7,12 @@ import java.util.List;
  * The Tiles that the player can choose from
  */
 public enum ModelTile {
-  RED_TILE("red tile"), BLACK_TILE("black tile"), WHITE_TILE("white tile"), BLUE_TILE("blue tile"),
-  ORANGE_TILE("orange tile"), EMPTY_TILE("empty"),
+  RED_TILE("red tile"),
+  BLACK_TILE("black tile"),
+  WHITE_TILE("white tile"),
+  BLUE_TILE("blue tile"),
+  ORANGE_TILE("orange tile"),
+  EMPTY_TILE("empty"),
   STARTING_PLAYER_MARKER("starting player marker");
 
   String name;
@@ -41,4 +45,22 @@ public enum ModelTile {
     return valuesOfTilesThatCanBeTiled;
   }
 
+  /**
+   * Parses the String-Name of a ModelTile back to a ModelTile.
+   *
+   * @param name the String representation of that Tile.
+   * @return the ModelTile that has that name.
+   */
+  public static ModelTile toTile(String name){
+    switch (name){
+      case "red tile" -> {return RED_TILE;}
+      case "black tile" -> {return BLACK_TILE;}
+      case "white tile" -> {return WHITE_TILE;}
+      case "blue tile" -> {return BLUE_TILE;}
+      case "orange tile" -> {return ORANGE_TILE;}
+      case "empty" -> {return EMPTY_TILE;}
+      case "starting player marker" -> {return STARTING_PLAYER_MARKER;}
+      default -> throw new AssertionError("no such tile found.");
+    }
+  }
 }

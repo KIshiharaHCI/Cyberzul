@@ -1,7 +1,6 @@
 package azul.team12.shared;
 
 import azul.team12.model.FactoryDisplay;
-import azul.team12.model.GameModel;
 import azul.team12.model.ManipulableFactoryDisplay;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
@@ -21,7 +20,7 @@ public class JsonMessageTest {
    * order in the array.
    */
   @Test
-  public void testCreateObjectContainingOfferings(){
+  public void testCreateArrayContainingOfferings(){
     FactoryDisplay factoryDisplay = new ManipulableFactoryDisplay(ModelTile.RED_TILE);
     FactoryDisplay factoryDisplay1 = new ManipulableFactoryDisplay(ModelTile.BLUE_TILE);
     List<Offering> offeringList = new ArrayList<>();
@@ -29,7 +28,7 @@ public class JsonMessageTest {
     offeringList.add(factoryDisplay1);
 
 
-    JSONArray jsonArray = JsonMessage.createObjectContainingOfferings(offeringList);
+    JSONArray jsonArray = JsonMessage.createArrayContainingOfferings(offeringList);
     String testString = "[[\"red tile\",\"red tile\",\"red tile\",\"red tile\"],[\"blue tile\",\"blue tile\",\"blue tile\",\"blue tile\"]]";
 
     Assertions.assertTrue(jsonArray.toString().equals(testString));

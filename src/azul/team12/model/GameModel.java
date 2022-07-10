@@ -259,7 +259,6 @@ public class GameModel implements Model {
     List<Player> playerRankingList = playerList;
     Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
     return playerRankingList;
-
   }
 
   public int getIndexOfNextPlayer() {
@@ -298,7 +297,7 @@ public class GameModel implements Model {
   public ModelTile[][] getWallOfPlayer(String playerName) {
 
     Player player = getPlayerByName(playerName);
-    ModelTile[][] templateWall = WallBackgroundPattern.getTemplateWall();
+    ModelTile[][] templateWall = player.getWallPattern().pattern;
     boolean[][] wallAsBools = player.getWall();
     ModelTile[][] playerWall = new ModelTile[5][5];
 
@@ -313,7 +312,6 @@ public class GameModel implements Model {
     }
 
     return playerWall;
-
   }
 
   public List<String> getPlayerNamesList() {
@@ -325,6 +323,9 @@ public class GameModel implements Model {
   }
 
   public List<Offering> getOfferings() {
+    //TODO: TEST SOUT
+    System.out.println(offerings.get(0).getContent().toString());
+
     return (List<Offering>) offerings.clone();
   }
 

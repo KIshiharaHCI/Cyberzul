@@ -2,7 +2,6 @@ package azul.team12.shared;
 
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
-import azul.team12.model.Player;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -49,6 +48,10 @@ public enum JsonMessage {
   public static final String TIME_FIELD = "time";
 
   public static final String ADDITIONAL_INFORMATION = "additional information";
+
+  public static final String OFFERINGS_FIELD = "offerings";
+
+  public static final String PLAYER_NAMES_FIELD = "player names";
 
   public static final String INDEX_OF_TILE_FIELD = "index of tile ";
 
@@ -97,21 +100,6 @@ public enum JsonMessage {
   }
 
   /**
-   * Create a JSONObject by passing only the name of the method.
-   * I.e. "createJSONMessage(END_TURN);
-   *
-   * @param methodName the name of the method in the Controller Interface.
-   * @return a JSONObject containing the information that this specific method was invoked.
-   */
-  public static JSONObject createJSONmessage(JsonMessage methodName) {
-    try {
-      return createMessageOfType(methodName);
-    } catch (JSONException e) {
-      throw new IllegalArgumentException("Failed to create a json object.", e);
-    }
-  }
-
-  /**
    * Provides the ClientModels with all information that is needed to start the game.
    *
    * @param offering
@@ -120,8 +108,8 @@ public enum JsonMessage {
   public static JSONObject createGameStartedMessage(List<Offering> offerings, List<String> playerNames){
     try {
       JSONObject returnObject = createMessageOfType(GAME_STARTED);
-
-      JSONArray playerNamesArray = new JSONArray();
+      returnObject.put(OFFERINGS_FIELD,createArrayContainingOfferings(offerings));
+      returnObject.put(PLAYER_NAMES_FIELD, createArrayContainingPlayerNames(playerNames));
 
       return returnObject;
     } catch (JSONException e) {
@@ -136,7 +124,7 @@ public enum JsonMessage {
    * @param offerings a list of all offerings in the game.
    * @return a two dimensional array containing the contents of all offerings.
    */
-  public static JSONArray createObjectContainingOfferings(List<Offering> offerings){
+  public static JSONArray createArrayContainingOfferings(List<Offering> offerings){
       JSONArray offeringsArray = new JSONArray();
       for(Offering o : offerings){
         JSONArray currentOffering = new JSONArray();
@@ -149,6 +137,20 @@ public enum JsonMessage {
   }
 
   /**
+   * Creates a JSONArray that contains the
+   *
+   * @param playerNames
+   * @return
+   */
+  public static JSONArray createArrayContainingPlayerNames(List<String> playerNames){
+    JSONArray playerNamesArray = new JSONArray();
+    for(String nick : playerNames){
+      playerNamesArray.put(nick);
+    }
+    return playerNamesArray;
+  }
+
+  /**
    * Create a JSONObject by passing only the name of the method and the nick of the player.
    * I.e. "createJSONMessage(GET_POINTS,jonas123);
    *
@@ -157,7 +159,7 @@ public enum JsonMessage {
    * @return a JSONObject containing the information that this specific method was invoked with the
    * name of the player with whom the method was invoked.
    */
-  public static JSONObject createJSONmessage(JsonMessage methodName, String nickname) {
+  public static JSONObject createMessageOfType(JsonMessage methodName, String nickname) {
     try {
       return createMessageOfType(methodName).put(NICK_FIELD, nickname);
     } catch (JSONException e) {
@@ -249,8 +251,8 @@ public enum JsonMessage {
     }
   }
 
-  private static JSONObject createMessageOfType(JsonMessage type) throws JSONException {
-    return new JSONObject().put(TYPE_FIELD, type.getJsonName());
+  public static JSONObject createMessageOfType(JsonMessage type) throws JSONException{
+      return new JSONObject().put(TYPE_FIELD, type.getJsonName());
   }
 
   public static String getNickname(JSONObject object) {

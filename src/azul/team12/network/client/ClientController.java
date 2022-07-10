@@ -22,7 +22,7 @@ public class ClientController implements Controller {
 
   @Override
   public void startGame() {
-
+    model.startGame();
   }
 
   @Override
@@ -32,7 +32,7 @@ public class ClientController implements Controller {
 
   @Override
   public List<Offering> getOfferings() {
-    return null;
+    return model.getOfferings();
   }
 
   @Override
@@ -87,7 +87,7 @@ public class ClientController implements Controller {
 
   @Override
   public List<String> getPlayerNamesList() {
-    return null;
+    return model.getPlayerNamesList();
   }
 
   @Override

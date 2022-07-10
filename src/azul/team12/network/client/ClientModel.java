@@ -2,6 +2,9 @@ package azul.team12.network.client;
 
 import static java.util.Objects.requireNonNull;
 
+import azul.team12.model.ClientFactoryDisplay;
+import azul.team12.model.ClientTableCenter;
+import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
@@ -10,18 +13,29 @@ import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
+import azul.team12.model.events.PlayerDoesNotExistEvent;
+import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class ClientModel implements Model {
 
   private final PropertyChangeSupport support;
   private boolean loggedIn;
   private ClientNetworkConnection connection;
-  private String nickname;
+  private String thisPlayersName;
 
-  public ClientModel(){
+  private int indexOfActivePlayer = 0;
+  private ArrayList<ClientPlayer> playerList = new ArrayList<>();
+  protected ArrayList<Offering> offerings;
+
+
+  public ClientModel() {
 
     loggedIn = false;
 
@@ -54,7 +68,7 @@ public class ClientModel implements Model {
 
   @Override
   public void startGame() {
-
+    connection.send(JsonMessage.START_GAME);
   }
 
   @Override
@@ -88,93 +102,93 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public boolean checkRoundFinished() {
-    return false;
-  }
-
-  @Override
-  public int getIndexOfPlayerWithSPM() {
-    return 0;
-  }
-
-  @Override
   public void startTilingPhase() {
 
   }
 
   @Override
   public String getPlayerWithMostPoints() {
-    return null;
+    //TODO: What if two players have the same points?
+    ArrayList<Integer> playerPoints = new ArrayList<>();
+    for (Player player : playerList) {
+      playerPoints.add(player.getPoints());
+    }
+    int highestScore = Collections.max(playerPoints);
+    int bestIndex = playerPoints.indexOf(highestScore);
+    Player playerWithMostPoints = playerList.get(bestIndex);
+    return playerWithMostPoints.getName();
   }
 
   @Override
   public List<Player> rankingPlayerWithPoints() {
-    return null;
+    List<String> playerRankingList = this.getPlayerNamesList();
+    Collections.sort(playerRankingList, (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
+    return playerRankingList;
   }
 
   @Override
   public int getIndexOfNextPlayer() {
-    return 0;
+    int indexOfNextPlayer;
+    if (checkRoundFinished()) {
+      indexOfNextPlayer = getIndexOfPlayerWithSPM();
+    } else if (indexOfActivePlayer == playerList.size() - 1) {
+      indexOfNextPlayer = 0;
+    } else {
+      indexOfNextPlayer = indexOfActivePlayer + 1;
+    }
+    return indexOfNextPlayer;
   }
 
   @Override
   public Player getPlayerByName(String nickname) {
+    for(Player player : playerList) {
+      if(player.getName().equals(nickname)) {
+        return player;
+      }
+    }
     return null;
   }
 
   @Override
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
-    return new ModelTile[0][];
+    Player player = getPlayerByName(playerName);
+    return player.getPatternLines();
   }
 
   @Override
   public List<ModelTile> getFloorLineOfPlayer(String playerName) {
-    return null;
+    Player player = getPlayerByName(playerName);
+    return player.getFloorLine();
   }
 
   @Override
   public ModelTile[][] getWallOfPlayer(String playerName) {
-    return new ModelTile[0][];
+
+    Player player = getPlayerByName(playerName);
+    ModelTile[][] templateWall = player.getWallPattern().pattern;
+    boolean[][] wallAsBools = player.getWall();
+    ModelTile[][] playerWall = new ModelTile[5][5];
+
+    for (int row = 0; row < wallAsBools.length; row++) {
+      for (int col = 0; col < wallAsBools[row].length; col++) {
+        if (wallAsBools[row][col]) {
+          playerWall[row][col] = templateWall[row][col];
+        } else {
+          playerWall[row][col] = ModelTile.EMPTY_TILE;
+        }
+      }
+    }
+
+    return playerWall;
   }
 
   @Override
   public List<String> getPlayerNamesList() {
-    return null;
-  }
-
-  @Override
-  public List<Offering> getOfferings() {
-    return null;
-  }
-
-  @Override
-  public int getIndexOfActivePlayer() {
-    return 0;
-  }
-
-  @Override
-  public int getPoints(String nickname) {
-    return 0;
-  }
-
-  @Override
-  public int getMinusPoints(String nickname) {
-    return 0;
-  }
-
-  @Override
-  public List<Offering> getFactoryDisplays() {
-    return null;
-  }
-
-  @Override
-  public Offering getTableCenter() {
-    return null;
-  }
-
-  @Override
-  public String getNickOfActivePlayer() {
-    return null;
+    List<String> list = new ArrayList<>();
+    for (Player player: playerList) {
+      list.add(player.getName());
+    }
+    return list;
   }
 
   /**
@@ -213,7 +227,7 @@ public class ClientModel implements Model {
    * @param nickname the chosen nickname of the chat participant.
    */
   public void loginWithName(final String nickname) {
-    this.nickname = nickname;
+    this.thisPlayersName = nickname;
     getConnection().sendLogin(nickname);
   }
 
@@ -235,9 +249,114 @@ public class ClientModel implements Model {
   }
 
   /**
-   * Notify the listeners that the game has started.
+   * Update all information in the model that is needed by the view to start showing the game.
+   * Then notify the listeners that the game has started.
    */
-  public void gameStarted(){
+  public void gameStarted(JSONArray offerings, JSONArray playerNames) throws JSONException{
+    updateOfferings(offerings);
+    setUpClientPlayersByName(playerNames);
+    indexOfActivePlayer = 0;
+
+    //TODO: TEST SOUT
+    System.out.println("Game Started");
     notifyListeners(new GameStartedEvent());
   }
+
+  /**
+   * Intitializes the data structure that contains the information about each player.
+   *
+   * @param playerNames
+   */
+  private void setUpClientPlayersByName(JSONArray playerNames) throws JSONException {
+    for (int i = 0; i < playerNames.length(); i++) {
+      ClientPlayer clientPlayer = new ClientPlayer(playerNames.getString(i));
+      playerList.add(clientPlayer);
+    }
+    //TODO: TEST SOUT
+    System.out.println(playerList);
+  }
+
+  @Override
+  public List<Offering> getOfferings() {
+    //TODO: TEST SOUT
+    System.out.println(offerings.get(0).getContent().toString());
+
+    return (List<Offering>) offerings.clone();
+  }
+
+  @Override
+  public int getPoints(String nickname){
+    for(Player player : playerList){
+      if(player.getName().equals(nickname)){
+        return player.getPoints();
+      }
+    }
+    notifyListeners(new PlayerDoesNotExistEvent(nickname));
+    return 0;
+  }
+
+  @Override
+  public int getMinusPoints(String nickname){
+    for(Player player : playerList){
+      if(player.getName().equals(nickname)){
+        return player.getMinusPoints();
+      }
+    }
+    notifyListeners(new PlayerDoesNotExistEvent(nickname));
+    return 0;
+  }
+
+  @Override
+  public List<Offering> getFactoryDisplays(){
+    // return the factory displays being the all but the first offering
+    return offerings.subList(1, offerings.size());
+  }
+
+  @Override
+  public Offering getTableCenter() {
+    return offerings.get(0);
+  }
+
+  @Override
+  public String getNickOfActivePlayer(){
+    return playerList.get(indexOfActivePlayer).getName();
+  }
+
+  /**
+   * Update the Offerings in the Model.
+   *
+   * @param offerings
+   */
+  private void updateOfferings(JSONArray offerings) throws JSONException {
+    //TODO: TEST SOUT
+    System.out.println("Offerings updated");
+    ArrayList<Offering> returnOfferingsList = new ArrayList<>();
+
+    //update TableCenter
+    ArrayList<ModelTile> content = new ArrayList<>();
+    JSONArray tableCenterArray = offerings.getJSONArray(0);
+    for(int i = 0; i < tableCenterArray.length(); i++){
+      content.add(ModelTile.toTile(tableCenterArray.getString(i)));
+    }
+    ClientTableCenter clientTableCenter = new ClientTableCenter();
+    clientTableCenter.setContent(content);
+    returnOfferingsList.add(clientTableCenter);
+
+    //update FactoryDisplays
+    for (int i = 1; i < offerings.length(); i++) {
+      content = new ArrayList<>();
+      JSONArray factoryDisplayArray = offerings.getJSONArray(i);
+      for(int j = 0; j < factoryDisplayArray.length(); j++){
+        content.add(ModelTile.toTile(factoryDisplayArray.getString(j)));
+      }
+      ClientFactoryDisplay clientFactoryDisplay = new ClientFactoryDisplay();
+      clientFactoryDisplay.setContent(content);
+      returnOfferingsList.add(clientFactoryDisplay);
+    }
+    this.offerings = returnOfferingsList;
+
+    //TODO: TEST SOUT:
+    System.out.println(this.offerings.get(0).getContent().toString() + this.offerings.get(1).getContent().toString());
+  }
 }
+
