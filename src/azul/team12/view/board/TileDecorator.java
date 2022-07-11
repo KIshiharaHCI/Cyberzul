@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import java.util.Objects;
 
 /**
  * Wrapper Class for Tiles such as SourceTiles,DestinationTiles,WallTiles.
@@ -51,9 +50,9 @@ public abstract class TileDecorator extends JPanel implements Tile {
             return;
         }
         URL imgURL1 = getClass().getClassLoader().getResource(pathList.get(path));
-        Image img = resizeImage(new ImageIcon(Objects.requireNonNull(imgURL1)));
-
-        ImageIcon icon = new TransparentImageIcon(new ImageIcon(img),opacity);
+//        Image img = resizeImage(new ImageIcon(Objects.requireNonNull(imgURL1)));
+        ImageIcon img = new ImageIcon(new ImageIcon(imgURL1).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT));
+        ImageIcon icon = new TransparentImageIcon(img,opacity);
         label.setIcon(icon);
         add(label);
     }
