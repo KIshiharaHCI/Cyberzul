@@ -1245,6 +1245,25 @@ Q3:
 
 - many merge conflicts and merge bubbles of the team and me, because we all pushed to the main branch
 
+_Marco_
+
+Q1:
+- meeting with team
+  - create floor line + functionality
+  - create CHANGELOG.md
+  - create README.md
+  - create JAR-file with Nils.
+  - Bugfixing pattern line
+  - Creation of Tasks
+
+Q2:
+- Presentation
+- Creating tasks together
+
+Q3:
+- None
+
+
 **5. July, 2022**
 
 _Nils_
@@ -1264,6 +1283,18 @@ Q3:
 
 - none
 
+_Marco_
+
+Q1:
+- Presentation
+- Creating tasks together
+
+Q2:
+- None.
+
+Q3:
+- None.
+
 **6. July, 2022**
 
 _Nils_
@@ -1279,6 +1310,20 @@ Q2:
 Q3:
 
 - none
+
+_Marco_
+
+Q1:
+- None
+
+Q2:
+- Creating LOGGER with Log4j2 in subbranch
+- Merging to main
+- Creating model Interface
+- Forfeit Game Logic
+
+Q3:
+- Logger cannot create files, does not work when I am not using the Default Configurator.
 
 **7. July, 2022**
 
@@ -1296,6 +1341,23 @@ Q2:
 Q3:
 
 - I need to coordinate the network design with the team.
+
+
+_Marco_
+
+Q1:
+- write forfeit method
+  - first that the game is just ended if one player forfeits
+  - then decided to write an AI (random turns) that replaces the player
+
+Q2:
+- Team meeting with Chris
+- Discuss new view
+- Discuss server-client-connection
+- implement getFloorlineOfPlayer() in Controller
+
+Q3:
+- Logger
 
 **8. July, 2022**
 
@@ -1321,6 +1383,24 @@ Q3:
   it.
 - it is difficult for Xue to start implementing the Chat if the client-server-architecture is not ready yet.
 
+_Marco_
+
+Q1:
+- Team meeting with Chris
+- Discuss new view
+- Discuss server-client-connection
+- implement getFloorlineOfPlayer() in Controller
+- fix bugs in AI method and make the code better
+
+Q2:
+- fix bug in AI method when more than one player defeats and we have four players
+- meeting with Nils
+- merge AI to main
+- restructure model
+
+Q3:
+- Logger
+
 **9. July, 2022**
 
 _Nils_
@@ -1336,6 +1416,27 @@ Q2:
 Q3:
 
 - I rely heavily on the functioning code of other developers
+
+
+_Marco_
+
+Q1:
+- meeting with Nils
+- create Model interface
+- restructure model
+- make chooseTileFrom() use the index of the offering not the offering
+
+Q2:
+- implement restart() functionality
+- fix bug in AI method when more than one player defeats and we have four players
+- merge AI to main manually
+- make view use the interface
+- code improvements in model method
+- fix bug that next round did not start by the player with the SPM
+- logger
+
+Q3:
+- Logger
 
 **10. July, 2022**
 
@@ -1354,3 +1455,35 @@ Q3:
 - spagetti code. Instead of having one person who is responsible for his classes, we have many people writing multiple
   methods in every class. That way, we have redundant methods, that almost do the same. We also have methods that are
   not used in the way that they were intended to use. This makes the work tedious and slow.
+
+_Marco_
+
+Q1:
+- implement restart() functionality
+- fix bug in AI method when more than one player defeats and we have four players
+- merge AI to main manually
+- make view use the interface
+- code improvements in model method
+- fix bug that next round did not start by the player with the SPM
+
+Q2:
+- fix Build process in main branche
+- fix 454 Checkstyle errors (all in model and controller)
+
+Q3:
+- Logger
+
+**11. July, 2022**
+
+_Marco_ 
+
+Q1:
+- fix Build process in main branch
+- fix 454 Checkstyle errors (all in model and controller)
+
+Q2:
+- fix SpotBugs in Main branch
+- create new issues
+
+Q3:
+- Logger
