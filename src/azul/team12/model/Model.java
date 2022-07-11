@@ -79,7 +79,7 @@ public interface Model {
    * @param rowOfPatternLine the row of the chosen pattern line
    * @return <code>true</code> if it was a valid pick, <code>false</code> if not
    */
-  boolean makeActivePlayerPlaceTile(int rowOfPatternLine);
+  void makeActivePlayerPlaceTile(int rowOfPatternLine);
 
   /**
    * Makes the active player place the tile he/she has chosen directly into the floor line.

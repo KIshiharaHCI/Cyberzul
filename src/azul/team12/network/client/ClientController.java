@@ -76,8 +76,8 @@ public class ClientController implements Controller {
   }
 
   @Override
-  public boolean placeTileAtPatternLine(int rowOfPatternLine) {
-    return false;
+  public void placeTileAtPatternLine(int rowOfPatternLine) {
+
   }
 
   @Override

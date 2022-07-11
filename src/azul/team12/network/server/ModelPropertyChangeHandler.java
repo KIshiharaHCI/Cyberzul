@@ -58,6 +58,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       }
       case "PlayerHasChosenTileEvent" -> handlePlayerHasChosenTileEvent(customMadeGameEvent);
       case "NoValidTurnToMakeEvent" -> handleNoValidTurnToMakeEvent();
+      case "IllegalTurnEvent" -> handleIllegalTurnEvent();
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
@@ -75,6 +76,14 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       connection.broadcastToAll(
           JsonMessage.createPlayerHasChosenTileMessage(playerHasChosenTileEvent.getNickname()));
     } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void handleIllegalTurnEvent(){
+    try {
+      connection.sendToActivePlayer(JsonMessage.createMessageOfType(JsonMessage.ILLEGAL_TURN));
+    } catch (JSONException e) {
       e.printStackTrace();
     }
   }
@@ -103,6 +112,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
   private void handleNextPlayersTurnEvent(Object customMadeGameEvent) {
     try {
+      System.out.println("handle next players turn in Model Property Change Handler");
       NextPlayersTurnEvent nextPlayersTurnEvent = (NextPlayersTurnEvent) customMadeGameEvent;
       String nameOfActivePlayer = nextPlayersTurnEvent.getNameOfActivePlayer();
 

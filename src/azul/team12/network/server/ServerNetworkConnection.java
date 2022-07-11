@@ -44,6 +44,7 @@ public class ServerNetworkConnection {
           executorService.execute(handler);
         }
       } catch (IOException e) {
+        System.out.println("Socket got interrupted");
         // Thrown when the socket gets interrupted
       }
     }

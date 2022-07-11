@@ -55,7 +55,8 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
     source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
     // offerings, not factoryDisplays, because the first factory displays has id one not zero
     List<Offering> offerings = controller.getOfferings();
-    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(), source.getPlateId());
+    controller.chooseTileFrom(model.getNickOfActivePlayer(), source.getTileId(),
+        source.getPlateId());
 
   }
 
@@ -63,6 +64,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   public void visitOnClick(DestinationTile destinationTile) {
     onDestinationTileClick(destinationTile);
   }
+
   /**
    * place tile of the respective color if destination tile on pattern line was clicked
    *
@@ -75,34 +77,41 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
             + tileDestination.getRow());
     if (source != null) {
       // if the player is able to place the tile, place it
-      if (controller.placeTileAtPatternLine(tileDestination.getRow())) {
-        PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
-        patternLinesView.remove();
-        patternLinesView.initialize(Tile.TILE_SIZE, this);
-
-        source.setBorder(BorderFactory.createEmptyBorder());
-        if (source.getPlateId() > 0) {
-          Plate plate = (Plate) source.getParent().getParent();
-          PlatesPanel platesPanel = (PlatesPanel) plate.getParent();
-          platesPanel.remove();
-          platesPanel.initialize(controller.getOfferings().subList(1,controller.getOfferings().size()), this);
-
-          CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
-          TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();
-          tableCenterPanel.remove();
-          tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
-        } else if (source.getPlateId() == 0) {
-          TableCenterPanel tableCenterPanel = (TableCenterPanel) source.getParent().getParent();
-          tableCenterPanel.remove();
-          tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
-        }
-        //TODO: do it with a button on the playboard
-        showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
-        controller.endTurn(source.getName());
-        source = null;
-      } else {
-        showErrorMessage("Not a valid turn!");
+      controller.placeTileAtPatternLine(tileDestination.getRow());
+      try {
+        Thread.sleep(200);
+      }catch (InterruptedException e){
+        e.printStackTrace();
       }
+      PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
+      patternLinesView.remove();
+      patternLinesView.initialize(Tile.TILE_SIZE, this);
+
+      source.setBorder(BorderFactory.createEmptyBorder());
+      if (source.getPlateId() > 0) {
+        Plate plate = (Plate) source.getParent().getParent();
+        PlatesPanel platesPanel = (PlatesPanel) plate.getParent();
+        platesPanel.remove();
+        platesPanel.initialize(
+            controller.getOfferings().subList(1, controller.getOfferings().size()), this);
+
+        //TODO: TEST sout
+        System.out.println("Factory 0: " + controller.getOfferings().get(1).getContent());
+
+        CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
+        TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();
+        tableCenterPanel.remove();
+        tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
+      } else if (source.getPlateId() == 0) {
+        TableCenterPanel tableCenterPanel = (TableCenterPanel) source.getParent().getParent();
+        tableCenterPanel.remove();
+        tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
+      }
+      //TODO: do it with a button on the playboard
+      showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
+      controller.endTurn(source.getName());
+      source = null;
+
 
     } else {
       destination = tileDestination;

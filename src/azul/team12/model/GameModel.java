@@ -181,13 +181,15 @@ public class GameModel implements Model {
     }
   }
 
-  public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
+  public void makeActivePlayerPlaceTile(int rowOfPatternLine) {
     LOGGER.info(
         getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine +
             ".");
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
-    return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
+     if(!activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile)){
+       notifyListeners(new IllegalTurnEvent());
+     };
   }
 
   public void tileFallsDown() {

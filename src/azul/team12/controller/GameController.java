@@ -71,9 +71,9 @@ public class GameController implements Controller{
   }
 
   @Override
-  public boolean placeTileAtPatternLine(int rowOfPatternLine) {
+  public void placeTileAtPatternLine(int rowOfPatternLine) {
     System.out.println("Player " + getNickOfActivePlayer() + " tries to place a tile on the " + rowOfPatternLine + ". row of pattern lines.");
-    return model.makeActivePlayerPlaceTile(rowOfPatternLine);
+    model.makeActivePlayerPlaceTile(rowOfPatternLine);
   }
 
   public void placeTileAtFloorLine() {

@@ -33,7 +33,8 @@ public enum JsonMessage {
   NOT_YOUR_TURN("not your turn"),
   NEXT_PLAYERS_TURN("next players turn"),
   PLAYER_HAS_CHOSEN_TILE("player has chosen tile"),
-  NO_VALID_TURN_TO_MAKE("no valid turn to make");
+  NO_VALID_TURN_TO_MAKE("no valid turn to make"),
+  ILLEGAL_TURN("illegal turn");
 
   public static final String TYPE_FIELD = "type";
 
@@ -101,6 +102,7 @@ public enum JsonMessage {
    * @return A JSONMessage telling the server that a tile was chosen by the player, and which one.
    */
   public static JSONObject notifyTileChosenMessage(int indexOfTile, int indexOfOffering) {
+    System.out.println("JsonMessage#notifyFileChosenMessage");
     try {
       JSONObject jsonObject = createMessageOfType(NOTIFY_TILE_CHOSEN);
       jsonObject.put(INDEX_OF_TILE_FIELD, indexOfTile);
@@ -313,6 +315,7 @@ public enum JsonMessage {
   }
 
   public static JSONObject placeTileInPatternLine(int rowOfPatternLine) {
+    System.out.println("handle next players turn in JsonMessage");
     try {
       return createMessageOfType(PLACE_TILE_IN_PATTERN_LINE).put(INDEX_OF_PATTERN_LINE_FIELD,
           rowOfPatternLine);

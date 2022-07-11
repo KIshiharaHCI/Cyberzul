@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import azul.team12.model.ClientFactoryDisplay;
 import azul.team12.model.ClientTableCenter;
+import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
@@ -23,6 +24,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +41,7 @@ public class ClientModel implements Model {
   private ArrayList<ClientPlayer> playerList = new ArrayList<>();
   protected ArrayList<Offering> offerings;
 
+  private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
 
   public ClientModel() {
 
@@ -96,9 +100,9 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
+  public void makeActivePlayerPlaceTile(int rowOfPatternLine) {
+    System.out.println("handle next players turn in client model");
     connection.send(JsonMessage.placeTileInPatternLine(rowOfPatternLine));
-    return true;
   }
 
   @Override
@@ -353,7 +357,9 @@ public class ClientModel implements Model {
     }
     this.offerings = returnOfferingsList;
 
-    //TODO: TEST SOUT:
+    //TODO: TEST sout
+    LOGGER.debug(this.offerings.get(0).getContent().toString() +
+        this.offerings.get(1).getContent().toString());
     System.out.println(this.offerings.get(0).getContent().toString() +
         this.offerings.get(1).getContent().toString());
   }
@@ -382,6 +388,11 @@ public class ClientModel implements Model {
   }
 
   public void handleNextPlayersTurn(JSONObject object) throws JSONException {
+
+    LOGGER.debug("Handle Next Players Turn");
+
+    //TODO: TEST sout
+    System.out.println("handle next players turn in client model");
 
     String nameOfActivePlayer = object.getString(JsonMessage.NAME_OF_ACTIVE_PLAYER_FIELD);
     List<String> playerNamesList = getPlayerNamesList();

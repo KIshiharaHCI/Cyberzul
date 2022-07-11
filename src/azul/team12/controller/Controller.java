@@ -109,7 +109,7 @@ public interface Controller {
    * @param rowOfPatternLine the row of the pattern line selected
    * @return <code>true</code> if it was a valid pick, <code>false</code> if not
    */
-  boolean placeTileAtPatternLine(int rowOfPatternLine);
+  void placeTileAtPatternLine(int rowOfPatternLine);
 
   /**
    * Informs the model that the user has put the tiles of a chosen offering directly to the
