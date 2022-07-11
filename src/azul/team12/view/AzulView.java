@@ -41,6 +41,10 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JButton testTwoPlayersButton;
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
   private JLabel gameLogoLabel;
+  private JLabel backgroundLabel;
+  private final double BACKGROUND_SCALE_FACTOR = 1.5;
+
+  private final String BACKGROUND_PATH = "img/background.jpg";
 
 
   private transient Model model;
@@ -196,7 +200,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         GameNotStartableEvent gameNotStartableEvent = (GameNotStartableEvent) customMadeGameEvent;
         if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.GAME_ALREADY_STARTED)) {
           showErrorMessage(GameNotStartableEvent.GAME_ALREADY_STARTED);
-        } else if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.NOT_ENOUGH_PLAYER)) {
+        } else if (gameNotStartableEvent.getMessage()
+            .equals(GameNotStartableEvent.NOT_ENOUGH_PLAYER)) {
           showErrorMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER);
         }
       }
@@ -227,14 +232,18 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     login.setMinimumSize(frameDimension);
     login.setMaximumSize(frameDimension);
     login.add(gameLogoLabel);
-    JPanel container = new JPanel();
-    login.add(container);
 
+    JPanel container = new JPanel();
     container.add(selectModeLabel);
     container.add(hotSeatModeButton);
     container.add(networkButton);
+    container.setOpaque(false);
 
-    add(login, LOGIN_CARD);
+    login.add(container);
+
+    JPanel backgroundPanel = createBackgroundPanel(login, BACKGROUND_PATH, FRAME_WIDTH, FRAME_WIDTH,
+        BACKGROUND_SCALE_FACTOR);
+    panel.add(backgroundPanel, LOGIN_CARD);
 
     createHotSeatModeCard();
   }
@@ -248,7 +257,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);
     inputField = new JTextField(10);
-    add(hotSeatModePanel, HOT_SEAT_MODE_CARD);
     numberOfLoggedInPlayersLabel =
         new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
     hotSeatModePanel.add(numberOfLoggedInPlayersLabel);
@@ -259,6 +267,38 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     hotSeatModePanel.add(testFourPlayersButton);
     hotSeatModePanel.add(testThreePlayersButton);
     hotSeatModePanel.add(testTwoPlayersButton);
+    JPanel backgroundPanel = createBackgroundPanel(hotSeatModePanel, BACKGROUND_PATH, FRAME_WIDTH,
+        FRAME_HEIGHT, BACKGROUND_SCALE_FACTOR);
+    add(backgroundPanel, HOT_SEAT_MODE_CARD);
+  }
+
+  /**
+   * Creates a background with image for the game.
+   *
+   * @param childPanel: Panel to set transparent.
+   * @param path:       Path of the image to set.
+   * @param width:      Basic width from which the scale should start.
+   * @param height:     Basic height from which the scale should start.
+   * @param scaleFactor: The factor to make image larger to.
+   *
+   * @return: The {@link JPanel} with background image.
+   *
+   */
+  private JPanel createBackgroundPanel(JPanel childPanel, String path, int width, int height,
+      double scaleFactor) {
+    URL imgURL = getClass().getClassLoader().getResource(path);
+    assert imgURL != null;
+    ImageIcon icon1 = new ImageIcon(new ImageIcon(imgURL).getImage()
+        .getScaledInstance((int) Math.round(width * scaleFactor), (int) Math.round(height * scaleFactor),
+            Image.SCALE_DEFAULT));
+
+    childPanel.setOpaque(false);
+    backgroundLabel = new JLabel(icon1);
+    backgroundLabel.setLayout(new GridLayout(1, 1));
+    backgroundLabel.add(childPanel);
+    JPanel backgroundPanel = new JPanel(new GridLayout(1, 1));
+    backgroundPanel.add(backgroundLabel);
+    return backgroundPanel;
   }
 
   private void showHSMCard() {
@@ -318,9 +358,10 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
   /**
    * Getter for AzulView JFrame width
+   *
    * @return
    */
-  public Dimension getFrameDimension () {
+  public Dimension getFrameDimension() {
     return frameDimension;
   }
 }
