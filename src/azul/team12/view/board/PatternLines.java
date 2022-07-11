@@ -3,23 +3,23 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
 public class PatternLines extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
   private static final int DEFAULT_TILE_SIZE = 25;
-  private final Controller controller;
+  private transient final Controller controller;
   private final int ROWS = 5;
   private final int COLS = 5;
   private final int tileSize;
   private ModelTile[][] currentPatternLines;
 
-  private List<JPanel> currentRows = new ArrayList<>();
+  private transient List<JPanel> currentRows = new ArrayList<>();
 
   public PatternLines(Controller controller) {
     this.controller = controller;
@@ -83,7 +83,7 @@ public class PatternLines extends JPanel {
           ModelTile modelTile = currentPatternLines[row][col];
           if (modelTile.toString().equals(ModelTile.EMPTY_TILE.toString())) {
             currentRow.add(
-                    new DestinationTile(col, row, ModelTile.EMPTY_TILE, tileClickListener)
+                new DestinationTile(col, row, ModelTile.EMPTY_TILE, tileClickListener)
             );
           } else {
             currentRow.add(new DestinationTile(col, row, modelTile, tileClickListener));

@@ -85,7 +85,17 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public void forfeitGame() {
+  public void cancelGame() {
+
+  }
+
+  @Override
+  public void replaceActivePlayerByAi() {
+
+  }
+
+  @Override
+  public void makeAiPlayerMakeMove(String nickOfAiPlayer) {
 
   }
 
@@ -140,7 +150,7 @@ public class ClientModel implements Model {
   public int getIndexOfNextPlayer() {
     int indexOfNextPlayer;
     if (checkRoundFinished()) {
-      indexOfNextPlayer = getIndexOfPlayerWithSPM();
+      indexOfNextPlayer = this.getIndexOfPlayerWithSpm();
     } else if (indexOfActivePlayer == playerList.size() - 1) {
       indexOfNextPlayer = 0;
     } else {
@@ -311,17 +321,6 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public List<Offering> getFactoryDisplays() {
-    // return the factory displays being the all but the first offering
-    return offerings.subList(1, offerings.size());
-  }
-
-  @Override
-  public Offering getTableCenter() {
-    return offerings.get(0);
-  }
-
-  @Override
   public String getNickOfActivePlayer() {
     return playerList.get(indexOfActivePlayer).getName();
   }
@@ -365,7 +364,7 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public int getIndexOfPlayerWithSPM() {
+  public int getIndexOfPlayerWithSpm() {
     int index = 0;
     for (Player player : playerList) {
       if (player.hasStartingPlayerMarker()) {
@@ -375,6 +374,11 @@ public class ClientModel implements Model {
     }
     throw new IllegalStateException("We called giveIndexOfPlayer with Start Player Marker when "
         + "no player had the SPM.");
+  }
+
+  @Override
+  public void startTilingPhase() {
+
   }
 
   public boolean checkRoundFinished() {

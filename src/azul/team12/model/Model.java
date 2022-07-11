@@ -12,6 +12,10 @@ import azul.team12.model.events.RoundFinishedEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+/**
+ * The main interface of the Azul model for the graphical user-interface. It provides all necessary
+ * methods for accessing and manipulating the data such that a game can be played successfully.
+ */
 public interface Model {
 
   /**
@@ -22,12 +26,14 @@ public interface Model {
    */
 
   void addPropertyChangeListener(PropertyChangeListener listener);
+
   /**
    * Remove a listener from the model. From then on it will no longer get notified about any events
    * fired by the model.
    *
    * @param listener the view that is to be unsubscribed from the model.
    */
+
   void removePropertyChangeListener(PropertyChangeListener listener);
 
   /**
@@ -38,34 +44,48 @@ public interface Model {
   void loginWithName(String nickname);
 
   /**
-   * Tries to start the game. Fires {@link GameNotStartableEvent} if that is
-   * not possible, fires {@link GameStartedEvent} if it was.
+   * Tries to start the game. Fires {@link GameNotStartableEvent} if that is not possible, fires
+   * {@link GameStartedEvent} if it was.
    */
   void startGame();
 
   /**
-   * sets up everything for a new game with the same players.
+   * sets up the offerings new, deletes all entries from pattern lines and the floor line of all
+   * players, fires {@link GameStartedEvent}, makes all players non-AI-players and sets their points
+   * to zero.
    */
   void restartGame();
 
   /**
    * Forfeits the game, fires {@link GameForfeitedEvent}, removes all tiles from the table center,
-   * initializes the bag to store used tiles and the bag to draw new tiles from scratch,
-   * notifies listeners that the game has been forfeit.
+   * initializes the bag to store used tiles and the bag to draw new tiles from scratch, notifies
+   * listeners that the game has been forfeit.
    */
-  void forfeitGame();
+  void cancelGame();
 
   /**
-   * Ends the turn. Fires {@link RoundFinishedEvent} if the round has finished,
-   * fires {@link NextPlayersTurnEvent}, sets up the offerings new, if the game
-   * has ended and sets up the index of active player to be the index of the next
-   * player.
+   * forfeits the game, sets the player who forfeited to be an AI-Player and makes him/her do the
+   * next move.
+   */
+  void replaceActivePlayerByAi();
+
+  /**
+   * makes a given player place a tile randomly. Used for AI-Players.
+   *
+   * @param nickOfAiPlayer the name of the active player.
+   */
+  void makeAiPlayerMakeMove(String nickOfAiPlayer);
+
+  /**
+   * Ends the turn. Fires {@link RoundFinishedEvent} if the round has finished, fires
+   * {@link NextPlayersTurnEvent}, sets up the offerings new, if the game has ended and sets up the
+   * index of active player to be the index of the next player.
    */
   void endTurn();
 
   /**
-   * Informs the view via listeners that it is the next players turn. If the player cannot
-   * place the tile on a pattern line, it still informs the model.
+   * Informs the view via listeners that it is the next players turn. If the player cannot place the
+   * tile on a pattern line, it still informs the model.
    *
    * @param playerName    the player's name
    * @param indexOfTile   the index of the tile that was drawn
@@ -87,6 +107,30 @@ public interface Model {
   void tileFallsDown();
 
   /**
+<<<<<<< HEAD
+=======
+   * Checks whether there is still an offering with a non-empty content.
+   *
+   * @return <code>true</code> if the round is finished, <code>false</code> if not.
+   */
+  boolean checkRoundFinished();
+
+  /**
+   * Gives back the index of the player with the Start Player Marker.
+   *
+   * @return player's index.
+   */
+  int getIndexOfPlayerWithSpm();
+
+  /**
+   * Tell each player to tile the wall and get the points accordingly. Fires
+   * {@link PlayerHasEndedTheGameEvent} if a player has ended the game in this tiling phase, fires
+   * {@link GameFinishedEvent} at the end of this tiling phase in which someone has ended the game.
+   */
+  void startTilingPhase();
+
+  /**
+>>>>>>> main
    * Finds the player with the most points.
    *
    * @return the name of the player with most points.
@@ -108,20 +152,12 @@ public interface Model {
   int getIndexOfActivePlayer();
 
   /**
-   * Next player is the next player on the list or the first player, if the last active player
-   * was the last player on the list; or the player with the SPM if round is finished.
+   * Next player is the next player on the list or the first player, if the last active player was
+   * the last player on the list; or the player with the SPM if round is finished.
    *
    * @return the index of the player whose turn it is going to be.
    */
   int getIndexOfNextPlayer();
-
-  /**
-   * Gives back the index of the player with the Start Player Marker.
-   *
-   * @return player's index.
-   */
-  int getIndexOfPlayerWithSPM();
-
 
   /**
    * Return player by name (given by view).
@@ -129,7 +165,8 @@ public interface Model {
    * @param nickname the nickname of the player
    * @return the player
    */
-   Player getPlayerByName(String nickname);
+
+  Player getPlayerByName(String nickname);
 
   /**
    * gives back the pattern Lines of a given player.
@@ -155,12 +192,19 @@ public interface Model {
    */
   ModelTile[][] getWallOfPlayer(String playerName);
 
+
   /**
    * Returns the nicknames of all players.
-   * @return list of nicknames.
+   *
+   * @return the nicknames as strings.
    */
   List<String> getPlayerNamesList();
 
+  /**
+   * Returns the list of offerings.
+   *
+   * @return the offerings.
+   */
   List<Offering> getOfferings();
 
   /**
@@ -172,18 +216,14 @@ public interface Model {
   int getPoints(String nickname);
 
   /**
-   * Return the minus points the player acquired during this round because of Tiles that fell to
-   * the flore. Fires {@link PlayerDoesNotExistEvent} if one tried to get the points of
-   * a player that doesn't exist.
+   * Return the minus points the player acquired during this round because of Tiles that fell to the
+   * flore. Fires {@link PlayerDoesNotExistEvent} if one tried to get the points of a player that
+   * doesn't exist.
    *
    * @param nickname the name of the player whose minus points we want to know.
    * @return the number of points he already has.
    */
   int getMinusPoints(String nickname);
-
-  List<Offering> getFactoryDisplays();
-
-  Offering getTableCenter();
 
   /**
    * Returns the nickname of the player who has to make his turn.

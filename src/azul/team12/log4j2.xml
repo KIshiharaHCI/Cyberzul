@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn">
-  <Properties>
-    <Property name="log-path">log/${date:yyyy-MM-dd HH-mm-ss-SSS}</Property>
-    <Property name="archive">${log-path}/archive</Property>
-  </Properties>
-
   <Appenders>
     <Console name="Console-Appender" target="SYSTEM_OUT">
       <PatternLayout>
@@ -13,21 +8,21 @@
         </pattern>>
       </PatternLayout>
     </Console>
-    <File name="File-Appender-AzulMain" fileName="${log-path}/AzulMain.log">
+    <File fileName="${log-path}/AzulMain.log" name="File-Appender-AzulMain">
       <PatternLayout>
         <pattern>
           %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n
         </pattern>
       </PatternLayout>
     </File>
-    <File name="File-Appender-AzulView" fileName="${log-path}/AzulView.log">
+    <File fileName="${log-path}/AzulView.log" name="File-Appender-AzulView">
       <PatternLayout>
         <pattern>
           %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n
         </pattern>
       </PatternLayout>
     </File>
-    <File name="File-Appender-GameModel" fileName="${log-path}/GameModel.log">
+    <File fileName="${log-path}/GameModel.log" name="File-Appender-GameModel">
       <PatternLayout>
         <pattern>
           %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n
@@ -35,9 +30,14 @@
       </PatternLayout>
     </File>
   </Appenders>
+
   <Loggers>
-    <Root level="info" additivity="false">
-      <appender-ref ref="fileLogger" />
+    <Root additivity="false" level="info">
+      <appender-ref ref="fileLogger"/>
     </Root>
   </Loggers>
+  <Properties>
+    <Property name="log-path">log/${date:yyyy-MM-dd HH-mm-ss-SSS}</Property>
+    <Property name="archive">${log-path}/archive</Property>
+  </Properties>
 </Configuration>

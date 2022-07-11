@@ -36,16 +36,6 @@ public class ClientController implements Controller {
   }
 
   @Override
-  public List<Offering> getFactoryDisplays() {
-    return null;
-  }
-
-  @Override
-  public Offering getTableCenter() {
-    return null;
-  }
-
-  @Override
   public String getNickOfActivePlayer() {
     return null;
   }
@@ -116,7 +106,13 @@ public class ClientController implements Controller {
   }
 
   @Override
-  public void forfeitGame() {
+  public void replaceActivePlayerByAI() {
 
   }
+
+  @Override
+  public void cancelGameForAllPlayers() {
+
+  }
+
 }

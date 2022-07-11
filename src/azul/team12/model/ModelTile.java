@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Tiles that the player can choose from
+ * The Tiles that the player can choose from.
  */
 public enum ModelTile {
   RED_TILE("red tile"),
@@ -21,15 +21,10 @@ public enum ModelTile {
     this.name = name;
   }
 
-  @Override
-  public String toString() {
-    return this.name;
-  }
-
   /**
-   * The method ModelTile.values() returns all values of this enum. Since Empty ModelTile is not a real tile,
-   * it often makes sense to exclude it from the list of tiles.
-   * Same goes for the StartingPlayerMarker.
+   * The method ModelTile.values() returns all values of this enum. Since Empty ModelTile is not a
+   * real tile, it often makes sense to exclude it from the list of tiles. Same goes for the
+   * StartingPlayerMarker.
    *
    * @return the values of all tileable ModelTiles, that can be tiled to the wall.
    */
@@ -37,8 +32,8 @@ public enum ModelTile {
     ModelTile[] allValues = ModelTile.values();
     List<ModelTile> valuesOfTilesThatCanBeTiled = new ArrayList<>();
     for (int i = 0; i < allValues.length; i++) {
-      if (allValues[i] != ModelTile.EMPTY_TILE &&
-          allValues[i] != ModelTile.STARTING_PLAYER_MARKER) {
+      if (allValues[i] != ModelTile.EMPTY_TILE
+          && allValues[i] != ModelTile.STARTING_PLAYER_MARKER) {
         valuesOfTilesThatCanBeTiled.add(allValues[i]);
       }
     }
@@ -62,5 +57,10 @@ public enum ModelTile {
       case "starting player marker" -> {return STARTING_PLAYER_MARKER;}
       default -> throw new AssertionError("no such tile found.");
     }
+  }
+
+  @Override
+  public String toString() {
+    return this.name;
   }
 }

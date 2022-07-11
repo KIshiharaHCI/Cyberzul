@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * "Tischmitte"
- * One of the two places the player can draw tiles from.
+ * "Tischmitte" One of the two places the player can draw tiles from.
  */
 public class TableCenter extends Offering {
 
@@ -32,7 +31,7 @@ public class TableCenter extends Offering {
 
   @Override
   void initializeContent() {
-    this.content = new ArrayList<>();
+    TableCenter.content = new ArrayList<>();
   }
 
   /**
@@ -45,17 +44,16 @@ public class TableCenter extends Offering {
   /**
    * Chose a tile on this TableCenter via its index. Return every tile that has the same type and is
    * on this TableCenter aswell. If the TableCenter contains the StartingPlayerMarker, return this
-   * one aswell.
-   * Then delete every tile that was returned from this TableCenter.
+   * one aswell. Then delete every tile that was returned from this TableCenter.
    *
-   * @param indexOfTheTile
-   * @return
+   * @param indexOfTheTile the index of the tile on the table center.
+   * @return the tiles that will move to the pattern lines.
    */
   List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
     //The player can only choose "real" tiles. The starting player marker is not a tile, but a
     //marker. So if the player chooses the first tile (index 0), but the first element in
     //this.content is the starting player marker, the index has to be raised by 1.
-    if(content.contains(ModelTile.STARTING_PLAYER_MARKER)){
+    if (content.contains(ModelTile.STARTING_PLAYER_MARKER)) {
       indexOfTheTile++;
     }
 
@@ -63,7 +61,7 @@ public class TableCenter extends Offering {
     ArrayList<ModelTile> returnedTiles = new ArrayList<>();
 
     Iterator<ModelTile> contentIterator = content.iterator();
-    while(contentIterator.hasNext()){
+    while (contentIterator.hasNext()) {
       ModelTile currentTile = contentIterator.next();
       if (currentTile == chosenColor
           || currentTile == ModelTile.STARTING_PLAYER_MARKER) {
@@ -83,7 +81,7 @@ public class TableCenter extends Offering {
     return returnList;
   }
 
-  public void addStartPlayerMarker(){
+  public void addStartPlayerMarker() {
     content.add(ModelTile.STARTING_PLAYER_MARKER);
   }
 }

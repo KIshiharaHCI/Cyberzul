@@ -1,7 +1,8 @@
 package azul.team12.controller;
 
-import azul.team12.model.*;
-
+import azul.team12.model.ModelTile;
+import azul.team12.model.Offering;
+import azul.team12.model.Player;
 import java.util.List;
 
 /**
@@ -10,8 +11,8 @@ import java.util.List;
 public interface Controller {
 
   /**
-   * Try to create a new player with a name.
-   * Model informs the view via a notifyListener Event, if that was successful.
+   * Try to create a new player with a name. Model informs the view via a notifyListener Event, if
+   * that was successful.
    *
    * @param name the name of the player.
    * @return <code>true</code> if the player was successfully created. <code>false</code> else.
@@ -19,40 +20,24 @@ public interface Controller {
   void addPlayer(String name);
 
   /**
-   * Signals the model that all players have entered their name.
-   * The model should then initialize everything and starts the game. Players, Bags.
-   *
+   * Signals the model that all players have entered their name. The model should then initialize
+   * everything and starts the game. Players, Bags.
    */
   void startGame();
 
   /**
-   * Signals the model that the previous game should be restarted with the same players.
-   * The model initializes everything.
+   * Signals the model that the previous game should be restarted with the same players. The model
+   * initializes everything.
    */
   void restartGame();
 
   /**
-   * Gives the view the information about the manufacturing plates and the table center.
-   * Tiles are saved in the Bags as ArrayList<Tile>
+   * Gives the view the information about the manufacturing plates and the table center. Tiles are
+   * saved in the Bags as ArrayList<Tile>
+   *
    * @return
    */
   List<Offering> getOfferings();
-
-  /**
-   * Gives the view the information about the manufacturing plates.
-   * Tiles are saved in the Bags as ArrayList<Tile>
-   *
-   *
-   * @return the factory displays
-   */
-  List<Offering> getFactoryDisplays();
-
-  /**
-   * Return the table center.
-   *
-   * @return the table center.
-   */
-  Offering getTableCenter();
 
   /**
    * Returns the Name of the player who has to make his turn.
@@ -63,6 +48,7 @@ public interface Controller {
 
   /**
    * Returns the Name of the next player about to make their turn.
+   *
    * @return name of next player.
    */
   String getNickOfNextPlayer();
@@ -76,8 +62,8 @@ public interface Controller {
   int getPoints(String playerName);
 
   /**
-   * Return the minus points the player acquired during this round because of Tiles that fell to
-   * the flore.
+   * Return the minus points the player acquired during this round because of Tiles that fell to the
+   * flore.
    *
    * @param playerName the name of the player whose minus points we want to know.
    * @return the number of points he already has.
@@ -86,12 +72,11 @@ public interface Controller {
 
   /**
    * Informs the model that a player chose a tile from a manufacturing plate or from the table
-   * center.
-   * The model should inform the view with an error message via notify listeners, if the player
-   * can't place it on a patter line.
+   * center. The model should inform the view with an error message via notify listeners, if the
+   * player can't place it on a patter line.
    *
-   * @param playerName the name of the player who makes his move.
-   * @param indexOfTile which of the tiles on the Offering was clicked on.
+   * @param playerName    the name of the player who makes his move.
+   * @param indexOfTile   which of the tiles on the Offering was clicked on.
    * @param offeringIndex index of the offering where the tile is chosen from.
    */
   void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex);
@@ -112,13 +97,14 @@ public interface Controller {
   void placeTileAtPatternLine(int rowOfPatternLine);
 
   /**
-   * Informs the model that the user has put the tiles of a chosen offering directly to the
-   * floor lines.
+   * Informs the model that the user has put the tiles of a chosen offering directly to the floor
+   * lines.
    */
   void placeTileAtFloorLine();
 
   /**
    * Returns a list with the nicknames of all players.
+   *
    * @return a list with nicknames.
    */
   List<String> getPlayerNamesList();
@@ -161,7 +147,12 @@ public interface Controller {
   List<String> rankingPlayerWithPoints();
 
   /**
-   * tells the model that a given player forfeit the game.
+   * tells the model that a given player forfeit the game. Makes the player be replaced by an AI.
    */
-  void forfeitGame();
+  void replaceActivePlayerByAI();
+
+  /**
+   * tells the model that a given player wants to cancel the game. Makes the game end.
+   */
+  void cancelGameForAllPlayers();
 }

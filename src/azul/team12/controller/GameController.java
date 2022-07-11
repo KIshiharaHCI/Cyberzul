@@ -1,10 +1,12 @@
 package azul.team12.controller;
 
-import azul.team12.model.*;
-
+import azul.team12.model.Model;
+import azul.team12.model.ModelTile;
+import azul.team12.model.Offering;
+import azul.team12.model.WallBackgroundPattern;
 import java.util.List;
 
-public class GameController implements Controller{
+public class GameController implements Controller {
 
   private Model model;
 
@@ -28,16 +30,8 @@ public class GameController implements Controller{
   }
 
   @Override
-  public List<Offering> getOfferings() { return model.getOfferings(); }
-
-  @Override
-  public List<Offering> getFactoryDisplays() {
-    return model.getFactoryDisplays();
-  }
-
-  @Override
-  public Offering getTableCenter() {
-    return model.getTableCenter();
+  public List<Offering> getOfferings() {
+    return model.getOfferings();
   }
 
   @Override
@@ -56,7 +50,7 @@ public class GameController implements Controller{
   }
 
   @Override
-  public int getMinusPoints(String playerName){
+  public int getMinusPoints(String playerName) {
     return model.getMinusPoints(playerName);
   }
 
@@ -111,8 +105,13 @@ public class GameController implements Controller{
   }
 
   @Override
-  public void forfeitGame() {
-    model.forfeitGame();
+  public void replaceActivePlayerByAI() {
+    model.replaceActivePlayerByAi();
+  }
+
+  @Override
+  public void cancelGameForAllPlayers() {
+    model.cancelGame();
   }
 
 }

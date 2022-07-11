@@ -1,23 +1,23 @@
 package azul.team12.model.events;
 
 /**
- * Informs the listeners that the game has finished. Also carries the information of the player
- * who has won.
+ * Informs the listeners that the game has been forfeited by one player. Also carries the
+ * information of the player who has forfeited.
  */
-public class GameForfeitedEvent extends GameEvent{
+public class GameForfeitedEvent extends GameEvent {
 
-  public final String FORFEITER;
+  public String forfeiter;
 
-  public GameForfeitedEvent(String nickname){
-    this.FORFEITER = nickname;
+  public GameForfeitedEvent(String nickname) {
+    this.forfeiter = nickname;
   }
 
   public String getForfeiter() {
-    return FORFEITER;
+    return forfeiter;
   }
 
   @Override
-  public String getName(){
+  public String getName() {
     return "GameForfeitedEvent";
   }
 }

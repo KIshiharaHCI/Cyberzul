@@ -8,11 +8,11 @@ public class PlayerHasChosenTileEvent extends GameEvent {
 
   private final String nickname;
 
-  public PlayerHasChosenTileEvent(String nickname){
+  public PlayerHasChosenTileEvent(String nickname) {
     this.nickname = nickname;
   }
 
-  public String getNickname(){
+  public String getNickname() {
     return nickname;
   }
 

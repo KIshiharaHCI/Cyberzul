@@ -1,14 +1,17 @@
 package azul.team12.model.events;
 
-public class PlayerDoesNotExistEvent extends GameEvent{
+/**
+ * Informs the listener that a given player does not exist.
+ */
+public class PlayerDoesNotExistEvent extends GameEvent {
 
   private final String nickname;
 
-  public PlayerDoesNotExistEvent(String nickname){
+  public PlayerDoesNotExistEvent(String nickname) {
     this.nickname = nickname;
   }
 
-  public String getNickname(){
+  public String getNickname() {
     return this.nickname;
   }
 

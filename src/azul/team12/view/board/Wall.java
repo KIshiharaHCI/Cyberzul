@@ -3,9 +3,11 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 public class Wall extends JPanel {
 
@@ -14,11 +16,12 @@ public class Wall extends JPanel {
   private final int ROWS = 5;
   private final int COLS = 5;
   private final int buttonSize;
-  private Controller controller;
+  private transient Controller controller;
   private ModelTile[][] wall;
   private ModelTile[][] templateWall;
   private JPanel currentRow;
 //TODO: remove other players side panel methods
+
   /**
    * Constructor solely used to create other players side panel.
    */

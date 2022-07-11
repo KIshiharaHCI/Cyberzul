@@ -1,13 +1,12 @@
 package azul.team12.model.events;
 
 /**
- * Gives the view the information that the next player has to make his turn now.
- * The view can get the information about the name of the player who's turn will be next.
+ * Gives the view the information that the next player has to make his turn now. The view can get
+ * the information about the name of the player who's turn will be next.
  */
 public class NextPlayersTurnEvent extends GameEvent {
 
   private final String nameOfActivePlayer;
-
   private final String nameOfPlayerWhoEndedHisTurn;
 
   public NextPlayersTurnEvent(String nameOfActivePlayer, String nameOfPlayerWhoEndedHisTurn) {

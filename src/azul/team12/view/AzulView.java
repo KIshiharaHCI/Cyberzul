@@ -52,9 +52,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
   private JLabel gameLogoLabel;
 
+  private transient Model model;
+  private transient Controller controller;
 
-  private Model model;
-  private Controller controller;
   private GameBoard gameBoard;
   private TileClickListener tileClickListener;
 
@@ -169,10 +169,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     LOGGER.info(eventName);
 
     switch (eventName) {
-      case "GameStartedEvent" -> {
-        addNewGameBoard(tileClickListener);
-        showCard(GAMEBOARD_CARD);
-      }
       case "LoginFailedEvent" -> {
         LoginFailedEvent loginFailedEvent = (LoginFailedEvent) customMadeGameEvent;
         if (loginFailedEvent.getMessage().equals(LoginFailedEvent.NICKNAME_ALREADY_TAKEN)) {
@@ -183,6 +179,12 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           showErrorMessage("Already logged in.");
         }
         //TODO - @ Nils add other events
+      }
+      case "GameStartedEvent" -> {
+        updateCenterBoard();
+        updateRankingBoard();
+        addNewGameBoard(tileClickListener);
+        showCard(GAMEBOARD_CARD);
       }
       case "NextPlayersTurnEvent" -> {
         updateCenterBoard();
@@ -197,7 +199,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
       case "GameFinishedEvent" -> {
         GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
-        showErrorMessage("User " + gameFinishedEvent.getWINNER() + " won.");
+        showErrorMessage("User " + gameFinishedEvent.getWinner() + " won.");
       }
       case "IllegalTurnEvent" -> {
         showErrorMessage("Illegal turn.");
@@ -211,7 +213,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           showErrorMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER);
         }
       }
-      case "GameForfeitedEvent" -> {
+      case "GameCanceledEvent" -> {
         showHSMCard();
       }
       case "NotYourTurnEvent" -> showErrorMessage(

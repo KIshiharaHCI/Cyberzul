@@ -1,17 +1,26 @@
 package azul.team12.view.listeners;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
-import azul.team12.view.board.*;
-
-import javax.swing.*;
-import java.awt.*;
+import azul.team12.view.board.CenterBoard;
+import azul.team12.view.board.DestinationTile;
+import azul.team12.view.board.FloorLinePanel;
+import azul.team12.view.board.PatternLines;
+import azul.team12.view.board.Plate;
+import azul.team12.view.board.PlatesPanel;
+import azul.team12.view.board.SourceTile;
+import azul.team12.view.board.TableCenterPanel;
+import azul.team12.view.board.Tile;
+import azul.team12.view.board.TileAcceptor;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 
 /**
  * listens to what tile is clicked on and //TODO: makes the model change accordingly
@@ -47,10 +56,22 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   }
 
   /**
-   * create red border around tile if source tile was clicked
+   * Select the {@link Tile} from an {@link Offering}.
+   *
+   * @param sourceTile: The {@link Tile} klicked on.
    */
   @Override
   public void visitOnClick(SourceTile sourceTile) {
+    // second time click on the selected tile => unselect the tile
+    if (sourceTile.equals(source)) {
+      source.setBorder(BorderFactory.createEmptyBorder());
+      source = null;
+      return;
+      // another tile selected after selecting one tile => unselect the first one
+    } else if (source != null) {
+      source.setBorder(BorderFactory.createEmptyBorder());
+    }
+    // select the current tile
     source = sourceTile;
     source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
     // offerings, not factoryDisplays, because the first factory displays has id one not zero
@@ -82,6 +103,30 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         Thread.sleep(200);
       }catch (InterruptedException e){
         e.printStackTrace();
+
+      if (tileDestination.getParent().getParent() instanceof FloorLinePanel) {
+        controller.placeTileAtFloorLine();
+
+        FloorLinePanel floorLinePanel = (FloorLinePanel) tileDestination.getParent().getParent();
+        floorLinePanel.updateBottomTilesRow();
+
+        resetOffering();
+        showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
+        controller.endTurn(source.getName());
+        source = null;
+      } else {
+        controller.placeTileAtPatternLine(tileDestination.getRow());
+        if (tileDestination.getParent().getParent() instanceof PatternLines) {
+          PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
+          patternLinesView.remove();
+          patternLinesView.initialize(Tile.TILE_SIZE, this);
+        }
+        resetOffering();
+        //TODO: do it with a button on the playboard
+        showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
+        controller.endTurn(source.getName());
+        source = null;
+      }
       }
       PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
       patternLinesView.remove();
@@ -115,6 +160,26 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
     } else {
       destination = tileDestination;
+    }
+  }
+
+  private void resetOffering() {
+    source.setBorder(BorderFactory.createEmptyBorder());
+    if (source.getPlateId() > 0) {
+      Plate plate = (Plate) source.getParent().getParent();
+      PlatesPanel platesPanel = (PlatesPanel) plate.getParent();
+      platesPanel.remove();
+      platesPanel.initialize(controller.getOfferings().subList(1, controller.getOfferings().size()),
+          this);
+
+      CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
+      TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();
+      tableCenterPanel.remove();
+      tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
+    } else if (source.getPlateId() == 0) {
+      TableCenterPanel tableCenterPanel = (TableCenterPanel) source.getParent().getParent();
+      tableCenterPanel.remove();
+      tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
     }
   }
 
