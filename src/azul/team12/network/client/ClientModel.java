@@ -13,6 +13,7 @@ import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
+import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.NotYourTurnEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
@@ -456,6 +457,10 @@ public class ClientModel implements Model {
     catch (JSONException e){
       e.printStackTrace();
     }
+  }
+
+  public void handleNoValidTurnToMake(){
+    notifyListeners(new NoValidTurnToMakeEvent());
   }
 }
 

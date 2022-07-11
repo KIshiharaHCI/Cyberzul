@@ -32,7 +32,8 @@ public enum JsonMessage {
   GAME_STARTED("game started"),
   NOT_YOUR_TURN("not your turn"),
   NEXT_PLAYERS_TURN("next players turn"),
-  PLAYER_HAS_CHOSEN_TILE("player has chosen tile");
+  PLAYER_HAS_CHOSEN_TILE("player has chosen tile"),
+  NO_VALID_TURN_TO_MAKE("no valid turn to make");
 
   public static final String TYPE_FIELD = "type";
 

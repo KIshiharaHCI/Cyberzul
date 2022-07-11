@@ -116,6 +116,7 @@ public class ClientNetworkConnection {
       case NEXT_PLAYERS_TURN -> model.handleNextPlayersTurn(object);
       case NOT_YOUR_TURN -> model.handleNotYourTurn();
       case PLAYER_HAS_CHOSEN_TILE -> model.handlePlayerHasChosenTile(object);
+      case NO_VALID_TURN_TO_MAKE -> model.handleNoValidTurnToMake();
       /*
       case USER_JOINED:
         handleUserJoined(object);

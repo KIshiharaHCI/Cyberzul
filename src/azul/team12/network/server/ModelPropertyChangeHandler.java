@@ -1,6 +1,5 @@
 package azul.team12.network.server;
 
-import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
@@ -10,7 +9,6 @@ import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import org.json.JSONException;
@@ -59,6 +57,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
         //TODO: FILL THIS WITH FUNCTIONALITY
       }
       case "PlayerHasChosenTileEvent" -> handlePlayerHasChosenTileEvent(customMadeGameEvent);
+      case "NoValidTurnToMakeEvent" -> handleNoValidTurnToMakeEvent();
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
@@ -73,8 +72,17 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
     try {
       PlayerHasChosenTileEvent playerHasChosenTileEvent =
           (PlayerHasChosenTileEvent) customMadeGameEvent;
-      connection.broadcastToAll(JsonMessage.createPlayerHasChosenTileMessage(playerHasChosenTileEvent.getNickname()));
+      connection.broadcastToAll(
+          JsonMessage.createPlayerHasChosenTileMessage(playerHasChosenTileEvent.getNickname()));
     } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void handleNoValidTurnToMakeEvent() {
+    try {
+      connection.sendToActivePlayer(JsonMessage.createMessageOfType(JsonMessage.NO_VALID_TURN_TO_MAKE));
+    } catch (JSONException e) {
       e.printStackTrace();
     }
   }

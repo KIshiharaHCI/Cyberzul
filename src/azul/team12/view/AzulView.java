@@ -219,6 +219,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       case "PlayerHasChosenTileEvent" -> {
         //TODO: FILL WITH FUNCTIONALITY
       }
+      case "NoValidTurnToMakeEvent" -> showErrorMessage("No Valied Turn to make");
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }

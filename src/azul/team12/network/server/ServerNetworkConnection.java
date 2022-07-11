@@ -38,7 +38,8 @@ public class ServerNetworkConnection {
         while (!Thread.currentThread().isInterrupted()) {
           Socket clientSocket = socket.accept();
           ClientMessageHandler handler =
-              new ClientMessageHandler(ServerNetworkConnection.this, clientSocket,controller,model);
+              new ClientMessageHandler(ServerNetworkConnection.this, clientSocket, controller,
+                  model);
           addHandler(handler);
           executorService.execute(handler);
         }
@@ -64,11 +65,24 @@ public class ServerNetworkConnection {
     modelPropertyChangeHandler = new ModelPropertyChangeHandler(this, model);
   }
 
+  public synchronized void sendToActivePlayer(JSONObject object) {
+    try {
+      String activePlayerName = model.getNickOfActivePlayer();
+      for (ClientMessageHandler handler : clientHandlers) {
+        if (handler.getNickname().equals(activePlayerName) && handler.isLoggedIn()) {
+          handler.send(object);
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Method for a single client to broadcast a message to all the other connected clients. The
    * broadcast goes to everyone except the sending handler.
    *
-   * @param sender The client from whom the message originates
+   * @param sender  The client from whom the message originates
    * @param message The message as JSONObject that is to be broadcast.
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
@@ -88,9 +102,9 @@ public class ServerNetworkConnection {
    * @param message The message as JSONObject that is to be broadcast.
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
-  public void broadcastToAll(JSONObject message) throws IOException{
+  public void broadcastToAll(JSONObject message) throws IOException {
     synchronized (clientHandlers) {
-      for(ClientMessageHandler handler : clientHandlers){
+      for (ClientMessageHandler handler : clientHandlers) {
         handler.send(message);
       }
     }
