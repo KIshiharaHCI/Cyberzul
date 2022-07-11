@@ -41,7 +41,8 @@ public class GameBoard extends JPanel {
 
     this.frameDimension = frameDimension;
     setLayout(new BorderLayout());
-    setBackground(Color.lightGray);
+    //setBackground(Color.lightGray);
+    setOpaque(false);
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);
 
@@ -73,6 +74,7 @@ public class GameBoard extends JPanel {
   private void createOpponentsPanel() {
     otherPlayerBoards = new ArrayList<>();
     boardsOfOpponentsPanel = new JPanel();
+    boardsOfOpponentsPanel.setOpaque(false);
     Dimension opponentsPanelDimension = new Dimension(
             (int) (frameDimension.width * 0.25),
             (int) (frameDimension.height * 0.94)

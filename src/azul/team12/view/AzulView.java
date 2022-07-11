@@ -275,21 +275,20 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   /**
    * Creates a background with image for the game.
    *
-   * @param childPanel: Panel to set transparent.
-   * @param path:       Path of the image to set.
-   * @param width:      Basic width from which the scale should start.
-   * @param height:     Basic height from which the scale should start.
+   * @param childPanel:  Panel to set transparent.
+   * @param path:        Path of the image to set.
+   * @param width:       Basic width from which the scale should start.
+   * @param height:      Basic height from which the scale should start.
    * @param scaleFactor: The factor to make image larger to.
-   *
    * @return: The {@link JPanel} with background image.
-   *
    */
   private JPanel createBackgroundPanel(JPanel childPanel, String path, int width, int height,
       double scaleFactor) {
     URL imgURL = getClass().getClassLoader().getResource(path);
     assert imgURL != null;
     ImageIcon icon1 = new ImageIcon(new ImageIcon(imgURL).getImage()
-        .getScaledInstance((int) Math.round(width * scaleFactor), (int) Math.round(height * scaleFactor),
+        .getScaledInstance((int) Math.round(width * scaleFactor),
+            (int) Math.round(height * scaleFactor),
             Image.SCALE_DEFAULT));
 
     childPanel.setOpaque(false);
@@ -319,7 +318,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     JPanel gameBoardPanel = new JPanel();
     gameBoardPanel.setMinimumSize(frameDimension);
     gameBoardPanel.setMaximumSize(frameDimension);
-    add(gameBoardPanel, GAMEBOARD_CARD);
+    JPanel backgroundPanel = createBackgroundPanel(gameBoardPanel, BACKGROUND_PATH, FRAME_WIDTH,
+        FRAME_WIDTH, BACKGROUND_SCALE_FACTOR);
+    add(backgroundPanel, GAMEBOARD_CARD);
     int numberOfPlayers = controller.getPlayerNamesList().size();
     gameBoard = new GameBoard(numberOfPlayers, tileClickListener, controller, frameDimension);
 

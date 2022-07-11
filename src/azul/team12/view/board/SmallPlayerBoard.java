@@ -17,6 +17,7 @@ public class SmallPlayerBoard extends PlayerBoard {
     public SmallPlayerBoard(Controller controller, TileClickListener tileClickListener,
                             String playerName, Dimension panelDimension) {
         super(controller, tileClickListener, playerName,Tile.SMALL_TILE_SIZE, panelDimension);
+        setOpaque(false);
         setSmallPlayerBoardSize(panelDimension);
     }
 
