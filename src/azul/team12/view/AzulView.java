@@ -241,9 +241,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
     login.add(container);
 
-    JPanel backgroundPanel = createBackgroundPanel(login, BACKGROUND_PATH, FRAME_WIDTH, FRAME_WIDTH,
+    JPanel backgroundPanel = new ImagePanel(login, BACKGROUND_PATH, FRAME_WIDTH, FRAME_WIDTH,
         BACKGROUND_SCALE_FACTOR);
-    panel.add(backgroundPanel, LOGIN_CARD);
+    add(backgroundPanel, LOGIN_CARD);
 
     createHotSeatModeCard();
   }
@@ -267,38 +267,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     hotSeatModePanel.add(testFourPlayersButton);
     hotSeatModePanel.add(testThreePlayersButton);
     hotSeatModePanel.add(testTwoPlayersButton);
-    JPanel backgroundPanel = createBackgroundPanel(hotSeatModePanel, BACKGROUND_PATH, FRAME_WIDTH,
+    JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, BACKGROUND_PATH, FRAME_WIDTH,
         FRAME_HEIGHT, BACKGROUND_SCALE_FACTOR);
     add(backgroundPanel, HOT_SEAT_MODE_CARD);
   }
 
-  /**
-   * Creates a background with image for the game.
-   *
-   * @param childPanel:  Panel to set transparent.
-   * @param path:        Path of the image to set.
-   * @param width:       Basic width from which the scale should start.
-   * @param height:      Basic height from which the scale should start.
-   * @param scaleFactor: The factor to make image larger to.
-   * @return: The {@link JPanel} with background image.
-   */
-  private JPanel createBackgroundPanel(JPanel childPanel, String path, int width, int height,
-      double scaleFactor) {
-    URL imgURL = getClass().getClassLoader().getResource(path);
-    assert imgURL != null;
-    ImageIcon icon1 = new ImageIcon(new ImageIcon(imgURL).getImage()
-        .getScaledInstance((int) Math.round(width * scaleFactor),
-            (int) Math.round(height * scaleFactor),
-            Image.SCALE_DEFAULT));
-
-    childPanel.setOpaque(false);
-    backgroundLabel = new JLabel(icon1);
-    backgroundLabel.setLayout(new GridLayout(1, 1));
-    backgroundLabel.add(childPanel);
-    JPanel backgroundPanel = new JPanel(new GridLayout(1, 1));
-    backgroundPanel.add(backgroundLabel);
-    return backgroundPanel;
-  }
 
   private void showHSMCard() {
     showCard(HOT_SEAT_MODE_CARD);
@@ -318,7 +291,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     JPanel gameBoardPanel = new JPanel();
     gameBoardPanel.setMinimumSize(frameDimension);
     gameBoardPanel.setMaximumSize(frameDimension);
-    JPanel backgroundPanel = createBackgroundPanel(gameBoardPanel, BACKGROUND_PATH, FRAME_WIDTH,
+    JPanel backgroundPanel = new ImagePanel(gameBoardPanel, BACKGROUND_PATH, FRAME_WIDTH,
         FRAME_WIDTH, BACKGROUND_SCALE_FACTOR);
     add(backgroundPanel, GAMEBOARD_CARD);
     int numberOfPlayers = controller.getPlayerNamesList().size();
