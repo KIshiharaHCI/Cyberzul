@@ -173,7 +173,7 @@ public class GameModel implements Model {
       Player nextPlayer = playerList.get(indexOfNextPlayer);
       String nextPlayerNick = nextPlayer.getName();
       PlayerHasChosenTileEvent playerHasChosenTileEvent =
-          new PlayerHasChosenTileEvent(nextPlayerNick);
+          new PlayerHasChosenTileEvent(getNickOfActivePlayer());
       notifyListeners(playerHasChosenTileEvent);
     } else {
       NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
@@ -211,6 +211,7 @@ public class GameModel implements Model {
     return true;
   }
 
+  @Override
   public int getIndexOfPlayerWithSPM() {
     int index = 0;
     for (Player player : playerList) {

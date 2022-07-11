@@ -119,6 +119,7 @@ public class ClientMessageHandler implements Runnable {
       case POST_MESSAGE -> handlePostMessage(object);
       case START_GAME -> controller.startGame();
       case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
+
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
       case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
       default -> throw new AssertionError("Unable to handle message " + object);
@@ -225,9 +226,8 @@ public class ClientMessageHandler implements Runnable {
   private void handleNotifyTileChosen(JSONObject object) {
     try {
       if (isItThisPlayersTurn()) {
-        int indexOfTile = Integer.parseInt(object.getString(JsonMessage.INDEX_OF_TILE_FIELD));
-        int indexOfOffering =
-            Integer.parseInt(object.getString(JsonMessage.INDEX_OF_OFFERING_FIELD));
+        int indexOfTile = object.getInt(JsonMessage.INDEX_OF_TILE_FIELD);
+        int indexOfOffering = object.getInt(JsonMessage.INDEX_OF_OFFERING_FIELD);
         model.notifyTileChosen(nickname, indexOfTile, indexOfOffering);
       } else {
         //notify the client that he has to wait and can't do his turn right now.
@@ -247,10 +247,11 @@ public class ClientMessageHandler implements Runnable {
    * @param object the JSON Object that was sent from the client to the server.
    */
   private void handlePlaceTileInPatternLine(JSONObject object) {
+    //TODO: Test sout
+    System.out.println("place tile in pattern line clientMessageHandler");
     try {
       if (isItThisPlayersTurn()) {
-        int indexOfPatternLine =
-            Integer.parseInt(object.getString(JsonMessage.INDEX_OF_PATTERN_LINE_FIELD));
+        int indexOfPatternLine = object.getInt(JsonMessage.INDEX_OF_PATTERN_LINE_FIELD);
         model.makeActivePlayerPlaceTile(indexOfPatternLine);
       } else {
         //notify the client that he has to wait and can't do his turn right now.

@@ -30,8 +30,9 @@ public enum JsonMessage {
 
   //messages from the server to the client
   GAME_STARTED("game started"),
-  NOT_YOUR_TURN("it is not your turn"),
-  NEXT_PLAYERS_TURN("next players turn");
+  NOT_YOUR_TURN("not your turn"),
+  NEXT_PLAYERS_TURN("next players turn"),
+  PLAYER_HAS_CHOSEN_TILE("player has chosen tile");
 
   public static final String TYPE_FIELD = "type";
 
@@ -54,6 +55,18 @@ public enum JsonMessage {
   public static final String INDEX_OF_ACTIVE_PLAYER_FIELD = "index of active player";
 
   public static final String INDEX_OF_PATTERN_LINE_FIELD = "index of pattern line";
+
+  public static final String PATTERN_LINES_FIELD = "pattern lines";
+
+  public static final String FLOOR_LINE_FIELD = "floor line";
+
+  public static final String INDEX_OF_PLAYER_WITH_SPM =
+      "index of player with starting player marker";
+
+  public static final String NAME_OF_ACTIVE_PLAYER_FIELD = "name of active player";
+
+  public static final String NAME_OF_PLAYER_WHO_ENDED_HIS_TURN_FIELD =
+      "name of player who ended his turn";
 
   private final String jsonName;
 
@@ -108,10 +121,26 @@ public enum JsonMessage {
                                                     List<String> playerNames) {
     try {
       JSONObject returnObject = createMessageOfType(GAME_STARTED);
-      returnObject.put(OFFERINGS_FIELD, createArrayContainingOfferings(offerings));
-      returnObject.put(PLAYER_NAMES_FIELD, createArrayContainingPlayerNames(playerNames));
+      returnObject.put(OFFERINGS_FIELD, parseOfferingsToJSONArray(offerings));
+      returnObject.put(PLAYER_NAMES_FIELD, parsePlayerNamesToJSONArray(playerNames));
 
       return returnObject;
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+  /**
+   * This message gets created by the server to inform the clients that the active player has
+   * chosen a tile.
+   *
+   * @return a JSONObject that can be distributed via output streams.
+   */
+  public static JSONObject createPlayerHasChosenTileMessage(String nameOfActivePlayer) {
+    try {
+      JSONObject message = createMessageOfType(PLAYER_HAS_CHOSEN_TILE);
+      message.put(NAME_OF_ACTIVE_PLAYER_FIELD,nameOfActivePlayer);
+      return message;
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
@@ -124,7 +153,7 @@ public enum JsonMessage {
    * @param offerings a list of all offerings in the game.
    * @return a two dimensional array containing the contents of all offerings.
    */
-  public static JSONArray createArrayContainingOfferings(List<Offering> offerings) {
+  public static JSONArray parseOfferingsToJSONArray(List<Offering> offerings) {
     JSONArray offeringsArray = new JSONArray();
     for (Offering o : offerings) {
       JSONArray currentOffering = new JSONArray();
@@ -142,7 +171,7 @@ public enum JsonMessage {
    * @param playerNames
    * @return
    */
-  public static JSONArray createArrayContainingPlayerNames(List<String> playerNames) {
+  public static JSONArray parsePlayerNamesToJSONArray(List<String> playerNames) {
     JSONArray playerNamesArray = new JSONArray();
     for (String nick : playerNames) {
       playerNamesArray.put(nick);
@@ -150,11 +179,79 @@ public enum JsonMessage {
     return playerNamesArray;
   }
 
-  public static JSONObject createNextPlayersTurnMessage(List<Offering> offerings,
+  //TODO: WRITE THIS METHOD
+
+  /**
+   * This method is created by the server to notify the players that a player has done his turn
+   * and a new player has to do his turn now.
+   * It contains all information about what changes occurred during the past turn.
+   *
+   * @param offerings
+   * @param nameOfPlayerWhoEndedHisTurn
+   * @param newPatternLinesOfPlayerWhoEndedHisTurn
+   * @param newFloorLineOfPlayerWhoEndedHisTurn
+   * @param indexOfPlayerWithSPM
+   * @return
+   */
+  public static JSONObject createNextPlayersTurnMessage(String nameOfActivePlayer,
+                                                        List<Offering> offerings,
                                                         String nameOfPlayerWhoEndedHisTurn,
                                                         ModelTile[][] newPatternLinesOfPlayerWhoEndedHisTurn,
-                                                        List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn) {
-    return null;
+                                                        List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn,
+                                                        int indexOfPlayerWithSPM) {
+    try {
+      JSONObject returnObject = createMessageOfType(NEXT_PLAYERS_TURN);
+
+      returnObject.put(NAME_OF_ACTIVE_PLAYER_FIELD, nameOfActivePlayer);
+
+      returnObject.put(OFFERINGS_FIELD, parseOfferingsToJSONArray(offerings));
+
+      returnObject.put(NAME_OF_PLAYER_WHO_ENDED_HIS_TURN_FIELD, nameOfPlayerWhoEndedHisTurn);
+
+      returnObject.put(PATTERN_LINES_FIELD,
+          parsePatternLinesToJSONArray(newPatternLinesOfPlayerWhoEndedHisTurn));
+
+      returnObject.put(FLOOR_LINE_FIELD,
+          parseFloorLineToJSONArray(newFloorLineOfPlayerWhoEndedHisTurn));
+
+      returnObject.put(INDEX_OF_PLAYER_WITH_SPM, indexOfPlayerWithSPM);
+
+      return returnObject;
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+  /**
+   * Write the pattern lines of one player into a JSONArray.
+   *
+   * @param patternLines the pattern lines of a single player.
+   * @return a JSONArray containing the ModelTiles of his pattern lines.
+   */
+  private static JSONArray parsePatternLinesToJSONArray(ModelTile[][] patternLines) {
+    JSONArray patternLinesArray = new JSONArray();
+    for (int row = 0; row < patternLines.length; row++) {
+      JSONArray line = new JSONArray();
+      for (int col = 0; col < patternLines[0].length; col++) {
+        line.put(patternLines[row][col]);
+      }
+      patternLinesArray.put(line);
+    }
+    return patternLinesArray;
+  }
+
+  /**
+   * Write the floor line of one player into a JSONArray.
+   *
+   * @param floorLine the floor line of a single player.
+   * @return a JSONArray containing the ModelTiles of that floor line.
+   */
+  private static JSONArray parseFloorLineToJSONArray(List<ModelTile> floorLine) {
+    JSONArray floorLineArray = new JSONArray();
+    for (ModelTile t : floorLine) {
+      floorLineArray.put(t);
+    }
+    return floorLineArray;
   }
 
   /**
@@ -174,24 +271,6 @@ public enum JsonMessage {
     }
   }
 
-  /**
-   * This message is created by the server in order to inform the clients of the content of all
-   * Offerings.
-   *
-   * @return A JSONObject that contains the TableCenter at index 0 and FactoryDisplays at all other
-   * positions.
-   */
-  //TODO: OFFERINGS ZURÜCKGEBEN
-  /*
-  public static JSONObject createMessageWithAllOfferings() {
-    try {
-
-    } catch (JSONException e) {
-      throw new IllegalArgumentException("Failed to create a json object.", e);
-    }
-  }
-
-   */
   public static JSONObject login(String nickname) {
     try {
       return createMessageOfType(LOGIN).put(NICK_FIELD, nickname);
@@ -227,6 +306,23 @@ public enum JsonMessage {
   public static JSONObject userLeft(String nickname) {
     try {
       return createMessageOfType(USER_LEFT).put(NICK_FIELD, nickname);
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+  public static JSONObject placeTileInPatternLine(int rowOfPatternLine) {
+    try {
+      return createMessageOfType(PLACE_TILE_IN_PATTERN_LINE).put(INDEX_OF_PATTERN_LINE_FIELD,
+          rowOfPatternLine);
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+  public static JSONObject placeTileInFloorLine() {
+    try {
+      return createMessageOfType(PLACE_TILE_IN_FLOOR_LINE);
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }

@@ -5,6 +5,7 @@ import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.events.NextPlayersTurnEvent;
+import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -54,7 +55,27 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
     switch (eventName) {
       case "GameStartedEvent" -> handleGameStartedEvent();
       case "NextPlayersTurnEvent" -> handleNextPlayersTurnEvent(customMadeGameEvent);
+      case "LoggedInEvent" -> {
+        //TODO: FILL THIS WITH FUNCTIONALITY
+      }
+      case "PlayerHasChosenTileEvent" -> handlePlayerHasChosenTileEvent(customMadeGameEvent);
       default -> throw new AssertionError("Unknown event: " + eventName);
+    }
+  }
+
+  /**
+   * If the player successfully chose a tile, this method gets executed.
+   *
+   * @param customMadeGameEvent the event that is fired if the player chose his tile in the
+   *                            GameModel.
+   */
+  private void handlePlayerHasChosenTileEvent(Object customMadeGameEvent) {
+    try {
+      PlayerHasChosenTileEvent playerHasChosenTileEvent =
+          (PlayerHasChosenTileEvent) customMadeGameEvent;
+      connection.broadcastToAll(JsonMessage.createPlayerHasChosenTileMessage(playerHasChosenTileEvent.getNickname()));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
@@ -75,7 +96,9 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
   private void handleNextPlayersTurnEvent(Object customMadeGameEvent) {
     try {
       NextPlayersTurnEvent nextPlayersTurnEvent = (NextPlayersTurnEvent) customMadeGameEvent;
+      String nameOfActivePlayer = nextPlayersTurnEvent.getNameOfActivePlayer();
 
+      List<Offering> offerings = model.getOfferings();
 
       String nameOfPlayerWhoEndedHisTurn = nextPlayersTurnEvent.getNameOfPlayerWhoEndedHisTurn();
       ModelTile[][] newPatternLinesOfPlayerWhoEndedHisTurn =
@@ -83,11 +106,13 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn =
           model.getFloorLineOfPlayer(nameOfPlayerWhoEndedHisTurn);
 
-      List<Offering> offerings = model.getOfferings();
+      int indexOfPlayerWithSPM = model.getIndexOfPlayerWithSPM();
 
       connection.broadcastToAll(
-          JsonMessage.createNextPlayersTurnMessage(offerings, nameOfPlayerWhoEndedHisTurn,
-              newPatternLinesOfPlayerWhoEndedHisTurn, newFloorLineOfPlayerWhoEndedHisTurn));
+          JsonMessage.createNextPlayersTurnMessage(nameOfActivePlayer, offerings,
+              nameOfPlayerWhoEndedHisTurn,
+              newPatternLinesOfPlayerWhoEndedHisTurn, newFloorLineOfPlayerWhoEndedHisTurn,
+              indexOfPlayerWithSPM));
     } catch (IOException e) {
       e.printStackTrace();
     }

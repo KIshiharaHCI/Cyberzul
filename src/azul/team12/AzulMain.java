@@ -24,9 +24,9 @@ public class AzulMain {
     LOGGER.trace("Entering the AzulGame application");
     LOGGER.info("Logging something.");
     //TODO: HIER WURDE GAMEMODEL ZU CLIENTMODEL UND GAMECONTROLLER ZU CLIENTCONTROLLER
-    ClientModel model = new ClientModel();
-    Controller controller = new ClientController(model);
-    AzulView azulView = new AzulView(new GameModel(), controller);
+    GameModel model = new GameModel();
+    Controller controller = new GameController(model);
+    AzulView azulView = new AzulView(model, controller);
     azulView.setVisible(true);
 
     model.addPropertyChangeListener(azulView);

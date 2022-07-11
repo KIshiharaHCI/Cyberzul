@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 /**
  * The network-connection of the client. Establishes a connection to the server and takes
  * care of sending and receiving messages in JSON format.
@@ -112,6 +113,9 @@ public class ClientNetworkConnection {
       case USER_LEFT -> {
         //TODO: IMPLEMENT CHAT HERE @XUE
       }
+      case NEXT_PLAYERS_TURN -> model.handleNextPlayersTurn(object);
+      case NOT_YOUR_TURN -> model.handleNotYourTurn();
+      case PLAYER_HAS_CHOSEN_TILE -> model.handlePlayerHasChosenTile(object);
       /*
       case USER_JOINED:
         handleUserJoined(object);

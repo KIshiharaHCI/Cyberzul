@@ -20,8 +20,8 @@ public class Player {
   public static final int POINTS_FOR_COMPLETE_VERTICAL_LINE = 7;
   public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
 
-  private boolean hasStartingPlayerMarker = false;
-  private boolean hasEndedTheGame = false;
+  protected boolean hasStartingPlayerMarker = false;
+  protected boolean hasEndedTheGame = false;
 
   protected WallBackgroundPattern wallPattern;
 

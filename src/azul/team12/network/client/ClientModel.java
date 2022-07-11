@@ -12,7 +12,10 @@ import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
+import azul.team12.model.events.NextPlayersTurnEvent;
+import azul.team12.model.events.NotYourTurnEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
+import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -21,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ClientModel implements Model {
 
@@ -30,7 +34,6 @@ public class ClientModel implements Model {
   private String thisPlayersName;
 
   private int indexOfActivePlayer;
-  private int indexOfNextPlayer;
   private ArrayList<ClientPlayer> playerList = new ArrayList<>();
   protected ArrayList<Offering> offerings;
 
@@ -88,17 +91,18 @@ public class ClientModel implements Model {
 
   @Override
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
-
+    connection.send(JsonMessage.notifyTileChosenMessage(indexOfTile, offeringIndex));
   }
 
   @Override
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
-    return false;
+    connection.send(JsonMessage.placeTileInPatternLine(rowOfPatternLine));
+    return true;
   }
 
   @Override
   public void tileFallsDown() {
-
+    connection.send(JsonMessage.placeTileInFloorLine());
   }
 
   @Override
@@ -116,8 +120,10 @@ public class ClientModel implements Model {
 
   @Override
   public List<String> rankingPlayerWithPoints() {
-    //TODO: FOR TEST PURPOSES SIMPLIFIED
-    return new ArrayList<>();
+    List<String> playerNamesRankingList = getPlayerNamesList();
+    Collections.sort(playerNamesRankingList,
+        (o1, o2) -> -Integer.compare(getPoints(o1), getPoints(o2)));
+    return playerNamesRankingList;
   }
 
   @Override
@@ -127,13 +133,21 @@ public class ClientModel implements Model {
 
   @Override
   public int getIndexOfNextPlayer() {
+    int indexOfNextPlayer;
+    if (checkRoundFinished()) {
+      indexOfNextPlayer = getIndexOfPlayerWithSPM();
+    } else if (indexOfActivePlayer == playerList.size() - 1) {
+      indexOfNextPlayer = 0;
+    } else {
+      indexOfNextPlayer = indexOfActivePlayer + 1;
+    }
     return indexOfNextPlayer;
   }
 
   @Override
   public Player getPlayerByName(String nickname) {
-    for(Player player : playerList) {
-      if(player.getName().equals(nickname)) {
+    for (Player player : playerList) {
+      if (player.getName().equals(nickname)) {
         return player;
       }
     }
@@ -176,11 +190,9 @@ public class ClientModel implements Model {
   @Override
   public List<String> getPlayerNamesList() {
     List<String> list = new ArrayList<>();
-    for (Player player: playerList) {
+    for (Player player : playerList) {
       list.add(player.getName());
     }
-    //TODO: Test sout
-    System.out.println(list);
     return list;
   }
 
@@ -245,11 +257,10 @@ public class ClientModel implements Model {
    * Update all information in the model that is needed by the view to start showing the game.
    * Then notify the listeners that the game has started.
    */
-  public void handleGameStarted(JSONArray offerings, JSONArray playerNames) throws JSONException{
+  public void handleGameStarted(JSONArray offerings, JSONArray playerNames) throws JSONException {
     updateOfferings(offerings);
     setUpClientPlayersByName(playerNames);
     indexOfActivePlayer = 0;
-    indexOfNextPlayer = 1;
     notifyListeners(new GameStartedEvent());
   }
 
@@ -273,9 +284,9 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public int getPoints(String nickname){
-    for(Player player : playerList){
-      if(player.getName().equals(nickname)){
+  public int getPoints(String nickname) {
+    for (Player player : playerList) {
+      if (player.getName().equals(nickname)) {
         return player.getPoints();
       }
     }
@@ -284,9 +295,9 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public int getMinusPoints(String nickname){
-    for(Player player : playerList){
-      if(player.getName().equals(nickname)){
+  public int getMinusPoints(String nickname) {
+    for (Player player : playerList) {
+      if (player.getName().equals(nickname)) {
         return player.getMinusPoints();
       }
     }
@@ -295,7 +306,7 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public List<Offering> getFactoryDisplays(){
+  public List<Offering> getFactoryDisplays() {
     // return the factory displays being the all but the first offering
     return offerings.subList(1, offerings.size());
   }
@@ -306,7 +317,7 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public String getNickOfActivePlayer(){
+  public String getNickOfActivePlayer() {
     return playerList.get(indexOfActivePlayer).getName();
   }
 
@@ -321,7 +332,7 @@ public class ClientModel implements Model {
     //update TableCenter
     ArrayList<ModelTile> content = new ArrayList<>();
     JSONArray tableCenterArray = offerings.getJSONArray(0);
-    for(int i = 0; i < tableCenterArray.length(); i++){
+    for (int i = 0; i < tableCenterArray.length(); i++) {
       content.add(ModelTile.toTile(tableCenterArray.getString(i)));
     }
     ClientTableCenter clientTableCenter = new ClientTableCenter();
@@ -332,7 +343,7 @@ public class ClientModel implements Model {
     for (int i = 1; i < offerings.length(); i++) {
       content = new ArrayList<>();
       JSONArray factoryDisplayArray = offerings.getJSONArray(i);
-      for(int j = 0; j < factoryDisplayArray.length(); j++){
+      for (int j = 0; j < factoryDisplayArray.length(); j++) {
         content.add(ModelTile.toTile(factoryDisplayArray.getString(j)));
       }
       ClientFactoryDisplay clientFactoryDisplay = new ClientFactoryDisplay();
@@ -342,7 +353,110 @@ public class ClientModel implements Model {
     this.offerings = returnOfferingsList;
 
     //TODO: TEST SOUT:
-    System.out.println(this.offerings.get(0).getContent().toString() + this.offerings.get(1).getContent().toString());
+    System.out.println(this.offerings.get(0).getContent().toString() +
+        this.offerings.get(1).getContent().toString());
+  }
+
+  @Override
+  public int getIndexOfPlayerWithSPM() {
+    int index = 0;
+    for (Player player : playerList) {
+      if (player.hasStartingPlayerMarker()) {
+        return index;
+      }
+      index++;
+    }
+    throw new IllegalStateException("We called giveIndexOfPlayer with Start Player Marker when "
+        + "no player had the SPM.");
+  }
+
+  public boolean checkRoundFinished() {
+    for (Offering offering : offerings) {
+      // if any of the offerings still has a content, the round is not yet finished
+      if (!offering.getContent().isEmpty()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public void handleNextPlayersTurn(JSONObject object) throws JSONException {
+
+    String nameOfActivePlayer = object.getString(JsonMessage.NAME_OF_ACTIVE_PLAYER_FIELD);
+    List<String> playerNamesList = getPlayerNamesList();
+    for (int i = 0; i < playerNamesList.size(); i++) {
+      if (playerNamesList.get(i).equals(nameOfActivePlayer)) {
+        this.indexOfActivePlayer = i;
+        break;
+      }
+    }
+
+    JSONArray offerings = object.getJSONArray(JsonMessage.OFFERINGS_FIELD);
+    this.updateOfferings(offerings);
+
+    String nameOfPlayerWhoEndedHisTurn =
+        object.getString(JsonMessage.NAME_OF_PLAYER_WHO_ENDED_HIS_TURN_FIELD);
+
+    ClientPlayer playerWhoEndedHisTurn =
+        (ClientPlayer) getPlayerByName(nameOfPlayerWhoEndedHisTurn);
+
+    JSONArray newPatternLinesOfPlayerWhoEndedHisTurn =
+        object.getJSONArray(JsonMessage.PATTERN_LINES_FIELD);
+    updatePatternLines(newPatternLinesOfPlayerWhoEndedHisTurn, playerWhoEndedHisTurn);
+
+    JSONArray newFloorLineOfPlayerWhoEndedHisTurn =
+        object.getJSONArray(JsonMessage.FLOOR_LINE_FIELD);
+    updateFloorLine(newFloorLineOfPlayerWhoEndedHisTurn, playerWhoEndedHisTurn);
+
+    int indexOfPlayerWithSPM =
+        Integer.parseInt(object.getString(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
+    playerList.get(indexOfPlayerWithSPM).setHasStartingPlayerMarker(true);
+
+    notifyListeners(new NextPlayersTurnEvent(nameOfActivePlayer,nameOfPlayerWhoEndedHisTurn));
+  }
+
+  private void updatePatternLines(JSONArray newPatternLines, ClientPlayer player) {
+    try {
+      ModelTile[][] patternLines = new ModelTile[newPatternLines.length()][];
+      for (int row = 0; row < newPatternLines.length(); row++) {
+        for (int col = 0; col < newPatternLines.getJSONArray(row).length(); col++) {
+          patternLines[row][col] =
+              ModelTile.toTile(newPatternLines.getJSONArray(row).getString(col));
+        }
+
+      }
+      player.setPatternLines(patternLines);
+      //TODO: Test sout
+      System.out.println(patternLines);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void updateFloorLine(JSONArray newFloorLine, ClientPlayer player) {
+    try {
+      ArrayList<ModelTile> floorLine = new ArrayList<>();
+      for (int i = 0; i < newFloorLine.length(); i++) {
+        floorLine.add(ModelTile.toTile(newFloorLine.getString(i)));
+      }
+      player.setFloorLine(floorLine);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void handleNotYourTurn(){
+    notifyListeners(new NotYourTurnEvent());
+  }
+
+  public void handlePlayerHasChosenTile(JSONObject object){
+    try{
+      notifyListeners(new PlayerHasChosenTileEvent(object.getString(JsonMessage.NAME_OF_ACTIVE_PLAYER_FIELD)));
+    }
+    catch (JSONException e){
+      e.printStackTrace();
+    }
   }
 }
+
 

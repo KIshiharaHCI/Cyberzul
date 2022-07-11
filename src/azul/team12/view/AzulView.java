@@ -179,7 +179,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           showErrorMessage("Nickname is already taken.");
         } else if (loginFailedEvent.getMessage().equals(LoginFailedEvent.LOBBY_IS_FULL)) {
           showErrorMessage("Lobby is full.");
-        } else if(loginFailedEvent.getMessage().equals(LoginFailedEvent.ALREADY_LOGGED_IN)){
+        } else if (loginFailedEvent.getMessage().equals(LoginFailedEvent.ALREADY_LOGGED_IN)) {
           showErrorMessage("Already logged in.");
         }
         //TODO - @ Nils add other events
@@ -206,14 +206,20 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         GameNotStartableEvent gameNotStartableEvent = (GameNotStartableEvent) customMadeGameEvent;
         if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.GAME_ALREADY_STARTED)) {
           showErrorMessage(GameNotStartableEvent.GAME_ALREADY_STARTED);
-        } else if (gameNotStartableEvent.getMessage().equals(GameNotStartableEvent.NOT_ENOUGH_PLAYER)) {
+        } else if (gameNotStartableEvent.getMessage()
+            .equals(GameNotStartableEvent.NOT_ENOUGH_PLAYER)) {
           showErrorMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER);
         }
       }
       case "GameForfeitedEvent" -> {
         showHSMCard();
       }
-      default -> throw new AssertionError("Unknown event");
+      case "NotYourTurnEvent" -> showErrorMessage(
+          "Please wait for other players so they can do their move");
+      case "PlayerHasChosenTileEvent" -> {
+        //TODO: FILL WITH FUNCTIONALITY
+      }
+      default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
 

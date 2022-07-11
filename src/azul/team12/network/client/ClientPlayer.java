@@ -33,4 +33,16 @@ public class ClientPlayer extends Player {
     this.points = points;
   }
 
+  public void setPatternLines(ModelTile[][] patternLines){
+    this.patternLines = patternLines;
+  }
+
+  public void setFloorLine(ArrayList<ModelTile> floorLine){
+    this.floorLine = floorLine;
+  }
+
+  public void setHasStartingPlayerMarker(boolean hasStartingPlayerMarker){
+    this.hasStartingPlayerMarker = hasStartingPlayerMarker;
+  }
+
 }

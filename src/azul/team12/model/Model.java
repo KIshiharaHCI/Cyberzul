@@ -116,6 +116,14 @@ public interface Model {
   int getIndexOfNextPlayer();
 
   /**
+   * Gives back the index of the player with the Start Player Marker.
+   *
+   * @return player's index.
+   */
+  int getIndexOfPlayerWithSPM();
+
+
+  /**
    * Return player by name (given by view).
    *
    * @param nickname the nickname of the player
