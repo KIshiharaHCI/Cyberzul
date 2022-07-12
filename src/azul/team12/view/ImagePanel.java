@@ -1,7 +1,10 @@
 package azul.team12.view;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.net.URL;
 
 public class ImagePanel extends JPanel {
@@ -35,10 +38,9 @@ public class ImagePanel extends JPanel {
         this.scaleFactor = scaleFactor;
         setLayout(new GridLayout(1,1));
         createBackgroundLabel();
-
     }
 
-    /**
+   /**
      * Creates a background with image for the game.
      *
      * @return: The {@link JPanel} with background image.
@@ -57,6 +59,7 @@ public class ImagePanel extends JPanel {
         backgroundLabel.add(childPanel);
         add(backgroundLabel);
     }
+
 
 //    public ImagePanel(final URL imgURL1) {
 //        try {

@@ -120,7 +120,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         }
     );
     testThreePlayersButton.addActionListener(event -> {
-          List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "schönen", "Tag"));
+          List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "schoenen", "Tag"));
           for (String name : threeUserNameForTest) {
             controller.addPlayer(name);
           }
@@ -191,7 +191,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
       case "GameFinishedEvent" -> {
         GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
-        showErrorMessage("User " + gameFinishedEvent.getWINNER() + " won.");
+        showErrorMessage("User " + gameFinishedEvent.getWinner() + " won.");
       }
       case "IllegalTurnEvent" -> {
         showErrorMessage("Illegal turn.");

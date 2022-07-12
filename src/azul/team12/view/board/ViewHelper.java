@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 /**
  * This class should be used for example to avoid duplications in code.
- *
  */
 public class ViewHelper {
 
@@ -47,8 +46,8 @@ public class ViewHelper {
    */
   static void setProperties(int tileSize, int rows, int cols, JPanel panel) {
     panel.setBackground(PLAY_BOARD_COLOR);
-   // panel.setPreferredSize(new Dimension((tileSize + PADDING) * cols + PADDING,
-        //(tileSize + PADDING) * rows + PADDING));
+    // panel.setPreferredSize(new Dimension((tileSize + PADDING) * cols + PADDING,
+    //(tileSize + PADDING) * rows + PADDING));
     panel.setMaximumSize(new Dimension((tileSize + PADDING) * cols + PADDING,
         (tileSize + PADDING) * rows + PADDING));
     panel.setMinimumSize(new Dimension((tileSize + PADDING) * cols + PADDING,

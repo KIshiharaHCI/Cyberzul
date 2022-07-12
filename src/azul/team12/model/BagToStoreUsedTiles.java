@@ -22,7 +22,7 @@ public class BagToStoreUsedTiles extends Bag {
    * This method is used so this class can be a Singleton: Only one single instance of this class
    * can be created. If it already exists, the existing instance is returned.
    *
-   * @return a new BagToStoreUsedTiles, if it doesn't exist already. The instance to the existing one else.
+   * @return a new BagToStoreUsedTiles, if it doesn't exist already. Else instance of existing.
    */
   static synchronized BagToStoreUsedTiles getInstance() {
     if (instance == null) {
@@ -46,8 +46,8 @@ public class BagToStoreUsedTiles extends Bag {
   }
 
   /**
-   * This method gets invoked if the BagToDrawNewTiles has no tiles left. Every tile that was
-   * stored in this bag gets returned and this bag is subsequently empty.
+   * This method gets invoked if the BagToDrawNewTiles has no tiles left. Every tile that was stored
+   * in this bag gets returned and this bag is subsequently empty.
    *
    * @return all Tiles that have been temporarily stored in here.
    */

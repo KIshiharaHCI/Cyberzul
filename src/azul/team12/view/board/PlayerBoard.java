@@ -2,9 +2,14 @@ package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
 import azul.team12.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
@@ -98,11 +103,6 @@ public abstract class PlayerBoard extends JPanel {
     points = controller.getPoints(playerName);
     minusPoints = controller.getMinusPoints(playerName);
   }
-
-  /**
-   * initializes Forfeit Button
-   */
-
 
   private void addPointsAndPlayerNameElements() {
     north = createNorthernPart("Points: ", points);

@@ -5,17 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represents the "bag" from the Azul Game. Players are drawing new tiles each round randomly
- * from this bag to put them on the "factory displays".
+ * Represents the "bag" from the Azul Game. Players are drawing new tiles each round randomly from
+ * this bag to put them on the "factory displays".
  */
 public class BagToDrawNewTiles extends Bag {
 
-  private static BagToDrawNewTiles instance;
-
-  private ArrayList<ModelTile> content;
-
   public static final int INITIAL_NUMBER_OF_EACH_TILE = 20;
-
+  private static BagToDrawNewTiles instance;
+  private ArrayList<ModelTile> content;
   private BagToStoreUsedTiles box;
 
   /**
@@ -30,7 +27,7 @@ public class BagToDrawNewTiles extends Bag {
    * This method is used so this class can be a Singleton: Only one single instance of this class
    * can be created. If it already exists, the existing instance is returned.
    *
-   * @return a new BagToDrawNewTiles, if it doesn't exist already. The instance to the existing one else.
+   * @return a new BagToDrawNewTiles, if it doesn't exist already. Else instance of existing.
    */
   static synchronized BagToDrawNewTiles getInstance() {
     if (instance == null) {
@@ -91,4 +88,5 @@ public class BagToDrawNewTiles extends Bag {
       returnList.add(t);
     }
     return returnList;
-  }}
+  }
+}
