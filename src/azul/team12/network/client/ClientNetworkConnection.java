@@ -158,37 +158,6 @@ public class ClientNetworkConnection {
     model.handleGameStarted(offerings, playerNames);
   }
 
-  //TODO: Commented out code
-  /*
-
-
-  private void handleUserLeft(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userLeft(nick);
-    }
-  }
-
-  private void handleUserJoined(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userJoined(nick);
-    }
-  }
-
-  private void handleUserTextMessage(JSONObject object) {
-    if (!model.isLoggedIn()) {
-      return;
-    }
-
-    String nick = JsonMessage.getNickname(object);
-    Date time = JsonMessage.getTime(object);
-    String content = JsonMessage.getContent(object);
-    model.addTextMessage(nick, time, content);
-  }
-
-
-   */
 
   /**
    * Stop the network-connection.

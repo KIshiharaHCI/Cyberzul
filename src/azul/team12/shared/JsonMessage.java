@@ -16,8 +16,9 @@ import org.json.JSONObject;
 public enum JsonMessage {
 
   LOGIN("login"), LOGIN_SUCCESS("login success"), LOGIN_FAILED("login failed"),
+  //chat messages
   USER_JOINED("user joined"), POST_MESSAGE("post message"), MESSAGE("message"),
-  USER_LEFT("user left"),
+  USER_LEFT("user left"), CHEAT_MESSAGE("cheat message"),
 
   //messages from the client to the server
   END_TURN("end turn"),
@@ -356,7 +357,20 @@ public enum JsonMessage {
     }
   }
 
-  public static JSONObject createMessageOfType(JsonMessage type) throws JSONException {
+  public static JSONObject createCheatMessage(String nickname, String content) {
+    try {
+        JSONObject cheatMessage = createMessageOfType(CHEAT_MESSAGE);
+        cheatMessage.put(CONTENT_FIELD, content);
+        cheatMessage.put(NICK_FIELD, nickname);
+
+        return cheatMessage;
+    } catch (JSONException e) {
+        throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+
+    public static JSONObject createMessageOfType(JsonMessage type) throws JSONException {
     return new JSONObject().put(TYPE_FIELD, type.getJsonName());
   }
 
