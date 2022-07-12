@@ -22,6 +22,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,6 +44,8 @@ public class GameModel implements Model {
   private int indexOfActivePlayer = 0;
   private Offering currentOffering;
   private int currentIndexOfTile;
+  private Random ran = new Random();
+
 
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
@@ -236,13 +239,14 @@ public class GameModel implements Model {
           + "make a turn. Game was restarted automatically.");
     } else {
 
+
       // get a random offering
-      int randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
+      int randomOfferingIndex = ran.nextInt(0, offeringsClone.size());
       Offering randomOffering = offeringsClone.get(randomOfferingIndex);
-      int offeringsSize = randomOffering.getContent().size();
 
       // get a random tile on that offering
-      int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
+      int offeringsSize = randomOffering.getContent().size();
+      int randomOfferingTileIndex = ran.nextInt(0, offeringsSize);
       notifyTileChosen(nickOfAiPlayer, randomOfferingTileIndex, randomOfferingIndex);
 
       Player activeAiPlayer = getPlayerByName(nickOfAiPlayer);
@@ -399,7 +403,6 @@ public class GameModel implements Model {
     Collections.sort(playerRankingList,
         (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
     return playerRankingList;
-
   }
 
   /**
