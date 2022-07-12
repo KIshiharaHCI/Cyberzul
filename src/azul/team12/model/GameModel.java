@@ -398,11 +398,12 @@ public class GameModel implements Model {
   /**
    * see {@link Model}.
    */
-  public List<Player> rankingPlayerWithPoints() {
-    List<Player> playerRankingList = playerList;
-    Collections.sort(playerRankingList,
-        (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
-    return playerRankingList;
+  @Override
+  public List<String> rankingPlayerWithPoints() {
+    List<String> playerNamesRankingList = getPlayerNamesList();
+    Collections.sort(playerNamesRankingList,
+            (o1, o2) -> -Integer.compare(getPoints(o1), getPoints(o2)));
+    return playerNamesRankingList;
   }
 
   /**
