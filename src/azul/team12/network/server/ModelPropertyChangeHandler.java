@@ -3,6 +3,7 @@ package azul.team12.network.server;
 import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
+import azul.team12.model.Player;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.shared.JsonMessage;
@@ -11,7 +12,9 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
 import javax.swing.SwingUtilities;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Handles the events that are fired from the GameModel to the Server.
@@ -59,6 +62,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case "PlayerHasChosenTileEvent" -> handlePlayerHasChosenTileEvent(customMadeGameEvent);
       case "NoValidTurnToMakeEvent" -> handleNoValidTurnToMakeEvent();
       case "IllegalTurnEvent" -> handleIllegalTurnEvent();
+      case "RoundFinishedEvent" -> handleRoundFinishedEvent();
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
@@ -80,7 +84,29 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
     }
   }
 
-  private void handleIllegalTurnEvent(){
+  private void handleRoundFinishedEvent() {
+    try {
+      JSONObject message = JsonMessage.createMessageOfType(JsonMessage.ROUND_FINISHED);
+      JSONArray playerArray = new JSONArray();
+      for (String playerName : model.getPlayerNamesList()) {
+        JSONObject playerObject = new JSONObject();
+        Player player = model.getPlayerByName(playerName);
+        playerObject.put(JsonMessage.NICK_FIELD,playerName);
+        playerObject.put(JsonMessage.POINTS_FIELD,player.getPoints());
+        playerObject.put(JsonMessage.PATTERN_LINES_FIELD,JsonMessage.parsePatternLinesToJSONArray(player.getPatternLines()));
+        playerObject.put(JsonMessage.FLOOR_LINE_FIELD,JsonMessage.parseFloorLineToJSONArray(player.getFloorLine()));
+        playerObject.put(JsonMessage.WALL_FIELD, JsonMessage.parsePatternLinesToJSONArray(model.getWallOfPlayer(playerName)));
+        playerArray.put(playerObject);
+      }
+      message.put(JsonMessage.INDEX_OF_PLAYER_WITH_SPM, model.getIndexOfPlayerWithSpm());
+      message.put(JsonMessage.PLAYER_FIELD,playerArray);
+    }
+    catch (JSONException e){
+      e.printStackTrace();
+    }
+  }
+
+  private void handleIllegalTurnEvent() {
     try {
       connection.sendToActivePlayer(JsonMessage.createMessageOfType(JsonMessage.ILLEGAL_TURN));
     } catch (JSONException e) {
@@ -90,7 +116,8 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
   private void handleNoValidTurnToMakeEvent() {
     try {
-      connection.sendToActivePlayer(JsonMessage.createMessageOfType(JsonMessage.NO_VALID_TURN_TO_MAKE));
+      connection.sendToActivePlayer(
+          JsonMessage.createMessageOfType(JsonMessage.NO_VALID_TURN_TO_MAKE));
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -112,7 +139,6 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
   private void handleNextPlayersTurnEvent(Object customMadeGameEvent) {
     try {
-      System.out.println("handle next players turn in Model Property Change Handler");
       NextPlayersTurnEvent nextPlayersTurnEvent = (NextPlayersTurnEvent) customMadeGameEvent;
       String nameOfActivePlayer = nextPlayersTurnEvent.getNameOfActivePlayer();
 

@@ -10,6 +10,7 @@ import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
 import azul.team12.model.events.GameEvent;
+import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
@@ -18,6 +19,7 @@ import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.NotYourTurnEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
+import azul.team12.model.events.RoundFinishedEvent;
 import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -210,7 +212,7 @@ public class ClientModel implements Model {
    * {@link GameEvent} gets fired such that the attached observers (i.e., {@link
    * PropertyChangeListener}) can distinguish between what exactly has changed.
    */
-  private void notifyListeners(GameEvent event) {
+  void notifyListeners(GameEvent event) {
     support.firePropertyChange(event.getName(), null, event);
   }
 
@@ -385,7 +387,7 @@ public class ClientModel implements Model {
   }
 
   public void handleNextPlayersTurn(JSONObject object) throws JSONException {
-
+    System.out.println(object);
     String nameOfActivePlayer = object.getString(JsonMessage.NAME_OF_ACTIVE_PLAYER_FIELD);
     List<String> playerNamesList = getPlayerNamesList();
     for (int i = 0; i < playerNamesList.size(); i++) {
@@ -412,34 +414,55 @@ public class ClientModel implements Model {
         object.getJSONArray(JsonMessage.FLOOR_LINE_FIELD);
     updateFloorLine(newFloorLineOfPlayerWhoEndedHisTurn, playerWhoEndedHisTurn);
 
-    int indexOfPlayerWithSPM =
-        Integer.parseInt(object.getString(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
-    for(ClientPlayer p : playerList){
-      p.setHasStartingPlayerMarker(false);
-    }
-    playerList.get(indexOfPlayerWithSPM).setHasStartingPlayerMarker(true);
+    setPlayerWithSPM(object.getInt(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
 
-    notifyListeners(new NextPlayersTurnEvent(nameOfActivePlayer,nameOfPlayerWhoEndedHisTurn));
+    notifyListeners(new NextPlayersTurnEvent(nameOfActivePlayer, nameOfPlayerWhoEndedHisTurn));
 
     System.out.println("ClientModel#handleNextPlayersTurn");
   }
 
+  private void setPlayerWithSPM(int indexOfPlayerWithSPM){
+    for (ClientPlayer p : playerList) {
+      p.setHasStartingPlayerMarker(false);
+    }
+    playerList.get(indexOfPlayerWithSPM).setHasStartingPlayerMarker(true);
+  }
+
   private void updatePatternLines(JSONArray newPatternLines, ClientPlayer player) {
     try {
-      ModelTile[][] patternLines = new ModelTile[newPatternLines.length()][];
+      ModelTile[][] patternLines =
+          new ModelTile[newPatternLines.length()][newPatternLines.length()];
       for (int row = 0; row < newPatternLines.length(); row++) {
         for (int col = 0; col < newPatternLines.getJSONArray(row).length(); col++) {
           patternLines[row][col] =
               ModelTile.toTile(newPatternLines.getJSONArray(row).getString(col));
         }
-
       }
       player.setPatternLines(patternLines);
-      //TODO: Test sout
-      System.out.println("ClientModel#updatePatternLines");
     } catch (JSONException e) {
       e.printStackTrace();
     }
+  }
+
+  private void updateWall(JSONArray newWallMessage, ClientPlayer player) {
+    try {
+      boolean[][] wall =
+          new boolean[newWallMessage.length()][newWallMessage.length()];
+      for (int row = 0; row < newWallMessage.length(); row++) {
+        for (int col = 0; col < newWallMessage.getJSONArray(row).length(); col++) {
+          if (ModelTile.toTile(newWallMessage.getJSONArray(row).getString(col)) != ModelTile.EMPTY_TILE) {
+            wall[row][col] = true;
+          }
+        }
+      }
+      player.setWall(wall);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void updatePoints(int newPoints, ClientPlayer player){
+    player.setPoints(newPoints);
   }
 
   private void updateFloorLine(JSONArray newFloorLine, ClientPlayer player) {
@@ -452,26 +475,42 @@ public class ClientModel implements Model {
     } catch (JSONException e) {
       e.printStackTrace();
     }
-
-    //TODO: TEST sout
-    System.out.println("ClientModel#updateFloorLine");
   }
 
-  public void handleNotYourTurn(){
+  public void handleNotYourTurn() {
     notifyListeners(new NotYourTurnEvent());
   }
 
-  public void handlePlayerHasChosenTile(JSONObject object){
-    try{
-      notifyListeners(new PlayerHasChosenTileEvent(object.getString(JsonMessage.NAME_OF_ACTIVE_PLAYER_FIELD)));
-    }
-    catch (JSONException e){
+  public void handlePlayerHasChosenTile(JSONObject object) {
+    try {
+      notifyListeners(
+          new PlayerHasChosenTileEvent(object.getString(JsonMessage.NAME_OF_ACTIVE_PLAYER_FIELD)));
+    } catch (JSONException e) {
       e.printStackTrace();
     }
   }
 
-  public void handleNoValidTurnToMake(){
+  public void handleNoValidTurnToMake() {
     notifyListeners(new NoValidTurnToMakeEvent());
+  }
+
+  public void handleGameNotStartable(String reason) {
+    notifyListeners(new GameNotStartableEvent(reason));
+  }
+
+  public void handleRoundFinished(JSONObject message) {
+    try {
+      for (ClientPlayer player : playerList) {
+        updatePatternLines(message.getJSONArray(JsonMessage.OFFERINGS_FIELD), player);
+        updateFloorLine(message.getJSONArray(JsonMessage.FLOOR_LINE_FIELD), player);
+        updateWall(message.getJSONArray(JsonMessage.WALL_FIELD),player);
+        updatePoints(message.getInt(JsonMessage.POINTS_FIELD),player);
+      }
+      setPlayerWithSPM(message.getInt(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    notifyListeners(new RoundFinishedEvent());
   }
 }
 

@@ -350,8 +350,7 @@ public class GameModel implements Model {
     LOGGER.debug("We called giveIndexOfPlayer with Start Player Marker when no player had "
         + "the SPM. Probably this is the case because at the end of the turn noone had the "
         + "SPM.");
-    throw new IllegalStateException("We called giveIndexOfPlayer with Start Player Marker when "
-        + "no player had the SPM.");
+    return 0;
   }
 
   /**

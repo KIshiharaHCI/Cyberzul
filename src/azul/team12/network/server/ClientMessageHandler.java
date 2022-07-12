@@ -3,7 +3,9 @@ package azul.team12.network.server;
 import static java.util.Objects.requireNonNull;
 
 import azul.team12.controller.Controller;
+import azul.team12.model.GameModel;
 import azul.team12.model.Model;
+import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
@@ -117,7 +119,7 @@ public class ClientMessageHandler implements Runnable {
     switch (JsonMessage.typeOf(object)) {
       case LOGIN -> handleLogin(object);
       case POST_MESSAGE -> handlePostMessage(object);
-      case START_GAME -> controller.startGame();
+      case START_GAME -> handleStartGame();
       case NOTIFY_TILE_CHOSEN -> {
         handleNotifyTileChosen(object);}
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
@@ -151,6 +153,18 @@ public class ClientMessageHandler implements Runnable {
     controller.addPlayer(nick);
     send(JsonMessage.loginSuccess());
     serverConnection.broadcast(this, JsonMessage.userJoined(nick));
+  }
+
+  /**
+   * Start the game if enough player have logged in.
+   */
+  private void handleStartGame() throws IOException{
+    if(GameModel.MIN_PLAYER_NUMBER > model.getPlayerNamesList().size()){
+      send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER));
+    }
+    else{
+      controller.startGame();
+    }
   }
 
   /**

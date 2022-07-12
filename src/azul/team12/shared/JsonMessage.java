@@ -34,7 +34,10 @@ public enum JsonMessage {
   NEXT_PLAYERS_TURN("next players turn"),
   PLAYER_HAS_CHOSEN_TILE("player has chosen tile"),
   NO_VALID_TURN_TO_MAKE("no valid turn to make"),
-  ILLEGAL_TURN("illegal turn");
+  ILLEGAL_TURN("illegal turn"),
+  GAME_NOT_STARTABLE("game not startable"),
+  ROUND_FINISHED("round finished"),
+  GAME_FINISHED("game finished");
 
   public static final String TYPE_FIELD = "type";
 
@@ -69,6 +72,12 @@ public enum JsonMessage {
 
   public static final String NAME_OF_PLAYER_WHO_ENDED_HIS_TURN_FIELD =
       "name of player who ended his turn";
+
+  public static final String POINTS_FIELD = "points";
+
+  public static final String WALL_FIELD = "wall";
+
+  public static final String PLAYER_FIELD = "player";
 
   private final String jsonName;
 
@@ -133,6 +142,16 @@ public enum JsonMessage {
     }
   }
 
+  public static JSONObject createGameNotStartableMessage(String reason) {
+    try {
+      JSONObject returnObject = createMessageOfType(GAME_NOT_STARTABLE);
+      returnObject.put(ADDITIONAL_INFORMATION, reason);
+      return returnObject;
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
   /**
    * This message gets created by the server to inform the clients that the active player has
    * chosen a tile.
@@ -142,7 +161,7 @@ public enum JsonMessage {
   public static JSONObject createPlayerHasChosenTileMessage(String nameOfActivePlayer) {
     try {
       JSONObject message = createMessageOfType(PLAYER_HAS_CHOSEN_TILE);
-      message.put(NAME_OF_ACTIVE_PLAYER_FIELD,nameOfActivePlayer);
+      message.put(NAME_OF_ACTIVE_PLAYER_FIELD, nameOfActivePlayer);
       return message;
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
@@ -234,11 +253,11 @@ public enum JsonMessage {
    * @param patternLines the pattern lines of a single player.
    * @return a JSONArray containing the ModelTiles of his pattern lines.
    */
-  private static JSONArray parsePatternLinesToJSONArray(ModelTile[][] patternLines) {
+  public static JSONArray parsePatternLinesToJSONArray(ModelTile[][] patternLines) {
     JSONArray patternLinesArray = new JSONArray();
     for (int row = 0; row < patternLines.length; row++) {
       JSONArray line = new JSONArray();
-      for (int col = 0; col < patternLines[0].length; col++) {
+      for (int col = 0; col < patternLines[row].length; col++) {
         line.put(patternLines[row][col]);
       }
       patternLinesArray.put(line);
@@ -252,7 +271,7 @@ public enum JsonMessage {
    * @param floorLine the floor line of a single player.
    * @return a JSONArray containing the ModelTiles of that floor line.
    */
-  private static JSONArray parseFloorLineToJSONArray(List<ModelTile> floorLine) {
+  public static JSONArray parseFloorLineToJSONArray(List<ModelTile> floorLine) {
     JSONArray floorLineArray = new JSONArray();
     for (ModelTile t : floorLine) {
       floorLineArray.put(t);

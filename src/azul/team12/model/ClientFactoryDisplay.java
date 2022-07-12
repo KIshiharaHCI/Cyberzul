@@ -1,6 +1,7 @@
 package azul.team12.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The ClientModel uses this kind of Factory Displays to store data.
@@ -9,7 +10,9 @@ import java.util.ArrayList;
  * is manipulating the data that it sees itself. By this, the server where the game actually runs
  * is not attacked.
  */
-public class ClientFactoryDisplay extends FactoryDisplay{
+public class ClientFactoryDisplay extends Offering{
+
+  private ArrayList<ModelTile> content;
 
   /**
    * Method to set and manipulate the data that is stored in this kind of FactoryDisplay.
@@ -18,5 +21,24 @@ public class ClientFactoryDisplay extends FactoryDisplay{
    */
   public void setContent(ArrayList<ModelTile> content){
     this.content = content;
+  }
+
+  @Override
+  void initializeContent() {
+
+  }
+
+  @Override
+  public List<ModelTile> getContent() {
+    List<ModelTile> returnList = new ArrayList<>();
+    for (ModelTile t : content) {
+      returnList.add(t);
+    }
+    return returnList;
+  }
+
+  @Override
+  List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
+    return null;
   }
 }

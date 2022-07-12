@@ -45,4 +45,7 @@ public class ClientPlayer extends Player {
     this.hasStartingPlayerMarker = hasStartingPlayerMarker;
   }
 
+  public void setWall(boolean[][] wall){
+    this.wall = wall;
+  }
 }
