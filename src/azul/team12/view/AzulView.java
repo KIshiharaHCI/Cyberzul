@@ -246,6 +246,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     add(backgroundPanel, LOGIN_CARD);
 
     createHotSeatModeCard();
+    createNetworkModeCard();
   }
 
   /**
@@ -270,6 +271,23 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, BACKGROUND_PATH, FRAME_WIDTH,
         FRAME_HEIGHT, BACKGROUND_SCALE_FACTOR);
     add(backgroundPanel, HOT_SEAT_MODE_CARD);
+  }
+
+  private void createNetworkModeCard(){
+    JPanel networkModePanel = new JPanel();
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
+    inputField = new JTextField(10);
+    numberOfLoggedInPlayersLabel =
+        new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+    networkModePanel.add(numberOfLoggedInPlayersLabel);
+    networkModePanel.add(pleaseEnterNameLabel);
+    networkModePanel.add(inputField);
+    networkModePanel.add(addPlayerButton);
+    networkModePanel.add(playButton);
+    JPanel backgroundPanel = new ImagePanel(networkModePanel, BACKGROUND_PATH, FRAME_WIDTH,
+        FRAME_HEIGHT, BACKGROUND_SCALE_FACTOR);
+    add(backgroundPanel, NETWORK_CARD);
   }
 
 
