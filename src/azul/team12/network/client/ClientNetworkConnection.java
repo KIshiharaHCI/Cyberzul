@@ -225,10 +225,9 @@ public class ClientNetworkConnection {
 
   synchronized void send(JSONObject message) {
     try {
-      System.out.println(message.getString(JsonMessage.TYPE_FIELD) + " in ClientNetworkConnection#send");
       writer.write(message + System.lineSeparator());
       writer.flush();
-    } catch (JSONException | IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }

@@ -203,6 +203,9 @@ public enum JsonMessage {
                                                         List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn,
                                                         int indexOfPlayerWithSPM) {
     try {
+      //TODO: TEST sout
+      System.out.println("JsonMessage#createNextPlayersTurnMessage");
+
       JSONObject returnObject = createMessageOfType(NEXT_PLAYERS_TURN);
 
       returnObject.put(NAME_OF_ACTIVE_PLAYER_FIELD, nameOfActivePlayer);

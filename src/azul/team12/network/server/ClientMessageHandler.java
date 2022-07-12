@@ -119,7 +119,6 @@ public class ClientMessageHandler implements Runnable {
       case POST_MESSAGE -> handlePostMessage(object);
       case START_GAME -> controller.startGame();
       case NOTIFY_TILE_CHOSEN -> {
-        System.out.println("notify tile chosen in ClientMessageHandler#handleMessage");
         handleNotifyTileChosen(object);}
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
       case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
@@ -225,7 +224,6 @@ public class ClientMessageHandler implements Runnable {
    * @param object the message that the client sent to the server.
    */
   private void handleNotifyTileChosen(JSONObject object) {
-    System.out.println("handle notify tile chosen in ClientMessageHandler");
     try {
       if (isItThisPlayersTurn()) {
         int indexOfTile = object.getInt(JsonMessage.INDEX_OF_TILE_FIELD);
@@ -251,8 +249,6 @@ public class ClientMessageHandler implements Runnable {
   private void handlePlaceTileInPatternLine(JSONObject object) {
     try {
       if (isItThisPlayersTurn()) {
-        //TODO: Test sout
-        System.out.println("place tile in pattern line clientMessageHandler");
         int indexOfPatternLine = object.getInt(JsonMessage.INDEX_OF_PATTERN_LINE_FIELD);
         model.makeActivePlayerPlaceTile(indexOfPatternLine);
       } else {

@@ -77,13 +77,6 @@ public interface Model {
   void makeAiPlayerMakeMove(String nickOfAiPlayer);
 
   /**
-   * Ends the turn. Fires {@link RoundFinishedEvent} if the round has finished, fires
-   * {@link NextPlayersTurnEvent}, sets up the offerings new, if the game has ended and sets up the
-   * index of active player to be the index of the next player.
-   */
-  void endTurn();
-
-  /**
    * Informs the view via listeners that it is the next players turn. If the player cannot place the
    * tile on a pattern line, it still informs the model.
    *
@@ -107,8 +100,6 @@ public interface Model {
   void tileFallsDown();
 
   /**
-<<<<<<< HEAD
-=======
    * Checks whether there is still an offering with a non-empty content.
    *
    * @return <code>true</code> if the round is finished, <code>false</code> if not.
@@ -130,7 +121,6 @@ public interface Model {
   void startTilingPhase();
 
   /**
->>>>>>> main
    * Finds the player with the most points.
    *
    * @return the name of the player with most points.

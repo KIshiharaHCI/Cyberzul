@@ -55,11 +55,6 @@ public class GameController implements Controller {
   }
 
   @Override
-  public void endTurn(String playerName) {
-    model.endTurn();
-  }
-
-  @Override
   public void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex) {
     model.notifyTileChosen(playerName, indexOfTile, offeringIndex);
   }

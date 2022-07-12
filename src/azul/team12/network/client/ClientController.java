@@ -61,11 +61,6 @@ public class ClientController implements Controller {
   }
 
   @Override
-  public void endTurn(String playerName) {
-
-  }
-
-  @Override
   public void placeTileAtPatternLine(int rowOfPatternLine) {
 
   }

@@ -170,7 +170,7 @@ public class GameModel implements Model {
     }
   }
 
-  public void endTurn() {
+  private void endTurn() {
     String nameOfPlayerWhoEndedHisTurn = getNickOfActivePlayer();
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
@@ -197,7 +197,6 @@ public class GameModel implements Model {
       String nickOfAiPlayer = getNickOfActivePlayer();
       makeAiPlayerMakeMove(nickOfAiPlayer);
     }
-
   }
 
   /**
@@ -298,11 +297,15 @@ public class GameModel implements Model {
     LOGGER.info(
         getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine +
             ".");
+    System.out.println("GameModel#makeActivePlayerPlaceTile");
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
      if(!activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile)){
        notifyListeners(new IllegalTurnEvent());
-     };
+     }
+     else{
+       endTurn();
+     }
   }
 
   /**
@@ -317,6 +320,7 @@ public class GameModel implements Model {
       notifyListeners(new IllegalTurnEvent());
     } else {
       activePlayer.placeTileInFloorLine(currentOffering, currentIndexOfTile);
+      endTurn();
     }
   }
 

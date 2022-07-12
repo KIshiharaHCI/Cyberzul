@@ -100,18 +100,12 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public void endTurn() {
-
-  }
-
-  @Override
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
     connection.send(JsonMessage.notifyTileChosenMessage(indexOfTile, offeringIndex));
   }
 
   @Override
   public void makeActivePlayerPlaceTile(int rowOfPatternLine) {
-    System.out.println("handle next players turn in client model");
     connection.send(JsonMessage.placeTileInPatternLine(rowOfPatternLine));
   }
 
@@ -276,6 +270,7 @@ public class ClientModel implements Model {
     updateOfferings(offerings);
     setUpClientPlayersByName(playerNames);
     indexOfActivePlayer = 0;
+    playerList.get(0).setHasStartingPlayerMarker(true);
     notifyListeners(new GameStartedEvent());
   }
 
@@ -289,8 +284,6 @@ public class ClientModel implements Model {
       ClientPlayer clientPlayer = new ClientPlayer(playerNames.getString(i));
       playerList.add(clientPlayer);
     }
-    //TODO: TEST SOUT
-    System.out.println(playerList);
   }
 
   @Override
@@ -393,11 +386,6 @@ public class ClientModel implements Model {
 
   public void handleNextPlayersTurn(JSONObject object) throws JSONException {
 
-    LOGGER.debug("Handle Next Players Turn");
-
-    //TODO: TEST sout
-    System.out.println("handle next players turn in client model");
-
     String nameOfActivePlayer = object.getString(JsonMessage.NAME_OF_ACTIVE_PLAYER_FIELD);
     List<String> playerNamesList = getPlayerNamesList();
     for (int i = 0; i < playerNamesList.size(); i++) {
@@ -426,9 +414,14 @@ public class ClientModel implements Model {
 
     int indexOfPlayerWithSPM =
         Integer.parseInt(object.getString(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
+    for(ClientPlayer p : playerList){
+      p.setHasStartingPlayerMarker(false);
+    }
     playerList.get(indexOfPlayerWithSPM).setHasStartingPlayerMarker(true);
 
     notifyListeners(new NextPlayersTurnEvent(nameOfActivePlayer,nameOfPlayerWhoEndedHisTurn));
+
+    System.out.println("ClientModel#handleNextPlayersTurn");
   }
 
   private void updatePatternLines(JSONArray newPatternLines, ClientPlayer player) {
@@ -443,7 +436,7 @@ public class ClientModel implements Model {
       }
       player.setPatternLines(patternLines);
       //TODO: Test sout
-      System.out.println(patternLines);
+      System.out.println("ClientModel#updatePatternLines");
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -459,6 +452,9 @@ public class ClientModel implements Model {
     } catch (JSONException e) {
       e.printStackTrace();
     }
+
+    //TODO: TEST sout
+    System.out.println("ClientModel#updateFloorLine");
   }
 
   public void handleNotYourTurn(){
