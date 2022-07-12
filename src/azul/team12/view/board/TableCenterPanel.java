@@ -86,8 +86,8 @@ public class TableCenterPanel extends JPanel {
   public void remove() {
     for (SourceTile tile : this.tileList) {
       this.tableCenterImageLabel.remove(tile);
-      this.remove(tableCenterImageLabel);
     }
+    this.remove(tableCenterImageLabel);
   }
 
   /**
