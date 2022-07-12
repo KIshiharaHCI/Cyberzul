@@ -3,21 +3,23 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class FloorLinePanel extends JPanel {
 
+  private static final long serialVersionUID = 4L;
   private transient final Controller controller;
   private final int NUMBER_OF_FLOOR_TILES = 7;
   private transient TileClickListener tileClickListener;
   private JPanel contentBottom, contentUpper;
 
-  private static final long serialVersionUID = 4L;
-
   public FloorLinePanel(String userName, Controller controller, TileClickListener tileClickListener,
+
       int minusPoints) {
     this.controller = controller;
     this.tileClickListener = tileClickListener;

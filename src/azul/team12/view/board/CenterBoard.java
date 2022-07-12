@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class CenterBoard extends JPanel {
 
+  private static final long serialVersionUID = 5L;
   private final int WIDTH = 1100;
   private final int HEIGHT = 780;
   private transient final Controller controller;
@@ -25,8 +26,6 @@ public class CenterBoard extends JPanel {
   private JPanel rightSideBarPanel;
   private JPanel rankingBoardPanel;
   private transient TileClickListener tileClickListener;
-
-  private static final long serialVersionUID = 5L;
   private Dimension panelDimension, topPanelDimension, bottomPanelDimension;
 
   /**
@@ -44,6 +43,7 @@ public class CenterBoard extends JPanel {
     setProperties();
 
     boardAndPlatesAndTablePanel = new JPanel(new BorderLayout());
+    boardAndPlatesAndTablePanel.setOpaque(false);
     setPlatesAndTableCenterPanel();
     createRankingBoardAndButtonsPanel();
     createNewPlatesPanel();
@@ -65,7 +65,7 @@ public class CenterBoard extends JPanel {
     rankingBoard = new RankingBoard(controller);
     rankingBoardPanel.add(rankingBoard);
     rightSideBarPanel.add(rankingBoardPanel);
-    setBackground(Color.blue.brighter());
+
 
   }
 
@@ -90,6 +90,7 @@ public class CenterBoard extends JPanel {
     //setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
     setMinimumSize(panelDimension);
     setMaximumSize(panelDimension);
+    setOpaque(false);
   }
 
   private void setPlatesAndTableCenterPanel() {
@@ -114,7 +115,8 @@ public class CenterBoard extends JPanel {
    * Used by Constructor and AzulView to create and add a new Plates panel.
    */
   void createNewPlatesPanel() {
-    List<Offering> factoryDisplays = controller.getOfferings().subList(1,controller.getOfferings().size());
+    List<Offering> factoryDisplays = controller.getOfferings()
+        .subList(1, controller.getOfferings().size());
     platesPanel = new PlatesPanel(factoryDisplays, tileClickListener);
     platesPanel.setPreferredSize(new Dimension(
             (int) (topPanelDimension.width * 0.6), topPanelDimension.height));

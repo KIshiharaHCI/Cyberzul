@@ -1,23 +1,23 @@
 package azul.team12.model.events;
 
 /**
- * Informs the listeners that the game has finished. Also carries the information of the player
- * who has won.
+ * Informs the listeners that the game has finished. Also carries the information of the player who
+ * has won.
  */
-public class GameFinishedEvent extends GameEvent{
+public class GameFinishedEvent extends GameEvent {
 
-  public final String WINNER;
+  public final String winner;
 
-  public GameFinishedEvent(String nickname){
-    this.WINNER = nickname;
+  public GameFinishedEvent(String nickname) {
+    this.winner = nickname;
   }
 
-  public String getWINNER() {
-    return WINNER;
+  public String getWinner() {
+    return winner;
   }
 
   @Override
-  public String getName(){
+  public String getName() {
     return "GameFinishedEvent";
   }
 }

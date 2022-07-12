@@ -2,7 +2,7 @@ package azul.team12.view.board;
 
 import azul.team12.model.ModelTile;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * WallTile without Tileclicklistener. Either set transparent or non-transparent.
@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class WallTile extends TileDecorator {
 
-    private static final long serialVersionUID = 9L;
+  private static final long serialVersionUID = 9L;
 
     /**
      * Constructor to be called from subclasses. Used for initializing Image URL path and

@@ -5,8 +5,12 @@ import azul.team12.model.ModelTile;
 import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;

@@ -4,9 +4,9 @@ import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
 
-import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,7 +50,6 @@ public class GameBoard extends JPanel {
     createChatPanel();
 
     center = new CenterBoard(controller, tileClickListener,frameDimension);
-    center.setBackground(Color.red);
     add(center, BorderLayout.CENTER);
 
     //createRankingBoardPanel();
@@ -67,7 +66,7 @@ public class GameBoard extends JPanel {
     chatPanel.setMinimumSize(chatPanelDimension);
     chatPanel.setMaximumSize(chatPanelDimension);
     chatPanel.setPreferredSize(chatPanelDimension);
-    chatPanel.setBackground(Color.blue);
+
     add(chatPanel,BorderLayout.EAST);
   }
 
@@ -106,7 +105,8 @@ public class GameBoard extends JPanel {
   }
 
   /**
-   * Update the Points and oder players according to their points in the descending order when the round ends.
+   * Update the Points and oder players according to their points in the descending order when the
+   * round ends.
    */
   public void updateRankingBoard() {
     center.updateRankingBoard();

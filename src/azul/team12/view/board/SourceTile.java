@@ -7,8 +7,8 @@ import azul.team12.view.listeners.TileClickListener;
 import java.awt.*;
 
 /**
- * The Tiles on the Factory Displays and Table Center which can be selected
- * to place on the Pattern Lines or the Floor Line.
+ * The Tiles on the Factory Displays and Table Center which can be selected to place on the Pattern
+ * Lines or the Floor Line.
  */
 public class SourceTile extends TileDecorator implements TileAcceptor {
 
@@ -55,4 +55,5 @@ public class SourceTile extends TileDecorator implements TileAcceptor {
     public void acceptClick(OnClickVisitor visitor) {
         visitor.visitOnClick(this);
     }
+
 }

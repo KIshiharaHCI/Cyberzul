@@ -1,16 +1,19 @@
 package azul.team12.view.board;
 
 import azul.team12.model.ModelTile;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.Objects;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
- * Wrapper Class for Tiles such as SourceTiles,DestinationTiles,WallTiles.
- * Contains the base functionality for all Tiles.
- * (Decorators allow adding new behaviours to Objects)
+ * Wrapper Class for Tiles such as SourceTiles,DestinationTiles,WallTiles. Contains the base
+ * functionality for all Tiles. (Decorators allow adding new behaviours to Objects)
  */
 public abstract class TileDecorator extends JPanel implements Tile {
     final int COLUMN;
@@ -34,56 +37,53 @@ public abstract class TileDecorator extends JPanel implements Tile {
         ROW = row;
         path = modelTile.toString();
         this.tileSize = tileSize;
-
-        setLayout(new GridLayout(1, 1));
     }
 
-    /**
-     * Retrieves the Tile image and sets it on the JLabel.
-     *
-     * @param opacity how transparent the Tile should be.
-     */
-    @Override
-    public void setIcon(Float opacity) {
-        if (path.equals("empty")) {
-            add(label);
-            return;
-        }
-        URL imgURL1 = getClass().getClassLoader().getResource(pathList.get(path));
+        /**
+         * Retrieves the Tile image and sets it on the JLabel.
+         *
+         * @param opacity how transparent the Tile should be.
+         */
+        @Override
+        public void setIcon (Float opacity){
+            if (path.equals("empty")) {
+                add(label);
+                return;
+            }
+            URL imgURL1 = getClass().getClassLoader().getResource(pathList.get(path));
 //        Image img = resizeImage(new ImageIcon(Objects.requireNonNull(imgURL1)));
-        ImageIcon img = new ImageIcon(new ImageIcon(imgURL1).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT));
-        ImageIcon icon = new TransparentImageIcon(img,opacity);
-        label.setIcon(icon);
-        add(label);
-    }
+            ImageIcon img = new ImageIcon(new ImageIcon(imgURL1).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT));
+            ImageIcon icon = new TransparentImageIcon(img, opacity);
+            label.setIcon(icon);
+            add(label);
+        }
 
-    /**
-     * Function to resize Tile ImageIcon to fit given TileSize
-     *
-     * @param icon passed tile Image.
-     * @return resized Image based on given Tile Size.
-     */
-    private Image resizeImage(ImageIcon icon) {
-        BufferedImage resizedimage = new BufferedImage(tileSize, tileSize,
-                BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = resizedimage.createGraphics();
-        g2.drawImage(icon.getImage(), 0, 0, tileSize, tileSize, null);
+        /**
+         * Function to resize Tile ImageIcon to fit given TileSize
+         *
+         * @param icon passed tile Image.
+         * @return resized Image based on given Tile Size.
+         */
+        private Image resizeImage (ImageIcon icon){
+            BufferedImage resizedimage = new BufferedImage(tileSize, tileSize,
+                    BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2 = resizedimage.createGraphics();
+            g2.drawImage(icon.getImage(), 0, 0, tileSize, tileSize, null);
+            return resizedimage;
+        }
 
-        return resizedimage;
-    }
+        @Override
+        public int getColumn () {
+            return COLUMN;
+        }
 
-    @Override
-    public int getColumn() {
-        return COLUMN;
-    }
+        @Override
+        public int getRow () {
+            return ROW;
+        }
 
-    @Override
-    public int getRow() {
-        return ROW;
-    }
-
-    @Override
-    public JLabel getLabel() {
-        return label;
-    }
+        @Override
+        public JLabel getLabel () {
+            return label;
+        }
 }

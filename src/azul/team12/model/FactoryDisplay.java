@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * "Manufakturplättchen"
- * One of the two places the player can draw tiles from.
+ * "Manufakturplaettchen" One of the two places the player can draw tiles from.
  */
 public class FactoryDisplay extends Offering {
 
@@ -26,10 +25,12 @@ public class FactoryDisplay extends Offering {
   }
 
   /**
-   * The Tiles on this Factory Display are saved in a List. By telling this Factory Display the index of the tile that
-   * should be chosen, it returns all tiles of the same color and puts the rest on the table center.
+   * The Tiles on this Factory Display are saved in a List. By telling this Factory Display the
+   * index of the tile that should be chosen, it returns all tiles of the same color and puts the
+   * rest on the table center.
    *
-   * @param indexOfTheTile the index of the Tile that should be chosen, e.g. the first tile (Index 0)
+   * @param indexOfTheTile the index of the Tile that should be chosen, e.g. the first tile (Index
+   *                       0)
    * @return all tiles of the same color on this plate.
    */
   @Override
