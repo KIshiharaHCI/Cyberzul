@@ -9,20 +9,15 @@ import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
-import azul.team12.model.events.GameEvent;
-import azul.team12.model.events.GameStartedEvent;
-import azul.team12.model.events.LoggedInEvent;
-import azul.team12.model.events.LoginFailedEvent;
-import azul.team12.model.events.NextPlayersTurnEvent;
-import azul.team12.model.events.NoValidTurnToMakeEvent;
-import azul.team12.model.events.NotYourTurnEvent;
-import azul.team12.model.events.PlayerDoesNotExistEvent;
-import azul.team12.model.events.PlayerHasChosenTileEvent;
+import azul.team12.model.events.*;
+import azul.team12.network.client.messages.Message;
+import azul.team12.network.client.messages.PlayerTextMessage;
 import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,6 +35,7 @@ public class ClientModel implements Model {
   private int indexOfActivePlayer;
   private ArrayList<ClientPlayer> playerList = new ArrayList<>();
   protected ArrayList<Offering> offerings;
+  private final List<Message> playerMessages;
 
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
 
@@ -50,6 +46,7 @@ public class ClientModel implements Model {
     support = new PropertyChangeSupport(this);
 
     setConnection(new ClientNetworkConnection(this));
+    playerMessages = new ArrayList<>();
   }
 
   /**
@@ -477,6 +474,33 @@ public class ClientModel implements Model {
   public void handleNoValidTurnToMake(){
     notifyListeners(new NoValidTurnToMakeEvent());
   }
+
+
+  /**
+   * Notify the Listeners that one Player lefts the game.
+   * @param nickname The name of the player who lefts the game.
+   */
+  public void playerLeft(final String nickname) {
+    this.thisPlayersName = nickname;
+    notifyListeners(new GameForfeitedEvent(nickname));
+
+  }
+
+  /**
+   * Add a text message to the list of chat messages.
+   * Used by the network layer to update the model accordingly.
+   *
+   * @param nickname The name of the player that has sent this message.
+   * @param date     The date when the chat message was sent.
+   * @param content  The actual content (text) that the player had sent.
+   */
+  public void addTextMessage(String nickname, Date date, String content) {
+    PlayerTextMessage message = new PlayerTextMessage(nickname, date, content);
+    playerMessages.add(message);
+    notifyListeners(new PlayerAddedMessageEvent(message));
+  }
+
+
 }
 
 
