@@ -21,6 +21,7 @@ public class TableCenterPanel extends JPanel {
   private Controller controller;
   private final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
   private final int SPACE_BETWEEN_TILES_IN_PXL = 44;
+  private int SPACE_FROM_TOP_EDGE_IN_PXL = 13;
   private final int plateId = 0;
   private int TABLE_CENTER_SIZE_WIDTH_IN_PXL = 1100;
   private int TABLE_CENTER_HEIGHT_IN_PXL = 260;
@@ -67,19 +68,13 @@ public class TableCenterPanel extends JPanel {
             (int) panelDimension.getHeight());
     List<ModelTile> modelTiles = tableCenter.getContent();
     for (int i = 0; i < modelTiles.size(); i++) {
-      int col = i / 18 + 1;
-      int row = i % 18 + 1;
+      int col = i / 4 + 1;
+      int row = i % 4 + 1;
       SourceTile tile = new SourceTile(col, row, modelTiles.get(i), i, plateId,Tile.NORMAL_TILE_SIZE, tileClickListener);
       //System.out.println("tile: " + tile);
       tileList.add(tile);
-      if (i < 18) {
-        tile.setBounds(SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + (i * SPACE_BETWEEN_TILES_IN_PXL),
-            SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, Tile.NORMAL_TILE_SIZE, Tile.NORMAL_TILE_SIZE);
-      } else {
-        tile.setBounds(
-            SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + ((i - 18) * SPACE_BETWEEN_TILES_IN_PXL),
-            SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL, Tile.NORMAL_TILE_SIZE, Tile.NORMAL_TILE_SIZE);
-      }
+      tile.setBounds(SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + ((row - 1) * SPACE_BETWEEN_TILES_IN_PXL),
+              SPACE_FROM_TOP_EDGE_IN_PXL + SPACE_BETWEEN_TILES_IN_PXL * (col - 1), Tile.NORMAL_TILE_SIZE, Tile.NORMAL_TILE_SIZE);
       tableCenterImageLabel.add(tile);
     }
   }

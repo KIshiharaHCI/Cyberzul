@@ -134,9 +134,9 @@ public class CenterBoard extends JPanel {
    * Removes all Panels of the last player who ended their turn.
    */
   public void removeAllPanels() {
-    remove(tableCenterPanel);
-    remove(platesPanel);
-    remove(currentPlayerBoard);
+    platesAndTableCenterPanel.remove(tableCenterPanel);
+    platesAndTableCenterPanel.remove(platesPanel);
+    boardAndPlatesAndTablePanel.remove(currentPlayerBoard);
   }
 
   /**

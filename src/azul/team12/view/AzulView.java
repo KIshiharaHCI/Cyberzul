@@ -42,7 +42,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
   private JLabel gameLogoLabel;
   private JLabel backgroundLabel;
-  private final double BACKGROUND_SCALE_FACTOR = 1.5;
+  private final double BACKGROUND_SCALE_FACTOR = 1;
 
   private final String BACKGROUND_PATH = "img/background.jpg";
 
@@ -241,7 +241,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
     login.add(container);
 
-    JPanel backgroundPanel = new ImagePanel(login, BACKGROUND_PATH, FRAME_WIDTH, FRAME_WIDTH,
+    JPanel backgroundPanel = new ImagePanel(login, BACKGROUND_PATH, FRAME_WIDTH, FRAME_HEIGHT,
         BACKGROUND_SCALE_FACTOR);
     add(backgroundPanel, LOGIN_CARD);
 
