@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * "Manufakturplättchen" One of the two places the player can draw tiles from.
+ * "Manufakturplaettchen" One of the two places the player can draw tiles from.
  */
 public class FactoryDisplay extends Offering {
 

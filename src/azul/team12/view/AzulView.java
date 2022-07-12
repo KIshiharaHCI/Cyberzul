@@ -124,7 +124,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         }
     );
     testThreePlayersButton.addActionListener(event -> {
-          List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "schönen", "Tag"));
+          List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "schoenen", "Tag"));
           for (String name : threeUserNameForTest) {
             controller.addPlayer(name);
           }
