@@ -10,6 +10,8 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,30 +110,47 @@ public class ClientNetworkConnection {
       case GAME_STARTED -> handleGameStarted(object);
       case USER_JOINED -> {
         //TODO IMPLEMENT CHAT HERE @XUE
+        handlePlayerJoined(object);
       }
-      //TODO: Commented out code
       case USER_LEFT -> {
         //TODO: IMPLEMENT CHAT HERE @XUE
+        handlePlayerLeft(object);
       }
+      case MESSAGE -> handlePlayerTextMessage(object);
       case NEXT_PLAYERS_TURN -> model.handleNextPlayersTurn(object);
       case NOT_YOUR_TURN -> model.handleNotYourTurn();
       case PLAYER_HAS_CHOSEN_TILE -> model.handlePlayerHasChosenTile(object);
       case NO_VALID_TURN_TO_MAKE -> model.handleNoValidTurnToMake();
-      /*
-      case USER_JOINED:
-        handleUserJoined(object);
-        break;
-      case USER_LEFT:
-        handleUserLeft(object);
-        break;
-      case MESSAGE:
-        handleUserTextMessage(object);
-        break;
 
-       */
       default -> throw new AssertionError("Unhandled message: " + object);
     }
   }
+
+  private void handlePlayerJoined(JSONObject jsonObject) {
+    if (model.isLoggedIn()) {
+      String nickname = JsonMessage.getNickname(jsonObject);
+      model.loginWithName(nickname);
+    }
+  }
+
+  private void handlePlayerLeft(JSONObject jsonObject) {
+    if (model.isLoggedIn()) {
+      String nickname = JsonMessage.getNickname(jsonObject);
+      model.playerLeft(nickname);
+    }
+  }
+
+  private void handlePlayerTextMessage(JSONObject jsonObject) {
+    if (!model.isLoggedIn()) {
+      return;
+    }
+
+    String nickname = JsonMessage.getNickname(jsonObject);
+    Date time = JsonMessage.getTime(jsonObject);
+    String content = JsonMessage.getContent(jsonObject);
+    model.addTextMessage(nickname, time, content);
+  }
+
 
   private void handleGameStarted(JSONObject object) throws JSONException {
     JSONArray offerings = object.getJSONArray(JsonMessage.OFFERINGS_FIELD);
