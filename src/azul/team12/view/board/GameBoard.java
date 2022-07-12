@@ -3,13 +3,11 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.util.List;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
-import javax.swing.JPanel;
+import java.util.List;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -52,7 +50,6 @@ public class GameBoard extends JPanel {
     createChatPanel();
 
     center = new CenterBoard(controller, tileClickListener,frameDimension);
-    center.setBackground(Color.red);
     add(center, BorderLayout.CENTER);
 
     //createRankingBoardPanel();
@@ -69,7 +66,7 @@ public class GameBoard extends JPanel {
     chatPanel.setMinimumSize(chatPanelDimension);
     chatPanel.setMaximumSize(chatPanelDimension);
     chatPanel.setPreferredSize(chatPanelDimension);
-    chatPanel.setBackground(Color.blue);
+
     add(chatPanel,BorderLayout.EAST);
   }
 

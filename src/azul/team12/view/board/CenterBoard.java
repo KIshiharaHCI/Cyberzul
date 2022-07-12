@@ -3,12 +3,10 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
 
 /**
  * The center of the table ("Tischmitte").
@@ -45,6 +43,7 @@ public class CenterBoard extends JPanel {
     setProperties();
 
     boardAndPlatesAndTablePanel = new JPanel(new BorderLayout());
+    boardAndPlatesAndTablePanel.setOpaque(false);
     setPlatesAndTableCenterPanel();
     createRankingBoardAndButtonsPanel();
     createNewPlatesPanel();
@@ -66,7 +65,7 @@ public class CenterBoard extends JPanel {
     rankingBoard = new RankingBoard(controller);
     rankingBoardPanel.add(rankingBoard);
     rightSideBarPanel.add(rankingBoardPanel);
-    setBackground(Color.blue.brighter());
+
 
   }
 
@@ -91,6 +90,7 @@ public class CenterBoard extends JPanel {
     //setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
     setMinimumSize(panelDimension);
     setMaximumSize(panelDimension);
+    setOpaque(false);
   }
 
   private void setPlatesAndTableCenterPanel() {
