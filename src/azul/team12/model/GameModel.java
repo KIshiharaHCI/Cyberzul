@@ -282,7 +282,7 @@ public class GameModel implements Model {
     // if not: that there is not valid turn to make
     if (thereIsValidPick) {
       int indexOfNextPlayer = getIndexOfNextPlayer();
-      Player nextPlayer = playerList.get(indexOfNextPlayer);
+      //Player nextPlayer = playerList.get(indexOfNextPlayer);
       PlayerHasChosenTileEvent playerHasChosenTileEvent =
           new PlayerHasChosenTileEvent(getNickOfActivePlayer());
       notifyListeners(playerHasChosenTileEvent);
@@ -383,10 +383,16 @@ public class GameModel implements Model {
 
   @Override
   public List<String> rankingPlayerWithPoints() {
+    // making a copy of player names list as ArrayList, so we can give back a clone later
     List<String> playerNamesRankingList = getPlayerNamesList();
-    Collections.sort(playerNamesRankingList,
+    ArrayList<String> orderedPlayerNamesRankingList = new ArrayList<>();
+    for (String playerName: playerNamesRankingList) {
+      orderedPlayerNamesRankingList.add(playerName);
+    }
+
+    Collections.sort(orderedPlayerNamesRankingList,
         (o1, o2) -> -Integer.compare(getPoints(o1), getPoints(o2)));
-    return playerNamesRankingList;
+    return (List<String>) orderedPlayerNamesRankingList.clone();
   }
 
 
@@ -395,7 +401,6 @@ public class GameModel implements Model {
     int indexOfNextPlayer;
     if (checkRoundFinished()) {
       //TODO: TEST SPM
-      System.err.println("Marco hat recht");
       indexOfNextPlayer = getIndexOfPlayerWithSpm();
     } else if (indexOfActivePlayer == playerList.size() - 1) {
       indexOfNextPlayer = 0;
