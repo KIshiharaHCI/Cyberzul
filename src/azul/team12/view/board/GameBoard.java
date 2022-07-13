@@ -37,6 +37,7 @@ public class GameBoard extends JPanel {
 
     this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
+
     factoryDisplays = controller.getOfferings().subList(1, controller.getOfferings().size());
 
     this.frameDimension = frameDimension;

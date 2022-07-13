@@ -82,19 +82,12 @@ public interface Controller {
   void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex);
 
   /**
-   * The player playerName tries to finish his turn.
-   *
-   * @param playerName the name of the player who tries to finish his turn.
-   */
-  void endTurn(String playerName);
-
-  /**
    * Informs the model on which pattern row the player chose to place his tile.
    *
    * @param rowOfPatternLine the row of the pattern line selected
    * @return <code>true</code> if it was a valid pick, <code>false</code> if not
    */
-  boolean placeTileAtPatternLine(int rowOfPatternLine);
+  void placeTileAtPatternLine(int rowOfPatternLine);
 
   /**
    * Informs the model that the user has put the tiles of a chosen offering directly to the floor
@@ -140,8 +133,11 @@ public interface Controller {
    */
   ModelTile[][] getTemplateWall();
 
-
-  List<Player> rankingPlayerWithPoints();
+  /**
+   * Rank the players according to their points in descending order.
+   * @return A list of players' name.
+   */
+  List<String> rankingPlayerWithPoints();
 
   /**
    * tells the model that a given player forfeit the game. Makes the player be replaced by an AI.

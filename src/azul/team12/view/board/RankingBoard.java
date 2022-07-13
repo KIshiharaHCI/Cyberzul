@@ -16,7 +16,7 @@ import javax.swing.border.Border;
  */
 
 public class RankingBoard extends JPanel {
-
+  private List<String> playerNamesList;
   private static final String GAME_RANKING = "RANKING";
   private static final int COL = 1;
   private static final long serialVersionUID = 7L;
@@ -31,7 +31,7 @@ public class RankingBoard extends JPanel {
    */
   public RankingBoard(Controller controller) {
     this.controller = controller;
-    this.playersList = controller.rankingPlayerWithPoints();
+    this.playerNamesList = controller.rankingPlayerWithPoints();
 
     createRankingArea();
 
@@ -47,20 +47,19 @@ public class RankingBoard extends JPanel {
     rankingBoardPanel.setBorder(border);
 
     rankingBoardPanel.setMaximumSize(new Dimension(600, 300));
-    rankingBoardPanel.setLayout(new GridLayout(playersList.size(), COL));
+    rankingBoardPanel.setLayout(new GridLayout(playerNamesList.size(), COL));
     add(rankingBoardPanel, BorderLayout.CENTER);
-    for (Player player : playersList) {
-      rankingBoardPanel.add(
-          new JLabel(player.getName() + ": " + controller.getPoints(player.getName())));
+    for (String playerName : playerNamesList) {
+        rankingBoardPanel.add(new JLabel(playerName + ": " + controller.getPoints(playerName)));
     }
   }
 
   /**
-   * Updates the current points of all players.
+   * Updates the current ranking status of all players.
    */
   public void updateRankingBoard() {
     remove(rankingBoardPanel);
-    playersList = controller.rankingPlayerWithPoints();
+    playerNamesList = controller.rankingPlayerWithPoints();
     createRankingArea();
   }
 

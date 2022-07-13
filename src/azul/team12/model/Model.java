@@ -77,13 +77,6 @@ public interface Model {
   void makeAiPlayerMakeMove(String nickOfAiPlayer);
 
   /**
-   * Ends the turn. Fires {@link RoundFinishedEvent} if the round has finished, fires
-   * {@link NextPlayersTurnEvent}, sets up the offerings new, if the game has ended and sets up the
-   * index of active player to be the index of the next player.
-   */
-  void endTurn();
-
-  /**
    * Informs the view via listeners that it is the next players turn. If the player cannot place the
    * tile on a pattern line, it still informs the model.
    *
@@ -99,7 +92,7 @@ public interface Model {
    * @param rowOfPatternLine the row of the chosen pattern line
    * @return <code>true</code> if it was a valid pick, <code>false</code> if not
    */
-  boolean makeActivePlayerPlaceTile(int rowOfPatternLine);
+  void makeActivePlayerPlaceTile(int rowOfPatternLine);
 
   /**
    * Makes the active player place the tile he/she has chosen directly into the floor line.
@@ -139,7 +132,14 @@ public interface Model {
    *
    * @return a list of players with points in descending order.
    */
-  List<Player> rankingPlayerWithPoints();
+  List<String> rankingPlayerWithPoints();
+
+  /**
+   * The active player is the player who has to do his turn in this round.
+   *
+   * @return the index of the player whose turn is now.
+   */
+  int getIndexOfActivePlayer();
 
   /**
    * Next player is the next player on the list or the first player, if the last active player was
@@ -196,8 +196,6 @@ public interface Model {
    * @return the offerings.
    */
   List<Offering> getOfferings();
-
-  int getIndexOfActivePlayer();
 
   /**
    * Returns the number of points the player with the specified nickname has.

@@ -11,27 +11,32 @@ import java.util.List;
  * points, the tiles he already tiled and those who lie on his tiling fields.
  */
 public class Player {
-
+  protected String name;
+  protected int points;
   public static final int NUMBER_OF_PATTERN_LINES = 5;
   public static final int SIZE_OF_FLOOR_LINE = 7;
   public static final int POINTS_FOR_COMPLETE_HORIZONTAL_LINE = 2;
   public static final int POINTS_FOR_COMPLETE_VERTICAL_LINE = 7;
   public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
+
+  protected boolean hasStartingPlayerMarker = false;
+  protected boolean hasEndedTheGame = false;
   private static final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
-  private String name;
-  private int points;
-  private boolean hasStartingPlayerMarker = false;
+
   private boolean isAiPlayer = false;
-  private boolean hasEndedTheGame = false;
 
-  private WallBackgroundPattern wallPattern;
+  protected WallBackgroundPattern wallPattern;
 
-  private ArrayList<ModelTile> floorLine;
+  protected ArrayList<ModelTile> floorLine;
   //contain the negative Tiles the player acquires during the drawing phase.
-  private boolean[][] wall;
-  private ModelTile[][] patternLines;
 
-  Player(String name) {
+  protected boolean[][] wall;
+  //the wall where the player tiles the tiles and gets his points ("Wand").
+
+  protected ModelTile[][] patternLines;
+  //the left side on the board where the player places the tiles he draws ("Musterreihen").
+
+  protected Player(String name) {
     this.name = name;
 
     this.points = 0;
@@ -235,6 +240,8 @@ public class Player {
       fillFloorLine(pickedTiles.remove(0));
     }
 
+    System.out.println(floorLine);
+
   }
 
   /**
@@ -289,6 +296,7 @@ public class Player {
 
     //are there free places on the selected row? Only first position of the line has to be checked.
     if (patternLines[pickedLine][0] != EMPTY_TILE) {
+      System.out.println(patternLines[pickedLine][0]);
       System.out.println("Reason for FALSE is that there are no free places on that row.");
       return false;
     }
@@ -297,6 +305,7 @@ public class Player {
     //only last position has to be checked.
     if ((patternLines[pickedLine][pickedLine] != tile)
         && patternLines[pickedLine][pickedLine] != EMPTY_TILE) {
+      System.out.println(patternLines[pickedLine][pickedLine]);
       System.out.println("Reason for FALSE is that the tile color is not compatible with "
           + "other tiles on that line. ");
       return false;

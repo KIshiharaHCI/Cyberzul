@@ -1,9 +1,11 @@
 package azul.team12.view;
 
 import azul.team12.controller.Controller;
+import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
+import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
@@ -46,10 +48,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
   private final String BACKGROUND_PATH = "img/background.jpg";
 
-
   private transient Model model;
   private transient Controller controller;
+
   private GameBoard gameBoard;
+  private TileClickListener tileClickListener;
 
   /**
    * Create the Graphical User Interface of Azul.
@@ -91,13 +94,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   }
 
   private void addEventListeners() {
-    TileClickListener tileClickListener = new TileClickListener(controller, model);
+    tileClickListener = new TileClickListener(controller, model);
     hotSeatModeButton.addActionListener(event -> showHSMCard());
     networkButton.addActionListener(event -> showNetworkCard());
     playButton.addActionListener(event -> {
       controller.startGame();
-      addNewGameBoard(tileClickListener);
-      showCard(GAMEBOARD_CARD);
     });
     addPlayerButton.addActionListener(event -> {
           controller.addPlayer(inputField.getText());
@@ -170,10 +171,14 @@ public class AzulView extends JFrame implements PropertyChangeListener {
           showErrorMessage("Nickname is already taken.");
         } else if (loginFailedEvent.getMessage().equals(LoginFailedEvent.LOBBY_IS_FULL)) {
           showErrorMessage("Lobby is full.");
+        } else if (loginFailedEvent.getMessage().equals(LoginFailedEvent.ALREADY_LOGGED_IN)) {
+          showErrorMessage("Already logged in.");
         }
         //TODO - @ Nils add other events
       }
       case "GameStartedEvent" -> {
+        addNewGameBoard(tileClickListener);
+        showCard(GAMEBOARD_CARD);
         updateCenterBoard();
 //        TODO: add RankingBoard at correct position
 //        updateRankingBoard();
@@ -183,6 +188,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         updateOtherPlayerBoards();
         updateRankingBoard();
       }
+      case "LoggedInEvent" -> showErrorMessage("successfully logged in");
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
@@ -208,7 +214,13 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       case "GameCanceledEvent" -> {
         showHSMCard();
       }
-      //default -> throw new AssertionError("Unknown event");
+      case "NotYourTurnEvent" -> showErrorMessage(
+          "Please wait for other players so they can do their move");
+      case "PlayerHasChosenTileEvent" -> {
+        //TODO: FILL WITH FUNCTIONALITY
+      }
+      case "NoValidTurnToMakeEvent" -> showErrorMessage("No Valied Turn to make");
+      default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
 

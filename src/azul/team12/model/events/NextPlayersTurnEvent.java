@@ -6,18 +6,24 @@ package azul.team12.model.events;
  */
 public class NextPlayersTurnEvent extends GameEvent {
 
-  private final String nickname;
+  private final String nameOfActivePlayer;
+  private final String nameOfPlayerWhoEndedHisTurn;
 
-  public NextPlayersTurnEvent(String nickname) {
-    this.nickname = nickname;
+  public NextPlayersTurnEvent(String nameOfActivePlayer, String nameOfPlayerWhoEndedHisTurn) {
+    this.nameOfActivePlayer = nameOfActivePlayer;
+    this.nameOfPlayerWhoEndedHisTurn = nameOfPlayerWhoEndedHisTurn;
   }
 
-  public String getNickname() {
-    return nickname;
+  public String getNameOfActivePlayer() {
+    return nameOfActivePlayer;
   }
 
   @Override
   public String getName() {
     return "NextPlayersTurnEvent";
+  }
+
+  public String getNameOfPlayerWhoEndedHisTurn() {
+    return nameOfPlayerWhoEndedHisTurn;
   }
 }

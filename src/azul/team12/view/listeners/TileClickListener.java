@@ -98,10 +98,9 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
         resetOffering();
         showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
-        controller.endTurn(source.getName());
         source = null;
-      } else if (controller.placeTileAtPatternLine(tileDestination.getRow())) {
-
+      } else {
+        controller.placeTileAtPatternLine(tileDestination.getRow());
         if (tileDestination.getParent().getParent() instanceof PatternLines) {
           PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
           patternLinesView.remove();
@@ -112,10 +111,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         resetOffering();
         //TODO: do it with a button on the playboard
         showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
-        controller.endTurn(source.getName());
         source = null;
-      } else {
-        showErrorMessage("Not a valid turn!");
       }
 
     } else {

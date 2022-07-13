@@ -2,14 +2,15 @@ package azul.team12.model;
 
 import static java.util.Objects.requireNonNull;
 
-import azul.team12.model.events.GameCanceledEvent;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
-import azul.team12.model.events.GameInIllegalStateEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
+import azul.team12.model.events.LoggedInEvent;
+import azul.team12.model.events.GameCanceledEvent;
+import azul.team12.model.events.GameInIllegalStateEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.NoValidTurnToMakeEvent;
@@ -69,10 +70,12 @@ public class GameModel implements Model {
 
   /**
    * Notify subscribed listeners that the state of the model has changed. To this end, a specific
+   * {@link GameEvent} gets fired such that the attached observers (i.e., {@link
+   * PropertyChangeListener}) can distinguish between what exactly has changed.
    * {@link azul.team12.model.events.GameEvent} gets fired such that the attached observers (i.e.,
    * {@link PropertyChangeListener}) can distinguish between what exactly has changed.
    *
-   * @param event A concrete implementation of {@link azul.team12.model.events.GameEvent}
+   * @param event A concrete implementation of {@link GameEvent}
    */
   private void notifyListeners(GameEvent event) {
     support.firePropertyChange(event.getName(), null, event);
@@ -95,6 +98,7 @@ public class GameModel implements Model {
       if (nicknameFree) {
         Player newPlayer = new Player(nickname);
         playerList.add(newPlayer);
+        notifyListeners(new LoggedInEvent());
       }
     }
   }
@@ -163,8 +167,8 @@ public class GameModel implements Model {
     }
   }
 
-  @Override
-  public void endTurn() {
+  private void endTurn() {
+    String nameOfPlayerWhoEndedHisTurn = getNickOfActivePlayer();
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
@@ -175,7 +179,7 @@ public class GameModel implements Model {
       notifyListeners(roundFinishedEvent);
     }
     indexOfActivePlayer = getIndexOfNextPlayer();
-    NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer());
+    NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer(),nameOfPlayerWhoEndedHisTurn);
     notifyListeners(nextPlayersTurnEvent);
 
     //TODO: Check if SPM is used in the right way --> makes player be first in next round. @Marco
@@ -190,7 +194,6 @@ public class GameModel implements Model {
       String nickOfAiPlayer = getNickOfActivePlayer();
       makeAiPlayerMakeMove(nickOfAiPlayer);
     }
-
   }
 
   @Override
@@ -276,8 +279,8 @@ public class GameModel implements Model {
       int indexOfNextPlayer = getIndexOfNextPlayer();
       Player nextPlayer = playerList.get(indexOfNextPlayer);
       String nextPlayerNick = nextPlayer.getName();
-      PlayerHasChosenTileEvent playerHasChosenTileEvent = new PlayerHasChosenTileEvent(
-          nextPlayerNick);
+      PlayerHasChosenTileEvent playerHasChosenTileEvent =
+          new PlayerHasChosenTileEvent(getNickOfActivePlayer());
       notifyListeners(playerHasChosenTileEvent);
     } else {
       NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
@@ -286,13 +289,18 @@ public class GameModel implements Model {
   }
 
   @Override
-  public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
+  public void makeActivePlayerPlaceTile(int rowOfPatternLine) {
     LOGGER.info(
-        getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine
-            + ".");
+        getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine +
+            ".");
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
-    return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
+     if(!activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile)){
+       notifyListeners(new IllegalTurnEvent());
+     }
+     else{
+       endTurn();
+     }
   }
 
   @Override
@@ -305,6 +313,7 @@ public class GameModel implements Model {
       notifyListeners(new IllegalTurnEvent());
     } else {
       activePlayer.placeTileInFloorLine(currentOffering, currentIndexOfTile);
+      endTurn();
     }
   }
 
@@ -332,8 +341,7 @@ public class GameModel implements Model {
     LOGGER.debug("We called giveIndexOfPlayer with Start Player Marker when no player had "
         + "the SPM. Probably this is the case because at the end of the turn noone had the "
         + "SPM.");
-    throw new IllegalStateException("We called giveIndexOfPlayer with Start Player Marker when "
-        + "no player had the SPM.");
+    return 0;
   }
 
   @Override
@@ -370,11 +378,11 @@ public class GameModel implements Model {
   }
 
   @Override
-  public List<Player> rankingPlayerWithPoints() {
-    List<Player> playerRankingList = playerList;
-    Collections.sort(playerRankingList,
-        (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
-    return playerRankingList;
+  public List<String> rankingPlayerWithPoints() {
+    List<String> playerNamesRankingList = getPlayerNamesList();
+    Collections.sort(playerNamesRankingList,
+        (o1, o2) -> -Integer.compare(getPoints(o1), getPoints(o2)));
+    return playerNamesRankingList;
   }
 
 
@@ -418,7 +426,7 @@ public class GameModel implements Model {
   public ModelTile[][] getWallOfPlayer(String playerName) {
 
     Player player = getPlayerByName(playerName);
-    ModelTile[][] templateWall = WallBackgroundPattern.getTemplateWall();
+    ModelTile[][] templateWall = player.getWallPattern().pattern;
     boolean[][] wallAsBools = player.getWall();
     ModelTile[][] playerWall = new ModelTile[5][5];
 
@@ -433,7 +441,6 @@ public class GameModel implements Model {
     }
 
     return playerWall;
-
   }
 
   @Override

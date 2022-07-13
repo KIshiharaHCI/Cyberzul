@@ -3,6 +3,8 @@ package azul.team12;
 import azul.team12.controller.Controller;
 import azul.team12.controller.GameController;
 import azul.team12.model.GameModel;
+import azul.team12.network.client.ClientController;
+import azul.team12.network.client.ClientModel;
 import azul.team12.model.Model;
 import azul.team12.view.AzulView;
 import org.apache.logging.log4j.LogManager;

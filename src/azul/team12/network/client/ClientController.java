@@ -1,16 +1,17 @@
-package azul.team12.controller;
+package azul.team12.network.client;
 
+import azul.team12.controller.Controller;
 import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
-import azul.team12.model.WallBackgroundPattern;
+import azul.team12.model.Player;
 import java.util.List;
 
-public class GameController implements Controller {
+public class ClientController implements Controller {
 
-  private Model model;
+  Model model;
 
-  public GameController(Model model){
+  public ClientController(Model model) {
     this.model = model;
   }
 
@@ -26,7 +27,7 @@ public class GameController implements Controller {
 
   @Override
   public void restartGame() {
-    model.restartGame();
+
   }
 
   @Override
@@ -36,37 +37,37 @@ public class GameController implements Controller {
 
   @Override
   public String getNickOfActivePlayer() {
-    return model.getPlayerNamesList().get(model.getIndexOfActivePlayer());
+    return null;
   }
 
   @Override
   public String getNickOfNextPlayer() {
-    return model.getPlayerNamesList().get(model.getIndexOfNextPlayer());
+    return null;
   }
 
   @Override
   public int getPoints(String playerName) {
-    return model.getPoints(playerName);
+    return 0;
   }
 
   @Override
   public int getMinusPoints(String playerName) {
-    return model.getMinusPoints(playerName);
+    return 0;
   }
 
   @Override
   public void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex) {
-    model.notifyTileChosen(playerName, indexOfTile, offeringIndex);
+
   }
 
   @Override
   public void placeTileAtPatternLine(int rowOfPatternLine) {
-    System.out.println("Player " + getNickOfActivePlayer() + " tries to place a tile on the " + rowOfPatternLine + ". row of pattern lines.");
-    model.makeActivePlayerPlaceTile(rowOfPatternLine);
+
   }
 
+  @Override
   public void placeTileAtFloorLine() {
-    model.tileFallsDown();
+
   }
 
   @Override
@@ -76,37 +77,37 @@ public class GameController implements Controller {
 
   @Override
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
-    return model.getPatternLinesOfPlayer(playerName);
+    return new ModelTile[0][];
   }
 
   @Override
   public List<ModelTile> getFloorLineOfPlayer(String playerName) {
-    return model.getFloorLineOfPlayer(playerName);
+    return null;
   }
 
   @Override
   public ModelTile[][] getWallOfPlayerAsTiles(String playerName) {
-    return model.getWallOfPlayer(playerName);
+    return new ModelTile[0][];
   }
 
   @Override
   public ModelTile[][] getTemplateWall() {
-    return WallBackgroundPattern.getTemplateWall();
+    return new ModelTile[0][];
   }
 
   @Override
   public List<String> rankingPlayerWithPoints() {
-    return model.rankingPlayerWithPoints();
+    return null;
   }
 
   @Override
   public void replaceActivePlayerByAI() {
-    model.replaceActivePlayerByAi();
+
   }
 
   @Override
   public void cancelGameForAllPlayers() {
-    model.cancelGame();
+
   }
 
 }

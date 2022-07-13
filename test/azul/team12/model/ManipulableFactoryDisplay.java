@@ -25,6 +25,19 @@ public class ManipulableFactoryDisplay extends FactoryDisplay{
   }
 
   /**
+   * Create a ManipulableFactoryDisplay with only one color of tiles.
+   *
+   * @param tile all tiles in this Offering should have only this color.
+   */
+  public ManipulableFactoryDisplay(ModelTile tile){
+    ModelTile[] tiles = new ModelTile[4];
+    for(int i = 0; i < tiles.length; i++){
+      tiles[i] = tile;
+    }
+    manipulateContent(tiles);
+  }
+
+  /**
    * This method can be used to change the content of a Manipulable Factory Display.
    * It uses an array instead of List, because that way it's easier to set them up in the test
    * classes.
