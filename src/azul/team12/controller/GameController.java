@@ -100,8 +100,8 @@ public class GameController implements Controller {
   }
 
   @Override
-  public void replaceActivePlayerByAI() {
-    model.replaceActivePlayerByAi();
+  public void replaceActivePlayerByAI(String playerName) {
+    model.replaceActivePlayerByAi(playerName);
   }
 
   @Override

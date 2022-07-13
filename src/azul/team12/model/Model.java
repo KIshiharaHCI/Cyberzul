@@ -66,8 +66,10 @@ public interface Model {
   /**
    * forfeits the game, sets the player who forfeited to be an AI-Player and makes him/her do the
    * next move.
+   *
+   * @param playerName the name of the player to be replaced.
    */
-  void replaceActivePlayerByAi();
+  void replaceActivePlayerByAi(String playerName);
 
   /**
    * makes a given player place a tile randomly. Used for AI-Players.
