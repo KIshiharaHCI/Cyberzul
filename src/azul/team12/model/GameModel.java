@@ -147,7 +147,6 @@ public class GameModel implements Model {
     BagToDrawNewTiles.getInstance().initializeContent();
     isGameStarted = false;
     hasGameEnded = true;
-    playerList = new ArrayList<>();
     offerings = new ArrayList<>();
     GameCanceledEvent gameCanceledEvent = new GameCanceledEvent(getNickOfActivePlayer());
     notifyListeners(gameCanceledEvent);
