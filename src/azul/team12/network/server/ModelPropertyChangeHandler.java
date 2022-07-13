@@ -4,6 +4,7 @@ import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
+import azul.team12.model.events.GameCanceledEvent;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
@@ -68,6 +69,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case "IllegalTurnEvent" -> handleIllegalTurnEvent();
       case "RoundFinishedEvent" -> handleRoundFinishedEvent();
       case GameFinishedEvent.EVENT_NAME -> handleGameFinishedEvent(customMadeGameEvent);
+      case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
@@ -179,6 +181,20 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
               nameOfPlayerWhoEndedHisTurn,
               newPatternLinesOfPlayerWhoEndedHisTurn, newFloorLineOfPlayerWhoEndedHisTurn));
     } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void handleGameCanceledEvent(Object customMadeGameEvent){
+    try{
+      GameCanceledEvent gameCanceledEvent = (GameCanceledEvent) customMadeGameEvent;
+      String nameOfCanceler = gameCanceledEvent.getNameOfPersonThatCanceled();
+
+      JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_CANCELED);
+      message.put(JsonMessage.NICK_FIELD, nameOfCanceler);
+
+      connection.broadcastToAll(message);
+    } catch (JSONException | IOException e){
       e.printStackTrace();
     }
   }

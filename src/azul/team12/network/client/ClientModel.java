@@ -84,17 +84,17 @@ public class ClientModel implements Model {
 
   @Override
   public void restartGame() {
-
+    connection.send(JsonMessage.RESTART_GAME);
   }
 
   @Override
   public void cancelGame() {
-
+    connection.send(JsonMessage.CANCEL_GAME);
   }
 
   @Override
   public void replaceActivePlayerByAi() {
-
+    connection.send(JsonMessage.REPLACE_PLAYER_BY_AI);
   }
 
   @Override
@@ -283,10 +283,12 @@ public class ClientModel implements Model {
    * @param playerNames
    */
   private void setUpClientPlayersByName(JSONArray playerNames) throws JSONException {
+    ArrayList<ClientPlayer> playerList = new ArrayList<>();
     for (int i = 0; i < playerNames.length(); i++) {
       ClientPlayer clientPlayer = new ClientPlayer(playerNames.getString(i));
       playerList.add(clientPlayer);
     }
+    this.playerList = playerList;
   }
 
   @Override

@@ -1,6 +1,7 @@
 package azul.team12.network.client;
 
 import azul.team12.model.Model;
+import azul.team12.model.events.GameCanceledEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.shared.JsonMessage;
@@ -120,10 +121,13 @@ public class ClientNetworkConnection {
       case NOT_YOUR_TURN -> model.handleNotYourTurn();
       case PLAYER_HAS_CHOSEN_TILE -> model.handlePlayerHasChosenTile(object);
       case NO_VALID_TURN_TO_MAKE -> model.handleNoValidTurnToMake();
-      case GAME_NOT_STARTABLE -> model.handleGameNotStartable(object.getString(JsonMessage.ADDITIONAL_INFORMATION));
+      case GAME_NOT_STARTABLE -> model.handleGameNotStartable(
+          object.getString(JsonMessage.ADDITIONAL_INFORMATION));
       case ILLEGAL_TURN -> model.notifyListeners(new IllegalTurnEvent());
       case ROUND_FINISHED -> model.handleRoundFinished(object);
       case GAME_FINISHED -> model.handleGameFinishedEvent(object);
+      case GAME_CANCELED -> model.notifyListeners(
+          new GameCanceledEvent(object.getString(JsonMessage.NICK_FIELD)));
       /*
       case USER_JOINED:
         handleUserJoined(object);
