@@ -116,7 +116,8 @@ public class ClientMessageHandler implements Runnable {
   private void handleMessage(JSONObject object) throws IOException {
     switch (JsonMessage.typeOf(object)) {
       case LOGIN -> handleLogin(object);
-      case POST_MESSAGE -> handlePostMessage(object);
+      case POST_MESSAGE -> new ChatMessageHandler(serverConnection, socket, controller, model).handlePostChatMessage(object);
+      case CHEAT_MESSAGE -> new ChatMessageHandler(serverConnection, socket, controller, model).handleCheatMessage(object);
       case START_GAME -> controller.startGame();
       case NOTIFY_TILE_CHOSEN -> {
         System.out.println("notify tile chosen in ClientMessageHandler#handleMessage");
