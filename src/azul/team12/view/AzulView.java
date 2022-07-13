@@ -173,13 +173,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       case "NextPlayersTurnEvent" -> {
         updateCenterBoard();
         updateOtherPlayerBoards();
-        updateRankingBoard();
+        //updateRankingBoard();
       }
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
-        updateRankingBoard();
-        //TODO: PlatesPanel nach Kenjis Vorbild updaten
-
+        //updateRankingBoard();
       }
       case "GameFinishedEvent" -> {
         GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;

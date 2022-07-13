@@ -25,7 +25,7 @@ public class CenterBoard extends JPanel {
   private JPanel platesAndTableCenterPanel;
   private JPanel boardAndPlatesAndTablePanel;
   private JPanel activeUserButtonsPanel;
-  private JButton forfeitButton, endTurnButton, cancelButton, restartButton;
+  private JButton forfeitButton, cancelButton, restartButton;
   private transient TileClickListener tileClickListener;
   private Dimension panelDimension, topPanelDimension, bottomPanelDimension;
 
@@ -75,14 +75,6 @@ public class CenterBoard extends JPanel {
   }
 
   private void initializeButtons() {
-    endTurnButton = new JButton();
-    setButtonProperties(endTurnButton, "img/endturn-button.png");
-
-
-    endTurnButton.addActionListener(event -> {
-      controller.endTurn(controller.getNickOfActivePlayer());
-    });
-
     forfeitButton = new JButton();
     setButtonProperties(forfeitButton, "img/forfeit-button.png");
 
@@ -120,7 +112,7 @@ public class CenterBoard extends JPanel {
     button.setBorder(null);
     button.setContentAreaFilled(false);
 
-    activeUserButtonsPanel.add(Box.createVerticalStrut(20));
+    activeUserButtonsPanel.add(Box.createVerticalStrut(40));
     activeUserButtonsPanel.add(button);
   }
 
@@ -162,7 +154,6 @@ public class CenterBoard extends JPanel {
     currentPlayerBoard =
         new ActivePlayerBoard(controller, tileClickListener, controller.getNickOfActivePlayer(), bottomPanelDimension);
 
-    currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
     boardAndPlatesAndTablePanel.add(currentPlayerBoard, BorderLayout.CENTER);
   }
 

@@ -1,11 +1,7 @@
 package azul.team12.view.board;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * This class should be used for example to avoid duplications in code.
@@ -13,8 +9,6 @@ import javax.swing.JPanel;
 public class ViewHelper {
 
   public static final int PADDING = 2;
-
-  public static final Color PLAY_BOARD_COLOR = new Color(110, 150, 100);
 
   /**
    * Sets properties to a line of {@link PatternLines} or {@link Wall}
@@ -45,9 +39,9 @@ public class ViewHelper {
    * @param tileSize: the size of one tile that should be shown.
    */
   static void setProperties(int tileSize, int rows, int cols, JPanel panel) {
-    panel.setBackground(PLAY_BOARD_COLOR);
     // panel.setPreferredSize(new Dimension((tileSize + PADDING) * cols + PADDING,
     //(tileSize + PADDING) * rows + PADDING));
+    panel.setOpaque(false);
     panel.setMaximumSize(new Dimension((tileSize + PADDING) * cols + PADDING,
         (tileSize + PADDING) * rows + PADDING));
     panel.setMinimumSize(new Dimension((tileSize + PADDING) * cols + PADDING,

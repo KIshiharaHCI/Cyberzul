@@ -3,12 +3,10 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
-import java.awt.Dimension;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class FloorLinePanel extends JPanel {
 
@@ -24,7 +22,6 @@ public class FloorLinePanel extends JPanel {
     this.controller = controller;
     this.tileClickListener = tileClickListener;
     setProperties(Tile.TILE_SIZE, 2, 1, this);
-    setBackground(new Color(110, 150, 100));
     // add(new JLabel("   Minus Points: " + minusPoints));
 //    JButton floorLineButton = new JButton("Floor Line");
 //    floorLineButton.addActionListener(e -> {
@@ -37,7 +34,7 @@ public class FloorLinePanel extends JPanel {
   }
 
   private void setProperties(int tileSize, int rows, int cols, JPanel panel) {
-    panel.setBackground(new Color(110, 150, 100));
+    panel.setOpaque(false);
     panel.setPreferredSize(
         new Dimension((tileSize + 2) * NUMBER_OF_FLOOR_TILES, (tileSize + 2) * rows));
     panel.setMaximumSize(

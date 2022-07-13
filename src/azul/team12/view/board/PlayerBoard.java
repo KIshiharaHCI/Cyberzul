@@ -2,14 +2,9 @@ package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
@@ -85,8 +80,8 @@ public abstract class PlayerBoard extends JPanel {
   }
 
   void setProperties(int tileSize, int rows, int cols, JPanel panel) {
-    panel.setBackground(new Color(110, 150, 100));
 
+    panel.setOpaque(false);
     panel.setPreferredSize(new Dimension((tileSize + 2) * cols, (tileSize + 2) * rows));
     panel.setMaximumSize(new Dimension((tileSize + 2) * cols, (tileSize + 2) * rows));
     panel.setMinimumSize(new Dimension((tileSize + 2) * cols, (tileSize + 2) * rows));
@@ -106,6 +101,7 @@ public abstract class PlayerBoard extends JPanel {
 
   private void addPointsAndPlayerNameElements() {
     north = createNorthernPart("Points: ", points);
+    north.setOpaque(false);
     north.add(new JLabel("Name: " + playerName));
     playerBoardWrapper.add(north, BorderLayout.NORTH);
   }
@@ -114,12 +110,10 @@ public abstract class PlayerBoard extends JPanel {
     floorLinePanel = new FloorLinePanel(playerName, controller, tileClickListener, minusPoints);
     playerBoardWrapper.add(floorLinePanel, BorderLayout.SOUTH);
 
-
   }
 
   private JPanel createNorthernPart(String x, int minusPoints) {
     JPanel north = new JPanel();
-    north.setBackground(new Color(110, 150, 100));
     north.setLayout(new GridLayout(1, 1));
     north.add(new JLabel("   " + x + minusPoints));
     return north;
