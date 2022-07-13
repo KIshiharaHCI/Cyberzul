@@ -218,8 +218,7 @@ public enum JsonMessage {
                                                         List<Offering> offerings,
                                                         String nameOfPlayerWhoEndedHisTurn,
                                                         ModelTile[][] newPatternLinesOfPlayerWhoEndedHisTurn,
-                                                        List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn,
-                                                        int indexOfPlayerWithSPM) {
+                                                        List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn) {
     try {
       JSONObject returnObject = createMessageOfType(NEXT_PLAYERS_TURN);
 
@@ -234,8 +233,6 @@ public enum JsonMessage {
 
       returnObject.put(FLOOR_LINE_FIELD,
           parseFloorLineToJSONArray(newFloorLineOfPlayerWhoEndedHisTurn));
-
-      returnObject.put(INDEX_OF_PLAYER_WITH_SPM, indexOfPlayerWithSPM);
 
       return returnObject;
     } catch (JSONException e) {

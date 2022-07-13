@@ -41,6 +41,7 @@ public class ClientNetworkConnection {
    */
   public synchronized void start() {
     thread = new Thread(this::doConnectLoop);
+    thread.setDaemon(true);
     thread.start();
   }
 

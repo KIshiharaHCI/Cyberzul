@@ -170,6 +170,7 @@ public class GameModel implements Model {
   private void endTurn() {
     String nameOfPlayerWhoEndedHisTurn = getNickOfActivePlayer();
     boolean roundFinished = checkRoundFinished();
+    indexOfActivePlayer = getIndexOfNextPlayer();
     if (roundFinished) {
       RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       startTilingPhase();
@@ -178,7 +179,6 @@ public class GameModel implements Model {
       }
       notifyListeners(roundFinishedEvent);
     }
-    indexOfActivePlayer = getIndexOfNextPlayer();
     NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer(),nameOfPlayerWhoEndedHisTurn);
     notifyListeners(nextPlayersTurnEvent);
 
@@ -395,6 +395,8 @@ public class GameModel implements Model {
   public int getIndexOfNextPlayer() {
     int indexOfNextPlayer;
     if (checkRoundFinished()) {
+      //TODO: TEST SPM
+      System.err.println("Marco hat recht");
       indexOfNextPlayer = getIndexOfPlayerWithSpm();
     } else if (indexOfActivePlayer == playerList.size() - 1) {
       indexOfNextPlayer = 0;
