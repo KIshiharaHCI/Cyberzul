@@ -312,8 +312,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     JPanel backgroundPanel = new ImagePanel(gameBoardPanel, BACKGROUND_PATH, FRAME_WIDTH,
         FRAME_WIDTH, BACKGROUND_SCALE_FACTOR);
     add(backgroundPanel, GAMEBOARD_CARD);
-    int numberOfPlayers = controller.getPlayerNamesList().size();
-    gameBoard = new GameBoard(numberOfPlayers, tileClickListener, controller, frameDimension);
+    gameBoard = new GameBoard(tileClickListener, controller, frameDimension);
 
     gameBoardPanel.add(gameBoard);
     gameBoard.repaint();
