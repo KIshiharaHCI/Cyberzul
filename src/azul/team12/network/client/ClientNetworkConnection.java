@@ -3,6 +3,7 @@ package azul.team12.network.client;
 import azul.team12.model.Model;
 import azul.team12.model.events.GameCanceledEvent;
 import azul.team12.model.events.GameFinishedEvent;
+import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
@@ -128,6 +129,8 @@ public class ClientNetworkConnection {
       case GAME_FINISHED -> model.handleGameFinishedEvent(object);
       case GAME_CANCELED -> model.notifyListeners(
           new GameCanceledEvent(object.getString(JsonMessage.NICK_FIELD)));
+      case GAME_FORFEITED -> model.notifyListeners(
+          new GameForfeitedEvent(object.getString(JsonMessage.NICK_FIELD)));
       /*
       case USER_JOINED:
         handleUserJoined(object);

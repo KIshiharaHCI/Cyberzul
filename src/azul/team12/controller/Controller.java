@@ -2,7 +2,6 @@ package azul.team12.controller;
 
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
-import azul.team12.model.Player;
 import java.util.List;
 
 /**
@@ -144,10 +143,17 @@ public interface Controller {
    *
    * @param playerName the name of the player to be replaced.
    */
-  void replaceActivePlayerByAI(String playerName);
+  void replacePlayerByAI(String playerName);
 
   /**
    * tells the model that a given player wants to cancel the game. Makes the game end.
    */
   void cancelGameForAllPlayers();
+
+  /**
+   * Informs if the game has already started.
+   *
+   * @return <code>true</code> if the game already started. <code>false</code> else.
+   */
+  boolean isGameStarted();
 }

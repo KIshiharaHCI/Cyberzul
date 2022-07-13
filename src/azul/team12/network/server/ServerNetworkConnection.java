@@ -161,4 +161,15 @@ public class ServerNetworkConnection {
   public void handlerClosed(ClientMessageHandler handler) {
     clientHandlers.remove(handler);
   }
+
+  public void handlerClosed(String nickname){
+    ClientMessageHandler toRemove = null;
+    for(ClientMessageHandler handler : clientHandlers){
+      if(handler.getNickname().equals(nickname)){
+        toRemove = handler;
+        break;
+      }
+    }
+    handlerClosed(toRemove);
+  }
 }

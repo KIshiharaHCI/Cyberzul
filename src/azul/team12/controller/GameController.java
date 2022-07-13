@@ -100,8 +100,8 @@ public class GameController implements Controller {
   }
 
   @Override
-  public void replaceActivePlayerByAI(String playerName) {
-    model.replaceActivePlayerByAi(playerName);
+  public void replacePlayerByAI(String playerName) {
+    model.replacePlayerByAi(playerName);
   }
 
   @Override
@@ -109,4 +109,8 @@ public class GameController implements Controller {
     model.cancelGame();
   }
 
+  @Override
+  public boolean isGameStarted(){
+    return model.isGameStarted();
+  }
 }

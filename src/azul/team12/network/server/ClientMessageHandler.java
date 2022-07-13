@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import org.apache.logging.log4j.LogManager;
@@ -77,6 +78,14 @@ public class ClientMessageHandler implements Runnable {
         }
         JSONObject object = new JSONObject(line);
         handleMessage(object);
+      }
+    } catch (SocketException socketException){
+      //if a player leaves the game by closing the window, he gets replaced by an AI
+      if (socketException.getMessage().equals("Connection reset") && controller.isGameStarted()) {
+        controller.replacePlayerByAI(nickname);
+      }
+      else{
+        socketException.printStackTrace();
       }
     } catch (IOException | JSONException e) {
       e.printStackTrace();
@@ -145,6 +154,11 @@ public class ClientMessageHandler implements Runnable {
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
   private void handleLogin(JSONObject object) throws IOException {
+    if(controller.isGameStarted()){
+      send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.GAME_ALREADY_STARTED));
+      return;
+    }
+
     if (nickname != null) {
       send(JsonMessage.loginFailed(LoginFailedEvent.ALREADY_LOGGED_IN));
       return;
@@ -168,7 +182,10 @@ public class ClientMessageHandler implements Runnable {
   private void handleStartGame() throws IOException {
     if (GameModel.MIN_PLAYER_NUMBER > model.getPlayerNamesList().size()) {
       send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER));
-    } else {
+    } else if(controller.isGameStarted()){
+      send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.GAME_ALREADY_STARTED));
+    }
+    else {
       controller.startGame();
     }
   }
