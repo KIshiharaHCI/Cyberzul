@@ -1530,3 +1530,16 @@ Q2:
 
 Q3:
 - merging the main with my networkBranch makes my project disappear. Maybe thats because main gets built with maven now.
+
+**13. Juli, 2022**
+
+_Nils_
+
+Q1: 
+- almost finished the network
+
+Q2: 
+- finish the network
+
+Q3:
+- none
