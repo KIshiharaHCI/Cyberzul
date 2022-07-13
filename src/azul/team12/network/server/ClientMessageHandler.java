@@ -120,8 +120,7 @@ public class ClientMessageHandler implements Runnable {
       case LOGIN -> handleLogin(object);
       case POST_MESSAGE -> handlePostMessage(object);
       case START_GAME -> handleStartGame();
-      case NOTIFY_TILE_CHOSEN -> {
-        handleNotifyTileChosen(object);}
+      case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
       case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
       default -> throw new AssertionError("Unable to handle message " + object);
@@ -158,11 +157,10 @@ public class ClientMessageHandler implements Runnable {
   /**
    * Start the game if enough player have logged in.
    */
-  private void handleStartGame() throws IOException{
-    if(GameModel.MIN_PLAYER_NUMBER > model.getPlayerNamesList().size()){
+  private void handleStartGame() throws IOException {
+    if (GameModel.MIN_PLAYER_NUMBER > model.getPlayerNamesList().size()) {
       send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER));
-    }
-    else{
+    } else {
       controller.startGame();
     }
   }

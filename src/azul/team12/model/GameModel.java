@@ -297,7 +297,6 @@ public class GameModel implements Model {
     LOGGER.info(
         getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine +
             ".");
-    System.out.println("GameModel#makeActivePlayerPlaceTile");
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
      if(!activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile)){

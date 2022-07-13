@@ -100,8 +100,10 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       }
       message.put(JsonMessage.INDEX_OF_PLAYER_WITH_SPM, model.getIndexOfPlayerWithSpm());
       message.put(JsonMessage.PLAYER_FIELD,playerArray);
+
+      connection.broadcastToAll(message);
     }
-    catch (JSONException e){
+    catch (IOException | JSONException e){
       e.printStackTrace();
     }
   }

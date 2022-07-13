@@ -187,7 +187,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         updateRankingBoard();
       }
       case "NextPlayersTurnEvent" -> {
-        System.err.println("NextPlayersTurnEvent");
         updateCenterBoard();
         updateRankingBoard();
       }

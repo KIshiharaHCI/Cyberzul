@@ -137,10 +137,6 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         platesPanel.remove();
         platesPanel.initialize(
             controller.getOfferings().subList(1, controller.getOfferings().size()), this);
-
-        //TODO: TEST sout
-        System.out.println("Factory 0: " + controller.getOfferings().get(1).getContent());
-
         CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
         TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();
         tableCenterPanel.remove();

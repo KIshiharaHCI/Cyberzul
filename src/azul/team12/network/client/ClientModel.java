@@ -350,12 +350,6 @@ public class ClientModel implements Model {
       returnOfferingsList.add(clientFactoryDisplay);
     }
     this.offerings = returnOfferingsList;
-
-    //TODO: TEST sout
-    LOGGER.debug(this.offerings.get(0).getContent().toString() +
-        this.offerings.get(1).getContent().toString());
-    System.out.println(this.offerings.get(0).getContent().toString() +
-        this.offerings.get(1).getContent().toString());
   }
 
   @Override
@@ -387,7 +381,6 @@ public class ClientModel implements Model {
   }
 
   public void handleNextPlayersTurn(JSONObject object) throws JSONException {
-    System.out.println(object);
     String nameOfActivePlayer = object.getString(JsonMessage.NAME_OF_ACTIVE_PLAYER_FIELD);
     List<String> playerNamesList = getPlayerNamesList();
     for (int i = 0; i < playerNamesList.size(); i++) {
@@ -417,8 +410,6 @@ public class ClientModel implements Model {
     setPlayerWithSPM(object.getInt(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
 
     notifyListeners(new NextPlayersTurnEvent(nameOfActivePlayer, nameOfPlayerWhoEndedHisTurn));
-
-    System.out.println("ClientModel#handleNextPlayersTurn");
   }
 
   private void setPlayerWithSPM(int indexOfPlayerWithSPM){
@@ -499,12 +490,18 @@ public class ClientModel implements Model {
   }
 
   public void handleRoundFinished(JSONObject message) {
+    System.out.println(message);
     try {
-      for (ClientPlayer player : playerList) {
-        updatePatternLines(message.getJSONArray(JsonMessage.OFFERINGS_FIELD), player);
-        updateFloorLine(message.getJSONArray(JsonMessage.FLOOR_LINE_FIELD), player);
-        updateWall(message.getJSONArray(JsonMessage.WALL_FIELD),player);
-        updatePoints(message.getInt(JsonMessage.POINTS_FIELD),player);
+      JSONArray player = message.getJSONArray(JsonMessage.PLAYER_FIELD);
+      for (int i = 0; i < player.length(); i++) {
+        JSONObject playerObject = player.getJSONObject(i);
+        String playerName = playerObject.getString(JsonMessage.NICK_FIELD);
+        ClientPlayer clientPlayer = (ClientPlayer) getPlayerByName(playerName);
+
+        updatePatternLines(playerObject.getJSONArray(JsonMessage.PATTERN_LINES_FIELD), clientPlayer);
+        updateFloorLine(playerObject.getJSONArray(JsonMessage.FLOOR_LINE_FIELD), clientPlayer);
+        updateWall(playerObject.getJSONArray(JsonMessage.WALL_FIELD),clientPlayer);
+        updatePoints(playerObject.getInt(JsonMessage.POINTS_FIELD),clientPlayer);
       }
       setPlayerWithSPM(message.getInt(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
     } catch (JSONException e) {

@@ -111,7 +111,6 @@ public enum JsonMessage {
    * @return A JSONMessage telling the server that a tile was chosen by the player, and which one.
    */
   public static JSONObject notifyTileChosenMessage(int indexOfTile, int indexOfOffering) {
-    System.out.println("JsonMessage#notifyFileChosenMessage");
     try {
       JSONObject jsonObject = createMessageOfType(NOTIFY_TILE_CHOSEN);
       jsonObject.put(INDEX_OF_TILE_FIELD, indexOfTile);
@@ -222,9 +221,6 @@ public enum JsonMessage {
                                                         List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn,
                                                         int indexOfPlayerWithSPM) {
     try {
-      //TODO: TEST sout
-      System.out.println("JsonMessage#createNextPlayersTurnMessage");
-
       JSONObject returnObject = createMessageOfType(NEXT_PLAYERS_TURN);
 
       returnObject.put(NAME_OF_ACTIVE_PLAYER_FIELD, nameOfActivePlayer);
@@ -337,7 +333,6 @@ public enum JsonMessage {
   }
 
   public static JSONObject placeTileInPatternLine(int rowOfPatternLine) {
-    System.out.println("handle next players turn in JsonMessage");
     try {
       return createMessageOfType(PLACE_TILE_IN_PATTERN_LINE).put(INDEX_OF_PATTERN_LINE_FIELD,
           rowOfPatternLine);

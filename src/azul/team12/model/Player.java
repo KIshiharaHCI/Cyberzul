@@ -296,6 +296,7 @@ public class Player {
 
     //are there free places on the selected row? Only first position of the line has to be checked.
     if (patternLines[pickedLine][0] != EMPTY_TILE) {
+      System.out.println(patternLines[pickedLine][0]);
       System.out.println("Reason for FALSE is that there are no free places on that row.");
       return false;
     }
@@ -304,6 +305,7 @@ public class Player {
     //only last position has to be checked.
     if ((patternLines[pickedLine][pickedLine] != tile)
         && patternLines[pickedLine][pickedLine] != EMPTY_TILE) {
+      System.out.println(patternLines[pickedLine][pickedLine]);
       System.out.println("Reason for FALSE is that the tile color is not compatible with "
           + "other tiles on that line. ");
       return false;
