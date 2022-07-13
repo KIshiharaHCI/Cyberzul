@@ -174,13 +174,10 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn =
           model.getFloorLineOfPlayer(nameOfPlayerWhoEndedHisTurn);
 
-      int indexOfPlayerWithSPM = model.getIndexOfPlayerWithSpm();
-
       connection.broadcastToAll(
           JsonMessage.createNextPlayersTurnMessage(nameOfActivePlayer, offerings,
               nameOfPlayerWhoEndedHisTurn,
-              newPatternLinesOfPlayerWhoEndedHisTurn, newFloorLineOfPlayerWhoEndedHisTurn,
-              indexOfPlayerWithSPM));
+              newPatternLinesOfPlayerWhoEndedHisTurn, newFloorLineOfPlayerWhoEndedHisTurn));
     } catch (IOException e) {
       e.printStackTrace();
     }

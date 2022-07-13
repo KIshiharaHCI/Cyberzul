@@ -97,7 +97,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         floorLinePanel.updateBottomTilesRow(controller.getNickOfActivePlayer());
 
         resetOffering();
-        showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
+        //showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
         source = null;
       } else {
         controller.placeTileAtPatternLine(tileDestination.getRow());
@@ -110,7 +110,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         }
         resetOffering();
         //TODO: do it with a button on the playboard
-        showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
+        //showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
         source = null;
       }
 

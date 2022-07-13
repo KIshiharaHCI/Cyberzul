@@ -408,8 +408,6 @@ public class ClientModel implements Model {
         object.getJSONArray(JsonMessage.FLOOR_LINE_FIELD);
     updateFloorLine(newFloorLineOfPlayerWhoEndedHisTurn, playerWhoEndedHisTurn);
 
-    setPlayerWithSPM(object.getInt(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
-
     notifyListeners(new NextPlayersTurnEvent(nameOfActivePlayer, nameOfPlayerWhoEndedHisTurn));
   }
 
