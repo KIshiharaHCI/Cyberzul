@@ -525,6 +525,10 @@ public class ClientModel implements Model {
       updatePoints(playerObject.getInt(JsonMessage.POINTS_FIELD),clientPlayer);
     }
   }
+
+  public String getThisPlayersName(){
+    return this.thisPlayersName;
+  }
 }
 
 

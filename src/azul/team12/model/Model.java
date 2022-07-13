@@ -76,6 +76,8 @@ public interface Model {
    */
   void makeAiPlayerMakeMove(String nickOfAiPlayer);
 
+  String getThisPlayersName();
+
   /**
    * Informs the view via listeners that it is the next players turn. If the player cannot place the
    * tile on a pattern line, it still informs the model.

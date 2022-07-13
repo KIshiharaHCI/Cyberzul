@@ -14,6 +14,8 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
 import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

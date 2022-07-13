@@ -261,6 +261,11 @@ public class GameModel implements Model {
   }
 
   @Override
+  public String getThisPlayersName() {
+    return null;
+  }
+
+  @Override
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
     boolean thereIsValidPick = false;
     List<Offering> offeringsClone = getOfferings();

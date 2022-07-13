@@ -16,6 +16,8 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +41,8 @@ public class ClientMessageHandler implements Runnable {
   private Controller controller;
 
   private Model model;
+
+  private static final Logger LOGGER = LogManager.getLogger(ClientMessageHandler.class);
 
 
   /**
@@ -116,6 +120,7 @@ public class ClientMessageHandler implements Runnable {
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
   private void handleMessage(JSONObject object) throws IOException {
+    LOGGER.info(object);
     switch (JsonMessage.typeOf(object)) {
       case LOGIN -> handleLogin(object);
       case POST_MESSAGE -> handlePostMessage(object);
@@ -221,6 +226,7 @@ public class ClientMessageHandler implements Runnable {
    * @throws IOException Thrown when writing to the output-stream fails.
    */
   public void send(JSONObject message) throws IOException {
+    LOGGER.info("sent to client " + nickname + " " + message);
     String string = message + System.lineSeparator();
     if (socket.isClosed()) {
       return;

@@ -62,6 +62,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    * @throws HeadlessException
    */
   public AzulView(Model model, Controller controller) throws HeadlessException {
+    this.setTitle("Cyberzul");
     this.model = model;
     this.controller = controller;
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -188,7 +189,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         updateOtherPlayerBoards();
         updateRankingBoard();
       }
-      case "LoggedInEvent" -> showErrorMessage("successfully logged in");
+      case "LoggedInEvent" -> {
+        this.setTitle("Cyberzul - " + model.getThisPlayersName());
+        showErrorMessage("successfully logged in");}
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
