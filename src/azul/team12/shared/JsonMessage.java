@@ -24,9 +24,11 @@ public enum JsonMessage {
   FORFEIT_GAME("forfeit game"),
   START_GAME("start game"),
   RESTART_GAME("restart game"),
+  CANCEL_GAME("cancel game"),
   NOTIFY_TILE_CHOSEN("notify tile chosen"),
   PLACE_TILE_IN_PATTERN_LINE("place tile in pattern line"),
   PLACE_TILE_IN_FLOOR_LINE("place tile in floor line"),
+  REPLACE_PLAYER_BY_AI("replace player by ai"),
 
   //messages from the server to the client
   GAME_STARTED("game started"),
@@ -37,7 +39,8 @@ public enum JsonMessage {
   ILLEGAL_TURN("illegal turn"),
   GAME_NOT_STARTABLE("game not startable"),
   ROUND_FINISHED("round finished"),
-  GAME_FINISHED("game finished");
+  GAME_FINISHED("game finished"),
+  GAME_CANCELED("game canceled");
 
   public static final String TYPE_FIELD = "type";
 
@@ -211,7 +214,6 @@ public enum JsonMessage {
    * @param nameOfPlayerWhoEndedHisTurn
    * @param newPatternLinesOfPlayerWhoEndedHisTurn
    * @param newFloorLineOfPlayerWhoEndedHisTurn
-   * @param indexOfPlayerWithSPM
    * @return
    */
   public static JSONObject createNextPlayersTurnMessage(String nameOfActivePlayer,

@@ -128,6 +128,9 @@ public class ClientMessageHandler implements Runnable {
       case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
       case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
+      case REPLACE_PLAYER_BY_AI -> {}
+      case RESTART_GAME -> controller.restartGame();
+      case CANCEL_GAME -> controller.cancelGameForAllPlayers();
       default -> throw new AssertionError("Unable to handle message " + object);
     }
   }
@@ -246,7 +249,7 @@ public class ClientMessageHandler implements Runnable {
       if (isItThisPlayersTurn()) {
         int indexOfTile = object.getInt(JsonMessage.INDEX_OF_TILE_FIELD);
         int indexOfOffering = object.getInt(JsonMessage.INDEX_OF_OFFERING_FIELD);
-        model.notifyTileChosen(nickname, indexOfTile, indexOfOffering);
+        controller.chooseTileFrom(nickname, indexOfTile, indexOfOffering);
       } else {
         //notify the client that he has to wait and can't do his turn right now.
         send(JsonMessage.createMessageOfType(JsonMessage.NOT_YOUR_TURN));
@@ -268,7 +271,7 @@ public class ClientMessageHandler implements Runnable {
     try {
       if (isItThisPlayersTurn()) {
         int indexOfPatternLine = object.getInt(JsonMessage.INDEX_OF_PATTERN_LINE_FIELD);
-        model.makeActivePlayerPlaceTile(indexOfPatternLine);
+        controller.placeTileAtPatternLine(indexOfPatternLine);
       } else {
         //notify the client that he has to wait and can't do his turn right now.
         send(JsonMessage.createMessageOfType(JsonMessage.NOT_YOUR_TURN));
@@ -287,7 +290,7 @@ public class ClientMessageHandler implements Runnable {
   private void handlePlaceTileInFloorLine(JSONObject object) {
     try {
       if (isItThisPlayersTurn()) {
-        model.tileFallsDown();
+        controller.placeTileAtFloorLine();
       } else {
         //notify the client that he has to wait and can't do his turn right now.
         send(JsonMessage.createMessageOfType(JsonMessage.NOT_YOUR_TURN));

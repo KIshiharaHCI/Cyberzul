@@ -400,7 +400,6 @@ public class GameModel implements Model {
   public int getIndexOfNextPlayer() {
     int indexOfNextPlayer;
     if (checkRoundFinished()) {
-      //TODO: TEST SPM
       indexOfNextPlayer = getIndexOfPlayerWithSpm();
     } else if (indexOfActivePlayer == playerList.size() - 1) {
       indexOfNextPlayer = 0;
