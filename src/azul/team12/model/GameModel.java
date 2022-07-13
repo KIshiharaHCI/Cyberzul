@@ -197,15 +197,15 @@ public class GameModel implements Model {
   }
 
   @Override
-  public void replaceActivePlayerByAi() {
-    LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
-    GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
+  public void replaceActivePlayerByAi(String playerName) {
+    LOGGER.info(playerName + " wants to forfeit the game.");
+    GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(playerName);
     notifyListeners(gameForfeitedEvent);
 
     //TODO: If player has already chosen something and then forfeits
-    LOGGER.info(getNickOfActivePlayer() + " is set to be an AI Player. ");
-    getPlayerByName(getNickOfActivePlayer()).setAiPlayer(true);
-    makeAiPlayerMakeMove(getNickOfActivePlayer());
+    LOGGER.info(playerName + " is set to be an AI Player. ");
+    getPlayerByName(playerName).setAiPlayer(true);
+    makeAiPlayerMakeMove(playerName);
   }
 
   @Override

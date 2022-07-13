@@ -141,8 +141,10 @@ public interface Controller {
 
   /**
    * tells the model that a given player forfeit the game. Makes the player be replaced by an AI.
+   *
+   * @param playerName the name of the player to be replaced.
    */
-  void replaceActivePlayerByAI();
+  void replaceActivePlayerByAI(String playerName);
 
   /**
    * tells the model that a given player wants to cancel the game. Makes the game end.

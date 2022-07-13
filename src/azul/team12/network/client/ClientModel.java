@@ -93,7 +93,7 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public void replaceActivePlayerByAi() {
+  public void replaceActivePlayerByAi(String playerName) {
     connection.send(JsonMessage.REPLACE_PLAYER_BY_AI);
   }
 
