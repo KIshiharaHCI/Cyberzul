@@ -1516,3 +1516,17 @@ Q2:
 
 Q3:
 - none
+
+**12. Juli, 2022**
+
+_Nils_
+
+Q1: 
+- meet with the team
+- worked on the network until it was possible to make the first turns
+
+Q2:
+- finish the network and merge it with main
+
+Q3:
+- merging the main with my networkBranch makes my project disappear. Maybe thats because main gets built with maven now.
