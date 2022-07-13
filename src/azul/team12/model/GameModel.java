@@ -132,6 +132,7 @@ public class GameModel implements Model {
       player.setAiPlayer(false);
       player.setPoints(0);
     }
+    indexOfActivePlayer = 0;
 
     notifyListeners(new GameStartedEvent());
 
@@ -146,7 +147,6 @@ public class GameModel implements Model {
     BagToDrawNewTiles.getInstance().initializeContent();
     isGameStarted = false;
     hasGameEnded = true;
-    playerList = new ArrayList<>();
     offerings = new ArrayList<>();
     GameCanceledEvent gameCanceledEvent = new GameCanceledEvent(getNickOfActivePlayer());
     notifyListeners(gameCanceledEvent);

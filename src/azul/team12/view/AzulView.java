@@ -181,8 +181,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         addNewGameBoard(tileClickListener);
         showCard(GAMEBOARD_CARD);
         updateCenterBoard();
-//        TODO: add RankingBoard at correct position
-//        updateRankingBoard();
+        updateRankingBoard();
+        updateOtherPlayerBoards();
       }
       case "NextPlayersTurnEvent" -> {
         updateCenterBoard();
