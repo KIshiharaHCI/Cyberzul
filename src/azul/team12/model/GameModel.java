@@ -132,6 +132,7 @@ public class GameModel implements Model {
       player.setAiPlayer(false);
       player.setPoints(0);
     }
+    indexOfActivePlayer = 0;
 
     notifyListeners(new GameStartedEvent());
 
