@@ -9,26 +9,16 @@ import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.HeadlessException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class AzulView extends JFrame implements PropertyChangeListener {
 
@@ -39,7 +29,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private static final String HOT_SEAT_MODE_CARD = "hotseatmode";
   private static final String NETWORK_CARD = "networkmode";
   private static final String GAMEBOARD_CARD = "gameboard";
-  private final GridBagLayout gbl;
+  private static final int FRAME_WIDTH = 1400;
+  private static final int FRAME_HEIGHT = 800;
+  private final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
   private CardLayout layout;
   private JTextField inputField;
   private JButton hotSeatModeButton;
@@ -51,6 +43,10 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JButton testTwoPlayersButton;
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
   private JLabel gameLogoLabel;
+  private JLabel backgroundLabel;
+  private final double BACKGROUND_SCALE_FACTOR = 1;
+
+  private final String BACKGROUND_PATH = "img/background.jpg";
 
   private transient Model model;
   private transient Controller controller;
@@ -69,9 +65,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     this.model = model;
     this.controller = controller;
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    gbl = new GridBagLayout();
-    setMinimumSize(new Dimension(1570, 960));
-    setExtendedState(JFrame.MAXIMIZED_BOTH);
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
+    setResizable(true);
 
     initializeWidgets();
     addEventListeners();
@@ -125,7 +121,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         }
     );
     testThreePlayersButton.addActionListener(event -> {
-          List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "schönen", "Tag"));
+          List<String> threeUserNameForTest = new ArrayList<>(List.of("Einen", "schoenen", "Tag"));
           for (String name : threeUserNameForTest) {
             controller.addPlayer(name);
           }
@@ -181,13 +177,16 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         //TODO - @ Nils add other events
       }
       case "GameStartedEvent" -> {
-        updateCenterBoard();
-        updateRankingBoard();
         addNewGameBoard(tileClickListener);
         showCard(GAMEBOARD_CARD);
+        updateCenterBoard();
+        //TODO: add RankingBoard at correct position
+        //updateRankingBoard();
+
       }
       case "NextPlayersTurnEvent" -> {
         updateCenterBoard();
+        updateOtherPlayerBoards();
         updateRankingBoard();
       }
       case "LoggedInEvent" -> showErrorMessage("successfully logged in");
@@ -238,18 +237,26 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
   private void createView() {
     JPanel panel = new JPanel(layout);
+    panel.setMinimumSize(frameDimension);
+    panel.setMaximumSize(frameDimension);
     setContentPane(panel);
 
     JPanel login = new JPanel(new GridLayout(2, 1));
+    login.setMinimumSize(frameDimension);
+    login.setMaximumSize(frameDimension);
     login.add(gameLogoLabel);
-    JPanel container = new JPanel();
-    login.add(container);
 
+    JPanel container = new JPanel();
     container.add(selectModeLabel);
     container.add(hotSeatModeButton);
     container.add(networkButton);
+    container.setOpaque(false);
 
-    add(login, LOGIN_CARD);
+    login.add(container);
+
+    JPanel backgroundPanel = new ImagePanel(login, BACKGROUND_PATH, FRAME_WIDTH, FRAME_HEIGHT,
+        BACKGROUND_SCALE_FACTOR);
+    add(backgroundPanel, LOGIN_CARD);
 
     createHotSeatModeCard();
   }
@@ -260,8 +267,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    */
   private void createHotSeatModeCard() {
     JPanel hotSeatModePanel = new JPanel();
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
     inputField = new JTextField(10);
-    add(hotSeatModePanel, HOT_SEAT_MODE_CARD);
     numberOfLoggedInPlayersLabel =
         new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
     hotSeatModePanel.add(numberOfLoggedInPlayersLabel);
@@ -272,7 +280,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     hotSeatModePanel.add(testFourPlayersButton);
     hotSeatModePanel.add(testThreePlayersButton);
     hotSeatModePanel.add(testTwoPlayersButton);
+    JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, BACKGROUND_PATH, FRAME_WIDTH,
+        FRAME_HEIGHT, BACKGROUND_SCALE_FACTOR);
+    add(backgroundPanel, HOT_SEAT_MODE_CARD);
   }
+
 
   private void showHSMCard() {
     showCard(HOT_SEAT_MODE_CARD);
@@ -290,9 +302,14 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    */
   private void addNewGameBoard(TileClickListener tileClickListener) {
     JPanel gameBoardPanel = new JPanel();
-    add(gameBoardPanel, GAMEBOARD_CARD);
+    gameBoardPanel.setMinimumSize(frameDimension);
+    gameBoardPanel.setMaximumSize(frameDimension);
+    JPanel backgroundPanel = new ImagePanel(gameBoardPanel, BACKGROUND_PATH, FRAME_WIDTH,
+        FRAME_WIDTH, BACKGROUND_SCALE_FACTOR);
+    add(backgroundPanel, GAMEBOARD_CARD);
     int numberOfPlayers = controller.getPlayerNamesList().size();
-    gameBoard = new GameBoard(numberOfPlayers, tileClickListener, controller);
+    gameBoard = new GameBoard(numberOfPlayers, tileClickListener, controller, frameDimension);
+
     gameBoardPanel.add(gameBoard);
     gameBoard.repaint();
   }
@@ -312,6 +329,9 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
   }
 
+  private void updateOtherPlayerBoards() {
+    gameBoard.updateOtherPlayerBoards();
+  }
 
   /**
    * Used by EventListener to change the Panels being shown such as the Login panel, Gameboard
@@ -321,5 +341,14 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    */
   private void showCard(String card) {
     layout.show(getContentPane(), card);
+  }
+
+  /**
+   * Getter for AzulView JFrame width
+   *
+   * @return
+   */
+  public Dimension getFrameDimension() {
+    return frameDimension;
   }
 }

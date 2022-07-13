@@ -3,12 +3,11 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JPanel;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -25,53 +24,72 @@ public class GameBoard extends JPanel {
 
   private JPanel boardsOfOpponentsPanel;
 
-  private JPanel rankingBoardPanel;
+
   private JPanel settingsPanel = new JPanel(null);
 
   private RankingBoard rankingBoard;
+  private Dimension frameDimension;
+  private List<PlayerBoard> otherPlayerBoards;
 
 
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
-      Controller controller) {
+      Controller controller, Dimension frameDimension) {
 
     this.controller = controller;
     this.numberOfPlayers = numberOfPlayers;
 
     factoryDisplays = controller.getOfferings().subList(1, controller.getOfferings().size());
 
+    this.frameDimension = frameDimension;
     setLayout(new BorderLayout());
-    setBackground(Color.lightGray);
+    //setBackground(Color.lightGray);
+    setOpaque(false);
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
 
-    createPanelWithTheBoardsOfOpponents();
-    center = new CenterBoard(controller, tileClickListener);
+    createOpponentsPanel();
+    createChatPanel();
+
+    center = new CenterBoard(controller, tileClickListener,frameDimension);
     add(center, BorderLayout.CENTER);
 
-    createRankingBoardPanel();
+    //createRankingBoardPanel();
 
   }
 
-  private void createRankingBoardPanel() {
-    rankingBoardPanel = new JPanel();
-    rankingBoard = new RankingBoard(controller);
-    rankingBoardPanel.add(rankingBoard);
-    add(rankingBoardPanel, BorderLayout.EAST);
+  private void createChatPanel() {
+    //TODO: replace temporary chatPanel with Iurii's Chat class, remove Background
+    ChatPanel chatPanel = new ChatPanel();
+    Dimension chatPanelDimension = new Dimension(
+            (int) (frameDimension.width * 0.3),
+            (int) (frameDimension.height * 0.94)
+    );
+    chatPanel.setMinimumSize(chatPanelDimension);
+    chatPanel.setMaximumSize(chatPanelDimension);
+    chatPanel.setPreferredSize(chatPanelDimension);
+
+    add(chatPanel,BorderLayout.EAST);
   }
 
-
-  private void createPanelWithTheBoardsOfOpponents() {
+  private void createOpponentsPanel() {
+    otherPlayerBoards = new ArrayList<>();
     boardsOfOpponentsPanel = new JPanel();
-    boardsOfOpponentsPanel.setMaximumSize(new Dimension(450, 500));
-    boardsOfOpponentsPanel.setPreferredSize(new Dimension(450, 500));
+    boardsOfOpponentsPanel.setOpaque(false);
+    Dimension opponentsPanelDimension = new Dimension(
+            (int) (frameDimension.width * 0.25),
+            (int) (frameDimension.height * 0.94)
+    );
+    boardsOfOpponentsPanel.setMaximumSize(opponentsPanelDimension);
+    boardsOfOpponentsPanel.setPreferredSize(opponentsPanelDimension);
     boardsOfOpponentsPanel.setLayout(new GridLayout(3, 1));
 
     List<String> listOfActivePlayers = controller.getPlayerNamesList();
-    for (int i = 0; i < listOfActivePlayers.size(); i++) {
-      String nameOfOpponent = controller.getNickOfActivePlayer();
-      if (!nameOfOpponent.equals(listOfActivePlayers.get(i))) {
-        // listener is null, because no click events should happen here.
-        PlayerBoard playerBoard = new PlayerBoard(controller, null,
-            nameOfOpponent);
-
+    Dimension playerBoardDimension = new Dimension(frameDimension.width - 20, 200);
+    for (String opponentPlayer : listOfActivePlayers) {
+      if (!opponentPlayer.equals(controller.getNickOfActivePlayer())) {
+        PlayerBoard playerBoard = new SmallPlayerBoard(controller, null,
+                opponentPlayer,playerBoardDimension);
+        otherPlayerBoards.add(playerBoard);
         boardsOfOpponentsPanel.add(playerBoard);
       }
     }
@@ -92,8 +110,37 @@ public class GameBoard extends JPanel {
    * round ends.
    */
   public void updateRankingBoard() {
-    rankingBoard.updateRankingBoard();
+    center.updateRankingBoard();
     validate();
 
   }
+  public void updateOtherPlayerBoards() {
+
+    for (PlayerBoard othersPlayerBoard : otherPlayerBoards) {
+      boardsOfOpponentsPanel.remove(othersPlayerBoard);
+    }
+    otherPlayerBoards.clear();
+    List<String> listOfActivePlayers = controller.getPlayerNamesList();
+    String nameOfCurrentPlayer = controller.getNickOfActivePlayer();
+    int indexOfCurrentPlayer = listOfActivePlayers.indexOf(nameOfCurrentPlayer);
+    Dimension playerBoardDimension = new Dimension(frameDimension.width - 20, 200);
+    initializeOnePart(indexOfCurrentPlayer + 1, listOfActivePlayers.size(), listOfActivePlayers,
+        playerBoardDimension);
+
+    initializeOnePart(0, indexOfCurrentPlayer, listOfActivePlayers, playerBoardDimension);
+
+
+  }
+
+  private void initializeOnePart(int indexOfCurrentPlayer, int listOfActivePlayersSize,
+      List<String> listOfActivePlayers, Dimension playerBoardDimension) {
+    for (int i = indexOfCurrentPlayer; i < listOfActivePlayersSize; i++) {
+      PlayerBoard playerBoard = new SmallPlayerBoard(controller, null,
+          listOfActivePlayers.get(i), playerBoardDimension);
+      boardsOfOpponentsPanel.add(playerBoard);
+      otherPlayerBoards.add(playerBoard);
+
+    }
+  }
+
 }

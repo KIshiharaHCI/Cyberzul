@@ -15,19 +15,24 @@ import javax.swing.JPanel;
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
  * points and the minus points of each player.
  */
-public class PlayerBoard extends JPanel {
+public abstract class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private transient final Controller controller;
+  protected transient final Controller controller;
   private PatternLines patternLines;
   private Wall wall;
   private transient TileClickListener tileClickListener;
   private String playerName;
-  private JPanel center;
+  private JPanel patternLinesAndWallPanel;
+  protected JPanel north;
   private int points;
   private int minusPoints = 0;
-  private JButton forfeitButton, cancelGameButton, restartGameButton;
+  protected int tileSize;
+  Dimension panelDimension;
+  //Wraps PatternLines, Wall, Points Labels, Playername, Floorline
+  private JPanel playerBoardWrapper;
 
+  private FloorLinePanel floorLinePanel;
 
   /**
    * The constructor to create a playerboard for a given player.
@@ -35,24 +40,34 @@ public class PlayerBoard extends JPanel {
    * @param tileClickListener
    */
   public PlayerBoard(Controller controller, TileClickListener tileClickListener,
-      String playerName) {
+      String playerName, int tileSize, Dimension panelDimension) {
     this.controller = controller;
     this.playerName = playerName;
     this.tileClickListener = tileClickListener;
+    this.tileSize = tileSize;
+    this.panelDimension = panelDimension;
 
-    setLayout(new BorderLayout());
-    JPanel coverOverCenter = new JPanel();
-    coverOverCenter.setBackground(new Color(110, 150, 100));
-    center = new JPanel();
-    //center.setLayout(new GridLayout(1, 2));
-    createCenterPanel();
-    coverOverCenter.add(center);
-    add(coverOverCenter, BorderLayout.CENTER);
+    setPlayerBoardWrapperSize();
+    createPatternLinesAndWallPanel();
+    playerBoardWrapper.add(patternLinesAndWallPanel, BorderLayout.CENTER);
+    add(playerBoardWrapper, BorderLayout.CENTER);
 
     initializeClassVariables();
-    initializeButtons();
+
     addPointsAndPlayerNameElements();
     addMinusPointsElements();
+  }
+
+  void setPlayerBoardWrapperSize (){
+    playerBoardWrapper = new JPanel(new BorderLayout());
+    Dimension wrapperDimension = new Dimension(
+            (int) (panelDimension.width * 0.87),
+            (int) (panelDimension.height * 0.55)
+    );
+
+    playerBoardWrapper.setMaximumSize(wrapperDimension);
+    playerBoardWrapper.setMinimumSize(wrapperDimension);
+    playerBoardWrapper.setOpaque(false);
   }
 
   /**
@@ -60,12 +75,13 @@ public class PlayerBoard extends JPanel {
    * board. Refactored out of Constructor because playerBoard will be updated after every
    * NextPlayersTurnEvent.
    */
-  private void createCenterPanel() {
-    setProperties(Tile.TILE_SIZE, 5, 10, center);
-    patternLines = new PatternLines(controller, Tile.TILE_SIZE, tileClickListener);
-    center.add(patternLines);
-    wall = new Wall(controller, tileClickListener);
-    center.add(wall);
+  private void createPatternLinesAndWallPanel() {
+    patternLinesAndWallPanel = new JPanel();
+    setProperties(tileSize, 5, 10, patternLinesAndWallPanel);
+    patternLines = new PatternLines(playerName, controller, tileSize, tileClickListener);
+    patternLinesAndWallPanel.add(patternLines);
+    wall = new Wall(playerName, controller, tileSize, tileClickListener);
+    patternLinesAndWallPanel.add(wall);
   }
 
   void setProperties(int tileSize, int rows, int cols, JPanel panel) {
@@ -88,42 +104,15 @@ public class PlayerBoard extends JPanel {
     minusPoints = controller.getMinusPoints(playerName);
   }
 
-  /**
-   * initializes Forfeit Button
-   */
-  private void initializeButtons() {
-    forfeitButton = new JButton("FORFEIT");
-    forfeitButton.setPreferredSize(new Dimension(25, 10));
-    forfeitButton.addActionListener(event -> {
-      controller.replaceActivePlayerByAI();
-      System.out.println("Forfeit Button has been clicked");
-    });
-
-    cancelGameButton = new JButton("CANCEL");
-    cancelGameButton.addActionListener(event -> {
-      controller.cancelGameForAllPlayers();
-      System.out.println("Cancel Button has been pressed.");
-    });
-
-    restartGameButton = new JButton("RESTART");
-    restartGameButton.addActionListener(event -> {
-      controller.restartGame();
-      System.out.println("Game has been restarted.");
-    });
-  }
-
   private void addPointsAndPlayerNameElements() {
-    JPanel north = createNorthernPart("Points: ", points);
+    north = createNorthernPart("Points: ", points);
     north.add(new JLabel("Name: " + playerName));
-    north.add(forfeitButton);
-    north.add(cancelGameButton);
-    north.add(restartGameButton);
-    add(north, BorderLayout.NORTH);
+    playerBoardWrapper.add(north, BorderLayout.NORTH);
   }
 
   private void addMinusPointsElements() {
-    FloorLinePanel south = new FloorLinePanel(controller, tileClickListener, minusPoints);
-    add(south, BorderLayout.SOUTH);
+    floorLinePanel = new FloorLinePanel(playerName, controller, tileClickListener, minusPoints);
+    playerBoardWrapper.add(floorLinePanel, BorderLayout.SOUTH);
 
 
   }
@@ -131,8 +120,12 @@ public class PlayerBoard extends JPanel {
   private JPanel createNorthernPart(String x, int minusPoints) {
     JPanel north = new JPanel();
     north.setBackground(new Color(110, 150, 100));
-    north.setLayout(new GridLayout(1, 2));
+    north.setLayout(new GridLayout(1, 1));
     north.add(new JLabel("   " + x + minusPoints));
     return north;
+  }
+
+  public FloorLinePanel getFloorLinePanel() {
+    return floorLinePanel;
   }
 }

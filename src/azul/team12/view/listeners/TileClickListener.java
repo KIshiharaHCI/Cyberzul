@@ -4,16 +4,8 @@ import azul.team12.controller.Controller;
 import azul.team12.model.Model;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
-import azul.team12.view.board.CenterBoard;
-import azul.team12.view.board.DestinationTile;
-import azul.team12.view.board.FloorLinePanel;
-import azul.team12.view.board.PatternLines;
-import azul.team12.view.board.Plate;
-import azul.team12.view.board.PlatesPanel;
-import azul.team12.view.board.SourceTile;
-import azul.team12.view.board.TableCenterPanel;
-import azul.team12.view.board.Tile;
-import azul.team12.view.board.TileAcceptor;
+import azul.team12.view.board.*;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -108,7 +100,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         controller.placeTileAtFloorLine();
 
         FloorLinePanel floorLinePanel = (FloorLinePanel) tileDestination.getParent().getParent();
-        floorLinePanel.updateBottomTilesRow();
+        floorLinePanel.updateBottomTilesRow(controller.getNickOfActivePlayer());
 
         resetOffering();
         showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
@@ -119,7 +111,9 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         if (tileDestination.getParent().getParent() instanceof PatternLines) {
           PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
           patternLinesView.remove();
-          patternLinesView.initialize(Tile.TILE_SIZE, this);
+          patternLinesView.initialize(patternLinesView.getTileSize(), controller.getNickOfActivePlayer(), this);
+          PlayerBoard playerBoard = (ActivePlayerBoard) patternLinesView.getParent().getParent().getParent();
+          playerBoard.getFloorLinePanel().updateBottomTilesRow(controller.getNickOfActivePlayer());
         }
         resetOffering();
         //TODO: do it with a button on the playboard
@@ -172,7 +166,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
       platesPanel.initialize(controller.getOfferings().subList(1, controller.getOfferings().size()),
           this);
 
-      CenterBoard centerBoard = (CenterBoard) platesPanel.getParent();
+      CenterBoard centerBoard = (CenterBoard) platesPanel.getParent().getParent().getParent();
       TableCenterPanel tableCenterPanel = centerBoard.getTableCenterPanel();
       tableCenterPanel.remove();
       tableCenterPanel.initialize(this, (TableCenter) controller.getOfferings().get(0));
