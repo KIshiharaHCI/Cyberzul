@@ -6,6 +6,8 @@ package azul.team12.model.events;
  */
 public class GameForfeitedEvent extends GameEvent {
 
+  public static final String EVENT_NAME = "GameForfeitedEvent";
+
   public String forfeiter;
 
   public GameForfeitedEvent(String nickname) {
@@ -18,6 +20,6 @@ public class GameForfeitedEvent extends GameEvent {
 
   @Override
   public String getName() {
-    return "GameForfeitedEvent";
+    return GameForfeitedEvent.EVENT_NAME;
   }
 }

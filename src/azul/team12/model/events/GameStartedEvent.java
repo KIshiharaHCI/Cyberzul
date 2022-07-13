@@ -5,8 +5,10 @@ package azul.team12.model.events;
  */
 public class GameStartedEvent extends GameEvent {
 
+  public static final String EVENT_NAME = "GameStartedEvent";
+
   @Override
   public String getName() {
-    return "GameStartedEvent";
+    return EVENT_NAME;
   }
 }

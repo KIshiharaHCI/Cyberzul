@@ -7,6 +7,8 @@ package azul.team12.model.events;
  */
 public class GameInIllegalStateEvent extends GameEvent {
 
+  public static final String EVENT_NAME = "GameInIllegalStateEvent";
+
   private static final String MESSAGE = "You have arrived at an illegal state, where no "
       + "player can make another turn. The game will be ended and you can restart it.";
 
@@ -16,6 +18,6 @@ public class GameInIllegalStateEvent extends GameEvent {
 
   @Override
   public String getName() {
-    return "GameInIllegalStateEvent";
+    return GameInIllegalStateEvent.EVENT_NAME;
   }
 }

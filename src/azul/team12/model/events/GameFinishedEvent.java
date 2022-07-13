@@ -6,6 +6,8 @@ package azul.team12.model.events;
  */
 public class GameFinishedEvent extends GameEvent {
 
+  public static final String EVENT_NAME = "GameFinishedEvent";
+
   public final String winner;
 
   public GameFinishedEvent(String nickname) {
@@ -18,6 +20,6 @@ public class GameFinishedEvent extends GameEvent {
 
   @Override
   public String getName() {
-    return "GameFinishedEvent";
+    return GameFinishedEvent.EVENT_NAME;
   }
 }

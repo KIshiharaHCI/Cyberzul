@@ -10,6 +10,7 @@ import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
 import azul.team12.model.events.GameEvent;
+import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.LoggedInEvent;
@@ -490,24 +491,39 @@ public class ClientModel implements Model {
   }
 
   public void handleRoundFinished(JSONObject message) {
-    System.out.println(message);
     try {
-      JSONArray player = message.getJSONArray(JsonMessage.PLAYER_FIELD);
-      for (int i = 0; i < player.length(); i++) {
-        JSONObject playerObject = player.getJSONObject(i);
-        String playerName = playerObject.getString(JsonMessage.NICK_FIELD);
-        ClientPlayer clientPlayer = (ClientPlayer) getPlayerByName(playerName);
+      JSONArray players = message.getJSONArray(JsonMessage.PLAYER_FIELD);
+      updatePlayers(players);
 
-        updatePatternLines(playerObject.getJSONArray(JsonMessage.PATTERN_LINES_FIELD), clientPlayer);
-        updateFloorLine(playerObject.getJSONArray(JsonMessage.FLOOR_LINE_FIELD), clientPlayer);
-        updateWall(playerObject.getJSONArray(JsonMessage.WALL_FIELD),clientPlayer);
-        updatePoints(playerObject.getInt(JsonMessage.POINTS_FIELD),clientPlayer);
-      }
       setPlayerWithSPM(message.getInt(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
+      notifyListeners(new RoundFinishedEvent());
     } catch (JSONException e) {
       e.printStackTrace();
     }
-    notifyListeners(new RoundFinishedEvent());
+  }
+
+  public void handleGameFinishedEvent(JSONObject message){
+    try {
+      JSONArray players = message.getJSONArray(JsonMessage.PLAYER_FIELD);
+      updatePlayers(players);
+      notifyListeners(new GameFinishedEvent(message.getString(JsonMessage.NICK_FIELD)));
+    }
+    catch(JSONException e){
+      e.printStackTrace();
+    }
+  }
+
+  private void updatePlayers(JSONArray players) throws JSONException{
+    for (int i = 0; i < players.length(); i++) {
+      JSONObject playerObject = players.getJSONObject(i);
+      String playerName = playerObject.getString(JsonMessage.NICK_FIELD);
+      ClientPlayer clientPlayer = (ClientPlayer) getPlayerByName(playerName);
+
+      updatePatternLines(playerObject.getJSONArray(JsonMessage.PATTERN_LINES_FIELD), clientPlayer);
+      updateFloorLine(playerObject.getJSONArray(JsonMessage.FLOOR_LINE_FIELD), clientPlayer);
+      updateWall(playerObject.getJSONArray(JsonMessage.WALL_FIELD),clientPlayer);
+      updatePoints(playerObject.getInt(JsonMessage.POINTS_FIELD),clientPlayer);
+    }
   }
 }
 

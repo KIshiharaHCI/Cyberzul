@@ -4,6 +4,8 @@ import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
+import azul.team12.model.events.GameEvent;
+import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.shared.JsonMessage;
@@ -63,6 +65,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case "NoValidTurnToMakeEvent" -> handleNoValidTurnToMakeEvent();
       case "IllegalTurnEvent" -> handleIllegalTurnEvent();
       case "RoundFinishedEvent" -> handleRoundFinishedEvent();
+      case GameFinishedEvent.EVENT_NAME -> handleGameFinishedEvent(customMadeGameEvent);
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
@@ -84,28 +87,45 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
     }
   }
 
+  private void handleGameFinishedEvent(Object customMadeGameEvent){
+    GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
+    String winner = gameFinishedEvent.getWinner();
+    try{
+      JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_FINISHED);
+      message.put(JsonMessage.PLAYER_FIELD,completePlayerUpdateMessage());
+      message.put(JsonMessage.NICK_FIELD,winner);
+      connection.broadcastToAll(message);
+    }
+    catch (JSONException | IOException e){
+      e.printStackTrace();
+    }
+  }
+
   private void handleRoundFinishedEvent() {
     try {
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.ROUND_FINISHED);
-      JSONArray playerArray = new JSONArray();
-      for (String playerName : model.getPlayerNamesList()) {
-        JSONObject playerObject = new JSONObject();
-        Player player = model.getPlayerByName(playerName);
-        playerObject.put(JsonMessage.NICK_FIELD,playerName);
-        playerObject.put(JsonMessage.POINTS_FIELD,player.getPoints());
-        playerObject.put(JsonMessage.PATTERN_LINES_FIELD,JsonMessage.parsePatternLinesToJSONArray(player.getPatternLines()));
-        playerObject.put(JsonMessage.FLOOR_LINE_FIELD,JsonMessage.parseFloorLineToJSONArray(player.getFloorLine()));
-        playerObject.put(JsonMessage.WALL_FIELD, JsonMessage.parsePatternLinesToJSONArray(model.getWallOfPlayer(playerName)));
-        playerArray.put(playerObject);
-      }
+      message.put(JsonMessage.PLAYER_FIELD,completePlayerUpdateMessage());
       message.put(JsonMessage.INDEX_OF_PLAYER_WITH_SPM, model.getIndexOfPlayerWithSpm());
-      message.put(JsonMessage.PLAYER_FIELD,playerArray);
-
       connection.broadcastToAll(message);
     }
     catch (IOException | JSONException e){
       e.printStackTrace();
     }
+  }
+
+  private JSONArray completePlayerUpdateMessage() throws JSONException{
+    JSONArray playerArray = new JSONArray();
+    for (String playerName : model.getPlayerNamesList()) {
+      JSONObject playerObject = new JSONObject();
+      Player player = model.getPlayerByName(playerName);
+      playerObject.put(JsonMessage.NICK_FIELD,playerName);
+      playerObject.put(JsonMessage.POINTS_FIELD,player.getPoints());
+      playerObject.put(JsonMessage.PATTERN_LINES_FIELD,JsonMessage.parsePatternLinesToJSONArray(player.getPatternLines()));
+      playerObject.put(JsonMessage.FLOOR_LINE_FIELD,JsonMessage.parseFloorLineToJSONArray(player.getFloorLine()));
+      playerObject.put(JsonMessage.WALL_FIELD, JsonMessage.parsePatternLinesToJSONArray(model.getWallOfPlayer(playerName)));
+      playerArray.put(playerObject);
+    }
+    return playerArray;
   }
 
   private void handleIllegalTurnEvent() {

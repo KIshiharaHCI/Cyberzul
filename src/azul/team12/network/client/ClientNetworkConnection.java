@@ -1,6 +1,7 @@
 package azul.team12.network.client;
 
 import azul.team12.model.Model;
+import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
@@ -121,6 +122,7 @@ public class ClientNetworkConnection {
       case GAME_NOT_STARTABLE -> model.handleGameNotStartable(object.getString(JsonMessage.ADDITIONAL_INFORMATION));
       case ILLEGAL_TURN -> model.notifyListeners(new IllegalTurnEvent());
       case ROUND_FINISHED -> model.handleRoundFinished(object);
+      case GAME_FINISHED -> model.handleGameFinishedEvent(object);
       /*
       case USER_JOINED:
         handleUserJoined(object);

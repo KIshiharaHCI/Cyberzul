@@ -5,6 +5,7 @@ package azul.team12.model.events;
  */
 public class GameNotStartableEvent extends GameEvent {
 
+  public static final String EVENT_NAME = "GameNotStartableEvent";
   public static final String GAME_ALREADY_STARTED = "game already started";
   public static final String NOT_ENOUGH_PLAYER = "not enough player";
 
@@ -20,7 +21,7 @@ public class GameNotStartableEvent extends GameEvent {
 
   @Override
   public String getName() {
-    return "GameNotStartableEvent";
+    return GameNotStartableEvent.EVENT_NAME;
   }
 
   public String getMessage() {
