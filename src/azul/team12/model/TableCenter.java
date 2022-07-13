@@ -29,9 +29,9 @@ public class TableCenter extends Offering {
     return instance;
   }
 
-  /*@edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value = "ST_WRITE_TO_STATIC_FROM"
+  @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value = "ST_WRITE_TO_STATIC_FROM"
       + "_INSTANCE_METHOD", justification = "This is a Singleton, there will be no multiple "
-      + "instances.")*/
+      + "instances.")
   @Override
   void initializeContent() {
     TableCenter.content = new ArrayList<>();
