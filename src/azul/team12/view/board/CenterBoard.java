@@ -6,6 +6,7 @@ import azul.team12.view.listeners.TileClickListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -23,8 +24,8 @@ public class CenterBoard extends JPanel {
   private PlayerBoard currentPlayerBoard;
   private JPanel platesAndTableCenterPanel;
   private JPanel boardAndPlatesAndTablePanel;
-  private JPanel rightSideBarPanel;
-  private JPanel rankingBoardPanel;
+  private JPanel activeUserButtonsPanel;
+  private JButton forfeitButton, endTurnButton, cancelButton, restartButton;
   private transient TileClickListener tileClickListener;
   private Dimension panelDimension, topPanelDimension, bottomPanelDimension;
 
@@ -45,28 +46,82 @@ public class CenterBoard extends JPanel {
     boardAndPlatesAndTablePanel = new JPanel(new BorderLayout());
     boardAndPlatesAndTablePanel.setOpaque(false);
     setPlatesAndTableCenterPanel();
-    createRankingBoardAndButtonsPanel();
+    createActiveUserButtonsPanel();
     createNewPlatesPanel();
     createNewTableCenter();
     createNewPlayerBoard();
 
     add(boardAndPlatesAndTablePanel);
-    add(rightSideBarPanel);
+    add(activeUserButtonsPanel);
 
   }
 
-  private void createRankingBoardAndButtonsPanel() {
+  private void createActiveUserButtonsPanel() {
     Dimension rightSideBarDimension = new Dimension(panelDimension.width, (int) (panelDimension.height * 0.3));
-    rightSideBarPanel = new JPanel();
+    activeUserButtonsPanel = new JPanel();
+    activeUserButtonsPanel.setAlignmentY(Box.BOTTOM_ALIGNMENT);
+    activeUserButtonsPanel.setLayout(new BoxLayout(activeUserButtonsPanel, BoxLayout.Y_AXIS));
+    activeUserButtonsPanel.setOpaque(false);
+
     setMaximumSize(rightSideBarDimension);
     setMinimumSize(rightSideBarDimension);
-    //setPreferredSize(rightSideBarDimension);
-    JPanel rankingBoardPanel = new JPanel();
-    rankingBoard = new RankingBoard(controller);
-    rankingBoardPanel.add(rankingBoard);
-    rightSideBarPanel.add(rankingBoardPanel);
+
+    //TODO: replace with Align Bottom for the buttons if it works
+    activeUserButtonsPanel.add(Box.createVerticalStrut(300));
+
+    initializeButtons();
+    add(activeUserButtonsPanel);
+
+  }
+
+  private void initializeButtons() {
+    endTurnButton = new JButton();
+    setButtonProperties(endTurnButton, "img/endturn-button.png");
 
 
+    endTurnButton.addActionListener(event -> {
+      controller.endTurn(controller.getNickOfActivePlayer());
+    });
+
+    forfeitButton = new JButton();
+    setButtonProperties(forfeitButton, "img/forfeit-button.png");
+
+
+    forfeitButton.addActionListener(event -> {
+      controller.replaceActivePlayerByAI();
+    });
+
+    cancelButton = new JButton();
+    setButtonProperties(cancelButton, "img/cancel-button.png");
+
+
+    cancelButton.addActionListener(event -> {
+      controller.cancelGameForAllPlayers();
+    });
+
+    restartButton = new JButton();
+    setButtonProperties(restartButton, "img/restart-button.png");
+
+
+    restartButton.addActionListener(event -> {
+      controller.restartGame();
+    });
+  }
+
+  /**
+   * Loads the button image and sets it on the button and removes the background of the JButton.
+   * @param button the JButton to decorate
+   * @param path file path for the custom button image
+   */
+  private void setButtonProperties(JButton button, String path) {
+    URL imgURL1 = getClass().getClassLoader().getResource(path);
+    ImageIcon img = new ImageIcon(new ImageIcon(imgURL1).getImage().getScaledInstance(140, 52, Image.SCALE_DEFAULT));
+    button.setIcon(img);
+    button.setBorder(null);
+    button.setContentAreaFilled(false);
+
+    activeUserButtonsPanel.add(Box.createVerticalStrut(20));
+    activeUserButtonsPanel.add(button);
   }
 
   /**

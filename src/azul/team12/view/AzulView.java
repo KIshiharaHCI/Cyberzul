@@ -42,6 +42,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
   private JLabel gameLogoLabel;
   private JLabel backgroundLabel;
+  private TileClickListener tileClickListener;
   private final double BACKGROUND_SCALE_FACTOR = 1;
 
   private final String BACKGROUND_PATH = "img/background.jpg";
@@ -91,13 +92,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   }
 
   private void addEventListeners() {
-    TileClickListener tileClickListener = new TileClickListener(controller, model);
+    tileClickListener = new TileClickListener(controller, model);
     hotSeatModeButton.addActionListener(event -> showHSMCard());
     networkButton.addActionListener(event -> showNetworkCard());
     playButton.addActionListener(event -> {
       controller.startGame();
-      addNewGameBoard(tileClickListener);
-      showCard(GAMEBOARD_CARD);
     });
     addPlayerButton.addActionListener(event -> {
           controller.addPlayer(inputField.getText());
@@ -114,9 +113,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
             controller.addPlayer(name);
           }
           controller.startGame();
-          addNewGameBoard(tileClickListener);
-          showCard(GAMEBOARD_CARD);
-
         }
     );
     testThreePlayersButton.addActionListener(event -> {
@@ -125,8 +121,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
             controller.addPlayer(name);
           }
           controller.startGame();
-          addNewGameBoard(tileClickListener);
-          showCard(GAMEBOARD_CARD);
 
         }
     );
@@ -136,8 +130,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
             controller.addPlayer(name);
           }
           controller.startGame();
-          addNewGameBoard(tileClickListener);
-          showCard(GAMEBOARD_CARD);
         }
     );
   }
@@ -174,8 +166,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         //TODO - @ Nils add other events
       }
       case "GameStartedEvent" -> {
-        updateCenterBoard();
-//        TODO: add RankingBoard at correct position
+        addNewGameBoard(tileClickListener);
+        showCard(GAMEBOARD_CARD);
 //        updateRankingBoard();
       }
       case "NextPlayersTurnEvent" -> {
@@ -347,12 +339,4 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     layout.show(getContentPane(), card);
   }
 
-  /**
-   * Getter for AzulView JFrame width
-   *
-   * @return
-   */
-  public Dimension getFrameDimension() {
-    return frameDimension;
-  }
 }

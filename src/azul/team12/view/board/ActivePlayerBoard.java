@@ -21,29 +21,5 @@ public class ActivePlayerBoard extends PlayerBoard {
         super(controller, tileClickListener, playerName, Tile.NORMAL_TILE_SIZE, panelDimension);
         setMaximumSize(panelDimension);
         setMinimumSize(panelDimension);
-        initializeButtons();
-    }
-
-    private void initializeButtons() {
-        forfeitButton = new JButton("FORFEIT");
-        forfeitButton.addActionListener(event -> {
-            controller.replaceActivePlayerByAI();
-            System.out.println("Forfeit Button has been clicked");
-        });
-
-        cancelGameButton = new JButton("CANCEL");
-        cancelGameButton.addActionListener(event -> {
-            controller.cancelGameForAllPlayers();
-            System.out.println("Cancel Button has been pressed.");
-        });
-
-        restartGameButton = new JButton("RESTART");
-        restartGameButton.addActionListener(event -> {
-            controller.restartGame();
-            System.out.println("Game has been restarted.");
-        });
-        north.add(forfeitButton);
-        north.add(cancelGameButton);
-        north.add(restartGameButton);
     }
 }
