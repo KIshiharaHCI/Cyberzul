@@ -283,7 +283,6 @@ public class GameModel implements Model {
     if (thereIsValidPick) {
       int indexOfNextPlayer = getIndexOfNextPlayer();
       Player nextPlayer = playerList.get(indexOfNextPlayer);
-      String nextPlayerNick = nextPlayer.getName();
       PlayerHasChosenTileEvent playerHasChosenTileEvent =
           new PlayerHasChosenTileEvent(getNickOfActivePlayer());
       notifyListeners(playerHasChosenTileEvent);
