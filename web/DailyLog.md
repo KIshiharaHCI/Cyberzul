@@ -1475,6 +1475,20 @@ Q3:
 
 **11. July, 2022**
 
+_Nils_
+Q1:
+- worked on the client-network connection. Implemented the functionality that the game can be started via the network
+  connection and the clients get the information about the factory displays and the names of the other players
+
+Q2:
+- meet with Chris
+- meet with the team
+- find out why the network connection doesn't work as intended and why some methods are not entered.
+
+Q3:
+- I depend on every public method and need to understand what it does and how to use it. 
+
+
 _Marco_ 
 
 Q1:
@@ -1487,3 +1501,18 @@ Q2:
 
 Q3:
 - Logger
+
+**12. Juli, 2022**
+
+_Nils_
+
+Q1:
+- meet with Chris
+- meet with the team
+- found problems with the network connection and solved them
+
+Q2:
+- let the network connection run as good as it can
+
+Q3:
+- none
