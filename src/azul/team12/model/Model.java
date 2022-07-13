@@ -5,10 +5,8 @@ import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.LoginFailedEvent;
-import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasEndedTheGameEvent;
-import azul.team12.model.events.RoundFinishedEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
@@ -69,7 +67,7 @@ public interface Model {
    *
    * @param playerName the name of the player to be replaced.
    */
-  void replaceActivePlayerByAi(String playerName);
+  void replacePlayerByAi(String playerName);
 
   /**
    * makes a given player place a tile randomly. Used for AI-Players.
@@ -226,4 +224,10 @@ public interface Model {
    */
   public String getNickOfActivePlayer();
 
+  /**
+   * Informs if the game has already started.
+   *
+   * @return <code>true</code> if the game already started. <code>false</code> else.
+   */
+  boolean isGameStarted();
 }

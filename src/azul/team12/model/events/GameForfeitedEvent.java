@@ -8,7 +8,7 @@ public class GameForfeitedEvent extends GameEvent {
 
   public static final String EVENT_NAME = "GameForfeitedEvent";
 
-  public String forfeiter;
+  private String forfeiter;
 
   public GameForfeitedEvent(String nickname) {
     this.forfeiter = nickname;

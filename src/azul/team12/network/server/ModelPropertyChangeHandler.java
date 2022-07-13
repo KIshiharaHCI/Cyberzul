@@ -7,6 +7,7 @@ import azul.team12.model.Player;
 import azul.team12.model.events.GameCanceledEvent;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
+import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.shared.JsonMessage;
@@ -40,12 +41,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent event) {
-    SwingUtilities.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        handleModelUpdate(event);
-      }
-    });
+    SwingUtilities.invokeLater(() -> handleModelUpdate(event));
   }
 
   /**
@@ -70,6 +66,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case "RoundFinishedEvent" -> handleRoundFinishedEvent();
       case GameFinishedEvent.EVENT_NAME -> handleGameFinishedEvent(customMadeGameEvent);
       case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
+      case GameForfeitedEvent.EVENT_NAME -> handleGameForfeitedEvent(customMadeGameEvent);
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
@@ -195,6 +192,23 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
       connection.broadcastToAll(message);
     } catch (JSONException | IOException e){
+      e.printStackTrace();
+    }
+  }
+
+  private void handleGameForfeitedEvent(Object customMadeGameEvent){
+    try{
+      GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
+
+      String nameOfThePlayerWhoForfeited = gameForfeitedEvent.getForfeiter();
+
+      JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_FORFEITED);
+      message.put(JsonMessage.NICK_FIELD,nameOfThePlayerWhoForfeited);
+
+      connection.handlerClosed(nameOfThePlayerWhoForfeited);
+      connection.broadcastToAll(message);
+
+    }catch (JSONException | IOException e){
       e.printStackTrace();
     }
   }

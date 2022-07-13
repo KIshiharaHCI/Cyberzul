@@ -111,6 +111,7 @@ public class GameModel implements Model {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.GAME_ALREADY_STARTED));
     } else {
       setUpOfferings();
+      isGameStarted = true;
       notifyListeners(new GameStartedEvent());
     }
   }
@@ -121,7 +122,7 @@ public class GameModel implements Model {
     TableCenter.getInstance().initializeContent();
     BagToStoreUsedTiles.getInstance().initializeContent();
     BagToDrawNewTiles.getInstance().initializeContent();
-    isGameStarted = false;
+    isGameStarted = true;
     hasGameEnded = false;
     offerings = new ArrayList<>();
     setUpOfferings();
@@ -197,7 +198,7 @@ public class GameModel implements Model {
   }
 
   @Override
-  public void replaceActivePlayerByAi(String playerName) {
+  public void replacePlayerByAi(String playerName) {
     LOGGER.info(playerName + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(playerName);
     notifyListeners(gameForfeitedEvent);
@@ -501,4 +502,8 @@ public class GameModel implements Model {
     return playerList.get(indexOfActivePlayer).getName();
   }
 
+  @Override
+  public boolean isGameStarted() {
+    return isGameStarted;
+  }
 }

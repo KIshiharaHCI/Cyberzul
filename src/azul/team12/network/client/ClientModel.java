@@ -93,7 +93,7 @@ public class ClientModel implements Model {
   }
 
   @Override
-  public void replaceActivePlayerByAi(String playerName) {
+  public void replacePlayerByAi(String playerName) {
     connection.send(JsonMessage.REPLACE_PLAYER_BY_AI);
   }
 
@@ -321,6 +321,11 @@ public class ClientModel implements Model {
   @Override
   public String getNickOfActivePlayer() {
     return playerList.get(indexOfActivePlayer).getName();
+  }
+
+  @Override
+  public boolean isGameStarted() {
+    return false;
   }
 
   /**

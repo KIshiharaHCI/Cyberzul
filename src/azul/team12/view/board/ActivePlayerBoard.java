@@ -27,7 +27,7 @@ public class ActivePlayerBoard extends PlayerBoard {
     private void initializeButtons() {
         forfeitButton = new JButton("FORFEIT");
         forfeitButton.addActionListener(event -> {
-            controller.replaceActivePlayerByAI(controller.getNickOfActivePlayer());
+            controller.replacePlayerByAI(controller.getNickOfActivePlayer());
             System.out.println("Forfeit Button has been clicked");
         });
 

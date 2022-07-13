@@ -40,6 +40,7 @@ public enum JsonMessage {
   GAME_NOT_STARTABLE("game not startable"),
   ROUND_FINISHED("round finished"),
   GAME_FINISHED("game finished"),
+  GAME_FORFEITED("game forfeited"),
   GAME_CANCELED("game canceled");
 
   public static final String TYPE_FIELD = "type";

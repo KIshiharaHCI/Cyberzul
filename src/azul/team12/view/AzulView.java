@@ -4,6 +4,7 @@ import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.model.events.GameFinishedEvent;
+import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
@@ -191,7 +192,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
       case "LoggedInEvent" -> {
         this.setTitle("Cyberzul - " + model.getThisPlayersName());
-        showErrorMessage("successfully logged in");}
+        showErrorMessage("successfully logged in");
+      }
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
@@ -225,6 +227,11 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         //TODO: FILL WITH FUNCTIONALITY
       }
       case "NoValidTurnToMakeEvent" -> showErrorMessage("No Valied Turn to make");
+      case GameForfeitedEvent.EVENT_NAME -> {
+        GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
+        showErrorMessage("Player " + gameForfeitedEvent.getForfeiter() +
+            " left the game and was replaced by an AI");
+      }
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
