@@ -76,7 +76,13 @@ public interface Model {
    */
   void makeAiPlayerMakeMove(String nickOfAiPlayer);
 
-  String getThisPlayersName();
+  /**
+   * gives back the name of the player of the given client model or the name of the active player
+   * in hot seat mode.
+   *
+   * @return a String of the respective players name.
+   */
+  String getPlayerName();
 
   /**
    * Informs the view via listeners that it is the next players turn. If the player cannot place the

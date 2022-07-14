@@ -531,7 +531,7 @@ public class ClientModel implements Model {
     }
   }
 
-  public String getThisPlayersName(){
+  public String getPlayerName(){
     return this.thisPlayersName;
   }
 }
