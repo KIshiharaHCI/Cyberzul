@@ -1543,3 +1543,22 @@ Q2:
 
 Q3:
 - none
+
+**14. Juli, 2022**
+
+_Nils_
+
+Q1:
+- finished the network. It is now fully functional.
+- if a player exits he gets replaced by the AI
+
+Q2:
+- handle all exceptions. I don't want to see any socket exceptions
+- planning next steps for me
+  - Encoder/Decoder for end-to-end encryption of chat messages?
+  - making the game playable via localhost wlan?
+- refactoring the network and player code
+- Check if all buttons on the view work. If not, implement them with the network (should be 2 lines)
+
+Q3:
+- none
