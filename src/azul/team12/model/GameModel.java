@@ -28,10 +28,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Contains the playing field of the Azul game, the list of players and the list of offerings.
+ * The very core of the backend. All requests that aim to change the game state are running through
+ * this class and are either computed here or delegated to other backend classes.
  *
+ * Contains the playing field of the Azul game, the list of players and the list of offerings.
  */
-public class GameModel implements Model {
+public class GameModel extends CommonModel implements Model {
 
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;

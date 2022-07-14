@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import azul.team12.model.ClientFactoryDisplay;
 import azul.team12.model.ClientTableCenter;
+import azul.team12.model.CommonModel;
 import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
@@ -33,16 +34,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ClientModel implements Model {
+public class ClientModel extends CommonModel implements Model {
 
   private final PropertyChangeSupport support;
   private boolean loggedIn;
   private ClientNetworkConnection connection;
   private String thisPlayersName;
-
-  private int indexOfActivePlayer;
-  private ArrayList<ClientPlayer> playerList = new ArrayList<>();
-  protected ArrayList<Offering> offerings;
 
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
 
@@ -273,7 +270,12 @@ public class ClientModel implements Model {
     updateOfferings(offerings);
     setUpClientPlayersByName(playerNames);
     indexOfActivePlayer = 0;
-    playerList.get(0).setHasStartingPlayerMarker(true);
+    try {
+      ClientPlayer startingPlayer = (ClientPlayer) playerList.get(0);
+      startingPlayer.setHasStartingPlayerMarker(true);
+    } catch (ClassCastException e) {
+      e.printStackTrace();
+    }
     notifyListeners(new GameStartedEvent());
   }
 
@@ -283,7 +285,7 @@ public class ClientModel implements Model {
    * @param playerNames
    */
   private void setUpClientPlayersByName(JSONArray playerNames) throws JSONException {
-    ArrayList<ClientPlayer> playerList = new ArrayList<>();
+    ArrayList<Player> playerList = new ArrayList<>();
     for (int i = 0; i < playerNames.length(); i++) {
       ClientPlayer clientPlayer = new ClientPlayer(playerNames.getString(i));
       playerList.add(clientPlayer);
@@ -418,11 +420,18 @@ public class ClientModel implements Model {
     notifyListeners(new NextPlayersTurnEvent(nameOfActivePlayer, nameOfPlayerWhoEndedHisTurn));
   }
 
-  private void setPlayerWithSPM(int indexOfPlayerWithSPM){
-    for (ClientPlayer p : playerList) {
-      p.setHasStartingPlayerMarker(false);
+  private void setPlayerWithSPM(int indexOfPlayerWhoShouldGetSPM) {
+    try {
+      for (Player p : playerList) {
+        ClientPlayer clientPlayer = (ClientPlayer) p;
+        clientPlayer.setHasStartingPlayerMarker(false);
+      }
+      ClientPlayer playerWhoShouldGetTheSPM =
+          (ClientPlayer) playerList.get(indexOfPlayerWhoShouldGetSPM);
+      playerWhoShouldGetTheSPM.setHasStartingPlayerMarker(true);
+    } catch (ClassCastException e) {
+      e.printStackTrace();
     }
-    playerList.get(indexOfPlayerWithSPM).setHasStartingPlayerMarker(true);
   }
 
   private void updatePatternLines(JSONArray newPatternLines, ClientPlayer player) {
@@ -447,7 +456,8 @@ public class ClientModel implements Model {
           new boolean[newWallMessage.length()][newWallMessage.length()];
       for (int row = 0; row < newWallMessage.length(); row++) {
         for (int col = 0; col < newWallMessage.getJSONArray(row).length(); col++) {
-          if (ModelTile.toTile(newWallMessage.getJSONArray(row).getString(col)) != ModelTile.EMPTY_TILE) {
+          if (ModelTile.toTile(newWallMessage.getJSONArray(row).getString(col)) !=
+              ModelTile.EMPTY_TILE) {
             wall[row][col] = true;
           }
         }
@@ -458,7 +468,7 @@ public class ClientModel implements Model {
     }
   }
 
-  private void updatePoints(int newPoints, ClientPlayer player){
+  private void updatePoints(int newPoints, ClientPlayer player) {
     player.setPoints(newPoints);
   }
 
@@ -507,18 +517,17 @@ public class ClientModel implements Model {
     }
   }
 
-  public void handleGameFinishedEvent(JSONObject message){
+  public void handleGameFinishedEvent(JSONObject message) {
     try {
       JSONArray players = message.getJSONArray(JsonMessage.PLAYER_FIELD);
       updatePlayers(players);
       notifyListeners(new GameFinishedEvent(message.getString(JsonMessage.NICK_FIELD)));
-    }
-    catch(JSONException e){
+    } catch (JSONException e) {
       e.printStackTrace();
     }
   }
 
-  private void updatePlayers(JSONArray players) throws JSONException{
+  private void updatePlayers(JSONArray players) throws JSONException {
     for (int i = 0; i < players.length(); i++) {
       JSONObject playerObject = players.getJSONObject(i);
       String playerName = playerObject.getString(JsonMessage.NICK_FIELD);
@@ -526,12 +535,12 @@ public class ClientModel implements Model {
 
       updatePatternLines(playerObject.getJSONArray(JsonMessage.PATTERN_LINES_FIELD), clientPlayer);
       updateFloorLine(playerObject.getJSONArray(JsonMessage.FLOOR_LINE_FIELD), clientPlayer);
-      updateWall(playerObject.getJSONArray(JsonMessage.WALL_FIELD),clientPlayer);
-      updatePoints(playerObject.getInt(JsonMessage.POINTS_FIELD),clientPlayer);
+      updateWall(playerObject.getJSONArray(JsonMessage.WALL_FIELD), clientPlayer);
+      updatePoints(playerObject.getInt(JsonMessage.POINTS_FIELD), clientPlayer);
     }
   }
 
-  public String getPlayerName(){
+  public String getPlayerName() {
     return this.thisPlayersName;
   }
 }
