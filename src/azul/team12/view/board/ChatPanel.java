@@ -12,14 +12,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
-public class ChatPanel extends JPanel implements PropertyChangeListener {
+public class ChatPanel extends JPanel {
   private static final int DEFAULT_HEIGHT = 500;
   private static final int INPUTFIELD_WIDTH = 40;
   private static final int INPUTFIELD_HEIGHT = 3;
   private JTextArea inputArea;
   private JScrollPane scrollPane;
 
-  private DefaultListModel<Message> listModel;
 
 
   private final int defaultInset = 5;
@@ -58,7 +57,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   this.add(inputArea, gbc);
 }
 
-  @Override
+  /*@Override
   public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
     SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
   }
@@ -73,7 +72,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
       JOptionPane.showMessageDialog(this,
               String.format("Welcome to Cyberzul. Good Luck!"));
     }
-  }
+  }*/
 
 
 
