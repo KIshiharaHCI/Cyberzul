@@ -74,7 +74,7 @@ public class TransparentImageIcon extends ImageIcon {
    */
   @Override
   public void paintIcon(Component c, Graphics g, int x, int y) {
-    if (icon instanceof ImageIcon) {
+    if (icon != null) {
       image = ((ImageIcon) icon).getImage();
     } else {
       image = null;
