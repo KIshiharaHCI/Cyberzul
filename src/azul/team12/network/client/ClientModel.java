@@ -136,7 +136,8 @@ public class ClientModel implements Model {
   public List<String> rankingPlayerWithPoints() {
     List<String> playerNamesRankingList = getPlayerNamesList();
     Collections.sort(playerNamesRankingList,
-        (o1, o2) -> -Integer.compare(getPoints(o1), getPoints(o2)));
+        (o1, o2) -> Integer.compare(getPoints(o1), getPoints(o2)));
+    Collections.reverse(playerNamesRankingList);
     return playerNamesRankingList;
   }
 
