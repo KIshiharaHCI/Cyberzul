@@ -72,11 +72,6 @@ public class ClientModel extends CommonModel implements Model {
   }
 
   @Override
-  public void makeAiPlayerMakeMove(String nickOfAiPlayer) {
-
-  }
-
-  @Override
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
     connection.send(JsonMessage.notifyTileChosenMessage(indexOfTile, offeringIndex));
   }
@@ -91,97 +86,6 @@ public class ClientModel extends CommonModel implements Model {
     connection.send(JsonMessage.placeTileInFloorLine());
   }
 
-  @Override
-  public String getPlayerWithMostPoints() {
-    //TODO: What if two players have the same points?
-    ArrayList<Integer> playerPoints = new ArrayList<>();
-    for (Player player : playerList) {
-      playerPoints.add(player.getPoints());
-    }
-    int highestScore = Collections.max(playerPoints);
-    int bestIndex = playerPoints.indexOf(highestScore);
-    Player playerWithMostPoints = playerList.get(bestIndex);
-    return playerWithMostPoints.getName();
-  }
-
-  @Override
-  public List<String> rankingPlayerWithPoints() {
-    List<String> playerNamesRankingList = getPlayerNamesList();
-    Collections.sort(playerNamesRankingList,
-        (o1, o2) -> -Integer.compare(getPoints(o1), getPoints(o2)));
-    return playerNamesRankingList;
-  }
-
-  @Override
-  public int getIndexOfActivePlayer() {
-    return indexOfActivePlayer;
-  }
-
-  @Override
-  public int getIndexOfNextPlayer() {
-    int indexOfNextPlayer;
-    if (checkRoundFinished()) {
-      indexOfNextPlayer = this.getIndexOfPlayerWithSpm();
-    } else if (indexOfActivePlayer == playerList.size() - 1) {
-      indexOfNextPlayer = 0;
-    } else {
-      indexOfNextPlayer = indexOfActivePlayer + 1;
-    }
-    return indexOfNextPlayer;
-  }
-
-  @Override
-  public Player getPlayerByName(String nickname) {
-    for (Player player : playerList) {
-      if (player.getName().equals(nickname)) {
-        return player;
-      }
-    }
-    return null;
-  }
-
-  @Override
-  public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
-    Player player = getPlayerByName(playerName);
-    return player.getPatternLines();
-  }
-
-  @Override
-  public List<ModelTile> getFloorLineOfPlayer(String playerName) {
-    Player player = getPlayerByName(playerName);
-    return player.getFloorLine();
-  }
-
-  @Override
-  public ModelTile[][] getWallOfPlayer(String playerName) {
-
-    Player player = getPlayerByName(playerName);
-    ModelTile[][] templateWall = player.getWallPattern().pattern;
-    boolean[][] wallAsBools = player.getWall();
-    ModelTile[][] playerWall = new ModelTile[5][5];
-
-    for (int row = 0; row < wallAsBools.length; row++) {
-      for (int col = 0; col < wallAsBools[row].length; col++) {
-        if (wallAsBools[row][col]) {
-          playerWall[row][col] = templateWall[row][col];
-        } else {
-          playerWall[row][col] = ModelTile.EMPTY_TILE;
-        }
-      }
-    }
-
-    return playerWall;
-  }
-
-  @Override
-  public List<String> getPlayerNamesList() {
-    List<String> list = new ArrayList<>();
-    for (Player player : playerList) {
-      list.add(player.getName());
-    }
-    return list;
-  }
-
   private synchronized ClientNetworkConnection getConnection() {
     return connection;
   }
@@ -193,10 +97,6 @@ public class ClientModel extends CommonModel implements Model {
    */
   public synchronized void setConnection(ClientNetworkConnection connection) {
     this.connection = connection;
-  }
-
-  public synchronized boolean isLoggedIn() {
-    return loggedIn;
   }
 
   public synchronized void setLoggedIn(boolean loggedIn) {
@@ -244,6 +144,7 @@ public class ClientModel extends CommonModel implements Model {
     } catch (ClassCastException e) {
       e.printStackTrace();
     }
+    this.isGameStarted = true;
     notifyListeners(new GameStartedEvent());
   }
 
@@ -259,43 +160,6 @@ public class ClientModel extends CommonModel implements Model {
       playerList.add(clientPlayer);
     }
     this.playerList = playerList;
-  }
-
-  @Override
-  public List<Offering> getOfferings() {
-    return (List<Offering>) offerings.clone();
-  }
-
-  @Override
-  public int getPoints(String nickname) {
-    for (Player player : playerList) {
-      if (player.getName().equals(nickname)) {
-        return player.getPoints();
-      }
-    }
-    notifyListeners(new PlayerDoesNotExistEvent(nickname));
-    return 0;
-  }
-
-  @Override
-  public int getMinusPoints(String nickname) {
-    for (Player player : playerList) {
-      if (player.getName().equals(nickname)) {
-        return player.getMinusPoints();
-      }
-    }
-    notifyListeners(new PlayerDoesNotExistEvent(nickname));
-    return 0;
-  }
-
-  @Override
-  public String getNickOfActivePlayer() {
-    return playerList.get(indexOfActivePlayer).getName();
-  }
-
-  @Override
-  public boolean isGameStarted() {
-    return false;
   }
 
   /**
@@ -328,34 +192,6 @@ public class ClientModel extends CommonModel implements Model {
       returnOfferingsList.add(clientFactoryDisplay);
     }
     this.offerings = returnOfferingsList;
-  }
-
-  @Override
-  public int getIndexOfPlayerWithSpm() {
-    int index = 0;
-    for (Player player : playerList) {
-      if (player.hasStartingPlayerMarker()) {
-        return index;
-      }
-      index++;
-    }
-    throw new IllegalStateException("We called giveIndexOfPlayer with Start Player Marker when "
-        + "no player had the SPM.");
-  }
-
-  @Override
-  public void startTilingPhase() {
-
-  }
-
-  public boolean checkRoundFinished() {
-    for (Offering offering : offerings) {
-      // if any of the offerings still has a content, the round is not yet finished
-      if (!offering.getContent().isEmpty()) {
-        return false;
-      }
-    }
-    return true;
   }
 
   public void handleNextPlayersTurn(JSONObject object) throws JSONException {
@@ -489,6 +325,7 @@ public class ClientModel extends CommonModel implements Model {
     try {
       JSONArray players = message.getJSONArray(JsonMessage.PLAYER_FIELD);
       updatePlayers(players);
+      this.isGameStarted = false;
       notifyListeners(new GameFinishedEvent(message.getString(JsonMessage.NICK_FIELD)));
     } catch (JSONException e) {
       e.printStackTrace();
@@ -517,6 +354,7 @@ public class ClientModel extends CommonModel implements Model {
   }
 
   public void handleGameCanceled(String playerWhoCanceledGame) {
+    this.isGameStarted = false;
     notifyListeners(new GameCanceledEvent(playerWhoCanceledGame));
   }
 

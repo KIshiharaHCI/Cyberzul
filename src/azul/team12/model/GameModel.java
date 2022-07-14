@@ -39,11 +39,7 @@ public class GameModel extends CommonModel implements Model {
   public static final int MAX_PLAYER_NUMBER = 4;
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
   private int sleepTime = 100;
-  private ArrayList<Player> playerList;
-  private ArrayList<Offering> offerings;
-  private boolean isGameStarted = false;
   private boolean hasGameEnded = false;
-  private int indexOfActivePlayer = 0;
   private Offering currentOffering;
   private int currentIndexOfTile;
   private Random ran = new Random();
@@ -114,8 +110,6 @@ public class GameModel extends CommonModel implements Model {
     indexOfActivePlayer = 0;
 
     notifyListeners(new GameStartedEvent());
-
-
   }
 
   @Override
@@ -187,8 +181,12 @@ public class GameModel extends CommonModel implements Model {
     makeAiPlayerMakeMove(playerName);
   }
 
-  @Override
-  public void makeAiPlayerMakeMove(String nickOfAiPlayer) {
+  /**
+   * makes a given player place a tile randomly. Used for AI-Players.
+   *
+   * @param nickOfAiPlayer the name of the active player.
+   */
+  private void makeAiPlayerMakeMove(String nickOfAiPlayer) {
     // get not empty offerings
     List<Offering> offeringsClone = getOfferings();
     for (Offering offering : getOfferings()) {
@@ -301,35 +299,12 @@ public class GameModel extends CommonModel implements Model {
     }
   }
 
-  @Override
-  public boolean checkRoundFinished() {
-    for (Offering offering : offerings) {
-      // if any of the offerings still has a content, the round is not yet finished
-      if (!offering.getContent().isEmpty()) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  @Override
-  public int getIndexOfPlayerWithSpm() {
-    for (int i = 0; i < playerList.size(); i++) {
-      Player player = playerList.get(i);
-      if (player.hasStartingPlayerMarker()) {
-        LOGGER.info(player.getName() + " with index " + i + " was the player "
-            + "with the SPM.");
-        return i;
-      }
-    }
-    LOGGER.debug("We called giveIndexOfPlayer with Start Player Marker when no player had "
-        + "the SPM. Probably this is the case because at the end of the turn noone had the "
-        + "SPM.");
-    return 0;
-  }
-
-  @Override
-  public void startTilingPhase() {
+  /**
+   * Tell each player to tile the wall and get the points accordingly. Fires
+   * {@link PlayerHasEndedTheGameEvent} if a player has ended the game in this tiling phase, fires
+   * {@link GameFinishedEvent} at the end of this tiling phase in which someone has ended the game.
+   */
+  private void startTilingPhase() {
     hasGameEnded = false;
     for (Player player : playerList) {
       player.tileWallAndGetPoints();
@@ -346,143 +321,5 @@ public class GameModel extends CommonModel implements Model {
       GameFinishedEvent gameFinishedEvent = new GameFinishedEvent(winnerName);
       notifyListeners(gameFinishedEvent);
     }
-  }
-
-  @Override
-  public String getPlayerWithMostPoints() {
-    //TODO: What if two players have the same points?
-    ArrayList<Integer> playerPoints = new ArrayList<>();
-    for (Player player : playerList) {
-      playerPoints.add(player.getPoints());
-    }
-    int highestScore = Collections.max(playerPoints);
-    int bestIndex = playerPoints.indexOf(highestScore);
-    Player playerWithMostPoints = playerList.get(bestIndex);
-    return playerWithMostPoints.getName();
-  }
-
-  @Override
-  public List<String> rankingPlayerWithPoints() {
-    // making a copy of player names list as ArrayList, so we can give back a clone later
-    List<String> playerNamesRankingList = getPlayerNamesList();
-    ArrayList<String> orderedPlayerNamesRankingList = new ArrayList<>();
-    for (String playerName: playerNamesRankingList) {
-      orderedPlayerNamesRankingList.add(playerName);
-    }
-
-    Collections.sort(orderedPlayerNamesRankingList,
-        (o1, o2) -> -Integer.compare(getPoints(o1), getPoints(o2)));
-    return (List<String>) orderedPlayerNamesRankingList.clone();
-  }
-
-
-    @Override
-  public int getIndexOfNextPlayer() {
-    int indexOfNextPlayer;
-    if (checkRoundFinished()) {
-      indexOfNextPlayer = getIndexOfPlayerWithSpm();
-    } else if (indexOfActivePlayer == playerList.size() - 1) {
-      indexOfNextPlayer = 0;
-    } else {
-      indexOfNextPlayer = indexOfActivePlayer + 1;
-    }
-    return indexOfNextPlayer;
-  }
-
-  @Override
-  public Player getPlayerByName(String nickname) {
-    for (Player player : playerList) {
-      if (player.getName().equals(nickname)) {
-        return player;
-      }
-    }
-    LOGGER.debug("The model was given a name by view that is not in the playerList.");
-    return null;
-  }
-
-  @Override
-  public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
-    Player player = getPlayerByName(playerName);
-    return player.getPatternLines();
-  }
-
-  @Override
-  public List<ModelTile> getFloorLineOfPlayer(String playerName) {
-    Player player = getPlayerByName(playerName);
-    return player.getFloorLine();
-  }
-
-  @Override
-  public ModelTile[][] getWallOfPlayer(String playerName) {
-
-    Player player = getPlayerByName(playerName);
-    ModelTile[][] templateWall = player.getWallPattern().pattern;
-    boolean[][] wallAsBools = player.getWall();
-    ModelTile[][] playerWall = new ModelTile[5][5];
-
-    for (int row = 0; row < wallAsBools.length; row++) {
-      for (int col = 0; col < wallAsBools[row].length; col++) {
-        if (wallAsBools[row][col]) {
-          playerWall[row][col] = templateWall[row][col];
-        } else {
-          playerWall[row][col] = ModelTile.EMPTY_TILE;
-        }
-      }
-    }
-
-    return playerWall;
-  }
-
-  @Override
-  public List<String> getPlayerNamesList() {
-    List<String> list = new ArrayList<>();
-    for (Player player : playerList) {
-      list.add(player.getName());
-    }
-    return list;
-  }
-
-  @Override
-  public List<Offering> getOfferings() {
-    @SuppressWarnings("unchecked") List<Offering> offeringsClone =
-        (List<Offering>) offerings.clone();
-    return offeringsClone;
-  }
-
-  @Override
-  public int getIndexOfActivePlayer() {
-    return indexOfActivePlayer;
-  }
-
-  @Override
-  public int getPoints(String nickname) {
-    for (Player player : playerList) {
-      if (player.getName().equals(nickname)) {
-        return player.getPoints();
-      }
-    }
-    notifyListeners(new PlayerDoesNotExistEvent(nickname));
-    return 0;
-  }
-
-  @Override
-  public int getMinusPoints(String nickname) {
-    for (Player player : playerList) {
-      if (player.getName().equals(nickname)) {
-        return player.getMinusPoints();
-      }
-    }
-    notifyListeners(new PlayerDoesNotExistEvent(nickname));
-    return 0;
-  }
-
-  @Override
-  public String getNickOfActivePlayer() {
-    return playerList.get(indexOfActivePlayer).getName();
-  }
-
-  @Override
-  public boolean isGameStarted() {
-    return isGameStarted;
   }
 }

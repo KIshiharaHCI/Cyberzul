@@ -70,13 +70,6 @@ public interface Model {
   void replacePlayerByAi(String playerName);
 
   /**
-   * makes a given player place a tile randomly. Used for AI-Players.
-   *
-   * @param nickOfAiPlayer the name of the active player.
-   */
-  void makeAiPlayerMakeMove(String nickOfAiPlayer);
-
-  /**
    * gives back the name of the player of the given client model or the name of the active player
    * in hot seat mode.
    *
@@ -120,13 +113,6 @@ public interface Model {
    * @return player's index.
    */
   int getIndexOfPlayerWithSpm();
-
-  /**
-   * Tell each player to tile the wall and get the points accordingly. Fires
-   * {@link PlayerHasEndedTheGameEvent} if a player has ended the game in this tiling phase, fires
-   * {@link GameFinishedEvent} at the end of this tiling phase in which someone has ended the game.
-   */
-  void startTilingPhase();
 
   /**
    * Finds the player with the most points.
