@@ -5,12 +5,14 @@ import azul.team12.model.events.GameCanceledEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
+import azul.team12.network.server.Server;
 import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
@@ -53,7 +55,26 @@ public class ClientNetworkConnection {
         Socket socket;
         try {
           socket = new Socket(HOST, PORT);
-        } catch (UnknownHostException e) {
+        }
+
+
+
+
+        catch (ConnectException connectException){
+          if(connectException.getMessage().equals("Connection refused: connect")){
+            Server.start();
+            continue;
+          }
+          else{
+            connectException.printStackTrace();
+            break;
+          }
+        }
+
+
+
+
+        catch (UnknownHostException e) {
           e.printStackTrace();
           break;
         } catch (IOException e) {

@@ -33,6 +33,10 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
   private Model model;
 
   public ModelPropertyChangeHandler(ServerNetworkConnection connection, Model model) {
+
+    //TODO: TEST
+    System.out.println(model + " " + connection);
+
     this.connection = connection;
     this.model = model;
     model.addPropertyChangeListener(this);

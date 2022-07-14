@@ -2,28 +2,53 @@ package azul.team12.model;
 
 import azul.team12.network.client.ClientModel;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ModelStrategyChooser implements Model{
+public class ModelStrategyChooser implements Model {
 
   private ModelStrategy strategy;
+  private List<PropertyChangeListener> listenerList = new ArrayList<>();
+  private boolean isStrategyChosen = false;
 
   @Override
   public void setStrategy(int strategy) {
-    switch (strategy){
+    switch (strategy) {
       case GAME_MODEL -> this.strategy = new GameModel();
       case CLIENT_MODEL -> this.strategy = new ClientModel();
       default -> throw new AssertionError("No such strategy defined");
     }
+    addListenersToTheModel();
+    isStrategyChosen = true;
   }
 
+  /**
+   * The ModelStrategyChooser saves the PropertyChangeListener that should be added to the model in
+   * a list and adds them if they should be added.
+   */
+  private void addListenersToTheModel() {
+    for (PropertyChangeListener listener : listenerList) {
+      strategy.addPropertyChangeListener(listener);
+    }
+  }
+
+  /**
+   * Saves the view in a field, until it knows which model it should emulate. Then if the model
+   * gets created, it adds the view as its PropertyChangeListener.
+   *
+   * @param listener the view that subscribes itself to the model.
+   */
   @Override
   public void addPropertyChangeListener(PropertyChangeListener listener) {
-    strategy.addPropertyChangeListener(listener);
+    if (isStrategyChosen) {
+      strategy.addPropertyChangeListener(listener);
+    }
+    this.listenerList.add(listener);
   }
 
   @Override
   public void removePropertyChangeListener(PropertyChangeListener listener) {
+    this.listenerList.remove(listener);
     strategy.removePropertyChangeListener(listener);
   }
 
@@ -59,7 +84,7 @@ public class ModelStrategyChooser implements Model{
 
   @Override
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
-    strategy.notifyTileChosen(playerName,indexOfTile,offeringIndex);
+    strategy.notifyTileChosen(playerName, indexOfTile, offeringIndex);
   }
 
   @Override

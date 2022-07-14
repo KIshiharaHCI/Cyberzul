@@ -98,12 +98,16 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     hotSeatModeButton.addActionListener(event -> {
       //the model should behave like a game model
       model.setStrategy(Model.GAME_MODEL);
+      createHotSeatModeCard();
       showHSMCard();
     });
     networkButton.addActionListener(event -> {
       //the model should behave like a client model
       model.setStrategy(Model.CLIENT_MODEL);
-      showNetworkCard();
+
+      //TODO: ONLY TESTING. THE NEXT TO LINES CAN BE DELETED.
+      createHotSeatModeCard();
+      showHSMCard();
     });
     playButton.addActionListener(event -> {
       controller.startGame();
@@ -275,8 +279,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     JPanel backgroundPanel = new ImagePanel(login, BACKGROUND_PATH, FRAME_WIDTH, FRAME_HEIGHT,
         BACKGROUND_SCALE_FACTOR);
     add(backgroundPanel, LOGIN_CARD);
-
-    createHotSeatModeCard();
   }
 
   /**
