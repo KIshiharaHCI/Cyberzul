@@ -22,7 +22,7 @@ public class PlatesPanel extends JPanel {
 
   public PlatesPanel(List<Offering> factoryDisplays, TileClickListener tileClickListener) {
     setAlignmentX(Component.LEFT_ALIGNMENT);
-
+    setOpaque(false);
 
     initialize(factoryDisplays, tileClickListener);
   }

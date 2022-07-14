@@ -3,11 +3,9 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.view.listeners.TileClickListener;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Wall extends JPanel {
 
@@ -28,11 +26,11 @@ public class Wall extends JPanel {
   public Wall(Controller controller) {
     this.controller = controller;
 
-    setBackground(new Color(110, 150, 100));
     setPreferredSize(new Dimension((SMALL_TILE_SIZE + 2) * ROWS, (SMALL_TILE_SIZE + 2) * COLS));
     setMaximumSize(new Dimension((SMALL_TILE_SIZE + 2) * ROWS, (SMALL_TILE_SIZE + 2) * COLS));
     setMinimumSize(new Dimension((SMALL_TILE_SIZE + 2) * ROWS, (SMALL_TILE_SIZE + 2) * COLS));
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    setOpaque(false);
     setAlignmentX(1.0f);
     setAlignmentY(1.0f);
     buttonSize = SMALL_TILE_SIZE;

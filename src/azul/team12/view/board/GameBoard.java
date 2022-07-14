@@ -1,7 +1,6 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
 
 import javax.swing.*;
@@ -19,8 +18,6 @@ public class GameBoard extends JPanel {
   private transient final Controller controller;
 
   private final CenterBoard center;
-  private final int numberOfPlayers;
-  private transient List<Offering> factoryDisplays;
 
   private JPanel boardsOfOpponentsPanel;
 
@@ -31,17 +28,18 @@ public class GameBoard extends JPanel {
   private Dimension frameDimension;
   private List<PlayerBoard> otherPlayerBoards;
 
-
-  public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,
+  /**
+   * Creates the main game panel which contains all other game elements.
+   * @param tileClickListener
+   * @param controller
+   * @param frameDimension 1400 x 800 px
+   */
+  public GameBoard(TileClickListener tileClickListener,
       Controller controller, Dimension frameDimension) {
 
     this.controller = controller;
-    this.numberOfPlayers = numberOfPlayers;
-    factoryDisplays = controller.getOfferings().subList(1, controller.getOfferings().size());
-
     this.frameDimension = frameDimension;
     setLayout(new BorderLayout());
-    //setBackground(Color.lightGray);
     setOpaque(false);
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);
@@ -56,8 +54,11 @@ public class GameBoard extends JPanel {
 
   }
 
+  /**
+   * Creates the East panel with the Chat.
+   */
+  //TODO: add Rankingboard
   private void createChatPanel() {
-    //TODO: replace temporary chatPanel with Iurii's Chat class, remove Background
     ChatPanel chatPanel = new ChatPanel();
     Dimension chatPanelDimension = new Dimension(
             (int) (frameDimension.width * 0.3),
@@ -70,6 +71,9 @@ public class GameBoard extends JPanel {
     add(chatPanel,BorderLayout.EAST);
   }
 
+  /**
+   * Creates the sidebar with the panels of the opponents.
+   */
   private void createOpponentsPanel() {
     otherPlayerBoards = new ArrayList<>();
     boardsOfOpponentsPanel = new JPanel();

@@ -3,11 +3,15 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.view.listeners.TileClickListener;
 
-import javax.swing.*;
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
 
 public class ActivePlayerBoard extends PlayerBoard {
-    private JButton forfeitButton, cancelGameButton, restartGameButton;
+    private final BufferedImage image;
 
     /**
      * The constructor to create a playerboard for a given player.
@@ -19,31 +23,23 @@ public class ActivePlayerBoard extends PlayerBoard {
     public ActivePlayerBoard(Controller controller, TileClickListener tileClickListener,
                              String playerName, Dimension panelDimension) {
         super(controller, tileClickListener, playerName, Tile.NORMAL_TILE_SIZE, panelDimension);
+
+        setOpaque(false);
+
         setMaximumSize(panelDimension);
         setMinimumSize(panelDimension);
-        initializeButtons();
+        try {
+            URL imgURL = getClass().getClassLoader().getResource("img/hud.png");
+            image = ImageIO.read(Objects.requireNonNull(imgURL));
+            image.getScaledInstance(panelDimension.width, panelDimension.height, Image.SCALE_DEFAULT);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void initializeButtons() {
-        forfeitButton = new JButton("FORFEIT");
-        forfeitButton.addActionListener(event -> {
-            controller.replaceActivePlayerByAI();
-            System.out.println("Forfeit Button has been clicked");
-        });
-
-        cancelGameButton = new JButton("CANCEL");
-        cancelGameButton.addActionListener(event -> {
-            controller.cancelGameForAllPlayers();
-            System.out.println("Cancel Button has been pressed.");
-        });
-
-        restartGameButton = new JButton("RESTART");
-        restartGameButton.addActionListener(event -> {
-            controller.restartGame();
-            System.out.println("Game has been restarted.");
-        });
-        north.add(forfeitButton);
-        north.add(cancelGameButton);
-        north.add(restartGameButton);
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, null);
     }
 }
