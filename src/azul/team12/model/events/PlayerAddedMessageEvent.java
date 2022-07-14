@@ -21,7 +21,7 @@ public class PlayerAddedMessageEvent extends GameEvent {
 
     @Override
     public String getName() {
-        return "PlayerAddedMessageAddedEvent";
+        return "PlayerAddedMessageEvent";
     }
 
 }

@@ -4,7 +4,9 @@ import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.events.NextPlayersTurnEvent;
+import azul.team12.model.events.PlayerAddedMessageEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
+import azul.team12.network.client.messages.PlayerTextMessage;
 import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -59,6 +61,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case "PlayerHasChosenTileEvent" -> handlePlayerHasChosenTileEvent(customMadeGameEvent);
       case "NoValidTurnToMakeEvent" -> handleNoValidTurnToMakeEvent();
       case "IllegalTurnEvent" -> handleIllegalTurnEvent();
+      case "PlayerAddedMessageEvent" -> handlePlayerAddedMessageEvent(customMadeGameEvent);
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
@@ -72,15 +75,15 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
   private void handlePlayerHasChosenTileEvent(Object customMadeGameEvent) {
     try {
       PlayerHasChosenTileEvent playerHasChosenTileEvent =
-          (PlayerHasChosenTileEvent) customMadeGameEvent;
+              (PlayerHasChosenTileEvent) customMadeGameEvent;
       connection.broadcastToAll(
-          JsonMessage.createPlayerHasChosenTileMessage(playerHasChosenTileEvent.getNickname()));
+              JsonMessage.createPlayerHasChosenTileMessage(playerHasChosenTileEvent.getNickname()));
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  private void handleIllegalTurnEvent(){
+  private void handleIllegalTurnEvent() {
     try {
       connection.sendToActivePlayer(JsonMessage.createMessageOfType(JsonMessage.ILLEGAL_TURN));
     } catch (JSONException e) {
@@ -120,19 +123,31 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
       String nameOfPlayerWhoEndedHisTurn = nextPlayersTurnEvent.getNameOfPlayerWhoEndedHisTurn();
       ModelTile[][] newPatternLinesOfPlayerWhoEndedHisTurn =
-          model.getPatternLinesOfPlayer(nameOfPlayerWhoEndedHisTurn);
+              model.getPatternLinesOfPlayer(nameOfPlayerWhoEndedHisTurn);
       List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn =
-          model.getFloorLineOfPlayer(nameOfPlayerWhoEndedHisTurn);
+              model.getFloorLineOfPlayer(nameOfPlayerWhoEndedHisTurn);
 
       int indexOfPlayerWithSPM = model.getIndexOfPlayerWithSpm();
 
       connection.broadcastToAll(
-          JsonMessage.createNextPlayersTurnMessage(nameOfActivePlayer, offerings,
-              nameOfPlayerWhoEndedHisTurn,
-              newPatternLinesOfPlayerWhoEndedHisTurn, newFloorLineOfPlayerWhoEndedHisTurn,
-              indexOfPlayerWithSPM));
+              JsonMessage.createNextPlayersTurnMessage(nameOfActivePlayer, offerings,
+                      nameOfPlayerWhoEndedHisTurn,
+                      newPatternLinesOfPlayerWhoEndedHisTurn, newFloorLineOfPlayerWhoEndedHisTurn,
+                      indexOfPlayerWithSPM));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+  private void handlePlayerAddedMessageEvent(Object customMadeGameEvent) {
+    try {
+      PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+      PlayerTextMessage message = (PlayerTextMessage) playerAddedMessageEvent.getMessage();
+      connection.broadcastToAll(JsonMessage.message(message.getNameOfSender(), message.getTime(), message.getContent()));
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
+
 }
+
