@@ -87,7 +87,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     selectModeLabel = new JLabel("Select Mode");
     URL resource = getClass().getClassLoader().getResource("img/gamelogo.png");
     ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("img/gamelogo.png"));
-    icon = new ImageIcon(icon.getImage().getScaledInstance(800,150, Image.SCALE_DEFAULT));
+    icon = new ImageIcon(icon.getImage().getScaledInstance(800,130, Image.SCALE_SMOOTH));
     gameLogoLabel = new JLabel(icon);
   }
 
