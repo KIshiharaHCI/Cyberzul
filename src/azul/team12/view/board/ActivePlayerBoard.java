@@ -23,7 +23,6 @@ public class ActivePlayerBoard extends PlayerBoard {
     public ActivePlayerBoard(Controller controller, TileClickListener tileClickListener,
                              String playerName, Dimension panelDimension) {
         super(controller, tileClickListener, playerName, Tile.NORMAL_TILE_SIZE, panelDimension);
-
         setOpaque(false);
 
         setMaximumSize(panelDimension);

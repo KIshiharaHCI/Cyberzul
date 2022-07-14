@@ -1,15 +1,14 @@
 package azul.team12.view.board;
 
 import azul.team12.model.ModelTile;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Image;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * Wrapper Class for Tiles such as SourceTiles,DestinationTiles,WallTiles. Contains the base
@@ -23,6 +22,7 @@ public abstract class TileDecorator extends JPanel implements Tile {
     final int tileSize;
 
     private static final long serialVersionUID = 1L;
+    private BufferedImage image;
 
     /**
      * Constructor to be called from subclasses. Used for initializing Image URL path and
@@ -37,53 +37,65 @@ public abstract class TileDecorator extends JPanel implements Tile {
         ROW = row;
         path = modelTile.toString();
         this.tileSize = tileSize;
+
+        setBackground(new Color(80, 145, 250, 130));
+        try {
+            URL imgURL = getClass().getClassLoader().getResource("img/tile-outline.png");
+            image = ImageIO.read(Objects.requireNonNull(imgURL));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    /**
+     * Retrieves the Tile image and sets it on the JLabel.
+     *
+     * @param opacity how transparent the Tile should be.
+     */
+    @Override
+    public void setIcon (Float opacity){
+        if (path.equals("empty")) {
+            add(label);
+            return;
+        }
+        URL imgURL1 = getClass().getClassLoader().getResource(pathList.get(path));
+//          Image img = resizeImage(new ImageIcon(Objects.requireNonNull(imgURL1)));
+        ImageIcon img = new ImageIcon(new ImageIcon(imgURL1).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT));
+        ImageIcon icon = new TransparentImageIcon(img, opacity);
+        label.setIcon(icon);
+        add(label);
     }
 
-        /**
-         * Retrieves the Tile image and sets it on the JLabel.
-         *
-         * @param opacity how transparent the Tile should be.
-         */
-        @Override
-        public void setIcon (Float opacity){
-            if (path.equals("empty")) {
-                add(label);
-                return;
-            }
-            URL imgURL1 = getClass().getClassLoader().getResource(pathList.get(path));
-//        Image img = resizeImage(new ImageIcon(Objects.requireNonNull(imgURL1)));
-            ImageIcon img = new ImageIcon(new ImageIcon(imgURL1).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT));
-            ImageIcon icon = new TransparentImageIcon(img, opacity);
-            label.setIcon(icon);
-            add(label);
-        }
+    /**
+     * Function to resize Tile ImageIcon to fit given TileSize
+     *
+     * @param icon passed tile Image.
+     * @return resized Image based on given Tile Size.
+     */
+    private Image resizeImage (ImageIcon icon){
+        BufferedImage resizedimage = new BufferedImage(tileSize, tileSize,
+                BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = resizedimage.createGraphics();
+        g2.drawImage(icon.getImage(), 0, 0, tileSize, tileSize, null);
+        return resizedimage;
+    }
 
-        /**
-         * Function to resize Tile ImageIcon to fit given TileSize
-         *
-         * @param icon passed tile Image.
-         * @return resized Image based on given Tile Size.
-         */
-        private Image resizeImage (ImageIcon icon){
-            BufferedImage resizedimage = new BufferedImage(tileSize, tileSize,
-                    BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2 = resizedimage.createGraphics();
-            g2.drawImage(icon.getImage(), 0, 0, tileSize, tileSize, null);
-            return resizedimage;
-        }
+    @Override
+    public int getColumn () {
+        return COLUMN;
+    }
 
-        @Override
-        public int getColumn () {
-            return COLUMN;
-        }
+    @Override
+    public int getRow () {
+        return ROW;
+    }
 
-        @Override
-        public int getRow () {
-            return ROW;
-        }
-
-        @Override
-        public JLabel getLabel () {
-            return label;
-        }
+    @Override
+    public JLabel getLabel () {
+        return label;
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, null);
+    }
 }

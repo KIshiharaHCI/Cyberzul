@@ -25,7 +25,7 @@ public abstract class PlayerBoard extends JPanel {
   protected int tileSize;
   Dimension panelDimension;
   //Wraps PatternLines, Wall, Points Labels, Playername, Floorline
-  private JPanel playerBoardWrapper;
+  protected JPanel playerBoardWrapper;
 
   private FloorLinePanel floorLinePanel;
 
