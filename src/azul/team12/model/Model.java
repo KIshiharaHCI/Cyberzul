@@ -232,10 +232,6 @@ public interface Model {
    */
   public String getNickOfActivePlayer();
 
-  /**
-   * Send a message to the model that is to be published to the other chat clients.
-   */
 
-  public void postChatMessage(String text);
-
+  void postChatMessage(String text);
 }
