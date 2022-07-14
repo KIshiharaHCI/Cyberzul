@@ -262,8 +262,9 @@ public class GameModel implements Model {
   }
 
   @Override
-  public String getThisPlayersName() {
-    return null;
+  public String getPlayerName() {
+    String playerName = getNickOfActivePlayer();
+    return playerName;
   }
 
   @Override
