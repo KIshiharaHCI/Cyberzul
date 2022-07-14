@@ -6,6 +6,8 @@ import azul.team12.view.IconButton;
 import azul.team12.view.ImagePanel;
 import azul.team12.view.listeners.TileClickListener;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -89,6 +91,22 @@ public class GameBoard extends JPanel {
     settingsPanel.add(soundButton);
 
     JButton settingsButton = new IconButton(MENU_BUTTON_PATH, 130, 100, ICON_BUTTON_SIZE, ICON_BUTTON_SIZE);
+    final JPopupMenu menu = new JPopupMenu("Menu");
+    JMenuItem firstItem = new JMenuItem("First item");
+    firstItem.addActionListener( new ActionListener() {
+      public void actionPerformed(ActionEvent ae) {
+        System.out.println("First menu item clicked");
+      }
+    } );
+    menu.add(firstItem);
+    menu.add(new JMenuItem("Second item"));
+    menu.add(new JMenuItem("Third item"));
+
+    settingsButton.addActionListener( new ActionListener() {
+      public void actionPerformed(ActionEvent ae) {
+        menu.show(settingsButton, -ICON_BUTTON_SIZE*2, ICON_BUTTON_SIZE/2);
+      }
+    } );
     settingsPanel.add(settingsButton);
 
     settingsPanel.setOpaque(false);
