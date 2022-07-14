@@ -2,6 +2,7 @@ package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.Player;
+import azul.team12.view.IconButton;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -32,9 +33,8 @@ public class RankingBoard extends JPanel {
   public RankingBoard(Controller controller) {
     this.controller = controller;
     this.playersList = controller.rankingPlayerWithPoints();
-
+    this.setOpaque(false);
     createRankingArea();
-
   }
 
   /**
@@ -43,7 +43,6 @@ public class RankingBoard extends JPanel {
   private void createRankingArea() {
     rankingBoardPanel = new JPanel();
     Border border = BorderFactory.createTitledBorder(GAME_RANKING);
-
     rankingBoardPanel.setBorder(border);
 
     rankingBoardPanel.setMaximumSize(new Dimension(600, 300));
@@ -54,6 +53,8 @@ public class RankingBoard extends JPanel {
           new JLabel(player.getName() + ": " + controller.getPoints(player.getName())));
     }
   }
+
+  //new JLabel playerRankLabel = new IconButton()
 
   /**
    * Updates the current points of all players.

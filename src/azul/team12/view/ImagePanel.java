@@ -1,6 +1,11 @@
 package azul.team12.view;
 
+import java.awt.Button;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
@@ -19,6 +24,8 @@ public class ImagePanel extends JPanel {
     private int width;
     private int height;
     private double scaleFactor;
+
+
 
 
     /**
@@ -59,6 +66,7 @@ public class ImagePanel extends JPanel {
         backgroundLabel.add(childPanel);
         add(backgroundLabel);
     }
+
 
 
 //    public ImagePanel(final URL imgURL1) {
