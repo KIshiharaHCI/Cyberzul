@@ -5,6 +5,7 @@ import azul.team12.model.ModelTile;
 import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,14 +20,18 @@ import java.util.List;
 /**
  * The tiles on the center of the table ("Tischmitte") (Center Board class)
  */
+@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
+    + "encapsulation is violated here and that this is in principle bad. However, as here just "
+    + "information of the view is possible to be changed from an external source and the "
+    + "model is safe, we think it is ok to suppress this warning.")
 public class TableCenterPanel extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private Controller controller;
-  private final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
-  private final int SPACE_BETWEEN_TILES_IN_PXL = 44;
+  private transient Controller controller;
+  private static final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
+  private static final int SPACE_BETWEEN_TILES_IN_PXL = 44;
   private int SPACE_FROM_TOP_EDGE_IN_PXL = 13;
-  private final int plateId = 0;
+  private static final int plateId = 0;
   private int TABLE_CENTER_SIZE_WIDTH_IN_PXL = 1100;
   private int TABLE_CENTER_HEIGHT_IN_PXL = 260;
   private transient List<SourceTile> tileList;
