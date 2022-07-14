@@ -4,6 +4,7 @@ import azul.team12.controller.Controller;
 import azul.team12.controller.GameController;
 import azul.team12.model.GameModel;
 import azul.team12.model.Model;
+import azul.team12.model.ModelStrategyChooser;
 import azul.team12.view.AzulView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +17,7 @@ public class AzulMain {
     //TODO: Change to Interface Model, not GameModel.
     LOGGER.trace("Entering the AzulGame application");
     LOGGER.info("Logging something.");
-    Model model = new GameModel();
+    Model model = new ModelStrategyChooser();
     Controller controller = new GameController(model);
     AzulView azulView = new AzulView(model, controller);
     azulView.setVisible(true);

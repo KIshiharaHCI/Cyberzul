@@ -33,7 +33,7 @@ import org.apache.logging.log4j.Logger;
  *
  * Contains the playing field of the Azul game, the list of players and the list of offerings.
  */
-public class GameModel extends CommonModel implements Model {
+public class GameModel extends CommonModel implements ModelStrategy {
 
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;

@@ -7,6 +7,7 @@ import azul.team12.model.ClientTableCenter;
 import azul.team12.model.CommonModel;
 import azul.team12.model.GameModel;
 import azul.team12.model.Model;
+import azul.team12.model.ModelStrategy;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
@@ -37,7 +38,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ClientModel extends CommonModel implements Model {
+public class ClientModel extends CommonModel implements ModelStrategy {
 
   private boolean loggedIn;
   private ClientNetworkConnection connection;
@@ -48,7 +49,8 @@ public class ClientModel extends CommonModel implements Model {
   public ClientModel() {
     super();
     loggedIn = false;
-    setConnection(new ClientNetworkConnection(this));
+    this.connection = new ClientNetworkConnection(this);
+    connection.start();
   }
 
   @Override

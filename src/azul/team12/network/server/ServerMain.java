@@ -4,6 +4,7 @@ import azul.team12.controller.Controller;
 import azul.team12.controller.GameController;
 import azul.team12.model.GameModel;
 import azul.team12.model.Model;
+import azul.team12.model.ModelStrategyChooser;
 import java.io.IOException;
 
 /**
@@ -19,7 +20,8 @@ public class ServerMain {
    * Launch the azul server.
    */
   public static void main(String[] args) throws IOException {
-    Model gameModel = new GameModel();
+    Model gameModel = new ModelStrategyChooser();
+    gameModel.setStrategy(Model.GAME_MODEL);
     Controller controller = new GameController(gameModel);
     final ServerNetworkConnection connection = new ServerNetworkConnection(gameModel,controller);
     connection.start();

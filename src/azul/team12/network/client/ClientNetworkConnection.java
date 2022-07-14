@@ -34,8 +34,8 @@ public class ClientNetworkConnection {
   private BufferedReader reader;
   private Thread thread;
 
-  public ClientNetworkConnection(Model model) {
-    this.model = (ClientModel) model;
+  public ClientNetworkConnection(ClientModel model) {
+    this.model = model;
   }
 
   /**

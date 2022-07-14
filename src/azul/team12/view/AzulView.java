@@ -95,8 +95,16 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
   private void addEventListeners() {
     tileClickListener = new TileClickListener(controller, model);
-    hotSeatModeButton.addActionListener(event -> showHSMCard());
-    networkButton.addActionListener(event -> showNetworkCard());
+    hotSeatModeButton.addActionListener(event -> {
+      //the model should behave like a game model
+      model.setStrategy(Model.GAME_MODEL);
+      showHSMCard();
+    });
+    networkButton.addActionListener(event -> {
+      //the model should behave like a client model
+      model.setStrategy(Model.CLIENT_MODEL);
+      showNetworkCard();
+    });
     playButton.addActionListener(event -> {
       controller.startGame();
     });
