@@ -38,7 +38,6 @@ public class GameModel extends CommonModel implements Model {
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
-  private final PropertyChangeSupport support;
   private int sleepTime = 100;
   private ArrayList<Player> playerList;
   private ArrayList<Offering> offerings;
@@ -55,32 +54,9 @@ public class GameModel extends CommonModel implements Model {
    * offerings.
    */
   public GameModel() {
-    support = new PropertyChangeSupport(this);
+    super();
     playerList = new ArrayList<>();
     offerings = new ArrayList<>();
-  }
-
-  public void addPropertyChangeListener(PropertyChangeListener listener) {
-    requireNonNull(listener);
-    support.addPropertyChangeListener(listener);
-  }
-
-  public void removePropertyChangeListener(PropertyChangeListener listener) {
-    requireNonNull(listener);
-    support.removePropertyChangeListener(listener);
-  }
-
-  /**
-   * Notify subscribed listeners that the state of the model has changed. To this end, a specific
-   * {@link GameEvent} gets fired such that the attached observers (i.e., {@link
-   * PropertyChangeListener}) can distinguish between what exactly has changed.
-   * {@link azul.team12.model.events.GameEvent} gets fired such that the attached observers (i.e.,
-   * {@link PropertyChangeListener}) can distinguish between what exactly has changed.
-   *
-   * @param event A concrete implementation of {@link GameEvent}
-   */
-  private void notifyListeners(GameEvent event) {
-    support.firePropertyChange(event.getName(), null, event);
   }
 
   /**

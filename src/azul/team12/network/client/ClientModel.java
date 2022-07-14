@@ -10,10 +10,13 @@ import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
+import azul.team12.model.events.GameCanceledEvent;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
+import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
+import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.model.events.LoggedInEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
@@ -36,7 +39,6 @@ import org.json.JSONObject;
 
 public class ClientModel extends CommonModel implements Model {
 
-  private final PropertyChangeSupport support;
   private boolean loggedIn;
   private ClientNetworkConnection connection;
   private String thisPlayersName;
@@ -44,34 +46,9 @@ public class ClientModel extends CommonModel implements Model {
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
 
   public ClientModel() {
-
+    super();
     loggedIn = false;
-
-    support = new PropertyChangeSupport(this);
-
     setConnection(new ClientNetworkConnection(this));
-  }
-
-  /**
-   * Add a {@link PropertyChangeListener} to the model to get notified about any changes that the
-   * the model publishes.
-   *
-   * @param listener the view that subscribes itself to the model.
-   */
-  public void addPropertyChangeListener(PropertyChangeListener listener) {
-    requireNonNull(listener);
-    support.addPropertyChangeListener(listener);
-  }
-
-  /**
-   * Remove a listener from the model. It will then no longer get notified about any events
-   * fired by the model.
-   *
-   * @param listener the view that is to be unsubscribed from the model.
-   */
-  public void removePropertyChangeListener(PropertyChangeListener listener) {
-    requireNonNull(listener);
-    support.removePropertyChangeListener(listener);
   }
 
   @Override
@@ -203,15 +180,6 @@ public class ClientModel extends CommonModel implements Model {
       list.add(player.getName());
     }
     return list;
-  }
-
-  /**
-   * Notify subscribed listeners that the state of the model has changed. To this end, a specific
-   * {@link GameEvent} gets fired such that the attached observers (i.e., {@link
-   * PropertyChangeListener}) can distinguish between what exactly has changed.
-   */
-  void notifyListeners(GameEvent event) {
-    support.firePropertyChange(event.getName(), null, event);
   }
 
   private synchronized ClientNetworkConnection getConnection() {
@@ -542,6 +510,18 @@ public class ClientModel extends CommonModel implements Model {
 
   public String getPlayerName() {
     return this.thisPlayersName;
+  }
+
+  public void handleIllegalTurn() {
+    notifyListeners(new IllegalTurnEvent());
+  }
+
+  public void handleGameCanceled(String playerWhoCanceledGame) {
+    notifyListeners(new GameCanceledEvent(playerWhoCanceledGame));
+  }
+
+  public void handleGameForfeited(String playerWhoForfeitedTheGame){
+    notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
   }
 }
 
