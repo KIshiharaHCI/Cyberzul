@@ -41,7 +41,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private JButton testTwoPlayersButton;
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
   private JLabel gameLogoLabel;
-  private JLabel backgroundLabel;
   private TileClickListener tileClickListener;
   private final double BACKGROUND_SCALE_FACTOR = 1;
 
@@ -88,6 +87,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     selectModeLabel = new JLabel("Select Mode");
     URL resource = getClass().getClassLoader().getResource("img/gamelogo.png");
     ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("img/gamelogo.png"));
+    icon = new ImageIcon(icon.getImage().getScaledInstance(800,130, Image.SCALE_SMOOTH));
     gameLogoLabel = new JLabel(icon);
   }
 
