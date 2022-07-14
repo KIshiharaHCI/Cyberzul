@@ -22,6 +22,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,6 +44,8 @@ public class GameModel implements Model {
   private int indexOfActivePlayer = 0;
   private Offering currentOffering;
   private int currentIndexOfTile;
+  private Random ran = new Random();
+
 
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
@@ -96,9 +99,7 @@ public class GameModel implements Model {
     }
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void startGame() {
     if (playerList.size() < MIN_PLAYER_NUMBER) {
       notifyListeners(new GameNotStartableEvent(GameNotStartableEvent.NOT_ENOUGH_PLAYER));
@@ -110,9 +111,7 @@ public class GameModel implements Model {
     }
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void restartGame() {
 
     TableCenter.getInstance().initializeContent();
@@ -135,9 +134,7 @@ public class GameModel implements Model {
 
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void cancelGame() {
     LOGGER.info(getNickOfActivePlayer() + " wants to end the game for all player.");
     TableCenter.getInstance().initializeContent();
@@ -166,9 +163,7 @@ public class GameModel implements Model {
     }
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void endTurn() {
     boolean roundFinished = checkRoundFinished();
     if (roundFinished) {
@@ -198,9 +193,7 @@ public class GameModel implements Model {
 
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void replaceActivePlayerByAi() {
     LOGGER.info(getNickOfActivePlayer() + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(getNickOfActivePlayer());
@@ -212,9 +205,7 @@ public class GameModel implements Model {
     makeAiPlayerMakeMove(getNickOfActivePlayer());
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void makeAiPlayerMakeMove(String nickOfAiPlayer) {
     // get not empty offerings
     List<Offering> offeringsClone = getOfferings();
@@ -236,13 +227,14 @@ public class GameModel implements Model {
           + "make a turn. Game was restarted automatically.");
     } else {
 
+
       // get a random offering
-      int randomOfferingIndex = (int) (Math.random() * offeringsClone.size());
+      int randomOfferingIndex = ran.nextInt(0, offeringsClone.size());
       Offering randomOffering = offeringsClone.get(randomOfferingIndex);
-      int offeringsSize = randomOffering.getContent().size();
 
       // get a random tile on that offering
-      int randomOfferingTileIndex = (int) (Math.random() * offeringsSize);
+      int offeringsSize = randomOffering.getContent().size();
+      int randomOfferingTileIndex = ran.nextInt(0, offeringsSize);
       notifyTileChosen(nickOfAiPlayer, randomOfferingTileIndex, randomOfferingIndex);
 
       Player activeAiPlayer = getPlayerByName(nickOfAiPlayer);
@@ -265,9 +257,7 @@ public class GameModel implements Model {
     }
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
     boolean thereIsValidPick = false;
     List<Offering> offeringsClone = getOfferings();
@@ -295,9 +285,7 @@ public class GameModel implements Model {
     }
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public boolean makeActivePlayerPlaceTile(int rowOfPatternLine) {
     LOGGER.info(
         getNickOfActivePlayer() + " tries to place a tile on patter line " + rowOfPatternLine
@@ -307,9 +295,7 @@ public class GameModel implements Model {
     return activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void tileFallsDown() {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
@@ -322,9 +308,7 @@ public class GameModel implements Model {
     }
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public boolean checkRoundFinished() {
     for (Offering offering : offerings) {
       // if any of the offerings still has a content, the round is not yet finished
@@ -335,9 +319,7 @@ public class GameModel implements Model {
     return true;
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public int getIndexOfPlayerWithSpm() {
     for (int i = 0; i < playerList.size(); i++) {
       Player player = playerList.get(i);
@@ -354,9 +336,7 @@ public class GameModel implements Model {
         + "no player had the SPM.");
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void startTilingPhase() {
     hasGameEnded = false;
     for (Player player : playerList) {
@@ -376,9 +356,7 @@ public class GameModel implements Model {
     }
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public String getPlayerWithMostPoints() {
     //TODO: What if two players have the same points?
     ArrayList<Integer> playerPoints = new ArrayList<>();
@@ -391,20 +369,16 @@ public class GameModel implements Model {
     return playerWithMostPoints.getName();
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public List<Player> rankingPlayerWithPoints() {
     List<Player> playerRankingList = playerList;
     Collections.sort(playerRankingList,
         (o1, o2) -> -Integer.compare(getPoints(o1.getName()), getPoints(o2.getName())));
     return playerRankingList;
-
   }
 
-  /**
-   * see {@link Model}.
-   */
+
+    @Override
   public int getIndexOfNextPlayer() {
     int indexOfNextPlayer;
     if (checkRoundFinished()) {
@@ -417,9 +391,7 @@ public class GameModel implements Model {
     return indexOfNextPlayer;
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public Player getPlayerByName(String nickname) {
     for (Player player : playerList) {
       if (player.getName().equals(nickname)) {
@@ -430,25 +402,19 @@ public class GameModel implements Model {
     return null;
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public ModelTile[][] getPatternLinesOfPlayer(String playerName) {
     Player player = getPlayerByName(playerName);
     return player.getPatternLines();
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public List<ModelTile> getFloorLineOfPlayer(String playerName) {
     Player player = getPlayerByName(playerName);
     return player.getFloorLine();
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public ModelTile[][] getWallOfPlayer(String playerName) {
 
     Player player = getPlayerByName(playerName);
@@ -470,9 +436,7 @@ public class GameModel implements Model {
 
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public List<String> getPlayerNamesList() {
     List<String> list = new ArrayList<>();
     for (Player player : playerList) {
@@ -481,25 +445,19 @@ public class GameModel implements Model {
     return list;
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public List<Offering> getOfferings() {
     @SuppressWarnings("unchecked") List<Offering> offeringsClone =
         (List<Offering>) offerings.clone();
     return offeringsClone;
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public int getIndexOfActivePlayer() {
     return indexOfActivePlayer;
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public int getPoints(String nickname) {
     for (Player player : playerList) {
       if (player.getName().equals(nickname)) {
@@ -510,9 +468,7 @@ public class GameModel implements Model {
     return 0;
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public int getMinusPoints(String nickname) {
     for (Player player : playerList) {
       if (player.getName().equals(nickname)) {
@@ -523,24 +479,7 @@ public class GameModel implements Model {
     return 0;
   }
 
-  /**
-   * see {@link Model}.
-   */
-  public List<Offering> getFactoryDisplays() {
-    // return the factory displays being the all but the first offering
-    return offerings.subList(1, offerings.size());
-  }
-
-  /**
-   * see {@link Model}.
-   */
-  public Offering getTableCenter() {
-    return TableCenter.getInstance();
-  }
-
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public String getNickOfActivePlayer() {
     return playerList.get(indexOfActivePlayer).getName();
   }
