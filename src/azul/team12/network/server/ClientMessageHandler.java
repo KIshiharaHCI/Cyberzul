@@ -137,7 +137,7 @@ public class ClientMessageHandler implements Runnable {
       case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
       case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
-      case REPLACE_PLAYER_BY_AI -> {}
+      case REPLACE_PLAYER_BY_AI -> {controller.replacePlayerByAI(nickname);}
       case RESTART_GAME -> controller.restartGame();
       case CANCEL_GAME -> controller.cancelGameForAllPlayers();
       default -> throw new AssertionError("Unable to handle message " + object);

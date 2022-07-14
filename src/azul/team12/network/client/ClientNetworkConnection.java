@@ -124,13 +124,11 @@ public class ClientNetworkConnection {
       case NO_VALID_TURN_TO_MAKE -> model.handleNoValidTurnToMake();
       case GAME_NOT_STARTABLE -> model.handleGameNotStartable(
           object.getString(JsonMessage.ADDITIONAL_INFORMATION));
-      case ILLEGAL_TURN -> model.notifyListeners(new IllegalTurnEvent());
+      case ILLEGAL_TURN -> model.handleIllegalTurn();
       case ROUND_FINISHED -> model.handleRoundFinished(object);
       case GAME_FINISHED -> model.handleGameFinishedEvent(object);
-      case GAME_CANCELED -> model.notifyListeners(
-          new GameCanceledEvent(object.getString(JsonMessage.NICK_FIELD)));
-      case GAME_FORFEITED -> model.notifyListeners(
-          new GameForfeitedEvent(object.getString(JsonMessage.NICK_FIELD)));
+      case GAME_CANCELED -> model.handleGameCanceled(object.getString(JsonMessage.NICK_FIELD));
+      case GAME_FORFEITED -> model.handleGameForfeited(object.getString(JsonMessage.NICK_FIELD));
       /*
       case USER_JOINED:
         handleUserJoined(object);
