@@ -1,6 +1,7 @@
 package azul.team12.network.client;
 
 import azul.team12.model.Model;
+import azul.team12.network.client.messages.PlayerTextMessage;
 import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -193,22 +194,16 @@ public class ClientNetworkConnection {
     send(login);
   }
 
-  //TODO: Commented out code
-  /*
-
   /**
    * Send a chat message to the server.
    *
-   * @param chatMessage The {@link UserTextMessage} containing the message of the user.
+   * @param chatMessage The {@link PlayerTextMessage} containing the message of the player.
    */
 
-  /*
-  public void sendMessage(UserTextMessage chatMessage) {
+  public void playerSendMessage(PlayerTextMessage chatMessage) {
     JSONObject message = JsonMessage.postMessage(chatMessage.getContent());
     send(message);
   }
-
-   */
 
 
   synchronized void send(JSONObject message) {

@@ -5,6 +5,8 @@ import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
+
+import javax.swing.*;
 import java.util.List;
 
 public class ClientController implements Controller {
@@ -114,5 +116,11 @@ public class ClientController implements Controller {
   public void cancelGameForAllPlayers() {
 
   }
+
+
+  public void postChatMessage(String text) {
+    model.postChatMessage(text);
+  }
+
 
 }
