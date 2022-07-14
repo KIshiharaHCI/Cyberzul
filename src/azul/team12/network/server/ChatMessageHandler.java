@@ -86,9 +86,11 @@ public class ChatMessageHandler extends ClientMessageHandler {
         if (nickname == null || nickname.isBlank()) {
             System.out.println("Please login before sending messages.");
         }
-
-        JSONObject cheatMessage = JsonMessage.createCheatMessage(nickname, AZUL_STRATEGY);
-        serverConnection.broadcast(this, cheatMessage);
+        String content = JsonMessage.getContent(object);
+        if (content.equals("HELP")){
+            JSONObject cheatMessage = JsonMessage.createCheatMessage(nickname, AZUL_STRATEGY);
+            serverConnection.broadcast(this, cheatMessage);
+        }
 
     }
 
