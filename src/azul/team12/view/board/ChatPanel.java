@@ -55,24 +55,10 @@ public class ChatPanel extends JPanel {
   gbc.insets = new Insets(defaultInset, defaultInset, defaultInset, defaultInset);
   gbc.gridy = 1;
   this.add(inputArea, gbc);
-}
 
-  /*@Override
-  public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-    SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
   }
 
-  private void handleModelUpdate(PropertyChangeEvent event) {
-    Object newValue = event.getNewValue();
-    if (newValue instanceof ChatMessageRemovedEvent msgRemovedEvent) {
-      listModel.removeElement(msgRemovedEvent.getMessage());
-    } else if (newValue instanceof PlayerAddedMessageEvent msgAddedEvent) {
-      listModel.addElement(msgAddedEvent.getMessage());
-    } else if (newValue instanceof LoggedInEvent) {
-      JOptionPane.showMessageDialog(this,
-              String.format("Welcome to Cyberzul. Good Luck!"));
-    }
-  }*/
+
 
 
 

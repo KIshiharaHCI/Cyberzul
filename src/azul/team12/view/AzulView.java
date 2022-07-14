@@ -3,10 +3,8 @@ package azul.team12.view;
 import azul.team12.controller.Controller;
 import azul.team12.model.GameModel;
 import azul.team12.model.Model;
-import azul.team12.model.events.GameFinishedEvent;
-import azul.team12.model.events.GameNotStartableEvent;
-import azul.team12.model.events.LoggedInEvent;
-import azul.team12.model.events.LoginFailedEvent;
+import azul.team12.model.events.*;
+import azul.team12.network.client.messages.Message;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
 import org.apache.logging.log4j.LogManager;
@@ -50,6 +48,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
 
   private transient Model model;
   private transient Controller controller;
+
+  private DefaultListModel<Message> listModel;
 
   private GameBoard gameBoard;
   private TileClickListener tileClickListener;
@@ -221,6 +221,15 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         //TODO: FILL WITH FUNCTIONALITY
       }
       case "NoValidTurnToMakeEvent" -> showErrorMessage("No Valied Turn to make");
+      case "PlayerAddedMessageEvent" -> {
+        PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+        listModel.addElement(playerAddedMessageEvent.getMessage());
+      }
+      case "ChatMessageRemovedEvent" -> {
+        ChatMessageRemovedEvent chatMessageRemovedEvent = (ChatMessageRemovedEvent) customMadeGameEvent;
+        listModel.removeElement(chatMessageRemovedEvent.getMessage());
+
+      }
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
