@@ -4,11 +4,14 @@ import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.WallBackgroundPattern;
+import azul.team12.network.client.ClientModel;
+
 import java.util.List;
 
 public class GameController implements Controller {
 
   private Model model;
+  private ClientModel clientModel;
 
   public GameController(Model model){
     this.model = model;
@@ -113,5 +116,11 @@ public class GameController implements Controller {
   public void cancelGameForAllPlayers() {
     model.cancelGame();
   }
+
+  @Override
+  public void postChatMessage(String text) {
+    clientModel.postChatMessage(text);
+  }
+
 
 }

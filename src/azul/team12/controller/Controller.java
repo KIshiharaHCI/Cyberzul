@@ -155,4 +155,6 @@ public interface Controller {
    * tells the model that a given player wants to cancel the game. Makes the game end.
    */
   void cancelGameForAllPlayers();
+
+  public void postChatMessage(String text);
 }

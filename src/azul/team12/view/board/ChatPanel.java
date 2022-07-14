@@ -32,9 +32,6 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
 
   private void initializeWidgets() {
 
-    listModel = new DefaultListModel<>();
-    JList<Message> chatList = new JList<>(listModel);
-    chatList.setCellRenderer(new ChatCellRenderer());
 
     scrollPane = new JScrollPane();
     scrollPane.setPreferredSize(new Dimension(this.getWidth(), DEFAULT_HEIGHT));
