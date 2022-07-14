@@ -15,21 +15,15 @@ public class FloorLinePanel extends JPanel {
   private final int NUMBER_OF_FLOOR_TILES = 7;
   private transient TileClickListener tileClickListener;
   private JPanel contentBottom, contentUpper;
+  private int tileSize;
 
-  public FloorLinePanel(String userName, Controller controller, TileClickListener tileClickListener,
-
-      int minusPoints) {
+  public FloorLinePanel(String userName, Controller controller, TileClickListener tileClickListener, int minusPoints, int tileSize) {
     this.controller = controller;
     this.tileClickListener = tileClickListener;
-    setProperties(Tile.TILE_SIZE, 2, 1, this);
-    // add(new JLabel("   Minus Points: " + minusPoints));
-//    JButton floorLineButton = new JButton("Floor Line");
-//    floorLineButton.addActionListener(e -> {
-//      controller.placeTileAtFloorLine();
-//      controller.endTurn(controller.getNickOfActivePlayer());
-//    });
-    // add(floorLineButton);
-    addUpperNumbersRow();
+    this.tileSize = tileSize;
+    setProperties(tileSize, 2, 1, this);
+
+    add(Box.createVerticalStrut(tileSize / 2));
     addBottomTilesRow(userName);
   }
 
@@ -48,15 +42,15 @@ public class FloorLinePanel extends JPanel {
 
   private void addBottomTilesRow(String userName) {
     contentBottom = new JPanel();
-    ViewHelper.setPropertiesOfCurrentRow(Tile.TILE_SIZE, 7, 1, contentBottom);
+    ViewHelper.setPropertiesOfCurrentRow(tileSize, 7, 1, contentBottom);
     for (int col = 1; col <= NUMBER_OF_FLOOR_TILES; col++) {
 
       List<ModelTile> floorLineOfPlayer = controller.getFloorLineOfPlayer(userName);
       if (floorLineOfPlayer.size() >= col) {
-        WallTile filledFloorLineTile = new WallTile(col,1, floorLineOfPlayer.get(col - 1),Tile.NORMAL_TILE_SIZE, 1f);
+        WallTile filledFloorLineTile = new WallTile(col,1, floorLineOfPlayer.get(col - 1), tileSize, 1f);
         contentBottom.add(filledFloorLineTile);
       } else {
-        DestinationTile emptyFloorLineTile = new DestinationTile(col, 1, ModelTile.EMPTY_TILE, tileClickListener,Tile.TILE_SIZE);
+        DestinationTile emptyFloorLineTile = new DestinationTile(col, 1, ModelTile.EMPTY_TILE, tileClickListener,tileSize);
         contentBottom.add(emptyFloorLineTile);
       }
     }
@@ -65,7 +59,7 @@ public class FloorLinePanel extends JPanel {
 
   private void addUpperNumbersRow() {
     contentUpper = new JPanel();
-    ViewHelper.setPropertiesOfCurrentRow(Tile.TILE_SIZE, 7, 1, contentUpper);
+    ViewHelper.setPropertiesOfCurrentRow(tileSize, 7, 1, contentUpper);
     for (int i = 0; i < NUMBER_OF_FLOOR_TILES; i++) {
       String text;
       if (i < 2) {

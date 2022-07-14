@@ -107,7 +107,7 @@ public abstract class PlayerBoard extends JPanel {
   }
 
   private void addMinusPointsElements() {
-    floorLinePanel = new FloorLinePanel(playerName, controller, tileClickListener, minusPoints);
+    floorLinePanel = new FloorLinePanel(playerName, controller, tileClickListener, minusPoints, tileSize);
     playerBoardWrapper.add(floorLinePanel, BorderLayout.SOUTH);
 
   }
