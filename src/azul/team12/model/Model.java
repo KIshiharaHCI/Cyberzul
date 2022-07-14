@@ -107,8 +107,6 @@ public interface Model {
   void tileFallsDown();
 
   /**
-<<<<<<< HEAD
-=======
    * Checks whether there is still an offering with a non-empty content.
    *
    * @return <code>true</code> if the round is finished, <code>false</code> if not.
@@ -130,7 +128,6 @@ public interface Model {
   void startTilingPhase();
 
   /**
->>>>>>> main
    * Finds the player with the most points.
    *
    * @return the name of the player with most points.
@@ -233,5 +230,6 @@ public interface Model {
   public String getNickOfActivePlayer();
 
 
-  void postChatMessage(String text);
+
+
 }

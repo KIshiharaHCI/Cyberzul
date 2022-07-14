@@ -11,6 +11,8 @@ import azul.team12.model.Offering;
 import azul.team12.model.Player;
 import azul.team12.model.events.*;
 import azul.team12.network.client.messages.Message;
+import azul.team12.network.client.messages.PlayerJoinedChatMessage;
+import azul.team12.network.client.messages.PlayerLeftGameMessage;
 import azul.team12.network.client.messages.PlayerTextMessage;
 import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeListener;
@@ -48,7 +50,7 @@ public class ClientModel implements Model {
     support = new PropertyChangeSupport(this);
 
     setConnection(new ClientNetworkConnection(this));
-    playerMessages = new ArrayList<>();
+    playerMessages = Collections.synchronizedList(new ArrayList<>());
   }
 
   /**
@@ -480,11 +482,25 @@ public class ClientModel implements Model {
 
 
   /**
+   * Add a status-update entry "Player joined" to the list of chat entries.
+   * Used by the network layer to update the model accordingly.
+   * Notify the Listeners that one Player joins the game.
+   * @param nickname The name of the newly joined user.
+   */
+  public void playerJoined(String nickname) {
+    this.thisPlayersName = nickname;
+    addChatEntry(new PlayerJoinedChatMessage(nickname));
+    notifyListeners(new PlayerAddedEvent(nickname));
+  }
+  /**
+   * Add a status-update entry "Player has left the chat" to the list of chat entries.
+   * Used by the network layer to update the model accordingly.
    * Notify the Listeners that one Player lefts the game.
    * @param nickname The name of the player who lefts the game.
    */
   public void playerLeft(final String nickname) {
     this.thisPlayersName = nickname;
+    addChatEntry(new PlayerLeftGameMessage(nickname));
     notifyListeners(new GameForfeitedEvent(nickname));
 
   }
@@ -519,7 +535,7 @@ public class ClientModel implements Model {
   }
 
   /**
-   * Return a list of all chat-entries, including both user-message entries and status-update
+   * Return a list of all chat-message-entries, including both user-message entries and status-update
    * entries in the chat.
    *
    * @return a copy of a sorted list containing the entries of the chat.

@@ -1,18 +1,16 @@
 package azul.team12.view.board;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import azul.team12.model.events.ChatMessageRemovedEvent;
+import azul.team12.model.events.LoggedInEvent;
+import azul.team12.model.events.LoginFailedEvent;
+import azul.team12.model.events.PlayerAddedMessageEvent;
+import azul.team12.network.client.messages.Message;
+import azul.team12.view.ChatCellRenderer;
+
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 public class ChatPanel extends JPanel implements PropertyChangeListener {
   private static final int DEFAULT_HEIGHT = 500;
@@ -20,6 +18,8 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private static final int INPUTFIELD_HEIGHT = 3;
   private JTextArea inputArea;
   private JScrollPane scrollPane;
+
+  private DefaultListModel<Message> listModel;
 
 
   private final int defaultInset = 5;
@@ -31,6 +31,11 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   }
 
   private void initializeWidgets() {
+
+    listModel = new DefaultListModel<>();
+    JList<Message> chatList = new JList<>(listModel);
+    chatList.setCellRenderer(new ChatCellRenderer());
+
     scrollPane = new JScrollPane();
     scrollPane.setPreferredSize(new Dimension(this.getWidth(), DEFAULT_HEIGHT));
     scrollPane.setMaximumSize(new Dimension(this.getWidth(), DEFAULT_HEIGHT));
@@ -61,8 +66,16 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
   }
 
-  private void handleModelUpdate(PropertyChangeEvent event){
-
+  private void handleModelUpdate(PropertyChangeEvent event) {
+    Object newValue = event.getNewValue();
+    if (newValue instanceof ChatMessageRemovedEvent msgRemovedEvent) {
+      listModel.removeElement(msgRemovedEvent.getMessage());
+    } else if (newValue instanceof PlayerAddedMessageEvent msgAddedEvent) {
+      listModel.addElement(msgAddedEvent.getMessage());
+    } else if (newValue instanceof LoggedInEvent) {
+      JOptionPane.showMessageDialog(this,
+              String.format("Welcome to Cyberzul. Good Luck!"));
+    }
   }
 
 
