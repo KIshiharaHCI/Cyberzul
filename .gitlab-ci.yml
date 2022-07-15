@@ -19,7 +19,7 @@ build:
     - javac -d $OUTPUT_PATH -Xlint:all,-processing -Werror -g -cp "$CLASSPATH:$(cat libraries.txt)" @sources.txt
   artifacts:
     paths:
-    # Keep compiled java files and list of files
+      # Keep compiled java files and list of files
       - $OUTPUT_PATH
       - sources.txt
       - libraries.txt
@@ -27,7 +27,7 @@ build:
 spotbugs:
   stage: test
   script:
-    - spotbugs -auxclasspath "$CLASSPATH:$(lib/annotations.jar)" -textui -longBugCodes -effort:max -exitcode $OUTPUT_PATH
+    - spotbugs -auxclasspath "$CLASSPATH:$(cat libraries.txt)" -textui -longBugCodes -effort:max -exitcode $OUTPUT_PATH
 
 checkstyle:
   stage: test
@@ -37,10 +37,9 @@ checkstyle:
 unit-tests:
   stage: test
   script:
-    - java -jar $JUNIT5_PATH --class-path "$OUTPUT_PATH:$(lib/junit-platform-console-standalone-1.4.2.jar)" --scan-class-path
+    - java -jar $JUNIT5_PATH --class-path "$OUTPUT_PATH:$(cat libraries.txt)" --scan-class-path
 
 execute:
   stage: execute
   script:
     -  java -cp "$OUTPUT_PATH:$(cat libraries.txt)" cyberzul.CyberzulMain
-
