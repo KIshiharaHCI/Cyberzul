@@ -9,10 +9,7 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
 import cyberzul.model.events.*;
-import cyberzul.network.client.messages.Message;
-import cyberzul.network.client.messages.PlayerJoinedChatMessage;
-import cyberzul.network.client.messages.PlayerLeftGameMessage;
-import cyberzul.network.client.messages.PlayerLoggedInMessage;
+import cyberzul.network.client.messages.*;
 import cyberzul.shared.JsonMessage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -423,6 +420,20 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     notifyListeners(new GameForfeitedEvent(nickname));
 
   }
+
+  /**
+   * Send a chat-message to the server that is to be broadcasted to the other chat participants.
+   * Notify the Listeners that one Player sends message.
+   * @param message The message to be broadcasted.
+   */
+  public void postChatMessage(String message) {
+    PlayerTextMessage chatMessage = new PlayerTextMessage(thisPlayersName, new Date(), message);
+    addChatEntry(chatMessage);
+    getConnection().playerSendMessage(chatMessage);
+    notifyListeners(new PlayerAddedMessageEvent(chatMessage));
+  }
+
+
 
 
 

@@ -1,5 +1,6 @@
 package cyberzul.network.client;
 
+import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.server.Server;
 import cyberzul.shared.JsonMessage;
 import java.io.BufferedReader;
@@ -220,22 +221,17 @@ public class ClientNetworkConnection {
     send(login);
   }
 
-  //TODO: Commented out code
-  /*
 
   /**
    * Send a chat message to the server.
    *
-   * @param chatMessage The {@link UserTextMessage} containing the message of the user.
+   * @param chatMessage The {@link PlayerTextMessage} containing the message of the user.
    */
 
-  /*
-  public void sendMessage(UserTextMessage chatMessage) {
+  public void playerSendMessage(PlayerTextMessage chatMessage) {
     JSONObject message = JsonMessage.postMessage(chatMessage.getContent());
     send(message);
   }
-
-   */
 
 
   synchronized void send(JSONObject message) {
