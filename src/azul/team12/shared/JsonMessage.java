@@ -31,6 +31,7 @@ public enum JsonMessage {
   REPLACE_PLAYER_BY_AI("replace player by ai"),
 
   //messages from the server to the client
+  CONNECTED("connected"),
   GAME_STARTED("game started"),
   NOT_YOUR_TURN("not your turn"),
   NEXT_PLAYERS_TURN("next players turn"),

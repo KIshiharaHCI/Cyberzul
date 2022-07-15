@@ -129,13 +129,11 @@ public class ClientNetworkConnection {
 
   public void handleMessage(JSONObject object) throws JSONException {
     switch (JsonMessage.typeOf(object)) {
+      case CONNECTED -> model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));
       case LOGIN_SUCCESS -> model.loggedIn();
       case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
       case GAME_STARTED -> handleGameStarted(object);
-      case USER_JOINED -> {
-        //TODO IMPLEMENT CHAT HERE @XUE
-      }
-      //TODO: Commented out code
+      case USER_JOINED -> model.userJoined(object.getString(JsonMessage.NICK_FIELD));
       case USER_LEFT -> {
         //TODO: IMPLEMENT CHAT HERE @XUE
       }

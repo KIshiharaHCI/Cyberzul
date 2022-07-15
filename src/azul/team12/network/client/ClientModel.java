@@ -11,6 +11,7 @@ import azul.team12.model.ModelStrategy;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
+import azul.team12.model.events.ConnectedWithServerEvent;
 import azul.team12.model.events.GameCanceledEvent;
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
@@ -26,6 +27,7 @@ import azul.team12.model.events.NotYourTurnEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.model.events.RoundFinishedEvent;
+import azul.team12.model.events.UserJoinedEvent;
 import azul.team12.shared.JsonMessage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -106,6 +108,22 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
+   * Gets invoked if the client connects with the server. Even before he logs in with his name.
+   * He then already gets the information about the names of the players who already joined and
+   * saves them in his playerList
+   *
+   * @param playerNames the names of the players who already joined the server as JSONArray
+   */
+  public void connected(JSONArray playerNames){
+    try {
+      setUpClientPlayersByName(playerNames);
+      notifyListeners(new ConnectedWithServerEvent());
+    } catch (JSONException jsonException) {
+      jsonException.printStackTrace();
+    }
+  }
+
+  /**
    * Send a login request to the server.
    *
    * @param nickname the chosen nickname of the chat participant.
@@ -118,10 +136,23 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Update the model accordingly when a login attempt is successful. This is afterwards published
    * to the subscribed listeners.
+   *
+   * @param playerNames all player that are currently logged in into the model
    */
   public void loggedIn() {
-    setLoggedIn(true);
-    notifyListeners(new LoggedInEvent());
+      setLoggedIn(true);
+    playerList.add(new ClientPlayer(thisPlayersName));
+      notifyListeners(new LoggedInEvent());
+  }
+
+  /**
+   * Update the model accordingly when another user joined.
+   *
+   * @param nickname the player that joined the server.
+   */
+  public void userJoined(String nickname) {
+    playerList.add(new ClientPlayer(nickname));
+    notifyListeners(new UserJoinedEvent(nickname));
   }
 
   /**
@@ -138,6 +169,9 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    */
   public void handleGameStarted(JSONArray offerings, JSONArray playerNames) throws JSONException {
     updateOfferings(offerings);
+    //player list gets updated. Just in case. We didn't run in a bug yet, but the integrity of the
+    //order of players in the game is much more important than saving a few Strings in a JSON
+    //message.
     setUpClientPlayersByName(playerNames);
     indexOfActivePlayer = 0;
     try {
@@ -360,7 +394,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     notifyListeners(new GameCanceledEvent(playerWhoCanceledGame));
   }
 
-  public void handleGameForfeited(String playerWhoForfeitedTheGame){
+  public void handleGameForfeited(String playerWhoForfeitedTheGame) {
     notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
   }
 }

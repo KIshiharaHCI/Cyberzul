@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,6 +66,23 @@ public class ClientMessageHandler implements Runnable {
         new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
     writer = new BufferedWriter(
         new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
+
+    sendConnectedMessage();
+  }
+
+  /**
+   * Sends a message to the client that tells it that it connected and also who already logged in
+   * to the server.
+   */
+  private void sendConnectedMessage() {
+    try {
+      JSONObject connectedMessage = JsonMessage.createMessageOfType(JsonMessage.CONNECTED);
+      connectedMessage.put(JsonMessage.PLAYER_NAMES_FIELD,
+          JsonMessage.parsePlayerNamesToJSONArray(model.getPlayerNamesList()));
+      send(connectedMessage);
+    } catch (JSONException | IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -79,12 +97,11 @@ public class ClientMessageHandler implements Runnable {
         JSONObject object = new JSONObject(line);
         handleMessage(object);
       }
-    } catch (SocketException socketException){
+    } catch (SocketException socketException) {
       //if a player leaves the game by closing the window, he gets replaced by an AI
       if (socketException.getMessage().equals("Connection reset") && controller.isGameStarted()) {
         controller.replacePlayerByAI(nickname);
-      }
-      else{
+      } else {
         socketException.printStackTrace();
       }
     } catch (IOException | JSONException e) {
@@ -137,7 +154,9 @@ public class ClientMessageHandler implements Runnable {
       case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
       case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
-      case REPLACE_PLAYER_BY_AI -> {controller.replacePlayerByAI(nickname);}
+      case REPLACE_PLAYER_BY_AI -> {
+        controller.replacePlayerByAI(nickname);
+      }
       case RESTART_GAME -> controller.restartGame();
       case CANCEL_GAME -> controller.cancelGameForAllPlayers();
       default -> throw new AssertionError("Unable to handle message " + object);
@@ -154,7 +173,7 @@ public class ClientMessageHandler implements Runnable {
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
   private void handleLogin(JSONObject object) throws IOException {
-    if(controller.isGameStarted()){
+    if (controller.isGameStarted()) {
       send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.GAME_ALREADY_STARTED));
       return;
     }
@@ -172,8 +191,15 @@ public class ClientMessageHandler implements Runnable {
 
     setNickname(nick);
     controller.addPlayer(nick);
-    send(JsonMessage.loginSuccess());
-    serverConnection.broadcast(this, JsonMessage.userJoined(nick));
+    try {
+      send(JsonMessage.loginSuccess());
+
+      JSONObject userJoinedMessage = JsonMessage.createMessageOfType(JsonMessage.USER_JOINED);
+      userJoinedMessage.put(JsonMessage.NICK_FIELD, nick);
+      serverConnection.broadcast(this, userJoinedMessage);
+    } catch (JSONException jsonException) {
+      jsonException.printStackTrace();
+    }
   }
 
   /**
@@ -182,10 +208,9 @@ public class ClientMessageHandler implements Runnable {
   private void handleStartGame() throws IOException {
     if (GameModel.MIN_PLAYER_NUMBER > model.getPlayerNamesList().size()) {
       send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.NOT_ENOUGH_PLAYER));
-    } else if(controller.isGameStarted()){
+    } else if (controller.isGameStarted()) {
       send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.GAME_ALREADY_STARTED));
-    }
-    else {
+    } else {
       controller.startGame();
     }
   }

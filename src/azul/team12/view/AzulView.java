@@ -2,10 +2,12 @@ package azul.team12.view;
 
 import azul.team12.controller.Controller;
 import azul.team12.model.Model;
+import azul.team12.model.events.ConnectedWithServerEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.LoginFailedEvent;
+import azul.team12.model.events.UserJoinedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
 import org.apache.logging.log4j.LogManager;
@@ -203,8 +205,12 @@ public class AzulView extends JFrame implements PropertyChangeListener {
       }
       case "LoggedInEvent" -> {
         this.setTitle("Cyberzul - " + model.getPlayerName());
+        numberOfLoggedInPlayersLabel.setText(
+            "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showErrorMessage("successfully logged in");
       }
+      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
+          "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
