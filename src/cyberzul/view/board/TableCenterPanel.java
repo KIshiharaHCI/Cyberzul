@@ -4,7 +4,6 @@ import cyberzul.controller.Controller;
 import cyberzul.model.ModelTile;
 import cyberzul.model.TableCenter;
 import cyberzul.view.listeners.TileClickListener;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -16,13 +15,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/*
+justification = "We are aware that data "
+    + "encapsulation is violated here and that this is in principle bad. However, as here just "
+    + "information of the view is possible to be changed from an external source and the "
+    + "model is safe, we think it is ok to suppress this warning."
+ */
 /**
  * The tiles on the center of the table ("Tischmitte") (Center Board class)
  */
-@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
-    + "encapsulation is violated here and that this is in principle bad. However, as here just "
-    + "information of the view is possible to be changed from an external source and the "
-    + "model is safe, we think it is ok to suppress this warning.")
+@SuppressWarnings(value = "EI_EXPOSE_REP")
 public class TableCenterPanel extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;

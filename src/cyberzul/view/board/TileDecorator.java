@@ -1,7 +1,6 @@
 package cyberzul.view.board;
 
 import cyberzul.model.ModelTile;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -82,11 +81,14 @@ public abstract class TileDecorator extends JPanel implements Tile {
     return ROW;
   }
 
-  @Override
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
+  /*
+  justification = "We are aware that data "
       + "encapsulation is violated here and that this is in principle bad. However, as here just "
       + "information of the view is possible to be changed from an external source and the "
-      + "model is safe, we think it is ok to suppress this warning.")
+      + "model is safe, we think it is ok to suppress this warning."
+   */
+  @Override
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
   public JLabel getLabel() {
     return label;
   }

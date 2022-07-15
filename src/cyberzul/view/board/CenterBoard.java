@@ -3,7 +3,6 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.model.Offering;
 import cyberzul.view.listeners.TileClickListener;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,13 +10,16 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+/*
+justification = "We are aware that data "
+    + "encapsulation is violated here and that this is in principle bad. However, as here just "
+    + "information of the view is possible to be changed from an external source and the "
+    + "model is safe, we think it is ok to suppress this warning."
+ */
 /**
  * The center of the table ("Tischmitte").
  */
-@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
-    + "encapsulation is violated here and that this is in principle bad. However, as here just "
-    + "information of the view is possible to be changed from an external source and the "
-    + "model is safe, we think it is ok to suppress this warning.")
+@SuppressWarnings(value = "EI_EXPOSE_REP")
 public class CenterBoard extends JPanel {
 
   private static final long serialVersionUID = 5L;

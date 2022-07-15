@@ -1,6 +1,5 @@
 package cyberzul.view.board;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.AlphaComposite;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -9,13 +8,16 @@ import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+/*
+justification = "We are aware that data "
+    + "encapsulation is violated here and that this is in principle bad. However, as here just "
+    + "information of the view is possible to be changed from an external source and the "
+    + "model is safe, we think it is ok to suppress this warning."
+ */
 /**
  * An Icon Wrapper class that paints the contained icon with a specified transparency.
  */
-@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
-    + "encapsulation is violated here and that this is in principle bad. However, as here just "
-    + "information of the view is possible to be changed from an external source and the "
-    + "model is safe, we think it is ok to suppress this warning.")
+@SuppressWarnings(value = "EI_EXPOSE_REP")
 public class TransparentImageIcon extends ImageIcon {
 
   private static final long serialVersionUID = 6L;

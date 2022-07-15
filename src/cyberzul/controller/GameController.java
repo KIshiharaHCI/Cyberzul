@@ -4,16 +4,18 @@ import cyberzul.model.Model;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.WallBackgroundPattern;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 
 public class GameController implements Controller {
 
   private Model model;
 
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
+  /*
+  justification = "We are aware that data "
       + "encapsulation is violated here and that this is in principle bad. However, it is "
-      + "intended, because the controller needs to be able to invoke methods of the model. ")
+      + "intended, because the controller needs to be able to invoke methods of the model. "
+   */
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
   public GameController(Model model) {
     this.model = model;
   }
