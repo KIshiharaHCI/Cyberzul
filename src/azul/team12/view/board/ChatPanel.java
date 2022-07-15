@@ -20,6 +20,8 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private static final int INPUTFIELD_HEIGHT = 3;
   private JTextArea inputArea;
   private JScrollPane scrollPane;
+  private static final long serialVersionUID = 13L;
+
 
 
   private static final int defaultInset = 5;
