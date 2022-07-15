@@ -2,11 +2,10 @@ package azul.team12.view.board;
 
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
 /**
  * This is the Panel on which the Factory Displays get positioned.
@@ -22,7 +21,6 @@ public class PlatesPanel extends JPanel {
 
   public PlatesPanel(List<Offering> factoryDisplays, TileClickListener tileClickListener) {
     setAlignmentX(Component.LEFT_ALIGNMENT);
-
 
     initialize(factoryDisplays, tileClickListener);
   }

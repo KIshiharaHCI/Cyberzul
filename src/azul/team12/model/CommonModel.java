@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.PlayerDoesNotExistEvent;
-import azul.team12.network.client.ClientPlayer;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -19,11 +18,10 @@ import org.apache.logging.log4j.Logger;
 public abstract class CommonModel implements ModelStrategy {
 
   private static final Logger LOGGER = LogManager.getLogger(CommonModel.class);
-
+  protected final PropertyChangeSupport support;
   protected int indexOfActivePlayer;
   protected ArrayList<Player> playerList = new ArrayList<>();
   protected ArrayList<Offering> offerings;
-  protected final PropertyChangeSupport support;
   protected boolean isGameStarted = false;
 
   public CommonModel() {
@@ -44,8 +42,8 @@ public abstract class CommonModel implements ModelStrategy {
 
   /**
    * Notify subscribed listeners that the state of the model has changed. To this end, a specific
-   * {@link GameEvent} gets fired such that the attached observers (i.e., {@link
-   * PropertyChangeListener}) can distinguish between what exactly has changed.
+   * {@link GameEvent} gets fired such that the attached observers (i.e.,
+   * {@link PropertyChangeListener}) can distinguish between what exactly has changed.
    * {@link azul.team12.model.events.GameEvent} gets fired such that the attached observers (i.e.,
    * {@link PropertyChangeListener}) can distinguish between what exactly has changed.
    *

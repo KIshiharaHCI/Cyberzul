@@ -5,7 +5,6 @@ import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
 import azul.team12.model.events.GameCanceledEvent;
-import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
@@ -16,8 +15,6 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
 import javax.swing.SwingUtilities;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +22,8 @@ import org.json.JSONObject;
 /**
  * Handles the events that are fired from the GameModel to the Server.
  * <p>
- * Some messages are only broadcasted to the active player while others are broadcasted to everyone.
+ * Some messages are only broadcasted to the active player while others are broadcasted to
+ * everyone.
  */
 public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
@@ -92,16 +90,15 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
     }
   }
 
-  private void handleGameFinishedEvent(Object customMadeGameEvent){
+  private void handleGameFinishedEvent(Object customMadeGameEvent) {
     GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
     String winner = gameFinishedEvent.getWinner();
-    try{
+    try {
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_FINISHED);
-      message.put(JsonMessage.PLAYER_FIELD,completePlayerUpdateMessage());
-      message.put(JsonMessage.NICK_FIELD,winner);
+      message.put(JsonMessage.PLAYER_FIELD, completePlayerUpdateMessage());
+      message.put(JsonMessage.NICK_FIELD, winner);
       connection.broadcastToAll(message);
-    }
-    catch (JSONException | IOException e){
+    } catch (JSONException | IOException e) {
       e.printStackTrace();
     }
   }
@@ -109,25 +106,27 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
   private void handleRoundFinishedEvent() {
     try {
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.ROUND_FINISHED);
-      message.put(JsonMessage.PLAYER_FIELD,completePlayerUpdateMessage());
+      message.put(JsonMessage.PLAYER_FIELD, completePlayerUpdateMessage());
       message.put(JsonMessage.INDEX_OF_PLAYER_WITH_SPM, model.getIndexOfPlayerWithSpm());
       connection.broadcastToAll(message);
-    }
-    catch (IOException | JSONException e){
+    } catch (IOException | JSONException e) {
       e.printStackTrace();
     }
   }
 
-  private JSONArray completePlayerUpdateMessage() throws JSONException{
+  private JSONArray completePlayerUpdateMessage() throws JSONException {
     JSONArray playerArray = new JSONArray();
     for (String playerName : model.getPlayerNamesList()) {
       JSONObject playerObject = new JSONObject();
       Player player = model.getPlayerByName(playerName);
-      playerObject.put(JsonMessage.NICK_FIELD,playerName);
-      playerObject.put(JsonMessage.POINTS_FIELD,player.getPoints());
-      playerObject.put(JsonMessage.PATTERN_LINES_FIELD,JsonMessage.parsePatternLinesToJSONArray(player.getPatternLines()));
-      playerObject.put(JsonMessage.FLOOR_LINE_FIELD,JsonMessage.parseFloorLineToJSONArray(player.getFloorLine()));
-      playerObject.put(JsonMessage.WALL_FIELD, JsonMessage.parsePatternLinesToJSONArray(model.getWallOfPlayer(playerName)));
+      playerObject.put(JsonMessage.NICK_FIELD, playerName);
+      playerObject.put(JsonMessage.POINTS_FIELD, player.getPoints());
+      playerObject.put(JsonMessage.PATTERN_LINES_FIELD,
+          JsonMessage.parsePatternLinesToJSONArray(player.getPatternLines()));
+      playerObject.put(JsonMessage.FLOOR_LINE_FIELD,
+          JsonMessage.parseFloorLineToJSONArray(player.getFloorLine()));
+      playerObject.put(JsonMessage.WALL_FIELD,
+          JsonMessage.parsePatternLinesToJSONArray(model.getWallOfPlayer(playerName)));
       playerArray.put(playerObject);
     }
     return playerArray;
@@ -151,8 +150,8 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
   }
 
   /**
-   * If the model informs this listener that the game started, this listener fetches the content
-   * of the offerings and the player names and broadcasts them to all clients.
+   * If the model informs this listener that the game started, this listener fetches the content of
+   * the offerings and the player names and broadcasts them to all clients.
    */
   private void handleGameStartedEvent() {
     try {
@@ -186,8 +185,8 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
     }
   }
 
-  private void handleGameCanceledEvent(Object customMadeGameEvent){
-    try{
+  private void handleGameCanceledEvent(Object customMadeGameEvent) {
+    try {
       GameCanceledEvent gameCanceledEvent = (GameCanceledEvent) customMadeGameEvent;
       String nameOfCanceler = gameCanceledEvent.getNameOfPersonThatCanceled();
 
@@ -195,24 +194,24 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       message.put(JsonMessage.NICK_FIELD, nameOfCanceler);
 
       connection.broadcastToAll(message);
-    } catch (JSONException | IOException e){
+    } catch (JSONException | IOException e) {
       e.printStackTrace();
     }
   }
 
-  private void handleGameForfeitedEvent(Object customMadeGameEvent){
-    try{
+  private void handleGameForfeitedEvent(Object customMadeGameEvent) {
+    try {
       GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
 
       String nameOfThePlayerWhoForfeited = gameForfeitedEvent.getForfeiter();
 
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_FORFEITED);
-      message.put(JsonMessage.NICK_FIELD,nameOfThePlayerWhoForfeited);
+      message.put(JsonMessage.NICK_FIELD, nameOfThePlayerWhoForfeited);
 
       connection.handlerClosed(nameOfThePlayerWhoForfeited);
       connection.broadcastToAll(message);
 
-    }catch (JSONException | IOException e){
+    } catch (JSONException | IOException e) {
       e.printStackTrace();
     }
   }

@@ -134,6 +134,7 @@ public interface Controller {
 
   /**
    * Rank the players according to their points in descending order.
+   *
    * @return A list of players' name.
    */
   List<String> rankingPlayerWithPoints();

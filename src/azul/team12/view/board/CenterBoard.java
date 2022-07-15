@@ -3,11 +3,13 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 
 /**
  * The center of the table ("Tischmitte").
@@ -38,7 +40,8 @@ public class CenterBoard extends JPanel {
    *
    * @param tileClickListener the tile click listener
    */
-  public CenterBoard(Controller controller, TileClickListener tileClickListener, Dimension panelDimension) {
+  public CenterBoard(Controller controller, TileClickListener tileClickListener,
+      Dimension panelDimension) {
     this.controller = controller;
 
     this.tileClickListener = tileClickListener;
@@ -61,7 +64,8 @@ public class CenterBoard extends JPanel {
   }
 
   private void createRankingBoardAndButtonsPanel() {
-    Dimension rightSideBarDimension = new Dimension(panelDimension.width, (int) (panelDimension.height * 0.3));
+    Dimension rightSideBarDimension = new Dimension(panelDimension.width,
+        (int) (panelDimension.height * 0.3));
     rightSideBarPanel = new JPanel();
     setMaximumSize(rightSideBarDimension);
     setMinimumSize(rightSideBarDimension);
@@ -75,22 +79,24 @@ public class CenterBoard extends JPanel {
   }
 
   /**
-   * Calculates the relative Size for "this", PlateAndTableCenterPanel and PlayerBoard based on the Dimensions of the GameBoard.
+   * Calculates the relative Size for "this", PlateAndTableCenterPanel and PlayerBoard based on the
+   * Dimensions of the GameBoard.
    */
   private void computePanelSizes() {
     System.out.println(panelDimension.height);
     panelDimension = new Dimension(
-            (int) (panelDimension.width * 0.45),
-            (int) (panelDimension.height * 0.94)
+        (int) (panelDimension.width * 0.45),
+        (int) (panelDimension.height * 0.94)
     );
     topPanelDimension = new Dimension(
-            (int) (panelDimension.width * 0.8),
-            (int) (panelDimension.height * 0.45));
+        (int) (panelDimension.width * 0.8),
+        (int) (panelDimension.height * 0.45));
     bottomPanelDimension = new Dimension(
-            (int) (panelDimension.width * 0.8),
-            (int) (panelDimension.height * 0.55));
+        (int) (panelDimension.width * 0.8),
+        (int) (panelDimension.height * 0.55));
 
   }
+
   private void setProperties() {
     //setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
     setMinimumSize(panelDimension);
@@ -110,7 +116,8 @@ public class CenterBoard extends JPanel {
    */
   void createNewPlayerBoard() {
     currentPlayerBoard =
-        new ActivePlayerBoard(controller, tileClickListener, controller.getNickOfActivePlayer(), bottomPanelDimension);
+        new ActivePlayerBoard(controller, tileClickListener, controller.getNickOfActivePlayer(),
+            bottomPanelDimension);
 
     currentPlayerBoard.setBorder(BorderFactory.createLineBorder(Color.GREEN));
     boardAndPlatesAndTablePanel.add(currentPlayerBoard, BorderLayout.CENTER);
@@ -124,7 +131,7 @@ public class CenterBoard extends JPanel {
         .subList(1, controller.getOfferings().size());
     platesPanel = new PlatesPanel(factoryDisplays, tileClickListener);
     platesPanel.setPreferredSize(new Dimension(
-            (int) (topPanelDimension.width * 0.6), topPanelDimension.height));
+        (int) (topPanelDimension.width * 0.6), topPanelDimension.height));
     platesAndTableCenterPanel.add(platesPanel, BorderLayout.CENTER);
   }
 

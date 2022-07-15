@@ -46,15 +46,29 @@ public enum ModelTile {
    * @param name the String representation of that Tile.
    * @return the ModelTile that has that name.
    */
-  public static ModelTile toTile(String name){
-    switch (name){
-      case "red tile" -> {return RED_TILE;}
-      case "black tile" -> {return BLACK_TILE;}
-      case "white tile" -> {return WHITE_TILE;}
-      case "blue tile" -> {return BLUE_TILE;}
-      case "orange tile" -> {return ORANGE_TILE;}
-      case "empty" -> {return EMPTY_TILE;}
-      case "starting player marker" -> {return STARTING_PLAYER_MARKER;}
+  public static ModelTile toTile(String name) {
+    switch (name) {
+      case "red tile" -> {
+        return RED_TILE;
+      }
+      case "black tile" -> {
+        return BLACK_TILE;
+      }
+      case "white tile" -> {
+        return WHITE_TILE;
+      }
+      case "blue tile" -> {
+        return BLUE_TILE;
+      }
+      case "orange tile" -> {
+        return ORANGE_TILE;
+      }
+      case "empty" -> {
+        return EMPTY_TILE;
+      }
+      case "starting player marker" -> {
+        return STARTING_PLAYER_MARKER;
+      }
       default -> throw new AssertionError("no such tile found.");
     }
   }

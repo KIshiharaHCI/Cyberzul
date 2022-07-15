@@ -33,8 +33,8 @@ public class ModelStrategyChooser implements Model {
   }
 
   /**
-   * Saves the view in a field, until it knows which model it should emulate. Then if the model
-   * gets created, it adds the view as its PropertyChangeListener.
+   * Saves the view in a field, until it knows which model it should emulate. Then if the model gets
+   * created, it adds the view as its PropertyChangeListener.
    *
    * @param listener the view that subscribes itself to the model.
    */

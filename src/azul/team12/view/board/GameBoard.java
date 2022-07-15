@@ -3,11 +3,12 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -50,7 +51,7 @@ public class GameBoard extends JPanel {
     createOpponentsPanel();
     createChatPanel();
 
-    center = new CenterBoard(controller, tileClickListener,frameDimension);
+    center = new CenterBoard(controller, tileClickListener, frameDimension);
     add(center, BorderLayout.CENTER);
 
     //createRankingBoardPanel();
@@ -61,14 +62,14 @@ public class GameBoard extends JPanel {
     //TODO: replace temporary chatPanel with Iurii's Chat class, remove Background
     ChatPanel chatPanel = new ChatPanel();
     Dimension chatPanelDimension = new Dimension(
-            (int) (frameDimension.width * 0.3),
-            (int) (frameDimension.height * 0.94)
+        (int) (frameDimension.width * 0.3),
+        (int) (frameDimension.height * 0.94)
     );
     chatPanel.setMinimumSize(chatPanelDimension);
     chatPanel.setMaximumSize(chatPanelDimension);
     chatPanel.setPreferredSize(chatPanelDimension);
 
-    add(chatPanel,BorderLayout.EAST);
+    add(chatPanel, BorderLayout.EAST);
   }
 
   private void createOpponentsPanel() {
@@ -76,8 +77,8 @@ public class GameBoard extends JPanel {
     boardsOfOpponentsPanel = new JPanel();
     boardsOfOpponentsPanel.setOpaque(false);
     Dimension opponentsPanelDimension = new Dimension(
-            (int) (frameDimension.width * 0.25),
-            (int) (frameDimension.height * 0.94)
+        (int) (frameDimension.width * 0.25),
+        (int) (frameDimension.height * 0.94)
     );
     boardsOfOpponentsPanel.setMaximumSize(opponentsPanelDimension);
     boardsOfOpponentsPanel.setPreferredSize(opponentsPanelDimension);
@@ -88,7 +89,7 @@ public class GameBoard extends JPanel {
     for (String opponentPlayer : listOfActivePlayers) {
       if (!opponentPlayer.equals(controller.getNickOfActivePlayer())) {
         PlayerBoard playerBoard = new SmallPlayerBoard(controller, null,
-                opponentPlayer,playerBoardDimension);
+            opponentPlayer, playerBoardDimension);
         otherPlayerBoards.add(playerBoard);
         boardsOfOpponentsPanel.add(playerBoard);
       }
@@ -114,6 +115,7 @@ public class GameBoard extends JPanel {
     validate();
 
   }
+
   public void updateOtherPlayerBoards() {
 
     for (PlayerBoard othersPlayerBoard : otherPlayerBoards) {

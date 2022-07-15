@@ -1,10 +1,5 @@
 package azul.team12.network.client;
 
-import azul.team12.model.Model;
-import azul.team12.model.events.GameCanceledEvent;
-import azul.team12.model.events.GameFinishedEvent;
-import azul.team12.model.events.GameForfeitedEvent;
-import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.network.server.Server;
 import azul.team12.shared.JsonMessage;
 import java.io.BufferedReader;
@@ -22,8 +17,8 @@ import org.json.JSONObject;
 
 
 /**
- * The network-connection of the client. Establishes a connection to the server and takes
- * care of sending and receiving messages in JSON format.
+ * The network-connection of the client. Establishes a connection to the server and takes care of
+ * sending and receiving messages in JSON format.
  */
 public class ClientNetworkConnection {
 
@@ -55,23 +50,15 @@ public class ClientNetworkConnection {
         Socket socket;
         try {
           socket = new Socket(HOST, PORT);
-        }
-
-        catch (ConnectException connectException){
-          if(connectException.getMessage().equals("Connection refused: connect")){
+        } catch (ConnectException connectException) {
+          if (connectException.getMessage().equals("Connection refused: connect")) {
             Server.start();
             continue;
-          }
-          else{
+          } else {
             connectException.printStackTrace();
             break;
           }
-        }
-
-
-
-
-        catch (UnknownHostException e) {
+        } catch (UnknownHostException e) {
           e.printStackTrace();
           break;
         } catch (IOException e) {

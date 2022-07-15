@@ -15,18 +15,16 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 public class ChatPanel extends JPanel implements PropertyChangeListener {
+
   private static final int DEFAULT_HEIGHT = 500;
   private static final int INPUTFIELD_WIDTH = 40;
   private static final int INPUTFIELD_HEIGHT = 3;
+  private static final long serialVersionUID = 13L;
+  private static final int defaultInset = 5;
   private JTextArea inputArea;
   private JScrollPane scrollPane;
-  private static final long serialVersionUID = 13L;
 
-
-
-  private static final int defaultInset = 5;
-
-  public ChatPanel(){
+  public ChatPanel() {
     setLayout(new GridBagLayout());
     initializeWidgets();
     createChatPanel();
@@ -44,29 +42,29 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     inputArea.setWrapStyleWord(true);
     inputArea.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
   }
-  private void createChatPanel(){
-  GridBagConstraints gbc = new GridBagConstraints();
-  gbc.insets = new Insets(defaultInset, defaultInset, defaultInset, defaultInset);
-  gbc.fill = GridBagConstraints.BOTH;
-  gbc.gridy = 0;
-  gbc.weighty = 0.9;
-  this.add(scrollPane, gbc);
 
-  gbc = new GridBagConstraints();
-  gbc.insets = new Insets(defaultInset, defaultInset, defaultInset, defaultInset);
-  gbc.gridy = 1;
-  this.add(inputArea, gbc);
-}
+  private void createChatPanel() {
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(defaultInset, defaultInset, defaultInset, defaultInset);
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.gridy = 0;
+    gbc.weighty = 0.9;
+    this.add(scrollPane, gbc);
+
+    gbc = new GridBagConstraints();
+    gbc.insets = new Insets(defaultInset, defaultInset, defaultInset, defaultInset);
+    gbc.gridy = 1;
+    this.add(inputArea, gbc);
+  }
 
   @Override
   public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
     SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
   }
 
-  private void handleModelUpdate(PropertyChangeEvent event){
+  private void handleModelUpdate(PropertyChangeEvent event) {
 
   }
-
 
 
 }

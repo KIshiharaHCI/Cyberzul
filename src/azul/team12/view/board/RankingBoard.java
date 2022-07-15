@@ -16,11 +16,12 @@ import javax.swing.border.Border;
  */
 
 public class RankingBoard extends JPanel {
-  private transient List<String> playerNamesList;
+
   private static final String GAME_RANKING = "RANKING";
   private static final int COL = 1;
   private static final long serialVersionUID = 7L;
   private transient final Controller controller;
+  private transient List<String> playerNamesList;
   private transient JPanel rankingBoardPanel;
   private transient List<Player> playersList;
 
@@ -50,7 +51,7 @@ public class RankingBoard extends JPanel {
     rankingBoardPanel.setLayout(new GridLayout(playerNamesList.size(), COL));
     add(rankingBoardPanel, BorderLayout.CENTER);
     for (String playerName : playerNamesList) {
-        rankingBoardPanel.add(new JLabel(playerName + ": " + controller.getPoints(playerName)));
+      rankingBoardPanel.add(new JLabel(playerName + ": " + controller.getPoints(playerName)));
     }
   }
 

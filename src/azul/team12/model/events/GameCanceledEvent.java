@@ -6,9 +6,8 @@ package azul.team12.model.events;
  */
 public class GameCanceledEvent extends GameEvent {
 
-  public final String nameOfPersonThatCanceled;
-
   public static final String EVENT_NAME = "GameCanceledEvent";
+  public final String nameOfPersonThatCanceled;
 
   public GameCanceledEvent(String nickname) {
     this.nameOfPersonThatCanceled = nickname;

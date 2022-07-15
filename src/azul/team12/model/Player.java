@@ -11,29 +11,24 @@ import java.util.List;
  * points, the tiles he already tiled and those who lie on his tiling fields.
  */
 public class Player {
-  protected String name;
-  protected int points;
+
   public static final int NUMBER_OF_PATTERN_LINES = 5;
   public static final int SIZE_OF_FLOOR_LINE = 7;
   public static final int POINTS_FOR_COMPLETE_HORIZONTAL_LINE = 2;
   public static final int POINTS_FOR_COMPLETE_VERTICAL_LINE = 7;
   public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
-
+  private static final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
+  protected String name;
+  protected int points;
   protected boolean hasStartingPlayerMarker = false;
   protected boolean hasEndedTheGame = false;
-  private static final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
-
-  private boolean isAiPlayer = false;
-
   protected WallBackgroundPattern wallPattern;
-
   protected ArrayList<ModelTile> floorLine;
-  //contain the negative Tiles the player acquires during the drawing phase.
-
   protected boolean[][] wall;
-  //the wall where the player tiles the tiles and gets his points ("Wand").
-
+  //contain the negative Tiles the player acquires during the drawing phase.
   protected ModelTile[][] patternLines;
+  //the wall where the player tiles the tiles and gets his points ("Wand").
+  private boolean isAiPlayer = false;
   //the left side on the board where the player places the tiles he draws ("Musterreihen").
 
   protected Player(String name) {
@@ -51,7 +46,7 @@ public class Player {
 
   /**
    * Get the floor line where the player receives his/her minus points.
-
+   *
    * @return the floor line.
    */
   public List<ModelTile> getFloorLine() {
@@ -160,14 +155,14 @@ public class Player {
   }
 
   /**
-  * Draw Tiles from an Offering and place them on the chosen pattern line.
-  *
-  * @param row         the pattern line on which the tiles should be placed.
-  * @param offering    the Offering from which the tiles should be drawn.
-  * @param indexOfTile the index of the tile in the Offering.
-  * @return <true>true</true> if the tiles were successfully placed on the chosen line.
-  *      <code>false</code> else.
-  */
+   * Draw Tiles from an Offering and place them on the chosen pattern line.
+   *
+   * @param row         the pattern line on which the tiles should be placed.
+   * @param offering    the Offering from which the tiles should be drawn.
+   * @param indexOfTile the index of the tile in the Offering.
+   * @return <true>true</true> if the tiles were successfully placed on the chosen line.
+   * <code>false</code> else.
+   */
   boolean drawTiles(int row, Offering offering, int indexOfTile) {
     //check if it's possible to place the chosen tile on the chosen line
     //this doesn't yet change the state of the data model!
@@ -266,7 +261,7 @@ public class Player {
    * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
    * @return <code>true</code> if the chosen tile can be placed on the chosen line.
-   *     <code>false</code> else.
+   * <code>false</code> else.
    */
   boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
     List<ModelTile> tiles = offering.getContent();
@@ -391,6 +386,7 @@ public class Player {
   }
 
   //TODO: This method gets obsolete if we implemented the visible floor line.
+
   /**
    * Returns the number of MinusPoints that the player acquired over the round.
    *

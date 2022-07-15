@@ -55,7 +55,8 @@ public class PatternLines extends JPanel {
    * @param tileSize:          The size of the smallest element on the {@link PatternLines} board.
    * @param tileClickListener: The listener for click events.
    */
-  public PatternLines(String userName, Controller controller, int tileSize, TileClickListener tileClickListener) {
+  public PatternLines(String userName, Controller controller, int tileSize,
+      TileClickListener tileClickListener) {
     this.controller = controller;
 
     ViewHelper.setProperties(tileSize, ROWS, COLS, this);
@@ -83,10 +84,10 @@ public class PatternLines extends JPanel {
           ModelTile modelTile = currentPatternLines[row][col];
           if (modelTile.toString().equals(ModelTile.EMPTY_TILE.toString())) {
             currentRow.add(
-                    new DestinationTile(col, row, ModelTile.EMPTY_TILE, tileClickListener,tileSize)
+                new DestinationTile(col, row, ModelTile.EMPTY_TILE, tileClickListener, tileSize)
             );
           } else {
-            currentRow.add(new DestinationTile(col, row, modelTile, tileClickListener,tileSize));
+            currentRow.add(new DestinationTile(col, row, modelTile, tileClickListener, tileSize));
           }
         }
       }
@@ -101,6 +102,7 @@ public class PatternLines extends JPanel {
       this.remove(currentRow);
     }
   }
+
   public int getTileSize() {
     return tileSize;
   }

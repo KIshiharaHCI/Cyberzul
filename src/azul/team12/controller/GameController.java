@@ -14,7 +14,7 @@ public class GameController implements Controller {
   @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
       + "encapsulation is violated here and that this is in principle bad. However, it is "
       + "intended, because the controller needs to be able to invoke methods of the model. ")
-  public GameController(Model model){
+  public GameController(Model model) {
     this.model = model;
   }
 
@@ -65,7 +65,9 @@ public class GameController implements Controller {
 
   @Override
   public void placeTileAtPatternLine(int rowOfPatternLine) {
-    System.out.println("Player " + getNickOfActivePlayer() + " tries to place a tile on the " + rowOfPatternLine + ". row of pattern lines.");
+    System.out.println(
+        "Player " + getNickOfActivePlayer() + " tries to place a tile on the " + rowOfPatternLine
+            + ". row of pattern lines.");
     model.makeActivePlayerPlaceTile(rowOfPatternLine);
   }
 
@@ -114,7 +116,7 @@ public class GameController implements Controller {
   }
 
   @Override
-  public boolean isGameStarted(){
+  public boolean isGameStarted() {
     return model.isGameStarted();
   }
 }

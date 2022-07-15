@@ -4,16 +4,15 @@ import azul.team12.controller.Controller;
 import azul.team12.controller.GameController;
 import azul.team12.model.Model;
 import azul.team12.model.ModelStrategyChooser;
-import azul.team12.model.TableCenter;
 import java.io.IOException;
 
 public class Server {
 
-  private Model gameModel;
   private static Server instance;
+  private Model gameModel;
   private ServerNetworkConnection connection;
 
-  private Server(){
+  private Server() {
     this.gameModel = new ModelStrategyChooser();
     gameModel.setStrategy(Model.GAME_MODEL);
     Controller controller = new GameController(gameModel);
@@ -26,8 +25,7 @@ public class Server {
           connection.stop();
         }
       });
-    }
-    catch (IOException e){
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
@@ -41,8 +39,7 @@ public class Server {
   public static synchronized Server start() {
     if (instance == null) {
       instance = new Server();
-    }
-    else{
+    } else {
       throw new RuntimeException("It already exists a server with this port");
     }
     return instance;

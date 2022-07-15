@@ -58,7 +58,8 @@ public class Wall extends JPanel {
    *
    * @param tileClickListener //TODO: remove after decoupling other players panel
    */
-  public Wall(String playerName, Controller controller, int tileSize,TileClickListener tileClickListener) {
+  public Wall(String playerName, Controller controller, int tileSize,
+      TileClickListener tileClickListener) {
     this.controller = controller;
     wall = controller.getWallOfPlayerAsTiles(playerName);
     templateWall = controller.getTemplateWall();
@@ -74,7 +75,7 @@ public class Wall extends JPanel {
       for (int col = 0; col < COLS; col++) {
         ModelTile tileXY = wall[row][col];
         if (tileXY.equals(ModelTile.EMPTY_TILE)) {
-          currentRow.add(new WallTile(col, row, templateWall[row][col],tileSize, 0.3f));
+          currentRow.add(new WallTile(col, row, templateWall[row][col], tileSize, 0.3f));
         } else {
           currentRow.add(new WallTile(col, row, tileXY, tileSize, 1f)
           );

@@ -19,7 +19,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,21 +29,14 @@ import org.json.JSONObject;
  */
 public class ClientMessageHandler implements Runnable {
 
-  private final ServerNetworkConnection serverConnection;
-
-  private final Socket socket;
-
-  private final BufferedReader reader;
-
-  private final BufferedWriter writer;
-
-  private String nickname;
-
-  private Controller controller;
-
-  private Model model;
-
   private static final Logger LOGGER = LogManager.getLogger(ClientMessageHandler.class);
+  private final ServerNetworkConnection serverConnection;
+  private final Socket socket;
+  private final BufferedReader reader;
+  private final BufferedWriter writer;
+  private String nickname;
+  private Controller controller;
+  private Model model;
 
 
   /**
@@ -56,7 +48,7 @@ public class ClientMessageHandler implements Runnable {
    * @throws IOException Thrown when failing to retrieve the In- or Output-stream.
    */
   public ClientMessageHandler(ServerNetworkConnection connection, Socket socket,
-                              Controller controller, Model model)
+      Controller controller, Model model)
       throws IOException {
     this.controller = controller;
     this.model = model;
@@ -71,8 +63,8 @@ public class ClientMessageHandler implements Runnable {
   }
 
   /**
-   * Sends a message to the client that tells it that it connected and also who already logged in
-   * to the server.
+   * Sends a message to the client that tells it that it connected and also who already logged in to
+   * the server.
    */
   private void sendConnectedMessage() {
     try {
@@ -164,10 +156,10 @@ public class ClientMessageHandler implements Runnable {
   }
 
   /**
-   * Process a login message and take further actions depending on the current state. If a
-   * user is not already logged in and the username is still available, a broadcast is made
-   * that announces the successful login of this user. Otherwise, the login fails and the client
-   * receives an according attempt failed message.
+   * Process a login message and take further actions depending on the current state. If a user is
+   * not already logged in and the username is still available, a broadcast is made that announces
+   * the successful login of this user. Otherwise, the login fails and the client receives an
+   * according attempt failed message.
    *
    * @param object A {@link JSONObject} containing a message with login-data.
    * @throws IOException Thrown when failing to access the input- or output-stream.
@@ -228,8 +220,8 @@ public class ClientMessageHandler implements Runnable {
   }
 
   /**
-   * Process a post-message from the client which contains the information of a message that is
-   * to be send to all the other connected clients.
+   * Process a post-message from the client which contains the information of a message that is to
+   * be send to all the other connected clients.
    *
    * @param object A {@link JSONObject} containing the data for a post-message.
    * @throws IOException Thrown when failing to access the input- or output-stream.
@@ -302,10 +294,10 @@ public class ClientMessageHandler implements Runnable {
   }
 
   /**
-   * Check if it's the players turn and if it is, notify the model that the tile should be placed
-   * at the pattern line that is specified in the JSON Object that was sent from the client to the
-   * server.
-   * If it's not this players turn, inform him that he has to wait until he can make his next move.
+   * Check if it's the players turn and if it is, notify the model that the tile should be placed at
+   * the pattern line that is specified in the JSON Object that was sent from the client to the
+   * server. If it's not this players turn, inform him that he has to wait until he can make his
+   * next move.
    *
    * @param object the JSON Object that was sent from the client to the server.
    */
@@ -324,8 +316,8 @@ public class ClientMessageHandler implements Runnable {
   }
 
   /**
-   * Check if it's the players turn. If yes, let the player place the tile in the floor line.
-   * If it's not this players turn, inform him that he has to wait until the can make his next move.
+   * Check if it's the players turn. If yes, let the player place the tile in the floor line. If
+   * it's not this players turn, inform him that he has to wait until the can make his next move.
    *
    * @param object
    */

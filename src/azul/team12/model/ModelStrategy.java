@@ -67,8 +67,8 @@ public interface ModelStrategy {
   void replacePlayerByAi(String playerName);
 
   /**
-   * gives back the name of the player of the given client model or the name of the active player
-   * in hot seat mode.
+   * gives back the name of the player of the given client model or the name of the active player in
+   * hot seat mode.
    *
    * @return a String of the respective players name.
    */

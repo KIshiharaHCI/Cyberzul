@@ -4,11 +4,7 @@ import azul.team12.controller.Controller;
 import azul.team12.model.ModelTile;
 import azul.team12.model.TableCenter;
 import azul.team12.view.listeners.TileClickListener;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -16,6 +12,9 @@ import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * The tiles on the center of the table ("Tischmitte") (Center Board class)
@@ -27,11 +26,11 @@ import java.util.List;
 public class TableCenterPanel extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private transient Controller controller;
   private static final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
   private static final int SPACE_BETWEEN_TILES_IN_PXL = 44;
-  private int SPACE_FROM_TOP_EDGE_IN_PXL = 13;
   private static final int plateId = 0;
+  private transient Controller controller;
+  private int SPACE_FROM_TOP_EDGE_IN_PXL = 13;
   private int TABLE_CENTER_SIZE_WIDTH_IN_PXL = 1100;
   private int TABLE_CENTER_HEIGHT_IN_PXL = 260;
   private transient List<SourceTile> tileList;
@@ -41,11 +40,13 @@ public class TableCenterPanel extends JPanel {
 
   /**
    * Constructor for Table Center Panel.
-   * @param controller the Controller given to CyberzulView
+   *
+   * @param controller        the Controller given to CyberzulView
    * @param tileClickListener listener class to be used when creating SourceTiles
-   * @param panelDimension Dimensions of the parent Panel PlayerBoardAndTablePanel
+   * @param panelDimension    Dimensions of the parent Panel PlayerBoardAndTablePanel
    */
-  public TableCenterPanel(Controller controller, TileClickListener tileClickListener, Dimension panelDimension) {
+  public TableCenterPanel(Controller controller, TileClickListener tileClickListener,
+      Dimension panelDimension) {
     this.controller = controller;
     this.tableCenter = (TableCenter) controller.getOfferings().get(0);
     this.tileList = new ArrayList<>();
@@ -55,13 +56,15 @@ public class TableCenterPanel extends JPanel {
     initialize(tileClickListener, tableCenter);
 
   }
+
   /**
-   * Calculates the relative Size for "this" based on the Dimensions of PlayerBoardAndTableCenterPanel.
+   * Calculates the relative Size for "this" based on the Dimensions of
+   * PlayerBoardAndTableCenterPanel.
    */
   private void setTableCenterPanelSize() {
     panelDimension = new Dimension(
-            (int) (panelDimension.getWidth() * 0.4),
-            (int) (panelDimension.getHeight())
+        (int) (panelDimension.getWidth() * 0.4),
+        (int) (panelDimension.getHeight())
     );
     setMinimumSize(panelDimension);
     setMaximumSize(panelDimension);
@@ -74,16 +77,18 @@ public class TableCenterPanel extends JPanel {
         getResizedImageIcon("img/table-center.png"));
     add(tableCenterImageLabel);
     tableCenterImageLabel.setBounds(0, 0, (int) panelDimension.getWidth(),
-            (int) panelDimension.getHeight());
+        (int) panelDimension.getHeight());
     List<ModelTile> modelTiles = tableCenter.getContent();
     for (int i = 0; i < modelTiles.size(); i++) {
       int col = i / 4 + 1;
       int row = i % 4 + 1;
-      SourceTile tile = new SourceTile(col, row, modelTiles.get(i), i, plateId,Tile.NORMAL_TILE_SIZE, tileClickListener);
+      SourceTile tile = new SourceTile(col, row, modelTiles.get(i), i, plateId,
+          Tile.NORMAL_TILE_SIZE, tileClickListener);
       //System.out.println("tile: " + tile);
       tileList.add(tile);
       tile.setBounds(SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + ((row - 1) * SPACE_BETWEEN_TILES_IN_PXL),
-              SPACE_FROM_TOP_EDGE_IN_PXL + SPACE_BETWEEN_TILES_IN_PXL * (col - 1), Tile.NORMAL_TILE_SIZE, Tile.NORMAL_TILE_SIZE);
+          SPACE_FROM_TOP_EDGE_IN_PXL + SPACE_BETWEEN_TILES_IN_PXL * (col - 1),
+          Tile.NORMAL_TILE_SIZE, Tile.NORMAL_TILE_SIZE);
       tableCenterImageLabel.add(tile);
     }
   }

@@ -4,8 +4,8 @@ import java.util.List;
 
 /**
  * Super class for FactoryDisplays, Table Center, BagToDrawNewTiles, and BagToStoreUsedTiles.
- * Intentionally not an Interface but an abstract class, because that way, the abstract method
- * can be package friendly instead of public. Ensures encapsulation.
+ * Intentionally not an Interface but an abstract class, because that way, the abstract method can
+ * be package friendly instead of public. Ensures encapsulation.
  */
 public abstract class Bag {
 

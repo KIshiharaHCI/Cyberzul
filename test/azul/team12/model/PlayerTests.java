@@ -14,12 +14,12 @@ import org.junit.jupiter.api.TestInstance;
 
 public class PlayerTests {
 
-  private Player player;
   ManipulableFactoryDisplay redOffering;
   ManipulableFactoryDisplay blueOffering;
   ManipulableFactoryDisplay blackOffering;
   ManipulableFactoryDisplay whiteOffering;
   ManipulableFactoryDisplay orangeOffering;
+  private Player player;
 
   @BeforeEach
   public void createPlayer() {
@@ -27,16 +27,21 @@ public class PlayerTests {
   }
 
   /**
-   * This has to be BeforeAll and not BeforeEach, because otherwise the BagToDrawNewTiles gets
-   * empty really fast ^^. The ManipulableFactoryDisplays don't return their Tiles...
+   * This has to be BeforeAll and not BeforeEach, because otherwise the BagToDrawNewTiles gets empty
+   * really fast ^^. The ManipulableFactoryDisplays don't return their Tiles...
    */
   @BeforeAll
-  public void setUpOfferings(){
-    ModelTile[] redTiles = {ModelTile.RED_TILE, ModelTile.RED_TILE, ModelTile.RED_TILE, ModelTile.RED_TILE};
-    ModelTile[] blueTiles = {ModelTile.BLUE_TILE, ModelTile.BLUE_TILE, ModelTile.BLUE_TILE, ModelTile.BLUE_TILE};
-    ModelTile[] blackTiles = {ModelTile.BLACK_TILE, ModelTile.BLACK_TILE, ModelTile.BLACK_TILE, ModelTile.BLACK_TILE};
-    ModelTile[] whiteTiles = {ModelTile.WHITE_TILE, ModelTile.WHITE_TILE, ModelTile.WHITE_TILE, ModelTile.WHITE_TILE};
-    ModelTile[] orangeTiles = {ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE};
+  public void setUpOfferings() {
+    ModelTile[] redTiles = {ModelTile.RED_TILE, ModelTile.RED_TILE, ModelTile.RED_TILE,
+        ModelTile.RED_TILE};
+    ModelTile[] blueTiles = {ModelTile.BLUE_TILE, ModelTile.BLUE_TILE, ModelTile.BLUE_TILE,
+        ModelTile.BLUE_TILE};
+    ModelTile[] blackTiles = {ModelTile.BLACK_TILE, ModelTile.BLACK_TILE, ModelTile.BLACK_TILE,
+        ModelTile.BLACK_TILE};
+    ModelTile[] whiteTiles = {ModelTile.WHITE_TILE, ModelTile.WHITE_TILE, ModelTile.WHITE_TILE,
+        ModelTile.WHITE_TILE};
+    ModelTile[] orangeTiles = {ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE,
+        ModelTile.ORANGE_TILE};
     redOffering = new ManipulableFactoryDisplay(redTiles);
     blueOffering = new ManipulableFactoryDisplay(blueTiles);
     blackOffering = new ManipulableFactoryDisplay(blackTiles);
@@ -123,8 +128,8 @@ public class PlayerTests {
   }
 
   /**
-   * This method tests if the player gets 7 points for each vertical line he fills completely on
-   * the wall.
+   * This method tests if the player gets 7 points for each vertical line he fills completely on the
+   * wall.
    */
   @Test
   public void testAddEndOfGamePoints_sevenPointsForVerticalLine() {
@@ -174,8 +179,8 @@ public class PlayerTests {
 
 
   /**
-   * This test tests if a pattern line that already contains tiles will add new tiles to it.
-   * E.g. If line 4 contains 4 blue tiles already, will it add a new tile on top?
+   * This test tests if a pattern line that already contains tiles will add new tiles to it. E.g. If
+   * line 4 contains 4 blue tiles already, will it add a new tile on top?
    */
   @Test
   public void testDrawTiles_Overflow() {

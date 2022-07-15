@@ -4,8 +4,18 @@ import azul.team12.controller.Controller;
 import azul.team12.model.Model;
 import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
-import azul.team12.view.board.*;
-
+import azul.team12.view.board.ActivePlayerBoard;
+import azul.team12.view.board.CenterBoard;
+import azul.team12.view.board.DestinationTile;
+import azul.team12.view.board.FloorLinePanel;
+import azul.team12.view.board.PatternLines;
+import azul.team12.view.board.Plate;
+import azul.team12.view.board.PlatesPanel;
+import azul.team12.view.board.PlayerBoard;
+import azul.team12.view.board.SourceTile;
+import azul.team12.view.board.TableCenterPanel;
+import azul.team12.view.board.Tile;
+import azul.team12.view.board.TileAcceptor;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -104,8 +114,10 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         if (tileDestination.getParent().getParent() instanceof PatternLines) {
           PatternLines patternLinesView = (PatternLines) tileDestination.getParent().getParent();
           patternLinesView.remove();
-          patternLinesView.initialize(patternLinesView.getTileSize(), controller.getNickOfActivePlayer(), this);
-          PlayerBoard playerBoard = (ActivePlayerBoard) patternLinesView.getParent().getParent().getParent();
+          patternLinesView.initialize(patternLinesView.getTileSize(),
+              controller.getNickOfActivePlayer(), this);
+          PlayerBoard playerBoard = (ActivePlayerBoard) patternLinesView.getParent().getParent()
+              .getParent();
           playerBoard.getFloorLinePanel().updateBottomTilesRow(controller.getNickOfActivePlayer());
         }
         resetOffering();

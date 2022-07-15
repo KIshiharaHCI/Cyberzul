@@ -46,10 +46,9 @@ public class BagToDrawNewTiles extends Bag {
       //the bag is emtpy, so it gets filled with the tiles that were stored in the "box"
       //in our implementation we call the box the "BagtoStoreUsedTiles"
 
-      if(box.getContent().size() > 0){
+      if (box.getContent().size() > 0) {
         content.addAll(box.giveAllTilesBack());
-      }
-      else{
+      } else {
         //there are only 100 tiles in the game (that is said by the rule book).
         //But it is possible (although unlikely) that more than 100 tiles are needed because the
         //walls and pattern lines are filled in such an unfortunate manner. For that case, we create

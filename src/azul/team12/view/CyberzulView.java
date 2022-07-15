@@ -10,16 +10,26 @@ import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.UserJoinedEvent;
 import azul.team12.view.board.GameBoard;
 import azul.team12.view.listeners.TileClickListener;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CyberzulView extends JFrame implements PropertyChangeListener {
 
@@ -33,6 +43,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final int FRAME_WIDTH = 1400;
   private static final int FRAME_HEIGHT = 800;
   private final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
+  private final double BACKGROUND_SCALE_FACTOR = 1;
+  private final String BACKGROUND_PATH = "img/background.jpg";
   private CardLayout layout;
   private JTextField inputField;
   private JButton hotSeatModeButton;
@@ -45,10 +57,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
   private JLabel gameLogoLabel;
   private JLabel backgroundLabel;
-  private final double BACKGROUND_SCALE_FACTOR = 1;
-
-  private final String BACKGROUND_PATH = "img/background.jpg";
-
   private transient Model model;
   private transient Controller controller;
 
@@ -208,8 +216,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showErrorMessage("successfully logged in");
       }
-      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
-          "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME ->
+          numberOfLoggedInPlayersLabel.setText(
+              "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         updateRankingBoard();

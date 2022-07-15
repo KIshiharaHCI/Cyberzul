@@ -1,19 +1,15 @@
 package azul.team12.network.client;
 
-import static java.util.Objects.requireNonNull;
-
 import azul.team12.model.ClientFactoryDisplay;
 import azul.team12.model.ClientTableCenter;
 import azul.team12.model.CommonModel;
 import azul.team12.model.GameModel;
-import azul.team12.model.Model;
 import azul.team12.model.ModelStrategy;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.Player;
 import azul.team12.model.events.ConnectedWithServerEvent;
 import azul.team12.model.events.GameCanceledEvent;
-import azul.team12.model.events.GameEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
 import azul.team12.model.events.GameNotStartableEvent;
@@ -24,15 +20,11 @@ import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.NoValidTurnToMakeEvent;
 import azul.team12.model.events.NotYourTurnEvent;
-import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.model.events.RoundFinishedEvent;
 import azul.team12.model.events.UserJoinedEvent;
 import azul.team12.shared.JsonMessage;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,11 +34,10 @@ import org.json.JSONObject;
 
 public class ClientModel extends CommonModel implements ModelStrategy {
 
+  private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
   private boolean loggedIn;
   private ClientNetworkConnection connection;
   private String thisPlayersName;
-
-  private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
 
   public ClientModel() {
     super();
@@ -108,13 +99,13 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
-   * Gets invoked if the client connects with the server. Even before he logs in with his name.
-   * He then already gets the information about the names of the players who already joined and
-   * saves them in his playerList
+   * Gets invoked if the client connects with the server. Even before he logs in with his name. He
+   * then already gets the information about the names of the players who already joined and saves
+   * them in his playerList
    *
    * @param playerNames the names of the players who already joined the server as JSONArray
    */
-  public void connected(JSONArray playerNames){
+  public void connected(JSONArray playerNames) {
     try {
       setUpClientPlayersByName(playerNames);
       notifyListeners(new ConnectedWithServerEvent());
@@ -138,9 +129,9 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * to the subscribed listeners.
    */
   public void loggedIn() {
-      setLoggedIn(true);
+    setLoggedIn(true);
     playerList.add(new ClientPlayer(thisPlayersName));
-      notifyListeners(new LoggedInEvent());
+    notifyListeners(new LoggedInEvent());
   }
 
   /**
@@ -162,8 +153,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
-   * Update all information in the model that is needed by the view to start showing the game.
-   * Then notify the listeners that the game has started.
+   * Update all information in the model that is needed by the view to start showing the game. Then
+   * notify the listeners that the game has started.
    */
   public void handleGameStarted(JSONArray offerings, JSONArray playerNames) throws JSONException {
     updateOfferings(offerings);

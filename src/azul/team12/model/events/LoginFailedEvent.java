@@ -14,7 +14,6 @@ public class LoginFailedEvent extends GameEvent {
   /**
    * Constructs the event.
    *
-
    * @param message provides information why the login failed.
    */
   public LoginFailedEvent(String message) {

@@ -1,27 +1,20 @@
 package azul.team12.model;
 
-import static java.util.Objects.requireNonNull;
-
-import azul.team12.model.events.GameEvent;
+import azul.team12.model.events.GameCanceledEvent;
 import azul.team12.model.events.GameFinishedEvent;
 import azul.team12.model.events.GameForfeitedEvent;
+import azul.team12.model.events.GameInIllegalStateEvent;
 import azul.team12.model.events.GameNotStartableEvent;
 import azul.team12.model.events.GameStartedEvent;
 import azul.team12.model.events.IllegalTurnEvent;
 import azul.team12.model.events.LoggedInEvent;
-import azul.team12.model.events.GameCanceledEvent;
-import azul.team12.model.events.GameInIllegalStateEvent;
 import azul.team12.model.events.LoginFailedEvent;
 import azul.team12.model.events.NextPlayersTurnEvent;
 import azul.team12.model.events.NoValidTurnToMakeEvent;
-import azul.team12.model.events.PlayerDoesNotExistEvent;
 import azul.team12.model.events.PlayerHasChosenTileEvent;
 import azul.team12.model.events.PlayerHasEndedTheGameEvent;
 import azul.team12.model.events.RoundFinishedEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * The very core of the backend. All requests that aim to change the game state are running through
  * this class and are either computed here or delegated to other backend classes.
- *
+ * <p>
  * Contains the playing field of the Azul game, the list of players and the list of offerings.
  */
 public class GameModel extends CommonModel implements ModelStrategy {
@@ -152,7 +145,8 @@ public class GameModel extends CommonModel implements ModelStrategy {
       }
       notifyListeners(roundFinishedEvent);
     }
-    NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer(),nameOfPlayerWhoEndedHisTurn);
+    NextPlayersTurnEvent nextPlayersTurnEvent = new NextPlayersTurnEvent(getNickOfActivePlayer(),
+        nameOfPlayerWhoEndedHisTurn);
     notifyListeners(nextPlayersTurnEvent);
 
     //TODO: Check if SPM is used in the right way --> makes player be first in next round. @Marco
@@ -206,7 +200,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
       throw new IllegalStateException("The game has reached an illegal state. Noone was able to "
           + "make a turn. Game was restarted automatically.");
     } else {
-
 
       // get a random offering
       int randomOfferingIndex = ran.nextInt(0, offeringsClone.size());
@@ -277,12 +270,11 @@ public class GameModel extends CommonModel implements ModelStrategy {
             ".");
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
-     if(!activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile)){
-       notifyListeners(new IllegalTurnEvent());
-     }
-     else{
-       endTurn();
-     }
+    if (!activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile)) {
+      notifyListeners(new IllegalTurnEvent());
+    } else {
+      endTurn();
+    }
   }
 
   @Override

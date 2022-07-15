@@ -28,8 +28,6 @@ public class ServerNetworkConnection {
 
   private Model model;
   private Controller controller;
-  private ModelPropertyChangeHandler modelPropertyChangeHandler;
-
   private final Runnable connectionAcceptor = new Runnable() {
 
     @Override
@@ -49,6 +47,7 @@ public class ServerNetworkConnection {
       }
     }
   };
+  private ModelPropertyChangeHandler modelPropertyChangeHandler;
 
   /**
    * Set up a new {@link ServerNetworkConnection} that handles all the incoming client connection
@@ -126,7 +125,8 @@ public class ServerNetworkConnection {
    * Check if a chosen nickname is still available.
    *
    * @param nickname The name to be looked up.
-   * @return <code>true</code> if no other client has taken this name, <code >false</code> otherwise.
+   * @return <code>true</code> if no other client has taken this name, <code >false</code>
+   * otherwise.
    */
   public synchronized boolean tryLogIn(String nickname) {
     synchronized (clientHandlers) {
@@ -162,10 +162,10 @@ public class ServerNetworkConnection {
     clientHandlers.remove(handler);
   }
 
-  public void handlerClosed(String nickname){
+  public void handlerClosed(String nickname) {
     ClientMessageHandler toRemove = null;
-    for(ClientMessageHandler handler : clientHandlers){
-      if(handler.getNickname().equals(nickname)){
+    for (ClientMessageHandler handler : clientHandlers) {
+      if (handler.getNickname().equals(nickname)) {
         toRemove = handler;
         break;
       }

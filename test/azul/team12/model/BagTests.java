@@ -1,9 +1,5 @@
 package azul.team12.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +28,7 @@ public class BagTests {
    * Tests if a Factory Display is empty after the tiles have been taken from it.
    */
   @Test
-  public void testTakeTileWithIndex_afterTakingTiles_FactoryDisplayIsEmpty(){
+  public void testTakeTileWithIndex_afterTakingTiles_FactoryDisplayIsEmpty() {
     FactoryDisplay factoryDisplay = new FactoryDisplay();
 
     factoryDisplay.takeTileWithIndex(3);
@@ -42,7 +38,7 @@ public class BagTests {
   }
 
   @Test
-  public void testTakeTileWithIndex_returnsAtLeastOneTile(){
+  public void testTakeTileWithIndex_returnsAtLeastOneTile() {
     FactoryDisplay factoryDisplay = new FactoryDisplay();
 
 

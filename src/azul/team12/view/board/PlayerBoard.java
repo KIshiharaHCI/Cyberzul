@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,16 +18,16 @@ public abstract class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
   protected transient final Controller controller;
+  protected JPanel north;
+  protected int tileSize;
+  Dimension panelDimension;
   private PatternLines patternLines;
   private Wall wall;
   private transient TileClickListener tileClickListener;
   private String playerName;
   private JPanel patternLinesAndWallPanel;
-  protected JPanel north;
   private int points;
   private int minusPoints = 0;
-  protected int tileSize;
-  Dimension panelDimension;
   //Wraps PatternLines, Wall, Points Labels, Playername, Floorline
   private JPanel playerBoardWrapper;
 
@@ -58,11 +57,11 @@ public abstract class PlayerBoard extends JPanel {
     addMinusPointsElements();
   }
 
-  void setPlayerBoardWrapperSize (){
+  void setPlayerBoardWrapperSize() {
     playerBoardWrapper = new JPanel(new BorderLayout());
     Dimension wrapperDimension = new Dimension(
-            (int) (panelDimension.width * 0.87),
-            (int) (panelDimension.height * 0.55)
+        (int) (panelDimension.width * 0.87),
+        (int) (panelDimension.height * 0.55)
     );
 
     playerBoardWrapper.setMaximumSize(wrapperDimension);

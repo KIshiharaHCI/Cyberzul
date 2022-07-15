@@ -8,7 +8,7 @@ import azul.team12.view.CyberzulView;
 
 /**
  * Starts the chat-client.
- *
+ * <p>
  * This is a test class.
  */
 public class ClientMain {
@@ -18,7 +18,7 @@ public class ClientMain {
     Model model = new ModelStrategyChooser();
     model.setStrategy(Model.CLIENT_MODEL);
     Controller controller = new GameController(model);
-    
+
     CyberzulView cyberzulView = new CyberzulView(model, controller);
 
     model.addPropertyChangeListener(cyberzulView);

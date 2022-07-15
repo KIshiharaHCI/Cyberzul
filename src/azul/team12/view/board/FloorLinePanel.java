@@ -56,10 +56,12 @@ public class FloorLinePanel extends JPanel {
 
       List<ModelTile> floorLineOfPlayer = controller.getFloorLineOfPlayer(userName);
       if (floorLineOfPlayer.size() >= col) {
-        WallTile filledFloorLineTile = new WallTile(col,1, floorLineOfPlayer.get(col - 1),Tile.NORMAL_TILE_SIZE, 1f);
+        WallTile filledFloorLineTile = new WallTile(col, 1, floorLineOfPlayer.get(col - 1),
+            Tile.NORMAL_TILE_SIZE, 1f);
         contentBottom.add(filledFloorLineTile);
       } else {
-        DestinationTile emptyFloorLineTile = new DestinationTile(col, 1, ModelTile.EMPTY_TILE, tileClickListener,Tile.TILE_SIZE);
+        DestinationTile emptyFloorLineTile = new DestinationTile(col, 1, ModelTile.EMPTY_TILE,
+            tileClickListener, Tile.TILE_SIZE);
         contentBottom.add(emptyFloorLineTile);
       }
     }

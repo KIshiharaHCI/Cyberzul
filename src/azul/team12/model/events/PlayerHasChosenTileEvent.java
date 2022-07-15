@@ -1,8 +1,8 @@
 package azul.team12.model.events;
 
 /**
- * Gives the view the information that a player has chosen his tile. He now has to choose the
- * row on which he wants to place it.
+ * Gives the view the information that a player has chosen his tile. He now has to choose the row on
+ * which he wants to place it.
  */
 public class PlayerHasChosenTileEvent extends GameEvent {
 

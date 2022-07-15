@@ -112,7 +112,8 @@ public enum JsonMessage {
    * offering.
    *
    * @param indexOfTile     the index of the tile in the Offering.
-   * @param indexOfOffering <code>0</code> means the TableCenter. Every following index is a FactoryDisplay.
+   * @param indexOfOffering <code>0</code> means the TableCenter. Every following index is a
+   *                        FactoryDisplay.
    * @return A JSONMessage telling the server that a tile was chosen by the player, and which one.
    */
   public static JSONObject notifyTileChosenMessage(int indexOfTile, int indexOfOffering) {
@@ -134,7 +135,7 @@ public enum JsonMessage {
    * @return a message that can be send to all clients, informing them that the game started.
    */
   public static JSONObject createGameStartedMessage(List<Offering> offerings,
-                                                    List<String> playerNames) {
+      List<String> playerNames) {
     try {
       JSONObject returnObject = createMessageOfType(GAME_STARTED);
       returnObject.put(OFFERINGS_FIELD, parseOfferingsToJSONArray(offerings));
@@ -157,8 +158,8 @@ public enum JsonMessage {
   }
 
   /**
-   * This message gets created by the server to inform the clients that the active player has
-   * chosen a tile.
+   * This message gets created by the server to inform the clients that the active player has chosen
+   * a tile.
    *
    * @return a JSONObject that can be distributed via output streams.
    */
@@ -208,9 +209,9 @@ public enum JsonMessage {
   //TODO: WRITE THIS METHOD
 
   /**
-   * This method is created by the server to notify the players that a player has done his turn
-   * and a new player has to do his turn now.
-   * It contains all information about what changes occurred during the past turn.
+   * This method is created by the server to notify the players that a player has done his turn and
+   * a new player has to do his turn now. It contains all information about what changes occurred
+   * during the past turn.
    *
    * @param offerings
    * @param nameOfPlayerWhoEndedHisTurn
@@ -219,10 +220,10 @@ public enum JsonMessage {
    * @return
    */
   public static JSONObject createNextPlayersTurnMessage(String nameOfActivePlayer,
-                                                        List<Offering> offerings,
-                                                        String nameOfPlayerWhoEndedHisTurn,
-                                                        ModelTile[][] newPatternLinesOfPlayerWhoEndedHisTurn,
-                                                        List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn) {
+      List<Offering> offerings,
+      String nameOfPlayerWhoEndedHisTurn,
+      ModelTile[][] newPatternLinesOfPlayerWhoEndedHisTurn,
+      List<ModelTile> newFloorLineOfPlayerWhoEndedHisTurn) {
     try {
       JSONObject returnObject = createMessageOfType(NEXT_PLAYERS_TURN);
 
@@ -277,8 +278,8 @@ public enum JsonMessage {
   }
 
   /**
-   * Create a JSONObject by passing only the name of the method and the nick of the player.
-   * I.e. "createJSONMessage(GET_POINTS,jonas123);
+   * Create a JSONObject by passing only the name of the method and the nick of the player. I.e.
+   * "createJSONMessage(GET_POINTS,jonas123);
    *
    * @param methodName the name of the method in the Controller Interface.
    * @param nickname   the nickname of the player that is passed to the method.

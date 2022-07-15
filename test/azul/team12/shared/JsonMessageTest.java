@@ -20,13 +20,12 @@ public class JsonMessageTest {
    * order in the array.
    */
   @Test
-  public void testCreateArrayContainingOfferings(){
+  public void testCreateArrayContainingOfferings() {
     FactoryDisplay factoryDisplay = new ManipulableFactoryDisplay(ModelTile.RED_TILE);
     FactoryDisplay factoryDisplay1 = new ManipulableFactoryDisplay(ModelTile.BLUE_TILE);
     List<Offering> offeringList = new ArrayList<>();
     offeringList.add(factoryDisplay);
     offeringList.add(factoryDisplay1);
-
 
     JSONArray jsonArray = JsonMessage.parseOfferingsToJSONArray(offeringList);
     String testString = "[[\"red tile\",\"red tile\",\"red tile\",\"red tile\"],[\"blue tile\",\"blue tile\",\"blue tile\",\"blue tile\"]]";

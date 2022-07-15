@@ -12,7 +12,8 @@ The server has a model on which the game runs. The client models are only used t
 
 - host client starts the game { "type" : "start game" }
     - server accepts the start
-        - server broadcasts to the users that the game started and the content of the factory displays
+        - server broadcasts to the users that the game started and the content of the factory
+          displays
           { "type" : "game started",
           "factory displays" :
           [
@@ -53,12 +54,16 @@ The server has a model on which the game runs. The client models are only used t
         - server broadcasts to the users the name of the player who start
           {"type" : "active player", "name" : "<name of the starting player>"}
 
-    - server declines the start because of not enough players { "type" : "login failed", "message" : "not enough players" }
+    - server declines the start because of not enough players { "type" : "login failed", "
+      message" : "not enough players" }
 
-- player chooses on a tile {"type" : "chose tile", "offering" : "<name of the offering>", "tile color" : "<tile color>" }
+- player chooses on a tile {"type" : "chose tile", "offering" : "<name of the offering>", "tile
+  color" : "<tile color>" }
 
-    - server broadcasts to the users that this move was possible and which tile on which factory display was taken.
-      {"type" : "tile chosen", "offering" : "<name of the offering>", "tile color" : "<tile color>" }
+    - server broadcasts to the users that this move was possible and which tile on which factory
+      display was taken.
+      {"type" : "tile chosen", "offering" : "<name of the offering>", "tile color" : "<tile color>"
+      }
 
         - player chooses a pattern line
           {"type" : "chose pattern line" : "pattern line index" : "<index of pattern line>" }
