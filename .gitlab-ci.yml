@@ -27,7 +27,7 @@ build:
 spotbugs:
   stage: test
   script:
-    - spotbugs -auxclasspath "$CLASSPATH:$(cat libraries.txt)" -textui -longBugCodes -effort:max -exitcode $OUTPUT_PATH
+    - spotbugs -auxclasspath "$CLASSPATH:$(lib/annotations.jar)" -textui -longBugCodes -effort:max -exitcode $OUTPUT_PATH
 
 checkstyle:
   stage: test
@@ -37,7 +37,7 @@ checkstyle:
 unit-tests:
   stage: test
   script:
-    - java -jar $JUNIT5_PATH --class-path "$OUTPUT_PATH:$(cat libraries.txt)" --scan-class-path
+    - java -jar $JUNIT5_PATH --class-path "$OUTPUT_PATH:$(lib/junit-platform-console-standalone-1.4.2.jar)" --scan-class-path
 
 execute:
   stage: execute
