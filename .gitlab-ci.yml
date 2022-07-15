@@ -19,7 +19,7 @@ build:
     - javac -d $OUTPUT_PATH -Xlint:all,-processing -Werror -g -cp "$CLASSPATH:$(cat libraries.txt)" @sources.txt
   artifacts:
     paths:
-      # Keep compiled java files and list of files
+    # Keep compiled java files and list of files
       - $OUTPUT_PATH
       - sources.txt
       - libraries.txt
@@ -42,5 +42,5 @@ unit-tests:
 execute:
   stage: execute
   script:
-    - java -cp "$OUTPUT_PATH:$(cat libraries.txt)" de.lmu.ifi.sosylab.CyberzulMain
+    -  java -cp "$OUTPUT_PATH:$(cat libraries.txt)" de.lmu.ifi.sosylab.CyberzulMain
 
