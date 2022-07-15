@@ -29,7 +29,7 @@ public class GameBoard extends JPanel {
 
   private RankingBoard rankingBoard;
   private Dimension frameDimension;
-  private List<PlayerBoard> otherPlayerBoards;
+  private transient List<PlayerBoard> otherPlayerBoards;
 
 
   public GameBoard(final int numberOfPlayers, TileClickListener tileClickListener,

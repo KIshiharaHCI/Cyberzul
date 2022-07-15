@@ -4,12 +4,16 @@ import azul.team12.model.Model;
 import azul.team12.model.ModelTile;
 import azul.team12.model.Offering;
 import azul.team12.model.WallBackgroundPattern;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 
 public class GameController implements Controller {
 
   private Model model;
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
+      + "encapsulation is violated here and that this is in principle bad. However, it is "
+      + "intended, because the controller needs to be able to invoke methods of the model. ")
   public GameController(Model model){
     this.model = model;
   }
