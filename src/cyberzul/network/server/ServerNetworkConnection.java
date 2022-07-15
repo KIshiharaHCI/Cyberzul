@@ -18,7 +18,7 @@ import org.json.JSONObject;
  */
 public class ServerNetworkConnection {
 
-  private static final int PORT = 8080;
+  private static final int PORT = 2307;
 
   private final ExecutorService executorService;
 

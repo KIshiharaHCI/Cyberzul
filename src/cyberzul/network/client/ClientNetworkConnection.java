@@ -22,8 +22,8 @@ import org.json.JSONObject;
  */
 public class ClientNetworkConnection {
 
-  private static final String HOST = "localhost";
-  private static final int PORT = 8080;
+  private static final String HOST = "192.000.2.101";
+  private static final int PORT = 2307;
 
   private final ClientModel model;
   private Socket socket;
