@@ -42,5 +42,5 @@ unit-tests:
 execute:
   stage: execute
   script:
-    -  java -cp "$OUTPUT_PATH:$(cat libraries.txt)" de.lmu.ifi.sosylab.AzulMain
+    -  java -cp "$OUTPUT_PATH:$(cat libraries.txt)" de.lmu.ifi.sosylab.CyberzulMain
 
