@@ -27,8 +27,10 @@ import org.json.JSONObject;
  */
 public class ClientNetworkConnection {
 
-  private static final String HOST = "localhost";
-  private static final int PORT = 8080;
+  //private static final String HOST = "localhost";
+  private static final String HOST = "192.168.2.101"; //Thinkpad
+  //private static final String HOST = "192.168.2.122"; //HP
+  private static final int PORT = 2307;
 
   private final ClientModel model;
   private Socket socket;
@@ -59,7 +61,7 @@ public class ClientNetworkConnection {
 
         catch (ConnectException connectException){
           if(connectException.getMessage().equals("Connection refused: connect")){
-            Server.start();
+            //Server.start();
             continue;
           }
           else{

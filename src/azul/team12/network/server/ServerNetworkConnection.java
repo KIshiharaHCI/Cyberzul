@@ -3,6 +3,7 @@ package azul.team12.network.server;
 import azul.team12.controller.Controller;
 import azul.team12.model.Model;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -18,7 +19,9 @@ import org.json.JSONObject;
  */
 public class ServerNetworkConnection {
 
-  private static final int PORT = 8080;
+  private static final int PORT = 2307;
+  private static final String HOST = "192.168.2.101"; //Thinkpad
+  private static final int BACKLOG = 10;
 
   private final ExecutorService executorService;
 
@@ -60,7 +63,8 @@ public class ServerNetworkConnection {
     this.model = gameModel;
     this.controller = controller;
     executorService = Executors.newCachedThreadPool();
-    socket = new ServerSocket(PORT);
+    //socket = new ServerSocket(PORT);
+    socket = new ServerSocket(PORT,BACKLOG, InetAddress.getByName(HOST));
     clientHandlers = Collections.synchronizedList(new ArrayList<>());
 
     modelPropertyChangeHandler = new ModelPropertyChangeHandler(this, model);
