@@ -91,6 +91,8 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     URL resource = getClass().getClassLoader().getResource("img/gamelogo.png");
     ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("img/gamelogo.png"));
     gameLogoLabel = new JLabel(icon);
+
+    listModel = new DefaultListModel<>();
   }
 
   private void addEventListeners() {
