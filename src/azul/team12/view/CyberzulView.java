@@ -21,11 +21,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AzulView extends JFrame implements PropertyChangeListener {
+public class CyberzulView extends JFrame implements PropertyChangeListener {
 
   private static final long serialVersionUID = 7526472295622776147L;
 
-  private static final Logger LOGGER = LogManager.getLogger(AzulView.class);
+  private static final Logger LOGGER = LogManager.getLogger(CyberzulView.class);
   private static final String LOGIN_CARD = "login";
   private static final String HOT_SEAT_MODE_CARD = "hotseatmode";
   private static final String NETWORK_CARD = "networkmode";
@@ -62,7 +62,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
    * @param controller the controller that is used to communicate with the view.
    * @throws HeadlessException
    */
-  public AzulView(Model model, Controller controller) throws HeadlessException {
+  public CyberzulView(Model model, Controller controller) throws HeadlessException {
     this.setTitle("Cyberzul");
     this.model = model;
     this.controller = controller;
@@ -198,7 +198,6 @@ public class AzulView extends JFrame implements PropertyChangeListener {
         updateOtherPlayerBoards();
       }
       case "NextPlayersTurnEvent" -> {
-        this.setTitle("Cyberzul - " + model.getPlayerName());
         updateCenterBoard();
         updateOtherPlayerBoards();
         updateRankingBoard();
@@ -372,7 +371,7 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   }
 
   /**
-   * Getter for AzulView JFrame width
+   * Getter for CyberzulView JFrame width
    *
    * @return
    */

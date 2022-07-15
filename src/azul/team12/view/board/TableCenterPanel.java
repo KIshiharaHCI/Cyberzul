@@ -41,7 +41,7 @@ public class TableCenterPanel extends JPanel {
 
   /**
    * Constructor for Table Center Panel.
-   * @param controller the Controller given to AzulView
+   * @param controller the Controller given to CyberzulView
    * @param tileClickListener listener class to be used when creating SourceTiles
    * @param panelDimension Dimensions of the parent Panel PlayerBoardAndTablePanel
    */

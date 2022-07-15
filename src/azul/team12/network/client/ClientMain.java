@@ -2,10 +2,9 @@ package azul.team12.network.client;
 
 import azul.team12.controller.Controller;
 import azul.team12.controller.GameController;
-import azul.team12.model.GameModel;
 import azul.team12.model.Model;
 import azul.team12.model.ModelStrategyChooser;
-import azul.team12.view.AzulView;
+import azul.team12.view.CyberzulView;
 
 /**
  * Starts the chat-client.
@@ -20,11 +19,11 @@ public class ClientMain {
     model.setStrategy(Model.CLIENT_MODEL);
     Controller controller = new GameController(model);
     
-    AzulView azulView = new AzulView(model, controller);
+    CyberzulView cyberzulView = new CyberzulView(model, controller);
 
-    model.addPropertyChangeListener(azulView);
+    model.addPropertyChangeListener(cyberzulView);
 
-    azulView.setVisible(true);
+    cyberzulView.setVisible(true);
   }
 }
 

@@ -106,7 +106,7 @@ public class CenterBoard extends JPanel {
   }
 
   /**
-   * Used by Constructor and AzulView to create and add a new PlayerBoard panel.
+   * Used by Constructor and CyberzulView to create and add a new PlayerBoard panel.
    */
   void createNewPlayerBoard() {
     currentPlayerBoard =
@@ -117,7 +117,7 @@ public class CenterBoard extends JPanel {
   }
 
   /**
-   * Used by Constructor and AzulView to create and add a new Plates panel.
+   * Used by Constructor and CyberzulView to create and add a new Plates panel.
    */
   void createNewPlatesPanel() {
     List<Offering> factoryDisplays = controller.getOfferings()
@@ -129,7 +129,7 @@ public class CenterBoard extends JPanel {
   }
 
   /**
-   * Used by Constructor and AzulView to create and add a new TableCenter panel.
+   * Used by Constructor and CyberzulView to create and add a new TableCenter panel.
    */
   void createNewTableCenter() {
     tableCenterPanel = new TableCenterPanel(controller, tileClickListener, topPanelDimension);
