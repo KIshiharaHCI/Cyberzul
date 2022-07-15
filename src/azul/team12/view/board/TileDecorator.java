@@ -1,6 +1,7 @@
 package azul.team12.view.board;
 
 import azul.team12.model.ModelTile;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -83,6 +84,10 @@ public abstract class TileDecorator extends JPanel implements Tile {
         }
 
         @Override
+        @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
+            + "encapsulation is violated here and that this is in principle bad. However, as here just "
+            + "information of the view is possible to be changed from an external source and the "
+            + "model is safe, we think it is ok to suppress this warning.")
         public JLabel getLabel () {
             return label;
         }
