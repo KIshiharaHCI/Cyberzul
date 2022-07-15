@@ -1,17 +1,13 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
-import azul.team12.model.Offering;
 import azul.team12.view.IconButton;
-import azul.team12.view.ImagePanel;
 import azul.team12.view.listeners.TileClickListener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.URL;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,7 +180,7 @@ public class GameBoard extends JPanel {
    * round ends.
    */
   public void updateRankingBoard() {
-    center.updateRankingBoard();
+    rankingBoard.updateRankingBoard();
     validate();
 
   }

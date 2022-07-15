@@ -6,13 +6,11 @@ import azul.team12.model.Offering;
 import azul.team12.model.TableCenter;
 import azul.team12.view.board.*;
 
-import java.awt.Color;
-import java.awt.Component;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
 
 /**
  * listens to what tile is clicked on and //TODO: makes the model change accordingly

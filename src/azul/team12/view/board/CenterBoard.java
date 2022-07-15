@@ -202,9 +202,4 @@ public class CenterBoard extends JPanel {
   public TableCenterPanel getTableCenterPanel() {
     return tableCenterPanel;
   }
-
-  public void updateRankingBoard() {
-    rankingBoard.updateRankingBoard();
-    validate();
-  }
 }
