@@ -16,7 +16,7 @@ import javax.swing.border.Border;
  */
 
 public class RankingBoard extends JPanel {
-  private List<String> playerNamesList;
+  private transient List<String> playerNamesList;
   private static final String GAME_RANKING = "RANKING";
   private static final int COL = 1;
   private static final long serialVersionUID = 7L;
