@@ -1,8 +1,15 @@
 package azul.team12.view.board;
 
 import azul.team12.controller.Controller;
+import azul.team12.model.Offering;
+import azul.team12.view.IconButton;
+import azul.team12.view.ImagePanel;
 import azul.team12.view.listeners.TileClickListener;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -27,6 +34,9 @@ public class GameBoard extends JPanel {
   private RankingBoard rankingBoard;
   private Dimension frameDimension;
   private List<PlayerBoard> otherPlayerBoards;
+  private final String SOUND_BUTTON_PATH = "img/sound-button.png";
+  private final String MENU_BUTTON_PATH = "img/settings-button.png";
+  private final int ICON_BUTTON_SIZE = 40;
 
   /**
    * Creates the main game panel which contains all other game elements.
@@ -45,7 +55,7 @@ public class GameBoard extends JPanel {
     setMaximumSize(frameDimension);
 
     createOpponentsPanel();
-    createChatPanel();
+    createChatAndRankingBoardAndSettingPanel();
 
     center = new CenterBoard(controller, tileClickListener,frameDimension);
     add(center, BorderLayout.CENTER);
@@ -53,23 +63,84 @@ public class GameBoard extends JPanel {
     //createRankingBoardPanel();
 
   }
+  //TODO createChatAndRankingBoardAndButtonsPanel
+  private void createChatAndRankingBoardAndSettingPanel() {
+    //TODO: replace temporary chatPanel with Iurii's Chat class, remove Background
 
-  /**
-   * Creates the East panel with the Chat.
-   */
-  //TODO: add Rankingboard
-  private void createChatPanel() {
+    // create the Panel with RankingBoard, SettingBoard and Chat.
+    JPanel chatAndRankingBoardAndSettingPanel = new JPanel();
+    chatAndRankingBoardAndSettingPanel.setLayout(new BorderLayout());
+    chatAndRankingBoardAndSettingPanel.setOpaque(false);
+
+    // create the Panel with RankingBoard and SettingBoard.
+    JPanel rankingBoardAndSettingPanel = new JPanel();
+    rankingBoardAndSettingPanel.setLayout(new GridLayout(1,2));
+    rankingBoardAndSettingPanel.setOpaque(false);
+
+    JPanel rankingBoardPanel = new JPanel();
+    rankingBoard = new RankingBoard(controller);
+    rankingBoardPanel.add(rankingBoard);
+    rankingBoardAndSettingPanel.add(rankingBoard);
+
+    JPanel settingsPanel = new JPanel();
+    settingsPanel.setLayout(null);
+
+
+
+    JButton soundButton = new IconButton(SOUND_BUTTON_PATH, 130, 20, ICON_BUTTON_SIZE, ICON_BUTTON_SIZE);
+    settingsPanel.add(soundButton);
+
+    JButton settingsButton = new IconButton(MENU_BUTTON_PATH, 130, 100, ICON_BUTTON_SIZE, ICON_BUTTON_SIZE);
+    final JPopupMenu menu = new JPopupMenu("Menu");
+    JMenuItem firstItem = new JMenuItem("First item");
+    firstItem.addActionListener( new ActionListener() {
+      public void actionPerformed(ActionEvent ae) {
+        System.out.println("First menu item clicked");
+      }
+    } );
+    menu.add(firstItem);
+    menu.add(new JMenuItem("Second item"));
+    menu.add(new JMenuItem("Third item"));
+
+    settingsButton.addActionListener( new ActionListener() {
+      public void actionPerformed(ActionEvent ae) {
+        menu.show(settingsButton, -ICON_BUTTON_SIZE*2, ICON_BUTTON_SIZE/2);
+      }
+    } );
+    settingsPanel.add(settingsButton);
+
+    settingsPanel.setOpaque(false);
+    rankingBoardAndSettingPanel.add(settingsPanel);
+
+    chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel,BorderLayout.CENTER);
+
     ChatPanel chatPanel = new ChatPanel();
-    Dimension chatPanelDimension = new Dimension(
+    chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
+
+
+    Dimension chatAndRankingBoardAndButtonsPanelDimension = new Dimension(
             (int) (frameDimension.width * 0.3),
             (int) (frameDimension.height * 0.94)
     );
-    chatPanel.setMinimumSize(chatPanelDimension);
-    chatPanel.setMaximumSize(chatPanelDimension);
-    chatPanel.setPreferredSize(chatPanelDimension);
+    chatAndRankingBoardAndSettingPanel.setMinimumSize(chatAndRankingBoardAndButtonsPanelDimension);
+    chatAndRankingBoardAndSettingPanel.setMaximumSize(chatAndRankingBoardAndButtonsPanelDimension);
+    chatAndRankingBoardAndSettingPanel.setPreferredSize(chatAndRankingBoardAndButtonsPanelDimension);
 
-    add(chatPanel,BorderLayout.EAST);
+    add(chatAndRankingBoardAndSettingPanel,BorderLayout.EAST);
   }
+//  private void createChatPanel() {
+//    //TODO: replace temporary chatPanel with Iurii's Chat class, remove Background
+//    ChatPanel chatPanel = new ChatPanel();
+//    Dimension chatPanelDimension = new Dimension(
+//        (int) (frameDimension.width * 0.3),
+//        (int) (frameDimension.height * 0.94)
+//    );
+//    chatPanel.setMinimumSize(chatPanelDimension);
+//    chatPanel.setMaximumSize(chatPanelDimension);
+//    chatPanel.setPreferredSize(chatPanelDimension);
+//
+//    add(chatPanel,BorderLayout.EAST);
+//  }
 
   /**
    * Creates the sidebar with the panels of the opponents.
