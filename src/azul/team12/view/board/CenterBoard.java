@@ -14,8 +14,8 @@ import java.util.List;
 public class CenterBoard extends JPanel {
 
   private static final long serialVersionUID = 5L;
-  private final int WIDTH = 1100;
-  private final int HEIGHT = 780;
+  private static final int WIDTH = 1100;
+  private static final int HEIGHT = 780;
   private transient final Controller controller;
   PlatesPanel platesPanel;
   RankingBoard rankingBoard;

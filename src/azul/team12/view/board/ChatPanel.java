@@ -22,7 +22,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private JScrollPane scrollPane;
 
 
-  private final int defaultInset = 5;
+  private static final int defaultInset = 5;
 
   public ChatPanel(){
     setLayout(new GridBagLayout());
