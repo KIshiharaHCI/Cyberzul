@@ -11,6 +11,8 @@ import cyberzul.model.Player;
 import cyberzul.model.events.*;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
+import cyberzul.network.client.messages.PlayerLeftGameMessage;
+import cyberzul.network.client.messages.PlayerLoggedInMessage;
 import cyberzul.shared.JsonMessage;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -124,6 +126,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   public void loggedIn() {
     setLoggedIn(true);
     playerList.add(new ClientPlayer(thisPlayersName));
+    addChatEntry(new PlayerLoggedInMessage(thisPlayersName));
     notifyListeners(new LoggedInEvent());
   }
 
@@ -381,14 +384,14 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
-   * Add a status-update entry "Player joined" to the list of chat entries.
+   * Add a status-update entry "Player joined chat" to the list of chat entries.
    * Used by the network layer to update the model accordingly.
-   * Notify the Listeners that one Player joins the game.
+   * Notify the Listeners that one Player joins the chat.
    * @param nickname The name of the newly joined user.
    */
-  public void playerJoined(String nickname) {
-    this.thisPlayersName = nickname;
+  public void playerJoinedChat(String nickname) {
     addChatEntry(new PlayerJoinedChatMessage(nickname));
+    //TODO  @Xue if PlayerJointedChatMessage necessary?
     notifyListeners(new UserJoinedEvent(nickname));
   }
 
@@ -407,6 +410,18 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
     playerMessages.add(message);
     notifyListeners(new PlayerAddedMessageEvent(message));
+  }
+
+  /**
+   * Add a status-update entry "Player has left the chat" to the list of chat entries.
+   * Used by the network layer to update the model accordingly.
+   * Notify the Listeners that one Player lefts the game.
+   * @param nickname The name of the player who lefts the game.
+   */
+  public void playerLeft(final String nickname) {
+    addChatEntry(new PlayerLeftGameMessage(nickname));
+    notifyListeners(new GameForfeitedEvent(nickname));
+
   }
 
 
