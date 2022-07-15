@@ -42,6 +42,5 @@ unit-tests:
 execute:
   stage: execute
   script:
-    # SEP Teams: adjust the next line for your project
-    -  java -cp "$OUTPUT_PATH:$(cat libraries.txt)" de.lmu.ifi.sosylab.HelloWorld
+    -  java -cp "$OUTPUT_PATH:$(cat libraries.txt)" de.lmu.ifi.sosylab.AzulMain
 
