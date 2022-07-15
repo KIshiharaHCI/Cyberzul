@@ -59,7 +59,8 @@ public abstract class TileDecorator extends JPanel implements Tile {
         }
         URL imgURL1 = getClass().getClassLoader().getResource(pathList.get(path));
 //          Image img = resizeImage(new ImageIcon(Objects.requireNonNull(imgURL1)));
-        ImageIcon img = new ImageIcon(new ImageIcon(imgURL1).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_DEFAULT));
+        //better performance if Image.SCALE_DEFAULT
+        ImageIcon img = new ImageIcon(new ImageIcon(imgURL1).getImage().getScaledInstance(tileSize, tileSize, Image.SCALE_SMOOTH));
         ImageIcon icon = new TransparentImageIcon(img, opacity);
         label.setIcon(icon);
         add(label);
