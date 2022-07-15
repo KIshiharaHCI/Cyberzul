@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * Contains methods and fields that are common within Model classes.
  */
-public abstract class CommonModel implements ModelStrategy{
+public abstract class CommonModel implements ModelStrategy {
 
   private static final Logger LOGGER = LogManager.getLogger(CommonModel.class);
 
@@ -26,7 +26,7 @@ public abstract class CommonModel implements ModelStrategy{
   protected final PropertyChangeSupport support;
   protected boolean isGameStarted = false;
 
-  public CommonModel(){
+  public CommonModel() {
     support = new PropertyChangeSupport(this);
   }
 
@@ -197,7 +197,7 @@ public abstract class CommonModel implements ModelStrategy{
     // making a copy of player names list as ArrayList, so we can give back a clone later
     List<String> playerNamesRankingList = getPlayerNamesList();
     ArrayList<String> orderedPlayerNamesRankingList = new ArrayList<>();
-    for (String playerName: playerNamesRankingList) {
+    for (String playerName : playerNamesRankingList) {
       orderedPlayerNamesRankingList.add(playerName);
     }
 
@@ -205,7 +205,9 @@ public abstract class CommonModel implements ModelStrategy{
         (o1, o2) -> Integer.compare(getPoints(o1), getPoints(o2)));
     Collections.reverse(orderedPlayerNamesRankingList);
     try {
-      return (List<String>) orderedPlayerNamesRankingList.clone();
+      @SuppressWarnings("unchecked") List<String> toBeReturnedList =
+          (List<String>) orderedPlayerNamesRankingList.clone();
+      return toBeReturnedList;
     } catch (ClassCastException e) {
       throw new AssertionError("orderedPlayerNamesRankingList couldn't be casted to "
           + "List<String>.");
