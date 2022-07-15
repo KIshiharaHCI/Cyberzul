@@ -3,13 +3,17 @@ package azul.team12.view.board;
 import azul.team12.controller.Controller;
 import azul.team12.model.Player;
 import azul.team12.view.IconButton;
+import azul.team12.view.ImagePanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 /**
@@ -24,6 +28,7 @@ public class RankingBoard extends JPanel {
   private transient final Controller controller;
   private JPanel rankingBoardPanel;
   private transient List<Player> playersList;
+  private final String RANKING_BOARD_PATH = "img/ranking-board.png";
 
   /**
    * The constructor to create the ranking board showing the points of the players.
@@ -42,16 +47,27 @@ public class RankingBoard extends JPanel {
    */
   private void createRankingArea() {
     rankingBoardPanel = new JPanel();
-    Border border = BorderFactory.createTitledBorder(GAME_RANKING);
-    rankingBoardPanel.setBorder(border);
+//    Border border = BorderFactory.createTitledBorder(GAME_RANKING);
+//    rankingBoardPanel.setBorder(border);
 
-    rankingBoardPanel.setMaximumSize(new Dimension(600, 300));
+
+
+    //rankingBoardPanel.setMaximumSize(new Dimension(600, 300));
     rankingBoardPanel.setLayout(new GridLayout(playersList.size(), COL));
     add(rankingBoardPanel, BorderLayout.CENTER);
     for (Player player : playersList) {
-      rankingBoardPanel.add(
-          new JLabel(player.getName() + ": " + controller.getPoints(player.getName())));
+      //JTextField text = new JTextField();
+      JLabel label = new JLabel();
+      // Change text font size
+      label.setFont(new Font("Serif",Font.BOLD,20));
+      // Change text font color
+      label.setForeground(Color.green);
+      label.setText("   " + player.getName() + ": " + controller.getPoints(player.getName()));
+      rankingBoardPanel.add(label);
     }
+    JPanel rankingBackgroundPanel = new ImagePanel(rankingBoardPanel, RANKING_BOARD_PATH, 200,
+        180, 1);
+    add(rankingBackgroundPanel, rankingBoardPanel);
   }
 
   //new JLabel playerRankLabel = new IconButton()
