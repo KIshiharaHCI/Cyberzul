@@ -12,6 +12,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,9 +121,7 @@ public class ClientNetworkConnection {
       case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
       case GAME_STARTED -> handleGameStarted(object);
       case USER_JOINED -> model.userJoined(object.getString(JsonMessage.NICK_FIELD));
-      case USER_LEFT -> {
-        //TODO: IMPLEMENT CHAT HERE @XUE
-      }
+      case USER_LEFT -> handlePlayerLeft(object);
       case NEXT_PLAYERS_TURN -> model.handleNextPlayersTurn(object);
       case NOT_YOUR_TURN -> model.handleNotYourTurn();
       case PLAYER_HAS_CHOSEN_TILE -> model.handlePlayerHasChosenTile(object);
@@ -133,18 +133,7 @@ public class ClientNetworkConnection {
       case GAME_FINISHED -> model.handleGameFinishedEvent(object);
       case GAME_CANCELED -> model.handleGameCanceled(object.getString(JsonMessage.NICK_FIELD));
       case GAME_FORFEITED -> model.handleGameForfeited(object.getString(JsonMessage.NICK_FIELD));
-      /*
-      case USER_JOINED:
-        handleUserJoined(object);
-        break;
-      case USER_LEFT:
-        handleUserLeft(object);
-        break;
-      case MESSAGE:
-        handleUserTextMessage(object);
-        break;
-
-       */
+      case MESSAGE -> handlePlayerTextMessage(object);
       default -> throw new AssertionError("Unhandled message: " + object);
     }
   }
@@ -155,37 +144,25 @@ public class ClientNetworkConnection {
     model.handleGameStarted(offerings, playerNames);
   }
 
-  //TODO: Commented out code
-  /*
-
-
-  private void handleUserLeft(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userLeft(nick);
+  private void handlePlayerLeft(JSONObject jsonObject) {
+    if (model.getLoggedIn()) {
+      String nickname = JsonMessage.getNickname(jsonObject);
+      model.playerLeft(nickname);
     }
   }
 
-  private void handleUserJoined(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userJoined(nick);
-    }
-  }
-
-  private void handleUserTextMessage(JSONObject object) {
-    if (!model.isLoggedIn()) {
+  private void handlePlayerTextMessage(JSONObject jsonObject) {
+    if (!model.getLoggedIn()) {
       return;
     }
-
-    String nick = JsonMessage.getNickname(object);
-    Date time = JsonMessage.getTime(object);
-    String content = JsonMessage.getContent(object);
-    model.addTextMessage(nick, time, content);
+    String nickname = JsonMessage.getNickname(jsonObject);
+    Date time = JsonMessage.getTime(jsonObject);
+    String content = JsonMessage.getContent(jsonObject);
+    model.addTextMessage(nickname, time, content);
   }
 
 
-   */
+
 
   /**
    * Stop the network-connection.

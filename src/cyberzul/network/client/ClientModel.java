@@ -87,6 +87,9 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     this.connection = connection;
   }
 
+  public synchronized boolean getLoggedIn() {
+    return loggedIn;
+  }
   public synchronized void setLoggedIn(boolean loggedIn) {
     this.loggedIn = loggedIn;
   }
@@ -116,6 +119,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     this.thisPlayersName = nickname;
     getConnection().sendLogin(nickname);
   }
+
 
   /**
    * Update the model accordingly when a login attempt is successful. This is afterwards published
