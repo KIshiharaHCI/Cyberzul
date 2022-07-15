@@ -1248,21 +1248,23 @@ Q3:
 _Marco_
 
 Q1:
+
 - meeting with team
-  - create floor line + functionality
-  - create CHANGELOG.md
-  - create README.md
-  - create JAR-file with Nils.
-  - Bugfixing pattern line
-  - Creation of Tasks
+    - create floor line + functionality
+    - create CHANGELOG.md
+    - create README.md
+    - create JAR-file with Nils.
+    - Bugfixing pattern line
+    - Creation of Tasks
 
 Q2:
+
 - Presentation
 - Creating tasks together
 
 Q3:
-- None
 
+- None
 
 **5. July, 2022**
 
@@ -1286,13 +1288,16 @@ Q3:
 _Marco_
 
 Q1:
+
 - Presentation
 - Creating tasks together
 
 Q2:
+
 - None.
 
 Q3:
+
 - None.
 
 **6. July, 2022**
@@ -1314,15 +1319,18 @@ Q3:
 _Marco_
 
 Q1:
+
 - None
 
 Q2:
+
 - Creating LOGGER with Log4j2 in subbranch
 - Merging to main
 - Creating model Interface
 - Forfeit Game Logic
 
 Q3:
+
 - Logger cannot create files, does not work when I am not using the Default Configurator.
 
 **7. July, 2022**
@@ -1342,21 +1350,23 @@ Q3:
 
 - I need to coordinate the network design with the team.
 
-
 _Marco_
 
 Q1:
+
 - write forfeit method
-  - first that the game is just ended if one player forfeits
-  - then decided to write an AI (random turns) that replaces the player
+    - first that the game is just ended if one player forfeits
+    - then decided to write an AI (random turns) that replaces the player
 
 Q2:
+
 - Team meeting with Chris
 - Discuss new view
 - Discuss server-client-connection
 - implement getFloorlineOfPlayer() in Controller
 
 Q3:
+
 - Logger
 
 **8. July, 2022**
@@ -1386,6 +1396,7 @@ Q3:
 _Marco_
 
 Q1:
+
 - Team meeting with Chris
 - Discuss new view
 - Discuss server-client-connection
@@ -1393,12 +1404,14 @@ Q1:
 - fix bugs in AI method and make the code better
 
 Q2:
+
 - fix bug in AI method when more than one player defeats and we have four players
 - meeting with Nils
 - merge AI to main
 - restructure model
 
 Q3:
+
 - Logger
 
 **9. July, 2022**
@@ -1417,16 +1430,17 @@ Q3:
 
 - I rely heavily on the functioning code of other developers
 
-
 _Marco_
 
 Q1:
+
 - meeting with Nils
 - create Model interface
 - restructure model
 - make chooseTileFrom() use the index of the offering not the offering
 
 Q2:
+
 - implement restart() functionality
 - fix bug in AI method when more than one player defeats and we have four players
 - merge AI to main manually
@@ -1436,6 +1450,7 @@ Q2:
 - logger
 
 Q3:
+
 - Logger
 
 **10. July, 2022**
@@ -1459,6 +1474,7 @@ Q3:
 _Marco_
 
 Q1:
+
 - implement restart() functionality
 - fix bug in AI method when more than one player defeats and we have four players
 - merge AI to main manually
@@ -1467,39 +1483,46 @@ Q1:
 - fix bug that next round did not start by the player with the SPM
 
 Q2:
+
 - fix Build process in main branche
 - fix 454 Checkstyle errors (all in model and controller)
 
 Q3:
+
 - Logger
 
 **11. July, 2022**
 
 _Nils_
 Q1:
+
 - worked on the client-network connection. Implemented the functionality that the game can be started via the network
   connection and the clients get the information about the factory displays and the names of the other players
 
 Q2:
+
 - meet with Chris
 - meet with the team
 - find out why the network connection doesn't work as intended and why some methods are not entered.
 
 Q3:
-- I depend on every public method and need to understand what it does and how to use it. 
 
+- I depend on every public method and need to understand what it does and how to use it.
 
-_Marco_ 
+_Marco_
 
 Q1:
+
 - fix Build process in main branch
 - fix 454 Checkstyle errors (all in model and controller)
 
 Q2:
+
 - fix SpotBugs in Main branch
 - create new issues
 
 Q3:
+
 - Logger
 
 **12. Juli, 2022**
@@ -1507,41 +1530,50 @@ Q3:
 _Nils_
 
 Q1:
+
 - meet with Chris
 - meet with the team
 - found problems with the network connection and solved them
 
 Q2:
+
 - let the network connection run as good as it can
 
 Q3:
+
 - none
 
 **12. Juli, 2022**
 
 _Nils_
 
-Q1: 
+Q1:
+
 - meet with the team
 - worked on the network until it was possible to make the first turns
 
 Q2:
+
 - finish the network and merge it with main
 
 Q3:
+
 - merging the main with my networkBranch makes my project disappear. Maybe thats because main gets built with maven now.
 
 **13. Juli, 2022**
 
 _Nils_
 
-Q1: 
+Q1:
+
 - almost finished the network
 
-Q2: 
+Q2:
+
 - finish the network
 
 Q3:
+
 - none
 
 **14. Juli, 2022**
@@ -1549,16 +1581,43 @@ Q3:
 _Nils_
 
 Q1:
+
 - finished the network. It is now fully functional.
 - if a player exits he gets replaced by the AI
 
 Q2:
+
 - handle all exceptions. I don't want to see any socket exceptions
 - planning next steps for me
-  - Encoder/Decoder for end-to-end encryption of chat messages?
-  - making the game playable via localhost wlan?
+    - Encoder/Decoder for end-to-end encryption of chat messages?
+    - making the game playable via localhost wlan?
 - refactoring the network and player code
 - Check if all buttons on the view work. If not, implement them with the network (should be 2 lines)
 
 Q3:
+
+- none
+
+**15. Juli, 2022**
+
+_Nils_
+
+Q1:
+
+- refactored the code so there is less code duplicates
+- made it possible to play in network mode by only starting one main class.
+- made it possible to chose between network mode and hot seat mode
+- the first client that tries to log into the server becomes the server
+- implemented the Strategy Design Pattern for Model Strategies
+
+Q2:
+
+- refactor my code, find all bugs with spotbugs and checkstyle
+- in network mode, directly show the number of players that already logged in (maybe also their names, the view has to
+  decide that)
+- add JavaDoc to my code
+- meet with the team and Chris at 16 O'Clock
+
+Q3:
+
 - none
