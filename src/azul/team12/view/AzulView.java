@@ -298,8 +298,10 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     inputField = new JTextField(10);
     numberOfLoggedInPlayersLabel =
         new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+    numberOfLoggedInPlayersLabel.setForeground(Color.WHITE);
     hotSeatModePanel.add(numberOfLoggedInPlayersLabel);
     hotSeatModePanel.add(pleaseEnterNameLabel);
+    pleaseEnterNameLabel.setForeground(Color.WHITE);
     hotSeatModePanel.add(inputField);
     hotSeatModePanel.add(addPlayerButton);
     hotSeatModePanel.add(playButton);
