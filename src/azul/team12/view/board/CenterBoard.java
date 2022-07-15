@@ -4,6 +4,7 @@ import azul.team12.controller.Controller;
 import azul.team12.model.Offering;
 import azul.team12.view.listeners.TileClickListener;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -11,6 +12,10 @@ import java.util.List;
 /**
  * The center of the table ("Tischmitte").
  */
+@SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "We are aware that data "
+    + "encapsulation is violated here and that this is in principle bad. However, as here just "
+    + "information of the view is possible to be changed from an external source and the "
+    + "model is safe, we think it is ok to suppress this warning.")
 public class CenterBoard extends JPanel {
 
   private static final long serialVersionUID = 5L;
