@@ -13,6 +13,7 @@ import cyberzul.network.client.messages.*;
 import cyberzul.shared.JsonMessage;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -431,6 +432,29 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     addChatEntry(chatMessage);
     getConnection().playerSendMessage(chatMessage);
     notifyListeners(new PlayerAddedMessageEvent(chatMessage));
+  }
+
+  /**
+   * Return a list of all chat-message-entries, including both user-message entries and status-update
+   * entries in the chat.
+   *
+   * @return a copy of a sorted list containing the entries of the chat.
+   */
+  public List<Message> getMessages() {
+    return new ArrayList<>(playerMessages);
+  }
+
+  /**
+   * Add a text message to the list of chat entries.
+   * Used by the network layer to update the model accordingly.
+   *
+   * @param nickname The name of the chat participants that has sent this message.
+   * @param date     The date when the chat message was sent.
+   * @param content  The actual content (text) that the participant had sent.
+   */
+  public void addTextMessage(String nickname, Date date, String content) {
+    PlayerTextMessage message = new PlayerTextMessage(nickname, date, content);
+    addChatEntry(message);
   }
 
 
