@@ -53,7 +53,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private transient Controller controller;
 
   private GameBoard gameBoard;
-  private TileClickListener tileClickListener;
+  private transient TileClickListener tileClickListener;
 
   /**
    * Create the Graphical User Interface of Azul.

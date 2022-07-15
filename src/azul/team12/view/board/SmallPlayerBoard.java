@@ -7,6 +7,9 @@ import java.awt.*;
 
 public class SmallPlayerBoard extends PlayerBoard {
 
+
+    private static final long serialVersionUID = 14L;
+
     /**
      * The constructor to create a playerboard for a given player.
      *

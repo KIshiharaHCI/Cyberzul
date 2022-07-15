@@ -204,7 +204,12 @@ public abstract class CommonModel implements ModelStrategy{
     Collections.sort(orderedPlayerNamesRankingList,
         (o1, o2) -> Integer.compare(getPoints(o1), getPoints(o2)));
     Collections.reverse(orderedPlayerNamesRankingList);
-    return (List<String>) orderedPlayerNamesRankingList.clone();
+    try {
+      return (List<String>) orderedPlayerNamesRankingList.clone();
+    } catch (ClassCastException e) {
+      throw new AssertionError("orderedPlayerNamesRankingList couldn't be casted to "
+          + "List<String>.");
+    }
   }
 
 

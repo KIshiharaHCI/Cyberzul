@@ -21,7 +21,7 @@ public class RankingBoard extends JPanel {
   private static final int COL = 1;
   private static final long serialVersionUID = 7L;
   private transient final Controller controller;
-  private JPanel rankingBoardPanel;
+  private transient JPanel rankingBoardPanel;
   private transient List<Player> playersList;
 
   /**

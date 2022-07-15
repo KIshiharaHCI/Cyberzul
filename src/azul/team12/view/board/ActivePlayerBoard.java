@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class ActivePlayerBoard extends PlayerBoard {
     private JButton forfeitButton, cancelGameButton, restartGameButton;
+    private static final long serialVersionUID = 15L;
+
 
     /**
      * The constructor to create a playerboard for a given player.
