@@ -17,6 +17,7 @@ import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AzulView extends JFrame implements PropertyChangeListener {
 
@@ -74,21 +75,45 @@ public class AzulView extends JFrame implements PropertyChangeListener {
   private void initializeWidgets() {
     layout = new CardLayout();
     //Buttons
-    hotSeatModeButton = new JButton("Hot Seat Mode");
+    hotSeatModeButton = new JButton();
+    hotSeatModeButton.setContentAreaFilled(false);
+    hotSeatModeButton.setBorderPainted(false);
     networkButton = new JButton("Network Mode");
+    networkButton.setContentAreaFilled(false);
+    networkButton.setBorderPainted(false);
     addPlayerButton = new JButton("+ Add Player");
-    playButton = new JButton("Play");
+    playButton = new JButton();
+    playButton.setContentAreaFilled(false);
+    playButton.setBorderPainted(false);
     //temporary button to test the view
     testFourPlayersButton = new JButton("Test of 4 Players");
     testThreePlayersButton = new JButton("Test of 3 Players");
     testTwoPlayersButton = new JButton("Test of 2 Players");
     //Labels
     pleaseEnterNameLabel = new JLabel("Please enter your nickname:");
-    selectModeLabel = new JLabel("Select Mode");
+    selectModeLabel = new JLabel();
+    //Icons
     URL resource = getClass().getClassLoader().getResource("img/gamelogo.png");
-    ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("img/gamelogo.png"));
-    icon = new ImageIcon(icon.getImage().getScaledInstance(800,130, Image.SCALE_SMOOTH));
+    ImageIcon icon = new ImageIcon(Objects.requireNonNull(resource));
+    icon = new ImageIcon(icon.getImage().getScaledInstance(900,150, Image.SCALE_SMOOTH));
     gameLogoLabel = new JLabel(icon);
+
+    resource = getClass().getClassLoader().getResource("img/select-mode-banner.png");
+    icon = new ImageIcon(new ImageIcon(
+            Objects.requireNonNull(resource)).getImage().getScaledInstance(700, 40, Image.SCALE_SMOOTH));
+    selectModeLabel.setIcon(icon);
+
+    resource = getClass().getClassLoader().getResource("img/hotseat-button.png");
+    icon = new ImageIcon(Objects.requireNonNull(resource));
+    hotSeatModeButton.setIcon(icon);
+
+    resource = getClass().getClassLoader().getResource("img/network-button.png");
+    icon = new ImageIcon(Objects.requireNonNull(resource));
+    networkButton.setIcon(icon);
+
+    resource = getClass().getClassLoader().getResource("img/start-game-button.png");
+    icon = new ImageIcon(Objects.requireNonNull(resource));
+    playButton.setIcon(icon);
   }
 
   private void addEventListeners() {
@@ -224,9 +249,13 @@ public class AzulView extends JFrame implements PropertyChangeListener {
     login.add(gameLogoLabel);
 
     JPanel container = new JPanel();
+    container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
     container.add(selectModeLabel);
-    container.add(hotSeatModeButton);
-    container.add(networkButton);
+    JPanel modeButtons = new JPanel();
+    modeButtons.setOpaque(false);
+    modeButtons.add(hotSeatModeButton);
+    modeButtons.add(networkButton);
+    container.add(modeButtons);
     container.setOpaque(false);
 
     login.add(container);
