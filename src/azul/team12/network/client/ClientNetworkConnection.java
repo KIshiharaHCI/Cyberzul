@@ -57,9 +57,6 @@ public class ClientNetworkConnection {
           socket = new Socket(HOST, PORT);
         }
 
-
-
-
         catch (ConnectException connectException){
           if(connectException.getMessage().equals("Connection refused: connect")){
             Server.start();

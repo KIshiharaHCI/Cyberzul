@@ -136,8 +136,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Update the model accordingly when a login attempt is successful. This is afterwards published
    * to the subscribed listeners.
-   *
-   * @param playerNames all player that are currently logged in into the model
    */
   public void loggedIn() {
       setLoggedIn(true);
