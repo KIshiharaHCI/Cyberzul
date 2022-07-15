@@ -10,7 +10,7 @@ import java.util.List;
 public class TableCenter extends Offering {
 
   private static TableCenter instance;
-  static ArrayList<ModelTile> content;
+  ArrayList<ModelTile> content;
 
   TableCenter() {
     super();
@@ -34,7 +34,7 @@ public class TableCenter extends Offering {
       + "instances.")
   @Override
   void initializeContent() {
-    TableCenter.content = new ArrayList<>();
+    this.content = new ArrayList<>();
   }
 
   /**
