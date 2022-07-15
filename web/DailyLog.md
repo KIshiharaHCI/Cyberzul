@@ -41,7 +41,8 @@ Q1:
 
 Q2:
 
-- Today we had our first meeting with Chris, afterwards we helped each other out with setting up Gitlab.
+- Today we had our first meeting with Chris, afterwards we helped each other out with setting up
+  Gitlab.
 
 Q3:
 
@@ -57,11 +58,13 @@ Q1:
 
 Q2:
 
-- Today we had our first meeting with Chris, afterwards we helped each other out with setting up Gitlab.
+- Today we had our first meeting with Chris, afterwards we helped each other out with setting up
+  Gitlab.
 
 Q3:
 
-- Nothing severe so far, just trying to figure out what is a realistic timeframe for the milestones, I'll create
+- Nothing severe so far, just trying to figure out what is a realistic timeframe for the milestones,
+  I'll create
   tomorrow morning.
 
 **18. June, 2022**
@@ -76,11 +79,14 @@ Q1:
 
 Q2:
 
-- writing the first submission (due on sunday, already solved on paper with the team) in .txt files and pushing them on
+- writing the first submission (due on sunday, already solved on paper with the team) in .txt files
+  and pushing them on
   the main branch
-- meeting with Marco and Xue to discuss the structure of the project. The structure will be defined by method heads with
+- meeting with Marco and Xue to discuss the structure of the project. The structure will be defined
+  by method heads with
   empty bodies, comments and UML Diagram
-- starting with the transcription of game rules into a JSON protocol (low priority right now, BUT I have to understand
+- starting with the transcription of game rules into a JSON protocol (low priority right now, BUT I
+  have to understand
   and memorize the rules anyway)
 
 Q3:
@@ -416,7 +422,8 @@ _Xue_
 Q1:
 
 - Kept on with details about our project structure,
-- Ceated a new branch "methods" to implement our Methods (implemented method "Tile drawRandomTile()")
+- Ceated a new branch "methods" to implement our Methods (implemented method "Tile
+  drawRandomTile()")
 - Team Meeting
 
 Q2:
@@ -624,10 +631,12 @@ _Nils_
 
 Q1:
 
-- Rewritten the Bag Classes, BagToDrawNewTiles From, BagToStoreUsedTiles, Factory Display, TableCenter.
+- Rewritten the Bag Classes, BagToDrawNewTiles From, BagToStoreUsedTiles, Factory Display,
+  TableCenter.
 - They are now able to be used by the model.
 
-- Changed BagToDrawNewTilesFrom and BagToStoreUsed Tiles aswell as the TableCenter so they implement the Singleton
+- Changed BagToDrawNewTilesFrom and BagToStoreUsed Tiles aswell as the TableCenter so they implement
+  the Singleton
   Design Pattern.
 
 - Also meeting with the group and discussing the Interface.
@@ -635,8 +644,10 @@ Q1:
 Q2:
 
 - Write the Player class.
-- Write a method in the Player class that enables the Player to pick tiles from Offerings (a subclass of Bag).
-- Write a method in the Player class that enables the Player to place the tiles on the pattern lines.
+- Write a method in the Player class that enables the Player to pick tiles from Offerings (a
+  subclass of Bag).
+- Write a method in the Player class that enables the Player to place the tiles on the pattern
+  lines.
 - Write a method in the Player class for the points that the player gets after each round.
 - Write a method in the Player class for the points that the player gets at the end of the game.
 
@@ -664,8 +675,10 @@ _Nils_
 Q1:
 
 - Written the Player class.
-- Written a method in the Player class that enables the Player to pick tiles from Offerings (a subclass of Bag).
-- Written a method in the Player class that enables the Player to place the tiles on the pattern lines.
+- Written a method in the Player class that enables the Player to pick tiles from Offerings (a
+  subclass of Bag).
+- Written a method in the Player class that enables the Player to place the tiles on the pattern
+  lines.
 - Written a method in the Player class for the points that the player gets after each round.
 - Written JUnit Tests for the Bag classes.
 
@@ -714,7 +727,8 @@ Q1:
 
 Q2:
 
-- Work with Xue on alternative implementation of view to make mousePressed Elements like Tiles distinguishable by
+- Work with Xue on alternative implementation of view to make mousePressed Elements like Tiles
+  distinguishable by
   coordinates.
 
 Q3:
@@ -974,7 +988,8 @@ Q2:
 
 Q3:
 
-- concerned about side effects between paintComponent for painting Image assets and overflow of component
+- concerned about side effects between paintComponent for painting Image assets and overflow of
+  component
 
 _Xue_
 
@@ -1000,7 +1015,8 @@ Q1:
 Q2:
 
 - Meet with Marco and Xue and work on the GUI of Iiuri.
-- Make the code of Iiuri understandable. Change method names from "CreateSouth" and "OtherPanel" into comprehensible
+- Make the code of Iiuri understandable. Change method names from "CreateSouth" and "OtherPanel"
+  into comprehensible
   names. Add Comments and JavaDoc in the view code of Iiuri.
 - Connect the view with the model.
 - show player names on the view
@@ -1043,7 +1059,8 @@ Q2:
 
 - understanding code of branch view_midSubmission
 - research about BackgroundPanel as solution for adding scaled images in Components
-- worked on view_midSubmission in parallel with Nils and Marco. Worked on adding update Label function in playerBoard.
+- worked on view_midSubmission in parallel with Nils and Marco. Worked on adding update Label
+  function in playerBoard.
 
 Q3:
 
@@ -1151,7 +1168,8 @@ Q2:
 
 - show the correct points for each player
 - show the correct number of minus points on the floor line for each player
-- fix the bug where it is sometimes still possible to place tiles of different colors in the same row.
+- fix the bug where it is sometimes still possible to place tiles of different colors in the same
+  row.
 
 Q3:
 
@@ -1227,7 +1245,8 @@ Q1:
 - meet with team online
 - show the correct points for each player
 - show the correct number of minus points on the floor line for each player
-- fix the bug where it is sometimes still possible to place tiles of different colors in the same row.
+- fix the bug where it is sometimes still possible to place tiles of different colors in the same
+  row.
 - fixed a bug where placing the Starting Player Marker in the floor line would lead to an exception
 - wrote the JSON Protocol
 - prepared the submission
@@ -1243,26 +1262,29 @@ Q2:
 
 Q3:
 
-- many merge conflicts and merge bubbles of the team and me, because we all pushed to the main branch
+- many merge conflicts and merge bubbles of the team and me, because we all pushed to the main
+  branch
 
 _Marco_
 
 Q1:
+
 - meeting with team
-  - create floor line + functionality
-  - create CHANGELOG.md
-  - create README.md
-  - create JAR-file with Nils.
-  - Bugfixing pattern line
-  - Creation of Tasks
+    - create floor line + functionality
+    - create CHANGELOG.md
+    - create README.md
+    - create JAR-file with Nils.
+    - Bugfixing pattern line
+    - Creation of Tasks
 
 Q2:
+
 - Presentation
 - Creating tasks together
 
 Q3:
-- None
 
+- None
 
 **5. July, 2022**
 
@@ -1286,13 +1308,16 @@ Q3:
 _Marco_
 
 Q1:
+
 - Presentation
 - Creating tasks together
 
 Q2:
+
 - None.
 
 Q3:
+
 - None.
 
 **6. July, 2022**
@@ -1314,15 +1339,18 @@ Q3:
 _Marco_
 
 Q1:
+
 - None
 
 Q2:
+
 - Creating LOGGER with Log4j2 in subbranch
 - Merging to main
 - Creating model Interface
 - Forfeit Game Logic
 
 Q3:
+
 - Logger cannot create files, does not work when I am not using the Default Configurator.
 
 **7. July, 2022**
@@ -1342,21 +1370,23 @@ Q3:
 
 - I need to coordinate the network design with the team.
 
-
 _Marco_
 
 Q1:
+
 - write forfeit method
-  - first that the game is just ended if one player forfeits
-  - then decided to write an AI (random turns) that replaces the player
+    - first that the game is just ended if one player forfeits
+    - then decided to write an AI (random turns) that replaces the player
 
 Q2:
+
 - Team meeting with Chris
 - Discuss new view
 - Discuss server-client-connection
 - implement getFloorlineOfPlayer() in Controller
 
 Q3:
+
 - Logger
 
 **8. July, 2022**
@@ -1373,19 +1403,23 @@ Q1:
 Q2:
 
 - implement the client-server-architecture as disconnected from the rest of the other programs
-- i will write two test main classes, so I can test the client-server-architecture without having to mess with other
+- i will write two test main classes, so I can test the client-server-architecture without having to
+  mess with other
   classes.
 - meet with Xue and Marco
 
 Q3:
 
-- the main class is not refactored yet, so it will be challenging to implement it. We wanted to user an interface for
+- the main class is not refactored yet, so it will be challenging to implement it. We wanted to user
+  an interface for
   it.
-- it is difficult for Xue to start implementing the Chat if the client-server-architecture is not ready yet.
+- it is difficult for Xue to start implementing the Chat if the client-server-architecture is not
+  ready yet.
 
 _Marco_
 
 Q1:
+
 - Team meeting with Chris
 - Discuss new view
 - Discuss server-client-connection
@@ -1393,12 +1427,14 @@ Q1:
 - fix bugs in AI method and make the code better
 
 Q2:
+
 - fix bug in AI method when more than one player defeats and we have four players
 - meeting with Nils
 - merge AI to main
 - restructure model
 
 Q3:
+
 - Logger
 
 **9. July, 2022**
@@ -1417,16 +1453,17 @@ Q3:
 
 - I rely heavily on the functioning code of other developers
 
-
 _Marco_
 
 Q1:
+
 - meeting with Nils
 - create Model interface
 - restructure model
 - make chooseTileFrom() use the index of the offering not the offering
 
 Q2:
+
 - implement restart() functionality
 - fix bug in AI method when more than one player defeats and we have four players
 - merge AI to main manually
@@ -1436,6 +1473,7 @@ Q2:
 - logger
 
 Q3:
+
 - Logger
 
 **10. July, 2022**
@@ -1452,13 +1490,16 @@ Q2:
 
 Q3:
 
-- spagetti code. Instead of having one person who is responsible for his classes, we have many people writing multiple
-  methods in every class. That way, we have redundant methods, that almost do the same. We also have methods that are
+- spagetti code. Instead of having one person who is responsible for his classes, we have many
+  people writing multiple
+  methods in every class. That way, we have redundant methods, that almost do the same. We also have
+  methods that are
   not used in the way that they were intended to use. This makes the work tedious and slow.
 
 _Marco_
 
 Q1:
+
 - implement restart() functionality
 - fix bug in AI method when more than one player defeats and we have four players
 - merge AI to main manually
@@ -1467,39 +1508,48 @@ Q1:
 - fix bug that next round did not start by the player with the SPM
 
 Q2:
+
 - fix Build process in main branche
 - fix 454 Checkstyle errors (all in model and controller)
 
 Q3:
+
 - Logger
 
 **11. July, 2022**
 
 _Nils_
 Q1:
-- worked on the client-network connection. Implemented the functionality that the game can be started via the network
-  connection and the clients get the information about the factory displays and the names of the other players
+
+- worked on the client-network connection. Implemented the functionality that the game can be
+  started via the network
+  connection and the clients get the information about the factory displays and the names of the
+  other players
 
 Q2:
+
 - meet with Chris
 - meet with the team
 - find out why the network connection doesn't work as intended and why some methods are not entered.
 
 Q3:
-- I depend on every public method and need to understand what it does and how to use it. 
 
+- I depend on every public method and need to understand what it does and how to use it.
 
-_Marco_ 
+_Marco_
 
 Q1:
+
 - fix Build process in main branch
 - fix 454 Checkstyle errors (all in model and controller)
 
 Q2:
+
 - fix SpotBugs in Main branch
 - create new issues
 
 Q3:
+
 - Logger
 
 **12. Juli, 2022**
@@ -1507,12 +1557,96 @@ Q3:
 _Nils_
 
 Q1:
+
 - meet with Chris
 - meet with the team
 - found problems with the network connection and solved them
 
 Q2:
+
 - let the network connection run as good as it can
 
 Q3:
+
+- none
+
+**12. Juli, 2022**
+
+_Nils_
+
+Q1:
+
+- meet with the team
+- worked on the network until it was possible to make the first turns
+
+Q2:
+
+- finish the network and merge it with main
+
+Q3:
+
+- merging the main with my networkBranch makes my project disappear. Maybe thats because main gets
+  built with maven now.
+
+**13. Juli, 2022**
+
+_Nils_
+
+Q1:
+
+- almost finished the network
+
+Q2:
+
+- finish the network
+
+Q3:
+
+- none
+
+**14. Juli, 2022**
+
+_Nils_
+
+Q1:
+
+- finished the network. It is now fully functional.
+- if a player exits he gets replaced by the AI
+
+Q2:
+
+- handle all exceptions. I don't want to see any socket exceptions
+- planning next steps for me
+    - Encoder/Decoder for end-to-end encryption of chat messages?
+    - making the game playable via localhost wlan?
+- refactoring the network and player code
+- Check if all buttons on the view work. If not, implement them with the network (should be 2 lines)
+
+Q3:
+
+- none
+
+**15. Juli, 2022**
+
+_Nils_
+
+Q1:
+
+- refactored the code so there is less code duplicates
+- made it possible to play in network mode by only starting one main class.
+- made it possible to chose between network mode and hot seat mode
+- the first client that tries to log into the server becomes the server
+- implemented the Strategy Design Pattern for Model Strategies
+
+Q2:
+
+- refactor my code, find all bugs with spotbugs and checkstyle
+- in network mode, directly show the number of players that already logged in (maybe also their
+  names, the view has to
+  decide that)
+- add JavaDoc to my code
+- meet with the team and Chris at 16 O'Clock
+
+Q3:
+
 - none
