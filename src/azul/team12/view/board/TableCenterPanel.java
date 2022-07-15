@@ -46,6 +46,7 @@ public class TableCenterPanel extends JPanel {
     this.tileList = new ArrayList<>();
     this.panelDimension = panelDimension;
 
+    setOpaque(false);
     setTableCenterPanelSize();
     initialize(tileClickListener, tableCenter);
 

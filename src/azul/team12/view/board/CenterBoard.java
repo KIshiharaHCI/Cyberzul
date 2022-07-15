@@ -144,6 +144,7 @@ public class CenterBoard extends JPanel {
     platesAndTableCenterPanel = new JPanel(new BorderLayout());
     platesAndTableCenterPanel.setMinimumSize(topPanelDimension);
     platesAndTableCenterPanel.setMaximumSize(topPanelDimension);
+    platesAndTableCenterPanel.setOpaque(false);
     boardAndPlatesAndTablePanel.add(platesAndTableCenterPanel, BorderLayout.NORTH);
   }
 
