@@ -76,13 +76,13 @@ public class TransparentImageIcon extends ImageIcon {
   public void paintIcon(Component c, Graphics g, int x, int y) {
     if (icon != null) {
       image = ((ImageIcon) icon).getImage();
+      Graphics2D g2 = (Graphics2D) g.create();
+      g2.setComposite(AlphaComposite.SrcAtop.derive(opacity));
+      icon.paintIcon(c, g2, x, y);
+      g2.dispose();
     } else {
       image = null;
     }
-    Graphics2D g2 = (Graphics2D) g.create();
-    g2.setComposite(AlphaComposite.SrcAtop.derive(opacity));
-    icon.paintIcon(c, g2, x, y);
-    g2.dispose();
   }
 
   /**

@@ -29,10 +29,13 @@ public class TableCenter extends Offering {
     return instance;
   }
 
+  /*
+  justification = "This is a Singleton, there will be no multiple instances."
+   */
+  @Override
   @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value = "ST_WRITE_TO_STATIC_FROM"
       + "_INSTANCE_METHOD", justification = "This is a Singleton, there will be no multiple "
       + "instances.")
-  @Override
   void initializeContent() {
     this.content = new ArrayList<>();
   }
