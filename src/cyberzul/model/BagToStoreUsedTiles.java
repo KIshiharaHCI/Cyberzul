@@ -3,13 +3,17 @@ package cyberzul.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Represents the "lid of the game box" from the Azul Game. This is where used tiles are moved. */
+/**
+ * Represents the "lid of the game box" from the Azul Game. This is where used tiles are moved.
+ */
 public class BagToStoreUsedTiles extends Bag {
 
   private static BagToStoreUsedTiles instance;
   private ArrayList<ModelTile> content;
 
-  /** Has to be private. That is important for the Singleton Design Pattern. */
+  /**
+   * Has to be private. That is important for the Singleton Design Pattern.
+   */
   private BagToStoreUsedTiles() {
     super();
   }

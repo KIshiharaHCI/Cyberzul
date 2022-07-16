@@ -52,7 +52,9 @@ public class Player {
   }
   // the left side on the board where the player places the tiles he draws ("Musterreihen").
 
-  /** The wall where the player tiles his/her tiles. */
+  /**
+   * The wall where the player tiles his/her tiles.
+   */
   public boolean[][] getWall() {
     return wall.clone();
   }
@@ -150,11 +152,11 @@ public class Player {
   /**
    * Draw Tiles from an Offering and place them on the chosen pattern line.
    *
-   * @param row the pattern line on which the tiles should be placed.
-   * @param offering the Offering from which the tiles should be drawn.
+   * @param row         the pattern line on which the tiles should be placed.
+   * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
    * @return <true>true</true> if the tiles were successfully placed on the chosen line. <code>false
-   *     </code> else.
+   * </code> else.
    */
   boolean drawTiles(int row, Offering offering, int indexOfTile) {
     // check if it's possible to place the chosen tile on the chosen line
@@ -203,7 +205,7 @@ public class Player {
   /**
    * Draw Tiles from an Offering and place them directly to the floor Line.
    *
-   * @param offering the Offering from which the tiles should be drawn.
+   * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
    */
   void placeTileInFloorLine(Offering offering, int indexOfTile) {
@@ -249,11 +251,11 @@ public class Player {
   /**
    * Check if it's possible to draw tiles from the offering and to place them on the desired row.
    *
-   * @param pickedLine the pattern line on which the tiles should be placed.
-   * @param offering the Offering from which the tiles should be drawn.
+   * @param pickedLine  the pattern line on which the tiles should be placed.
+   * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
    * @return <code>true</code> if the chosen tile can be placed on the chosen line. <code>false
-   *     </code> else.
+   * </code> else.
    */
   boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
     List<ModelTile> tiles = offering.getContent();
@@ -302,7 +304,9 @@ public class Player {
     return true;
   }
 
-  /** Represents the tiling phase, where all points are assigned. */
+  /**
+   * Represents the tiling phase, where all points are assigned.
+   */
   void tileWallAndGetPoints() {
     // iterate through every line of patternLines
     for (int rowNumber = 0; rowNumber < patternLines.length; rowNumber++) {
@@ -447,7 +451,9 @@ public class Player {
     return verticallyConsecutiveTiles;
   }
 
-  /** Award additional points to the player because the game ended. */
+  /**
+   * Award additional points to the player because the game ended.
+   */
   void addEndOfGamePoints() {
     // gain points for each complete horizontal line of 5 consecutive tiles on the wall
     int amountOfRows = wall.length;

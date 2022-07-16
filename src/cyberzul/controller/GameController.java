@@ -16,7 +16,8 @@ public class GameController implements Controller {
       justification =
           "We are aware that data "
               + "encapsulation is violated here and that this is in principle bad. However, it is "
-              + "intended, because the controller needs to be able to invoke methods of the model. ")
+              +
+              "intended, because the controller needs to be able to invoke methods of the model. ")
   public GameController(Model model) {
     this.model = model;
   }

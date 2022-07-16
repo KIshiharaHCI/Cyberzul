@@ -39,7 +39,7 @@ public class GameBoard extends JPanel {
    *
    * @param tileClickListener
    * @param controller
-   * @param frameDimension 1400 x 800 px
+   * @param frameDimension    1400 x 800 px
    */
   public GameBoard(
       TileClickListener tileClickListener, Controller controller, Dimension frameDimension) {
@@ -128,7 +128,9 @@ public class GameBoard extends JPanel {
     add(chatAndRankingBoardAndSettingPanel, BorderLayout.EAST);
   }
 
-  /** Creates the sidebar with the panels of the opponents. */
+  /**
+   * Creates the sidebar with the panels of the opponents.
+   */
   private void createOpponentsPanel() {
     otherPlayerBoards = new ArrayList<>();
     boardsOfOpponentsPanel = new JPanel();
@@ -152,7 +154,9 @@ public class GameBoard extends JPanel {
     add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
 
-  /** Used by view to update all widgets in Center Board. */
+  /**
+   * Used by view to update all widgets in Center Board.
+   */
   public void updateCenterBoard() {
     center.updateCenterBoard();
     validate();

@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn">
-  <Appenders>
-    <!-- Console appender configuration -->
-    <Console name="Console-Appender" target="SYSTEM_OUT">
-      <PatternLayout>
-        <pattern>
-          %d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n
-        </pattern>>
-      </PatternLayout>
-    </Console>
-    <File fileName="${basePath}/CyberzulMain.log"
-      name="File-Appender-CyberzulMain">
-      <PatternLayout>
-        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
-      </PatternLayout>
-    </File>
-    <File fileName="${basePath}/CyberzulView.log"
-      name="File-Appender-CyberzulView">
-      <PatternLayout>
-        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
-      </PatternLayout>
-    </File>
-    <File fileName="${basePath}/ClientMessageHandler.log"
-      name="File-Appender-ClientMessageHandler">
-      <PatternLayout>
-        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
-      </PatternLayout>
-    </File>
+    <Appenders>
+        <!-- Console appender configuration -->
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>
+                    %d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n
+                </pattern>>
+            </PatternLayout>
+        </Console>
+        <File fileName="${basePath}/CyberzulMain.log"
+              name="File-Appender-CyberzulMain">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <File fileName="${basePath}/CyberzulView.log"
+              name="File-Appender-CyberzulView">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <File fileName="${basePath}/ClientMessageHandler.log"
+              name="File-Appender-ClientMessageHandler">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
 
 
-    <RollingFile fileName="${basePath}/fileLogger.log"
-      filePattern="${basePath}/app-%d{yyyy-MM-dd}.log"
-      name="fileLogger">
-      <DefaultRolloverStrategy max="10">
-        <Delete basePath="${basePath}" maxDepth="10">
-          <!-- Delete all files older than 30 days -->
-          <IfLastModified age="30d"/>
-        </Delete>
-      </DefaultRolloverStrategy>
-      <PatternLayout>
-        <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
-        </pattern>
-      </PatternLayout>
-      <!-- Max 10 files will be created everyday -->
-      <Policies>
-        <SizeBasedTriggeringPolicy size="10MB"/>
-        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
-      </Policies>
-    </RollingFile>
-  </Appenders>
+        <RollingFile fileName="${basePath}/fileLogger.log"
+                     filePattern="${basePath}/app-%d{yyyy-MM-dd}.log"
+                     name="fileLogger">
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="${basePath}" maxDepth="10">
+                    <!-- Delete all files older than 30 days -->
+                    <IfLastModified age="30d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>
+            </PatternLayout>
+            <!-- Max 10 files will be created everyday -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
 
-  <!-- File Logger -->
-  <Loggers>
-    <Logger level="all" name="CyberzulMain">
-      <AppenderRef level="all" ref="File-Appender-CyberzulMain"/>
-      <AppenderRef level="info" ref="Console-Appender"/>
-    </Logger>
-    <Logger level="all" name="CyberzulView">
-      <AppenderRef level="all" ref="File-Appender-CyberzulView"/>
-      <AppenderRef level="info" ref="Console-Appender"/>
-    </Logger>
-    <Logger level="all" name="ClientMessageHandler">
-      <AppenderRef level="all" ref="File-Appender-ClientMessageHandler"/>
-      <AppenderRef level="info" ref="Console-Appender"/>
-    </Logger>
-    <Root additivity="false" level="info">
-      <AppenderRef level="info" ref="Console-Appender"/>
-      <appender-ref ref="fileLogger"/>
-    </Root>
-  </Loggers>
+    <!-- File Logger -->
+    <Loggers>
+        <Logger level="all" name="CyberzulMain">
+            <AppenderRef level="all" ref="File-Appender-CyberzulMain"/>
+            <AppenderRef level="info" ref="Console-Appender"/>
+        </Logger>
+        <Logger level="all" name="CyberzulView">
+            <AppenderRef level="all" ref="File-Appender-CyberzulView"/>
+            <AppenderRef level="info" ref="Console-Appender"/>
+        </Logger>
+        <Logger level="all" name="ClientMessageHandler">
+            <AppenderRef level="all" ref="File-Appender-ClientMessageHandler"/>
+            <AppenderRef level="info" ref="Console-Appender"/>
+        </Logger>
+        <Root additivity="false" level="info">
+            <AppenderRef level="info" ref="Console-Appender"/>
+            <appender-ref ref="fileLogger"/>
+        </Root>
+    </Loggers>
 
-  <Properties>
-    <Property name="basePath">log/${date:yyyy-MM-dd HH-mm-ss}</Property>
-  </Properties>
+    <Properties>
+        <Property name="basePath">log/${date:yyyy-MM-dd HH-mm-ss}</Property>
+    </Properties>
 </Configuration>

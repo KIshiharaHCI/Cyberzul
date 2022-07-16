@@ -10,7 +10,9 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/** The Ranking board which shows the name of all players and their points in descending order. */
+/**
+ * The Ranking board which shows the name of all players and their points in descending order.
+ */
 public class RankingBoard extends JPanel {
 
   private static final String GAME_RANKING = "RANKING";
@@ -33,7 +35,9 @@ public class RankingBoard extends JPanel {
     createRankingArea();
   }
 
-  /** create the ranking area with the players' name and their points. */
+  /**
+   * create the ranking area with the players' name and their points.
+   */
   private void createRankingArea() {
     rankingBoardPanel = new JPanel();
     rankingBoardPanel.setLayout(new GridLayout(playerNamesList.size(), COL));
@@ -55,7 +59,9 @@ public class RankingBoard extends JPanel {
 
   // new JLabel playerRankLabel = new IconButton()
 
-  /** Updates the current ranking status of all players. */
+  /**
+   * Updates the current ranking status of all players.
+   */
   public void updateRankingBoard() {
     remove(rankingBoardPanel);
     playerNamesList = controller.rankingPlayerWithPoints();

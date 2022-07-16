@@ -24,7 +24,9 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
-/** listens to what tile is clicked on and //TODO: makes the model change accordingly */
+/**
+ * listens to what tile is clicked on and //TODO: makes the model change accordingly
+ */
 public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
   private final Controller controller;

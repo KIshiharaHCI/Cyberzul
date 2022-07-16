@@ -1,6 +1,8 @@
 package cyberzul.model.events;
 
-/** This event gets fired from the model to the listeners, if another user joined the server. */
+/**
+ * This event gets fired from the model to the listeners, if another user joined the server.
+ */
 public class UserJoinedEvent extends GameEvent {
 
   public static final String EVENT_NAME = "UserJoinedEvent";

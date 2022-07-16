@@ -1,6 +1,8 @@
 package cyberzul.network.client.messages;
 
-/** A system message for the chat. It contains the data of a user that has joined the chat. */
+/**
+ * A system message for the chat. It contains the data of a user that has joined the chat.
+ */
 public class PlayerJoinedChatMessage extends Message {
   private final String nickname;
 

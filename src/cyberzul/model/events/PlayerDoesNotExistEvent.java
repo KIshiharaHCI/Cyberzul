@@ -1,6 +1,8 @@
 package cyberzul.model.events;
 
-/** Informs the listener that a given player does not exist. */
+/**
+ * Informs the listener that a given player does not exist.
+ */
 public class PlayerDoesNotExistEvent extends GameEvent {
 
   private final String nickname;

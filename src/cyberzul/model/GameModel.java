@@ -46,7 +46,9 @@ public class GameModel extends CommonModel implements ModelStrategy {
     offerings = new ArrayList<>();
   }
 
-  /** see {@link Model}. */
+  /**
+   * see {@link Model}.
+   */
   public void loginWithName(String nickname) {
     boolean nicknameFree = true;
     if (playerList.size() >= MAX_PLAYER_NUMBER) {

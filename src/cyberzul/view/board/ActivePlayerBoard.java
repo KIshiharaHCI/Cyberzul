@@ -22,9 +22,9 @@ public class ActivePlayerBoard extends PlayerBoard {
   /**
    * The constructor to create a playerboard for a given player.
    *
-   * @param controller the game controller
+   * @param controller        the game controller
    * @param tileClickListener listens to which tile is clicked
-   * @param playerName the name of the player who's board it is
+   * @param playerName        the name of the player who's board it is
    */
   public ActivePlayerBoard(
       Controller controller,

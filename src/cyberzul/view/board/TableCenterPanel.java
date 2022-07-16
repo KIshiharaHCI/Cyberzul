@@ -16,12 +16,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/** The tiles on the center of the table ("Tischmitte") (Center Board class) */
+/**
+ * The tiles on the center of the table ("Tischmitte") (Center Board class)
+ */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
         "We are aware that data "
-            + "encapsulation is violated here and that this is in principle bad. However, as here just "
+            +
+            "encapsulation is violated here and that this is in principle bad. However, as here just "
             + "information of the view is possible to be changed from an external source and the "
             + "model is safe, we think it is ok to suppress this warning.")
 public class TableCenterPanel extends JPanel {
@@ -42,9 +45,9 @@ public class TableCenterPanel extends JPanel {
   /**
    * Constructor for Table Center Panel.
    *
-   * @param controller the Controller given to CyberzulView
+   * @param controller        the Controller given to CyberzulView
    * @param tileClickListener listener class to be used when creating SourceTiles
-   * @param panelDimension Dimensions of the parent Panel PlayerBoardAndTablePanel
+   * @param panelDimension    Dimensions of the parent Panel PlayerBoardAndTablePanel
    */
   public TableCenterPanel(
       Controller controller, TileClickListener tileClickListener, Dimension panelDimension) {

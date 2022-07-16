@@ -4,7 +4,9 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import java.util.List;
 
-/** //TODO: The information about the implementation insiede the model gets deleted later on. */
+/**
+ * //TODO: The information about the implementation insiede the model gets deleted later on.
+ */
 public interface Controller {
 
   /**
@@ -71,8 +73,8 @@ public interface Controller {
    * center. The model should inform the view with an error message via notify listeners, if the
    * player can't place it on a patter line.
    *
-   * @param playerName the name of the player who makes his move.
-   * @param indexOfTile which of the tiles on the Offering was clicked on.
+   * @param playerName    the name of the player who makes his move.
+   * @param indexOfTile   which of the tiles on the Offering was clicked on.
    * @param offeringIndex index of the offering where the tile is chosen from.
    */
   void chooseTileFrom(String playerName, int indexOfTile, int offeringIndex);
@@ -142,7 +144,9 @@ public interface Controller {
    */
   void replacePlayerByAi(String playerName);
 
-  /** tells the model that a given player wants to cancel the game. Makes the game end. */
+  /**
+   * tells the model that a given player wants to cancel the game. Makes the game end.
+   */
   void cancelGameForAllPlayers();
 
   /**

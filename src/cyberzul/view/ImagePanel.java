@@ -22,10 +22,10 @@ public class ImagePanel extends JPanel {
   /**
    * Constructor for creating a panel with a background image.
    *
-   * @param childPanel: Panel to set transparent.
-   * @param path: Path of the image to set.
-   * @param width: Basic width from which the scale should start.
-   * @param height: Basic height from which the scale should start.
+   * @param childPanel:  Panel to set transparent.
+   * @param path:        Path of the image to set.
+   * @param width:       Basic width from which the scale should start.
+   * @param height:      Basic height from which the scale should start.
    * @param scaleFactor: The factor to make image larger to.
    */
   public ImagePanel(JPanel childPanel, String path, int width, int height, double scaleFactor) {

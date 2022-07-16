@@ -11,7 +11,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/** Represents a Factory Display on the view. */
+/**
+ * Represents a Factory Display on the view.
+ */
 public class Plate extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
@@ -27,7 +29,7 @@ public class Plate extends JPanel {
   /**
    * Create one Plate.
    *
-   * @param plateId the number with which the Plate can be identified.
+   * @param plateId           the number with which the Plate can be identified.
    * @param tileClickListener
    */
   public Plate(int plateId, TileClickListener tileClickListener, List<ModelTile> content) {

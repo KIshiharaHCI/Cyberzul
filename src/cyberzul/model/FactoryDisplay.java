@@ -3,7 +3,9 @@ package cyberzul.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/** "Manufakturplaettchen" One of the two places the player can draw tiles from. */
+/**
+ * "Manufakturplaettchen" One of the two places the player can draw tiles from.
+ */
 public class FactoryDisplay extends Offering {
 
   private static final int INITIAL_NUMBER_OF_TILES = 4;
@@ -28,7 +30,7 @@ public class FactoryDisplay extends Offering {
    * rest on the table center.
    *
    * @param indexOfTheTile the index of the Tile that should be chosen, e.g. the first tile (Index
-   *     0)
+   *                       0)
    * @return all tiles of the same color on this plate.
    */
   @Override

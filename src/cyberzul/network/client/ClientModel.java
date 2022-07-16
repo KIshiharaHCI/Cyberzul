@@ -144,7 +144,9 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     notifyListeners(new UserJoinedEvent(nickname));
   }
 
-  /** Notify the subscribed observers that a login attempt has failed. */
+  /**
+   * Notify the subscribed observers that a login attempt has failed.
+   */
   public void loginFailed(String message) {
     setLoggedIn(false);
     notifyListeners(new LoginFailedEvent(message));

@@ -13,7 +13,9 @@ public abstract class Bag {
     initializeContent();
   }
 
-  /** Set up the initial content of this bag. */
+  /**
+   * Set up the initial content of this bag.
+   */
   abstract void initializeContent();
 
   /**
