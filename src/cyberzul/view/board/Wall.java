@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 public class Wall extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private final int SMALL_TILE_SIZE = Tile.SMALL_TILE_SIZE;
-  private final int ROWS = 5;
-  private final int COLS = 5;
+  private static final int SMALL_TILE_SIZE = Tile.SMALL_TILE_SIZE;
+  private static final int ROWS = 5;
+  private static final int COLS = 5;
   private final int buttonSize;
   private transient Controller controller;
   private ModelTile[][] wall;
