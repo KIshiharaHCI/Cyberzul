@@ -7,6 +7,10 @@ import cyberzul.model.WallBackgroundPattern;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 
+/**
+ * Implementation of the controller interface which handles the interaction between the main model-
+ * and view-classes.
+ */
 public class GameController implements Controller {
 
   private final Model model;
@@ -16,7 +20,8 @@ public class GameController implements Controller {
       justification =
           "We are aware that data "
               + "encapsulation is violated here and that this is in principle bad. However, it is "
-              + "intended, because the controller needs to be able to invoke methods of the model. ")
+              + "intended, because the controller needs to be able to "
+              + "invoke methods of the model. ")
   public GameController(Model model) {
     this.model = model;
   }
