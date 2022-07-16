@@ -148,7 +148,7 @@ public class ClientMessageHandler implements Runnable {
       case START_GAME -> handleStartGame();
       case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
-      case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
+      case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine();
       case REPLACE_PLAYER_BY_AI -> {
         controller.replacePlayerByAi(nickname);
       }
@@ -211,7 +211,7 @@ public class ClientMessageHandler implements Runnable {
   }
 
   /**
-   * Checks if it is this players turn (which allows him to make moves)
+   * Checks if it is this players turn (which allows him to make moves).
    *
    * @return <code>true</code> if its this players turn. <code>false</code> else.
    */
@@ -318,10 +318,8 @@ public class ClientMessageHandler implements Runnable {
   /**
    * Check if it's the players turn. If yes, let the player place the tile in the floor line. If
    * it's not this players turn, inform him that he has to wait until the can make his next move.
-   *
-   * @param object
    */
-  private void handlePlaceTileInFloorLine(JSONObject object) {
+  private void handlePlaceTileInFloorLine() {
     try {
       if (isItThisPlayersTurn()) {
         controller.placeTileAtFloorLine();

@@ -9,7 +9,10 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 /**
- * This
+ * This Interface is part of the Strategy Design Pattern. The model behaves in a different way
+ * depending on the view input. Since the behaviour of the model is only determined at runtime,
+ * the ModelStrategyChooser has a field of type ModelStrategy, that then holds the object with the
+ * required behaviour (i.e. GameModel or ClientModel).
  */
 public interface ModelStrategy {
 
@@ -85,8 +88,7 @@ public interface ModelStrategy {
   /**
    * Makes the active player place the tile he/she has chosen on a given pattern line.
    *
-   * @param rowOfPatternLine the row of the chosen pattern line
-   * @return <code>true</code> if it was a valid pick, <code>false</code> if not
+   * @param rowOfPatternLine the row of the chosen pattern line.
    */
   void makeActivePlayerPlaceTile(int rowOfPatternLine);
 

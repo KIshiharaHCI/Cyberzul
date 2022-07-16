@@ -5,6 +5,10 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Context of the Strategy Design Pattern. Depending on what behaviour the model should have,
+ * the object type that is stored in the strategy field is determined at runtime.
+ */
 public class ModelStrategyChooser implements Model {
 
   private final List<PropertyChangeListener> listenerList = new ArrayList<>();

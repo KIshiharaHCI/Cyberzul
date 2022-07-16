@@ -6,6 +6,9 @@ import cyberzul.model.Model;
 import cyberzul.model.ModelStrategyChooser;
 import java.io.IOException;
 
+/**
+ * The
+ */
 public class Server {
 
   private static Server instance;

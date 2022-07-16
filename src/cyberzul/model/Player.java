@@ -156,7 +156,7 @@ public class Player {
    * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
    * @return <true>true</true> if the tiles were successfully placed on the chosen line. <code>false
-   * </code> else.
+   *         </code> else.
    */
   boolean drawTiles(int row, Offering offering, int indexOfTile) {
     // check if it's possible to place the chosen tile on the chosen line
@@ -255,7 +255,7 @@ public class Player {
    * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
    * @return <code>true</code> if the chosen tile can be placed on the chosen line. <code>false
-   * </code> else.
+   *         </code> else.
    */
   boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
     List<ModelTile> tiles = offering.getContent();
