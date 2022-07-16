@@ -7,19 +7,30 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+/**
+ * //TODO Kenji, Iurii.
+ */
 public class IconButton extends JButton {
   private static final long serialVersionUID = 15L;
 
 
-  private final int xPosition;
-  private final int yPosition;
+  private final int xposition;
+  private final int yposition;
   private final int buttonWidth;
   private final int buttonHeight;
   private String iconPath;
 
-  public IconButton(String path, int xPosition, int yPosition, int buttonWidth, int buttonHeight) {
-    this.xPosition = xPosition;
-    this.yPosition = yPosition;
+  /**
+   * //TODO Kenji, Iurii.
+   * @param path
+   * @param xposition
+   * @param yposition
+   * @param buttonWidth
+   * @param buttonHeight
+   */
+  public IconButton(String path, int xposition, int yposition, int buttonWidth, int buttonHeight) {
+    this.xposition = xposition;
+    this.yposition = yposition;
     this.iconPath = path;
     this.buttonWidth = buttonWidth;
     this.buttonHeight = buttonHeight;
@@ -27,16 +38,16 @@ public class IconButton extends JButton {
   }
 
   private void createIconButton() {
-    URL iconURL = getClass().getClassLoader().getResource(iconPath);
+    URL iconUrl = getClass().getClassLoader().getResource(iconPath);
     try {
       Image icon =
-          ImageIO.read(iconURL).getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_DEFAULT);
+          ImageIO.read(iconUrl).getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_DEFAULT);
       this.setIcon(new ImageIcon(icon));
     } catch (Exception e) {
       e.printStackTrace();
       iconPath = null;
     }
-    this.setBounds(xPosition, yPosition, buttonWidth, buttonHeight);
+    this.setBounds(xposition, yposition, buttonWidth, buttonHeight);
     this.setOpaque(false);
     this.setFocusPainted(false);
     this.setBorderPainted(false);
