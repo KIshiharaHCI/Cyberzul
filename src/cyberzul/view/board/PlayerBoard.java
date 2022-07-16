@@ -34,7 +34,7 @@ public abstract class PlayerBoard extends JPanel {
   /**
    * The constructor to create a playerboard for a given player.
    *
-   * @param tileClickListener
+   * @param tileClickListener the tile click listener
    */
   public PlayerBoard(
       Controller controller,

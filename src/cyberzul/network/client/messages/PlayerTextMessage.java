@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * //TODO: Xue.
+ */
 public class PlayerTextMessage extends Message {
 
   private final String nameOfSender;
