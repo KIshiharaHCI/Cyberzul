@@ -12,7 +12,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-
+import java.util.Date;
 
 
 /**
@@ -132,18 +132,7 @@ public class ClientNetworkConnection {
             case GAME_FINISHED -> model.handleGameFinishedEvent(object);
             case GAME_CANCELED -> model.handleGameCanceled(object.getString(JsonMessage.NICK_FIELD));
             case GAME_FORFEITED -> model.handleGameForfeited(object.getString(JsonMessage.NICK_FIELD));
-      /*
-      case USER_JOINED:
-        handleUserJoined(object);
-        break;
-      case USER_LEFT:
-        handleUserLeft(object);
-        break;
-      case MESSAGE:
-        handleUserTextMessage(object);
-        break;
-
-       */
+            case MESSAGE -> handlePlayerTextMessage(object);
             default -> throw new AssertionError("Unhandled message: " + object);
         }
     }
@@ -154,35 +143,13 @@ public class ClientNetworkConnection {
         model.handleGameStarted(offerings, playerNames);
     }
 
-    //TODO: Commented out code
-  /*
+    private void handlePlayerTextMessage(JSONObject jsonObject) {
 
-
-  private void handleUserLeft(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userLeft(nick);
+        String nickname = JsonMessage.getNickname(jsonObject);
+        Date time = JsonMessage.getTime(jsonObject);
+        String content = JsonMessage.getContent(jsonObject);
+        model.addTextMessage(nickname, time, content);
     }
-  }
-
-  private void handleUserJoined(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userJoined(nick);
-    }
-  }
-
-  private void handlePlayerTextMessage(JSONObject jsonObject) {
-    if (!model.getLoggedIn()) {
-      return;
-    }
-    String nickname = JsonMessage.getNickname(jsonObject);
-    Date time = JsonMessage.getTime(jsonObject);
-    String content = JsonMessage.getContent(jsonObject);
-    model.addTextMessage(nickname, time, content);
-  }
-
-   */
 
 
 
