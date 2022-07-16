@@ -7,8 +7,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -22,15 +20,14 @@ import javax.swing.JPopupMenu;
  */
 public class GameBoard extends JPanel {
 
-
   private static final long serialVersionUID = 7526472295622776147L;
   private final transient Controller controller;
 
   private final CenterBoard center;
   private final JPanel settingsPanel = new JPanel(null);
-  private final static String soundButtonPath = "img/sound-button.png";
-  private final static String menuButtonPath = "img/settings-button.png";
-  private final static int iconButtonSize = 40;
+  private static final String soundButtonPath = "img/sound-button.png";
+  private static final String menuButtonPath = "img/settings-button.png";
+  private static final int iconButtonSize = 40;
   private final Dimension frameDimension;
   private JPanel boardsOfOpponentsPanel;
   private RankingBoard rankingBoard;
@@ -40,12 +37,12 @@ public class GameBoard extends JPanel {
    * Creates the main game panel which contains all other game elements.
    *
    * @param tileClickListener the tile click listener
-   * @param controller        the controller
-   * @param frameDimension    1400 x 800 px
+   * @param controller the controller
+   * @param frameDimension 1400 x 800 px
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
-  //this class needs these references to these mutable objects.
+  // this class needs these references to these mutable objects.
   public GameBoard(
       TileClickListener tileClickListener, Controller controller, Dimension frameDimension) {
 
@@ -88,19 +85,13 @@ public class GameBoard extends JPanel {
     JPanel settingsPanel = new JPanel();
     settingsPanel.setLayout(null);
 
-    JButton soundButton =
-        new IconButton(soundButtonPath, 130, 20, iconButtonSize, iconButtonSize);
+    JButton soundButton = new IconButton(soundButtonPath, 130, 20, iconButtonSize, iconButtonSize);
     settingsPanel.add(soundButton);
-
 
     final JPopupMenu menu = new JPopupMenu("Menu");
     JMenuItem firstItem = new JMenuItem("First item");
     firstItem.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent ae) {
-            System.out.println("First menu item clicked");
-          }
-        });
+        ae -> System.out.println("First menu item clicked"));
     menu.add(firstItem);
     menu.add(new JMenuItem("Second item"));
     menu.add(new JMenuItem("Third item"));
@@ -108,11 +99,7 @@ public class GameBoard extends JPanel {
     JButton settingsButton =
         new IconButton(menuButtonPath, 130, 100, iconButtonSize, iconButtonSize);
     settingsButton.addActionListener(
-        new ActionListener() {
-          public void actionPerformed(ActionEvent ae) {
-            menu.show(settingsButton, -iconButtonSize * 2, iconButtonSize / 2);
-          }
-        });
+        ae -> menu.show(settingsButton, -iconButtonSize * 2, iconButtonSize / 2));
     settingsPanel.add(settingsButton);
 
     settingsPanel.setOpaque(false);
@@ -124,7 +111,7 @@ public class GameBoard extends JPanel {
     chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
 
     Dimension chatAndRankingBoardAndButtonsPanelDimension =
-        new Dimension((int) (frameDimension.width * 0.3), (int) (frameDimension.height * 0.94));
+        new Dimension((int) (frameDimension.width * 0.26), (int) (frameDimension.height * 0.94));
 
     chatAndRankingBoardAndSettingPanel.setMinimumSize(chatAndRankingBoardAndButtonsPanelDimension);
     chatAndRankingBoardAndSettingPanel.setMaximumSize(chatAndRankingBoardAndButtonsPanelDimension);
@@ -134,9 +121,7 @@ public class GameBoard extends JPanel {
     add(chatAndRankingBoardAndSettingPanel, BorderLayout.EAST);
   }
 
-  /**
-   * Creates the sidebar with the panels of the opponents.
-   */
+  /** Creates the sidebar with the panels of the opponents. */
   private void createOpponentsPanel() {
     otherPlayerBoards = new ArrayList<>();
     boardsOfOpponentsPanel = new JPanel();
@@ -160,9 +145,7 @@ public class GameBoard extends JPanel {
     add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
 
-  /**
-   * Used by view to update all widgets in Center Board.
-   */
+  /** Used by view to update all widgets in Center Board. */
   public void updateCenterBoard() {
     center.updateCenterBoard();
     validate();
@@ -178,7 +161,11 @@ public class GameBoard extends JPanel {
   }
 
   /**
-   * //TODO Iurii
+   * Updates not current player boards.
+   * Searches the index of the current player in the list of all active players.
+   * Shows all the boards of players in this list after the current player and
+   * after that before the current player. In such a way the order of players is preserved.
+   *
    */
   public void updateOtherPlayerBoards() {
 

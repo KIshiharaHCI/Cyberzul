@@ -1,10 +1,8 @@
 package cyberzul.view.board;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.BorderFactory;
@@ -19,8 +17,8 @@ import javax.swing.SwingUtilities;
  */
 public class ChatPanel extends JPanel implements PropertyChangeListener {
 
-  private static final int DEFAULT_HEIGHT = 500;
-  private static final int INPUTFIELD_WIDTH = 40;
+  private static final int DEFAULT_HEIGHT = 300;
+  private static final int INPUTFIELD_WIDTH = 20;
   private static final int INPUTFIELD_HEIGHT = 3;
   private static final long serialVersionUID = 13L;
   private static final int defaultInset = 5;
@@ -31,38 +29,34 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
    * create a new chat panel with the respective widgets.
    */
   public ChatPanel() {
-    setLayout(new GridBagLayout());
     initializeWidgets();
     createChatPanel();
   }
 
   private void initializeWidgets() {
+    setOpaque(false);
     scrollPane = new JScrollPane();
-    scrollPane.setPreferredSize(new Dimension(this.getWidth(), DEFAULT_HEIGHT));
-    scrollPane.setMaximumSize(new Dimension(this.getWidth(), DEFAULT_HEIGHT));
+    scrollPane.setPreferredSize(new Dimension(INPUTFIELD_WIDTH, DEFAULT_HEIGHT));
+    scrollPane.setMaximumSize(new Dimension(INPUTFIELD_WIDTH, DEFAULT_HEIGHT));
     scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scrollPane.setBackground(Color.DARK_GRAY);
+    scrollPane.setBorder( BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset) );
 
     inputArea = new JTextArea(INPUTFIELD_HEIGHT, INPUTFIELD_WIDTH);
     inputArea.setLineWrap(true);
     inputArea.setWrapStyleWord(true);
     inputArea.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+    inputArea.setBackground(Color.black);
+    inputArea.setForeground(Color.white);
+    inputArea.setBorder( BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset) );
   }
 
   private void createChatPanel() {
-    GridBagConstraints gbc = new GridBagConstraints();
-    gbc.insets = new Insets(defaultInset, defaultInset, defaultInset, defaultInset);
-    gbc.fill = GridBagConstraints.BOTH;
-    gbc.gridy = 0;
-    gbc.weighty = 0.9;
-    this.add(scrollPane, gbc);
-
-    gbc = new GridBagConstraints();
-    gbc.insets = new Insets(defaultInset, defaultInset, defaultInset, defaultInset);
-    gbc.gridy = 1;
-    this.add(inputArea, gbc);
+    this.setLayout(new BorderLayout());
+    this.add(scrollPane, BorderLayout.CENTER);
+    this.add(inputArea, BorderLayout.SOUTH);
   }
-
   @Override
   public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
     SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));

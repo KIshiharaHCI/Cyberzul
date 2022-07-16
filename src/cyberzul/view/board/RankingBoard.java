@@ -22,7 +22,7 @@ public class RankingBoard extends JPanel {
   private final transient Controller controller;
   private static final String rankingBoardPath = "img/ranking-board.png";
   private transient List<String> playerNamesList;
-  private transient JPanel rankingBoardPanel;
+  private transient JPanel rankingBackgroundPanel;
 
 
   /**
@@ -44,7 +44,7 @@ public class RankingBoard extends JPanel {
    * create the ranking area with the players' name and their points.
    */
   private void createRankingArea() {
-    rankingBoardPanel = new JPanel();
+    JPanel rankingBoardPanel = new JPanel();
     rankingBoardPanel.setLayout(new GridLayout(playerNamesList.size(), COL));
     add(rankingBoardPanel, BorderLayout.CENTER);
     for (String player : playerNamesList) {
@@ -57,18 +57,17 @@ public class RankingBoard extends JPanel {
       label.setText("   " + player + ": " + controller.getPoints(player));
       rankingBoardPanel.add(label);
     }
-    JPanel rankingBackgroundPanel =
+    rankingBackgroundPanel =
         new ImagePanel(rankingBoardPanel, rankingBoardPath, 200, 180, 1);
     add(rankingBackgroundPanel, rankingBoardPanel);
   }
 
-  // new JLabel playerRankLabel = new IconButton()
 
   /**
    * Updates the current ranking status of all players.
    */
   public void updateRankingBoard() {
-    remove(rankingBoardPanel);
+    remove(rankingBackgroundPanel);
     playerNamesList = controller.rankingPlayerWithPoints();
     createRankingArea();
   }
