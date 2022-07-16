@@ -14,6 +14,9 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
+/**
+ * The Chat Panel at the right side of the GameBoard.
+ */
 public class ChatPanel extends JPanel implements PropertyChangeListener {
 
   private static final int DEFAULT_HEIGHT = 500;
@@ -24,6 +27,9 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private JTextArea inputArea;
   private JScrollPane scrollPane;
 
+  /**
+   * create a new chat panel with the respective widgets.
+   */
   public ChatPanel() {
     setLayout(new GridBagLayout());
     initializeWidgets();
