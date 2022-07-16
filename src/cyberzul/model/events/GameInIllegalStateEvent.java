@@ -7,17 +7,17 @@ package cyberzul.model.events;
  */
 public class GameInIllegalStateEvent extends GameEvent {
 
-  public static final String EVENT_NAME = "GameInIllegalStateEvent";
+    public static final String EVENT_NAME = "GameInIllegalStateEvent";
 
-  private static final String MESSAGE = "You have arrived at an illegal state, where no "
-      + "player can make another turn. The game will be ended and you can restart it.";
+    private static final String MESSAGE = "You have arrived at an illegal state, where no "
+            + "player can make another turn. The game will be ended and you can restart it.";
 
-  public static String getMessage() {
-    return MESSAGE;
-  }
+    public static String getMessage() {
+        return MESSAGE;
+    }
 
-  @Override
-  public String getName() {
-    return GameInIllegalStateEvent.EVENT_NAME;
-  }
+    @Override
+    public String getName() {
+        return GameInIllegalStateEvent.EVENT_NAME;
+    }
 }

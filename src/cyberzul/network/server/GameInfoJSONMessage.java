@@ -7,19 +7,19 @@ package cyberzul.network.server;
  */
 public enum GameInfoJSONMessage {
 
-  LOGIN("login"), LOGIN_SUCCESS("login success"), LOGIN_FAILED("login failed"),
-  USER_JOINED("user joined"), POST_MESSAGE("post message"), MESSAGE("message"),
-  USER_LEFT("user left");
+    LOGIN("login"), LOGIN_SUCCESS("login success"), LOGIN_FAILED("login failed"),
+    USER_JOINED("user joined"), POST_MESSAGE("post message"), MESSAGE("message"),
+    USER_LEFT("user left");
 
-  //GameInfoJSONMessages should always have the type GameInfo
-  public static final String TYPE_FIELD = "type";
+    //GameInfoJSONMessages should always have the type GameInfo
+    public static final String TYPE_FIELD = "type";
 
-  //get Points, getFactoryDisplays, drawTiles, etc...
-  public static final String SUBTYPE_FIELD = "subtype";
+    //get Points, getFactoryDisplays, drawTiles, etc...
+    public static final String SUBTYPE_FIELD = "subtype";
 
-  private final String jsonName;
+    private final String jsonName;
 
-  GameInfoJSONMessage(String jsonName) {
-    this.jsonName = jsonName;
-  }
+    GameInfoJSONMessage(String jsonName) {
+        this.jsonName = jsonName;
+    }
 }

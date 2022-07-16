@@ -14,15 +14,15 @@ import java.util.ArrayList;
  */
 public class ClientTableCenter extends TableCenter {
 
-  /**
-   * Method to set and manipulate the data that is stored in this kind of TableCenter.
-   *
-   * @param content the tiles that are stored in this Offering.
-   */
-  @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value = "ST_WRITE_TO_STATIC_FROM"
-      + "_INSTANCE_METHOD", justification = "This is a Singleton, there will be no multiple "
-      + "instances.")
-  public void setContent(ArrayList<ModelTile> content) {
-    this.content = content;
-  }
+    /**
+     * Method to set and manipulate the data that is stored in this kind of TableCenter.
+     *
+     * @param content the tiles that are stored in this Offering.
+     */
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value = "ST_WRITE_TO_STATIC_FROM"
+            + "_INSTANCE_METHOD", justification = "This is a Singleton, there will be no multiple "
+            + "instances.")
+    public void setContent(ArrayList<ModelTile> content) {
+        this.content = content;
+    }
 }

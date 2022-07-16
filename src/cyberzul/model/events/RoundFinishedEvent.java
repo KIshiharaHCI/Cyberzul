@@ -6,8 +6,8 @@ package cyberzul.model.events;
  */
 public class RoundFinishedEvent extends GameEvent {
 
-  @Override
-  public String getName() {
-    return "RoundFinishedEvent";
-  }
+    @Override
+    public String getName() {
+        return "RoundFinishedEvent";
+    }
 }

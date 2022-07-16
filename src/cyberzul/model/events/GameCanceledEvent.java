@@ -6,19 +6,19 @@ package cyberzul.model.events;
  */
 public class GameCanceledEvent extends GameEvent {
 
-  public static final String EVENT_NAME = "GameCanceledEvent";
-  public final String nameOfPersonThatCanceled;
+    public static final String EVENT_NAME = "GameCanceledEvent";
+    public final String nameOfPersonThatCanceled;
 
-  public GameCanceledEvent(String nickname) {
-    this.nameOfPersonThatCanceled = nickname;
-  }
+    public GameCanceledEvent(String nickname) {
+        this.nameOfPersonThatCanceled = nickname;
+    }
 
-  public String getNameOfPersonThatCanceled() {
-    return nameOfPersonThatCanceled;
-  }
+    public String getNameOfPersonThatCanceled() {
+        return nameOfPersonThatCanceled;
+    }
 
-  @Override
-  public String getName() {
-    return EVENT_NAME;
-  }
+    @Override
+    public String getName() {
+        return EVENT_NAME;
+    }
 }

@@ -5,15 +5,15 @@ package cyberzul.model.events;
  */
 public class UserJoinedEvent extends GameEvent {
 
-  public static final String EVENT_NAME = "UserJoinedEvent";
-  private final String nickOfUserWhoJoined;
+    public static final String EVENT_NAME = "UserJoinedEvent";
+    private final String nickOfUserWhoJoined;
 
-  public UserJoinedEvent(String nickOfUserWhoJoined) {
-    this.nickOfUserWhoJoined = nickOfUserWhoJoined;
-  }
+    public UserJoinedEvent(String nickOfUserWhoJoined) {
+        this.nickOfUserWhoJoined = nickOfUserWhoJoined;
+    }
 
-  public String getName() {
-    return EVENT_NAME;
-  }
+    public String getName() {
+        return EVENT_NAME;
+    }
 
 }

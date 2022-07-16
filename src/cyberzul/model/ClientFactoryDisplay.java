@@ -11,33 +11,33 @@ import java.util.List;
  */
 public class ClientFactoryDisplay extends Offering {
 
-  private ArrayList<ModelTile> content;
+    private ArrayList<ModelTile> content;
 
-  @Override
-  void initializeContent() {
+    @Override
+    void initializeContent() {
 
-  }
-
-  @Override
-  public List<ModelTile> getContent() {
-    List<ModelTile> returnList = new ArrayList<>();
-    for (ModelTile t : content) {
-      returnList.add(t);
     }
-    return returnList;
-  }
 
-  /**
-   * Method to set and manipulate the data that is stored in this kind of FactoryDisplay.
-   *
-   * @param content the tiles that are stored in this Offering.
-   */
-  public void setContent(ArrayList<ModelTile> content) {
-    this.content = content;
-  }
+    @Override
+    public List<ModelTile> getContent() {
+        List<ModelTile> returnList = new ArrayList<>();
+        for (ModelTile t : content) {
+            returnList.add(t);
+        }
+        return returnList;
+    }
 
-  @Override
-  List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
-    return null;
-  }
+    /**
+     * Method to set and manipulate the data that is stored in this kind of FactoryDisplay.
+     *
+     * @param content the tiles that are stored in this Offering.
+     */
+    public void setContent(ArrayList<ModelTile> content) {
+        this.content = content;
+    }
+
+    @Override
+    List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
+        return null;
+    }
 }

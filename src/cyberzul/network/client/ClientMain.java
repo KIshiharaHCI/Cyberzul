@@ -13,17 +13,17 @@ import cyberzul.view.CyberzulView;
  */
 public class ClientMain {
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    Model model = new ModelStrategyChooser();
-    model.setStrategy(Model.CLIENT_MODEL);
-    Controller controller = new GameController(model);
+        Model model = new ModelStrategyChooser();
+        model.setStrategy(Model.CLIENT_MODEL);
+        Controller controller = new GameController(model);
 
-    CyberzulView cyberzulView = new CyberzulView(model, controller);
+        CyberzulView cyberzulView = new CyberzulView(model, controller);
 
-    model.addPropertyChangeListener(cyberzulView);
+        model.addPropertyChangeListener(cyberzulView);
 
-    cyberzulView.setVisible(true);
-  }
+        cyberzulView.setVisible(true);
+    }
 }
 

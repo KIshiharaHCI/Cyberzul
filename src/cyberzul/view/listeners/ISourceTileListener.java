@@ -4,5 +4,5 @@ import cyberzul.view.board.SourceTile;
 
 public interface ISourceTileListener {
 
-  void onSourceTileClick(SourceTile tile);
+    void onSourceTileClick(SourceTile tile);
 }

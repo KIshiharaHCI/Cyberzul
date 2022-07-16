@@ -5,8 +5,8 @@ import cyberzul.view.board.SourceTile;
 
 public interface OnClickVisitor {
 
-  public void visitOnClick(DestinationTile destinationTile);
+    void visitOnClick(DestinationTile destinationTile);
 
-  public void visitOnClick(SourceTile sourceTile);
+    void visitOnClick(SourceTile sourceTile);
 
 }

@@ -6,19 +6,19 @@ package cyberzul.model.events;
  */
 public class PlayerHasEndedTheGameEvent extends GameEvent {
 
-  public final String ender;
+    public final String ender;
 
-  public PlayerHasEndedTheGameEvent(String nickname) {
-    this.ender = nickname;
-  }
+    public PlayerHasEndedTheGameEvent(String nickname) {
+        this.ender = nickname;
+    }
 
-  public String getEnder() {
-    return ender;
-  }
+    public String getEnder() {
+        return ender;
+    }
 
-  @Override
-  public String getName() {
-    return "PlayerHasEndedTheGameEvent";
-  }
+    @Override
+    public String getName() {
+        return "PlayerHasEndedTheGameEvent";
+    }
 
 }

@@ -4,6 +4,7 @@ import cyberzul.controller.Controller;
 import cyberzul.controller.GameController;
 import cyberzul.model.Model;
 import cyberzul.model.ModelStrategyChooser;
+
 import java.io.IOException;
 
 /**
@@ -15,21 +16,21 @@ import java.io.IOException;
  */
 public class ServerMain {
 
-  /**
-   * Launch the azul server.
-   */
-  public static void main(String[] args) throws IOException {
-    Model gameModel = new ModelStrategyChooser();
-    gameModel.setStrategy(Model.GAME_MODEL);
-    Controller controller = new GameController(gameModel);
-    final ServerNetworkConnection connection = new ServerNetworkConnection(gameModel, controller);
-    connection.start();
+    /**
+     * Launch the azul server.
+     */
+    public static void main(String[] args) throws IOException {
+        Model gameModel = new ModelStrategyChooser();
+        gameModel.setStrategy(Model.GAME_MODEL);
+        Controller controller = new GameController(gameModel);
+        final ServerNetworkConnection connection = new ServerNetworkConnection(gameModel, controller);
+        connection.start();
 
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      @Override
-      public void run() {
-        connection.stop();
-      }
-    });
-  }
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                connection.stop();
+            }
+        });
+    }
 }

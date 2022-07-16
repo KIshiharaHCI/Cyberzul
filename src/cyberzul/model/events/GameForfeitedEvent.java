@@ -6,20 +6,20 @@ package cyberzul.model.events;
  */
 public class GameForfeitedEvent extends GameEvent {
 
-  public static final String EVENT_NAME = "GameForfeitedEvent";
+    public static final String EVENT_NAME = "GameForfeitedEvent";
 
-  private String forfeiter;
+    private final String forfeiter;
 
-  public GameForfeitedEvent(String nickname) {
-    this.forfeiter = nickname;
-  }
+    public GameForfeitedEvent(String nickname) {
+        this.forfeiter = nickname;
+    }
 
-  public String getForfeiter() {
-    return forfeiter;
-  }
+    public String getForfeiter() {
+        return forfeiter;
+    }
 
-  @Override
-  public String getName() {
-    return GameForfeitedEvent.EVENT_NAME;
-  }
+    @Override
+    public String getName() {
+        return GameForfeitedEvent.EVENT_NAME;
+    }
 }

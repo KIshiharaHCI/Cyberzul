@@ -10,19 +10,19 @@ import org.apache.logging.log4j.Logger;
 
 public class CyberzulMain {
 
-  private static final Logger LOGGER = LogManager.getLogger(CyberzulMain.class);
+    private static final Logger LOGGER = LogManager.getLogger(CyberzulMain.class);
 
-  public static void main(String[] args) {
-    //TODO: Change to Interface Model, not GameModel.
-    LOGGER.trace("Entering the AzulGame application");
-    LOGGER.info("Logging something.");
-    Model model = new ModelStrategyChooser();
-    Controller controller = new GameController(model);
-    CyberzulView cyberzulView = new CyberzulView(model, controller);
-    cyberzulView.setVisible(true);
+    public static void main(String[] args) {
+        //TODO: Change to Interface Model, not GameModel.
+        LOGGER.trace("Entering the AzulGame application");
+        LOGGER.info("Logging something.");
+        Model model = new ModelStrategyChooser();
+        Controller controller = new GameController(model);
+        CyberzulView cyberzulView = new CyberzulView(model, controller);
+        cyberzulView.setVisible(true);
 
-    model.addPropertyChangeListener(cyberzulView);
+        model.addPropertyChangeListener(cyberzulView);
 
-    LOGGER.trace("Exiting application.");
-  }
+        LOGGER.trace("Exiting application.");
+    }
 }

@@ -6,8 +6,8 @@ package cyberzul.model.events;
  */
 public class LoggedInEvent extends GameEvent {
 
-  @Override
-  public String getName() {
-    return "LoggedInEvent";
-  }
+    @Override
+    public String getName() {
+        return "LoggedInEvent";
+    }
 }

@@ -4,6 +4,6 @@ import cyberzul.view.listeners.OnClickVisitor;
 
 public interface TileAcceptor {
 
-  public void acceptClick(OnClickVisitor visitor);
+    void acceptClick(OnClickVisitor visitor);
 
 }

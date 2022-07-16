@@ -5,10 +5,10 @@ package cyberzul.model.events;
  */
 public class GameStartedEvent extends GameEvent {
 
-  public static final String EVENT_NAME = "GameStartedEvent";
+    public static final String EVENT_NAME = "GameStartedEvent";
 
-  @Override
-  public String getName() {
-    return EVENT_NAME;
-  }
+    @Override
+    public String getName() {
+        return EVENT_NAME;
+    }
 }
