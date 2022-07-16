@@ -11,6 +11,9 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * TODO: Kenji, Iurii
+ */
 public class SmallPlayerBoard extends PlayerBoard {
 
   private static final long serialVersionUID = 14L;
@@ -33,8 +36,8 @@ public class SmallPlayerBoard extends PlayerBoard {
     setSmallPlayerBoardSize(panelDimension);
 
     try {
-      URL imgURL = getClass().getClassLoader().getResource("img/smallhud.png");
-      image = ImageIO.read(Objects.requireNonNull(imgURL));
+      URL imgUrl = getClass().getClassLoader().getResource("img/smallhud.png");
+      image = ImageIO.read(Objects.requireNonNull(imgUrl));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
