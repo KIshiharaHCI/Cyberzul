@@ -210,7 +210,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             case "NextPlayersTurnEvent" -> {
                 updateCenterBoard();
                 updateOtherPlayerBoards();
-                updateRankingBoard();
             }
             case "LoggedInEvent" -> {
                 this.setTitle("Cyberzul - " + model.getPlayerName());
