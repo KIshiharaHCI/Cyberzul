@@ -2,7 +2,7 @@ package cyberzul.network.client;
 
 import cyberzul.model.ModelTile;
 import cyberzul.model.Player;
-
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 
 /**
@@ -13,39 +13,52 @@ import java.util.ArrayList;
  */
 public class ClientPlayer extends Player {
 
-    public ClientPlayer(String name) {
-        super(name);
-    }
+  public ClientPlayer(String name) {
+    super(name);
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public int getPoints() {
-        return points;
-    }
+  public int getPoints() {
+    return points;
+  }
 
-    public void setPoints(int points) {
-        this.points = points;
-    }
+  public void setPoints(int points) {
+    this.points = points;
+  }
 
-    public void setPatternLines(ModelTile[][] patternLines) {
-        this.patternLines = patternLines;
-    }
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class is only a storage for information that the server sends to the client so the view
+  //can access this information later. patternLines is indeed a mutable object, but it doesn't
+  //matter because the ClientModel doesn't store a reference to it itself.
+  public void setPatternLines(ModelTile[][] patternLines) {
+    this.patternLines = patternLines;
+  }
 
-    public void setFloorLine(ArrayList<ModelTile> floorLine) {
-        this.floorLine = floorLine;
-    }
+  //this class is only a storage for information that the server sends to the client so the view
+  //can access this information later. floorLine is indeed a mutable object, but it doesn't matter
+  //because the ClientModel doesn't store a reference to it itself.
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  public void setFloorLine(ArrayList<ModelTile> floorLine) {
+    this.floorLine = floorLine;
+  }
 
-    public void setHasStartingPlayerMarker(boolean hasStartingPlayerMarker) {
-        this.hasStartingPlayerMarker = hasStartingPlayerMarker;
-    }
+  public void setHasStartingPlayerMarker(boolean hasStartingPlayerMarker) {
+    this.hasStartingPlayerMarker = hasStartingPlayerMarker;
+  }
 
-    public void setWall(boolean[][] wall) {
-        this.wall = wall;
-    }
+  //this class is only a storage for information that the server sends to the client so the view
+  //can access this information later. wall is indeed a mutable object, but it doesn't matter
+  //because the ClientModel doesn't store a reference to it itself.
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  public void setWall(boolean[][] wall) {
+    this.wall = wall;
+  }
 }

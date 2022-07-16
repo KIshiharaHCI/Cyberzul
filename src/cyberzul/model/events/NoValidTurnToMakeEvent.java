@@ -5,9 +5,8 @@ package cyberzul.model.events;
  */
 public class NoValidTurnToMakeEvent extends GameEvent {
 
-    @Override
-    public String getName() {
-        return "NoValidTurnToMakeEvent";
-    }
-
+  @Override
+  public String getName() {
+    return "NoValidTurnToMakeEvent";
+  }
 }

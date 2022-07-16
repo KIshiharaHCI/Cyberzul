@@ -6,20 +6,25 @@ package cyberzul.model.events;
  */
 public class GameFinishedEvent extends GameEvent {
 
-    public static final String EVENT_NAME = "GameFinishedEvent";
+  public static final String EVENT_NAME = "GameFinishedEvent";
 
-    public final String winner;
+  public final String winner;
 
-    public GameFinishedEvent(String nickname) {
-        this.winner = nickname;
-    }
+  /**
+   * Constructs the event.
+   *
+   * @param nickname with the nickname of the player.
+   */
+  public GameFinishedEvent(String nickname) {
+    this.winner = nickname;
+  }
 
-    public String getWinner() {
-        return winner;
-    }
+  public String getWinner() {
+    return winner;
+  }
 
-    @Override
-    public String getName() {
-        return GameFinishedEvent.EVENT_NAME;
-    }
+  @Override
+  public String getName() {
+    return GameFinishedEvent.EVENT_NAME;
+  }
 }

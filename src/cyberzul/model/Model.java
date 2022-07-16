@@ -6,13 +6,13 @@ package cyberzul.model;
  */
 public interface Model extends ModelStrategy {
 
-    int GAME_MODEL = 0;
-    int CLIENT_MODEL = 1;
+  int GAME_MODEL = 0;
+  int CLIENT_MODEL = 1;
 
-    /**
-     * Tell the ModelStrategyChooser what kind of strategy he should use.
-     *
-     * @param strategy
-     */
-    void setStrategy(int strategy);
+  /**
+   * Tell the ModelStrategyChooser what kind of strategy he should use.
+   *
+   * @param strategy the strategy that will be used.
+   */
+  void setStrategy(int strategy);
 }

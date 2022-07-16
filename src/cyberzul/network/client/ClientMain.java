@@ -7,23 +7,25 @@ import cyberzul.model.ModelStrategyChooser;
 import cyberzul.view.CyberzulView;
 
 /**
- * Starts the chat-client.
- * <p>
- * This is a test class.
+ * Starts a ClientModel and Client UI. The ClientModel tries then to connect itself with a Server
  */
 public class ClientMain {
 
-    public static void main(String[] args) {
+  /**
+   * Create a new Model and tell it to behave as ClientModel. Also start a Controller and a View.
+   *
+   * @param args the parameters with which this method is invoked. Here are no parameters expected.
+   */
+  public static void main(String[] args) {
 
-        Model model = new ModelStrategyChooser();
-        model.setStrategy(Model.CLIENT_MODEL);
-        Controller controller = new GameController(model);
+    Model model = new ModelStrategyChooser();
+    model.setStrategy(Model.CLIENT_MODEL);
+    Controller controller = new GameController(model);
 
-        CyberzulView cyberzulView = new CyberzulView(model, controller);
+    CyberzulView cyberzulView = new CyberzulView(model, controller);
 
-        model.addPropertyChangeListener(cyberzulView);
+    model.addPropertyChangeListener(cyberzulView);
 
-        cyberzulView.setVisible(true);
-    }
+    cyberzulView.setVisible(true);
+  }
 }
-

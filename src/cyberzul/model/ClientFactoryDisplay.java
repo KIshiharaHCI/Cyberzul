@@ -1,5 +1,6 @@
 package cyberzul.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,33 +12,36 @@ import java.util.List;
  */
 public class ClientFactoryDisplay extends Offering {
 
-    private ArrayList<ModelTile> content;
+  private ArrayList<ModelTile> content;
 
-    @Override
-    void initializeContent() {
+  @Override
+  void initializeContent() {
+  }
 
+  @Override
+  public List<ModelTile> getContent() {
+    List<ModelTile> returnList = new ArrayList<>();
+    for (ModelTile t : content) {
+      returnList.add(t);
     }
+    return returnList;
+  }
 
-    @Override
-    public List<ModelTile> getContent() {
-        List<ModelTile> returnList = new ArrayList<>();
-        for (ModelTile t : content) {
-            returnList.add(t);
-        }
-        return returnList;
-    }
+  /**
+   * Method to set and manipulate the data that is stored in this kind of FactoryDisplay.
+   *
+   * @param content the tiles that are stored in this Offering.
+   */
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  //this class is only a storage for information that the server sends to the client so the view
+  //can access this information later. content is indeed a mutable object, but it doesn't matter
+  //because the ClientModel doesn't store a reference to it itself.
+  public void setContent(ArrayList<ModelTile> content) {
+    this.content = content;
+  }
 
-    /**
-     * Method to set and manipulate the data that is stored in this kind of FactoryDisplay.
-     *
-     * @param content the tiles that are stored in this Offering.
-     */
-    public void setContent(ArrayList<ModelTile> content) {
-        this.content = content;
-    }
-
-    @Override
-    List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
-        return null;
-    }
+  @Override
+  List<ModelTile> takeTileWithIndex(int indexOfTheTile) {
+    return null;
+  }
 }
