@@ -11,17 +11,20 @@ import java.net.URL;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 
+/**
+ * The PlayerBoard of the active player (at the lower center of the Gameboard).
+ */
 public class ActivePlayerBoard extends PlayerBoard {
 
   private static final long serialVersionUID = 15L;
-  private transient final BufferedImage image;
+  private final transient BufferedImage image;
 
   /**
    * The constructor to create a playerboard for a given player.
    *
-   * @param controller
-   * @param tileClickListener
-   * @param playerName
+   * @param controller the game controller
+   * @param tileClickListener listens to which tile is clicked
+   * @param playerName the name of the player who's board it is
    */
   public ActivePlayerBoard(
       Controller controller,
@@ -35,8 +38,8 @@ public class ActivePlayerBoard extends PlayerBoard {
     setMinimumSize(panelDimension);
 
     try {
-      URL imgURL = getClass().getClassLoader().getResource("img/hud.png");
-      image = ImageIO.read(Objects.requireNonNull(imgURL));
+      URL imgUrl = getClass().getClassLoader().getResource("img/hud.png");
+      image = ImageIO.read(Objects.requireNonNull(imgUrl));
       image.getScaledInstance(panelDimension.width, panelDimension.height, Image.SCALE_DEFAULT);
     } catch (IOException e) {
       throw new RuntimeException(e);
