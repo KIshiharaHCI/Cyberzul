@@ -10,15 +10,27 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * //TODO Kenji, Iurii.
+ */
 public class FloorLinePanel extends JPanel {
 
   private static final long serialVersionUID = 4L;
   private final transient Controller controller;
-  private final int NUMBER_OF_FLOOR_TILES = 7;
+  private final int numberOfFloorTiles = 7;
   private final transient TileClickListener tileClickListener;
   private final int tileSize;
-  private JPanel contentBottom, contentUpper;
+  private JPanel contentBottom;
+  private JPanel contentUpper;
 
+  /**
+   * //TODO Kenji, Iurii.
+   * @param userName
+   * @param controller
+   * @param tileClickListener
+   * @param minusPoints
+   * @param tileSize
+   */
   public FloorLinePanel(
       String userName,
       Controller controller,
@@ -37,11 +49,11 @@ public class FloorLinePanel extends JPanel {
   private void setProperties(int tileSize, int rows, int cols, JPanel panel) {
     panel.setOpaque(false);
     panel.setPreferredSize(
-        new Dimension((tileSize + 2) * NUMBER_OF_FLOOR_TILES, (tileSize + 2) * rows));
+        new Dimension((tileSize + 2) * numberOfFloorTiles, (tileSize + 2) * rows));
     panel.setMaximumSize(
-        new Dimension((tileSize + 2) * NUMBER_OF_FLOOR_TILES, (tileSize + 2) * rows));
+        new Dimension((tileSize + 2) * numberOfFloorTiles, (tileSize + 2) * rows));
     panel.setMinimumSize(
-        new Dimension((tileSize + 2) * NUMBER_OF_FLOOR_TILES, (tileSize + 2) * rows));
+        new Dimension((tileSize + 2) * numberOfFloorTiles, (tileSize + 2) * rows));
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(1.0f);
     panel.setAlignmentY(1.0f);
@@ -50,7 +62,7 @@ public class FloorLinePanel extends JPanel {
   private void addBottomTilesRow(String userName) {
     contentBottom = new JPanel();
     ViewHelper.setPropertiesOfCurrentRow(tileSize, 7, 1, contentBottom);
-    for (int col = 1; col <= NUMBER_OF_FLOOR_TILES; col++) {
+    for (int col = 1; col <= numberOfFloorTiles; col++) {
 
       List<ModelTile> floorLineOfPlayer = controller.getFloorLineOfPlayer(userName);
       if (floorLineOfPlayer.size() >= col) {
@@ -70,7 +82,7 @@ public class FloorLinePanel extends JPanel {
   private void addUpperNumbersRow() {
     contentUpper = new JPanel();
     ViewHelper.setPropertiesOfCurrentRow(tileSize, 7, 1, contentUpper);
-    for (int i = 0; i < NUMBER_OF_FLOOR_TILES; i++) {
+    for (int i = 0; i < numberOfFloorTiles; i++) {
       String text;
       if (i < 2) {
         text = "-1";
