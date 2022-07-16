@@ -4,17 +4,16 @@ import cyberzul.controller.Controller;
 import cyberzul.model.Offering;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.net.URL;
 import java.util.List;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 /** The center of the table ("Tischmitte"). */
 @SuppressFBWarnings(

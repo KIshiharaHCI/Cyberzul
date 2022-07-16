@@ -1,15 +1,14 @@
 package cyberzul.model;
 
 import cyberzul.network.client.ClientModel;
-
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModelStrategyChooser implements Model {
 
-    private ModelStrategy strategy;
     private final List<PropertyChangeListener> listenerList = new ArrayList<>();
+    private ModelStrategy strategy;
     private boolean isStrategyChosen = false;
 
     @Override

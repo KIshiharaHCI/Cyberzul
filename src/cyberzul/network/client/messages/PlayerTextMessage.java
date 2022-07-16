@@ -23,20 +23,20 @@ public class PlayerTextMessage extends Message {
   }
 
   public Date getTime() {
-      Date copy = new Date();
-      copy.setTime(time.getTime());
-      return copy;
+    Date copy = new Date();
+    copy.setTime(time.getTime());
+    return copy;
   }
 
-    public String getContent() {
-      return content;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    @Override
-    public String toString() {
-      String dateString = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-              DateFormat.SHORT, Locale.GERMANY).format(time);
-      return String.format("%s (%s): %s", nameOfSender, dateString, content);
-    }
-
+  @Override
+  public String toString() {
+    String dateString =
+        DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.GERMANY)
+            .format(time);
+    return String.format("%s (%s): %s", nameOfSender, dateString, content);
+  }
 }

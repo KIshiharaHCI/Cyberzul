@@ -4,5 +4,5 @@ import cyberzul.view.board.DestinationTile;
 
 public interface IDestinationTileListener {
 
-    void onDestinationTileClick(DestinationTile tileDestination);
+  void onDestinationTileClick(DestinationTile tileDestination);
 }

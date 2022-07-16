@@ -1,5 +1,3 @@
 package cyberzul.network.client;
 
-public class Controller {
-
-}
+public class Controller {}

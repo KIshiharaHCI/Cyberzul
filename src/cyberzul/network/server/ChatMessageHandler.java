@@ -3,11 +3,10 @@ package cyberzul.network.server;
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.shared.JsonMessage;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;
+import org.json.JSONObject;
 
 /** Handles the chat messages that are send from the clients to the server. */
 public class ChatMessageHandler extends ClientMessageHandler {

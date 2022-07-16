@@ -6,9 +6,9 @@ package cyberzul.model.events;
  */
 public class ConnectedWithServerEvent extends GameEvent {
 
-    public static final String EVENT_NAME = "ConnectedWithServerEvent";
+  public static final String EVENT_NAME = "ConnectedWithServerEvent";
 
-    public String getName() {
-        return EVENT_NAME;
-    }
+  public String getName() {
+    return EVENT_NAME;
+  }
 }

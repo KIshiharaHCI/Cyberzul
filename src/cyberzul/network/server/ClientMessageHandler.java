@@ -1,23 +1,26 @@
 package cyberzul.network.server;
 
+import static java.util.Objects.requireNonNull;
+
 import cyberzul.controller.Controller;
 import cyberzul.model.GameModel;
 import cyberzul.model.Model;
 import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.shared.JsonMessage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-
-import static java.util.Objects.requireNonNull;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Class that stores all relevant information for a single connected client. It contains both
@@ -31,9 +34,9 @@ public class ClientMessageHandler implements Runnable {
     private final Socket socket;
     private final BufferedReader reader;
     private final BufferedWriter writer;
-    private String nickname;
     private final Controller controller;
     private final Model model;
+    private String nickname;
 
 
     /**

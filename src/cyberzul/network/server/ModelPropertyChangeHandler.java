@@ -4,17 +4,20 @@ import cyberzul.model.Model;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
-import cyberzul.model.events.*;
+import cyberzul.model.events.GameCanceledEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.NextPlayersTurnEvent;
+import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.shared.JsonMessage;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
+import javax.swing.SwingUtilities;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Handles the events that are fired from the GameModel to the Server.
