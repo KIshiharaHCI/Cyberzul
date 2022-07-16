@@ -2,6 +2,10 @@ package cyberzul.network.client;
 
 import cyberzul.model.*;
 import cyberzul.model.events.*;
+import cyberzul.network.client.messages.Message;
+import cyberzul.network.client.messages.PlayerJoinedChatMessage;
+import cyberzul.network.client.messages.PlayerLeftGameMessage;
+import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.shared.JsonMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class ClientModel extends CommonModel implements ModelStrategy {
@@ -19,11 +25,17 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     private ClientNetworkConnection connection;
     private String thisPlayersName;
 
+    private final List<Message> playerMessages;
+
+    private static final int MAX_LENGTH = 100;
+
+
     public ClientModel() {
         super();
         loggedIn = false;
         this.connection = new ClientNetworkConnection(this);
         connection.start();
+        playerMessages = Collections.synchronizedList(new ArrayList<>());
     }
 
     @Override
@@ -367,6 +379,59 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     public void handleGameForfeited(String playerWhoForfeitedTheGame) {
         notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
     }
+    /**
+     * Add a status-update entry "Player joined" to the list of chat entries.
+     * Used by the network layer to update the model accordingly.
+     * Notify the Listeners that one Player joins the game.
+     * @param nickname The name of the newly joined user.
+     */
+    public void playerJoined(String nickname) {
+        addChatEntry(new PlayerJoinedChatMessage(nickname));
+        notifyListeners(new PlayerAddedEvent(nickname));
+    }
+    /**
+     * Add a status-update entry "Player has left the chat" to the list of chat entries.
+     * Used by the network layer to update the model accordingly.
+     * Notify the Listeners that one Player lefts the game.
+     * @param nickname The name of the player who lefts the game.
+     */
+    public void playerLeft(final String nickname) {
+        this.thisPlayersName = nickname;
+        addChatEntry(new PlayerLeftGameMessage(nickname));
+        notifyListeners(new GameForfeitedEvent(nickname));
+
+    }
+
+
+    /**
+     * Send a chat-message to the server that is to be broadcasted to the other chat participants.
+     *
+     * @param message The message to be broadcasted.
+     */
+    public void postChatMessage(String message) {
+        PlayerTextMessage chatMessage = new PlayerTextMessage(thisPlayersName, new Date(), message);
+        addChatEntry(chatMessage);
+        getConnection().playerSendMessage(chatMessage);
+    }
+
+    /**
+     * Add a new {@link Message} to the list of managed messages. Only the latest 100 messages
+     * get stored in the collection; the others get dismissed afterwards. The subscribed views get
+     * updated by fired {@link PlayerAddedMessageEvent} and {@link ChatMessageRemovedEvent}.
+     *
+     * @param message The message added to the collection of managed entries.
+     */
+    private void addChatEntry(Message message) {
+        while (playerMessages.size() > MAX_LENGTH) {
+            Message removed = playerMessages.remove(0);
+            notifyListeners(new ChatMessageRemovedEvent(removed));
+        }
+
+        playerMessages.add(message);
+        notifyListeners(new PlayerAddedMessageEvent(message));
+    }
+
+
 
 }
 
