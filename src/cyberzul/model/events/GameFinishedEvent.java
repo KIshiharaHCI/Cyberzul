@@ -10,6 +10,11 @@ public class GameFinishedEvent extends GameEvent {
 
   public final String winner;
 
+  /**
+   * Constructs the event.
+
+   * @param nickname with the nickname of the player.
+   */
   public GameFinishedEvent(String nickname) {
     this.winner = nickname;
   }

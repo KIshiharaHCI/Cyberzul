@@ -5,26 +5,30 @@ package cyberzul.model.events;
  */
 public class GameNotStartableEvent extends GameEvent {
 
-    public static final String EVENT_NAME = "GameNotStartableEvent";
-    public static final String GAME_ALREADY_STARTED = "game already started";
-    public static final String NOT_ENOUGH_PLAYER = "not enough player";
+  public static final String EVENT_NAME = "GameNotStartableEvent";
+  public static final String GAME_ALREADY_STARTED = "game already started";
+  public static final String NOT_ENOUGH_PLAYER = "not enough player";
+  private final String message;
 
-    private final String message;
+  /**
+   * Constructs the event.
 
-    public GameNotStartableEvent(String message) {
-        switch (message) {
-            case GAME_ALREADY_STARTED -> this.message = GAME_ALREADY_STARTED;
-            case NOT_ENOUGH_PLAYER -> this.message = NOT_ENOUGH_PLAYER;
-            default -> throw new AssertionError("unknown message");
-        }
+   * @param message with the appropriate message, why it could not be started.
+   */
+  public GameNotStartableEvent(String message) {
+    switch (message) {
+      case GAME_ALREADY_STARTED -> this.message = GAME_ALREADY_STARTED;
+      case NOT_ENOUGH_PLAYER -> this.message = NOT_ENOUGH_PLAYER;
+      default -> throw new AssertionError("unknown message");
     }
+  }
 
-    @Override
-    public String getName() {
-        return GameNotStartableEvent.EVENT_NAME;
-    }
+  @Override
+  public String getName() {
+    return GameNotStartableEvent.EVENT_NAME;
+  }
 
-    public String getMessage() {
-        return this.message;
-    }
+  public String getMessage() {
+    return this.message;
+  }
 }
