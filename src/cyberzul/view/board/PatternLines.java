@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 
+/**
+ * //TODO: Kenji, Iurii
+ */
 public class PatternLines extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
@@ -28,17 +31,17 @@ public class PatternLines extends JPanel {
     ViewHelper.setProperties(DEFAULT_TILE_SIZE, ROWS, COLS, this);
     this.tileSize = DEFAULT_TILE_SIZE;
     int numberOfSkippedColumns = 1;
-    for (int yRow = 0; yRow < ROWS; yRow++) {
+    for (int yrow = 0; yrow < ROWS; yrow++) {
       final JPanel currentRow = new JPanel();
       currentRow.setAlignmentX(1.0f);
       currentRow.setAlignmentY(1.0f);
       currentRow.setLayout(new GridLayout(1, numberOfSkippedColumns));
       currentRow.setMaximumSize(new Dimension(numberOfSkippedColumns * tileSize, COLS * tileSize));
 
-      for (int xCol = 0; xCol < COLS; xCol++) {
-        if (xCol < numberOfSkippedColumns) {
+      for (int xcol = 0; xcol < COLS; xcol++) {
+        if (xcol < numberOfSkippedColumns) {
 
-          currentRow.add(new TileWithoutListener(yRow, xCol, tileSize));
+          currentRow.add(new TileWithoutListener(yrow, xcol, tileSize));
         }
       }
       numberOfSkippedColumns++;
@@ -49,9 +52,9 @@ public class PatternLines extends JPanel {
   /**
    * The constructor of {@link PatternLines}.
    *
-   * @param controller: The controller.
-   * @param tileSize: The size of the smallest element on the {@link PatternLines} board.
-   * @param tileClickListener: The listener for click events.
+   * @param controller The controller.
+   * @param tileSize The size of the smallest element on the {@link PatternLines} board.
+   * @param tileClickListener The listener for click events.
    */
   public PatternLines(
       String userName, Controller controller, int tileSize, TileClickListener tileClickListener) {
@@ -65,8 +68,8 @@ public class PatternLines extends JPanel {
   /**
    * Initializes all the components of the {@link PatternLines}.
    *
-   * @param tileSize: The size of the smallest element.
-   * @param tileClickListener: The listener to react on click events on the {@link PatternLines}
+   * @param tileSize The size of the smallest element.
+   * @param tileClickListener The listener to react on click events on the {@link PatternLines}
    *     board.
    */
   public void initialize(int tileSize, String userName, TileClickListener tileClickListener) {
