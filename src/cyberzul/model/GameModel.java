@@ -31,7 +31,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
-  private int sleepTime = 100;
   private boolean hasGameEnded = false;
   private Offering currentOffering;
   private int currentIndexOfTile;
