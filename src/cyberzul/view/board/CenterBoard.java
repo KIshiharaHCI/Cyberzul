@@ -41,7 +41,9 @@ public class CenterBoard extends JPanel {
   private JButton forfeitButton;
   private JButton cancelButton;
   private JButton restartButton;
-  private Dimension panelDimension, topPanelDimension, bottomPanelDimension;
+  private Dimension panelDimension;
+  private Dimension topPanelDimension;
+  private Dimension bottomPanelDimension;
 
   /**
    * Creates the center board based on the number of players and with the tile click listeners.
