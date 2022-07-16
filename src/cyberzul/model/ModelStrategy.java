@@ -216,4 +216,7 @@ public interface ModelStrategy {
      * @return <code>true</code> if the game already started. <code>false</code> else.
      */
     boolean isGameStarted();
+
+
+    void postChatMessage(String text);
 }

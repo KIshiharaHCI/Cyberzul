@@ -2,6 +2,7 @@ package cyberzul.model;
 
 import cyberzul.model.events.GameEvent;
 import cyberzul.model.events.PlayerDoesNotExistEvent;
+import cyberzul.network.client.messages.PlayerTextMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -225,5 +227,10 @@ public abstract class CommonModel implements ModelStrategy {
             indexOfNextPlayer = indexOfActivePlayer + 1;
         }
         return indexOfNextPlayer;
+    }
+
+    @Override
+    public void postChatMessage(String message) {
+
     }
 }

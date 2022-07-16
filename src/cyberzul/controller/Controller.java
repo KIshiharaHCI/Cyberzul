@@ -158,4 +158,7 @@ public interface Controller {
      * @return <code>true</code> if the game already started. <code>false</code> else.
      */
     boolean isGameStarted();
+
+
+    void postMessage(String text);
 }

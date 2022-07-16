@@ -3,6 +3,8 @@ package cyberzul.view;
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.model.events.*;
+import cyberzul.network.client.messages.Message;
+import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.listeners.TileClickListener;
 import org.apache.logging.log4j.LogManager;
@@ -45,6 +47,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     private final transient Model model;
     private final transient Controller controller;
     private GameBoard gameBoard;
+
+    private DefaultListModel<Message> listModel;
 
     /**
      * Create the Graphical User Interface of Azul.
@@ -109,6 +113,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         resource = getClass().getClassLoader().getResource("img/start-game-button.png");
         icon = new ImageIcon(Objects.requireNonNull(resource));
         playButton.setIcon(icon);
+
+
+        listModel = new DefaultListModel<>();
+
     }
 
     private void addEventListeners() {
@@ -257,9 +265,19 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 showErrorMessage("Player " + gameForfeitedEvent.getForfeiter() +
                         " left the game and was replaced by an AI");
             }
+            case "PlayerAddedMessageEvent" -> {
+                PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+                listModel.addElement(playerAddedMessageEvent.getMessage());
+            }
+            case "ChatMessageRemovedEvent" -> {
+                ChatMessageRemovedEvent chatMessageRemovedEvent = (ChatMessageRemovedEvent) customMadeGameEvent;
+                listModel.removeElement(chatMessageRemovedEvent.getMessage());
+            }
+
             default -> throw new AssertionError("Unknown event: " + eventName);
         }
     }
+
 
     /**
      * Show an error message as pop-up window to inform the user of an error.

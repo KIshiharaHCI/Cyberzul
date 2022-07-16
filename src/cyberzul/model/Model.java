@@ -15,4 +15,5 @@ public interface Model extends ModelStrategy {
      * @param strategy
      */
     void setStrategy(int strategy);
+
 }

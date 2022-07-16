@@ -1,7 +1,17 @@
 package cyberzul.view.board;
 
+import cyberzul.controller.Controller;
+import cyberzul.model.events.ChatMessageRemovedEvent;
+import cyberzul.model.events.LoggedInEvent;
+import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.network.client.messages.Message;
+import cyberzul.view.ChatCellRenderer;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -12,17 +22,25 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     private static final int INPUTFIELD_HEIGHT = 3;
     private static final long serialVersionUID = 13L;
     private static final int defaultInset = 5;
+    private final Controller controller;
     private JTextArea inputArea;
     private JScrollPane scrollPane;
+    private DefaultListModel<Message> listModel;
 
-    public ChatPanel() {
+    public ChatPanel(Controller controller) {
+        this.controller = controller;
         setLayout(new GridBagLayout());
         initializeWidgets();
         createChatPanel();
+        addEventListeners();
     }
 
     private void initializeWidgets() {
-        scrollPane = new JScrollPane();
+        listModel = new DefaultListModel<>();
+        JList<Message> chatList = new JList<>(listModel);
+        chatList.setCellRenderer(new ChatCellRenderer());
+
+        scrollPane = new JScrollPane(chatList);
         scrollPane.setPreferredSize(new Dimension(this.getWidth(), DEFAULT_HEIGHT));
         scrollPane.setMaximumSize(new Dimension(this.getWidth(), DEFAULT_HEIGHT));
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -32,6 +50,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
         inputArea.setLineWrap(true);
         inputArea.setWrapStyleWord(true);
         inputArea.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+
     }
 
     private void createChatPanel() {
@@ -48,14 +67,42 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
         this.add(inputArea, gbc);
     }
 
+    private void addEventListeners() {
+
+        inputArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() != KeyEvent.VK_ENTER) {
+                    return;
+                }
+
+                e.consume();
+                controller.postMessage(inputArea.getText());
+                inputArea.setText(null);
+            }
+        });
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
         SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
     }
 
     private void handleModelUpdate(PropertyChangeEvent event) {
-
+        Object newValue = event.getNewValue();
+        if (newValue instanceof ChatMessageRemovedEvent msgRemovedEvent) {
+            listModel.removeElement(msgRemovedEvent.getMessage());
+        } else if (newValue instanceof PlayerAddedMessageEvent msgAddedEvent) {
+            listModel.addElement(msgAddedEvent.getMessage());
+        } else if (newValue instanceof LoggedInEvent) {
+            JOptionPane.showMessageDialog(this,
+                    String.format("Login successful, Welcome!"));
+        } else if (newValue instanceof LoginFailedEvent) {
+            JOptionPane.showMessageDialog(this,
+                    String.format("Login failed, name \"%s\" is already in use."));
+        }
     }
+
 
 
 }

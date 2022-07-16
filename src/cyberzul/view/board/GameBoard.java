@@ -112,7 +112,7 @@ public class GameBoard extends JPanel {
 
         chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.CENTER);
 
-        ChatPanel chatPanel = new ChatPanel();
+        ChatPanel chatPanel = new ChatPanel(controller);
         chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
 
 

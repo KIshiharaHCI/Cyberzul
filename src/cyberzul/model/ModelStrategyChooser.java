@@ -177,4 +177,9 @@ public class ModelStrategyChooser implements Model {
     public boolean isGameStarted() {
         return strategy.isGameStarted();
     }
+
+    @Override
+    public void postChatMessage(String text) {
+        strategy.postChatMessage(text);
+    }
 }
