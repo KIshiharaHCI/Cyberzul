@@ -14,7 +14,7 @@ public enum JsonMessage {
 
     LOGIN("login"), LOGIN_SUCCESS("login success"), LOGIN_FAILED("login failed"),
     USER_JOINED("user joined"), POST_MESSAGE("post message"), MESSAGE("message"),
-    USER_LEFT("user left"),
+    USER_LEFT("user left"), CHEAT_MESSAGE("cheat message"),
 
     //messages from the client to the server
     END_TURN("end turn"),
@@ -425,4 +425,13 @@ public enum JsonMessage {
         return jsonName;
     }
 
+    public static JSONObject createCheatMessage(String content) {
+        try {
+            JSONObject cheatMessage = createMessageOfType(CHEAT_MESSAGE);
+            cheatMessage.put(CONTENT_FIELD, content);
+            return cheatMessage;
+        } catch (JSONException e) {
+            throw new IllegalArgumentException("Failed to create a json object.", e);
+        }
+    }
 }

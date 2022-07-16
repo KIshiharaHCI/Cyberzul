@@ -110,7 +110,6 @@ public class ClientNetworkConnection {
         System.out.println("Input loop ended.");
     }
 
-<<<<<<< HEAD
     public void handleMessage(JSONObject object) throws JSONException {
         switch (JsonMessage.typeOf(object)) {
             case CONNECTED -> model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));
