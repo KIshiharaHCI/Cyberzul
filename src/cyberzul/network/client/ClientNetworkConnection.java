@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +25,7 @@ import org.json.JSONObject;
  */
 public class ClientNetworkConnection {
 
-    private static final String HOST = "localhost";
+    private static final byte[] HOST = new byte[] {(byte) 0xc0, (byte) 0xa8, 0x02, 0x70};
     private static final int PORT = 8080;
 
     private final ClientModel model;
@@ -51,7 +52,7 @@ public class ClientNetworkConnection {
             while (!Thread.interrupted()) {
                 Socket socket;
                 try {
-                    socket = new Socket(HOST, PORT);
+                    socket = new Socket(InetAddress.getByAddress(HOST), PORT);
                 } catch (ConnectException connectException) {
                     if (connectException.getMessage().equals("Connection refused: connect")) {
                         Server.start();
