@@ -5,6 +5,7 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
 import cyberzul.model.events.*;
+import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.shared.JsonMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +67,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
             case GameFinishedEvent.EVENT_NAME -> handleGameFinishedEvent(customMadeGameEvent);
             case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
             case GameForfeitedEvent.EVENT_NAME -> handleGameForfeitedEvent(customMadeGameEvent);
+            case "PlayerAddedMessageEvent" -> handlePlayerAddedMessageEvent(customMadeGameEvent);
             default -> throw new AssertionError("Unknown event: " + eventName);
         }
     }
@@ -212,4 +214,15 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
             e.printStackTrace();
         }
     }
+
+    private void handlePlayerAddedMessageEvent(Object customMadeGameEvent) {
+        try {
+            PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+            PlayerTextMessage message = (PlayerTextMessage) playerAddedMessageEvent.getMessage();
+            connection.broadcastToAll(JsonMessage.message(message.getNameOfSender(), message.getTime(), message.getContent()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
