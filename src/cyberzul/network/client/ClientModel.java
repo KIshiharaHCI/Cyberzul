@@ -382,12 +382,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     /**
      * Add a status-update entry "Player joined" to the list of chat entries.
      * Used by the network layer to update the model accordingly.
-     * Notify the Listeners that one Player joins the game.
      * @param nickname The name of the newly joined user.
      */
     public void playerJoined(String nickname) {
         addChatEntry(new PlayerJoinedChatMessage(nickname));
-        notifyListeners(new PlayerAddedEvent(nickname));
+
     }
     /**
      * Add a status-update entry "Player has left the chat" to the list of chat entries.

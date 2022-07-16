@@ -219,7 +219,8 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
         try {
             PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
             PlayerTextMessage message = (PlayerTextMessage) playerAddedMessageEvent.getMessage();
-            connection.broadcastToAll(JsonMessage.message(message.getNameOfSender(), message.getTime(), message.getContent()));
+            connection.broadcastToAll(JsonMessage.message(
+                    message.getNameOfSender(), message.getTime(), message.getContent()));
         } catch (IOException e) {
             e.printStackTrace();
         }

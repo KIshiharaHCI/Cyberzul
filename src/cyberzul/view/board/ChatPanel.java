@@ -32,6 +32,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
         setLayout(new GridBagLayout());
         initializeWidgets();
         createChatPanel();
+
         addEventListeners();
     }
 

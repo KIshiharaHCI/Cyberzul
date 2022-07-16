@@ -1,6 +1,7 @@
 package cyberzul.model;
 
 import cyberzul.model.events.GameEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerDoesNotExistEvent;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import org.apache.logging.log4j.LogManager;
@@ -231,6 +232,8 @@ public abstract class CommonModel implements ModelStrategy {
 
     @Override
     public void postChatMessage(String message) {
-
+        requireNonNull(message);
+        PlayerTextMessage playerTextMessage = new PlayerTextMessage(getPlayerName(), new Date(), message);
+        notifyListeners(new PlayerAddedMessageEvent(playerTextMessage));
     }
 }

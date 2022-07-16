@@ -217,6 +217,10 @@ public interface ModelStrategy {
      */
     boolean isGameStarted();
 
-
+    /**
+     * Send a message that is to be published to the other chat clients.
+     *
+     * @param text The message that is to be sent.
+     */
     void postChatMessage(String text);
 }
