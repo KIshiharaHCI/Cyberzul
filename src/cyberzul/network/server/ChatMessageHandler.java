@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;
 
-/** Handles the chat messages that are send from the clients to the server. */
+/** Handles the chat messages that are send from the clients to the server.
+ *
+ * */
 public class ChatMessageHandler extends ClientMessageHandler {
   private static String nickname;
   private static ServerNetworkConnection serverConnection;
