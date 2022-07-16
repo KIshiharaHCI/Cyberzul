@@ -115,6 +115,13 @@ public class ClientNetworkConnection {
     System.out.println("Input loop ended.");
   }
 
+  /**
+   * Check the type of the message that was sent from the server to this client and distribute it
+   * to the correct handling method.
+   *
+   * @param object the message that was sent from the server to the client.
+   * @throws JSONException is thrown if the JSONObject was defective.
+   */
   public void handleMessage(JSONObject object) throws JSONException {
     switch (JsonMessage.typeOf(object)) {
       case CONNECTED -> model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));

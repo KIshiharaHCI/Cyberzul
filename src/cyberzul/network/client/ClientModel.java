@@ -265,17 +265,17 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Update the information about the player that has the starting player marker at the moment.
    *
-   * @param indexOfPlayerWhoShouldGetSPM the index of the player with the starting player marker.
+   * @param indexOfPlayerWhoShouldGetSpm the index of the player with the starting player marker.
    */
-  private void setPlayerWithSPM(int indexOfPlayerWhoShouldGetSPM) {
+  private void setPlayerWithSpm(int indexOfPlayerWhoShouldGetSpm) {
     try {
       for (Player p : playerList) {
         ClientPlayer clientPlayer = (ClientPlayer) p;
         clientPlayer.setHasStartingPlayerMarker(false);
       }
-      ClientPlayer playerWhoShouldGetTheSPM =
-          (ClientPlayer) playerList.get(indexOfPlayerWhoShouldGetSPM);
-      playerWhoShouldGetTheSPM.setHasStartingPlayerMarker(true);
+      ClientPlayer playerWhoShouldGetTheSpm =
+          (ClientPlayer) playerList.get(indexOfPlayerWhoShouldGetSpm);
+      playerWhoShouldGetTheSpm.setHasStartingPlayerMarker(true);
     } catch (ClassCastException e) {
       e.printStackTrace();
     }
@@ -395,7 +395,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * One game round has ended and the tiles were put on the wall. Now the data of every player has
    * changed and needs to get updated on the local device. (that is done by this method).
    *
-   * Also notifies the view that the round has finished.
+   * <p>Also notifies the view that the round has finished.
    *
    * @param message contains the up-to-date data of the game state and player states.
    */
@@ -404,7 +404,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
       JSONArray players = message.getJSONArray(JsonMessage.PLAYER_FIELD);
       updatePlayers(players);
 
-      setPlayerWithSPM(message.getInt(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
+      setPlayerWithSpm(message.getInt(JsonMessage.INDEX_OF_PLAYER_WITH_SPM));
       notifyListeners(new RoundFinishedEvent());
     } catch (JSONException e) {
       e.printStackTrace();

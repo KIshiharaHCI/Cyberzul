@@ -36,8 +36,8 @@ public class ClientPlayer extends Player {
   @SuppressFBWarnings("EI_EXPOSE_REP2")
   @SuppressWarnings(value = "EI_EXPOSE_REP")
   //this class is only a storage for information that the server sends to the client so the view
-  //can access this information later. patternLines is indeed a mutable object, but it doesn't matter
-  //because the ClientModel doesn't store a reference to it itself.
+  //can access this information later. patternLines is indeed a mutable object, but it doesn't
+  //matter because the ClientModel doesn't store a reference to it itself.
   public void setPatternLines(ModelTile[][] patternLines) {
     this.patternLines = patternLines;
   }
