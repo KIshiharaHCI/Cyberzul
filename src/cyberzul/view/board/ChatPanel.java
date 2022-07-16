@@ -6,6 +6,7 @@ import cyberzul.model.events.LoggedInEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.network.client.messages.Message;
+import cyberzul.network.client.messages.PlayerLoggedInMessage;
 import cyberzul.view.ChatCellRenderer;
 
 import javax.swing.*;
