@@ -2,20 +2,37 @@ package cyberzul.view;
 
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
-import cyberzul.model.events.*;
+import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.GameNotStartableEvent;
+import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.listeners.TileClickListener;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.HeadlessException;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public class CyberzulView extends JFrame implements PropertyChangeListener {
 
     private static final long serialVersionUID = 7526472295622776147L;
@@ -30,6 +47,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     private final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
     private final double BACKGROUND_SCALE_FACTOR = 1;
     private final String BACKGROUND_PATH = "img/background.jpg";
+    private final transient Model model;
+    private final transient Controller controller;
     private CardLayout layout;
     private JTextField inputField;
     private JButton hotSeatModeButton;
@@ -41,9 +60,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     private JButton testTwoPlayersButton;
     private JLabel numberOfLoggedInPlayersLabel, pleaseEnterNameLabel, selectModeLabel;
     private JLabel gameLogoLabel;
-    private TileClickListener tileClickListener;
-    private final transient Model model;
-    private final transient Controller controller;
+    private transient TileClickListener tileClickListener;
     private GameBoard gameBoard;
 
     /**
