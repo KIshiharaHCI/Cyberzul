@@ -32,12 +32,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * This class acts as if it was a GameModel to the view. The view can use all its methods that
+ * it would use in the hot seat mode to communicate with the GameModel.
+ * Instead of altering the game state directly, this class sends messages to the server and tells
+ * the server about the request of the user.
+ *
+ * <p>The server uses this object (and related objects like the ClientPlayer) to store information
+ * about the game state on the local machine of the user, so if the view has to access some
+ * information (i.e. the content of the FactoryDisplays), it doesn't have to send a message to the
+ * server and request the information, but it already has this information stored locally and ready
+ * to use.
+ *
+ * <p>The server will also keep this data updated.
+ */
 public class ClientModel extends CommonModel implements ModelStrategy {
 
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
   private ClientNetworkConnection connection;
   private String thisPlayersName;
 
+  /**
+   * Create a ClientModel and start a connection with the server.
+   */
   public ClientModel() {
     super();
     this.connection = new ClientNetworkConnection(this);
@@ -159,7 +176,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Intitializes the data structure that contains the information about each player.
    *
-   * @param playerNames
+   * @param playerNames the names of the players that have already logged in on the server.
    */
   private void setUpClientPlayersByName(JSONArray playerNames) throws JSONException {
     ArrayList<Player> playerList = new ArrayList<>();
@@ -173,7 +190,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Update the Offerings in the Model.
    *
-   * @param offerings
+   * @param offerings the offerings of Azul. This information comes directly form the server.
    */
   private void updateOfferings(JSONArray offerings) throws JSONException {
     ArrayList<Offering> returnOfferingsList = new ArrayList<>();
@@ -202,6 +219,19 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     this.offerings = returnOfferingsList;
   }
 
+  /**
+   * The client has received a message that the next player has to start his turn. So the last
+   * player did his turn. That means the information stored on this client's device is outdated and
+   * has to be updated. The new, up-to-date information is stored in the JSON object that is sent
+   * from the server to the client.
+   * Update following information
+   * <li>Who is the active player now.</li>
+   * <li>How do the FactoryDisplays and TableCenter looks like now.</li>
+   * <li>How do the PatternLines and FloorLine of the player who ended his turn look like now.</li>
+   *
+   * @param object the object containing
+   * @throws JSONException if the JSONObject is defective.
+   */
   public void handleNextPlayersTurn(JSONObject object) throws JSONException {
     String nameOfActivePlayer = object.getString(JsonMessage.NAME_OF_ACTIVE_PLAYER_FIELD);
     List<String> playerNamesList = getPlayerNamesList();
@@ -232,6 +262,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     notifyListeners(new NextPlayersTurnEvent(nameOfActivePlayer, nameOfPlayerWhoEndedHisTurn));
   }
 
+  /**
+   * Update the information about the player that has the starting player marker at the moment.
+   *
+   * @param indexOfPlayerWhoShouldGetSPM the index of the player with the starting player marker.
+   */
   private void setPlayerWithSPM(int indexOfPlayerWhoShouldGetSPM) {
     try {
       for (Player p : playerList) {
@@ -246,6 +281,12 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     }
   }
 
+  /**
+   * Update the content of the PatternLines of the specified player.
+   *
+   * @param newPatternLines the up-to-date content of the PatternLines.
+   * @param player the player whose PatternLines get updated.
+   */
   private void updatePatternLines(JSONArray newPatternLines, ClientPlayer player) {
     try {
       ModelTile[][] patternLines =
@@ -262,6 +303,12 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     }
   }
 
+  /**
+   * Update the content of the wall of the specified player.
+   *
+   * @param newWallMessage the up-to-date content of the wall.
+   * @param player the player whose wall gets updated.
+   */
   private void updateWall(JSONArray newWallMessage, ClientPlayer player) {
     try {
       boolean[][] wall = new boolean[newWallMessage.length()][newWallMessage.length()];
@@ -279,10 +326,22 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     }
   }
 
+  /**
+   * Update the number of points that the specified player has right now.
+   *
+   * @param newPoints number of points.
+   * @param player the player whose points get updated.
+   */
   private void updatePoints(int newPoints, ClientPlayer player) {
     player.setPoints(newPoints);
   }
 
+  /**
+   * Update the content of the FloorLine of the specified player.
+   *
+   * @param newFloorLine the up-to-date content of the FloorLine of this player.
+   * @param player the player whose FloorLine gets updated.
+   */
   private void updateFloorLine(JSONArray newFloorLine, ClientPlayer player) {
     try {
       ArrayList<ModelTile> floorLine = new ArrayList<>();
@@ -295,10 +354,18 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     }
   }
 
+  /**
+   * Notify the user that it's not his turn, and he has to wait until he can make his next move.
+   */
   public void handleNotYourTurn() {
     notifyListeners(new NotYourTurnEvent());
   }
 
+  /**
+   * Notify the listeners that the active user has chosen a tile.
+   *
+   * @param object
+   */
   public void handlePlayerHasChosenTile(JSONObject object) {
     try {
       notifyListeners(

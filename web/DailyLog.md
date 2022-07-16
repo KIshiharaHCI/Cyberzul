@@ -1709,6 +1709,11 @@ Q2:
 
 - continue trying. More googeling. Maybe I find some code that already works.
 - ask StackOverflow
+- try to connect with netcat to a very simple server
+- try to connect with telnet to a very simple server
+- fix (or suppress) all SpotBugs that are thrown that are in the network code
+- fix all CheckStyles in the network code
+- make it possible to connect via Wi-Fi
 
 Q3:
 
