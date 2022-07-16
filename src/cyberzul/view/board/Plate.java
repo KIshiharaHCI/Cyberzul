@@ -17,7 +17,7 @@ public class Plate extends JPanel {
   private static final long serialVersionUID = 7526472295622776147L;
   private static final int PLATE_SIZE = 80;
 
-  private static final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
+  private static final int spaceFromLeftAndTopInPxl = 13;
   private static final int SPACE_BETWEEN_TILES_IN_PXL = 4;
   private final int plateId;
 
@@ -28,7 +28,7 @@ public class Plate extends JPanel {
    * Create one Plate.
    *
    * @param plateId the number with which the Plate can be identified.
-   * @param tileClickListener
+   * @param tileClickListener the tile click listener
    */
   public Plate(int plateId, TileClickListener tileClickListener, List<ModelTile> content) {
     // setLayout(new GridLayout(1, 1));
@@ -45,8 +45,8 @@ public class Plate extends JPanel {
   }
 
   public void initialize(TileClickListener tileClickListener, List<ModelTile> content) {
-    int space_from_left = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
-    int space_from_top = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
+    int spaceFromLeft = spaceFromLeftAndTopInPxl;
+    int spaceFromTop = spaceFromLeftAndTopInPxl;
     for (int i = 0; i < content.size(); i++) {
       // calculates the col and row from left-right,top-down
       // column: 1 1 2 2; row 1 2 1 2
@@ -57,23 +57,23 @@ public class Plate extends JPanel {
           new SourceTile(
               column, row, content.get(i), i, plateId, Tile.NORMAL_TILE_SIZE, tileClickListener);
       tileList.add(tile);
-      tile.setBounds(space_from_left, space_from_top, Tile.NORMAL_TILE_SIZE, Tile.NORMAL_TILE_SIZE);
+      tile.setBounds(spaceFromLeft, spaceFromTop, Tile.NORMAL_TILE_SIZE, Tile.NORMAL_TILE_SIZE);
       plateImageLabel.add(tile);
       // move tiles to the right after first and second tile
       // move down after second tile
 
       if (row == 1) {
-        space_from_left += Tile.TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL;
+        spaceFromLeft += Tile.TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL;
       } else {
-        space_from_left = SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL;
-        space_from_top += Tile.TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL;
+        spaceFromLeft = spaceFromLeftAndTopInPxl;
+        spaceFromTop += Tile.TILE_SIZE + SPACE_BETWEEN_TILES_IN_PXL;
       }
     }
   }
 
   private ImageIcon getResizedImageIcon(String path, int size) {
-    URL imgURL1 = getClass().getClassLoader().getResource(path);
+    URL imgUrl1 = getClass().getClassLoader().getResource(path);
     return new ImageIcon(
-        new ImageIcon(imgURL1).getImage().getScaledInstance(size, size, Image.SCALE_DEFAULT));
+        new ImageIcon(imgUrl1).getImage().getScaledInstance(size, size, Image.SCALE_DEFAULT));
   }
 }
