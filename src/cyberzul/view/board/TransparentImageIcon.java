@@ -14,7 +14,8 @@ import javax.swing.ImageIcon;
     value = "EI_EXPOSE_REP",
     justification =
         "We are aware that data "
-            + "encapsulation is violated here and that this is in principle bad. However, as here just "
+            + "encapsulation is violated here and that this is in principle bad. "
+            + "However, as here just "
             + "information of the view is possible to be changed from an external source and the "
             + "model is safe, we think it is ok to suppress this warning.")
 public class TransparentImageIcon extends ImageIcon {
@@ -57,7 +58,7 @@ public class TransparentImageIcon extends ImageIcon {
   }
 
   /**
-   * Gets the icon wrapped by this <CODE>AlphaIcon</CODE>
+   * Gets the icon wrapped by this <CODE>AlphaIcon</CODE>.
    *
    * @return the wrapped icon
    */
