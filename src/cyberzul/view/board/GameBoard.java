@@ -26,9 +26,9 @@ public class GameBoard extends JPanel {
 
   private final CenterBoard center;
   private final JPanel settingsPanel = new JPanel(null);
-  private final String SOUND_BUTTON_PATH = "img/sound-button.png";
-  private final String MENU_BUTTON_PATH = "img/settings-button.png";
-  private final int ICON_BUTTON_SIZE = 40;
+  private final String soundButtonPath = "img/sound-button.png";
+  private final String menuButtonPath = "img/settings-button.png";
+  private final int iconButtonSize = 40;
   private JPanel boardsOfOpponentsPanel;
   private RankingBoard rankingBoard;
   private final Dimension frameDimension;
@@ -37,8 +37,8 @@ public class GameBoard extends JPanel {
   /**
    * Creates the main game panel which contains all other game elements.
    *
-   * @param tileClickListener
-   * @param controller
+   * @param tileClickListener the tile click listener
+   * @param controller the controller
    * @param frameDimension 1400 x 800 px
    */
   public GameBoard(
@@ -84,11 +84,10 @@ public class GameBoard extends JPanel {
     settingsPanel.setLayout(null);
 
     JButton soundButton =
-        new IconButton(SOUND_BUTTON_PATH, 130, 20, ICON_BUTTON_SIZE, ICON_BUTTON_SIZE);
+        new IconButton(soundButtonPath, 130, 20, iconButtonSize, iconButtonSize);
     settingsPanel.add(soundButton);
 
-    JButton settingsButton =
-        new IconButton(MENU_BUTTON_PATH, 130, 100, ICON_BUTTON_SIZE, ICON_BUTTON_SIZE);
+
     final JPopupMenu menu = new JPopupMenu("Menu");
     JMenuItem firstItem = new JMenuItem("First item");
     firstItem.addActionListener(
@@ -101,10 +100,12 @@ public class GameBoard extends JPanel {
     menu.add(new JMenuItem("Second item"));
     menu.add(new JMenuItem("Third item"));
 
+    JButton settingsButton =
+        new IconButton(menuButtonPath, 130, 100, iconButtonSize, iconButtonSize);
     settingsButton.addActionListener(
         new ActionListener() {
           public void actionPerformed(ActionEvent ae) {
-            menu.show(settingsButton, -ICON_BUTTON_SIZE * 2, ICON_BUTTON_SIZE / 2);
+            menu.show(settingsButton, -iconButtonSize * 2, iconButtonSize / 2);
           }
         });
     settingsPanel.add(settingsButton);
@@ -167,6 +168,9 @@ public class GameBoard extends JPanel {
     validate();
   }
 
+  /**
+   * //TODO Iurii
+   */
   public void updateOtherPlayerBoards() {
 
     for (PlayerBoard othersPlayerBoard : otherPlayerBoards) {
