@@ -32,8 +32,9 @@ public class ChatMessageHandler extends ClientMessageHandler {
                                determines the winner.""";*/
 
   /**
-   * Create a new {@link ChatMessageHandler}. It deals with incoming and outgoing message for a
-   * single connected player. The specific objects are created from the given socket.
+   * Create a new {@link ChatMessageHandler} chat message handler.
+   * It deals with incoming and outgoing message for a single connected player.
+   * The specific objects are created from the given socket.
    *
    * @param serverConnection The connection handler that manages all the connected players
    * @param socket The specific socket that belongs to this player
@@ -46,7 +47,7 @@ public class ChatMessageHandler extends ClientMessageHandler {
   }
 
   /**
-   * Return the player-name of the message sender
+   * Return the player-name of the message sender.
    *
    * @return The player-name of sender.
    */
