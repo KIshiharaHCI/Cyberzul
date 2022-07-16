@@ -28,7 +28,7 @@ public class GameBoard extends JPanel {
     private final JPanel settingsPanel = new JPanel(null);
 
     private RankingBoard rankingBoard;
-    private Dimension frameDimension;
+    private final Dimension frameDimension;
     private List<PlayerBoard> otherPlayerBoards;
     private final String SOUND_BUTTON_PATH = "img/sound-button.png";
     private final String MENU_BUTTON_PATH = "img/settings-button.png";
@@ -38,9 +38,9 @@ public class GameBoard extends JPanel {
     /**
      * Creates the main game panel which contains all other game elements.
      *
-     * @param tileClickListener
-     * @param controller
-     * @param frameDimension    1400 x 800 px
+     * @param tileClickListener: the listener.
+     * @param controller: the conteroller.
+     * @param frameDimension    1400 x 800 px.
      */
     public GameBoard(TileClickListener tileClickListener,
                      Controller controller, Dimension frameDimension) {
@@ -91,20 +91,13 @@ public class GameBoard extends JPanel {
         JButton settingsButton = new IconButton(MENU_BUTTON_PATH, 130, 100, ICON_BUTTON_SIZE, ICON_BUTTON_SIZE);
         final JPopupMenu menu = new JPopupMenu("Menu");
         JMenuItem firstItem = new JMenuItem("First item");
-        firstItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                System.out.println("First menu item clicked");
-            }
-        });
+        firstItem.addActionListener(ae -> System.out.println("First menu item clicked"));
         menu.add(firstItem);
         menu.add(new JMenuItem("Second item"));
         menu.add(new JMenuItem("Third item"));
 
-        settingsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                menu.show(settingsButton, -ICON_BUTTON_SIZE * 2, ICON_BUTTON_SIZE / 2);
-            }
-        });
+        settingsButton.addActionListener(
+            ae -> menu.show(settingsButton, -ICON_BUTTON_SIZE * 2, ICON_BUTTON_SIZE / 2));
         settingsPanel.add(settingsButton);
 
         settingsPanel.setOpaque(false);
@@ -117,7 +110,7 @@ public class GameBoard extends JPanel {
 
 
         Dimension chatAndRankingBoardAndButtonsPanelDimension = new Dimension(
-                (int) (frameDimension.width * 0.3),
+                (int) (frameDimension.width * 0.26),
                 (int) (frameDimension.height * 0.94)
 
     );
