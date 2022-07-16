@@ -16,14 +16,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/** The tiles on the center of the table ("Tischmitte") (Center Board class) */
+/** The tiles on the center of the table ("Tischmitte") (Center Board class). */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
         "We are aware that data "
-            + "encapsulation is violated here and that this is in principle bad. However, as here just "
-            + "information of the view is possible to be changed from an external source and the "
-            + "model is safe, we think it is ok to suppress this warning.")
+            + "encapsulation is violated here and that this is in principle bad. However, "
+            + "as here just information of the view is possible to be changed from an "
+            + "external source and the model is safe, we think it is ok to "
+            + "suppress this warning.")
 public class TableCenterPanel extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
@@ -31,9 +32,9 @@ public class TableCenterPanel extends JPanel {
   private static final int SPACE_BETWEEN_TILES_IN_PXL = 44;
   private static final int plateId = 0;
   private final transient Controller controller;
-  private final int SPACE_FROM_TOP_EDGE_IN_PXL = 13;
-  private final int TABLE_CENTER_SIZE_WIDTH_IN_PXL = 1100;
-  private final int TABLE_CENTER_HEIGHT_IN_PXL = 260;
+  private final int spaceFromTopEdgeInPxl = 13;
+  private final int tableCenterSizeWidthInPxl = 1100;
+  private final int tableCenterHeightInPxl = 260;
   private final transient List<SourceTile> tileList;
   private JLabel tableCenterImageLabel;
   private transient TableCenter tableCenter;
@@ -69,6 +70,12 @@ public class TableCenterPanel extends JPanel {
     setMaximumSize(panelDimension);
   }
 
+  /**
+   * initializes the table center in the view in accordance with the model.
+   *
+   * @param tileClickListener listens to clicks on a tile.
+   * @param tableCenter the instance of the table center.
+   */
   public void initialize(TileClickListener tileClickListener, TableCenter tableCenter) {
     this.tableCenter = tableCenter;
     tableCenterImageLabel = new JLabel(getResizedImageIcon("img/table-center.png"));
@@ -86,7 +93,7 @@ public class TableCenterPanel extends JPanel {
       tileList.add(tile);
       tile.setBounds(
           SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL + ((row - 1) * SPACE_BETWEEN_TILES_IN_PXL),
-          SPACE_FROM_TOP_EDGE_IN_PXL + SPACE_BETWEEN_TILES_IN_PXL * (col - 1),
+          spaceFromTopEdgeInPxl + SPACE_BETWEEN_TILES_IN_PXL * (col - 1),
           Tile.NORMAL_TILE_SIZE,
           Tile.NORMAL_TILE_SIZE);
       tableCenterImageLabel.add(tile);
@@ -107,8 +114,8 @@ public class TableCenterPanel extends JPanel {
    * @return ImageIcon with given width and height.
    */
   private ImageIcon getResizedImageIcon(String path) {
-    URL imgURL = getClass().getClassLoader().getResource(path);
-    ImageIcon icon1 = new ImageIcon(imgURL);
+    URL imgUrl = getClass().getClassLoader().getResource(path);
+    ImageIcon icon1 = new ImageIcon(imgUrl);
     BufferedImage resizedimage =
         new BufferedImage(panelDimension.width, panelDimension.height, BufferedImage.TYPE_INT_RGB);
     Graphics2D g2 = resizedimage.createGraphics();
