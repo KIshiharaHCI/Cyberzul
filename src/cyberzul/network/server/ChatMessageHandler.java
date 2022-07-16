@@ -16,7 +16,7 @@ public class ChatMessageHandler extends ClientMessageHandler {
     private static String nickname;
     private static ServerNetworkConnection serverConnection;
 
-    private static final String AZUL_STRATEGY = """
+    private static final String AZUL_STRATEGY ="""
           Azul - Strategy:
           Focus on Negative Points.    Azul is point based, which causes us to focus on the amount of points we are gaining.
           Forget About 5 of a Kind.    There is something inherently wrong with trying to place all 5 of the same color tile on your board: 
@@ -36,7 +36,8 @@ public class ChatMessageHandler extends ClientMessageHandler {
      * @param socket The specific socket that belongs to this player
      * @throws IOException Thrown when failing to retrieve the In- or Output-stream.
      */
-    public ChatMessageHandler(ServerNetworkConnection serverConnection, Socket socket, Controller controller, Model model)
+    public ChatMessageHandler(ServerNetworkConnection serverConnection, Socket socket,
+                              Controller controller, Model model)
             throws IOException {
         super(serverConnection, socket, controller, model);
 
