@@ -7,6 +7,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * //TODO Iurii, Kenji
+ */
 public class ImagePanel extends JPanel {
 
   //    private transient BufferedImage image;
@@ -22,11 +25,11 @@ public class ImagePanel extends JPanel {
   /**
    * Constructor for creating a panel with a background image.
    *
-   * @param childPanel: Panel to set transparent.
-   * @param path: Path of the image to set.
-   * @param width: Basic width from which the scale should start.
-   * @param height: Basic height from which the scale should start.
-   * @param scaleFactor: The factor to make image larger to.
+   * @param childPanel Panel to set transparent.
+   * @param path Path of the image to set.
+   * @param width Basic width from which the scale should start.
+   * @param height Basic height from which the scale should start.
+   * @param scaleFactor The factor to make image larger to.
    */
   public ImagePanel(JPanel childPanel, String path, int width, int height, double scaleFactor) {
     this.childPanel = childPanel;
@@ -44,11 +47,11 @@ public class ImagePanel extends JPanel {
    * @return: The {@link JPanel} with background image.
    */
   private void createBackgroundLabel() {
-    URL imgURL = getClass().getClassLoader().getResource(path);
-    assert imgURL != null;
+    URL imgUrl = getClass().getClassLoader().getResource(path);
+    assert imgUrl != null;
     ImageIcon icon =
         new ImageIcon(
-            new ImageIcon(imgURL)
+            new ImageIcon(imgUrl)
                 .getImage()
                 .getScaledInstance(
                     (int) Math.round(width * scaleFactor),
