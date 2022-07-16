@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class ServerNetworkConnection {
 
   private static final int PORT = 2307;
-  private static final String HOST = "192.168.2.101"; //Thinkpad
+  private static final byte[] HOST = new byte[] {0,0,0,0};
   private static final int BACKLOG = 10;
 
   private final ExecutorService executorService;
@@ -64,7 +64,7 @@ public class ServerNetworkConnection {
     this.controller = controller;
     executorService = Executors.newCachedThreadPool();
     //socket = new ServerSocket(PORT);
-    socket = new ServerSocket(PORT,BACKLOG, InetAddress.getByName(HOST));
+    socket = new ServerSocket(PORT,BACKLOG, InetAddress.getByAddress(HOST));
     clientHandlers = Collections.synchronizedList(new ArrayList<>());
 
     modelPropertyChangeHandler = new ModelPropertyChangeHandler(this, model);

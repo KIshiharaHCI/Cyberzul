@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
@@ -28,8 +29,7 @@ import org.json.JSONObject;
 public class ClientNetworkConnection {
 
   //private static final String HOST = "localhost";
-  private static final String HOST = "192.168.2.101"; //Thinkpad
-  //private static final String HOST = "192.168.2.122"; //HP
+  private static final byte[] HOST = new byte[] {(byte) 192, (byte) 168, 2, 112};; //HP
   private static final int PORT = 2307;
 
   private final ClientModel model;
@@ -56,7 +56,7 @@ public class ClientNetworkConnection {
       while (!Thread.interrupted()) {
         Socket socket;
         try {
-          socket = new Socket(HOST, PORT);
+          socket = new Socket(InetAddress.getByAddress(HOST),PORT);
         }
 
         catch (ConnectException connectException){
