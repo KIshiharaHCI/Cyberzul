@@ -1,5 +1,6 @@
 package cyberzul.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,10 @@ public class ClientFactoryDisplay extends Offering {
    *
    * @param content the tiles that are stored in this Offering.
    */
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  //this class is only a storage for information that the server sends to the client so the view
+  //can access this information later. content is indeed a mutable object, but it doesn't matter
+  //because the ClientModel doesn't store a reference to it itself.
   public void setContent(ArrayList<ModelTile> content) {
     this.content = content;
   }

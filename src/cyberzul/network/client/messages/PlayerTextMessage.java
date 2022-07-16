@@ -1,5 +1,6 @@
 package cyberzul.network.client.messages;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -15,6 +16,9 @@ public class PlayerTextMessage extends Message {
 
   private final String content;
 
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  //time is indeed a reference to a mutable object, but it is still legal to just save the reference
+  //here, because the class that calls this constructor doesn't store the reference itself.
   public PlayerTextMessage(String nameOfSender, Date time, String content) {
     this.nameOfSender = nameOfSender;
     this.time = time;

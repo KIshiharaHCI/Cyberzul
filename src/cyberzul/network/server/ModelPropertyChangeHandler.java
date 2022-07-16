@@ -10,6 +10,7 @@ import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.shared.JsonMessage;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -30,11 +31,10 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
   private final ServerNetworkConnection connection;
   private final Model model;
 
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public ModelPropertyChangeHandler(ServerNetworkConnection connection, Model model) {
-
-    //TODO: TEST
-    System.out.println(model + " " + connection);
-
     this.connection = connection;
     this.model = model;
     model.addPropertyChangeListener(this);

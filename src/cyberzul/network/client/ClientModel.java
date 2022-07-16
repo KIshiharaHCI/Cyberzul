@@ -35,13 +35,11 @@ import org.json.JSONObject;
 public class ClientModel extends CommonModel implements ModelStrategy {
 
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
-  private boolean loggedIn;
   private ClientNetworkConnection connection;
   private String thisPlayersName;
 
   public ClientModel() {
     super();
-    loggedIn = false;
     this.connection = new ClientNetworkConnection(this);
     connection.start();
   }
@@ -86,19 +84,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
-   * Add a network connector to this model.
-   *
-   * @param connection The network connection to be added.
-   */
-  public synchronized void setConnection(ClientNetworkConnection connection) {
-    this.connection = connection;
-  }
-
-  public synchronized void setLoggedIn(boolean loggedIn) {
-    this.loggedIn = loggedIn;
-  }
-
-  /**
    * Gets invoked if the client connects with the server. Even before he logs in with his name. He
    * then already gets the information about the names of the players who already joined and saves
    * them in his playerList
@@ -129,7 +114,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * to the subscribed listeners.
    */
   public void loggedIn() {
-    setLoggedIn(true);
     playerList.add(new ClientPlayer(thisPlayersName));
     notifyListeners(new LoggedInEvent());
   }
@@ -148,7 +132,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Notify the subscribed observers that a login attempt has failed.
    */
   public void loginFailed(String message) {
-    setLoggedIn(false);
     notifyListeners(new LoginFailedEvent(message));
   }
 

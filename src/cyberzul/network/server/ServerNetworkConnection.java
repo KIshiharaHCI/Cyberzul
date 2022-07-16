@@ -2,6 +2,7 @@ package cyberzul.network.server;
 
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -56,6 +57,9 @@ public class ServerNetworkConnection {
    *
    * @throws IOException thrown when the socket is unable to be created at the given port
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public ServerNetworkConnection(Model gameModel, Controller controller) throws IOException {
     this.model = gameModel;
     this.controller = controller;

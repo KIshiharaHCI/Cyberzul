@@ -1,5 +1,6 @@
 package cyberzul.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 
 /**
@@ -19,9 +20,10 @@ public class ClientTableCenter extends TableCenter {
    *
    * @param content the tiles that are stored in this Offering.
    */
-  @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
-      value = "ST_WRITE_TO_STATIC_FROM" + "_INSTANCE_METHOD",
-      justification = "This is a Singleton, there will be no multiple " + "instances.")
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  //this class is only a storage for information that the server sends to the client so the view
+  //can access this information later. content is indeed a mutable object, but it doesn't matter
+  //because the ClientModel doesn't store a reference to it itself.
   public void setContent(ArrayList<ModelTile> content) {
     this.content = content;
   }

@@ -8,6 +8,7 @@ import cyberzul.model.Model;
 import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.shared.JsonMessage;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -47,6 +48,8 @@ public class ClientMessageHandler implements Runnable {
    * @param socket     The specific socket that belongs to this client
    * @throws IOException Thrown when failing to retrieve the In- or Output-stream.
    */
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  //this class needs these references to these mutable objects.
   public ClientMessageHandler(ServerNetworkConnection connection, Socket socket,
                               Controller controller, Model model)
       throws IOException {

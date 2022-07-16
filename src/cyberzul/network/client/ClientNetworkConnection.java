@@ -3,6 +3,7 @@ package cyberzul.network.client;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.server.Server;
 import cyberzul.shared.JsonMessage;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -32,6 +33,8 @@ public class ClientNetworkConnection {
   private BufferedReader reader;
   private Thread thread;
 
+  //this class needs this reference to this mutable objects.
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
   public ClientNetworkConnection(ClientModel model) {
     this.model = model;
   }
