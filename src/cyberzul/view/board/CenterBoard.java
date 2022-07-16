@@ -20,9 +20,10 @@ import javax.swing.JPanel;
     value = "EI_EXPOSE_REP",
     justification =
         "We are aware that data "
-            + "encapsulation is violated here and that this is in principle bad. However, as here just "
-            + "information of the view is possible to be changed from an external source and the "
-            + "model is safe, we think it is ok to suppress this warning.")
+            + "encapsulation is violated here and that this is in principle bad. "
+            + "However, as here just information of the view is possible to be changed from "
+            + "an external source and the model is safe, we think it is ok to suppress "
+            + "this warning.")
 public class CenterBoard extends JPanel {
 
   private static final long serialVersionUID = 5L;
@@ -37,7 +38,9 @@ public class CenterBoard extends JPanel {
   private PlayerBoard currentPlayerBoard;
   private JPanel platesAndTableCenterPanel;
   private JPanel activeUserButtonsPanel;
-  private JButton forfeitButton, cancelButton, restartButton;
+  private JButton forfeitButton;
+  private JButton cancelButton;
+  private JButton restartButton;
   private Dimension panelDimension, topPanelDimension, bottomPanelDimension;
 
   /**
@@ -68,12 +71,12 @@ public class CenterBoard extends JPanel {
   }
 
   private void createActiveUserButtonsPanel() {
-    Dimension rightSideBarDimension =
-        new Dimension(panelDimension.width, (int) (panelDimension.height * 0.3));
     activeUserButtonsPanel = new JPanel();
     activeUserButtonsPanel.setAlignmentY(Box.BOTTOM_ALIGNMENT);
     activeUserButtonsPanel.setLayout(new BoxLayout(activeUserButtonsPanel, BoxLayout.Y_AXIS));
     activeUserButtonsPanel.setOpaque(false);
+    Dimension rightSideBarDimension =
+        new Dimension(panelDimension.width, (int) (panelDimension.height * 0.3));
     setMaximumSize(rightSideBarDimension);
     setMinimumSize(rightSideBarDimension);
 
@@ -117,10 +120,10 @@ public class CenterBoard extends JPanel {
    * @param path file path for the custom button image
    */
   private void setButtonProperties(JButton button, String path) {
-    URL imgURL1 = getClass().getClassLoader().getResource(path);
+    URL imgUrl1 = getClass().getClassLoader().getResource(path);
     ImageIcon img =
         new ImageIcon(
-            new ImageIcon(imgURL1).getImage().getScaledInstance(140, 52, Image.SCALE_DEFAULT));
+            new ImageIcon(imgUrl1).getImage().getScaledInstance(140, 52, Image.SCALE_DEFAULT));
     button.setIcon(img);
     button.setBorder(null);
     button.setContentAreaFilled(false);
