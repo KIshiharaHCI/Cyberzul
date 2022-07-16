@@ -1570,6 +1570,19 @@ Q3:
 
 - none
 
+_Marco_
+
+Q1:
+- fix SpotBugs in Main branch
+- create new issues
+
+Q2:
+- meeting with team
+- fix SpotBugs in Main branch
+
+Q3:
+- none
+
 **12. Juli, 2022**
 
 _Nils_
@@ -1604,6 +1617,18 @@ Q3:
 
 - none
 
+_Marco_
+
+Q1:
+- meeting with team
+- fix SpotBugs in Main branch
+
+Q2:
+- all SpotBugs are done in model
+
+Q3:
+- https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
+
 **14. Juli, 2022**
 
 _Nils_
@@ -1625,6 +1650,19 @@ Q2:
 Q3:
 
 - none
+
+_Marco_
+
+Q1:
+- all SpotBugs are done in model
+
+Q2:
+- fix SpotBugs in View in main
+- getThisPlayersName() is not used in GameModel, but has to be in the Model Interface, otherwise it can't be accessed. Please find an elegant solution.
+- create tasks for next week
+
+Q3:
+- https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
 
 **15. Juli, 2022**
 
@@ -1650,6 +1688,20 @@ Q2:
 Q3:
 
 - none
+
+
+_Marco_ 
+
+Q1:
+- fix SpotBugs in View in main
+- getThisPlayersName() is not used in GameModel, but has to be in the Model Interface, otherwise it can't be accessed. Please find an elegant solution.
+
+Q2:
+- fix all SpotBugs in View in main
+- create tasks for next week
+
+Q3:
+- https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
 
 **16. July 2022**
 
@@ -1677,3 +1729,17 @@ Q2:
 Q3:
 
 - why doesn't my connection work?
+
+_Marco_
+
+Q1:
+- fix all SpotBugs in View in main
+- create tasks for next week
+
+Q2:
+- fix all SpotBugs and CheckStyle Issues in main
+- let the pipeline run through with no errors or warnings
+- Bugfix: The AI makes strange moves, often skips players. The effect was visible in the network mode
+
+Q3:
+- https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
