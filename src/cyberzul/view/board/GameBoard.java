@@ -26,9 +26,9 @@ public class GameBoard extends JPanel {
 
   private final CenterBoard center;
   private final JPanel settingsPanel = new JPanel(null);
-  private final String soundButtonPath = "img/sound-button.png";
-  private final String menuButtonPath = "img/settings-button.png";
-  private final int iconButtonSize = 40;
+  private final static String soundButtonPath = "img/sound-button.png";
+  private final static String menuButtonPath = "img/settings-button.png";
+  private final static int iconButtonSize = 40;
   private final Dimension frameDimension;
   private JPanel boardsOfOpponentsPanel;
   private RankingBoard rankingBoard;

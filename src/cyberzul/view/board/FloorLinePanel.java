@@ -17,7 +17,7 @@ public class FloorLinePanel extends JPanel {
 
   private static final long serialVersionUID = 4L;
   private final transient Controller controller;
-  private final int numberOfFloorTiles = 7;
+  private final static int numberOfFloorTiles = 7;
   private final transient TileClickListener tileClickListener;
   private final int tileSize;
   private JPanel contentBottom;

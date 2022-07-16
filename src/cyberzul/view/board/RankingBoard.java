@@ -19,7 +19,7 @@ public class RankingBoard extends JPanel {
   private static final int COL = 1;
   private static final long serialVersionUID = 7L;
   private final transient Controller controller;
-  private final String rankingBoardPath = "img/ranking-board.png";
+  private static final String rankingBoardPath = "img/ranking-board.png";
   private transient List<String> playerNamesList;
   private transient JPanel rankingBoardPanel;
 
