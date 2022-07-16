@@ -12,7 +12,7 @@ public interface Model extends ModelStrategy {
   /**
    * Tell the ModelStrategyChooser what kind of strategy he should use.
    *
-   * @param strategy
+   * @param strategy the strategy that will be used.
    */
   void setStrategy(int strategy);
 }
