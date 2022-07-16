@@ -93,7 +93,7 @@ public class CenterBoard extends JPanel {
 
     forfeitButton.addActionListener(
         event -> {
-          controller.replacePlayerByAI(controller.getNickOfActivePlayer());
+          controller.replacePlayerByAi(controller.getNickOfActivePlayer());
         });
 
     cancelButton = new JButton();

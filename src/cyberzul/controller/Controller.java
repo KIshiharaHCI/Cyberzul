@@ -12,7 +12,6 @@ public interface Controller {
    * that was successful.
    *
    * @param name the name of the player.
-   * @return <code>true</code> if the player was successfully created. <code>false</code> else.
    */
   void addPlayer(String name);
 
@@ -32,7 +31,7 @@ public interface Controller {
    * Gives the view the information about the manufacturing plates and the table center. Tiles are
    * saved in the Bags as ArrayList<Tile>
    *
-   * @return
+   * @return the offerings (0 being the table center, the other offerings the factory displays)
    */
   List<Offering> getOfferings();
 
@@ -82,7 +81,6 @@ public interface Controller {
    * Informs the model on which pattern row the player chose to place his tile.
    *
    * @param rowOfPatternLine the row of the pattern line selected
-   * @return <code>true</code> if it was a valid pick, <code>false</code> if not
    */
   void placeTileAtPatternLine(int rowOfPatternLine);
 
@@ -142,7 +140,7 @@ public interface Controller {
    *
    * @param playerName the name of the player to be replaced.
    */
-  void replacePlayerByAI(String playerName);
+  void replacePlayerByAi(String playerName);
 
   /** tells the model that a given player wants to cancel the game. Makes the game end. */
   void cancelGameForAllPlayers();

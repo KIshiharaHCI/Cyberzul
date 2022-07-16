@@ -112,7 +112,7 @@ public class GameController implements Controller {
   }
 
   @Override
-  public void replacePlayerByAI(String playerName) {
+  public void replacePlayerByAi(String playerName) {
     model.replacePlayerByAi(playerName);
   }
 

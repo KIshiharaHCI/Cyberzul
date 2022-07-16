@@ -92,7 +92,7 @@ public class ClientMessageHandler implements Runnable {
         } catch (SocketException socketException) {
             //if a player leaves the game by closing the window, he gets replaced by an AI
             if (socketException.getMessage().equals("Connection reset") && controller.isGameStarted()) {
-                controller.replacePlayerByAI(nickname);
+                controller.replacePlayerByAi(nickname);
             } else {
                 socketException.printStackTrace();
             }
@@ -147,7 +147,7 @@ public class ClientMessageHandler implements Runnable {
             case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
             case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
             case REPLACE_PLAYER_BY_AI -> {
-                controller.replacePlayerByAI(nickname);
+                controller.replacePlayerByAi(nickname);
             }
             case RESTART_GAME -> controller.restartGame();
             case CANCEL_GAME -> controller.cancelGameForAllPlayers();
