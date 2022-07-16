@@ -3,6 +3,7 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Dimension;
 import java.util.List;
 import javax.swing.Box;
@@ -32,6 +33,9 @@ public class FloorLinePanel extends JPanel {
    * @param minusPoints
    * @param tileSize
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public FloorLinePanel(
       String userName,
       Controller controller,

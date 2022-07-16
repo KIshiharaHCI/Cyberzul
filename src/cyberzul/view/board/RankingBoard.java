@@ -2,6 +2,7 @@ package cyberzul.view.board;
 
 import cyberzul.controller.Controller;
 import cyberzul.view.ImagePanel;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -28,6 +29,9 @@ public class RankingBoard extends JPanel {
    *
    * @param controller controller used to combine the model with view.
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public RankingBoard(Controller controller) {
     this.controller = controller;
     this.playerNamesList = controller.rankingPlayerWithPoints();

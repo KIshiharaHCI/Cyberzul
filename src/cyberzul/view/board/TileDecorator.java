@@ -1,6 +1,7 @@
 package cyberzul.view.board;
 
 import cyberzul.model.ModelTile;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -104,7 +105,9 @@ public abstract class TileDecorator extends JPanel implements Tile {
               + "model is safe, we think it is ok to suppress this warning."
    */
   @Override
+  @SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public JLabel getLabel() {
     return label;
   }

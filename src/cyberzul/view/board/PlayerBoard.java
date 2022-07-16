@@ -2,6 +2,7 @@ package cyberzul.view.board;
 
 import cyberzul.controller.Controller;
 import cyberzul.view.listeners.TileClickListener;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
  * points and the minus points of each player.
  */
+
 public abstract class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
@@ -36,6 +38,9 @@ public abstract class PlayerBoard extends JPanel {
    *
    * @param tileClickListener the tile click listener
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public PlayerBoard(
       Controller controller,
       TileClickListener tileClickListener,
@@ -123,6 +128,9 @@ public abstract class PlayerBoard extends JPanel {
     return north;
   }
 
+  @SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public FloorLinePanel getFloorLinePanel() {
     return floorLinePanel;
   }

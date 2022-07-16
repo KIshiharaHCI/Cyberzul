@@ -3,6 +3,7 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public class PatternLines extends JPanel {
   private final transient List<JPanel> currentRows = new ArrayList<>();
   private ModelTile[][] currentPatternLines;
 
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public PatternLines(Controller controller) {
     this.controller = controller;
     currentPatternLines =
@@ -56,6 +60,9 @@ public class PatternLines extends JPanel {
    * @param tileSize          The size of the smallest element on the {@link PatternLines} board.
    * @param tileClickListener The listener for click events.
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public PatternLines(
       String userName, Controller controller, int tileSize, TileClickListener tileClickListener) {
     this.controller = controller;

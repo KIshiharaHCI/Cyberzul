@@ -3,6 +3,7 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.view.IconButton;
 import cyberzul.view.listeners.TileClickListener;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -41,6 +42,9 @@ public class GameBoard extends JPanel {
    * @param controller        the controller
    * @param frameDimension    1400 x 800 px
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public GameBoard(
       TileClickListener tileClickListener, Controller controller, Dimension frameDimension) {
 

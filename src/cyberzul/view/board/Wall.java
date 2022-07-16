@@ -3,6 +3,7 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
@@ -24,6 +25,9 @@ public class Wall extends JPanel {
   /**
    * Constructor solely used to create other players side panel.
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public Wall(Controller controller) {
     this.controller = controller;
 
@@ -56,6 +60,9 @@ public class Wall extends JPanel {
    *
    * @param tileClickListener //TODO: remove after decoupling other players panel
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  //this class needs these references to these mutable objects.
   public Wall(
       String playerName, Controller controller, int tileSize, TileClickListener tileClickListener) {
     this.controller = controller;
