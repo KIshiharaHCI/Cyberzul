@@ -29,7 +29,7 @@ public interface Controller {
 
   /**
    * Gives the view the information about the manufacturing plates and the table center. Tiles are
-   * saved in the Bags as ArrayList<Tile>
+   * saved in the Bags as ArrayList.
    *
    * @return the offerings (0 being the table center, the other offerings the factory displays)
    */
