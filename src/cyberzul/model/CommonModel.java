@@ -12,7 +12,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/** Contains methods and fields that are common within Model classes. */
+/**
+ * Contains methods and fields that are common within Model classes.
+ */
 public abstract class CommonModel implements ModelStrategy {
 
   private static final Logger LOGGER = LogManager.getLogger(CommonModel.class);

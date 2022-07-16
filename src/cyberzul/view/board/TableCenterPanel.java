@@ -16,7 +16,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/** The tiles on the center of the table ("Tischmitte") (Center Board class). */
+/**
+ * The tiles on the center of the table ("Tischmitte") (Center Board class).
+ */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
@@ -43,9 +45,9 @@ public class TableCenterPanel extends JPanel {
   /**
    * Constructor for Table Center Panel.
    *
-   * @param controller the Controller given to CyberzulView
+   * @param controller        the Controller given to CyberzulView
    * @param tileClickListener listener class to be used when creating SourceTiles
-   * @param panelDimension Dimensions of the parent Panel PlayerBoardAndTablePanel
+   * @param panelDimension    Dimensions of the parent Panel PlayerBoardAndTablePanel
    */
   public TableCenterPanel(
       Controller controller, TileClickListener tileClickListener, Dimension panelDimension) {
@@ -74,7 +76,7 @@ public class TableCenterPanel extends JPanel {
    * initializes the table center in the view in accordance with the model.
    *
    * @param tileClickListener listens to clicks on a tile.
-   * @param tableCenter the instance of the table center.
+   * @param tableCenter       the instance of the table center.
    */
   public void initialize(TileClickListener tileClickListener, TableCenter tableCenter) {
     this.tableCenter = tableCenter;

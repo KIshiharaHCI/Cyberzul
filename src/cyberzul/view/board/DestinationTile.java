@@ -5,13 +5,16 @@ import cyberzul.view.listeners.OnClickVisitor;
 import cyberzul.view.listeners.TileClickListener;
 import java.awt.Dimension;
 
-/** Tiles on the Pattern Line and the Floor Line. */
+/**
+ * Tiles on the Pattern Line and the Floor Line.
+ */
 public class DestinationTile extends TileDecorator implements TileAcceptor {
 
   private static final long serialVersionUID = 3L;
 
   /**
    * //TODO: Kenji & Iurii
+   *
    * @param col
    * @param row
    * @param modelTile

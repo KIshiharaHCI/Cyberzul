@@ -22,6 +22,7 @@ public class IconButton extends JButton {
 
   /**
    * //TODO Kenji, Iurii.
+   *
    * @param path
    * @param xposition
    * @param yposition

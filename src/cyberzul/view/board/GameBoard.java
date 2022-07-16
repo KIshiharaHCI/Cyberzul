@@ -29,17 +29,17 @@ public class GameBoard extends JPanel {
   private final String soundButtonPath = "img/sound-button.png";
   private final String menuButtonPath = "img/settings-button.png";
   private final int iconButtonSize = 40;
+  private final Dimension frameDimension;
   private JPanel boardsOfOpponentsPanel;
   private RankingBoard rankingBoard;
-  private final Dimension frameDimension;
   private transient List<PlayerBoard> otherPlayerBoards;
 
   /**
    * Creates the main game panel which contains all other game elements.
    *
    * @param tileClickListener the tile click listener
-   * @param controller the controller
-   * @param frameDimension 1400 x 800 px
+   * @param controller        the controller
+   * @param frameDimension    1400 x 800 px
    */
   public GameBoard(
       TileClickListener tileClickListener, Controller controller, Dimension frameDimension) {
@@ -129,7 +129,9 @@ public class GameBoard extends JPanel {
     add(chatAndRankingBoardAndSettingPanel, BorderLayout.EAST);
   }
 
-  /** Creates the sidebar with the panels of the opponents. */
+  /**
+   * Creates the sidebar with the panels of the opponents.
+   */
   private void createOpponentsPanel() {
     otherPlayerBoards = new ArrayList<>();
     boardsOfOpponentsPanel = new JPanel();
@@ -153,7 +155,9 @@ public class GameBoard extends JPanel {
     add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
 
-  /** Used by view to update all widgets in Center Board. */
+  /**
+   * Used by view to update all widgets in Center Board.
+   */
   public void updateCenterBoard() {
     center.updateCenterBoard();
     validate();

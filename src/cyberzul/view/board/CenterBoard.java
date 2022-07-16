@@ -15,7 +15,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-/** The center of the table ("Tischmitte"). */
+/**
+ * The center of the table ("Tischmitte").
+ */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
@@ -119,7 +121,7 @@ public class CenterBoard extends JPanel {
    * Loads the button image and sets it on the button and removes the background of the JButton.
    *
    * @param button the JButton to decorate
-   * @param path file path for the custom button image
+   * @param path   file path for the custom button image
    */
   private void setButtonProperties(JButton button, String path) {
     URL imgUrl1 = getClass().getClassLoader().getResource(path);
@@ -163,7 +165,9 @@ public class CenterBoard extends JPanel {
     boardAndPlatesAndTablePanel.add(platesAndTableCenterPanel, BorderLayout.NORTH);
   }
 
-  /** Used by Constructor and CyberzulView to create and add a new PlayerBoard panel. */
+  /**
+   * Used by Constructor and CyberzulView to create and add a new PlayerBoard panel.
+   */
   void createNewPlayerBoard() {
     currentPlayerBoard =
         new ActivePlayerBoard(
@@ -175,7 +179,9 @@ public class CenterBoard extends JPanel {
     boardAndPlatesAndTablePanel.add(currentPlayerBoard, BorderLayout.CENTER);
   }
 
-  /** Used by Constructor and CyberzulView to create and add a new Plates panel. */
+  /**
+   * Used by Constructor and CyberzulView to create and add a new Plates panel.
+   */
   void createNewPlatesPanel() {
     List<Offering> factoryDisplays =
         controller.getOfferings().subList(1, controller.getOfferings().size());
@@ -185,14 +191,18 @@ public class CenterBoard extends JPanel {
     platesAndTableCenterPanel.add(platesPanel, BorderLayout.CENTER);
   }
 
-  /** Used by Constructor and CyberzulView to create and add a new TableCenter panel. */
+  /**
+   * Used by Constructor and CyberzulView to create and add a new TableCenter panel.
+   */
   void createNewTableCenter() {
     tableCenterPanel = new TableCenterPanel(controller, tileClickListener, topPanelDimension);
     // platesPanel.setPreferredSize(new Dimension(1100, 10));
     platesAndTableCenterPanel.add(tableCenterPanel, BorderLayout.EAST);
   }
 
-  /** Removes all Panels of the last player who ended their turn. */
+  /**
+   * Removes all Panels of the last player who ended their turn.
+   */
   public void removeAllPanels() {
     platesAndTableCenterPanel.remove(tableCenterPanel);
     platesAndTableCenterPanel.remove(platesPanel);

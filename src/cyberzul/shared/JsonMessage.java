@@ -116,9 +116,9 @@ public enum JsonMessage {
    * Create a JSONMessage that tells the server which tile the player choose and from which
    * offering.
    *
-   * @param indexOfTile the index of the tile in the Offering.
+   * @param indexOfTile     the index of the tile in the Offering.
    * @param indexOfOffering <code>0</code> means the TableCenter. Every following index is a
-   *     FactoryDisplay.
+   *                        FactoryDisplay.
    * @return A JSONMessage telling the server that a tile was chosen by the player, and which one.
    */
   public static JSONObject notifyTileChosenMessage(int indexOfTile, int indexOfOffering) {
@@ -135,7 +135,7 @@ public enum JsonMessage {
   /**
    * Provides the ClientModels with all information that is needed to start the game.
    *
-   * @param offerings contains the TableCenter and the FactoryDisplays.
+   * @param offerings   contains the TableCenter and the FactoryDisplays.
    * @param playerNames contains the names of the player.
    * @return a message that can be send to all clients, informing them that the game started.
    */
@@ -289,9 +289,9 @@ public enum JsonMessage {
    * "createJSONMessage(GET_POINTS,jonas123);
    *
    * @param methodName the name of the method in the Controller Interface.
-   * @param nickname the nickname of the player that is passed to the method.
+   * @param nickname   the nickname of the player that is passed to the method.
    * @return a JSONObject containing the information that this specific method was invoked with the
-   *     name of the player with whom the method was invoked.
+   * name of the player with whom the method was invoked.
    */
   public static JSONObject createMessageOfType(JsonMessage methodName, String nickname) {
     try {

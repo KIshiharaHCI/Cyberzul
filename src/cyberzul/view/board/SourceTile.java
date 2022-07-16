@@ -19,12 +19,12 @@ public class SourceTile extends TileDecorator implements TileAcceptor {
    * Calls the Constructor of the Superclass and sets the Tile ID and Plate ID used when notifying
    * the GameModel.
    *
-   * @param col X-Coordinate in given container
-   * @param row Y-Coordinate in given container
+   * @param col       X-Coordinate in given container
+   * @param row       Y-Coordinate in given container
    * @param modelTile contains the tile color information.
-   * @param tileId identifier for which Tile on Plate/Table Center was selected
-   * @param plateId identifier for which Plate/Table Center was selected
-   * @param listener used for listening for MouseClickedEvents
+   * @param tileId    identifier for which Tile on Plate/Table Center was selected
+   * @param plateId   identifier for which Plate/Table Center was selected
+   * @param listener  used for listening for MouseClickedEvents
    */
   public SourceTile(
       int col,

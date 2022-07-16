@@ -15,7 +15,9 @@ public class BagToDrawNewTiles extends Bag {
   private final BagToStoreUsedTiles box;
   private ArrayList<ModelTile> content;
 
-  /** Has to be private. That is important for the Singleton Design Pattern. */
+  /**
+   * Has to be private. That is important for the Singleton Design Pattern.
+   */
   private BagToDrawNewTiles() {
     super();
     this.box = BagToStoreUsedTiles.getInstance();
@@ -78,9 +80,9 @@ public class BagToDrawNewTiles extends Bag {
   /**
    * Add the constant number of tiles to the bag.
    *
-   * @param tile - enum of a tileable tile
+   * @param tile   - enum of a tileable tile
    * @param amount - number of tiles (constant)
-   * @param list - the content list of this bag.
+   * @param list   - the content list of this bag.
    */
   private void addTilesToThisBag(ModelTile tile, int amount, List<ModelTile> list) {
     for (int i = 0; i < amount; i++) {

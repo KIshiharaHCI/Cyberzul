@@ -6,7 +6,9 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-/** This class should be used for example to avoid duplications in code. */
+/**
+ * This class should be used for example to avoid duplications in code.
+ */
 public class ViewHelper {
 
   public static final int PADDING = 2;
@@ -14,9 +16,9 @@ public class ViewHelper {
   /**
    * Sets properties to a line of {@link PatternLines} or {@link Wall}
    *
-   * @param tileSize: the size of a tile in the row.
-   * @param cols: number of columns in a row.
-   * @param row: number of the row.
+   * @param tileSize:   the size of a tile in the row.
+   * @param cols:       number of columns in a row.
+   * @param row:        number of the row.
    * @param currentRow: the current JPanel for the row.
    */
   static void setPropertiesOfCurrentRow(int tileSize, int cols, int row, JPanel currentRow) {

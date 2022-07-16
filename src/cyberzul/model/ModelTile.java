@@ -44,7 +44,7 @@ public enum ModelTile {
    *
    * @param name the String representation of that Tile.
    * @return the ModelTile that has that name.
-     */
+   */
   public static ModelTile toTile(String name) {
     switch (name) {
       case "red tile" -> {

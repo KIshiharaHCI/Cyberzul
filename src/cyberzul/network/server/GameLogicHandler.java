@@ -1,3 +1,4 @@
 package cyberzul.network.server;
 
-public class GameLogicHandler {}
+public class GameLogicHandler {
+}

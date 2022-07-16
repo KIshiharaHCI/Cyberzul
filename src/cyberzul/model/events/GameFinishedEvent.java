@@ -12,7 +12,7 @@ public class GameFinishedEvent extends GameEvent {
 
   /**
    * Constructs the event.
-
+   *
    * @param nickname with the nickname of the player.
    */
   public GameFinishedEvent(String nickname) {

@@ -15,7 +15,9 @@ import java.io.IOException;
  */
 public class ServerMain {
 
-  /** Launch the azul server. */
+  /**
+   * Launch the azul server.
+   */
   public static void main(String[] args) throws IOException {
     Model gameModel = new ModelStrategyChooser();
     gameModel.setStrategy(Model.GAME_MODEL);

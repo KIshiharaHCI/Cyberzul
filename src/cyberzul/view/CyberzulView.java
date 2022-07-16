@@ -118,7 +118,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
 
     resource = getClass().getClassLoader().getResource("img/select-mode-banner.png");
     icon = new ImageIcon(new ImageIcon(
-      Objects.requireNonNull(resource)).getImage().getScaledInstance(700, 40, Image.SCALE_SMOOTH));
+        Objects.requireNonNull(resource)).getImage()
+        .getScaledInstance(700, 40, Image.SCALE_SMOOTH));
     selectModeLabel.setIcon(icon);
 
     resource = getClass().getClassLoader().getResource("img/hotseat-button.png");
@@ -155,21 +156,21 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       controller.startGame();
     });
     addPlayerButton.addActionListener(event -> {
-      controller.addPlayer(inputField.getText());
-      numberOfLoggedInPlayersLabel.setText(
-          "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
-      inputField.setText("");
-    }
+          controller.addPlayer(inputField.getText());
+          numberOfLoggedInPlayersLabel.setText(
+              "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+          inputField.setText("");
+        }
     );
 
     testFourPlayersButton.addActionListener(event -> {
-      List<String> fourUserNameForTest = new ArrayList<>(
-          List.of("Iurri", "Kenji", "Marco", "Nils"));
+          List<String> fourUserNameForTest = new ArrayList<>(
+              List.of("Iurri", "Kenji", "Marco", "Nils"));
           for (String name : fourUserNameForTest) {
             controller.addPlayer(name);
-      }
-      controller.startGame();
-    }
+          }
+          controller.startGame();
+        }
     );
     testThreePlayersButton.addActionListener(event -> {
           List<String> threeUserNameForTest = new ArrayList<>(
@@ -178,7 +179,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             controller.addPlayer(name);
           }
           controller.startGame();
-    }
+        }
     );
     testTwoPlayersButton.addActionListener(event -> {
           List<String> twoUserNameForTest = new ArrayList<>(List.of("Feier", "Abend"));
@@ -186,17 +187,17 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             controller.addPlayer(name);
           }
           controller.startGame();
-    }
+        }
     );
   }
 
   @Override
   public void propertyChange(PropertyChangeEvent event) {
     SwingUtilities.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-            handleModelUpdate(event);
-        }
+      @Override
+      public void run() {
+        handleModelUpdate(event);
+      }
     });
   }
 
@@ -237,12 +238,11 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "LoggedInEvent" -> {
         this.setTitle("Cyberzul - " + model.getPlayerName());
         numberOfLoggedInPlayersLabel.setText(
-                "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+            "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showErrorMessage("successfully logged in");
       }
-      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME ->
-            numberOfLoggedInPlayersLabel.setText(
-                    "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
+          "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
@@ -269,7 +269,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         showHsmCard();
       }
       case "NotYourTurnEvent" -> showErrorMessage(
-            "Please wait for other players so they can do their move");
+          "Please wait for other players so they can do their move");
       case "PlayerHasChosenTileEvent" -> {
         //TODO: FILL WITH FUNCTIONALITY
       }
@@ -290,7 +290,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    */
   private void showErrorMessage(String message) {
     JOptionPane.showMessageDialog(null, message, "Error!",
-            JOptionPane.ERROR_MESSAGE);
+        JOptionPane.ERROR_MESSAGE);
   }
 
   private void createView() {
@@ -331,7 +331,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setMaximumSize(frameDimension);
     inputField = new JTextField(10);
     numberOfLoggedInPlayersLabel =
-            new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+        new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
     numberOfLoggedInPlayersLabel.setForeground(Color.WHITE);
     JPanel hotSeatModePanel = new JPanel();
     hotSeatModePanel.add(numberOfLoggedInPlayersLabel);
@@ -344,7 +344,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     hotSeatModePanel.add(testThreePlayersButton);
     hotSeatModePanel.add(testTwoPlayersButton);
     JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, backgroundPath, FRAME_WIDTH,
-            FRAME_HEIGHT, backgroundScaleFactor);
+        FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, hotSeatModeCard);
   }
 
@@ -353,7 +353,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setMaximumSize(frameDimension);
     inputField = new JTextField(10);
     numberOfLoggedInPlayersLabel =
-            new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+        new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
     JPanel networkModePanel = new JPanel();
     networkModePanel.add(numberOfLoggedInPlayersLabel);
     networkModePanel.add(pleaseEnterNameLabel);
@@ -361,7 +361,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     networkModePanel.add(addPlayerButton);
     networkModePanel.add(playButton);
     JPanel backgroundPanel = new ImagePanel(networkModePanel, backgroundPath, FRAME_WIDTH,
-            FRAME_HEIGHT, backgroundScaleFactor);
+        FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, NETWORK_CARD);
   }
 
@@ -385,7 +385,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     gameBoardPanel.setMinimumSize(frameDimension);
     gameBoardPanel.setMaximumSize(frameDimension);
     JPanel backgroundPanel = new ImagePanel(gameBoardPanel, backgroundPath, FRAME_WIDTH,
-            FRAME_WIDTH, backgroundScaleFactor);
+        FRAME_WIDTH, backgroundScaleFactor);
     add(backgroundPanel, GAMEBOARD_CARD);
     gameBoard = new GameBoard(tileClickListener, controller, frameDimension);
 

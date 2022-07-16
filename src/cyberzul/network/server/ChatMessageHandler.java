@@ -8,7 +8,9 @@ import java.net.Socket;
 import java.util.Date;
 import org.json.JSONObject;
 
-/** Handles the chat messages that are send from the clients to the server. */
+/**
+ * Handles the chat messages that are send from the clients to the server.
+ */
 public class ChatMessageHandler extends ClientMessageHandler {
   private static String nickname;
   private static ServerNetworkConnection serverConnection;
@@ -37,7 +39,7 @@ public class ChatMessageHandler extends ClientMessageHandler {
    * The specific objects are created from the given socket.
    *
    * @param serverConnection The connection handler that manages all the connected players
-   * @param socket The specific socket that belongs to this player
+   * @param socket           The specific socket that belongs to this player
    * @throws IOException Thrown when failing to retrieve the In- or Output-stream.
    */
   public ChatMessageHandler(

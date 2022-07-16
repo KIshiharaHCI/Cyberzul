@@ -12,7 +12,7 @@ public class GameNotStartableEvent extends GameEvent {
 
   /**
    * Constructs the event.
-
+   *
    * @param message with the appropriate message, why it could not be started.
    */
   public GameNotStartableEvent(String message) {

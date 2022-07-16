@@ -21,7 +21,9 @@ public class Wall extends JPanel {
   private JPanel currentRow;
   // TODO: remove other players side panel methods
 
-  /** Constructor solely used to create other players side panel. */
+  /**
+   * Constructor solely used to create other players side panel.
+   */
   public Wall(Controller controller) {
     this.controller = controller;
 

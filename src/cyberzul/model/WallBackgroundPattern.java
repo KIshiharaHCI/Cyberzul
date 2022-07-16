@@ -6,43 +6,45 @@ package cyberzul.model;
  */
 public class WallBackgroundPattern {
 
-  /** The pattern on the wall defining where which tiles may be placed. */
+  /**
+   * The pattern on the wall defining where which tiles may be placed.
+   */
   private static final ModelTile[][] templateWall = {
-    {
-      ModelTile.BLUE_TILE,
-      ModelTile.ORANGE_TILE,
-      ModelTile.RED_TILE,
-      ModelTile.BLACK_TILE,
-      ModelTile.WHITE_TILE
-    },
-    {
-      ModelTile.WHITE_TILE,
-      ModelTile.BLUE_TILE,
-      ModelTile.ORANGE_TILE,
-      ModelTile.RED_TILE,
-      ModelTile.BLACK_TILE
-    },
-    {
-      ModelTile.BLACK_TILE,
-      ModelTile.WHITE_TILE,
-      ModelTile.BLUE_TILE,
-      ModelTile.ORANGE_TILE,
-      ModelTile.RED_TILE
-    },
-    {
-      ModelTile.RED_TILE,
-      ModelTile.BLACK_TILE,
-      ModelTile.WHITE_TILE,
-      ModelTile.BLUE_TILE,
-      ModelTile.ORANGE_TILE
-    },
-    {
-      ModelTile.ORANGE_TILE,
-      ModelTile.RED_TILE,
-      ModelTile.BLACK_TILE,
-      ModelTile.WHITE_TILE,
-      ModelTile.BLUE_TILE
-    }
+      {
+          ModelTile.BLUE_TILE,
+          ModelTile.ORANGE_TILE,
+          ModelTile.RED_TILE,
+          ModelTile.BLACK_TILE,
+          ModelTile.WHITE_TILE
+      },
+      {
+          ModelTile.WHITE_TILE,
+          ModelTile.BLUE_TILE,
+          ModelTile.ORANGE_TILE,
+          ModelTile.RED_TILE,
+          ModelTile.BLACK_TILE
+      },
+      {
+          ModelTile.BLACK_TILE,
+          ModelTile.WHITE_TILE,
+          ModelTile.BLUE_TILE,
+          ModelTile.ORANGE_TILE,
+          ModelTile.RED_TILE
+      },
+      {
+          ModelTile.RED_TILE,
+          ModelTile.BLACK_TILE,
+          ModelTile.WHITE_TILE,
+          ModelTile.BLUE_TILE,
+          ModelTile.ORANGE_TILE
+      },
+      {
+          ModelTile.ORANGE_TILE,
+          ModelTile.RED_TILE,
+          ModelTile.BLACK_TILE,
+          ModelTile.WHITE_TILE,
+          ModelTile.BLUE_TILE
+      }
   };
 
   public final ModelTile[][] pattern;
@@ -65,7 +67,7 @@ public class WallBackgroundPattern {
    * the black tile?'
    *
    * @param rowNumber the number of the row of the wall.
-   * @param tile the tile that we are looking for.
+   * @param tile      the tile that we are looking for.
    * @return the index number of that tile in the specific row.
    */
   public int indexOfTileInRow(int rowNumber, ModelTile tile) {

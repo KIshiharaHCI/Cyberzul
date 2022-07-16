@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/** "Tischmitte" One of the two places the player can draw tiles from. */
+/**
+ * "Tischmitte" One of the two places the player can draw tiles from.
+ */
 public class TableCenter extends Offering {
 
   private static TableCenter instance;
@@ -35,7 +37,9 @@ public class TableCenter extends Offering {
     this.content = new ArrayList<>();
   }
 
-  /** Add a tile to the TableCenter. */
+  /**
+   * Add a tile to the TableCenter.
+   */
   void addTile(ModelTile tile) {
     content.add(tile);
   }

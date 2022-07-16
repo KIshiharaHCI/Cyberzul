@@ -1,6 +1,8 @@
 package cyberzul.model.events;
 
-/** The events that the model gives out to its listeners to tell them about the game state. */
+/**
+ * The events that the model gives out to its listeners to tell them about the game state.
+ */
 public abstract class GameEvent {
 
   /**

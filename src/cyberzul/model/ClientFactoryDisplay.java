@@ -14,7 +14,8 @@ public class ClientFactoryDisplay extends Offering {
   private ArrayList<ModelTile> content;
 
   @Override
-  void initializeContent() {}
+  void initializeContent() {
+  }
 
   @Override
   public List<ModelTile> getContent() {

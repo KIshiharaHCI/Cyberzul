@@ -52,8 +52,8 @@ public class PatternLines extends JPanel {
   /**
    * The constructor of {@link PatternLines}.
    *
-   * @param controller The controller.
-   * @param tileSize The size of the smallest element on the {@link PatternLines} board.
+   * @param controller        The controller.
+   * @param tileSize          The size of the smallest element on the {@link PatternLines} board.
    * @param tileClickListener The listener for click events.
    */
   public PatternLines(
@@ -68,9 +68,9 @@ public class PatternLines extends JPanel {
   /**
    * Initializes all the components of the {@link PatternLines}.
    *
-   * @param tileSize The size of the smallest element.
+   * @param tileSize          The size of the smallest element.
    * @param tileClickListener The listener to react on click events on the {@link PatternLines}
-   *     board.
+   *                          board.
    */
   public void initialize(int tileSize, String userName, TileClickListener tileClickListener) {
     currentPatternLines = this.controller.getPatternLinesOfPlayer(userName);

@@ -32,8 +32,8 @@ public abstract class TileDecorator extends JPanel implements Tile {
    * Constructor to be called from subclasses. Used for initializing Image URL path and cell XY
    * coordinates in a given Component such as Plate, TableCenter, PatternLines, Wall.
    *
-   * @param col X-Coordinate in given container
-   * @param row Y-Coordinate in given container
+   * @param col       X-Coordinate in given container
+   * @param row       Y-Coordinate in given container
    * @param modelTile contains the tile color information.
    */
   public TileDecorator(int col, int row, ModelTile modelTile, int tileSize) {
@@ -96,6 +96,7 @@ public abstract class TileDecorator extends JPanel implements Tile {
   public int getRow() {
     return ROW;
   }
+
   /*
   justification = "We are aware that data "
               + "encapsulation is violated here and that this is in principle bad. However, as here just "

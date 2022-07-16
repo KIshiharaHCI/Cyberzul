@@ -68,5 +68,6 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
   }
 
-  private void handleModelUpdate(PropertyChangeEvent event) {}
+  private void handleModelUpdate(PropertyChangeEvent event) {
+  }
 }

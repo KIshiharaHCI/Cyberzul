@@ -83,7 +83,7 @@ public class ServerNetworkConnection {
    * Method for a single client to broadcast a message to all the other connected clients. The
    * broadcast goes to everyone except the sending handler.
    *
-   * @param sender The client from whom the message originates
+   * @param sender  The client from whom the message originates
    * @param message The message as JSONObject that is to be broadcast.
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
@@ -127,7 +127,7 @@ public class ServerNetworkConnection {
    *
    * @param nickname The name to be looked up.
    * @return <code>true</code> if no other client has taken this name, <code >false</code>
-   *     otherwise.
+   * otherwise.
    */
   public synchronized boolean tryLogIn(String nickname) {
     synchronized (clientHandlers) {
@@ -140,12 +140,16 @@ public class ServerNetworkConnection {
     }
   }
 
-  /** Start the network-connection, so that clients can establish a connection to this server. */
+  /**
+   * Start the network-connection, so that clients can establish a connection to this server.
+   */
   public void start() {
     executorService.execute(connectionAcceptor);
   }
 
-  /** Stop the network-connection. */
+  /**
+   * Stop the network-connection.
+   */
   public void stop() {
     executorService.shutdownNow();
     try {

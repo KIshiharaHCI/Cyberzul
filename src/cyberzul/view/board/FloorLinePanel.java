@@ -25,6 +25,7 @@ public class FloorLinePanel extends JPanel {
 
   /**
    * //TODO Kenji, Iurii.
+   *
    * @param userName
    * @param controller
    * @param tileClickListener
