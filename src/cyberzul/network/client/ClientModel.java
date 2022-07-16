@@ -364,7 +364,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Notify the listeners that the active user has chosen a tile.
    *
-   * @param object
+   * @param object information about this event.
    */
   public void handlePlayerHasChosenTile(JSONObject object) {
     try {
@@ -375,14 +375,30 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     }
   }
 
+  /**
+   * Fire an event that tells the player that he has no legal turn left.
+   */
   public void handleNoValidTurnToMake() {
     notifyListeners(new NoValidTurnToMakeEvent());
   }
 
+  /**
+   * Fire an event that tells the user (who tried to start a game) that this is not possible.
+   *
+   * @param reason the reason why the user can't start the game.
+   */
   public void handleGameNotStartable(String reason) {
     notifyListeners(new GameNotStartableEvent(reason));
   }
 
+  /**
+   * One game round has ended and the tiles were put on the wall. Now the data of every player has
+   * changed and needs to get updated on the local device. (that is done by this method).
+   *
+   * Also notifies the view that the round has finished.
+   *
+   * @param message contains the up-to-date data of the game state and player states.
+   */
   public void handleRoundFinished(JSONObject message) {
     try {
       JSONArray players = message.getJSONArray(JsonMessage.PLAYER_FIELD);
@@ -395,6 +411,13 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     }
   }
 
+  /**
+   * The game has finished. So the last tiling phase ended and all player information that is stored
+   * on the device of the client is outdated and has to be updated.
+   * That is done by this method.
+   *
+   * @param message contains the up-to-date data of the game state and player states.
+   */
   public void handleGameFinishedEvent(JSONObject message) {
     try {
       JSONArray players = message.getJSONArray(JsonMessage.PLAYER_FIELD);
@@ -406,6 +429,12 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     }
   }
 
+  /**
+   * Update the data of all players.
+   *
+   * @param players the new, up-to-date data of all players.
+   * @throws JSONException gets thrown if the JSONArray is defective.
+   */
   private void updatePlayers(JSONArray players) throws JSONException {
     for (int i = 0; i < players.length(); i++) {
       JSONObject playerObject = players.getJSONObject(i);
@@ -419,19 +448,37 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     }
   }
 
+  /**
+   * Get the name with which this client has logged in on the server.
+   *
+   * @return the name with which this client has logged in on the server.
+   */
   public String getPlayerName() {
     return this.thisPlayersName;
   }
 
+  /**
+   * Notify the listeners that the turn he tried to do was not a legal game move.
+   */
   public void handleIllegalTurn() {
     notifyListeners(new IllegalTurnEvent());
   }
 
+  /**
+   * Notify the listeners that the game has been canceled.
+   *
+   * @param playerWhoCanceledGame the name of the player who canceled the game.
+   */
   public void handleGameCanceled(String playerWhoCanceledGame) {
     this.isGameStarted = false;
     notifyListeners(new GameCanceledEvent(playerWhoCanceledGame));
   }
 
+  /**
+   * Notify the listeners that a player has forfeited and left the game.
+   *
+   * @param playerWhoForfeitedTheGame the name of the player who forfeited the game.
+   */
   public void handleGameForfeited(String playerWhoForfeitedTheGame) {
     notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
   }
