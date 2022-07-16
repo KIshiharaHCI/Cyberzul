@@ -60,6 +60,7 @@ public class TransparentImageIcon extends ImageIcon {
         return icon;
     }
 
+<<<<<<< HEAD
     /**
      * Paints the wrapped icon with this TransparentImageIcons transparency.
      *
@@ -80,6 +81,28 @@ public class TransparentImageIcon extends ImageIcon {
         icon.paintIcon(c, g2, x, y);
         g2.dispose();
     }
+=======
+  /**
+   * Paints the wrapped icon with this TransparentImageIcons transparency.
+   *
+   * @param c The component to which the icon is painted
+   * @param g the graphics context
+   * @param x the X coordinate of the icon's top-left corner
+   * @param y the Y coordinate of the icon's top-left corner
+   */
+  @Override
+  public void paintIcon(Component c, Graphics g, int x, int y) {
+    if (icon != null) {
+      image = ((ImageIcon) icon).getImage();
+      Graphics2D g2 = (Graphics2D) g.create();
+      g2.setComposite(AlphaComposite.SrcAtop.derive(opacity));
+      icon.paintIcon(c, g2, x, y);
+      g2.dispose();
+    } else {
+      image = null;
+    }
+  }
+>>>>>>> main
 
     /**
      * Gets the width of the bounding of this TransparentImageIcon. Overridden to return the width of

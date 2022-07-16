@@ -1,5 +1,6 @@
 package cyberzul.network.client;
 
+import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.server.Server;
 import cyberzul.shared.JsonMessage;
 import org.json.JSONArray;
@@ -11,6 +12,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+
 
 
 /**
@@ -108,6 +110,7 @@ public class ClientNetworkConnection {
         System.out.println("Input loop ended.");
     }
 
+<<<<<<< HEAD
     public void handleMessage(JSONObject object) throws JSONException {
         switch (JsonMessage.typeOf(object)) {
             case CONNECTED -> model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));
@@ -169,19 +172,20 @@ public class ClientNetworkConnection {
     }
   }
 
-  private void handleUserTextMessage(JSONObject object) {
-    if (!model.isLoggedIn()) {
+  private void handlePlayerTextMessage(JSONObject jsonObject) {
+    if (!model.getLoggedIn()) {
       return;
     }
-
-    String nick = JsonMessage.getNickname(object);
-    Date time = JsonMessage.getTime(object);
-    String content = JsonMessage.getContent(object);
-    model.addTextMessage(nick, time, content);
+    String nickname = JsonMessage.getNickname(jsonObject);
+    Date time = JsonMessage.getTime(jsonObject);
+    String content = JsonMessage.getContent(jsonObject);
+    model.addTextMessage(nickname, time, content);
   }
 
-
    */
+
+
+
 
     /**
      * Stop the network-connection.
@@ -218,21 +222,19 @@ public class ClientNetworkConnection {
     }
 
     //TODO: Commented out code
-  /*
+
+
 
   /**
    * Send a chat message to the server.
    *
-   * @param chatMessage The {@link UserTextMessage} containing the message of the user.
+   * @param chatMessage The {@link PlayerTextMessage} containing the message of the user.
    */
 
-  /*
-  public void sendMessage(UserTextMessage chatMessage) {
+  public void playerSendMessage(PlayerTextMessage chatMessage) {
     JSONObject message = JsonMessage.postMessage(chatMessage.getContent());
     send(message);
   }
-
-   */
 
 
     synchronized void send(JSONObject message) {

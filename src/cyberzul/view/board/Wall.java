@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class Wall extends JPanel {
 
+<<<<<<< HEAD
     private static final long serialVersionUID = 7526472295622776147L;
     private final int SMALL_TILE_SIZE = Tile.SMALL_TILE_SIZE;
     private final int ROWS = 5;
@@ -18,6 +19,17 @@ public class Wall extends JPanel {
     private ModelTile[][] wall;
     private ModelTile[][] templateWall;
     private JPanel currentRow;
+=======
+  private static final long serialVersionUID = 7526472295622776147L;
+  private static final int SMALL_TILE_SIZE = Tile.SMALL_TILE_SIZE;
+  private static final int ROWS = 5;
+  private static final int COLS = 5;
+  private final int buttonSize;
+  private transient Controller controller;
+  private ModelTile[][] wall;
+  private ModelTile[][] templateWall;
+  private JPanel currentRow;
+>>>>>>> main
 //TODO: remove other players side panel methods
 
     /**

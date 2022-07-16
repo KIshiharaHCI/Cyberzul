@@ -15,7 +15,6 @@ import java.util.Random;
  * Contains the playing field of the Azul game, the list of players and the list of offerings.
  */
 public class GameModel extends CommonModel implements ModelStrategy {
-
     public static final int MIN_PLAYER_NUMBER = 2;
     public static final int MAX_PLAYER_NUMBER = 4;
     private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
@@ -24,6 +23,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
     private Offering currentOffering;
     private int currentIndexOfTile;
     private final Random ran = new Random();
+
 
 
     /**

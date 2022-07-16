@@ -1650,3 +1650,30 @@ Q2:
 Q3:
 
 - none
+
+**16. July 2022**
+
+_NILS_
+
+Q1:
+
+- meet with Chris
+- tried all day to connect my laptop (Windows 11) with my other Laptop (Windows 8.1) with my cyberzul client server
+  structure
+- set the serverSocket to listen to the local IP address
+- turned off the Firewall of my Laptops
+- set my Wifi to private (private Networks are trusted, so they have more functionality and visibility than public
+  networks)
+- pinged my laptop with ping <IP adress> and he responded
+- tried telnet (to see if a connection could be built. It couldn't)
+- tried netcat (to see if a connection could be built. It couldn't)
+- I know the local IP addresses of my laptops by heart now and will never forget them again....
+
+Q2:
+
+- continue trying. More googeling. Maybe I find some code that already works.
+- ask StackOverflow
+
+Q3:
+
+- why doesn't my connection work?

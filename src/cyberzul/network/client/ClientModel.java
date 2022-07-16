@@ -195,6 +195,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
             ClientFactoryDisplay clientFactoryDisplay = new ClientFactoryDisplay();
             clientFactoryDisplay.setContent(content);
             returnOfferingsList.add(clientFactoryDisplay);
+
         }
         this.offerings = returnOfferingsList;
     }
@@ -366,6 +367,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     public void handleGameForfeited(String playerWhoForfeitedTheGame) {
         notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
     }
+
 }
 
 
