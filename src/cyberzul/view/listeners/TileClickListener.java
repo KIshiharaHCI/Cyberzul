@@ -24,7 +24,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
-/** listens to what tile is clicked on and //TODO: makes the model change accordingly */
+/** listens to what tile is clicked on and makes the model change accordingly. */
 public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
   private final Controller controller;
@@ -38,10 +38,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   }
 
   /**
-   * Depending on the class that has been clicked on - source tile (on manufacturing displays or
-   * table center --> create red border= - destination tile (pattern lines) --> place tile here -
-   * destination tile (wall) --> place tile here
-   *
+   * TODO: Iurii - new javaDoc
    * @param e the event to be processed
    */
   @Override
