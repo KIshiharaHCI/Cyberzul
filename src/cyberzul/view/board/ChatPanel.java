@@ -26,7 +26,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     private final Controller controller;
     private JTextArea inputArea;
     private JScrollPane scrollPane;
-    private DefaultListModel<Message> listModel;
+    public static DefaultListModel<Message> listModel;
 
     public ChatPanel(Controller controller) {
         this.controller = controller;

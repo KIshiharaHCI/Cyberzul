@@ -7,6 +7,7 @@ import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.listeners.TileClickListener;
+import cyberzul.view.board.ChatPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,8 +48,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     private final transient Model model;
     private final transient Controller controller;
     private GameBoard gameBoard;
-
-    private DefaultListModel<Message> listModel;
 
     /**
      * Create the Graphical User Interface of Azul.
@@ -113,9 +112,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         resource = getClass().getClassLoader().getResource("img/start-game-button.png");
         icon = new ImageIcon(Objects.requireNonNull(resource));
         playButton.setIcon(icon);
-
-
-        listModel = new DefaultListModel<>();
 
     }
 
@@ -267,12 +263,11 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             }
             case "PlayerAddedMessageEvent" -> {
                 PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
-                listModel.removeAllElements();
-                listModel.addElement(playerAddedMessageEvent.getMessage());
+                ChatPanel.listModel.addElement(playerAddedMessageEvent.getMessage());
             }
             case "ChatMessageRemovedEvent" -> {
                 ChatMessageRemovedEvent chatMessageRemovedEvent = (ChatMessageRemovedEvent) customMadeGameEvent;
-                listModel.removeElement(chatMessageRemovedEvent.getMessage());
+                ChatPanel.listModel.removeElement(chatMessageRemovedEvent.getMessage());
                 showErrorMessage("Only the last hundred messages are shown.");
             }
 
