@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn">
+  <Properties>
+    <Property name="basePath">log/${date:yyyy-MM-dd HH-mm-ss}</Property>
+  </Properties>
+
+  <!-- File Logger -->
   <Appenders>
     <!-- Console appender configuration -->
     <Console name="Console-Appender" target="SYSTEM_OUT">
@@ -9,37 +14,63 @@
         </pattern>>
       </PatternLayout>
     </Console>
+    <File name="File-Appender-CyberzulMain"
+      fileName="${basePath}/CyberzulMain.log">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+    <File name="File-Appender-CyberzulView"
+      fileName="${basePath}/CyberzulView.log">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
+    <File name="File-Appender-ClientMessageHandler"
+      fileName="${basePath}/ClientMessageHandler.log">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+      </PatternLayout>
+    </File>
 
-    <RollingFile fileName="${basePath}/Azul.log"
-      filePattern="${basePath}/app-%d{yyyy-MM-dd}.log"
-      name="fileLogger">
-      <DefaultRolloverStrategy max="10">
-        <Delete basePath="${basePath}" maxDepth="10">
-          <!-- Delete all files older than 30 days -->
-          <IfLastModified age="30d"/>
-        </Delete>
-      </DefaultRolloverStrategy>
+
+    <RollingFile name="fileLogger"
+      fileName="${basePath}/fileLogger.log"
+      filePattern="${basePath}/app-%d{yyyy-MM-dd}.log">
       <PatternLayout>
         <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
         </pattern>
       </PatternLayout>
-      <!-- Max 10 files will be created everyday -->
       <Policies>
-        <SizeBasedTriggeringPolicy size="10MB"/>
-        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+        <SizeBasedTriggeringPolicy size="10MB" />
       </Policies>
+      <!-- Max 10 files will be created everyday -->
+      <DefaultRolloverStrategy max="10">
+        <Delete basePath="${basePath}" maxDepth="10">
+          <!-- Delete all files older than 30 days -->
+          <IfLastModified age="30d" />
+        </Delete>
+      </DefaultRolloverStrategy>
     </RollingFile>
   </Appenders>
 
-  <!-- File Logger -->
   <Loggers>
-    <Root additivity="false" level="info">
-      <appender-ref ref="fileLogger"/>
-      <appender-ref level="info" ref="Console-Appender"/>
+    <Logger name="CyberzulMain" level="all">
+      <AppenderRef ref="File-Appender-CyberzulMain" level="all"/>
+      <AppenderRef ref="Console-Appender" level="info"/>
+    </Logger>
+    <Logger name="CyberzulView" level="all">
+      <AppenderRef ref="File-Appender-CyberzulView" level="all"/>
+      <AppenderRef ref="Console-Appender" level="info"/>
+    </Logger>
+    <Logger name="ClientMessageHandler" level="all">
+      <AppenderRef ref="File-Appender-ClientMessageHandler" level="all"/>
+      <AppenderRef ref="Console-Appender" level="info"/>
+    </Logger>
+    <Root level="info" additivity="false">
+      <appender-ref ref="fileLogger" />
+      <AppenderRef ref="Console-Appender" level="info"/>
     </Root>
   </Loggers>
-
-  <Properties>
-    <Property name="basePath">log/${date:yyyy-MM-dd HH-mm-ss-SSS}</Property>
-  </Properties>
 </Configuration>
