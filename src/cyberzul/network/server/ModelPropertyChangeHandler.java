@@ -70,17 +70,17 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
             case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
             case GameForfeitedEvent.EVENT_NAME -> handleGameForfeitedEvent(customMadeGameEvent);
             case "PlayerAddedMessageEvent" -> handlePlayerAddedMessageEvent(customMadeGameEvent);
-            case "PlayerAddedEvent" -> handlePlayerAddedEvent(customMadeGameEvent);
+            case "PlayerJoinedChatEvent" -> handlePlayerJoinedChatEvent(customMadeGameEvent);
             default -> throw new AssertionError("Unknown event: " + eventName);
         }
     }
 
-    private void handlePlayerAddedEvent(Object customMadeGameEvent) {
+    private void handlePlayerJoinedChatEvent(Object customMadeGameEvent) {
         try {
-            PlayerAddedEvent playerAddedEvent =
-                    (PlayerAddedEvent) customMadeGameEvent;
+            PlayerJoinedChatEvent playerJoinedChatEvent =
+                    (PlayerJoinedChatEvent) customMadeGameEvent;
             connection.broadcastToAll(
-                    JsonMessage.login(playerAddedEvent.getNickname()));
+                    JsonMessage.userJoined(playerJoinedChatEvent.getName()));
         } catch (IOException e) {
             e.printStackTrace();
         }

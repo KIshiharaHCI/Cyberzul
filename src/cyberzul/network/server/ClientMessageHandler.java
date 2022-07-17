@@ -222,7 +222,6 @@ public class ClientMessageHandler implements Runnable {
      */
     private void handlePostMessage(JSONObject object) throws IOException {
         if (nickname == null || nickname.isBlank()) {
-            // A user needs to log in first before being able to send messages.
             return;
         }
 
