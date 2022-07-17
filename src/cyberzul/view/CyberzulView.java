@@ -241,7 +241,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showErrorMessage("successfully logged in");
       }
-      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
+      case ConnectedWithServerEvent.EVENT_NAME,
+          UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
           "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
