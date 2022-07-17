@@ -29,7 +29,8 @@ public class JsonMessageTest {
 
     JSONArray jsonArray = JsonMessage.parseOfferingsToJsonArray(offeringList);
     String testString =
-        "[[\"red tile\",\"red tile\",\"red tile\",\"red tile\"],[\"blue tile\",\"blue tile\",\"blue tile\",\"blue tile\"]]";
+        "[[\"red tile\",\"red tile\",\"red tile\",\"red tile\"],[\"blue tile\",\"blue tile\","
+            + "\"blue tile\",\"blue tile\"]]";
 
     Assertions.assertTrue(jsonArray.toString().equals(testString));
   }
