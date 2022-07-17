@@ -27,7 +27,7 @@ public class JsonMessageTest {
     offeringList.add(factoryDisplay);
     offeringList.add(factoryDisplay1);
 
-    JSONArray jsonArray = JsonMessage.parseOfferingsToJSONArray(offeringList);
+    JSONArray jsonArray = JsonMessage.parseOfferingsToJsonArray(offeringList);
     String testString =
         "[[\"red tile\",\"red tile\",\"red tile\",\"red tile\"],[\"blue tile\",\"blue tile\",\"blue tile\",\"blue tile\"]]";
 

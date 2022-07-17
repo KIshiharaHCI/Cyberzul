@@ -73,7 +73,7 @@ public class ClientMessageHandler implements Runnable {
     try {
       JSONObject connectedMessage = JsonMessage.createMessageOfType(JsonMessage.CONNECTED);
       connectedMessage.put(JsonMessage.PLAYER_NAMES_FIELD,
-          JsonMessage.parsePlayerNamesToJSONArray(model.getPlayerNamesList()));
+          JsonMessage.parsePlayerNamesToJsonArray(model.getPlayerNamesList()));
       send(connectedMessage);
     } catch (JSONException | IOException e) {
       e.printStackTrace();
@@ -247,7 +247,7 @@ public class ClientMessageHandler implements Runnable {
         serverConnection.broadcast(this, JsonMessage.userLeft(nick));
         setNickname(null);
       }
-      serverConnection.handlerClosed(this);
+      serverConnection.removeHandlerFromList(this);
       if (!socket.isClosed()) {
         socket.close();
       }

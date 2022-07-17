@@ -13,7 +13,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * The messages that are sent back and forth between the server and the clients.
+ */
 public enum JsonMessage {
+  // message types that are linked to the chat messages and the connection
   LOGIN("login"),
   LOGIN_SUCCESS("login success"),
   LOGIN_FAILED("login failed"),
@@ -90,10 +94,24 @@ public enum JsonMessage {
 
   private final String jsonName;
 
+  /**
+   * Create an instance of a JsonMessage.
+   *
+   * @param jsonName the String representation of the JsonMessage.
+   */
   JsonMessage(String jsonName) {
     this.jsonName = jsonName;
   }
 
+  /**
+   * If the JSONObject has a type that is element of this enum, return this type. Else throw
+   * an IllegalArgumentException.
+   *
+   * @param message the message whose type we want to find out.
+   * @return the type of this message.
+   * @throws IllegalArgumentException if <cod>message</cod> has a type that is not element of this
+   *                                  enum.
+   */
   public static JsonMessage typeOf(JSONObject message) {
     String typeName;
     try {
@@ -143,8 +161,8 @@ public enum JsonMessage {
       List<Offering> offerings, List<String> playerNames) {
     try {
       JSONObject returnObject = createMessageOfType(GAME_STARTED);
-      returnObject.put(OFFERINGS_FIELD, parseOfferingsToJSONArray(offerings));
-      returnObject.put(PLAYER_NAMES_FIELD, parsePlayerNamesToJSONArray(playerNames));
+      returnObject.put(OFFERINGS_FIELD, parseOfferingsToJsonArray(offerings));
+      returnObject.put(PLAYER_NAMES_FIELD, parsePlayerNamesToJsonArray(playerNames));
 
       return returnObject;
     } catch (JSONException e) {
@@ -152,6 +170,12 @@ public enum JsonMessage {
     }
   }
 
+  /**
+   * Create a JSONObject that informs that the game can't be started.
+   *
+   * @param reason The reason why this game could not be started.
+   * @return a String in JSON format that informs that the game can't be started and why.
+   */
   public static JSONObject createGameNotStartableMessage(String reason) {
     try {
       JSONObject returnObject = createMessageOfType(GAME_NOT_STARTABLE);
@@ -185,7 +209,7 @@ public enum JsonMessage {
    * @param offerings a list of all offerings in the game.
    * @return a two dimensional array containing the contents of all offerings.
    */
-  public static JSONArray parseOfferingsToJSONArray(List<Offering> offerings) {
+  public static JSONArray parseOfferingsToJsonArray(List<Offering> offerings) {
     JSONArray offeringsArray = new JSONArray();
     for (Offering o : offerings) {
       JSONArray currentOffering = new JSONArray();
@@ -198,12 +222,14 @@ public enum JsonMessage {
   }
 
   /**
-   * Creates a JSONArray that contains the
+   * Take a list of player names as Strings and parse them into a JSONArray, so it can be sent via
+   * OutputStream.
+   * The most prominent use case is the list of players that are currently logged in.
    *
-   * @param playerNames
-   * @return
+   * @param playerNames a list of player names as Strings.
+   * @return a list of player names as JSON array.
    */
-  public static JSONArray parsePlayerNamesToJSONArray(List<String> playerNames) {
+  public static JSONArray parsePlayerNamesToJsonArray(List<String> playerNames) {
     JSONArray playerNamesArray = new JSONArray();
     for (String nick : playerNames) {
       playerNamesArray.put(nick);
@@ -218,11 +244,15 @@ public enum JsonMessage {
    * a new player has to do his turn now. It contains all information about what changes occurred
    * during the past turn.
    *
-   * @param offerings
-   * @param nameOfPlayerWhoEndedHisTurn
-   * @param newPatternLinesOfPlayerWhoEndedHisTurn
-   * @param newFloorLineOfPlayerWhoEndedHisTurn
-   * @return
+   * @param offerings                              the up-to-date information about the content of
+   *                                               all FactoryDisplays and the TableCenter.
+   * @param nameOfPlayerWhoEndedHisTurn            the name of the player who just ended his turn.
+   * @param newPatternLinesOfPlayerWhoEndedHisTurn the up-to-date pattern lines of the player who
+   *                                               just ended his turn.
+   * @param newFloorLineOfPlayerWhoEndedHisTurn    the up-to-date floor line of the player who just
+   *                                               ended his turn.
+   * @return a String in JSON format that contains all the information that is needed to update the
+   * data of the clients after a player ended his turn.
    */
   public static JSONObject createNextPlayersTurnMessage(
       String nameOfActivePlayer,
@@ -235,7 +265,7 @@ public enum JsonMessage {
 
       returnObject.put(NAME_OF_ACTIVE_PLAYER_FIELD, nameOfActivePlayer);
 
-      returnObject.put(OFFERINGS_FIELD, parseOfferingsToJSONArray(offerings));
+      returnObject.put(OFFERINGS_FIELD, parseOfferingsToJsonArray(offerings));
 
       returnObject.put(NAME_OF_PLAYER_WHO_ENDED_HIS_TURN_FIELD, nameOfPlayerWhoEndedHisTurn);
 
@@ -282,6 +312,17 @@ public enum JsonMessage {
       floorLineArray.put(t);
     }
     return floorLineArray;
+  }
+
+  /**
+   * Create a new JSONObject with the specified type.
+   *
+   * @param type the type of this JSONObject
+   * @return a JSONObject that has the specified type.
+   * @throws JSONException if for example the specified type is not element of this enum.
+   */
+  public static JSONObject createMessageOfType(JsonMessage type) throws JSONException {
+    return new JSONObject().put(TYPE_FIELD, type.getJsonName());
   }
 
   /**
@@ -380,10 +421,6 @@ public enum JsonMessage {
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
-  }
-
-  public static JSONObject createMessageOfType(JsonMessage type) throws JSONException {
-    return new JSONObject().put(TYPE_FIELD, type.getJsonName());
   }
 
   public static String getNickname(JSONObject object) {

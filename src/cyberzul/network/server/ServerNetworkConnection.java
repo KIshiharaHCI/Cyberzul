@@ -70,12 +70,18 @@ public class ServerNetworkConnection {
     modelPropertyChangeHandler = new ModelPropertyChangeHandler(this, model);
   }
 
-  public synchronized void sendToActivePlayer(JSONObject object) {
+  /**
+   * Send a message to the player that has to do his turn at the moment.
+   *
+   * @param message the JSON object that contains the message that should be sent to the active
+   *                player.
+   */
+  public synchronized void sendToActivePlayer(JSONObject message) {
     try {
       String activePlayerName = model.getNickOfActivePlayer();
       for (ClientMessageHandler handler : clientHandlers) {
         if (handler.getNickname().equals(activePlayerName) && handler.isLoggedIn()) {
-          handler.send(object);
+          handler.send(message);
         }
       }
     } catch (IOException e) {
@@ -131,7 +137,7 @@ public class ServerNetworkConnection {
    *
    * @param nickname The name to be looked up.
    * @return <code>true</code> if no other client has taken this name, <code >false</code>
-   * otherwise.
+   *         otherwise.
    */
   public synchronized boolean tryLogIn(String nickname) {
     synchronized (clientHandlers) {
@@ -163,11 +169,23 @@ public class ServerNetworkConnection {
     }
   }
 
-  public void handlerClosed(ClientMessageHandler handler) {
+  /**
+   * Remove the specified ClientMessageHandler from the list where the active handlers are stored,
+   * since the connection to this Client was closed.
+   *
+   * @param handler the ClientMessageHandler that should not be stored anymore.
+   */
+  public void removeHandlerFromList(ClientMessageHandler handler) {
     clientHandlers.remove(handler);
   }
 
-  public void handlerClosed(String nickname) {
+  /**
+   * Remove the specified ClientMessageHandler from the list where the active handlers are stored,
+   * since the connection to this Client was closed.
+   *
+   * @param nickname the nickname of the player who disconnected from the server.
+   */
+  public void removeHandlerFromList(String nickname) {
     ClientMessageHandler toRemove = null;
     for (ClientMessageHandler handler : clientHandlers) {
       if (handler.getNickname().equals(nickname)) {
@@ -175,6 +193,6 @@ public class ServerNetworkConnection {
         break;
       }
     }
-    handlerClosed(toRemove);
+    removeHandlerFromList(toRemove);
   }
 }
