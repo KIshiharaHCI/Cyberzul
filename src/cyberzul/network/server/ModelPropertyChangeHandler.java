@@ -5,6 +5,8 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
 import cyberzul.model.events.*;
+import cyberzul.network.client.messages.PlayerJoinedChatMessage;
+import cyberzul.network.client.messages.PlayerLoggedInMessage;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.shared.JsonMessage;
 import org.json.JSONArray;
@@ -58,7 +60,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
             case "GameStartedEvent" -> handleGameStartedEvent();
             case "NextPlayersTurnEvent" -> handleNextPlayersTurnEvent(customMadeGameEvent);
             case "LoggedInEvent" -> {
-                //TODO: FILL THIS WITH FUNCTIONALITY
+                //TODO: FILL THIS WITH
             }
             case "PlayerHasChosenTileEvent" -> handlePlayerHasChosenTileEvent(customMadeGameEvent);
             case "NoValidTurnToMakeEvent" -> handleNoValidTurnToMakeEvent();
@@ -68,7 +70,19 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
             case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
             case GameForfeitedEvent.EVENT_NAME -> handleGameForfeitedEvent(customMadeGameEvent);
             case "PlayerAddedMessageEvent" -> handlePlayerAddedMessageEvent(customMadeGameEvent);
+            case "PlayerAddedEvent" -> handlePlayerAddedEvent(customMadeGameEvent);
             default -> throw new AssertionError("Unknown event: " + eventName);
+        }
+    }
+
+    private void handlePlayerAddedEvent(Object customMadeGameEvent) {
+        try {
+            PlayerAddedEvent playerAddedEvent =
+                    (PlayerAddedEvent) customMadeGameEvent;
+            connection.broadcastToAll(
+                    JsonMessage.login(playerAddedEvent.getNickname()));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

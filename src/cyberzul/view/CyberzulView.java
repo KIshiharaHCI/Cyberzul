@@ -271,6 +271,11 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 showErrorMessage("Only the last hundred messages are shown.");
             }
 
+            case "PlayerJoinedChatEvent" -> {
+                PlayerJoinedChatEvent playerJoinedChatEvent = (PlayerJoinedChatEvent) customMadeGameEvent;
+                ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
+            }
+
             default -> throw new AssertionError("Unknown event: " + eventName);
         }
     }
