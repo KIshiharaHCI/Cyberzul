@@ -116,7 +116,10 @@ public class ClientNetworkConnection {
             case LOGIN_SUCCESS -> model.loggedIn();
             case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
             case GAME_STARTED -> handleGameStarted(object);
-            case USER_JOINED -> model.userJoined(object.getString(JsonMessage.NICK_FIELD));
+            case USER_JOINED -> {
+                model.userJoined(object.getString(JsonMessage.NICK_FIELD));
+                model.playerJoinedChat(object.getString(JsonMessage.NICK_FIELD));
+            }
             case USER_LEFT -> {
                 //TODO: IMPLEMENT CHAT HERE @XUE
                 model.playerLeft(object.getString(JsonMessage.NICK_FIELD));

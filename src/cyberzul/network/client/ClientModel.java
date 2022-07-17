@@ -384,7 +384,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
      * Used by the network layer to update the model accordingly.
      * @param nickname The name of the newly joined user.
      */
-    public void playerJoined(String nickname) {
+    public void playerJoinedChat(String nickname) {
         addChatEntry(new PlayerJoinedChatMessage(nickname));
 
     }
@@ -395,7 +395,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
      * @param nickname The name of the player who lefts the game.
      */
     public void playerLeft(final String nickname) {
-        this.thisPlayersName = nickname;
         addChatEntry(new PlayerLeftGameMessage(nickname));
         notifyListeners(new GameForfeitedEvent(nickname));
 
