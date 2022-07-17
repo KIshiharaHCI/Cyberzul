@@ -51,22 +51,6 @@ public class ChatMessageHandler extends ClientMessageHandler {
     return nickname;
   }
 
-  /**
-   * Process a post-message from the player which contains the information of a message that is to
-   * be sent to all the other connected players.
-   *
-   * @param object A {@link JSONObject} containing the data for a post-message.
-   * @throws IOException Thrown when failing to access the input- or output-stream.
-   */
-  public void handlePostChatMessage(JSONObject object) throws IOException {
-    if (nickname == null || nickname.isBlank()) {
-      System.out.println("Please login before sending messages.");
-    }
-
-    String content = JsonMessage.getContent(object);
-    JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
-    serverConnection.broadcast(this, message);
-  }
 
   /**
    * Process a help-message and sent this to the player who requires.
