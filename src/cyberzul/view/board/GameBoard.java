@@ -7,6 +7,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import javax.swing.JPopupMenu;
  */
 public class GameBoard extends JPanel {
 
+  @Serial
   private static final long serialVersionUID = 7526472295622776147L;
   private final transient Controller controller;
 
@@ -58,14 +60,9 @@ public class GameBoard extends JPanel {
 
     center = new CenterBoard(controller, tileClickListener, frameDimension);
     add(center, BorderLayout.CENTER);
-
-    // createRankingBoardPanel();
-
   }
 
-  // TODO createChatAndRankingBoardAndButtonsPanel
   private void createChatAndRankingBoardAndSettingPanel() {
-    // TODO: replace temporary chatPanel with Iurii's Chat class, remove Background
 
     // create the Panel with RankingBoard, SettingBoard and Chat.
     JPanel chatAndRankingBoardAndSettingPanel = new JPanel();
@@ -90,8 +87,7 @@ public class GameBoard extends JPanel {
 
     final JPopupMenu menu = new JPopupMenu("Menu");
     JMenuItem firstItem = new JMenuItem("First item");
-    firstItem.addActionListener(
-        ae -> System.out.println("First menu item clicked"));
+    firstItem.addActionListener(ae -> System.out.println("First menu item clicked"));
     menu.add(firstItem);
     menu.add(new JMenuItem("Second item"));
     menu.add(new JMenuItem("Third item"));
