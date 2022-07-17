@@ -235,7 +235,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
         }
       }
 
-      endTurn();
+      //endTurn(); //<-- I think that was one endTurn() too much (Marco = I)
     }
   }
 
