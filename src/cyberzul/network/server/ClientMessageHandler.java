@@ -168,32 +168,31 @@ public class ClientMessageHandler implements Runnable {
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
   private void handleLogin(JSONObject object) throws IOException {
-    if (controller.isGameStarted()) {
-      send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.GAME_ALREADY_STARTED));
-      return;
-    }
-
-    if (nickname != null) {
-      send(JsonMessage.loginFailed(LoginFailedEvent.ALREADY_LOGGED_IN));
-      return;
-    }
-
-    String nick = JsonMessage.getNickname(object);
-    if (!serverConnection.tryLogIn(nick)) {
-      send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_ALREADY_TAKEN));
-      return;
-    }
-
-    setNickname(nick);
-    controller.addPlayer(nick);
     try {
+      if (controller.isGameStarted()) {
+        send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.GAME_ALREADY_STARTED));
+        return;
+      }
+
+      if (nickname != null) {
+        send(JsonMessage.loginFailed(LoginFailedEvent.ALREADY_LOGGED_IN));
+        return;
+      }
+
+      String nick = object.getString(JsonMessage.NICK_FIELD);
+      if (!serverConnection.tryLogIn(nick)) {
+        send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_ALREADY_TAKEN));
+        return;
+      }
+
+      setNickname(nick);
+      controller.addPlayer(nick);
       send(JsonMessage.loginSuccess());
 
-      JSONObject userJoinedMessage = JsonMessage.createMessageOfType(JsonMessage.USER_JOINED);
-      userJoinedMessage.put(JsonMessage.NICK_FIELD, nick);
+      JSONObject userJoinedMessage = JsonMessage.userJoined(nickname);
       serverConnection.broadcast(this, userJoinedMessage);
     } catch (JSONException jsonException) {
-      jsonException.printStackTrace();
+      throw new IllegalArgumentException("Failed to read a json object.", jsonException);
     }
   }
 

@@ -130,11 +130,11 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       playerObject.put(JsonMessage.NICK_FIELD, playerName);
       playerObject.put(JsonMessage.POINTS_FIELD, player.getPoints());
       playerObject.put(JsonMessage.PATTERN_LINES_FIELD,
-          JsonMessage.parsePatternLinesToJSONArray(player.getPatternLines()));
+          JsonMessage.parsePatternLinesToJsonArray(player.getPatternLines()));
       playerObject.put(JsonMessage.FLOOR_LINE_FIELD,
-          JsonMessage.parseFloorLineToJSONArray(player.getFloorLine()));
+          JsonMessage.parseFloorLineToJsonArray(player.getFloorLine()));
       playerObject.put(JsonMessage.WALL_FIELD,
-          JsonMessage.parsePatternLinesToJSONArray(model.getWallOfPlayer(playerName)));
+          JsonMessage.parsePatternLinesToJsonArray(model.getWallOfPlayer(playerName)));
       playerArray.put(playerObject);
     }
     return playerArray;
