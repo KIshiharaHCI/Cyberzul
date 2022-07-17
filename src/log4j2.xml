@@ -24,6 +24,14 @@
             </PatternLayout>
         </File>
 
+        <File name="controllerLog"
+          fileName="${basePath}/modelLog.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>
+            </PatternLayout>
+        </File>
+
         <File name="viewLog"
           fileName="${basePath}/viewLog.log">
             <PatternLayout>
@@ -66,6 +74,11 @@
     <Loggers>
         <Logger name="cyberzul.view" additivity="false" level="all">
             <AppenderRef ref="viewLog" />
+            <AppenderRef ref="Console-Appender" level="all"/>
+
+        </Logger>
+        <Logger name="cyberzul.controller" additivity="false" level="all">
+            <AppenderRef ref="controllerLog" />
             <AppenderRef ref="Console-Appender" level="all"/>
 
         </Logger>

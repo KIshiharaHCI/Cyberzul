@@ -30,7 +30,5 @@ public class CyberzulMain {
     cyberzulView.setVisible(true);
 
     model.addPropertyChangeListener(cyberzulView);
-
-    LOGGER.trace("Exiting application.");
   }
 }

@@ -203,7 +203,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
           "The game has reached an illegal state. Noone was able to "
               + "make a turn. Game was restarted automatically.");
     } else {
-
       // get a random offering
       int randomOfferingIndex = ran.nextInt(0, offeringsClone.size());
       Offering randomOffering = offeringsClone.get(randomOfferingIndex);
@@ -267,8 +266,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
           new PlayerHasChosenTileEvent(getNickOfActivePlayer());
       notifyListeners(playerHasChosenTileEvent);
     } else {
-      NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
-      notifyListeners(noValidTurnToMakeEvent);
+      //These lines are triggered if there is no valid pick to make for a given tile
+      // --> has to be placed in the floor line (e.g. when the SPM is picked)
+      //NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
+      //notifyListeners(noValidTurnToMakeEvent);
     }
   }
 
@@ -282,8 +283,13 @@ public class GameModel extends CommonModel implements ModelStrategy {
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
     if (!activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile)) {
+      if(activePlayer.isAiPlayer()) {
+        LOGGER.debug(nickActivePlayer + " tried to place a tile, where it is not possible. "
+            + "This should not happen, as it is checked before.");
+      }
       notifyListeners(new IllegalTurnEvent());
     } else {
+      LOGGER.info(nickActivePlayer + " will end the turn now.");
       endTurn();
     }
   }
