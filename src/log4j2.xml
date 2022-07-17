@@ -25,7 +25,7 @@
         </File>
 
         <File name="controllerLog"
-          fileName="${basePath}/modelLog.log">
+          fileName="${basePath}/controllerLog.log">
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
                 </pattern>
