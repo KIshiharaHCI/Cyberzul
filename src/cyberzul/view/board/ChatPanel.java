@@ -1,10 +1,7 @@
 package cyberzul.view.board;
 
 import cyberzul.controller.Controller;
-import cyberzul.model.events.ChatMessageRemovedEvent;
-import cyberzul.model.events.LoggedInEvent;
-import cyberzul.model.events.LoginFailedEvent;
-import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.*;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerLoggedInMessage;
 import cyberzul.view.ChatCellRenderer;
@@ -30,6 +27,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
 
     public ChatPanel(Controller controller) {
         this.controller = controller;
+
         setLayout(new GridBagLayout());
         initializeWidgets();
         createChatPanel();
@@ -96,12 +94,8 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
             listModel.removeElement(msgRemovedEvent.getMessage());
         } else if (newValue instanceof PlayerAddedMessageEvent msgAddedEvent) {
             listModel.addElement(msgAddedEvent.getMessage());
-        } else if (newValue instanceof LoggedInEvent) {
-            JOptionPane.showMessageDialog(this,
-                    String.format("Login successful, Welcome!"));
-        } else if (newValue instanceof LoginFailedEvent) {
-            JOptionPane.showMessageDialog(this,
-                    String.format("Login failed, name \"%s\" is already in use."));
+        } else if (newValue instanceof PlayerJoinedChatEvent playerJoinedChatEvent) {
+            listModel.addElement(playerJoinedChatEvent.getMessage());
         }
     }
 

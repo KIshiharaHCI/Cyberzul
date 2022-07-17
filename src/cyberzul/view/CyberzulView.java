@@ -143,6 +143,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 }
         );
 
+        //TODO @Xue temporary test Buttons , need to delete
         testFourPlayersButton.addActionListener(event -> {
                     List<String> fourUserNameForTest = new ArrayList<>(
                             List.of("Iurri", "Kenji", "Marco", "Nils"));
@@ -221,7 +222,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 numberOfLoggedInPlayersLabel.setText(
                         "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
                 showErrorMessage("successfully logged in");
-            }
+                }
             case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME ->
                     numberOfLoggedInPlayersLabel.setText(
                             "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
@@ -275,6 +276,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 PlayerJoinedChatEvent playerJoinedChatEvent = (PlayerJoinedChatEvent) customMadeGameEvent;
                 ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
             }
+
 
             default -> throw new AssertionError("Unknown event: " + eventName);
         }

@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.Date;
 
 /** Handles the chat messages that are send from the clients to the server.
- *
+ * @Xue maybe delete this class
  * */
 public class ChatMessageHandler extends ClientMessageHandler {
   private static String nickname;
