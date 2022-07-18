@@ -35,6 +35,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final int FRAME_HEIGHT = 800;
   private final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
   private final double backgroundScaleFactor = 1;
+  public static Font customFont;
   private final String backgroundPath = "img/background.jpg";
   private final transient Model model;
   private final transient Controller controller;
@@ -71,9 +72,27 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setResizable(true);
 
     initializeWidgets();
-    loadFonts();
+    initializeFont();
     addEventListeners();
     createView();
+  }
+
+  /**
+   * Initializes the custom font used in the package for writing names etc.
+   * Returned font is of default size
+   */
+  private void initializeFont() {
+    try {
+      //create the font to use.
+      customFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/Game Of Squids.otf"));
+      customFont.deriveFont(12f);
+      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+      //register the font
+      //IMPORTANT: always call .deriveFont(size) when using customFont
+      ge.registerFont(customFont);
+    } catch (IOException | FontFormatException e) {
+      e.printStackTrace();
+    }
   }
 
   private void initializeWidgets() {
@@ -119,19 +138,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     resource = getClass().getClassLoader().getResource("img/start-game-button.png");
     icon = new ImageIcon(Objects.requireNonNull(resource));
     playButton.setIcon(icon);
-  }
-
-  /**
-   * Loads the custom font to the package.
-   */
-  private void loadFonts() {
-    try {
-      GraphicsEnvironment ge =
-              GraphicsEnvironment.getLocalGraphicsEnvironment();
-      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/Game Of Squids.otf")));
-    } catch (IOException | FontFormatException e) {
-      e.printStackTrace();
-    }
   }
 
   private void addEventListeners() {
