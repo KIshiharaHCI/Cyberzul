@@ -148,6 +148,7 @@ public class ClientMessageHandler implements Runnable {
             }
             case RESTART_GAME -> controller.restartGame();
             case CANCEL_GAME -> controller.cancelGameForAllPlayers();
+            case CHEAT_MESSAGE -> new ChatMessageHandler(serverConnection, socket, controller, model).handleCheatMessage(object);
             default -> throw new AssertionError("Unable to handle message " + object);
         }
     }

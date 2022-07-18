@@ -10,6 +10,8 @@ import cyberzul.network.client.messages.Message;
 
 
 public class ChatMessageRemovedEvent extends GameEvent {
+
+  public static final String EVENT_NAME = "ChatMessageRemovedEvent";
   private final Message message;
 
   public ChatMessageRemovedEvent(Message message) {
@@ -22,7 +24,7 @@ public class ChatMessageRemovedEvent extends GameEvent {
 
   @Override
   public String getName() {
-    return "ChatMessageRemovedEvent";
+    return EVENT_NAME;
   }
 
 

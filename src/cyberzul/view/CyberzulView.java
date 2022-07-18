@@ -222,6 +222,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 numberOfLoggedInPlayersLabel.setText(
                         "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
                 showErrorMessage("successfully logged in");
+
                 }
             case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME ->
                     numberOfLoggedInPlayersLabel.setText(
@@ -271,12 +272,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 ChatPanel.listModel.removeElement(chatMessageRemovedEvent.getMessage());
                 showErrorMessage("Only the last hundred messages are shown.");
             }
-
-            case "PlayerJoinedChatEvent" -> {
-                PlayerJoinedChatEvent playerJoinedChatEvent = (PlayerJoinedChatEvent) customMadeGameEvent;
-                ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
-            }
-
 
             default -> throw new AssertionError("Unknown event: " + eventName);
         }

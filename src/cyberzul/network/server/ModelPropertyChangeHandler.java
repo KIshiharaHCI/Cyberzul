@@ -61,7 +61,6 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
             case "NextPlayersTurnEvent" -> handleNextPlayersTurnEvent(customMadeGameEvent);
             case "LoggedInEvent" -> {
                 //TODO: FILL THIS WITH
-                handleLoggedInEvent();
             }
             case "PlayerHasChosenTileEvent" -> handlePlayerHasChosenTileEvent(customMadeGameEvent);
             case "NoValidTurnToMakeEvent" -> handleNoValidTurnToMakeEvent();
@@ -70,19 +69,13 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
             case GameFinishedEvent.EVENT_NAME -> handleGameFinishedEvent(customMadeGameEvent);
             case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
             case GameForfeitedEvent.EVENT_NAME -> handleGameForfeitedEvent(customMadeGameEvent);
-            case "PlayerAddedMessageEvent" -> handlePlayerAddedMessageEvent(customMadeGameEvent);
-            case "PlayerJoinedChatEvent" -> handlePlayerJoinedChatEvent(customMadeGameEvent);
+            case PlayerAddedMessageEvent.EVENT_NAME-> handlePlayerAddedMessageEvent(customMadeGameEvent);
+            //TODO: @Xue maybe delete PlayerJoinedChatEvent
+            case PlayerJoinedChatEvent.EVENT_NAME -> handlePlayerJoinedChatEvent(customMadeGameEvent);
             default -> throw new AssertionError("Unknown event: " + eventName);
         }
     }
 
-    private void handleLoggedInEvent() {
-        try {
-            connection.broadcastToAll(JsonMessage.createMessageOfType(JsonMessage.LOGIN));
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void handlePlayerJoinedChatEvent(Object customMadeGameEvent) {
         try {

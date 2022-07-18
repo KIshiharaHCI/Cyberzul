@@ -10,6 +10,8 @@ import cyberzul.network.client.messages.Message;
 
 
 public class PlayerJoinedChatEvent extends GameEvent {
+
+    public static final String EVENT_NAME = "PlayerJoinedChatEvent";
     private final Message message;
 
     public PlayerJoinedChatEvent(Message message) {
@@ -22,7 +24,7 @@ public class PlayerJoinedChatEvent extends GameEvent {
 
     @Override
     public String getName() {
-        return "PlayerJoinedChatEvent";
+        return EVENT_NAME;
     }
 
 }

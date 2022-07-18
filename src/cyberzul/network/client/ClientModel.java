@@ -121,8 +121,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
         setLoggedIn(true);
         playerList.add(new ClientPlayer(thisPlayersName));
         notifyListeners(new LoggedInEvent());
-        addChatEntry(new PlayerLoggedInMessage(thisPlayersName));
-
+        //addChatEntry(new PlayerLoggedInMessage(thisPlayersName));
     }
 
     /**
@@ -385,7 +384,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
      */
     public void playerJoinedChat(String nickname) {
         addChatEntry(new PlayerJoinedChatMessage(nickname));
-
     }
     /**
      * Add a status-update entry "Player has left the chat" to the list of chat entries.
