@@ -1,13 +1,18 @@
 package cyberzul.model;
 
+import cyberzul.CyberzulMain;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class contains the information that is depicted on the game board of the player. I.e. his
  * points, the tiles he already tiled and those who lie on his tiling fields.
  */
 public class Player {
+
+  private static final Logger LOGGER = LogManager.getLogger(Player.class);
 
   public static final int NUMBER_OF_PATTERN_LINES = 5;
   public static final int SIZE_OF_FLOOR_LINE = 7;
@@ -97,6 +102,10 @@ public class Player {
     return hasStartingPlayerMarker;
   }
 
+  public void setHasStartingPlayerMarker(boolean hasStartingPlayerMarker) {
+    this.hasStartingPlayerMarker = hasStartingPlayerMarker;
+  }
+
   public boolean isAiPlayer() {
     return isAiPlayer;
   }
@@ -146,7 +155,7 @@ public class Player {
   }
 
   public void clearWallPattern() {
-    this.wallPattern = new WallBackgroundPattern();
+    this.wall = new boolean[5][5];
   }
 
   /**
@@ -156,7 +165,7 @@ public class Player {
    * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
    * @return <true>true</true> if the tiles were successfully placed on the chosen line. <code>false
-   * </code> else.
+   *         </code> else.
    */
   boolean drawTiles(int row, Offering offering, int indexOfTile) {
     // check if it's possible to place the chosen tile on the chosen line
@@ -224,13 +233,13 @@ public class Player {
     List<ModelTile> pickedTiles = offering.takeTileWithIndex(indexOfTile);
 
     for (ModelTile modelTile : pickedTiles) {
-      System.out.println("Model Tile in offering: " + modelTile);
+      LOGGER.info("Model Tile in offering: " + modelTile);
     }
     while (pickedTiles.size() > 0) {
       fillFloorLine(pickedTiles.remove(0));
     }
 
-    System.out.println(floorLine);
+    LOGGER.info(floorLine);
   }
 
   /**
@@ -255,7 +264,7 @@ public class Player {
    * @param offering    the Offering from which the tiles should be drawn.
    * @param indexOfTile the index of the tile in the Offering.
    * @return <code>true</code> if the chosen tile can be placed on the chosen line. <code>false
-   * </code> else.
+   *         </code> else.
    */
   boolean isValidPick(int pickedLine, Offering offering, int indexOfTile) {
     List<ModelTile> tiles = offering.getContent();
@@ -264,12 +273,14 @@ public class Player {
     // does this Offering contain any tileable tiles?
     if (tiles.contains(ModelTile.STARTING_PLAYER_MARKER)) {
       if (tiles.size() == 1) {
+        LOGGER.info("Only SPM on this offering.");
         return false;
       } else {
         tile = tiles.get(indexOfTile);
       }
     } else {
       if (tiles.size() == 0) {
+        LOGGER.info("No tileable tiles on this offering.");
         return false;
       } else {
         tile = tiles.get(indexOfTile);
@@ -278,15 +289,15 @@ public class Player {
 
     // is on the wall in the same row already a tile with that color?
     if (wall[pickedLine][wallPattern.indexOfTileInRow(pickedLine, tile)]) {
-      System.out.println(
+      LOGGER.info(
           "Reason for FALSE is that on the same row already exists " + "a tile with that color.");
       return false;
     }
 
     // are there free places on the selected row? Only first position of the line has to be checked.
     if (patternLines[pickedLine][0] != ModelTile.EMPTY_TILE) {
-      System.out.println(patternLines[pickedLine][0]);
-      System.out.println("Reason for FALSE is that there are no free places on that row.");
+      LOGGER.info(patternLines[pickedLine][0]);
+      LOGGER.info("Reason for FALSE is that there are no free places on that row.");
       return false;
     }
 
@@ -294,8 +305,8 @@ public class Player {
     // only last position has to be checked.
     if ((patternLines[pickedLine][pickedLine] != tile)
         && patternLines[pickedLine][pickedLine] != ModelTile.EMPTY_TILE) {
-      System.out.println(patternLines[pickedLine][pickedLine]);
-      System.out.println(
+      LOGGER.info(patternLines[pickedLine][pickedLine]);
+      LOGGER.info(
           "Reason for FALSE is that the tile color is not compatible with "
               + "other tiles on that line. ");
       return false;

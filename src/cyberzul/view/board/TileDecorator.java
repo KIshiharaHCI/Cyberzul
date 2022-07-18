@@ -18,12 +18,12 @@ import java.util.Objects;
 public abstract class TileDecorator extends JPanel implements Tile {
 
   private static final long serialVersionUID = 1L;
-  final int COLUMN;
-  final int ROW;
+  final int column;
+  final int row;
   final String path;
   final JLabel label = new JLabel();
   final int tileSize;
-  private transient final BufferedImage image;
+  private final transient BufferedImage image;
 
   /**
    * Constructor to be called from subclasses. Used for initializing Image URL path and cell XY
@@ -34,15 +34,15 @@ public abstract class TileDecorator extends JPanel implements Tile {
    * @param modelTile contains the tile color information.
    */
   public TileDecorator(int col, int row, ModelTile modelTile, int tileSize) {
-    COLUMN = col;
-    ROW = row;
+    column = col;
+    this.row = row;
     path = modelTile.toString();
     this.tileSize = tileSize;
 
     setBackground(new Color(80, 145, 250, 130));
     try {
-      URL imgURL = getClass().getClassLoader().getResource("img/tile-outline.png");
-      image = ImageIO.read(Objects.requireNonNull(imgURL));
+      URL imgUrl = getClass().getClassLoader().getResource("img/tile-outline.png");
+      image = ImageIO.read(Objects.requireNonNull(imgUrl));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -59,11 +59,11 @@ public abstract class TileDecorator extends JPanel implements Tile {
       add(label);
       return;
     }
-    URL imgURL1 = getClass().getClassLoader().getResource(pathList.get(path));
-    //        Image img = resizeImage(new ImageIcon(Objects.requireNonNull(imgURL1)));
+    URL imgUrl1 = getClass().getClassLoader().getResource(pathList.get(path));
+    //        Image img = resizeImage(new ImageIcon(Objects.requireNonNull(imgUrl1)));
     ImageIcon img =
         new ImageIcon(
-            new ImageIcon(imgURL1)
+            new ImageIcon(imgUrl1)
                 .getImage()
                 .getScaledInstance(tileSize, tileSize, Image.SCALE_SMOOTH));
     ImageIcon icon = new TransparentImageIcon(img, opacity);
@@ -72,7 +72,7 @@ public abstract class TileDecorator extends JPanel implements Tile {
   }
 
   /**
-   * Function to resize Tile ImageIcon to fit given TileSize
+   * Function to resize Tile ImageIcon to fit given TileSize.
    *
    * @param icon passed tile Image.
    * @return resized Image based on given Tile Size.
@@ -86,17 +86,18 @@ public abstract class TileDecorator extends JPanel implements Tile {
 
   @Override
   public int getColumn() {
-    return COLUMN;
+    return column;
   }
 
   @Override
   public int getRow() {
-    return ROW;
+    return row;
   }
 
   /*
   justification = "We are aware that data "
-              + "encapsulation is violated here and that this is in principle bad. However, as here just "
+              + "encapsulation is violated here and that this is in principle bad."
+              + "However, as here just "
               + "information of the view is possible to be changed from an external source and the "
               + "model is safe, we think it is ok to suppress this warning."
    */

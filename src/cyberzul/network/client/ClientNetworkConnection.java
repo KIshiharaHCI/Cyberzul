@@ -126,7 +126,7 @@ public class ClientNetworkConnection {
     switch (JsonMessage.typeOf(object)) {
       case CONNECTED -> model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));
       case LOGIN_SUCCESS -> model.loggedIn();
-      case LOGIN_FAILED -> model.loginFailed(JsonMessage.getAdditionalInformation(object));
+      case LOGIN_FAILED -> model.loginFailed(object.getString(JsonMessage.ADDITIONAL_INFORMATION));
       case GAME_STARTED -> handleGameStarted(object);
       case USER_JOINED -> model.userJoined(object.getString(JsonMessage.NICK_FIELD));
       case USER_LEFT -> {
@@ -143,18 +143,6 @@ public class ClientNetworkConnection {
       case GAME_FINISHED -> model.handleGameFinishedEvent(object);
       case GAME_CANCELED -> model.handleGameCanceled(object.getString(JsonMessage.NICK_FIELD));
       case GAME_FORFEITED -> model.handleGameForfeited(object.getString(JsonMessage.NICK_FIELD));
-      /*
-      case USER_JOINED:
-        handleUserJoined(object);
-        break;
-      case USER_LEFT:
-        handleUserLeft(object);
-        break;
-      case MESSAGE:
-        handleUserTextMessage(object);
-        break;
-
-       */
       default -> throw new AssertionError("Unhandled message: " + object);
     }
   }
@@ -164,37 +152,6 @@ public class ClientNetworkConnection {
     JSONArray playerNames = object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD);
     model.handleGameStarted(offerings, playerNames);
   }
-
-  //TODO: Commented out code
-  /*
-
-
-  private void handleUserLeft(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userLeft(nick);
-    }
-  }
-
-  private void handleUserJoined(JSONObject object) {
-    if (model.isLoggedIn()) {
-      String nick = JsonMessage.getNickname(object);
-      model.userJoined(nick);
-    }
-  }
-
-  private void handlePlayerTextMessage(JSONObject jsonObject) {
-    if (!model.getLoggedIn()) {
-      return;
-    }
-    String nickname = JsonMessage.getNickname(jsonObject);
-    Date time = JsonMessage.getTime(jsonObject);
-    String content = JsonMessage.getContent(jsonObject);
-    model.addTextMessage(nickname, time, content);
-  }
-
-   */
-
 
   /**
    * Stop the network-connection.
@@ -229,21 +186,6 @@ public class ClientNetworkConnection {
     JSONObject login = JsonMessage.login(nickname);
     send(login);
   }
-
-  //TODO: Commented out code
-
-
-  /**
-   * Send a chat message to the server.
-   *
-   * @param chatMessage The {@link PlayerTextMessage} containing the message of the user.
-   */
-
-  public void playerSendMessage(PlayerTextMessage chatMessage) {
-    JSONObject message = JsonMessage.postMessage(chatMessage.getContent());
-    send(message);
-  }
-
 
   synchronized void send(JSONObject message) {
     try {

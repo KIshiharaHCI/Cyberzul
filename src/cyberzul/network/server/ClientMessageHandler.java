@@ -73,7 +73,7 @@ public class ClientMessageHandler implements Runnable {
     try {
       JSONObject connectedMessage = JsonMessage.createMessageOfType(JsonMessage.CONNECTED);
       connectedMessage.put(JsonMessage.PLAYER_NAMES_FIELD,
-          JsonMessage.parsePlayerNamesToJSONArray(model.getPlayerNamesList()));
+          JsonMessage.parsePlayerNamesToJsonArray(model.getPlayerNamesList()));
       send(connectedMessage);
     } catch (JSONException | IOException e) {
       e.printStackTrace();
@@ -148,7 +148,7 @@ public class ClientMessageHandler implements Runnable {
       case START_GAME -> handleStartGame();
       case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
-      case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine(object);
+      case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine();
       case REPLACE_PLAYER_BY_AI -> {
         controller.replacePlayerByAi(nickname);
       }
@@ -168,32 +168,31 @@ public class ClientMessageHandler implements Runnable {
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
   private void handleLogin(JSONObject object) throws IOException {
-    if (controller.isGameStarted()) {
-      send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.GAME_ALREADY_STARTED));
-      return;
-    }
-
-    if (nickname != null) {
-      send(JsonMessage.loginFailed(LoginFailedEvent.ALREADY_LOGGED_IN));
-      return;
-    }
-
-    String nick = JsonMessage.getNickname(object);
-    if (!serverConnection.tryLogIn(nick)) {
-      send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_ALREADY_TAKEN));
-      return;
-    }
-
-    setNickname(nick);
-    controller.addPlayer(nick);
     try {
+      if (controller.isGameStarted()) {
+        send(JsonMessage.createGameNotStartableMessage(GameNotStartableEvent.GAME_ALREADY_STARTED));
+        return;
+      }
+
+      if (nickname != null) {
+        send(JsonMessage.loginFailed(LoginFailedEvent.ALREADY_LOGGED_IN));
+        return;
+      }
+
+      String nick = object.getString(JsonMessage.NICK_FIELD);
+      if (!serverConnection.tryLogIn(nick)) {
+        send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_ALREADY_TAKEN));
+        return;
+      }
+
+      setNickname(nick);
+      controller.addPlayer(nick);
       send(JsonMessage.loginSuccess());
 
-      JSONObject userJoinedMessage = JsonMessage.createMessageOfType(JsonMessage.USER_JOINED);
-      userJoinedMessage.put(JsonMessage.NICK_FIELD, nick);
+      JSONObject userJoinedMessage = JsonMessage.userJoined(nickname);
       serverConnection.broadcast(this, userJoinedMessage);
     } catch (JSONException jsonException) {
-      jsonException.printStackTrace();
+      throw new IllegalArgumentException("Failed to read a json object.", jsonException);
     }
   }
 
@@ -211,7 +210,7 @@ public class ClientMessageHandler implements Runnable {
   }
 
   /**
-   * Checks if it is this players turn (which allows him to make moves)
+   * Checks if it is this players turn (which allows him to make moves).
    *
    * @return <code>true</code> if its this players turn. <code>false</code> else.
    */
@@ -247,7 +246,7 @@ public class ClientMessageHandler implements Runnable {
         serverConnection.broadcast(this, JsonMessage.userLeft(nick));
         setNickname(null);
       }
-      serverConnection.handlerClosed(this);
+      serverConnection.removeHandlerFromList(this);
       if (!socket.isClosed()) {
         socket.close();
       }
@@ -318,10 +317,8 @@ public class ClientMessageHandler implements Runnable {
   /**
    * Check if it's the players turn. If yes, let the player place the tile in the floor line. If
    * it's not this players turn, inform him that he has to wait until the can make his next move.
-   *
-   * @param object
    */
-  private void handlePlaceTileInFloorLine(JSONObject object) {
+  private void handlePlaceTileInFloorLine() {
     try {
       if (isItThisPlayersTurn()) {
         controller.placeTileAtFloorLine();

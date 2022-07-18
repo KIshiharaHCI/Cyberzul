@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +71,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setResizable(true);
 
     initializeWidgets();
+    loadFonts();
     addEventListeners();
     createView();
   }
@@ -116,6 +119,19 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     resource = getClass().getClassLoader().getResource("img/start-game-button.png");
     icon = new ImageIcon(Objects.requireNonNull(resource));
     playButton.setIcon(icon);
+  }
+
+  /**
+   * Loads the custom font to the package.
+   */
+  private void loadFonts() {
+    try {
+      GraphicsEnvironment ge =
+              GraphicsEnvironment.getLocalGraphicsEnvironment();
+      ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("res/Game Of Squids.otf")));
+    } catch (IOException | FontFormatException e) {
+      e.printStackTrace();
+    }
   }
 
   private void addEventListeners() {
@@ -224,7 +240,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showErrorMessage("successfully logged in");
       }
-      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
+      case ConnectedWithServerEvent.EVENT_NAME,
+          UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
           "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
@@ -256,7 +273,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "PlayerHasChosenTileEvent" -> {
         //TODO: FILL WITH FUNCTIONALITY
       }
-      case "NoValidTurnToMakeEvent" -> showErrorMessage("No Valied Turn to make");
+      case "NoValidTurnToMakeEvent" -> showErrorMessage("No valid turn to make");
       case GameForfeitedEvent.EVENT_NAME -> {
         GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
         showErrorMessage("Player " + gameForfeitedEvent.getForfeiter()

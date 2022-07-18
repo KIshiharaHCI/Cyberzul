@@ -1,11 +1,14 @@
 package cyberzul.controller;
 
+import cyberzul.CyberzulMain;
 import cyberzul.model.Model;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.WallBackgroundPattern;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Implementation of the controller interface which handles the interaction between the main model-
@@ -14,6 +17,8 @@ import java.util.List;
 public class GameController implements Controller {
 
   private final Model model;
+  private static final Logger LOGGER = LogManager.getLogger(GameController.class);
+
 
   @SuppressFBWarnings(
       value = "EI_EXPOSE_REP",
@@ -73,7 +78,7 @@ public class GameController implements Controller {
 
   @Override
   public void placeTileAtPatternLine(int rowOfPatternLine) {
-    System.out.println(
+    LOGGER.info(
         "Player "
             + getNickOfActivePlayer()
             + " tries to place a tile on the "

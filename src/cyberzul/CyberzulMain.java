@@ -16,7 +16,7 @@ public class CyberzulMain {
   private static final Logger LOGGER = LogManager.getLogger(CyberzulMain.class);
 
   /**
-   * Creates the a new model, for which a strategy will be chosen, creates a controller
+   * Creates a new model, for which a strategy will be chosen, creates a controller
    * and the view.
    *
    * @param args The command line arguments.
@@ -30,7 +30,5 @@ public class CyberzulMain {
     cyberzulView.setVisible(true);
 
     model.addPropertyChangeListener(cyberzulView);
-
-    LOGGER.trace("Exiting application.");
   }
 }
