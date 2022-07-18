@@ -20,7 +20,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.Objects;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
@@ -33,6 +41,10 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   private final Model model;
   SourceTile source = null;
   DestinationTile destination = null;
+  public static Clip clip;
+  public static AudioInputStream audioInputStream;
+  private static final String placementSound = "audio/placement-sound.mp3";
+  private static final String illegalTurnSound = "audio/illegal-turn-sound.mp3";
 
   public TileClickListener(Controller controller, Model model) {
     this.controller = controller;
@@ -95,6 +107,8 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
             + " and row "
             + tileDestination.getRow());
     if (source != null) {
+      playSystemSound(placementSound);
+      System.out.println("clip");
       // if the player is able to place the tile, place it
       if (tileDestination.getParent().getParent() instanceof FloorLinePanel) {
         controller.placeTileAtFloorLine();
@@ -163,5 +177,30 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
    */
   private void showErrorMessage(String message) {
     JOptionPane.showMessageDialog(null, message, "Error!", JOptionPane.ERROR_MESSAGE);
+  }
+
+  private void playSystemSound(String soundPath){
+
+    try {
+      URL soundUrl = getClass().getClassLoader().getResource(soundPath);
+      audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(soundUrl));
+
+      try {
+        clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.loop(20000);
+        clip.start();
+
+      } catch (LineUnavailableException e) {
+      }
+
+    } catch (UnsupportedAudioFileException | IOException e) {
+    }
+    clip.stop();
+  }
+
+  public void stop() {
+    clip.stop();
+
   }
 }
