@@ -102,6 +102,10 @@ public class Player {
     return hasStartingPlayerMarker;
   }
 
+  public void setHasStartingPlayerMarker(boolean hasStartingPlayerMarker) {
+    this.hasStartingPlayerMarker = hasStartingPlayerMarker;
+  }
+
   public boolean isAiPlayer() {
     return isAiPlayer;
   }

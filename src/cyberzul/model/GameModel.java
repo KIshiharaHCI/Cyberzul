@@ -17,6 +17,7 @@ import cyberzul.model.events.RoundFinishedEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.LongBinaryOperator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -141,6 +142,9 @@ public class GameModel extends CommonModel implements ModelStrategy {
       if (!hasGameEnded) {
         setUpOfferings();
       }
+      // no player has the SPM
+      LOGGER.info("We are now resetting the player with the SPM.");
+      playerList.get(getIndexOfPlayerWithSpm()).setHasStartingPlayerMarker(false);
       notifyListeners(roundFinishedEvent);
     }
     NextPlayersTurnEvent nextPlayersTurnEvent =
@@ -176,6 +180,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
     // TODO: If player has already chosen something and then forfeits
     LOGGER.info(playerName + " is set to be an AI Player. ");
     getPlayerByName(playerName).setAiPlayer(true);
+    //TODO: @Marco - set player name + "_AI"
     makeAiPlayerMakeMove(playerName);
   }
 
