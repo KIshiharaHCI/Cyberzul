@@ -80,7 +80,9 @@ public class TableCenter extends Offering {
     for (ModelTile t : content) {
       returnList.add(t);
     }
-    return (List<ModelTile>) returnList.clone();
+    @SuppressWarnings("unchecked")
+    List<ModelTile> returnListClone = (List<ModelTile>) returnList.clone();
+    return returnListClone;
   }
 
   public void addStartPlayerMarker() {
