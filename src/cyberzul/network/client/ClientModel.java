@@ -2,10 +2,7 @@ package cyberzul.network.client;
 
 import cyberzul.model.*;
 import cyberzul.model.events.*;
-import cyberzul.network.client.messages.Message;
-import cyberzul.network.client.messages.PlayerJoinedChatMessage;
-import cyberzul.network.client.messages.PlayerLeftGameMessage;
-import cyberzul.network.client.messages.PlayerTextMessage;
+import cyberzul.network.client.messages.*;
 import cyberzul.shared.JsonMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -124,6 +121,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
         setLoggedIn(true);
         playerList.add(new ClientPlayer(thisPlayersName));
         notifyListeners(new LoggedInEvent());
+        addChatEntry(new PlayerLoggedInMessage(thisPlayersName));
+
     }
 
     /**
