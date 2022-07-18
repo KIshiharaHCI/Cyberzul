@@ -93,16 +93,22 @@ public class GameModel extends CommonModel implements ModelStrategy {
     hasGameEnded = false;
     offerings = new ArrayList<>();
     setUpOfferings();
+    //players formerly set to AI-Players, will remain AI-Players
     for (Player player : playerList) {
       player.initializePatternLines();
       player.clearFloorline();
       player.clearWallPattern();
-      player.setAiPlayer(false);
       player.setPoints(0);
     }
     indexOfActivePlayer = 0;
 
     notifyListeners(new GameStartedEvent());
+
+    // if we restart the game and the first player is an AI-Player, he/she needs to start making
+    // a move
+    if (getPlayerByName(getNickOfActivePlayer()).isAiPlayer()) {
+      makeAiPlayerMakeMove(getNickOfActivePlayer());
+    }
   }
 
   @Override
