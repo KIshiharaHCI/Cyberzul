@@ -84,6 +84,23 @@ public class GameModel extends CommonModel implements ModelStrategy {
   }
 
   @Override
+  public void startSinglePlayerMode(int numberOfAiPlayers) {
+    //TODO @Marco implement body
+    ArrayList<String> aiPlayerList = new ArrayList<>();
+    String aiPlayer1 = "Mercury";
+    aiPlayerList.add(aiPlayer1);
+    String aiPlayer2 = "Quella";
+    aiPlayerList.add(aiPlayer2);
+    String aiPlayer3 = "Valdis";
+    aiPlayerList.add(aiPlayer3);
+    for (int i = 0; i < numberOfAiPlayers; i++) {
+      loginWithName(aiPlayerList.get(i));
+    }
+    startGame();
+
+  }
+
+  @Override
   public void restartGame() {
 
     TableCenter.getInstance().initializeContent();

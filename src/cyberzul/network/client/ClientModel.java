@@ -96,6 +96,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     connection.send(JsonMessage.placeTileInFloorLine());
   }
 
+  @Override
+  public void startSinglePlayerMode(int numberOfPlayers) {
+    //TODO @Nils implement body
+  }
+
   private synchronized ClientNetworkConnection getConnection() {
     return connection;
   }

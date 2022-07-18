@@ -135,4 +135,10 @@ public class GameController implements Controller {
   public boolean isGameStarted() {
     return model.isGameStarted();
   }
+
+  @Override
+  public void startSinglePlayerMode(int numberOfAiPlayers) {
+    model.startSinglePlayerMode(numberOfAiPlayers);
+  }
+
 }

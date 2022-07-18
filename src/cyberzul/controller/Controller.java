@@ -155,4 +155,11 @@ public interface Controller {
    * @return <code>true</code> if the game already started. <code>false</code> else.
    */
   boolean isGameStarted();
+
+  /**
+   * Starts a new Game with all AI-Players but the player who started the game.
+   *
+   * @param numberOfAiPlayers the number of players.
+   */
+  void startSinglePlayerMode(int numberOfAiPlayers);
 }
