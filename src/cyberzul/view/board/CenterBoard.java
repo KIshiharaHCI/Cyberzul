@@ -4,16 +4,11 @@ import cyberzul.controller.Controller;
 import cyberzul.model.Offering;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Image;
+
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.List;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 
 /**
  * The center of the table ("Tischmitte").
@@ -65,13 +60,11 @@ public class CenterBoard extends JPanel {
     boardAndPlatesAndTablePanel = new JPanel(new BorderLayout());
     boardAndPlatesAndTablePanel.setOpaque(false);
     setPlatesAndTableCenterPanel();
-    createActiveUserButtonsPanel();
     createNewPlatesPanel();
     createNewTableCenter();
     createNewPlayerBoard();
 
     add(boardAndPlatesAndTablePanel);
-    add(activeUserButtonsPanel);
   }
 
   private void createActiveUserButtonsPanel() {
@@ -145,9 +138,9 @@ public class CenterBoard extends JPanel {
     panelDimension =
         new Dimension((int) (panelDimension.width * 0.45), (int) (panelDimension.height * 0.94));
     topPanelDimension =
-        new Dimension((int) (panelDimension.width * 0.8), (int) (panelDimension.height * 0.45));
+        new Dimension((int) (panelDimension.width), (int) (panelDimension.height * 0.45));
     bottomPanelDimension =
-        new Dimension((int) (panelDimension.width * 0.8), (int) (panelDimension.height * 0.55));
+        new Dimension((int) (panelDimension.width), (int) (panelDimension.height * 0.55));
   }
 
   private void setProperties() {
