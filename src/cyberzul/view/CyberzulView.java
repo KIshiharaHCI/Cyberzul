@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final int FRAME_HEIGHT = 800;
   private final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
   private final double backgroundScaleFactor = 1;
+  public static Font customFont;
   private final String backgroundPath = "img/background.jpg";
   private final transient Model model;
   private final transient Controller controller;
@@ -69,8 +72,27 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setResizable(true);
 
     initializeWidgets();
+    initializeFont();
     addEventListeners();
     createView();
+  }
+
+  /**
+   * Initializes the custom font used in the package for writing names etc.
+   * Returned font is of default size
+   */
+  private void initializeFont() {
+    try {
+      //create the font to use.
+      customFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/Game Of Squids.otf"));
+      customFont.deriveFont(12f);
+      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+      //register the font
+      //IMPORTANT: always call .deriveFont(size) when using customFont
+      ge.registerFont(customFont);
+    } catch (IOException | FontFormatException e) {
+      e.printStackTrace();
+    }
   }
 
   private void initializeWidgets() {
