@@ -1,7 +1,7 @@
 package cyberzul.view.board;
 
+import javax.swing.*;
 import java.util.Map;
-import javax.swing.JLabel;
 
 public interface Tile {
 
@@ -21,7 +21,7 @@ public interface Tile {
           "orange tile", ORANGE_TILE_PATH,
           "starting player marker", STARTING_PLAYER_MARKER_PATH);
   int TILE_SIZE = 30;
-  int NORMAL_TILE_SIZE = 36;
+  int NORMAL_TILE_SIZE = 40;
   int SMALL_TILE_SIZE = 23;
 
   /**

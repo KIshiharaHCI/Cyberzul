@@ -5,16 +5,13 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.TableCenter;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * The tiles on the center of the table ("Tischmitte") (Center Board class).
@@ -67,7 +64,7 @@ public class TableCenterPanel extends JPanel {
    */
   private void setTableCenterPanelSize() {
     panelDimension =
-        new Dimension((int) (panelDimension.getWidth() * 0.4), (int) (panelDimension.getHeight()));
+        new Dimension((int) (panelDimension.getWidth() * 0.45), (int) (panelDimension.getHeight()));
     setMinimumSize(panelDimension);
     setMaximumSize(panelDimension);
   }
