@@ -76,11 +76,11 @@ public class TableCenter extends Offering {
 
   @Override
   public List<ModelTile> getContent() {
-    List<ModelTile> returnList = new ArrayList<>();
+    ArrayList<ModelTile> returnList = new ArrayList<>();
     for (ModelTile t : content) {
       returnList.add(t);
     }
-    return returnList;
+    return (List<ModelTile>) returnList.clone();
   }
 
   public void addStartPlayerMarker() {

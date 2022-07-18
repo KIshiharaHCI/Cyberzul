@@ -151,7 +151,7 @@ public class Player {
   }
 
   public void clearWallPattern() {
-    this.wallPattern = new WallBackgroundPattern();
+    this.wall = new boolean[5][5];
   }
 
   /**
@@ -269,12 +269,14 @@ public class Player {
     // does this Offering contain any tileable tiles?
     if (tiles.contains(ModelTile.STARTING_PLAYER_MARKER)) {
       if (tiles.size() == 1) {
+        LOGGER.info("Only SPM on this offering.");
         return false;
       } else {
         tile = tiles.get(indexOfTile);
       }
     } else {
       if (tiles.size() == 0) {
+        LOGGER.info("No tileable tiles on this offering.");
         return false;
       } else {
         tile = tiles.get(indexOfTile);

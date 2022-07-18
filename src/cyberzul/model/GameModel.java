@@ -25,12 +25,13 @@ import org.apache.logging.log4j.Logger;
  * this class and are either computed here or delegated to other backend classes.
  *
  * <p>Contains the playing field of the Azul game, the list of players and the list of offerings.
+ * </p>
  */
 public class GameModel extends CommonModel implements ModelStrategy {
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
-  private final int sleepTime = 100;
+  //private final static int sleepTime = 100;
   private final Random ran = new Random();
   private boolean hasGameEnded = false;
   private Offering currentOffering;
@@ -146,6 +147,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
         new NextPlayersTurnEvent(getNickOfActivePlayer(), nameOfPlayerWhoEndedHisTurn);
     notifyListeners(nextPlayersTurnEvent);
 
+
     // TODO: Check if SPM is used in the right way --> makes player be first in next round. @Marco
     // TODO: Fix bug, when 4 players are playing and more than one is AI player @Marco
     LOGGER.info(
@@ -183,13 +185,11 @@ public class GameModel extends CommonModel implements ModelStrategy {
    * @param nickOfAiPlayer the name of the active player.
    */
   private void makeAiPlayerMakeMove(String nickOfAiPlayer) {
-    // get not empty offerings
-    List<Offering> offeringsClone = getOfferings();
-    for (Offering offering : getOfferings()) {
-      if (offering.getContent().isEmpty()) {
-        if (!(offering instanceof TableCenter)) {
-          offeringsClone.remove(offering);
-        }
+    // get a List with the indizes of all non-empty Offerings on our offeringsList
+    List<Integer> nonEmptyOfferingIndizes = new ArrayList<>();
+    for (int i = 0; i < getOfferings().size(); i++) {
+      if (!getOfferings().get(i).getContent().isEmpty()) {
+        nonEmptyOfferingIndizes.add(i);
       }
     }
 
@@ -204,23 +204,33 @@ public class GameModel extends CommonModel implements ModelStrategy {
               + "make a turn. Game was restarted automatically.");
     } else {
       // get a random offering
-      int randomOfferingIndex = ran.nextInt(0, offeringsClone.size());
-      Offering randomOffering = offeringsClone.get(randomOfferingIndex);
+      int randomOfferingIndex = nonEmptyOfferingIndizes.get(
+          ran.nextInt(0, nonEmptyOfferingIndizes.size()));
+      Offering randomOffering = getOfferings().get(randomOfferingIndex);
 
       // get a random tile on that offering
       int offeringsSize = randomOffering.getContent().size();
       int randomOfferingTileIndex = ran.nextInt(0, offeringsSize);
+
+      //TODO! The problem seems to have evolved when we changed current offering to an index
+      // because the index on this list (the clone here) might be different from the actual index.
+
       notifyTileChosen(nickOfAiPlayer, randomOfferingTileIndex, randomOfferingIndex);
 
       Player activeAiPlayer = getPlayerByName(nickOfAiPlayer);
       // check all pattern lines from first to last if we can place the tile there
       for (int i = 0; i < activeAiPlayer.getPatternLines().length; i++) {
+        LOGGER.info("Is it possible to place a "
+            + randomOffering.getContent().get(randomOfferingTileIndex).toString()
+            + " on "
+            + "pattern line " + i + "? "
+            + activeAiPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex));
         if (activeAiPlayer.isValidPick(i, randomOffering, randomOfferingTileIndex)) {
           LOGGER.info(
               nickOfAiPlayer
                   + " tries to place a "
                   + randomOffering.getContent().get(randomOfferingTileIndex).toString()
-                  + " on pattern "
+                  + " (index: " + randomOfferingTileIndex + ") on pattern "
                   + "line "
                   + i);
           makeActivePlayerPlaceTile(i);
@@ -233,8 +243,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
           tileFallsDown();
         }
       }
-
-      //endTurn(); //<-- I think that was one endTurn() too much (Marco = I)
     }
   }
 
@@ -246,49 +254,37 @@ public class GameModel extends CommonModel implements ModelStrategy {
 
   @Override
   public void notifyTileChosen(String playerName, int indexOfTile, int offeringIndex) {
-    boolean thereIsValidPick = false;
     List<Offering> offeringsClone = getOfferings();
+    LOGGER.debug(playerName + " will be updating currentOffering now.");
     currentOffering = offeringsClone.get(offeringIndex);
+    LOGGER.debug("currentOffering is " + currentOffering.getContent());
     currentIndexOfTile = indexOfTile;
-    Player player = getPlayerByName(playerName);
-    // check for each line in the pattern lines if there is a valid pick
-    for (int line = 0; line < Player.NUMBER_OF_PATTERN_LINES; line++) {
-      if (player.isValidPick(line, currentOffering, indexOfTile)) {
-        thereIsValidPick = true;
-      }
-    }
-    // inform listeners if there is a valid pick, who the next player is
-    // if not: that there is not valid turn to make
-    if (thereIsValidPick) {
-      int indexOfNextPlayer = getIndexOfNextPlayer();
-      // Player nextPlayer = playerList.get(indexOfNextPlayer);
-      PlayerHasChosenTileEvent playerHasChosenTileEvent =
-          new PlayerHasChosenTileEvent(getNickOfActivePlayer());
-      notifyListeners(playerHasChosenTileEvent);
-    } else {
-      //These lines are triggered if there is no valid pick to make for a given tile
-      // --> has to be placed in the floor line (e.g. when the SPM is picked)
-      //NoValidTurnToMakeEvent noValidTurnToMakeEvent = new NoValidTurnToMakeEvent();
-      //notifyListeners(noValidTurnToMakeEvent);
-    }
+    LOGGER.debug("current tile on that offering is "
+        + currentOffering.getContent().get(currentIndexOfTile));
+    PlayerHasChosenTileEvent playerHasChosenTileEvent =
+        new PlayerHasChosenTileEvent(getNickOfActivePlayer());
+    notifyListeners(playerHasChosenTileEvent);
   }
 
   @Override
   public void makeActivePlayerPlaceTile(int rowOfPatternLine) {
     LOGGER.info(
         getNickOfActivePlayer()
-            + " tries to place a tile on patter line "
+            + " tries to place a " + currentOffering.getContent().get(currentIndexOfTile)
+            + " (index: " + currentIndexOfTile + ") on patter line "
             + rowOfPatternLine
             + ".");
     String nickActivePlayer = getNickOfActivePlayer();
     Player activePlayer = getPlayerByName(nickActivePlayer);
-    if (!activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile)) {
-      if(activePlayer.isAiPlayer()) {
-        LOGGER.debug(nickActivePlayer + " tried to place a tile, where it is not possible. "
+    if (!activePlayer.isValidPick(rowOfPatternLine, currentOffering, currentIndexOfTile)) {
+      if (activePlayer.isAiPlayer()) {
+        LOGGER.debug(nickActivePlayer + ", an AI-Player "
+            + "tried to place a tile, where it is not possible. "
             + "This should not happen, as it is checked before.");
       }
       notifyListeners(new IllegalTurnEvent());
     } else {
+      activePlayer.drawTiles(rowOfPatternLine, currentOffering, currentIndexOfTile);
       LOGGER.info(nickActivePlayer + " will end the turn now.");
       endTurn();
     }
