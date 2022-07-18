@@ -42,7 +42,7 @@ public class IconButton extends JButton {
     URL iconUrl = getClass().getClassLoader().getResource(iconPath);
     try {
       Image icon =
-          ImageIO.read(iconUrl).getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_DEFAULT);
+          ImageIO.read(iconUrl).getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
       this.setIcon(new ImageIcon(icon));
     } catch (Exception e) {
       e.printStackTrace();
@@ -53,6 +53,6 @@ public class IconButton extends JButton {
     this.setFocusPainted(false);
     this.setBorderPainted(false);
     this.setContentAreaFilled(false);
-    this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // Especially important
+    this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
   }
 }
