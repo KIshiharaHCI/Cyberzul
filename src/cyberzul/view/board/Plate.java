@@ -15,7 +15,7 @@ import java.util.List;
 public class Plate extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private static final int PLATE_SIZE = 100;
+  private static final int PLATE_SIZE = 90;
 
   private static final int spaceFromLeftAndTopInPxl = 13;
   private static final int SPACE_BETWEEN_TILES_IN_PXL = 4;
