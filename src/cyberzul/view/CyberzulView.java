@@ -85,7 +85,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     try {
       //create the font to use.
       customFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/Game Of Squids.otf"));
-      customFont.deriveFont(12f);
+      customFont = customFont.deriveFont(12f);
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
       //register the font
       //IMPORTANT: always call .deriveFont(size) when using customFont
