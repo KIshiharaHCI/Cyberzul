@@ -4,15 +4,20 @@ import cyberzul.controller.Controller;
 import cyberzul.model.Offering;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.io.Serial;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
-/**
- * The center of the table ("Tischmitte").
- */
+/** The center of the table ("Tischmitte"). */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
@@ -22,16 +27,12 @@ import java.util.List;
             + "an external source and the model is safe, we think it is ok to suppress "
             + "this warning.")
 public class CenterBoard extends JPanel {
-
-  private static final long serialVersionUID = 5L;
-  private static final int WIDTH = 1100;
-  private static final int HEIGHT = 780;
+  @Serial private static final long serialVersionUID = 5L;
   private final transient Controller controller;
   private final JPanel boardAndPlatesAndTablePanel;
   private final transient TileClickListener tileClickListener;
-  PlatesPanel platesPanel;
-  RankingBoard rankingBoard;
-  TableCenterPanel tableCenterPanel;
+  private PlatesPanel platesPanel;
+  private TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;
   private JPanel platesAndTableCenterPanel;
   private JPanel activeUserButtonsPanel;
@@ -91,38 +92,32 @@ public class CenterBoard extends JPanel {
     setButtonProperties(forfeitButton, "img/forfeit-button.png");
 
     forfeitButton.addActionListener(
-        event -> {
-          controller.replacePlayerByAi(controller.getNickOfActivePlayer());
-        });
+        event -> controller.replacePlayerByAi(controller.getNickOfActivePlayer()));
 
     cancelButton = new JButton();
     setButtonProperties(cancelButton, "img/cancel-button.png");
 
-    cancelButton.addActionListener(
-        event -> {
-          controller.cancelGameForAllPlayers();
-        });
+    cancelButton.addActionListener(event -> controller.cancelGameForAllPlayers());
 
     restartButton = new JButton();
     setButtonProperties(restartButton, "img/restart-button.png");
 
-    restartButton.addActionListener(
-        event -> {
-          controller.restartGame();
-        });
+    restartButton.addActionListener(event -> controller.restartGame());
   }
 
   /**
    * Loads the button image and sets it on the button and removes the background of the JButton.
    *
    * @param button the JButton to decorate
-   * @param path   file path for the custom button image
+   * @param path file path for the custom button image
    */
   private void setButtonProperties(JButton button, String path) {
     URL imgUrl1 = getClass().getClassLoader().getResource(path);
     ImageIcon img =
         new ImageIcon(
-            new ImageIcon(imgUrl1).getImage().getScaledInstance(140, 52, Image.SCALE_DEFAULT));
+            new ImageIcon(Objects.requireNonNull(imgUrl1))
+                .getImage()
+                .getScaledInstance(140, 52, Image.SCALE_DEFAULT));
     button.setIcon(img);
     button.setBorder(null);
     button.setContentAreaFilled(false);
@@ -136,8 +131,7 @@ public class CenterBoard extends JPanel {
    * Dimensions of the GameBoard.
    */
   private void computePanelSizes() {
-    panelDimension =
-        new Dimension((int) (panelDimension.width * 0.45), (int) (panelDimension.height));
+    panelDimension = new Dimension((int) (panelDimension.width * 0.45), panelDimension.height);
     topPanelDimension =
         new Dimension((int) (panelDimension.width), (int) (panelDimension.height * 0.38));
     bottomPanelDimension =
@@ -158,9 +152,7 @@ public class CenterBoard extends JPanel {
     boardAndPlatesAndTablePanel.add(platesAndTableCenterPanel, BorderLayout.NORTH);
   }
 
-  /**
-   * Used by Constructor and CyberzulView to create and add a new PlayerBoard panel.
-   */
+  /** Used by Constructor and CyberzulView to create and add a new PlayerBoard panel. */
   void createNewPlayerBoard() {
     currentPlayerBoard =
         new ActivePlayerBoard(
@@ -172,9 +164,7 @@ public class CenterBoard extends JPanel {
     boardAndPlatesAndTablePanel.add(currentPlayerBoard, BorderLayout.CENTER);
   }
 
-  /**
-   * Used by Constructor and CyberzulView to create and add a new Plates panel.
-   */
+  /** Used by Constructor and CyberzulView to create and add a new Plates panel. */
   void createNewPlatesPanel() {
     List<Offering> factoryDisplays =
         controller.getOfferings().subList(1, controller.getOfferings().size());
@@ -184,17 +174,13 @@ public class CenterBoard extends JPanel {
     platesAndTableCenterPanel.add(platesPanel, BorderLayout.CENTER);
   }
 
-  /**
-   * Used by Constructor and CyberzulView to create and add a new TableCenter panel.
-   */
+  /** Used by Constructor and CyberzulView to create and add a new TableCenter panel. */
   void createNewTableCenter() {
     tableCenterPanel = new TableCenterPanel(controller, tileClickListener, topPanelDimension);
     platesAndTableCenterPanel.add(tableCenterPanel, BorderLayout.EAST);
   }
 
-  /**
-   * Removes all Panels of the last player who ended their turn.
-   */
+  /** Removes all Panels of the last player who ended their turn. */
   public void removeAllPanels() {
     platesAndTableCenterPanel.remove(tableCenterPanel);
     platesAndTableCenterPanel.remove(platesPanel);

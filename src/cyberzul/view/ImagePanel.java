@@ -1,5 +1,6 @@
 package cyberzul.view;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.URL;
@@ -31,6 +32,7 @@ public class ImagePanel extends JPanel {
    * @param height      Basic height from which the scale should start.
    * @param scaleFactor The factor to make image larger to.
    */
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
   public ImagePanel(JPanel childPanel, String path, int width, int height, double scaleFactor) {
     this.childPanel = childPanel;
     this.path = path;

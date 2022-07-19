@@ -41,7 +41,7 @@ public class TableCenterPanel extends JPanel {
   private JLabel tableCenterImageLabel;
   private transient TableCenter tableCenter;
   private Dimension panelDimension;
-  private BufferedImage image;
+  private transient BufferedImage image;
 
   /**
    * Constructor for Table Center Panel.

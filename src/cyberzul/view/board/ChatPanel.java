@@ -16,16 +16,13 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
-/**
- * The Chat Panel at the right side of the GameBoard.
- */
+/** The Chat Panel at the right side of the GameBoard. */
 public class ChatPanel extends JPanel implements PropertyChangeListener {
 
   private static final int DEFAULT_HEIGHT = 300;
   private static final int INPUTFIELD_WIDTH = 20;
   private static final int INPUTFIELD_HEIGHT = 3;
-  @Serial
-  private static final long serialVersionUID = 13L;
+  @Serial private static final long serialVersionUID = 13L;
   private static final int defaultInset = 5;
   private JTextArea inputArea;
   private JScrollPane scrollPane;
@@ -34,17 +31,13 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private IconButton openChatButton;
   private JPanel chatButtonPanel;
 
-  /**
-   * create a new chat panel with the respective widgets.
-   */
+  /** create a new chat panel with the respective widgets. */
   public ChatPanel() {
     initializeWidgets();
     createChatPanel();
   }
 
-  /**
-   * Instantiate all ChatPanel widgets and specify config options where appropriate.
-   */
+  /** Instantiate all ChatPanel widgets and specify config options where appropriate. */
   private void initializeWidgets() {
 
     setOpaque(false);
@@ -55,41 +48,45 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
     scrollPane.setBackground(Color.DARK_GRAY);
     scrollPane.getViewport().setBackground(new Color(54, 51, 51));
-    scrollPane.setBorder(BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset));
+    scrollPane.setBorder(
+        BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset));
 
     inputArea = new JTextArea(INPUTFIELD_HEIGHT, INPUTFIELD_WIDTH);
     inputArea.setLineWrap(true);
     inputArea.setWrapStyleWord(true);
     inputArea.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-    inputArea.setFont(new Font("Dialog",Font.BOLD, 14));
+    inputArea.setFont(new Font("Dialog", Font.BOLD, 14));
     inputArea.setBackground(Color.black);
     inputArea.setForeground(Color.white);
-    inputArea.setBorder(BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset) );
+    inputArea.setBorder(
+        BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset));
 
     chatButtonPanel = new JPanel(null);
     chatButtonPanel.setPreferredSize(new Dimension(150, 25));
     chatButtonPanel.setBackground(Color.DARK_GRAY);
 
-    closeChatButton = new IconButton(chaticon,5, 5, 40,22);
-    closeChatButton.addActionListener(closeEvent -> {
-      chatButtonPanel.setOpaque(false);
-      scrollPane.setVisible(false);
-      inputArea.setVisible(false);
-      openChatButton.setVisible(true);
-      closeChatButton.setVisible(false);
-    });
+    closeChatButton = new IconButton(chaticon, 5, 5, 40, 22);
+    closeChatButton.addActionListener(
+        closeEvent -> {
+          chatButtonPanel.setOpaque(false);
+          scrollPane.setVisible(false);
+          inputArea.setVisible(false);
+          openChatButton.setVisible(true);
+          closeChatButton.setVisible(false);
+        });
     chatButtonPanel.add(closeChatButton);
 
-    openChatButton = new IconButton(chaticon,300, 5, 40,22);
+    openChatButton = new IconButton(chaticon, 300, 5, 40, 22);
     openChatButton.setHorizontalAlignment(JLabel.RIGHT);
     openChatButton.setVisible(false);
-    openChatButton.addActionListener(openEvent ->{
-      chatButtonPanel.setOpaque(true);
-      scrollPane.setVisible(true);
-      inputArea.setVisible(true);
-      openChatButton.setVisible(false);
-      closeChatButton.setVisible(true);
-    });
+    openChatButton.addActionListener(
+        openEvent -> {
+          chatButtonPanel.setOpaque(true);
+          scrollPane.setVisible(true);
+          inputArea.setVisible(true);
+          openChatButton.setVisible(false);
+          closeChatButton.setVisible(true);
+        });
     chatButtonPanel.add(openChatButton);
   }
 
@@ -99,11 +96,11 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     this.add(scrollPane, BorderLayout.CENTER);
     this.add(inputArea, BorderLayout.SOUTH);
   }
+
   @Override
   public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
     SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
   }
 
-  private void handleModelUpdate(PropertyChangeEvent event) {
-  }
+  private void handleModelUpdate(PropertyChangeEvent event) {}
 }

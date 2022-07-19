@@ -5,6 +5,7 @@ import cyberzul.model.Model;
 import cyberzul.model.events.*;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.listeners.TileClickListener;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +36,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final int FRAME_HEIGHT = 800;
   private final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
   private final double backgroundScaleFactor = 1;
-  public static Font customFont;
+  private static Font customFont;
   private final String backgroundPath = "img/background.jpg";
   private final transient Model model;
   private final transient Controller controller;
@@ -63,7 +64,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    * @param controller the controller that is used to communicate with the view.
    * @throws HeadlessException //TODO Kenji JavaDoc
    */
-  public CyberzulView(Model model, Controller controller) throws HeadlessException {
+  @SuppressFBWarnings({"EI_EXPOSE_REP2"})
+  public CyberzulView(final Model model, final Controller controller) throws HeadlessException {
     this.setTitle("Cyberzul");
     this.model = model;
     this.controller = controller;
@@ -435,5 +437,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    */
   private void showCard(String card) {
     layout.show(getContentPane(), card);
+  }
+
+  public static Font getCustomFont() {
+    return customFont;
   }
 }
