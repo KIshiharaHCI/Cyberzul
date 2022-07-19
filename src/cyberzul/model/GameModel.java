@@ -17,6 +17,7 @@ import cyberzul.model.events.RoundFinishedEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
 import java.util.function.LongBinaryOperator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +35,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
   //private final static int sleepTime = 100;
   private final Random ran = new Random();
+  //the timer because player has to make a move within 30 seconds
+  private Timer timer;
+  private static final int DELAYTIME = 30000;
+
   private boolean hasGameEnded = false;
   private Offering currentOffering;
   private int currentIndexOfTile;
@@ -81,11 +86,11 @@ public class GameModel extends CommonModel implements ModelStrategy {
       isGameStarted = true;
       notifyListeners(new GameStartedEvent());
     }
+    startTimerForPlayer(getNickOfActivePlayer());
   }
 
   @Override
   public void startSinglePlayerMode(int numberOfAiPlayers) {
-    //TODO @Marco implement body
     ArrayList<String> aiPlayerList = new ArrayList<>();
     String aiPlayer1 = "Mercury";
     aiPlayerList.add(aiPlayer1);
@@ -125,6 +130,8 @@ public class GameModel extends CommonModel implements ModelStrategy {
     // a move
     if (getPlayerByName(getNickOfActivePlayer()).isAiPlayer()) {
       makeAiPlayerMakeMove(getNickOfActivePlayer());
+    } else {
+      startTimerForPlayer(getNickOfActivePlayer());
     }
   }
 
@@ -156,11 +163,12 @@ public class GameModel extends CommonModel implements ModelStrategy {
   }
 
   private void endTurn() {
+    timer.cancel();
+    LOGGER.info("Timer was cancelled.");
     String nameOfPlayerWhoEndedHisTurn = getNickOfActivePlayer();
     boolean roundFinished = checkRoundFinished();
     indexOfActivePlayer = getIndexOfNextPlayer();
     if (roundFinished) {
-      RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       startTilingPhase();
       if (!hasGameEnded) {
         setUpOfferings();
@@ -168,11 +176,13 @@ public class GameModel extends CommonModel implements ModelStrategy {
       // no player has the SPM
       LOGGER.info("We are now resetting the player with the SPM.");
       playerList.get(getIndexOfPlayerWithSpm()).setHasStartingPlayerMarker(false);
+      RoundFinishedEvent roundFinishedEvent = new RoundFinishedEvent();
       notifyListeners(roundFinishedEvent);
     }
     NextPlayersTurnEvent nextPlayersTurnEvent =
         new NextPlayersTurnEvent(getNickOfActivePlayer(), nameOfPlayerWhoEndedHisTurn);
     notifyListeners(nextPlayersTurnEvent);
+    startTimerForPlayer(getNickOfActivePlayer());
 
 
     // TODO: Check if SPM is used in the right way --> makes player be first in next round. @Marco
@@ -354,5 +364,19 @@ public class GameModel extends CommonModel implements ModelStrategy {
       GameFinishedEvent gameFinishedEvent = new GameFinishedEvent(winnerName);
       notifyListeners(gameFinishedEvent);
     }
+  }
+
+  @Override
+  public void startTimerForPlayer(String playerName) {
+    timer = new Timer();
+    timer.schedule(
+        new java.util.TimerTask() {
+          @Override
+          public void run() {
+            makeAiPlayerMakeMove(playerName);
+          }
+        },
+        DELAYTIME
+    );
   }
 }

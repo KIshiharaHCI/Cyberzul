@@ -185,4 +185,9 @@ public class ModelStrategyChooser implements Model {
   public void startSinglePlayerMode(int numberOfAiPlayers) {
     strategy.startSinglePlayerMode(numberOfAiPlayers);
   }
+
+  @Override
+  public void startTimerForPlayer(String playerName) {
+    strategy.startTimerForPlayer(playerName);
+  }
 }

@@ -101,6 +101,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     //TODO @Nils implement body
   }
 
+  @Override
+  public void startTimerForPlayer(String playerName) {
+    //TODO @Nils implement body
+  }
+
   private synchronized ClientNetworkConnection getConnection() {
     return connection;
   }
