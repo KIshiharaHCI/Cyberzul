@@ -25,6 +25,8 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
     public Component getListCellRendererComponent(JList<? extends Message> list,
                                                   Message value, int index, boolean isSelected,
                                                   boolean cellHasFocus) {
+
+
         setBackground(list.getBackground());
         setForeground(list.getForeground());
 
@@ -41,6 +43,7 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
             setText(playerLeftMsg.getNickname() + " has left the chat.");
         }
         if (value instanceof PlayerLoggedInMessage playerLoggedInMsg) {
+            System.out.println("Xue join in chat.");
             setText("Chat joined as " + playerLoggedInMsg.getNickname() + ".");
         }
 

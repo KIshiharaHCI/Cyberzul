@@ -133,6 +133,7 @@ public class ClientNetworkConnection {
             case GAME_CANCELED -> model.handleGameCanceled(object.getString(JsonMessage.NICK_FIELD));
             case GAME_FORFEITED -> model.handleGameForfeited(object.getString(JsonMessage.NICK_FIELD));
             case MESSAGE -> handlePlayerTextMessage(object);
+            case CHEAT_MESSAGE -> handlePlayerNeedHelp(object);
             default -> throw new AssertionError("Unhandled message: " + object);
         }
     }
@@ -150,6 +151,12 @@ public class ClientNetworkConnection {
         String content = JsonMessage.getContent(jsonObject);
         model.addTextMessage(nickname, time, content);
     }
+
+    private void handlePlayerNeedHelp(JSONObject jsonObject) {
+        String content = JsonMessage.getContent(jsonObject);
+        model.postChatMessage(content);
+    }
+
 
 
 

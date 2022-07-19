@@ -230,6 +230,7 @@ public class ClientMessageHandler implements Runnable {
         if (content.equals("HELP")){
           String helpMessage = ChatMessageHandler.AZUL_STRATEGY.toString();
           JSONObject cheatMessage = JsonMessage.createCheatMessage(helpMessage);
+          System.out.println("xue");
           serverConnection.broadcast(this, cheatMessage);
         }
         JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
