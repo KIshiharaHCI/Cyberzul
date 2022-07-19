@@ -2,19 +2,19 @@ package cyberzul.view.board;
 
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Image;
+import java.io.Serial;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-/**
- * Represents a Factory Display on the view.
- */
+/** Represents a Factory Display on the view. */
 public class Plate extends JPanel {
-
-  private static final long serialVersionUID = 7526472295622776147L;
+  @Serial private static final long serialVersionUID = 7526472295622776147L;
   private static final int PLATE_SIZE = 90;
 
   private static final int spaceFromLeftAndTopInPxl = 13;
@@ -27,7 +27,7 @@ public class Plate extends JPanel {
   /**
    * Create one Plate.
    *
-   * @param plateId           the number with which the Plate can be identified.
+   * @param plateId the number with which the Plate can be identified.
    * @param tileClickListener the tile click listener
    */
   public Plate(int plateId, TileClickListener tileClickListener, List<ModelTile> content) {
@@ -74,6 +74,8 @@ public class Plate extends JPanel {
   private ImageIcon getResizedImageIcon(String path, int size) {
     URL imgUrl1 = getClass().getClassLoader().getResource(path);
     return new ImageIcon(
-        new ImageIcon(imgUrl1).getImage().getScaledInstance(size, size, Image.SCALE_DEFAULT));
+        new ImageIcon(Objects.requireNonNull(imgUrl1))
+            .getImage()
+            .getScaledInstance(size, size, Image.SCALE_DEFAULT));
   }
 }

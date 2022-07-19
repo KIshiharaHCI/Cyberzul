@@ -2,14 +2,18 @@ package cyberzul.view.board;
 
 import cyberzul.model.ModelTile;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * Wrapper Class for Tiles such as SourceTiles,DestinationTiles,WallTiles. Contains the base
@@ -29,8 +33,8 @@ public abstract class TileDecorator extends JPanel implements Tile {
    * Constructor to be called from subclasses. Used for initializing Image URL path and cell XY
    * coordinates in a given Component such as Plate, TableCenter, PatternLines, Wall.
    *
-   * @param col       X-Coordinate in given container
-   * @param row       Y-Coordinate in given container
+   * @param col X-Coordinate in given container
+   * @param row Y-Coordinate in given container
    * @param modelTile contains the tile color information.
    */
   public TileDecorator(int col, int row, ModelTile modelTile, int tileSize) {
@@ -104,7 +108,7 @@ public abstract class TileDecorator extends JPanel implements Tile {
   @Override
   @SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
-  //this class needs these references to these mutable objects.
+  // this class needs these references to these mutable objects.
   public JLabel getLabel() {
     return label;
   }

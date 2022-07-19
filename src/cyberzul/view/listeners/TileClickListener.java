@@ -23,7 +23,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Objects;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -35,9 +34,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
-/**
- * listens to what tile is clicked on and makes the model change accordingly.
- */
+/** listens to what tile is clicked on and makes the model change accordingly. */
 public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
   private final Controller controller;
@@ -54,8 +51,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   }
 
   /**
-   * The method is called when mouse is clicked.
-   * Override from {@link MouseAdapter}.
+   * The method is called when mouse is clicked. Override from {@link MouseAdapter}.
    *
    * @param e the event to be processed.
    */
@@ -137,7 +133,6 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         // showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
         source = null;
       }
-
     }
   }
 
@@ -199,7 +194,5 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
     } catch (UnsupportedAudioFileException | IOException e) {
       e.printStackTrace();
     }
-
   }
-
 }

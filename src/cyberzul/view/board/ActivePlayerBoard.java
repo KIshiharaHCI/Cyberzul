@@ -15,8 +15,7 @@ import javax.swing.Box;
 
 /** The PlayerBoard of the active player (at the lower center of the Gameboard). */
 public class ActivePlayerBoard extends PlayerBoard {
-  @Serial
-  private static final long serialVersionUID = 15L;
+  @Serial private static final long serialVersionUID = 15L;
   private final transient BufferedImage image;
 
   /**
@@ -41,7 +40,8 @@ public class ActivePlayerBoard extends PlayerBoard {
     try {
       URL imgUrl = getClass().getClassLoader().getResource("img/hud.png");
       image = ImageIO.read(Objects.requireNonNull(imgUrl));
-      image.getScaledInstance(panelDimension.width + 200, panelDimension.height + 200, Image.SCALE_SMOOTH);
+      image.getScaledInstance(
+          panelDimension.width + 200, panelDimension.height + 200, Image.SCALE_SMOOTH);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

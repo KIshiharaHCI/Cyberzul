@@ -6,20 +6,18 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-/**
- * This class should be used for example to avoid duplications in code.
- */
+/** This class should be used for example to avoid duplications in code. */
 public class ViewHelper {
 
   public static final int PADDING = 2;
 
   /**
-   * Sets properties to a line of {@link PatternLines} or {@link Wall}
+   * Sets properties to a line of {@link PatternLines} or {@link Wall}.
    *
-   * @param tileSize:   the size of a tile in the row.
-   * @param cols:       number of columns in a row.
-   * @param row:        number of the row.
-   * @param currentRow: the current JPanel for the row.
+   * @param tileSize the size of a tile in the row.
+   * @param cols number of columns in a row.
+   * @param row number of the row.
+   * @param currentRow the current JPanel for the row.
    */
   static void setPropertiesOfCurrentRow(int tileSize, int cols, int row, JPanel currentRow) {
     final int hgapOrVgap = 2;
@@ -39,7 +37,7 @@ public class ViewHelper {
   /**
    * Sets properties of {@link PatternLines}.
    *
-   * @param tileSize: the size of one tile that should be shown.
+   * @param tileSize the size of one tile that should be shown.
    */
   static void setProperties(int tileSize, int rows, int cols, JPanel panel) {
     // panel.setPreferredSize(new Dimension((tileSize + PADDING) * cols + PADDING,

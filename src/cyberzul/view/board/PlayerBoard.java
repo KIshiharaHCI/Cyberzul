@@ -14,7 +14,6 @@ import javax.swing.JPanel;
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
  * points and the minus points of each player.
  */
-
 public abstract class PlayerBoard extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
@@ -40,7 +39,7 @@ public abstract class PlayerBoard extends JPanel {
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
-  //this class needs these references to these mutable objects.
+  // this class needs these references to these mutable objects.
   public PlayerBoard(
       Controller controller,
       TileClickListener tileClickListener,
@@ -130,7 +129,7 @@ public abstract class PlayerBoard extends JPanel {
 
   @SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
-  //this class needs these references to these mutable objects.
+  // this class needs these references to these mutable objects.
   public FloorLinePanel getFloorLinePanel() {
     return floorLinePanel;
   }

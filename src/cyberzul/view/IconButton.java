@@ -1,18 +1,17 @@
 package cyberzul.view;
 
 import java.awt.Image;
+import java.io.Serial;
 import java.net.URL;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-/**
- * //TODO Kenji, Iurii.
- */
+/** //TODO Kenji, Iurii. */
 public class IconButton extends JButton {
-  private static final long serialVersionUID = 15L;
-
+  @Serial private static final long serialVersionUID = 15L;
 
   private final int xposition;
   private final int yposition;
@@ -42,7 +41,8 @@ public class IconButton extends JButton {
     URL iconUrl = getClass().getClassLoader().getResource(iconPath);
     try {
       Image icon =
-          ImageIO.read(iconUrl).getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
+          ImageIO.read(Objects.requireNonNull(iconUrl))
+              .getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
       this.setIcon(new ImageIcon(icon));
     } catch (Exception e) {
       e.printStackTrace();

@@ -6,18 +6,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serial;
 import java.net.URL;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-/**
- * TODO: Kenji, Iurii
- */
+/** TODO: Kenji, Iurii */
 public class SmallPlayerBoard extends PlayerBoard {
-
-  private static final long serialVersionUID = 14L;
-  private transient final BufferedImage image;
+  @Serial private static final long serialVersionUID = 14L;
+  private final transient BufferedImage image;
 
   /**
    * The constructor to create a playerboard for a given player.
