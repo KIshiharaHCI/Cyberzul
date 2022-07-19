@@ -14,11 +14,16 @@ import cyberzul.model.events.NoValidTurnToMakeEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
 import cyberzul.model.events.RoundFinishedEvent;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.function.LongBinaryOperator;
+import java.util.logging.FileHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,6 +48,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private Offering currentOffering;
   private int currentIndexOfTile;
 
+  private String hotSeatStory = "HotSeatStory is not yet set!";
+  private String networkStory = "NetworkStory is not yet set!";
+  private String singlePlayerStory = "SinglePlayerStory is not yet set!";
+
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
    * offerings.
@@ -51,6 +60,16 @@ public class GameModel extends CommonModel implements ModelStrategy {
     super();
     playerList = new ArrayList<>();
     offerings = new ArrayList<>();
+    Path pathhs = Path.of("res/txt/hotseatstory.txt");
+    Path pathn = Path.of("res/txt/networkstory.txt");
+    Path pathsps = Path.of("res/txt/singleplayerstory.txt");
+    try {
+      hotSeatStory = Files.readString(pathhs , StandardCharsets.UTF_8);
+      networkStory = Files.readString(pathn, StandardCharsets.UTF_8);
+      singlePlayerStory = Files.readString(pathsps, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -378,5 +397,20 @@ public class GameModel extends CommonModel implements ModelStrategy {
         },
         DELAYTIME
     );
+  }
+
+  @Override
+  public String getHotSeatStory() {
+    return hotSeatStory;
+  }
+
+  @Override
+  public String getNetworkStory() {
+    return networkStory;
+  }
+
+  @Override
+  public String getSinglePlayerStory() {
+    return singlePlayerStory;
   }
 }

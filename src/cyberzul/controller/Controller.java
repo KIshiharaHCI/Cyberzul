@@ -162,4 +162,11 @@ public interface Controller {
    * @param numberOfAiPlayers the number of players.
    */
   void startSinglePlayerMode(int numberOfAiPlayers);
+
+  String getHotSeatStory();
+
+  String getNetworkStory();
+
+  String getSinglePlayerStory();
+
 }
