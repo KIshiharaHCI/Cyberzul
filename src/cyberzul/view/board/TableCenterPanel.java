@@ -5,19 +5,13 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.TableCenter;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /** The tiles on the center of the table ("Tischmitte") (Center Board class). */
 @SuppressFBWarnings(
@@ -57,18 +51,10 @@ public class TableCenterPanel extends JPanel {
     this.tableCenter = (TableCenter) controller.getOfferings().get(0);
     this.tileList = new ArrayList<>();
     this.panelDimension = panelDimension;
-
-    setBackground(new Color(80, 145, 250, 130));
+    setOpaque(false);
     setTableCenterPanelSize();
     initialize(tileClickListener, tableCenter);
 
-    try {
-      URL imgUrl = getClass().getClassLoader().getResource("img/table-center.png");
-      image = ImageIO.read(Objects.requireNonNull(imgUrl));
-      image.getScaledInstance(panelDimension.width, panelDimension.height, Image.SCALE_DEFAULT);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   /**
@@ -78,8 +64,6 @@ public class TableCenterPanel extends JPanel {
   private void setTableCenterPanelSize() {
     panelDimension =
         new Dimension((int) (panelDimension.getWidth() * 0.45), (int) (panelDimension.getHeight()));
-    setMinimumSize(panelDimension);
-    setMaximumSize(panelDimension);
   }
 
   /**
@@ -89,8 +73,12 @@ public class TableCenterPanel extends JPanel {
    * @param tableCenter the instance of the table center.
    */
   public void initialize(TileClickListener tileClickListener, TableCenter tableCenter) {
+    setMinimumSize(panelDimension);
+    setMaximumSize(panelDimension);
+
     this.tableCenter = tableCenter;
-    tableCenterImageLabel = new JLabel(getResizedImageIcon("img/table-center.png"));
+    ImageIcon background = new TransparentImageIcon(getResizedImageIcon("img/table-center.png"), 0.5f);
+    tableCenterImageLabel = new JLabel(background);
     add(tableCenterImageLabel);
     tableCenterImageLabel.setBounds(
         0, 0, (int) panelDimension.getWidth(), (int) panelDimension.getHeight());

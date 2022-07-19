@@ -5,17 +5,12 @@ import cyberzul.view.IconButton;
 import cyberzul.view.ImagePanel;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -80,7 +75,7 @@ public class GameBoard extends JPanel {
     chatAndRankingBoardAndSettingPanel.setLayout(new BorderLayout());
     chatAndRankingBoardAndSettingPanel.setOpaque(false);
     Dimension chatAndRankingBoardAndButtonsPanelDimension =
-        new Dimension((int) (frameDimension.width * 0.26), (int) (frameDimension.height * 0.94));
+        new Dimension((int) (frameDimension.width * 0.26), (int) (frameDimension.height * 0.8));
     chatAndRankingBoardAndSettingPanel.setMinimumSize(chatAndRankingBoardAndButtonsPanelDimension);
     chatAndRankingBoardAndSettingPanel.setMaximumSize(chatAndRankingBoardAndButtonsPanelDimension);
     chatAndRankingBoardAndSettingPanel.setPreferredSize(
