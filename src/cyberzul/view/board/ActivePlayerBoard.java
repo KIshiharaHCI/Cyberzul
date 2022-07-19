@@ -41,8 +41,7 @@ public class ActivePlayerBoard extends PlayerBoard {
     try {
       URL imgUrl = getClass().getClassLoader().getResource("img/hud.png");
       image = ImageIO.read(Objects.requireNonNull(imgUrl));
-      image.getScaledInstance(
-          panelDimension.width + 200, panelDimension.height + 200, Image.SCALE_DEFAULT);
+      image.getScaledInstance(panelDimension.width + 200, panelDimension.height + 200, Image.SCALE_SMOOTH);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
