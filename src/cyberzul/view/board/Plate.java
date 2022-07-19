@@ -2,14 +2,12 @@ package cyberzul.view.board;
 
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
-import java.awt.Color;
-import java.awt.Image;
+
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * Represents a Factory Display on the view.
@@ -17,7 +15,7 @@ import javax.swing.JPanel;
 public class Plate extends JPanel {
 
   private static final long serialVersionUID = 7526472295622776147L;
-  private static final int PLATE_SIZE = 80;
+  private static final int PLATE_SIZE = 90;
 
   private static final int spaceFromLeftAndTopInPxl = 13;
   private static final int SPACE_BETWEEN_TILES_IN_PXL = 4;

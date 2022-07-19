@@ -5,16 +5,16 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.TableCenter;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.util.Objects;
 
 /**
  * The tiles on the center of the table ("Tischmitte") (Center Board class).
@@ -41,6 +41,7 @@ public class TableCenterPanel extends JPanel {
   private JLabel tableCenterImageLabel;
   private transient TableCenter tableCenter;
   private Dimension panelDimension;
+  private BufferedImage image;
 
   /**
    * Constructor for Table Center Panel.
@@ -59,6 +60,14 @@ public class TableCenterPanel extends JPanel {
     setOpaque(false);
     setTableCenterPanelSize();
     initialize(tileClickListener, tableCenter);
+
+    try {
+      URL imgUrl = getClass().getClassLoader().getResource("img/table-center.png");
+      image = ImageIO.read(Objects.requireNonNull(imgUrl));
+      image.getScaledInstance(panelDimension.width, panelDimension.height, Image.SCALE_DEFAULT);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -67,7 +76,7 @@ public class TableCenterPanel extends JPanel {
    */
   private void setTableCenterPanelSize() {
     panelDimension =
-        new Dimension((int) (panelDimension.getWidth() * 0.4), (int) (panelDimension.getHeight()));
+        new Dimension((int) (panelDimension.getWidth() * 0.45), (int) (panelDimension.getHeight()));
     setMinimumSize(panelDimension);
     setMaximumSize(panelDimension);
   }
@@ -86,8 +95,8 @@ public class TableCenterPanel extends JPanel {
         0, 0, (int) panelDimension.getWidth(), (int) panelDimension.getHeight());
     List<ModelTile> modelTiles = tableCenter.getContent();
     for (int i = 0; i < modelTiles.size(); i++) {
-      int col = i / 4 + 1;
-      int row = i % 4 + 1;
+      int col = i / 6 + 1;
+      int row = i % 6 + 1;
       SourceTile tile =
           new SourceTile(
               col, row, modelTiles.get(i), i, plateId, Tile.NORMAL_TILE_SIZE, tileClickListener);
@@ -126,9 +135,5 @@ public class TableCenterPanel extends JPanel {
     g2.drawImage(icon1.getImage(), 0, 0, panelDimension.width, panelDimension.height, null);
 
     return new ImageIcon(resizedimage);
-  }
-
-  public JLabel getTableCenterImageLabel() {
-    return tableCenterImageLabel;
   }
 }

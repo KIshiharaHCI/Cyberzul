@@ -2,14 +2,14 @@ package cyberzul.view.board;
 
 import cyberzul.controller.Controller;
 import cyberzul.view.listeners.TileClickListener;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
-import javax.imageio.ImageIO;
 
 /**
  * The PlayerBoard of the active player (at the lower center of the Gameboard).
@@ -36,11 +36,12 @@ public class ActivePlayerBoard extends PlayerBoard {
 
     setMaximumSize(panelDimension);
     setMinimumSize(panelDimension);
+    add(Box.createVerticalStrut(500));
 
     try {
       URL imgUrl = getClass().getClassLoader().getResource("img/hud.png");
       image = ImageIO.read(Objects.requireNonNull(imgUrl));
-      image.getScaledInstance(panelDimension.width, panelDimension.height, Image.SCALE_DEFAULT);
+      image.getScaledInstance(panelDimension.width + 200, panelDimension.height + 200, Image.SCALE_DEFAULT);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -49,6 +50,6 @@ public class ActivePlayerBoard extends PlayerBoard {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    g.drawImage(image, 0, 0, null);
+    g.drawImage(image, 80, 100, null);
   }
 }

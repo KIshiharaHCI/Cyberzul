@@ -43,6 +43,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private JTextField inputField;
   private JButton hotSeatModeButton;
   private JButton networkButton;
+  private JButton singlePlayerModeButton;
   private JButton addPlayerButton;
   private JButton playButton;
   private JButton testFourPlayersButton;
@@ -104,6 +105,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     networkButton = new JButton("Network Mode");
     networkButton.setContentAreaFilled(false);
     networkButton.setBorderPainted(false);
+    singlePlayerModeButton = new JButton();
     addPlayerButton = new JButton("+ Add Player");
     playButton = new JButton();
     playButton.setContentAreaFilled(false);
@@ -156,6 +158,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       //TODO: ONLY TESTING. THE NEXT TO LINES CAN BE DELETED.
       createHotSeatModeCard();
       showHsmCard();
+    });
+    singlePlayerModeButton.addActionListener(event -> {
+      //TODO: setstrategy
+      createSinglePlayerModeCard();
     });
     playButton.addActionListener(event -> {
       controller.startGame();
@@ -317,6 +323,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     modeButtons.setOpaque(false);
     modeButtons.add(hotSeatModeButton);
     modeButtons.add(networkButton);
+    modeButtons.add(singlePlayerModeButton);
     container.add(modeButtons);
     container.setOpaque(false);
 
@@ -353,7 +360,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, hotSeatModeCard);
   }
-
+  private void createSinglePlayerModeCard() {
+    setMinimumSize(frameDimension);
+    setMaximumSize(frameDimension);
+  }
   private void createNetworkModeCard() {
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);

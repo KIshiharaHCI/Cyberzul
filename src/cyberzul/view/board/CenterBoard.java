@@ -4,16 +4,11 @@ import cyberzul.controller.Controller;
 import cyberzul.model.Offering;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Image;
+
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.List;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 
 /**
  * The center of the table ("Tischmitte").
@@ -63,15 +58,15 @@ public class CenterBoard extends JPanel {
     setProperties();
 
     boardAndPlatesAndTablePanel = new JPanel(new BorderLayout());
+    boardAndPlatesAndTablePanel.setMinimumSize(panelDimension);
+    boardAndPlatesAndTablePanel.setMaximumSize(panelDimension);
     boardAndPlatesAndTablePanel.setOpaque(false);
     setPlatesAndTableCenterPanel();
-    createActiveUserButtonsPanel();
     createNewPlatesPanel();
     createNewTableCenter();
     createNewPlayerBoard();
 
     add(boardAndPlatesAndTablePanel);
-    add(activeUserButtonsPanel);
   }
 
   private void createActiveUserButtonsPanel() {
@@ -141,17 +136,15 @@ public class CenterBoard extends JPanel {
    * Dimensions of the GameBoard.
    */
   private void computePanelSizes() {
-    System.out.println(panelDimension.height);
     panelDimension =
-        new Dimension((int) (panelDimension.width * 0.45), (int) (panelDimension.height * 0.94));
+        new Dimension((int) (panelDimension.width * 0.45), (int) (panelDimension.height));
     topPanelDimension =
-        new Dimension((int) (panelDimension.width * 0.8), (int) (panelDimension.height * 0.45));
+        new Dimension((int) (panelDimension.width), (int) (panelDimension.height * 0.38));
     bottomPanelDimension =
-        new Dimension((int) (panelDimension.width * 0.8), (int) (panelDimension.height * 0.55));
+        new Dimension((int) (panelDimension.width), (int) (panelDimension.height * 0.45));
   }
 
   private void setProperties() {
-    // setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
     setMinimumSize(panelDimension);
     setMaximumSize(panelDimension);
     setOpaque(false);
@@ -196,7 +189,6 @@ public class CenterBoard extends JPanel {
    */
   void createNewTableCenter() {
     tableCenterPanel = new TableCenterPanel(controller, tileClickListener, topPanelDimension);
-    // platesPanel.setPreferredSize(new Dimension(1100, 10));
     platesAndTableCenterPanel.add(tableCenterPanel, BorderLayout.EAST);
   }
 

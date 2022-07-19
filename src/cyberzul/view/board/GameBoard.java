@@ -5,36 +5,26 @@ import cyberzul.view.IconButton;
 import cyberzul.view.ImagePanel;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JSlider;
-
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
  * and the factory displays.
  */
 public class GameBoard extends JPanel {
 
-  @Serial
-  private static final long serialVersionUID = 7526472295622776147L;
-  private final transient Controller controller;
-
-  private final CenterBoard center;
-  private JPanel settingsPanel = new JPanel(null);
+  @Serial private static final long serialVersionUID = 7526472295622776147L;
   private static final String soundButtonPath = "img/sound-button.png";
   private static final String menuButtonPath = "img/settings-button.png";
   private static final int iconButtonSize = 40;
+  private final transient Controller controller;
+  private final CenterBoard center;
   private final Dimension frameDimension;
+  private JPanel settingsPanel = new JPanel(null);
   private JPanel boardsOfOpponentsPanel;
   private RankingBoard rankingBoard;
   private transient List<PlayerBoard> otherPlayerBoards;
@@ -104,68 +94,55 @@ public class GameBoard extends JPanel {
     createSettingsPanel();
     rankingBoardAndSettingPanel.add(settingsPanel);
 
-    /**
-     * SettingPanel.
-     */
+    /** SettingPanel. */
 
-//    settingsPanel = new JPanel();
-//    settingsPanel.setLayout(null);
-//
-//
-//    settingsPanel.add(soundButton);
+    //    settingsPanel = new JPanel();
+    //    settingsPanel.setLayout(null);
+    //
+    //
+    //    settingsPanel.add(soundButton);
 
-//    final JPopupMenu menu = new JPopupMenu("Menu");
-//    JMenuItem firstItem = new JMenuItem("First item");
-//    firstItem.addActionListener(ae -> System.out.println("First menu item clicked"));
-//    menu.add(firstItem);
-//    menu.add(new JMenuItem("Second item"));
-//    menu.add(new JMenuItem("Third item"));
+    //    final JPopupMenu menu = new JPopupMenu("Menu");
+    //    JMenuItem firstItem = new JMenuItem("First item");
+    //    firstItem.addActionListener(ae -> System.out.println("First menu item clicked"));
+    //    menu.add(firstItem);
+    //    menu.add(new JMenuItem("Second item"));
+    //    menu.add(new JMenuItem("Third item"));
 
-
-//    settingsButton.addActionListener(
-//        ae -> menu.show(settingsButton, -iconButtonSize * 2, iconButtonSize / 2));
-//    settingsPanel.add(settingsButton);
-//
-//    settingsPanel.setOpaque(false);
+    //    settingsButton.addActionListener(
+    //        ae -> menu.show(settingsButton, -iconButtonSize * 2, iconButtonSize / 2));
+    //    settingsPanel.add(settingsButton);
+    //
+    //    settingsPanel.setOpaque(false);
     rankingBoardAndSettingPanel.add(settingsPanel);
 
     chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
 
-
-
-    /**
-     * Place for timer. TODO timer
-     */
-
+    /** Place for timer. TODO timer */
     JLabel tempLabel = new JLabel();
     tempLabel.setHorizontalAlignment(JLabel.LEFT);
-    tempLabel.setFont(new Font("Dialog",Font.BOLD, 30));
+    tempLabel.setFont(new Font("Dialog", Font.BOLD, 30));
     tempLabel.setText("place for timer");
     chatAndRankingBoardAndSettingPanel.add(tempLabel, BorderLayout.CENTER);
 
-
     ChatPanel chatPanel = new ChatPanel();
     chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
-
-
-
-
   }
 
-  /**
-   * Initialise all buttons for settingPanel.
-   */
-  private void initializeSettingWidgets(){
+  /** Initialise all buttons for settingPanel. */
+  private void initializeSettingWidgets() {
 
-    soundButton = new IconButton(soundButtonPath, 10, 80,
-        (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
+    soundButton =
+        new IconButton(
+            soundButtonPath, 10, 80, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
 
-    settingsButton = new IconButton(menuButtonPath, 10, 20,
-        (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
+    settingsButton =
+        new IconButton(
+            menuButtonPath, 10, 20, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
 
     settingsButton.addActionListener(ae -> menu.setVisible(true));
 
-    menu = new JPanel(new GridLayout(5,1));
+    menu = new JPanel(new GridLayout(5, 1));
     menu.setPreferredSize(new Dimension(150, 300));
     menu.setOpaque(false);
 
@@ -175,7 +152,7 @@ public class GameBoard extends JPanel {
     musicSound = new JSlider();
     musicSound.setSize(100, 18);
     musicSound.setOpaque(false);
-    //musicSoundLabel.add(musicSound);
+    // musicSoundLabel.add(musicSound);
 
     systemSound = new JSlider();
     systemSound.setSize(100, 30);
@@ -191,19 +168,18 @@ public class GameBoard extends JPanel {
     systemSoundPanel.setPreferredSize(new Dimension(105, 40));
     JLabel label = new JLabel();
     label.setSize(100, 18);
-    //label.setFont(ne);
+    // label.setFont(ne);
     label.setForeground(Color.white);
     label.setHorizontalAlignment(JLabel.CENTER);
     label.setText("system sound");
-    //systemSoundPanel.add(musicSoundLabel);
+    // systemSoundPanel.add(musicSoundLabel);
     systemSoundPanel.add(systemSound);
     systemSoundPanel.add(label);
 
-
-    forfeitButton = new IconButton( "img/forfeit-button.png", 0, 0, 105, 39);
+    forfeitButton = new IconButton("img/forfeit-button.png", 0, 0, 105, 39);
     cancelButton = new IconButton("img/cancel-button.png", 0, 0, 105, 39);
     restartButton = new IconButton("img/restart-button.png", 0, 0, 105, 39);
-    //menu.add(musicSoundLabel);
+    // menu.add(musicSoundLabel);
     menu.add(musicSound);
     menu.add(systemSoundPanel);
     menu.add(forfeitButton);
@@ -211,15 +187,14 @@ public class GameBoard extends JPanel {
     menu.add(restartButton);
   }
 
-
-  private void createSettingsPanel(){
+  private void createSettingsPanel() {
     initializeSettingWidgets();
     settingsPanel = new JPanel(new BorderLayout());
     settingsPanel.setOpaque(false);
     settingsPanel.add(menu, BorderLayout.CENTER);
     menu.setVisible(false);
     settingsPanel.add(settingsButton, BorderLayout.EAST);
-    //settingsPanel.add(soundButton, BorderLayout.EAST);
+    // settingsPanel.add(soundButton, BorderLayout.EAST);
 
   }
 
@@ -263,11 +238,9 @@ public class GameBoard extends JPanel {
   }
 
   /**
-   * Updates not current player boards.
-   * Searches the index of the current player in the list of all active players.
-   * Shows all the boards of players in this list after the current player and
-   * after that before the current player. In such a way the order of players is preserved.
-   *
+   * Updates not current player boards. Searches the index of the current player in the list of all
+   * active players. Shows all the boards of players in this list after the current player and after
+   * that before the current player. In such a way the order of players is preserved.
    */
   public void updateOtherPlayerBoards() {
 
