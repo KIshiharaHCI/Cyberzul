@@ -16,33 +16,44 @@ import cyberzul.view.board.SourceTile;
 import cyberzul.view.board.TableCenterPanel;
 import cyberzul.view.board.Tile;
 import cyberzul.view.board.TileAcceptor;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
-/**
- * listens to what tile is clicked on and makes the model change accordingly.
- */
+/** listens to what tile is clicked on and makes the model change accordingly. */
 public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
   private final Controller controller;
   private final Model model;
-  SourceTile source = null;
-  DestinationTile destination = null;
+  private SourceTile source = null;
+  private static Clip clip;
+  private static AudioInputStream audioInputStream;
+  private static final String placementSound = "audio/placementsound.wav";
 
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   public TileClickListener(Controller controller, Model model) {
     this.controller = controller;
     this.model = model;
   }
 
   /**
-   * TODO: Iurii - new javaDoc
+   * The method is called when mouse is clicked. Override from {@link MouseAdapter}.
    *
-   * @param e the event to be processed
+   * @param e the event to be processed.
    */
   @Override
   public void mouseClicked(MouseEvent e) {
@@ -55,8 +66,9 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   /**
    * Select the {@link Tile} from an {@link Offering}.
    *
-   * @param sourceTile: The {@link Tile} klicked on.
+   * @param sourceTile The {@link Tile} clicked on.
    */
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
   @Override
   public void visitOnClick(SourceTile sourceTile) {
     // second time click on the selected tile => unselect the tile
@@ -69,10 +81,8 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
       source.setBorder(BorderFactory.createEmptyBorder());
     }
     // select the current tile
-    source = sourceTile;
+    this.source = sourceTile;
     source.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-    // offerings, not factoryDisplays, because the first factory displays has id one not zero
-    List<Offering> offerings = controller.getOfferings();
     controller.chooseTileFrom(
         model.getNickOfActivePlayer(), source.getTileId(), source.getPlateId());
   }
@@ -83,7 +93,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   }
 
   /**
-   * place tile of the respective color if destination tile on pattern line was clicked
+   * place tile of the respective color if destination tile on pattern line was clicked.
    *
    * @param tileDestination - the source of the event if it is a destination tile
    */
@@ -95,6 +105,8 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
             + " and row "
             + tileDestination.getRow());
     if (source != null) {
+      playSystemSound(placementSound);
+      System.out.println("clip");
       // if the player is able to place the tile, place it
       if (tileDestination.getParent().getParent() instanceof FloorLinePanel) {
         controller.placeTileAtFloorLine();
@@ -121,9 +133,6 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
         // showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
         source = null;
       }
-
-    } else {
-      destination = tileDestination;
     }
   }
 
@@ -163,5 +172,27 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
    */
   private void showErrorMessage(String message) {
     JOptionPane.showMessageDialog(null, message, "Error!", JOptionPane.ERROR_MESSAGE);
+  }
+
+  private void playSystemSound(String soundPath) {
+
+    try {
+      URL soundUrl = getClass().getClassLoader().getResource(soundPath);
+      audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(soundUrl));
+      AudioFormat format = audioInputStream.getFormat();
+      DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+      try {
+        clip = (Clip) AudioSystem.getLine(info);
+        clip.open(audioInputStream);
+        clip.loop(0);
+        clip.start();
+      } catch (LineUnavailableException e) {
+        e.printStackTrace();
+      }
+      audioInputStream.close();
+    } catch (UnsupportedAudioFileException | IOException e) {
+      e.printStackTrace();
+    }
   }
 }

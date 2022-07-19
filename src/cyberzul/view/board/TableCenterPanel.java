@@ -5,20 +5,15 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.TableCenter;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-/**
- * The tiles on the center of the table ("Tischmitte") (Center Board class).
- */
+/** The tiles on the center of the table ("Tischmitte") (Center Board class). */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
@@ -41,13 +36,14 @@ public class TableCenterPanel extends JPanel {
   private JLabel tableCenterImageLabel;
   private transient TableCenter tableCenter;
   private Dimension panelDimension;
+  private transient BufferedImage image;
 
   /**
    * Constructor for Table Center Panel.
    *
-   * @param controller        the Controller given to CyberzulView
+   * @param controller the Controller given to CyberzulView
    * @param tileClickListener listener class to be used when creating SourceTiles
-   * @param panelDimension    Dimensions of the parent Panel PlayerBoardAndTablePanel
+   * @param panelDimension Dimensions of the parent Panel PlayerBoardAndTablePanel
    */
   public TableCenterPanel(
       Controller controller, TileClickListener tileClickListener, Dimension panelDimension) {
@@ -55,10 +51,10 @@ public class TableCenterPanel extends JPanel {
     this.tableCenter = (TableCenter) controller.getOfferings().get(0);
     this.tileList = new ArrayList<>();
     this.panelDimension = panelDimension;
-
     setOpaque(false);
     setTableCenterPanelSize();
     initialize(tileClickListener, tableCenter);
+
   }
 
   /**
@@ -67,27 +63,29 @@ public class TableCenterPanel extends JPanel {
    */
   private void setTableCenterPanelSize() {
     panelDimension =
-        new Dimension((int) (panelDimension.getWidth() * 0.4), (int) (panelDimension.getHeight()));
-    setMinimumSize(panelDimension);
-    setMaximumSize(panelDimension);
+        new Dimension((int) (panelDimension.getWidth() * 0.45), (int) (panelDimension.getHeight()));
   }
 
   /**
    * initializes the table center in the view in accordance with the model.
    *
    * @param tileClickListener listens to clicks on a tile.
-   * @param tableCenter       the instance of the table center.
+   * @param tableCenter the instance of the table center.
    */
   public void initialize(TileClickListener tileClickListener, TableCenter tableCenter) {
+    setMinimumSize(panelDimension);
+    setMaximumSize(panelDimension);
+
     this.tableCenter = tableCenter;
-    tableCenterImageLabel = new JLabel(getResizedImageIcon("img/table-center.png"));
+    ImageIcon background = new TransparentImageIcon(getResizedImageIcon("img/table-center.png"), 0.5f);
+    tableCenterImageLabel = new JLabel(background);
     add(tableCenterImageLabel);
     tableCenterImageLabel.setBounds(
         0, 0, (int) panelDimension.getWidth(), (int) panelDimension.getHeight());
     List<ModelTile> modelTiles = tableCenter.getContent();
     for (int i = 0; i < modelTiles.size(); i++) {
-      int col = i / 4 + 1;
-      int row = i % 4 + 1;
+      int col = i / 6 + 1;
+      int row = i % 6 + 1;
       SourceTile tile =
           new SourceTile(
               col, row, modelTiles.get(i), i, plateId, Tile.NORMAL_TILE_SIZE, tileClickListener);
@@ -116,19 +114,10 @@ public class TableCenterPanel extends JPanel {
    * @return ImageIcon with given width and height.
    */
   private ImageIcon getResizedImageIcon(String path) {
-    URL imgUrl = getClass().getClassLoader().getResource(path);
-    ImageIcon icon1 = new ImageIcon(imgUrl);
-    BufferedImage resizedimage =
-        new BufferedImage(panelDimension.width, panelDimension.height, BufferedImage.TYPE_INT_RGB);
-    Graphics2D g2 = resizedimage.createGraphics();
-    g2.setRenderingHint(
-        RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-    g2.drawImage(icon1.getImage(), 0, 0, panelDimension.width, panelDimension.height, null);
-
-    return new ImageIcon(resizedimage);
-  }
-
-  public JLabel getTableCenterImageLabel() {
-    return tableCenterImageLabel;
+    URL imgUrl1 = getClass().getClassLoader().getResource(path);
+    return new ImageIcon(
+        new ImageIcon(imgUrl1)
+            .getImage()
+            .getScaledInstance(panelDimension.width, panelDimension.height, Image.SCALE_DEFAULT));
   }
 }

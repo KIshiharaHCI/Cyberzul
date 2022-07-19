@@ -6,11 +6,12 @@ import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.Serial;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 public class Wall extends JPanel {
-
+  @Serial
   private static final long serialVersionUID = 7526472295622776147L;
   private static final int SMALL_TILE_SIZE = Tile.SMALL_TILE_SIZE;
   private static final int ROWS = 5;
@@ -22,12 +23,10 @@ public class Wall extends JPanel {
   private JPanel currentRow;
   // TODO: remove other players side panel methods
 
-  /**
-   * Constructor solely used to create other players side panel.
-   */
+  /** Constructor solely used to create other players side panel. */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
-  //this class needs these references to these mutable objects.
+  // this class needs these references to these mutable objects.
   public Wall(Controller controller) {
     this.controller = controller;
 
@@ -62,7 +61,7 @@ public class Wall extends JPanel {
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
-  //this class needs these references to these mutable objects.
+  // this class needs these references to these mutable objects.
   public Wall(
       String playerName, Controller controller, int tileSize, TileClickListener tileClickListener) {
     this.controller = controller;
