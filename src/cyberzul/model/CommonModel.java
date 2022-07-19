@@ -179,7 +179,14 @@ public abstract class CommonModel implements ModelStrategy {
 
   @Override
   public String getPlayerWithMostPoints() {
-    // TODO: What if two players have the same points?
+    // TODO: What if two players have the same points? --> we have adjusted the rules slightly.
+    // TODO: refactor to getWinner!
+    /*
+    The player with the most points on his/her score track wins the game.
+    In the case of a tie, the tied player with more complete horizontal lines wins the game.
+    If that does not break the tie, a player will be selected randomly.
+
+     */
     ArrayList<Integer> playerPoints = new ArrayList<>();
     for (Player player : playerList) {
       playerPoints.add(player.getPoints());
