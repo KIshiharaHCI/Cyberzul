@@ -34,9 +34,9 @@ public class TableCenterPanel extends JPanel {
   private static final int SPACE_BETWEEN_TILES_IN_PXL = 44;
   private static final int plateId = 0;
   private final transient Controller controller;
-  private final static int spaceFromTopEdgeInPxl = 13;
-  private final static int tableCenterSizeWidthInPxl = 1100;
-  private final static int tableCenterHeightInPxl = 260;
+  private static final int spaceFromTopEdgeInPxl = 13;
+  private static final int tableCenterSizeWidthInPxl = 1100;
+  private static final int tableCenterHeightInPxl = 260;
   private final transient List<SourceTile> tileList;
   private JLabel tableCenterImageLabel;
   private transient TableCenter tableCenter;

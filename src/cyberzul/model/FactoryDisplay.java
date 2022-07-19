@@ -2,11 +2,15 @@ package cyberzul.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * "Manufakturplaettchen" One of the two places the player can draw tiles from.
  */
 public class FactoryDisplay extends Offering {
+
+  private static final Logger LOGGER = LogManager.getLogger(FactoryDisplay.class);
 
   private static final int INITIAL_NUMBER_OF_TILES = 4;
   ArrayList<ModelTile> content;
@@ -46,16 +50,17 @@ public class FactoryDisplay extends Offering {
     }
     // delete the tiles from this Factory Display
     content = new ArrayList<>();
+    LOGGER.info("We have deleted tiles from an offering.");
 
     return returnedTiles;
   }
 
   @Override
   public List<ModelTile> getContent() {
-    List<ModelTile> returnList = new ArrayList<>();
+    ArrayList<ModelTile> returnList = new ArrayList<>();
     for (ModelTile t : content) {
       returnList.add(t);
     }
-    return returnList;
+    return (List<ModelTile>) returnList.clone();
   }
 }

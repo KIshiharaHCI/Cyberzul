@@ -40,7 +40,7 @@ public class ManipulableFactoryDisplay extends FactoryDisplay {
    * This method can be used to change the content of a Manipulable Factory Display. It uses an
    * array instead of List, because that way it's easier to set them up in the test classes.
    *
-   * @param tiles
+   * @param tiles the tiles that this FactoryDisplay should hold.
    */
   void manipulateContent(ModelTile[] tiles) {
     ArrayList<ModelTile> manipulatedContent = new ArrayList<>();
@@ -56,7 +56,7 @@ public class ManipulableFactoryDisplay extends FactoryDisplay {
    *
    * @param indexOfTheTile the index of the Tile that should be chosen, e.g. the first tile (Index
    *                       0)
-   * @return
+   * @return all tiles from this factory display that have the same color as the specified one.
    */
   @Override
   List<ModelTile> takeTileWithIndex(int indexOfTheTile) {

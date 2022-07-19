@@ -21,9 +21,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Handles the events that are fired from the GameModel to the Server.
- * <p>
- * Some messages are only broadcasted to the active player while others are broadcasted to
+ * Listens to the events that are fired from the GameModel to the Server, and handles them
+ * appropriately.
+ *
+ * <p>Some messages are only broadcasted to the active player while others are broadcasted to
  * everyone.
  */
 public class ModelPropertyChangeHandler implements PropertyChangeListener {
@@ -31,6 +32,13 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
   private final ServerNetworkConnection connection;
   private final Model model;
 
+  /**
+   * Start a ModelPropertyChangeHandler, that listens to the specified model and uses the specified
+   * ServerNetworkConnection in order to handle the events and send messages to the clients.
+   *
+   * @param connection the connection that is used to broadcast messages to clients.
+   * @param model      the GameModel that runs on the server and fires events to this object.
+   */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
   //this class needs these references to these mutable objects.
@@ -122,11 +130,11 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       playerObject.put(JsonMessage.NICK_FIELD, playerName);
       playerObject.put(JsonMessage.POINTS_FIELD, player.getPoints());
       playerObject.put(JsonMessage.PATTERN_LINES_FIELD,
-          JsonMessage.parsePatternLinesToJSONArray(player.getPatternLines()));
+          JsonMessage.parsePatternLinesToJsonArray(player.getPatternLines()));
       playerObject.put(JsonMessage.FLOOR_LINE_FIELD,
-          JsonMessage.parseFloorLineToJSONArray(player.getFloorLine()));
+          JsonMessage.parseFloorLineToJsonArray(player.getFloorLine()));
       playerObject.put(JsonMessage.WALL_FIELD,
-          JsonMessage.parsePatternLinesToJSONArray(model.getWallOfPlayer(playerName)));
+          JsonMessage.parsePatternLinesToJsonArray(model.getWallOfPlayer(playerName)));
       playerArray.put(playerObject);
     }
     return playerArray;
@@ -208,7 +216,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_FORFEITED);
       message.put(JsonMessage.NICK_FIELD, nameOfThePlayerWhoForfeited);
 
-      connection.handlerClosed(nameOfThePlayerWhoForfeited);
+      connection.removeHandlerFromList(nameOfThePlayerWhoForfeited);
       connection.broadcastToAll(message);
 
     } catch (JSONException | IOException e) {

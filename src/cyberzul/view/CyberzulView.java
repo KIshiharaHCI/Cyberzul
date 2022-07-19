@@ -252,7 +252,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showErrorMessage("successfully logged in");
       }
-      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
+      case ConnectedWithServerEvent.EVENT_NAME,
+          UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
           "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
@@ -284,7 +285,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "PlayerHasChosenTileEvent" -> {
         //TODO: FILL WITH FUNCTIONALITY
       }
-      case "NoValidTurnToMakeEvent" -> showErrorMessage("No Valied Turn to make");
+      case "NoValidTurnToMakeEvent" -> showErrorMessage("No valid turn to make");
       case GameForfeitedEvent.EVENT_NAME -> {
         GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
         showErrorMessage("Player " + gameForfeitedEvent.getForfeiter()

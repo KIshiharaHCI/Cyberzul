@@ -78,11 +78,11 @@ public class Wall extends JPanel {
       ViewHelper.setPropertiesOfCurrentRow(tileSize, COLS, ROWS, currentRow);
 
       for (int col = 0; col < COLS; col++) {
-        ModelTile tileXY = wall[row][col];
-        if (tileXY.equals(ModelTile.EMPTY_TILE)) {
+        ModelTile tilexy = wall[row][col];
+        if (tilexy.equals(ModelTile.EMPTY_TILE)) {
           currentRow.add(new WallTile(col, row, templateWall[row][col], tileSize, 0.3f));
         } else {
-          currentRow.add(new WallTile(col, row, tileXY, tileSize, 1f));
+          currentRow.add(new WallTile(col, row, tilexy, tileSize, 1f));
         }
       }
       add(currentRow);

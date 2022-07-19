@@ -2,6 +2,7 @@ package cyberzul.view.board;
 
 import cyberzul.controller.Controller;
 import cyberzul.view.IconButton;
+import cyberzul.view.ImagePanel;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -37,6 +38,7 @@ public class GameBoard extends JPanel {
   private IconButton restartButton;
   private JPanel systemSoundPanel;
   private JLabel musicSoundLabel;
+  private ImagePanel systemSoundBackGroundPanel;
 
   /**
    * Creates the main game panel which contains all other game elements.
@@ -157,9 +159,11 @@ public class GameBoard extends JPanel {
     systemSound.setOpaque(false);
 
     systemSoundPanel = new JPanel(new GridLayout(2, 1));
-    //    ImagePanel systemSoundBackGroundPanel =
-    //        new ImagePanel(systemSoundPanel, "img/tile-outline.png", 100,40,1);
-    //    add(systemSoundBackGroundPanel, systemSoundPanel);
+    add(systemSoundPanel);
+    systemSoundBackGroundPanel =
+        new ImagePanel(systemSoundPanel, "img/tile-outline.png", 100,40,1);
+    add(systemSound);
+    add(systemSoundBackGroundPanel);
     systemSoundPanel.setOpaque(false);
     systemSoundPanel.setPreferredSize(new Dimension(105, 40));
     JLabel label = new JLabel();

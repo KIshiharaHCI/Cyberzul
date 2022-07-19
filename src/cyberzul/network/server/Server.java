@@ -6,12 +6,21 @@ import cyberzul.model.Model;
 import cyberzul.model.ModelStrategyChooser;
 import java.io.IOException;
 
+/**
+ * The server on which the GameModel runs if the game is played on network mode.
+ * All clients connect to this server.
+ * The server starts a ServerNetworkConnection, in which the socket is waiting for clients to
+ * connect.
+ */
 public class Server {
 
   private static Server instance;
   private final Model gameModel;
   private ServerNetworkConnection connection;
 
+  /**
+   * The server on which the game runs and who distributes chat messages.
+   */
   private Server() {
     this.gameModel = new ModelStrategyChooser();
     gameModel.setStrategy(Model.GAME_MODEL);
