@@ -24,9 +24,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
@@ -39,12 +41,11 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
   private final Controller controller;
   private final Model model;
-  SourceTile source = null;
-  DestinationTile destination = null;
+  private SourceTile source = null;
+  private DestinationTile destination = null;
   public static Clip clip;
   public static AudioInputStream audioInputStream;
-  private static final String placementSound = "audio/placement-sound.mp3";
-  private static final String illegalTurnSound = "audio/illegal-turn-sound.mp3";
+  private static final String placementSound = "audio/placementsound.wav";
 
   public TileClickListener(Controller controller, Model model) {
     this.controller = controller;
@@ -52,9 +53,10 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   }
 
   /**
-   * TODO: Iurii - new javaDoc
+   * The method is called when mouse is clicked.
+   * Override from {@link MouseAdapter}.
    *
-   * @param e the event to be processed
+   * @param e the event to be processed.
    */
   @Override
   public void mouseClicked(MouseEvent e) {
@@ -67,7 +69,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   /**
    * Select the {@link Tile} from an {@link Offering}.
    *
-   * @param sourceTile: The {@link Tile} klicked on.
+   * @param sourceTile The {@link Tile} clicked on.
    */
   @Override
   public void visitOnClick(SourceTile sourceTile) {
@@ -95,7 +97,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   }
 
   /**
-   * place tile of the respective color if destination tile on pattern line was clicked
+   * place tile of the respective color if destination tile on pattern line was clicked.
    *
    * @param tileDestination - the source of the event if it is a destination tile
    */
@@ -179,28 +181,27 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
     JOptionPane.showMessageDialog(null, message, "Error!", JOptionPane.ERROR_MESSAGE);
   }
 
-  private void playSystemSound(String soundPath){
+  private void playSystemSound(String soundPath) {
 
     try {
       URL soundUrl = getClass().getClassLoader().getResource(soundPath);
       audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(soundUrl));
+      AudioFormat format = audioInputStream.getFormat();
+      DataLine.Info info = new DataLine.Info(Clip.class, format);
 
       try {
-        clip = AudioSystem.getClip();
+        clip = (Clip) AudioSystem.getLine(info);
         clip.open(audioInputStream);
-        clip.loop(20000);
+        clip.loop(0);
         clip.start();
-
       } catch (LineUnavailableException e) {
+        e.printStackTrace();
       }
-
+      audioInputStream.close();
     } catch (UnsupportedAudioFileException | IOException e) {
+      e.printStackTrace();
     }
-    clip.stop();
-  }
-
-  public void stop() {
-    clip.stop();
 
   }
+
 }
