@@ -24,7 +24,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
     private final List<Message> playerMessages;
 
-    private static final int MAX_LENGTH = 100;
+    private static final int MAX_LENGTH = 10;
 
 
     public ClientModel() {
@@ -121,7 +121,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
         setLoggedIn(true);
         playerList.add(new ClientPlayer(thisPlayersName));
         notifyListeners(new LoggedInEvent());
-        //addChatEntry(new PlayerLoggedInMessage(thisPlayersName));
+        addChatEntry(new PlayerLoggedInMessage(thisPlayersName));
     }
 
     /**

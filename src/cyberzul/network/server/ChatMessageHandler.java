@@ -6,7 +6,11 @@ import cyberzul.shared.JsonMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
@@ -15,7 +19,7 @@ import java.nio.charset.StandardCharsets;
  * Handles the chat messages that are send from the clients to the server.
  * */
 
-public class ChatMessageHandler extends ClientMessageHandler {
+public class ChatMessageHandler extends ClientMessageHandler implements Runnable {
 
   private static String nickname;
 
@@ -27,9 +31,9 @@ public class ChatMessageHandler extends ClientMessageHandler {
   private final BufferedWriter writer;
 
 
-    private static ServerNetworkConnection serverConnection;
+  private static ServerNetworkConnection serverConnection;
 
-  private static final String[] AZUL_STRATEGY = {
+  public static final String[] AZUL_STRATEGY = {
     "Azul - Strategy:",
     "Focus on Negative Points.    Azul is point based, which causes us to focus on the amount of points we are gaining.",
     "Forget About 5 of a Kind.    There is something inherently wrong with trying to place all 5 of the same color tile on your board.",
@@ -62,10 +66,10 @@ public class ChatMessageHandler extends ClientMessageHandler {
       ServerNetworkConnection serverConnection, Socket socket, Controller controller, Model model)
       throws IOException {
     super(serverConnection, socket, controller, model);
-      reader =
-              new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-      writer = new BufferedWriter(
-              new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
+    reader =
+            new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+    writer = new BufferedWriter(
+            new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
   }
 
     @Override
@@ -133,7 +137,7 @@ public class ChatMessageHandler extends ClientMessageHandler {
    * @param object A {@link JSONObject} containing the data for a post-message.
    * @throws IOException Thrown when failing to access the input- or output-stream.
    */
-  public void handleCheatMessage(JSONObject object) throws IOException {
+  private void handleCheatMessage(JSONObject object) throws IOException {
       if (nickname == null || nickname.isBlank()) {
           System.out.println("Please login before sending messages.");
       }

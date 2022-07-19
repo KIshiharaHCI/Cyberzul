@@ -148,7 +148,7 @@ public class ClientMessageHandler implements Runnable {
             }
             case RESTART_GAME -> controller.restartGame();
             case CANCEL_GAME -> controller.cancelGameForAllPlayers();
-            case CHEAT_MESSAGE -> new ChatMessageHandler(serverConnection, socket, controller, model).handleCheatMessage(object);
+            case CHEAT_MESSAGE -> new ChatMessageHandler(serverConnection, socket, controller, model).run();
             default -> throw new AssertionError("Unable to handle message " + object);
         }
     }
@@ -227,6 +227,11 @@ public class ClientMessageHandler implements Runnable {
         }
 
         String content = JsonMessage.getContent(object);
+        if (content.equals("HELP")){
+          String helpMessage = ChatMessageHandler.AZUL_STRATEGY.toString();
+          JSONObject cheatMessage = JsonMessage.createCheatMessage(helpMessage);
+          serverConnection.broadcast(this, cheatMessage);
+        }
         JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
         serverConnection.broadcast(this, message);
     }
