@@ -141,4 +141,19 @@ public class GameController implements Controller {
     model.startSinglePlayerMode(numberOfAiPlayers);
   }
 
+  @Override
+  public String getHotSeatStory() {
+    return model.getHotSeatStory();
+  }
+
+  @Override
+  public String getNetworkStory() {
+    return model.getNetworkStory();
+  }
+
+  @Override
+  public String getSinglePlayerStory() {
+    return model.getSinglePlayerStory();
+  }
+
 }

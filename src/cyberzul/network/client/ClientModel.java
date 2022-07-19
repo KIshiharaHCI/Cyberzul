@@ -24,6 +24,10 @@ import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.RoundFinishedEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.shared.JsonMessage;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -52,11 +56,25 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   private ClientNetworkConnection connection;
   private String thisPlayersName;
 
+  private String hotSeatStory = "HotSeatStory is not yet set!";
+  private String networkStory = "NetworkStory is not yet set!";
+  private String singlePlayerStory = "SinglePlayerStory is not yet set!";
+
   /**
    * Create a ClientModel and start a connection with the server.
    */
   public ClientModel() {
     super();
+    Path pathhs = Path.of("res/txt/hotseatstory.txt");
+    Path pathn = Path.of("res/txt/networkstory.txt");
+    Path pathsps = Path.of("res/txt/singleplayerstory.txt");
+    try {
+      hotSeatStory = Files.readString(pathhs , StandardCharsets.UTF_8);
+      networkStory = Files.readString(pathn, StandardCharsets.UTF_8);
+      singlePlayerStory = Files.readString(pathsps, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     this.connection = new ClientNetworkConnection(this);
     connection.start();
   }
@@ -491,5 +509,20 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    */
   public void handleGameForfeited(String playerWhoForfeitedTheGame) {
     notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
+  }
+
+  @Override
+  public String getHotSeatStory() {
+    return hotSeatStory;
+  }
+
+  @Override
+  public String getNetworkStory() {
+    return networkStory;
+  }
+
+  @Override
+  public String getSinglePlayerStory() {
+    return singlePlayerStory;
   }
 }

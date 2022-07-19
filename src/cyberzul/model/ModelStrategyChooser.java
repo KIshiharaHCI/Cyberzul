@@ -190,4 +190,19 @@ public class ModelStrategyChooser implements Model {
   public void startTimerForPlayer(String playerName) {
     strategy.startTimerForPlayer(playerName);
   }
+
+  @Override
+  public String getHotSeatStory() {
+    return strategy.getHotSeatStory();
+  }
+
+  @Override
+  public String getNetworkStory() {
+    return strategy.getNetworkStory();
+  }
+
+  @Override
+  public String getSinglePlayerStory() {
+    return strategy.getSinglePlayerStory();
+  }
 }

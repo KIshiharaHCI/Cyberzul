@@ -233,4 +233,10 @@ public interface ModelStrategy {
    * @param playerName the name of the player.
    */
   void startTimerForPlayer(String playerName);
+
+  String getHotSeatStory();
+
+  String getNetworkStory();
+
+  String getSinglePlayerStory();
 }
