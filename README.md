@@ -103,6 +103,7 @@ The player with the most points on his/her score track wins the game. In the cas
 The most important rule is to have fun playing the game!
 
 May Tilora, the goddess of home building and cyber tiling, be with you,
+
 Your Cybermasters - also known as Gang of Five
 
 P.S.: _Cyberzul_ is based on an even older, an ancient game, you might say, called Azul. Here are the  instructions for that game:
