@@ -32,9 +32,9 @@ public class Plate extends JPanel {
    */
   public Plate(int plateId, TileClickListener tileClickListener, List<ModelTile> content) {
     // setLayout(new GridLayout(1, 1));
-    setBackground(Color.black);
+
     plateImageLabel = new JLabel(getResizedImageIcon("img/manufacturing-plate.png", PLATE_SIZE));
-    // setOpaque(false);
+    setOpaque(false);
     add(plateImageLabel);
     // GridLayout plateLayout = new GridLayout(2, 2);
     plateImageLabel.setBounds(0, 0, PLATE_SIZE, PLATE_SIZE);

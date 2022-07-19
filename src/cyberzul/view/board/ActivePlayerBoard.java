@@ -50,6 +50,6 @@ public class ActivePlayerBoard extends PlayerBoard {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    g.drawImage(image, 80, 100, null);
+    g.drawImage(image, 60, 80, null);
   }
 }

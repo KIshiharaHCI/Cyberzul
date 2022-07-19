@@ -57,7 +57,7 @@ public class TableCenterPanel extends JPanel {
     this.tileList = new ArrayList<>();
     this.panelDimension = panelDimension;
 
-    setOpaque(false);
+    setBackground(new Color(80, 145, 250, 130));
     setTableCenterPanelSize();
     initialize(tileClickListener, tableCenter);
 
@@ -125,15 +125,8 @@ public class TableCenterPanel extends JPanel {
    * @return ImageIcon with given width and height.
    */
   private ImageIcon getResizedImageIcon(String path) {
-    URL imgUrl = getClass().getClassLoader().getResource(path);
-    ImageIcon icon1 = new ImageIcon(imgUrl);
-    BufferedImage resizedimage =
-        new BufferedImage(panelDimension.width, panelDimension.height, BufferedImage.TYPE_INT_RGB);
-    Graphics2D g2 = resizedimage.createGraphics();
-    g2.setRenderingHint(
-        RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-    g2.drawImage(icon1.getImage(), 0, 0, panelDimension.width, panelDimension.height, null);
-
-    return new ImageIcon(resizedimage);
+    URL imgUrl1 = getClass().getClassLoader().getResource(path);
+    return new ImageIcon(
+            new ImageIcon(imgUrl1).getImage().getScaledInstance(panelDimension.width, panelDimension.height, Image.SCALE_DEFAULT));
   }
 }
