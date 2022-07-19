@@ -3,7 +3,7 @@
 _Cyberzul -Mode: On!_
 
 We are in the early days of cyber civilization. The legendary Queen MaXIne has just visited our beloved Zulias for the very first time. 
-Awestruck by the interior beauty of the rectangular slab of baked bits and bytes (for simplicity we will refer to them as „tiles“) used in our home city, she decided to make it the center of her queendom. 
+Awestruck by the interior beauty of the rectangular slabs of baked bits and bytes (for simplicity we will refer to them as „tiles“) used in our home city, she decided to make it the center of her queendom. 
 A seemingly endless tiling phase has just begun! _Cyberzul_ is a game that not only allows all players to gain the skills to help her establish her empire and lead our civilization into a golden age.
 No! Beyond that, the winner will be honored by being allowed to help Queen MaXIne build her Cyber Palace with our beautiful cyber tiles!
 
