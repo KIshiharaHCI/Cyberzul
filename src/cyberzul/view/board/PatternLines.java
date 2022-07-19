@@ -6,16 +6,14 @@ import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 
-/**
- * //TODO: Kenji, Iurii
- */
+/** //TODO: Kenji, Iurii */
 public class PatternLines extends JPanel {
-
-  private static final long serialVersionUID = 7526472295622776147L;
+  @Serial private static final long serialVersionUID = 7526472295622776147L;
   private static final int DEFAULT_TILE_SIZE = 25;
   private static final int ROWS = 5;
   private static final int COLS = 5;
@@ -26,7 +24,7 @@ public class PatternLines extends JPanel {
 
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
-  //this class needs these references to these mutable objects.
+  // this class needs these references to these mutable objects.
   public PatternLines(Controller controller) {
     this.controller = controller;
     currentPatternLines =
@@ -56,13 +54,13 @@ public class PatternLines extends JPanel {
   /**
    * The constructor of {@link PatternLines}.
    *
-   * @param controller        The controller.
-   * @param tileSize          The size of the smallest element on the {@link PatternLines} board.
+   * @param controller The controller.
+   * @param tileSize The size of the smallest element on the {@link PatternLines} board.
    * @param tileClickListener The listener for click events.
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
-  //this class needs these references to these mutable objects.
+  // this class needs these references to these mutable objects.
   public PatternLines(
       String userName, Controller controller, int tileSize, TileClickListener tileClickListener) {
     this.controller = controller;
@@ -75,9 +73,9 @@ public class PatternLines extends JPanel {
   /**
    * Initializes all the components of the {@link PatternLines}.
    *
-   * @param tileSize          The size of the smallest element.
+   * @param tileSize The size of the smallest element.
    * @param tileClickListener The listener to react on click events on the {@link PatternLines}
-   *                          board.
+   *     board.
    */
   public void initialize(int tileSize, String userName, TileClickListener tileClickListener) {
     currentPatternLines = this.controller.getPatternLinesOfPlayer(userName);

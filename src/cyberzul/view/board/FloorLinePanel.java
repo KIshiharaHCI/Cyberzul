@@ -5,20 +5,18 @@ import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Dimension;
+import java.io.Serial;
 import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- * //TODO Kenji, Iurii.
- */
+/** //TODO Kenji, Iurii. */
 public class FloorLinePanel extends JPanel {
-
-  private static final long serialVersionUID = 4L;
+  @Serial private static final long serialVersionUID = 4L;
   private final transient Controller controller;
-  private final static int numberOfFloorTiles = 7;
+  private static final int numberOfFloorTiles = 7;
   private final transient TileClickListener tileClickListener;
   private final int tileSize;
   private JPanel contentBottom;
@@ -35,7 +33,7 @@ public class FloorLinePanel extends JPanel {
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
-  //this class needs these references to these mutable objects.
+  // this class needs these references to these mutable objects.
   public FloorLinePanel(
       String userName,
       Controller controller,
@@ -55,10 +53,8 @@ public class FloorLinePanel extends JPanel {
     panel.setOpaque(false);
     panel.setPreferredSize(
         new Dimension((tileSize + 2) * numberOfFloorTiles, (tileSize + 2) * rows));
-    panel.setMaximumSize(
-        new Dimension((tileSize + 2) * numberOfFloorTiles, (tileSize + 2) * rows));
-    panel.setMinimumSize(
-        new Dimension((tileSize + 2) * numberOfFloorTiles, (tileSize + 2) * rows));
+    panel.setMaximumSize(new Dimension((tileSize + 2) * numberOfFloorTiles, (tileSize + 2) * rows));
+    panel.setMinimumSize(new Dimension((tileSize + 2) * numberOfFloorTiles, (tileSize + 2) * rows));
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
     panel.setAlignmentX(1.0f);
     panel.setAlignmentY(1.0f);

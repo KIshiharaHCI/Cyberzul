@@ -5,12 +5,18 @@ import cyberzul.view.IconButton;
 import cyberzul.view.ImagePanel;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
  * and the factory displays.
@@ -94,7 +100,7 @@ public class GameBoard extends JPanel {
     createSettingsPanel();
     rankingBoardAndSettingPanel.add(settingsPanel);
 
-    /** SettingPanel. */
+    // SettingPanel
 
     //    settingsPanel = new JPanel();
     //    settingsPanel.setLayout(null);
@@ -118,7 +124,7 @@ public class GameBoard extends JPanel {
 
     chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
 
-    /** Place for timer. TODO timer */
+    /* Place for timer. TODO timer */
     JLabel tempLabel = new JLabel();
     tempLabel.setHorizontalAlignment(JLabel.LEFT);
     tempLabel.setFont(new Font("Dialog", Font.BOLD, 30));
@@ -161,7 +167,7 @@ public class GameBoard extends JPanel {
     systemSoundPanel = new JPanel(new GridLayout(2, 1));
     add(systemSoundPanel);
     systemSoundBackGroundPanel =
-        new ImagePanel(systemSoundPanel, "img/tile-outline.png", 100,40,1);
+        new ImagePanel(systemSoundPanel, "img/tile-outline.png", 100, 40, 1);
     add(systemSound);
     add(systemSoundBackGroundPanel);
     systemSoundPanel.setOpaque(false);

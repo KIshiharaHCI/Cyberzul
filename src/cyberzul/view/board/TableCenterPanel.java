@@ -5,20 +5,21 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.TableCenter;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-/**
- * The tiles on the center of the table ("Tischmitte") (Center Board class).
- */
+/** The tiles on the center of the table ("Tischmitte") (Center Board class). */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
@@ -41,14 +42,14 @@ public class TableCenterPanel extends JPanel {
   private JLabel tableCenterImageLabel;
   private transient TableCenter tableCenter;
   private Dimension panelDimension;
-  private BufferedImage image;
+  private transient BufferedImage image;
 
   /**
    * Constructor for Table Center Panel.
    *
-   * @param controller        the Controller given to CyberzulView
+   * @param controller the Controller given to CyberzulView
    * @param tileClickListener listener class to be used when creating SourceTiles
-   * @param panelDimension    Dimensions of the parent Panel PlayerBoardAndTablePanel
+   * @param panelDimension Dimensions of the parent Panel PlayerBoardAndTablePanel
    */
   public TableCenterPanel(
       Controller controller, TileClickListener tileClickListener, Dimension panelDimension) {
@@ -85,7 +86,7 @@ public class TableCenterPanel extends JPanel {
    * initializes the table center in the view in accordance with the model.
    *
    * @param tileClickListener listens to clicks on a tile.
-   * @param tableCenter       the instance of the table center.
+   * @param tableCenter the instance of the table center.
    */
   public void initialize(TileClickListener tileClickListener, TableCenter tableCenter) {
     this.tableCenter = tableCenter;
@@ -127,6 +128,8 @@ public class TableCenterPanel extends JPanel {
   private ImageIcon getResizedImageIcon(String path) {
     URL imgUrl1 = getClass().getClassLoader().getResource(path);
     return new ImageIcon(
-            new ImageIcon(imgUrl1).getImage().getScaledInstance(panelDimension.width, panelDimension.height, Image.SCALE_DEFAULT));
+        new ImageIcon(imgUrl1)
+            .getImage()
+            .getScaledInstance(panelDimension.width, panelDimension.height, Image.SCALE_DEFAULT));
   }
 }

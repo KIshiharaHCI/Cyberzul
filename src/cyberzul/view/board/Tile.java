@@ -1,7 +1,7 @@
 package cyberzul.view.board;
 
-import javax.swing.*;
 import java.util.Map;
+import javax.swing.JLabel;
 
 public interface Tile {
 

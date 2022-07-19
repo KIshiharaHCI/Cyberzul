@@ -4,22 +4,20 @@ import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.OnClickVisitor;
 import cyberzul.view.listeners.TileClickListener;
 import java.awt.Dimension;
+import java.io.Serial;
 
-/**
- * Tiles on the Pattern Line and the Floor Line.
- */
+/** Tiles on the Pattern Line and the Floor Line. */
 public class DestinationTile extends TileDecorator implements TileAcceptor {
-
-  private static final long serialVersionUID = 3L;
+  @Serial private static final long serialVersionUID = 3L;
 
   /**
-   * //TODO: Kenji & Iurii
+   * Constructor for the Pattern line and the floor line.
    *
-   * @param col
-   * @param row
-   * @param modelTile
-   * @param listener
-   * @param preferredTileSize
+   * @param col The col of the {@link DestinationTile}.
+   * @param row The row of the {@link DestinationTile}.
+   * @param modelTile The model {@link DestinationTile}.
+   * @param listener The {@link TileClickListener} to move the tiles.
+   * @param preferredTileSize the size to set the tile to.
    */
   public DestinationTile(
       int col, int row, ModelTile modelTile, TileClickListener listener, int preferredTileSize) {

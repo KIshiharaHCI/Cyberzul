@@ -2,15 +2,25 @@ package cyberzul.view;
 
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
-import cyberzul.model.events.*;
+import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.GameNotStartableEvent;
+import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.view.board.GameBoard;
+import cyberzul.view.panels.*;
 import cyberzul.view.listeners.TileClickListener;
-import cyberzul.view.panels.SinglePlayerPanel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
+import java.awt.HeadlessException;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -19,6 +29,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * //TODO: @Kenji @Iuriy --> Please create JavaDoc here.
@@ -37,7 +58,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final int FRAME_HEIGHT = 800;
   private final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
   private final double backgroundScaleFactor = 1;
-  public static Font customFont;
+  private static Font customFont;
   private final String backgroundPath = "img/background.jpg";
   private final transient Model model;
   private final transient Controller controller;
@@ -65,7 +86,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    * @param controller the controller that is used to communicate with the view.
    * @throws HeadlessException //TODO Kenji JavaDoc
    */
-  public CyberzulView(Model model, Controller controller) throws HeadlessException {
+  @SuppressFBWarnings({"EI_EXPOSE_REP2"})
+  public CyberzulView(final Model model, final Controller controller) throws HeadlessException {
     this.setTitle("Cyberzul");
     this.model = model;
     this.controller = controller;
@@ -88,7 +110,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     try {
       //create the font to use.
       customFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/Game Of Squids.otf"));
-      customFont.deriveFont(12f);
+      customFont = customFont.deriveFont(12f);
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
       //register the font
       //IMPORTANT: always call .deriveFont(size) when using customFont
@@ -363,6 +385,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, hotSeatModeCard);
   }
+
   private void createSinglePlayerModeCard() {
     JPanel singlePlayerModePanel = new SinglePlayerPanel(frameDimension);
     JPanel backgroundPanel = new ImagePanel(singlePlayerModePanel,backgroundPath, FRAME_WIDTH,
@@ -370,6 +393,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     add(backgroundPanel, SINGLEPLAYER_CARD);
 
   }
+
   private void createNetworkModeCard() {
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);
@@ -444,5 +468,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    */
   private void showCard(String card) {
     layout.show(getContentPane(), card);
+  }
+
+  public static Font getCustomFont() {
+    return customFont;
   }
 }

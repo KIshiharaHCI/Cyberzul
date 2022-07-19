@@ -8,16 +8,13 @@ import cyberzul.view.CyberzulView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Main class of the Cyberzul project. It starts the application.
- */
+/** Main class of the Cyberzul project. It starts the application. */
 public class CyberzulMain {
 
   private static final Logger LOGGER = LogManager.getLogger(CyberzulMain.class);
 
   /**
-   * Creates a new model, for which a strategy will be chosen, creates a controller
-   * and the view.
+   * Creates a new model, for which a strategy will be chosen, creates a controller and the view.
    *
    * @param args The command line arguments.
    */
