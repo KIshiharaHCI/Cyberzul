@@ -5,6 +5,7 @@ import cyberzul.model.Model;
 import cyberzul.model.events.*;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.listeners.TileClickListener;
+import cyberzul.view.panels.SinglePlayerPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +31,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final String LOGIN_CARD = "login";
   private static final String hotSeatModeCard = "hotseatmode";
   private static final String NETWORK_CARD = "networkmode";
+  private static final String SINGLEPLAYER_CARD = "singleplayermode";
   private static final String GAMEBOARD_CARD = "gameboard";
   private static final int FRAME_WIDTH = 1400;
   private static final int FRAME_HEIGHT = 800;
@@ -162,6 +164,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     singlePlayerModeButton.addActionListener(event -> {
       //TODO: setstrategy
       createSinglePlayerModeCard();
+      showSinglePlayerCard();
     });
     playButton.addActionListener(event -> {
       controller.startGame();
@@ -361,8 +364,11 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     add(backgroundPanel, hotSeatModeCard);
   }
   private void createSinglePlayerModeCard() {
-    setMinimumSize(frameDimension);
-    setMaximumSize(frameDimension);
+    JPanel singlePlayerModePanel = new SinglePlayerPanel(frameDimension);
+    JPanel backgroundPanel = new ImagePanel(singlePlayerModePanel,backgroundPath, FRAME_WIDTH,
+            FRAME_HEIGHT, backgroundScaleFactor);
+    add(backgroundPanel, SINGLEPLAYER_CARD);
+
   }
   private void createNetworkModeCard() {
     setMinimumSize(frameDimension);
@@ -388,6 +394,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
 
   private void showNetworkCard() {
     showCard(NETWORK_CARD);
+  }
+  private void  showSinglePlayerCard() {
+    showCard(SINGLEPLAYER_CARD);
   }
 
   /**
