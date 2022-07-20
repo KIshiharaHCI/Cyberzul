@@ -139,7 +139,7 @@ public class CenterBoard extends JPanel {
     Double topPanelHeight = panelDimension.height * 0.38;
     int topPanelHeightInt = topPanelHeight.intValue();
     topPanelDimension =
-        new Dimension(computePanelWidthInt, topPanelHeightInt);
+        new Dimension(panelDimension.width, topPanelHeightInt);
     bottomPanelDimension =
         new Dimension(panelDimension.width, computePanelWidthInt);
   }
