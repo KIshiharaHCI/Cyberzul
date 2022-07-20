@@ -9,7 +9,7 @@ import java.io.Serial;
 import java.net.URL;
 import java.util.Objects;
 
-public class NetworkPanel extends JPanel {
+public class NetworkPanel extends JLayeredPane {
     private transient BufferedImage image;
     private Dimension containerDimension;
     @Serial
