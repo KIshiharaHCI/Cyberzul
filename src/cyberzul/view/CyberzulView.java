@@ -406,7 +406,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     inputField = new JTextField(10);
     numberOfLoggedInPlayersLabel =
         new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
-    JLayeredPane networkModePanel = new NetworkPanel(frameDimension);
+    JLayeredPane networkModePanel = new NetworkPanel(controller, frameDimension);
     networkModePanel.add(numberOfLoggedInPlayersLabel);
     networkModePanel.add(pleaseEnterNameLabel);
     networkModePanel.add(inputField);
