@@ -186,6 +186,13 @@ public class GameBoard extends JPanel {
     forfeitButton = new IconButton("img/forfeit-button.png", 0, 0, 105, 39);
     cancelButton = new IconButton("img/cancel-button.png", 0, 0, 105, 39);
     restartButton = new IconButton("img/restart-button.png", 0, 0, 105, 39);
+
+
+    forfeitButton.addActionListener(
+        event -> controller.replacePlayerByAi(controller.getNickOfActivePlayer()));
+    cancelButton.addActionListener(event -> controller.cancelGameForAllPlayers());
+    restartButton.addActionListener(event -> controller.restartGame());
+
     // menu.add(musicSoundLabel);
     menu.add(musicSound);
     menu.add(systemSoundBackGroundPanel);
