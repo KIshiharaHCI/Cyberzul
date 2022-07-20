@@ -9,8 +9,8 @@ import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.view.board.GameBoard;
-import cyberzul.view.panels.*;
 import cyberzul.view.listeners.TileClickListener;
+import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -388,7 +388,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
 
   private void createSinglePlayerModeCard() {
     JPanel singlePlayerModePanel = new SinglePlayerPanel(frameDimension);
-    JPanel backgroundPanel = new ImagePanel(singlePlayerModePanel,backgroundPath, FRAME_WIDTH,
+    JPanel backgroundPanel = new ImagePanel(singlePlayerModePanel, backgroundPath, FRAME_WIDTH,
             FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, SINGLEPLAYER_CARD);
 
@@ -419,6 +419,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void showNetworkCard() {
     showCard(NETWORK_CARD);
   }
+
   private void  showSinglePlayerCard() {
     showCard(SINGLEPLAYER_CARD);
   }
