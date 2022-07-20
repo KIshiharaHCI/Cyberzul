@@ -4,15 +4,16 @@ import cyberzul.controller.Controller;
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.Dimension;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serial;
 import java.util.List;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-/** //TODO Kenji, Iurii. */
+/**
+ * A FloorLine of a given player.
+ * One of the destinations where Tiles can be placed.
+ */
 public class FloorLinePanel extends JPanel {
   @Serial private static final long serialVersionUID = 4L;
   private final transient Controller controller;
@@ -23,13 +24,13 @@ public class FloorLinePanel extends JPanel {
   private JPanel contentUpper;
 
   /**
-   * //TODO Kenji, Iurii.
+   * Constructor for a given FloorLine.
    *
-   * @param userName
-   * @param controller
-   * @param tileClickListener
-   * @param minusPoints
-   * @param tileSize
+   * @param userName name to be used when using the controller
+   * @param controller used to call getter of floorline
+   * @param tileClickListener used by Tiles to listen for mouseclick events
+   * @param minusPoints sets the minus points of a player
+   * @param tileSize Tilesize differs between ActivePlayerBoard and SmallPlayerBoard
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")

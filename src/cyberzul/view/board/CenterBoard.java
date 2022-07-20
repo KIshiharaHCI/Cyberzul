@@ -4,18 +4,11 @@ import cyberzul.controller.Controller;
 import cyberzul.model.Offering;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Image;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serial;
-import java.net.URL;
 import java.util.List;
-import java.util.Objects;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 
 /** The center of the table ("Tischmitte"). */
 @SuppressFBWarnings(
@@ -68,62 +61,6 @@ public class CenterBoard extends JPanel {
     createNewPlayerBoard();
 
     add(boardAndPlatesAndTablePanel);
-  }
-
-  private void createActiveUserButtonsPanel() {
-    activeUserButtonsPanel = new JPanel();
-    activeUserButtonsPanel.setAlignmentY(Box.BOTTOM_ALIGNMENT);
-    activeUserButtonsPanel.setLayout(new BoxLayout(activeUserButtonsPanel, BoxLayout.Y_AXIS));
-    activeUserButtonsPanel.setOpaque(false);
-    Dimension rightSideBarDimension =
-        new Dimension(panelDimension.width, (int) (panelDimension.height * 0.3));
-    setMaximumSize(rightSideBarDimension);
-    setMinimumSize(rightSideBarDimension);
-
-    // TODO: replace with Align Bottom for the buttons if it works
-    activeUserButtonsPanel.add(Box.createVerticalStrut(300));
-
-    initializeButtons();
-    add(activeUserButtonsPanel);
-  }
-
-  private void initializeButtons() {
-    forfeitButton = new JButton();
-    setButtonProperties(forfeitButton, "img/forfeit-button.png");
-
-    forfeitButton.addActionListener(
-        event -> controller.replacePlayerByAi(controller.getNickOfActivePlayer()));
-
-    cancelButton = new JButton();
-    setButtonProperties(cancelButton, "img/cancel-button.png");
-
-    cancelButton.addActionListener(event -> controller.cancelGameForAllPlayers());
-
-    restartButton = new JButton();
-    setButtonProperties(restartButton, "img/restart-button.png");
-
-    restartButton.addActionListener(event -> controller.restartGame());
-  }
-
-  /**
-   * Loads the button image and sets it on the button and removes the background of the JButton.
-   *
-   * @param button the JButton to decorate
-   * @param path file path for the custom button image
-   */
-  private void setButtonProperties(JButton button, String path) {
-    URL imgUrl1 = getClass().getClassLoader().getResource(path);
-    ImageIcon img =
-        new ImageIcon(
-            new ImageIcon(Objects.requireNonNull(imgUrl1))
-                .getImage()
-                .getScaledInstance(140, 52, Image.SCALE_DEFAULT));
-    button.setIcon(img);
-    button.setBorder(null);
-    button.setContentAreaFilled(false);
-
-    activeUserButtonsPanel.add(Box.createVerticalStrut(40));
-    activeUserButtonsPanel.add(button);
   }
 
   /**
@@ -197,7 +134,10 @@ public class CenterBoard extends JPanel {
     createNewTableCenter();
     createNewPlayerBoard();
   }
-
+  /**
+   * Used by TileClickListener to get the current instance of TableCenter.
+   * @return
+   */
   public TableCenterPanel getTableCenterPanel() {
     return tableCenterPanel;
   }

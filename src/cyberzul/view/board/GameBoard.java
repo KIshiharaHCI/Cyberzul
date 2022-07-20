@@ -68,6 +68,9 @@ public class GameBoard extends JPanel {
     add(center, BorderLayout.CENTER);
   }
 
+  /**
+   * Creates all of the sidebar widgets and instantiates Chat, Settings and Ranking Board.
+   */
   private void createChatAndRankingBoardAndSettingPanel() {
 
     // create the Panel with RankingBoard, SettingBoard and Chat.
@@ -188,6 +191,9 @@ public class GameBoard extends JPanel {
     menu.add(restartButton);
   }
 
+  /**
+   * adds the menu with default visibility set to false.
+   */
   private void createSettingsPanel() {
     initializeSettingWidgets();
     settingsPanel = new JPanel(new BorderLayout());

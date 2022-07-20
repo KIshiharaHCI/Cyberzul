@@ -1,8 +1,11 @@
 package cyberzul.view.board;
 
+import javax.swing.*;
 import java.util.Map;
-import javax.swing.JLabel;
 
+/**
+ * Enhanced interface for any Tile type.
+ */
 public interface Tile {
 
   String BLACK_TILE_PATH = "img/black-tile.png";

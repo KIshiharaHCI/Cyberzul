@@ -1,15 +1,15 @@
 package cyberzul.view;
 
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serial;
 import java.net.URL;
 import java.util.Objects;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
-/** //TODO Kenji, Iurii. */
+/**
+ * A JButton class used for setting buttons with Images and absolute sizing.
+ */
 public class IconButton extends JButton {
   @Serial private static final long serialVersionUID = 15L;
 
@@ -20,13 +20,13 @@ public class IconButton extends JButton {
   private String iconPath;
 
   /**
-   * //TODO Kenji, Iurii.
+   * Constructor of a IconButton.
    *
-   * @param path
-   * @param xposition
-   * @param yposition
-   * @param buttonWidth
-   * @param buttonHeight
+   * @param path for the ImageIcon to set
+   * @param xposition on the parent panel
+   * @param yposition on the parent panel
+   * @param buttonWidth width in px of the button
+   * @param buttonHeight height in px of the button
    */
   public IconButton(String path, int xposition, int yposition, int buttonWidth, int buttonHeight) {
     this.xposition = xposition;

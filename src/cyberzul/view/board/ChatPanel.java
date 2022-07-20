@@ -1,20 +1,12 @@
 package cyberzul.view.board;
 
 import cyberzul.view.IconButton;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+
+import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 
 /** The Chat Panel at the right side of the GameBoard. */
 public class ChatPanel extends JPanel implements PropertyChangeListener {
@@ -90,6 +82,9 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     chatButtonPanel.add(openChatButton);
   }
 
+  /**
+   * Sets the layout and adds the components to "this".
+   */
   private void createChatPanel() {
     this.setLayout(new BorderLayout());
     this.add(chatButtonPanel, BorderLayout.NORTH);
