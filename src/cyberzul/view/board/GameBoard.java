@@ -141,7 +141,7 @@ public class GameBoard extends JPanel {
         new IconButton(
             menuButtonPath, 10, 20, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
 
-    settingsButton.addActionListener(ae -> menu.setVisible(true));
+    settingsButton.addActionListener(ae -> menu.setVisible(!menu.isVisible()));
 
     menu = new JPanel(new GridLayout(5, 1));
     menu.setPreferredSize(new Dimension(150, 300));
@@ -160,11 +160,9 @@ public class GameBoard extends JPanel {
     systemSound.setOpaque(false);
 
     systemSoundPanel = new JPanel(new GridLayout(2, 1));
-    add(systemSoundPanel);
-    systemSoundBackGroundPanel =
-        new ImagePanel(systemSoundPanel, "img/tile-outline.png", 100, 40, 1);
-    add(systemSound);
-    add(systemSoundBackGroundPanel);
+   // add(systemSoundPanel);
+
+    //add(systemSoundBackGroundPanel);
     systemSoundPanel.setOpaque(false);
     systemSoundPanel.setPreferredSize(new Dimension(105, 40));
     JLabel label = new JLabel();
@@ -176,13 +174,16 @@ public class GameBoard extends JPanel {
     // systemSoundPanel.add(musicSoundLabel);
     systemSoundPanel.add(systemSound);
     systemSoundPanel.add(label);
+    systemSoundBackGroundPanel =
+        new ImagePanel(systemSoundPanel, "img/tile-outline.png", 100, 400, 1);
+    add(systemSoundBackGroundPanel);
 
     forfeitButton = new IconButton("img/forfeit-button.png", 0, 0, 105, 39);
     cancelButton = new IconButton("img/cancel-button.png", 0, 0, 105, 39);
     restartButton = new IconButton("img/restart-button.png", 0, 0, 105, 39);
     // menu.add(musicSoundLabel);
     menu.add(musicSound);
-    menu.add(systemSoundPanel);
+    menu.add(systemSoundBackGroundPanel);
     menu.add(forfeitButton);
     menu.add(cancelButton);
     menu.add(restartButton);
