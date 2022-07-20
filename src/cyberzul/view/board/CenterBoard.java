@@ -75,8 +75,10 @@ public class CenterBoard extends JPanel {
     activeUserButtonsPanel.setAlignmentY(Box.BOTTOM_ALIGNMENT);
     activeUserButtonsPanel.setLayout(new BoxLayout(activeUserButtonsPanel, BoxLayout.Y_AXIS));
     activeUserButtonsPanel.setOpaque(false);
+    Double rightSideBarHeight = panelDimension.height * 0.3;
+    int rightSideBarHeightInt = rightSideBarHeight.intValue();
     Dimension rightSideBarDimension =
-        new Dimension(panelDimension.width, (int) (panelDimension.height * 0.3));
+        new Dimension(panelDimension.width, rightSideBarHeightInt);
     setMaximumSize(rightSideBarDimension);
     setMinimumSize(rightSideBarDimension);
 
@@ -131,7 +133,9 @@ public class CenterBoard extends JPanel {
    * Dimensions of the GameBoard.
    */
   private void computePanelSizes() {
-    panelDimension = new Dimension((int) (panelDimension.width * 0.45), panelDimension.height);
+    Double computePanelWidth = panelDimension.width * 0.45;
+    int computePanelWidthInt = computePanelWidth.intValue();
+    panelDimension = new Dimension(computePanelWidthInt, panelDimension.height);
     topPanelDimension =
         new Dimension((int) (panelDimension.width), (int) (panelDimension.height * 0.38));
     bottomPanelDimension =

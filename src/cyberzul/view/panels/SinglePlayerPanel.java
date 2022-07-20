@@ -5,14 +5,18 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serial;
 import java.net.URL;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class SinglePlayerPanel extends JPanel {
-  private BufferedImage image;
+  private transient BufferedImage image;
   private Dimension containerDimension;
+  @Serial
+  private static final long serialVersionUID = 17L;
+
 
   public SinglePlayerPanel(Dimension frameDimension) {
 
