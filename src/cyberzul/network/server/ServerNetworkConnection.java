@@ -4,6 +4,7 @@ import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ import org.json.JSONObject;
  */
 public class ServerNetworkConnection {
 
+  private static final byte[] HOST = new byte[] {0, 0, 0, 0};
   private static final int PORT = 8080;
+  private static final int BACKLOG = 5;
 
   private final ExecutorService executorService;
 
@@ -64,7 +67,7 @@ public class ServerNetworkConnection {
     this.model = gameModel;
     this.controller = controller;
     executorService = Executors.newCachedThreadPool();
-    socket = new ServerSocket(PORT);
+    socket = new ServerSocket(PORT, BACKLOG, InetAddress.getByAddress(HOST));
     clientHandlers = Collections.synchronizedList(new ArrayList<>());
 
     modelPropertyChangeHandler = new ModelPropertyChangeHandler(this, model);
@@ -137,7 +140,7 @@ public class ServerNetworkConnection {
    *
    * @param nickname The name to be looked up.
    * @return <code>true</code> if no other client has taken this name, <code >false</code>
-   *         otherwise.
+   * otherwise.
    */
   public synchronized boolean tryLogIn(String nickname) {
     synchronized (clientHandlers) {

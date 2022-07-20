@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +25,7 @@ import org.json.JSONObject;
  */
 public class ClientNetworkConnection {
 
-  private static final String HOST = "localhost";
+  private static byte[] HOST;
   private static final int PORT = 8080;
 
   private final ClientModel model;
@@ -35,8 +36,9 @@ public class ClientNetworkConnection {
 
   //this class needs this reference to this mutable objects.
   @SuppressFBWarnings("EI_EXPOSE_REP2")
-  public ClientNetworkConnection(ClientModel model) {
+  public ClientNetworkConnection(ClientModel model, byte[] host) {
     this.model = model;
+    this.HOST = host;
   }
 
   /**
@@ -53,7 +55,7 @@ public class ClientNetworkConnection {
       while (!Thread.interrupted()) {
         Socket socket;
         try {
-          socket = new Socket(HOST, PORT);
+          socket = new Socket(InetAddress.getByAddress(HOST), PORT);
         } catch (ConnectException connectException) {
           if (connectException.getMessage().equals("Connection refused: connect")) {
             Server.start();

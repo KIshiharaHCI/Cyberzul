@@ -75,7 +75,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    this.connection = new ClientNetworkConnection(this);
+    this.connection =
+        new ClientNetworkConnection(this, new byte[] {0x0a, (byte) 0xb5, (byte) 0x8d, (byte) 0xaa});
     connection.start();
   }
 
@@ -313,7 +314,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Update the content of the PatternLines of the specified player.
    *
    * @param newPatternLines the up-to-date content of the PatternLines.
-   * @param player the player whose PatternLines get updated.
+   * @param player          the player whose PatternLines get updated.
    */
   private void updatePatternLines(JSONArray newPatternLines, ClientPlayer player) {
     try {
@@ -335,7 +336,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Update the content of the wall of the specified player.
    *
    * @param newWallMessage the up-to-date content of the wall.
-   * @param player the player whose wall gets updated.
+   * @param player         the player whose wall gets updated.
    */
   private void updateWall(JSONArray newWallMessage, ClientPlayer player) {
     try {
@@ -358,7 +359,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Update the number of points that the specified player has right now.
    *
    * @param newPoints number of points.
-   * @param player the player whose points get updated.
+   * @param player    the player whose points get updated.
    */
   private void updatePoints(int newPoints, ClientPlayer player) {
     player.setPoints(newPoints);
@@ -368,7 +369,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Update the content of the FloorLine of the specified player.
    *
    * @param newFloorLine the up-to-date content of the FloorLine of this player.
-   * @param player the player whose FloorLine gets updated.
+   * @param player       the player whose FloorLine gets updated.
    */
   private void updateFloorLine(JSONArray newFloorLine, ClientPlayer player) {
     try {
