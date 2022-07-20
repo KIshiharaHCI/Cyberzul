@@ -6,6 +6,7 @@ import cyberzul.model.events.*;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.board.MusicPlayerHelper;
 import cyberzul.view.listeners.TileClickListener;
+import cyberzul.view.panels.NetworkPanel;
 import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
@@ -104,7 +105,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       customFont = customFont.deriveFont(12f);
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
       //register the font
-      //IMPORTANT: always call .deriveFont(size) when using customFont
+      //IMPORTANT: call .deriveFont(size) when not using default font size 12f
       ge.registerFont(customFont);
     } catch (IOException | FontFormatException e) {
       e.printStackTrace();
@@ -121,6 +122,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     networkButton.setContentAreaFilled(false);
     networkButton.setBorderPainted(false);
     singlePlayerModeButton = new JButton();
+    singlePlayerModeButton.setContentAreaFilled(false);
+    singlePlayerModeButton.setBorderPainted(false);
     addPlayerButton = new JButton("+ Add Player");
     playButton = new JButton();
     playButton.setContentAreaFilled(false);
@@ -152,6 +155,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     icon = new ImageIcon(Objects.requireNonNull(resource));
     networkButton.setIcon(icon);
 
+    resource = getClass().getClassLoader().getResource("img/singleplayer-button.png");
+    icon = new ImageIcon(Objects.requireNonNull(resource));
+    singlePlayerModeButton.setIcon(icon);
+
     resource = getClass().getClassLoader().getResource("img/start-game-button.png");
     icon = new ImageIcon(Objects.requireNonNull(resource));
     playButton.setIcon(icon);
@@ -171,8 +178,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       model.setStrategy(Model.CLIENT_MODEL);
 
       //TODO: ONLY TESTING. THE NEXT TO LINES CAN BE DELETED.
-      createHotSeatModeCard();
-      showHsmCard();
+      createNetworkModeCard();
+      showNetworkCard();
     });
     singlePlayerModeButton.addActionListener(event -> {
       //TODO: setstrategy
@@ -335,26 +342,20 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     panel.setMaximumSize(frameDimension);
     setContentPane(panel);
 
-    JPanel login = new JPanel(new GridLayout(2, 1));
+    JPanel login = new JPanel(null);
     login.setMinimumSize(frameDimension);
     login.setMaximumSize(frameDimension);
-    login.add(gameLogoLabel);
 
-    JPanel container = new JPanel();
-    container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-    container.add(selectModeLabel);
-    JPanel modeButtons = new JPanel();
-    modeButtons.setOpaque(false);
-    modeButtons.add(hotSeatModeButton);
-    modeButtons.add(networkButton);
-    modeButtons.add(singlePlayerModeButton);
-    container.add(modeButtons);
-    container.setOpaque(false);
+    singlePlayerModeButton.setBounds(235, 450, 200, 80);
+    hotSeatModeButton.setBounds(590, 450, 200,80);
+    networkButton.setBounds(940,450,200, 80);
+    login.add(hotSeatModeButton);
+    login.add(networkButton);
+    login.add(singlePlayerModeButton);
 
-    login.add(container);
 
-    JPanel backgroundPanel = new ImagePanel(login, backgroundPath, FRAME_WIDTH, FRAME_HEIGHT,
-        backgroundScaleFactor);
+    JPanel backgroundPanel = new ImagePanel(login, "img/startbackground.jpg", FRAME_WIDTH, FRAME_HEIGHT,
+        1);
     add(backgroundPanel, LOGIN_CARD);
 
   }
@@ -399,7 +400,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     inputField = new JTextField(10);
     numberOfLoggedInPlayersLabel =
         new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
-    JPanel networkModePanel = new JPanel();
+    JPanel networkModePanel = new NetworkPanel(frameDimension);
     networkModePanel.add(numberOfLoggedInPlayersLabel);
     networkModePanel.add(pleaseEnterNameLabel);
     networkModePanel.add(inputField);

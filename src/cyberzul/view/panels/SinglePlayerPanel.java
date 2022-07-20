@@ -1,16 +1,17 @@
 package cyberzul.view.panels;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
 import java.util.Objects;
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
+/**
+ * Lobby Screen after selecting Single Player Mode
+ */
 public class SinglePlayerPanel extends JPanel {
   private transient BufferedImage image;
   private Dimension containerDimension;
@@ -35,7 +36,7 @@ public class SinglePlayerPanel extends JPanel {
         g.drawImage(image, 0, 0, null);
         }
       };
-    container.setBounds(130, 80, containerDimension.width, containerDimension.height);
+    container.setBounds(200, 80, containerDimension.width, containerDimension.height);
     container.setOpaque(false);
     add(container);
 
