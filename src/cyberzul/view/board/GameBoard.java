@@ -45,6 +45,7 @@ public class GameBoard extends JPanel {
   private JPanel systemSoundPanel;
   private JLabel musicSoundLabel;
   private ImagePanel systemSoundBackGroundPanel;
+  private MusicPlayerHelper musicPlayerHelper;
 
   /**
    * Creates the main game panel which contains all other game elements.
@@ -57,7 +58,7 @@ public class GameBoard extends JPanel {
   @SuppressWarnings(value = "EI_EXPOSE_REP")
   // this class needs these references to these mutable objects.
   public GameBoard(
-      TileClickListener tileClickListener, Controller controller, Dimension frameDimension) {
+      TileClickListener tileClickListener, Controller controller, Dimension frameDimension, MusicPlayerHelper musicPlayerHelper) {
 
     this.controller = controller;
     this.frameDimension = frameDimension;
@@ -71,6 +72,7 @@ public class GameBoard extends JPanel {
 
     center = new CenterBoard(controller, tileClickListener, frameDimension);
     add(center, BorderLayout.CENTER);
+    this.musicPlayerHelper = musicPlayerHelper;
   }
 
   /**

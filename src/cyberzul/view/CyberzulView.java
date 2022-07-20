@@ -4,6 +4,7 @@ import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.model.events.*;
 import cyberzul.view.board.GameBoard;
+import cyberzul.view.board.MusicPlayerHelper;
 import cyberzul.view.listeners.TileClickListener;
 import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -59,6 +60,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private transient TileClickListener tileClickListener;
   private GameBoard gameBoard;
 
+  private MusicPlayerHelper musicPlayerHelper;
+
   /**
    * Create the Graphical User Interface of Azul.
    *
@@ -71,6 +74,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     this.setTitle("Cyberzul");
     this.model = model;
     this.controller = controller;
+    musicPlayerHelper = new MusicPlayerHelper();
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);
@@ -81,6 +85,13 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     addEventListeners();
     createView();
   }
+
+//  @Override
+//  public void dispose() {
+//    this.musicPlayerHelper.stopBackgroundMusic();
+//    this.musicPlayerHelper.closeAllOfMusicPlayer();
+//    super.dispose();
+//  }
 
   /**
    * Initializes the custom font used in the package for writing names etc.
@@ -247,6 +258,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         updateOtherPlayerBoards();
       }
       case "NextPlayersTurnEvent" -> {
+        this.musicPlayerHelper.playTilePlacedMusic();
         updateCenterBoard();
         updateOtherPlayerBoards();
         updateRankingBoard();
@@ -277,6 +289,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         showErrorMessage("User " + playerHasEndedTheGameEvent.getEnder() + " won.");
       }
       case "IllegalTurnEvent" -> {
+        this.musicPlayerHelper.playIllegalTurnMusic();
         showErrorMessage("Illegal turn.");
       }
       case "GameNotStartableEvent" -> {
@@ -423,10 +436,11 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     JPanel backgroundPanel = new ImagePanel(gameBoardPanel, backgroundPath, FRAME_WIDTH,
         FRAME_WIDTH, backgroundScaleFactor);
     add(backgroundPanel, GAMEBOARD_CARD);
-    gameBoard = new GameBoard(tileClickListener, controller, frameDimension);
+    gameBoard = new GameBoard(tileClickListener, controller, frameDimension, musicPlayerHelper);
 
     gameBoardPanel.add(gameBoard);
     gameBoard.repaint();
+    this.musicPlayerHelper.init();
   }
 
   /**

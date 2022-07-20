@@ -42,7 +42,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
   private SourceTile source = null;
   private static Clip clip;
   private static AudioInputStream audioInputStream;
-  private static final String placementSound = "audio/placementsound.wav";
+  private static final String placementSound = "audio/placement-sound.wav";
 
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   public TileClickListener(Controller controller, Model model) {
@@ -105,8 +105,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
             + " and row "
             + tileDestination.getRow());
     if (source != null) {
-      playSystemSound(placementSound);
-      System.out.println("clip");
+      // playSystemSound(placementSound);
       // if the player is able to place the tile, place it
       if (tileDestination.getParent().getParent() instanceof FloorLinePanel) {
         controller.placeTileAtFloorLine();
@@ -128,6 +127,7 @@ public class TileClickListener extends MouseAdapter implements OnClickVisitor {
               (ActivePlayerBoard) patternLinesView.getParent().getParent().getParent();
           playerBoard.getFloorLinePanel().updateBottomTilesRow(controller.getNickOfActivePlayer());
         }
+
         resetOffering();
         // TODO: do it with a button on the playboard
         // showSuccessMessage("Now it is " + controller.getNickOfNextPlayer() + "s turn!");
