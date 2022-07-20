@@ -13,17 +13,16 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+/** Class for controlling of playing game music. */
 public class MusicPlayerHelper {
-  private final String BACKGROUND_MUSIC_PATH = "audio/play-music.wav";
-  private final String TILE_PLACED_MUSIC_PATH = "audio/placement-sound.wav";
-  private final String TILE_ILLEGAL_PLACED_MUSIC_PATH = "audio/illegal-turn-sound.wav";
-  private Clip backgroundClip;
-  private Clip tilePlacedClip;
-  private Clip illegalTurnClip;
 
-  private AudioInputStream audioInputStreamBackgroundMusic;
-  private AudioInputStream audioInputStreamTilePlacedMusic;
-  private AudioInputStream audioInputStreamIllegalTurnMusic;
+  private final Clip backgroundClip;
+  private final Clip tilePlacedClip;
+  private final Clip illegalTurnClip;
+
+  private final AudioInputStream audioInputStreamBackgroundMusic;
+  private final AudioInputStream audioInputStreamTilePlacedMusic;
+  private final AudioInputStream audioInputStreamIllegalTurnMusic;
 
   private boolean backgroundMusicOn;
   private boolean tilePlacedMusicOn;
@@ -32,14 +31,18 @@ public class MusicPlayerHelper {
 
   private SwingWorker<Void, Void> worker;
 
+  /** Controller for playing music in the game. */
   public MusicPlayerHelper() {
-    audioInputStreamBackgroundMusic = createAudioInputStream(BACKGROUND_MUSIC_PATH);
-    audioInputStreamTilePlacedMusic = createAudioInputStream(TILE_PLACED_MUSIC_PATH);
-    audioInputStreamIllegalTurnMusic = createAudioInputStream(TILE_ILLEGAL_PLACED_MUSIC_PATH);
-    backgroundClip = createClip(audioInputStreamBackgroundMusic);
-    tilePlacedClip = createClip(audioInputStreamTilePlacedMusic);
-    illegalTurnClip = createClip(audioInputStreamIllegalTurnMusic);
-    playMusicOn = false;
+    String backgroundMusicPath = "audio/play-music.wav";
+    audioInputStreamBackgroundMusic = createAudioInputStream(backgroundMusicPath);
+    String tilePlacedMusicPath = "audio/placement-sound.wav";
+    audioInputStreamTilePlacedMusic = createAudioInputStream(tilePlacedMusicPath);
+    String illegalTurnMusicPath = "audio/illegal-turn-sound.wav";
+    audioInputStreamIllegalTurnMusic = createAudioInputStream(illegalTurnMusicPath);
+    backgroundClip = createClip(Objects.requireNonNull(audioInputStreamBackgroundMusic));
+    tilePlacedClip = createClip(Objects.requireNonNull(audioInputStreamTilePlacedMusic));
+    illegalTurnClip = createClip(Objects.requireNonNull(audioInputStreamIllegalTurnMusic));
+    playMusicOn = true;
     backgroundMusicOn = false;
     tilePlacedMusicOn = false;
     illegalTurnMusicOn = false;
@@ -48,18 +51,15 @@ public class MusicPlayerHelper {
 
   private void initializeWorker() {
     worker =
-        new SwingWorker<Void, Void>() {
+        new SwingWorker<>() {
           @Override
           protected Void doInBackground() throws Exception {
             SwingUtilities.invokeAndWait(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    if (!backgroundMusicOn) {
-                      stopBackgroundMusic();
-                    } else {
-                      playBackgroundMusic();
-                    }
+                () -> {
+                  if (!backgroundMusicOn) {
+                    stopBackgroundMusic();
+                  } else {
+                    playBackgroundMusic();
                   }
                 });
             Thread.sleep(5000);
@@ -68,6 +68,28 @@ public class MusicPlayerHelper {
         };
   }
 
+  /**
+   * Swich for music button to play or stop the music.
+   *
+   * @param stop the boolean that indicates whether the music should be stopped.
+   */
+  public void turnMusicOnOff(boolean stop) {
+    if (stop) {
+      playMusicOn = false;
+      backgroundMusicOn = false;
+      stopMusic(backgroundClip);
+      stopMusic(tilePlacedClip);
+      stopMusic(illegalTurnClip);
+    } else {
+      playMusicOn = true;
+      backgroundMusicOn = true;
+      startMusic(backgroundClip, Clip.LOOP_CONTINUOUSLY);
+      startMusic(tilePlacedClip, 1);
+      startMusic(illegalTurnClip, 1);
+    }
+  }
+
+  /** Initiates the playing of the background music. */
   public void init() {
     backgroundMusicOn = true;
     handleMusicClip(
@@ -78,34 +100,46 @@ public class MusicPlayerHelper {
     startMusic(backgroundClip, Clip.LOOP_CONTINUOUSLY);
   }
 
+  /**
+   * Plays the music for placing the {@link SourceTile} on the {@link PatternLines} or {@link
+   * FloorLinePanel}.
+   */
   public void playTilePlacedMusic() {
     if (!tilePlacedMusicOn) {
       tilePlacedMusicOn = true;
       handleMusicClip(tilePlacedMusicOn, tilePlacedClip, audioInputStreamTilePlacedMusic, 0);
       return;
     }
-    stopBackgroundMusic();
-    backgroundMusicOn = false;
-    worker.execute();
+    stopBackgroundWithWorker();
     startMusic(tilePlacedClip, 1);
-    backgroundMusicOn = true;
-    worker.execute();
-    initializeWorker();
+    startBackgroundWithWorker();
   }
 
+  /**
+   * Plays the music for illegal placing the {@link SourceTile} on the {@link PatternLines} or
+   * {@link FloorLinePanel}.
+   */
   public void playIllegalTurnMusic() {
     if (!illegalTurnMusicOn) {
       illegalTurnMusicOn = true;
       handleMusicClip(illegalTurnMusicOn, illegalTurnClip, audioInputStreamIllegalTurnMusic, 0);
       return;
     }
-    stopBackgroundMusic();
-    backgroundMusicOn = false;
-    worker.execute();
+    stopBackgroundWithWorker();
     startMusic(illegalTurnClip, 1);
+    startBackgroundWithWorker();
+  }
+
+  private void startBackgroundWithWorker() {
     backgroundMusicOn = true;
     worker.execute();
     initializeWorker();
+  }
+
+  private void stopBackgroundWithWorker() {
+    stopBackgroundMusic();
+    backgroundMusicOn = false;
+    worker.execute();
   }
 
   public void stopBackgroundMusic() {
@@ -150,6 +184,7 @@ public class MusicPlayerHelper {
     }
   }
 
+  /** Close everything if the Frame closes on dispose. */
   public void closeAllOfMusicPlayer() {
     worker.cancel(true);
     backgroundClip.close();
@@ -171,5 +206,9 @@ public class MusicPlayerHelper {
   private void startMusic(Clip clip, int loop) {
     clip.loop(loop);
     clip.start();
+  }
+
+  public boolean isPlayMusicOn() {
+    return playMusicOn;
   }
 }

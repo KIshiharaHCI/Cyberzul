@@ -2,18 +2,27 @@ package cyberzul.view;
 
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
-import cyberzul.model.events.*;
+import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.GameNotStartableEvent;
+import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.PlayerHasEndedTheGameEvent;
+import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.board.MusicPlayerHelper;
 import cyberzul.view.listeners.TileClickListener;
 import cyberzul.view.panels.NetworkPanel;
 import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -22,6 +31,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * GUI for Cyberzul Changes its appearance based on the model information.
@@ -61,7 +80,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private transient TileClickListener tileClickListener;
   private GameBoard gameBoard;
 
-  private MusicPlayerHelper musicPlayerHelper;
+  private transient MusicPlayerHelper musicPlayerHelper;
 
   /**
    * Create the Graphical User Interface of Azul.
@@ -265,7 +284,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         updateOtherPlayerBoards();
       }
       case "NextPlayersTurnEvent" -> {
-        this.musicPlayerHelper.playTilePlacedMusic();
+        if (this.musicPlayerHelper.isPlayMusicOn()) {
+          this.musicPlayerHelper.playTilePlacedMusic();
+        }
         updateCenterBoard();
         updateOtherPlayerBoards();
         updateRankingBoard();
@@ -292,11 +313,14 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "PlayerHasEndedTheGameEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
-        PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent = (PlayerHasEndedTheGameEvent) customMadeGameEvent;
+        PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent =
+            (PlayerHasEndedTheGameEvent) customMadeGameEvent;
         showErrorMessage("User " + playerHasEndedTheGameEvent.getEnder() + " won.");
       }
       case "IllegalTurnEvent" -> {
-        this.musicPlayerHelper.playIllegalTurnMusic();
+        if (this.musicPlayerHelper.isPlayMusicOn()) {
+          this.musicPlayerHelper.playIllegalTurnMusic();
+        }
         showErrorMessage("Illegal turn.");
       }
       case "GameNotStartableEvent" -> {
@@ -347,14 +371,15 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     login.setMaximumSize(frameDimension);
 
     singlePlayerModeButton.setBounds(235, 450, 200, 80);
-    hotSeatModeButton.setBounds(590, 450, 200,80);
-    networkButton.setBounds(940,450,200, 80);
+    hotSeatModeButton.setBounds(590, 450, 200, 80);
+    networkButton.setBounds(940, 450, 200, 80);
     login.add(hotSeatModeButton);
     login.add(networkButton);
     login.add(singlePlayerModeButton);
 
 
-    JPanel backgroundPanel = new ImagePanel(login, "img/startbackground.jpg", FRAME_WIDTH, FRAME_HEIGHT,
+    JPanel backgroundPanel = new ImagePanel(login, "img/startbackground.jpg",
+        FRAME_WIDTH, FRAME_HEIGHT,
         1);
     add(backgroundPanel, LOGIN_CARD);
 

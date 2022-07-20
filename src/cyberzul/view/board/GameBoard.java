@@ -45,7 +45,7 @@ public class GameBoard extends JPanel {
   private JPanel systemSoundPanel;
   private JLabel musicSoundLabel;
   private ImagePanel systemSoundBackGroundPanel;
-  private MusicPlayerHelper musicPlayerHelper;
+  private transient MusicPlayerHelper musicPlayerHelper;
 
   /**
    * Creates the main game panel which contains all other game elements.
@@ -58,7 +58,10 @@ public class GameBoard extends JPanel {
   @SuppressWarnings(value = "EI_EXPOSE_REP")
   // this class needs these references to these mutable objects.
   public GameBoard(
-      TileClickListener tileClickListener, Controller controller, Dimension frameDimension, MusicPlayerHelper musicPlayerHelper) {
+      TileClickListener tileClickListener,
+      Controller controller,
+      Dimension frameDimension,
+      MusicPlayerHelper musicPlayerHelper) {
 
     this.controller = controller;
     this.frameDimension = frameDimension;
@@ -75,9 +78,7 @@ public class GameBoard extends JPanel {
     this.musicPlayerHelper = musicPlayerHelper;
   }
 
-  /**
-   * Creates all of the sidebar widgets and instantiates Chat, Settings and Ranking Board.
-   */
+  /** Creates all of the sidebar widgets and instantiates Chat, Settings and Ranking Board. */
   private void createChatAndRankingBoardAndSettingPanel() {
 
     // create the Panel with RankingBoard, SettingBoard and Chat.
@@ -146,6 +147,8 @@ public class GameBoard extends JPanel {
     soundButton =
         new IconButton(
             soundButtonPath, 10, 80, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
+    soundButton.addActionListener(
+        e -> this.musicPlayerHelper.turnMusicOnOff(this.musicPlayerHelper.isPlayMusicOn()));
 
     settingsButton =
         new IconButton(
@@ -170,9 +173,9 @@ public class GameBoard extends JPanel {
     systemSound.setOpaque(false);
 
     systemSoundPanel = new JPanel(new GridLayout(2, 1));
-   // add(systemSoundPanel);
+    // add(systemSoundPanel);
 
-    //add(systemSoundBackGroundPanel);
+    // add(systemSoundBackGroundPanel);
     systemSoundPanel.setOpaque(false);
     systemSoundPanel.setPreferredSize(new Dimension(105, 40));
     JLabel label = new JLabel();
@@ -192,7 +195,6 @@ public class GameBoard extends JPanel {
     cancelButton = new IconButton("img/cancel-button.png", 0, 0, 105, 39);
     restartButton = new IconButton("img/restart-button.png", 0, 0, 105, 39);
 
-
     forfeitButton.addActionListener(
         event -> controller.replacePlayerByAi(controller.getNickOfActivePlayer()));
     cancelButton.addActionListener(event -> controller.cancelGameForAllPlayers());
@@ -206,16 +208,19 @@ public class GameBoard extends JPanel {
     menu.add(restartButton);
   }
 
-  /**
-   * adds the menu with default visibility set to false.
-   */
+  /** adds the menu with default visibility set to false. */
   private void createSettingsPanel() {
     initializeSettingWidgets();
     settingsPanel = new JPanel(new BorderLayout());
     settingsPanel.setOpaque(false);
     settingsPanel.add(menu, BorderLayout.CENTER);
     menu.setVisible(false);
-    settingsPanel.add(settingsButton, BorderLayout.EAST);
+    JPanel roundButtonsPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+    roundButtonsPanel.setOpaque(false);
+    roundButtonsPanel.add(soundButton);
+    roundButtonsPanel.add(settingsButton);
+
+    settingsPanel.add(roundButtonsPanel, BorderLayout.EAST);
     // settingsPanel.add(soundButton, BorderLayout.EAST);
 
   }
