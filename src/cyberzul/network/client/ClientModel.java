@@ -69,7 +69,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     Path pathn = Path.of("res/txt/networkstory.txt");
     Path pathsps = Path.of("res/txt/singleplayerstory.txt");
     try {
-      hotSeatStory = Files.readString(pathhs , StandardCharsets.UTF_8);
+      hotSeatStory = Files.readString(pathhs, StandardCharsets.UTF_8);
       networkStory = Files.readString(pathn, StandardCharsets.UTF_8);
       singlePlayerStory = Files.readString(pathsps, StandardCharsets.UTF_8);
     } catch (IOException e) {

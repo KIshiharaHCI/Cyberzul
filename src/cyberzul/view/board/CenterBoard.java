@@ -68,11 +68,15 @@ public class CenterBoard extends JPanel {
    * Dimensions of the GameBoard.
    */
   private void computePanelSizes() {
-    panelDimension = new Dimension((int) (panelDimension.width * 0.45), panelDimension.height);
+    Double computePanelWidth = panelDimension.width * 0.45;
+    int computePanelWidthInt = computePanelWidth.intValue();
+    panelDimension = new Dimension(computePanelWidthInt, panelDimension.height);
+    Double topPanelHeight = panelDimension.height * 0.38;
+    int topPanelHeightInt = topPanelHeight.intValue();
     topPanelDimension =
-        new Dimension((int) (panelDimension.width), (int) (panelDimension.height * 0.38));
+        new Dimension(panelDimension.width, topPanelHeightInt);
     bottomPanelDimension =
-        new Dimension((int) (panelDimension.width), (int) (panelDimension.height * 0.45));
+        new Dimension(panelDimension.width, computePanelWidthInt);
   }
 
   private void setProperties() {

@@ -368,7 +368,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
 
   private void createSinglePlayerModeCard() {
     JPanel singlePlayerModePanel = new SinglePlayerPanel(frameDimension);
-    JPanel backgroundPanel = new ImagePanel(singlePlayerModePanel,backgroundPath, FRAME_WIDTH,
+    JPanel backgroundPanel = new ImagePanel(singlePlayerModePanel, backgroundPath, FRAME_WIDTH,
             FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, SINGLEPLAYER_CARD);
 
@@ -399,6 +399,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void showNetworkCard() {
     showCard(NETWORK_CARD);
   }
+
   private void  showSinglePlayerCard() {
     showCard(SINGLEPLAYER_CARD);
   }

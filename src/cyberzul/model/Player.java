@@ -110,8 +110,23 @@ public class Player {
     return isAiPlayer;
   }
 
+  /**
+   * Sets an given player to be an AI-Player, sets his/her name to "AI-" name
+   *
+   * @param aiPlayer
+   */
   public void setAiPlayer(boolean aiPlayer) {
     isAiPlayer = aiPlayer;
+    if (aiPlayer) {
+      String aiName = "AI-" + this.name;
+      this.setName(aiName);
+    } else {
+      if (this.name.startsWith("AI-") && this.isAiPlayer()) {
+        // removes "AI-" from name.
+        String nonAiName = this.name.substring(3);
+        this.setName(nonAiName);
+      }
+    }
   }
 
   public boolean hasEndedTheGame() {
@@ -504,5 +519,9 @@ public class Player {
         }
       }
     }
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

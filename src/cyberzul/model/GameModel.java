@@ -64,7 +64,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
     Path pathn = Path.of("res/txt/networkstory.txt");
     Path pathsps = Path.of("res/txt/singleplayerstory.txt");
     try {
-      hotSeatStory = Files.readString(pathhs , StandardCharsets.UTF_8);
+      hotSeatStory = Files.readString(pathhs, StandardCharsets.UTF_8);
       networkStory = Files.readString(pathn, StandardCharsets.UTF_8);
       singlePlayerStory = Files.readString(pathsps, StandardCharsets.UTF_8);
     } catch (IOException e) {
@@ -119,6 +119,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
     aiPlayerList.add(aiPlayer3);
     for (int i = 0; i < numberOfAiPlayers; i++) {
       loginWithName(aiPlayerList.get(i));
+    }
+    // all but first player are AI-Players
+    for (int i = 1; i < playerList.size(); i++) {
+      playerList.get(i).setAiPlayer(true);
     }
     startGame();
 
@@ -228,11 +232,8 @@ public class GameModel extends CommonModel implements ModelStrategy {
     LOGGER.info(playerName + " wants to forfeit the game.");
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(playerName);
     notifyListeners(gameForfeitedEvent);
-
-    // TODO: If player has already chosen something and then forfeits
     LOGGER.info(playerName + " is set to be an AI Player. ");
     getPlayerByName(playerName).setAiPlayer(true);
-    //TODO: @Marco - set player name + "_AI"
     makeAiPlayerMakeMove(playerName);
   }
 
