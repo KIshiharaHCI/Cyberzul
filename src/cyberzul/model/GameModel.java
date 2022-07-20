@@ -120,6 +120,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
     for (int i = 0; i < numberOfAiPlayers; i++) {
       loginWithName(aiPlayerList.get(i));
     }
+    // all but first player are AI-Players
+    for (int i = 1; i < playerList.size(); i++) {
+      playerList.get(i).setAiPlayer(true);
+    }
     startGame();
 
   }
