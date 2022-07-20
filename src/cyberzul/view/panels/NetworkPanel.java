@@ -33,12 +33,12 @@ public class NetworkPanel extends JPanel {
                 g.drawImage(image, 0, 0, null);
             }
         };
-        container.setBounds(130, 80, containerDimension.width, containerDimension.height);
+        container.setBounds(200, 80, containerDimension.width, containerDimension.height);
         container.setOpaque(false);
         add(container);
 
         try {
-            URL imgUrl = getClass().getClassLoader().getResource("img/lobby-panel.png");
+            URL imgUrl = getClass().getClassLoader().getResource("img/network-lobby.png");
             image = ImageIO.read(Objects.requireNonNull(imgUrl));
             image.getScaledInstance(containerDimension.width, containerDimension.height,
                     Image.SCALE_SMOOTH);

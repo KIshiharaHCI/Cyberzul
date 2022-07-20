@@ -167,8 +167,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       model.setStrategy(Model.CLIENT_MODEL);
 
       //TODO: ONLY TESTING. THE NEXT TO LINES CAN BE DELETED.
-      createHotSeatModeCard();
-      showHsmCard();
+      createNetworkModeCard();
+      showNetworkCard();
     });
     singlePlayerModeButton.addActionListener(event -> {
       //TODO: setstrategy
