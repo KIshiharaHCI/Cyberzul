@@ -270,6 +270,12 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
         showErrorMessage("User " + gameFinishedEvent.getWinner() + " won.");
       }
+      case "PlayerHasEndedTheGameEvent" -> {
+        updateCenterBoard();
+        updateRankingBoard();
+        PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent = (PlayerHasEndedTheGameEvent) customMadeGameEvent;
+        showErrorMessage("User " + playerHasEndedTheGameEvent.getEnder() + " won.");
+      }
       case "IllegalTurnEvent" -> {
         showErrorMessage("Illegal turn.");
       }
