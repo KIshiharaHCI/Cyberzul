@@ -19,6 +19,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
+
 public class CyberzulView extends JFrame implements PropertyChangeListener {
 
     private static final long serialVersionUID = 7526472295622776147L;
@@ -92,25 +95,25 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         selectModeLabel = new JLabel();
         //Icons
         URL resource = getClass().getClassLoader().getResource("img/gamelogo.png");
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(resource));
+        ImageIcon icon = new ImageIcon(requireNonNull(resource));
         icon = new ImageIcon(icon.getImage().getScaledInstance(900, 150, Image.SCALE_SMOOTH));
         gameLogoLabel = new JLabel(icon);
 
         resource = getClass().getClassLoader().getResource("img/select-mode-banner.png");
         icon = new ImageIcon(new ImageIcon(
-                Objects.requireNonNull(resource)).getImage().getScaledInstance(700, 40, Image.SCALE_SMOOTH));
+                requireNonNull(resource)).getImage().getScaledInstance(700, 40, Image.SCALE_SMOOTH));
         selectModeLabel.setIcon(icon);
 
         resource = getClass().getClassLoader().getResource("img/hotseat-button.png");
-        icon = new ImageIcon(Objects.requireNonNull(resource));
+        icon = new ImageIcon(requireNonNull(resource));
         hotSeatModeButton.setIcon(icon);
 
         resource = getClass().getClassLoader().getResource("img/network-button.png");
-        icon = new ImageIcon(Objects.requireNonNull(resource));
+        icon = new ImageIcon(requireNonNull(resource));
         networkButton.setIcon(icon);
 
         resource = getClass().getClassLoader().getResource("img/start-game-button.png");
-        icon = new ImageIcon(Objects.requireNonNull(resource));
+        icon = new ImageIcon(requireNonNull(resource));
         playButton.setIcon(icon);
 
     }
@@ -264,13 +267,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                         " left the game and was replaced by an AI");
             }
             case "PlayerAddedMessageEvent" -> {
-                try {
-                  PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
-                  ChatPanel.listModel.addElement(playerAddedMessageEvent.getMessage());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-
+                requireNonNull(ChatPanel.listModel);
+                PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+                ChatPanel.listModel.addElement(playerAddedMessageEvent.getMessage());
             }
             case "ChatMessageRemovedEvent" -> {
                 ChatMessageRemovedEvent chatMessageRemovedEvent = (ChatMessageRemovedEvent) customMadeGameEvent;

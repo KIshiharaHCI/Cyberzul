@@ -138,7 +138,7 @@ public class ClientMessageHandler implements Runnable {
         LOGGER.info(object);
         switch (JsonMessage.typeOf(object)) {
             case LOGIN -> handleLogin(object);
-            case POST_MESSAGE -> handlePostMessage(object);
+            case POST_MESSAGE, CHEAT_MESSAGE -> handlePostMessage(object);
             case START_GAME -> handleStartGame();
             case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
             case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
@@ -148,7 +148,6 @@ public class ClientMessageHandler implements Runnable {
             }
             case RESTART_GAME -> controller.restartGame();
             case CANCEL_GAME -> controller.cancelGameForAllPlayers();
-            case CHEAT_MESSAGE -> new ChatMessageHandler(serverConnection, socket, controller, model).run();
             default -> throw new AssertionError("Unable to handle message " + object);
         }
     }
@@ -227,14 +226,14 @@ public class ClientMessageHandler implements Runnable {
         }
 
         String content = JsonMessage.getContent(object);
-        if (content.equals("HELP")){
-          String helpMessage = ChatMessageHandler.AZUL_STRATEGY.toString();
+        if (content.equals("CYBERZUL HELP")){
+          String helpMessage = ChatMessageHandler.CYBERZUL_HELP;
           JSONObject cheatMessage = JsonMessage.createCheatMessage(helpMessage);
-          System.out.println("xue");
           serverConnection.broadcast(this, cheatMessage);
+        } else {
+          JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
+          serverConnection.broadcast(this, message);
         }
-        JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
-        serverConnection.broadcast(this, message);
     }
 
     /**

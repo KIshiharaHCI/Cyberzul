@@ -32,20 +32,20 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
 
         setWrapStyleWord(true);
 
-        if (value instanceof PlayerTextMessage playerTextMsg) {
-            String time = dateFormat.format(playerTextMsg.getTime());
-            setText(String.format("%s (%s): %s", playerTextMsg.getNameOfSender(), time, playerTextMsg.getContent()));
+        if (value instanceof PlayerLoggedInMessage playerLoggedInMsg) {
+            setText("Chat joined as " + playerLoggedInMsg.getNickname() + ".");
         }
         if (value instanceof PlayerJoinedChatMessage playerJoinedMsg) {
             setText(playerJoinedMsg.getNickname() + " has joined the chat.");
         }
+        if (value instanceof PlayerTextMessage playerTextMsg) {
+            String time = dateFormat.format(playerTextMsg.getTime());
+            setText(String.format("%s (%s): %s", playerTextMsg.getNameOfSender(), time, playerTextMsg.getContent()));
+        }
         if (value instanceof PlayerLeftGameMessage playerLeftMsg) {
             setText(playerLeftMsg.getNickname() + " has left the chat.");
         }
-        if (value instanceof PlayerLoggedInMessage playerLoggedInMsg) {
-            System.out.println("Xue join in chat.");
-            setText("Chat joined as " + playerLoggedInMsg.getNickname() + ".");
-        }
+
 
         return this;
     }
