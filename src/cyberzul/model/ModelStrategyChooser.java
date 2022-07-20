@@ -16,12 +16,15 @@ public class ModelStrategyChooser implements Model {
   private boolean isStrategyChosen = false;
 
   @Override
-  public void setStrategy(int strategy) {
-    switch (strategy) {
-      case GAME_MODEL -> this.strategy = new GameModel();
-      case CLIENT_MODEL -> this.strategy = new ClientModel();
-      default -> throw new AssertionError("No such strategy defined");
-    }
+  public void setGameModelStrategy() {
+    this.strategy = new GameModel();
+    addListenersToTheModel();
+    isStrategyChosen = true;
+  }
+
+  @Override
+  public void setClientModelStrategy(String ipAddress){
+    this.strategy = new ClientModel(ipAddress);
     addListenersToTheModel();
     isStrategyChosen = true;
   }

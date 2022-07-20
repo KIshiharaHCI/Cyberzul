@@ -63,8 +63,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Create a ClientModel and start a connection with the server.
    */
-  public ClientModel() {
+  public ClientModel(String ipAddress) {
     super();
+
+    setConnection(ipAddress);
+
     Path pathhs = Path.of("res/txt/hotseatstory.txt");
     Path pathn = Path.of("res/txt/networkstory.txt");
     Path pathsps = Path.of("res/txt/singleplayerstory.txt");
@@ -75,8 +78,24 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public void setConnection(String ipAddressInHex){
+    //split ipAddressInHex into Strings of length 2.
+    String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
+
+    //parse the String array to a byte array
+    byte[] host = new byte[ipAddressArray.length];
+    for(int i = 0; i < ipAddressArray.length; i++){
+      //The hex in the String is unsigned. The long is also unsigned, but should overflow to the
+      //correct value in int.
+      int partOfTheAddress = (int) Long.parseLong(ipAddressArray[i],16);
+      host[i] = (byte) partOfTheAddress;
+    }
+
+    //create the ClientNetworkConnection.
     this.connection =
-        new ClientNetworkConnection(this, new byte[] {0x0a, (byte) 0xb5, (byte) 0x8d, (byte) 0xaa});
+        new ClientNetworkConnection(this, host);
     connection.start();
   }
 

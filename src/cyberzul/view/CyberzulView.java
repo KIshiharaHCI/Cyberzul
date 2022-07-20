@@ -2,16 +2,27 @@ package cyberzul.view;
 
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
-import cyberzul.model.events.*;
+import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.GameNotStartableEvent;
+import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.PlayerHasEndedTheGameEvent;
+import cyberzul.model.events.UserJoinedEvent;
+import cyberzul.network.server.Server;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.listeners.TileClickListener;
 import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
+import java.awt.HeadlessException;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -20,6 +31,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * GUI for Cyberzul Changes its appearance based on the model information.
@@ -58,6 +80,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private JLabel gameLogoLabel;
   private transient TileClickListener tileClickListener;
   private GameBoard gameBoard;
+
+  //TODO: @Kenji feel free to change this. I needed it.
+  private JButton joinServerButton;
+  private JButton createServerButton;
 
   /**
    * Create the Graphical User Interface of Azul.
@@ -144,6 +170,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     resource = getClass().getClassLoader().getResource("img/start-game-button.png");
     icon = new ImageIcon(Objects.requireNonNull(resource));
     playButton.setIcon(icon);
+
+    //TODO: @Kenji kannst du gerne ändern, aber ich brauchte die Funktionalität jetzt
+    joinServerButton = new JButton("JOIN CYBER SERVER");
+    createServerButton = new JButton("CREATE NEW CYBER SERVER");
   }
 
   private void addEventListeners() {
@@ -151,17 +181,16 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
 
     hotSeatModeButton.addActionListener(event -> {
       //the model should behave like a game model
-      model.setStrategy(Model.GAME_MODEL);
+      model.setGameModelStrategy();
       createHotSeatModeCard();
       showHsmCard();
     });
     networkButton.addActionListener(event -> {
       //the model should behave like a client model
-      model.setStrategy(Model.CLIENT_MODEL);
 
       //TODO: ONLY TESTING. THE NEXT TO LINES CAN BE DELETED.
-      createHotSeatModeCard();
-      showHsmCard();
+      createNetworkModeCard();
+      showNetworkCard();
     });
     singlePlayerModeButton.addActionListener(event -> {
       //TODO: setstrategy
@@ -205,6 +234,21 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
           controller.startGame();
         }
     );
+
+    //TODO: @Kenji feel free to change this. I needed it.
+    createServerButton.addActionListener(event -> {
+      String ipAddress = Server.start();
+      model.setClientModelStrategy(ipAddress);
+      JOptionPane.showMessageDialog(null, "IP Address of the cyber server: " + ipAddress, "IP Address", 0);
+    });
+
+    joinServerButton.addActionListener(event -> {
+      String ipAddress = JOptionPane.showInputDialog(
+          "Please enter the IP Address of the cyber server you want to join.");
+      model.setClientModelStrategy(ipAddress);
+    });
+
+
   }
 
   @Override
@@ -273,7 +317,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "PlayerHasEndedTheGameEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
-        PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent = (PlayerHasEndedTheGameEvent) customMadeGameEvent;
+        PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent =
+            (PlayerHasEndedTheGameEvent) customMadeGameEvent;
         showErrorMessage("User " + playerHasEndedTheGameEvent.getEnder() + " won.");
       }
       case "IllegalTurnEvent" -> {
@@ -375,7 +420,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void createSinglePlayerModeCard() {
     JPanel singlePlayerModePanel = new SinglePlayerPanel(frameDimension);
     JPanel backgroundPanel = new ImagePanel(singlePlayerModePanel, backgroundPath, FRAME_WIDTH,
-            FRAME_HEIGHT, backgroundScaleFactor);
+        FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, SINGLEPLAYER_CARD);
 
   }
@@ -385,7 +430,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setMaximumSize(frameDimension);
     inputField = new JTextField(10);
     numberOfLoggedInPlayersLabel =
-        new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+        new JLabel("Number of Players: 0.");
     JPanel networkModePanel = new JPanel();
     networkModePanel.add(numberOfLoggedInPlayersLabel);
     networkModePanel.add(pleaseEnterNameLabel);
@@ -395,6 +440,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     JPanel backgroundPanel = new ImagePanel(networkModePanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, NETWORK_CARD);
+
+    //TODO: @Kenji das darfst du gerne ändern, aber ich brauchte die Funktionalität gerade.
+    networkModePanel.add(createServerButton);
+    networkModePanel.add(joinServerButton);
   }
 
 
@@ -406,7 +455,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     showCard(NETWORK_CARD);
   }
 
-  private void  showSinglePlayerCard() {
+  private void showSinglePlayerCard() {
     showCard(SINGLEPLAYER_CARD);
   }
 

@@ -26,7 +26,7 @@ public class Server {
    */
   private Server() {
     this.gameModel = new ModelStrategyChooser();
-    gameModel.setStrategy(Model.GAME_MODEL);
+    gameModel.setGameModelStrategy();
     Controller controller = new GameController(gameModel);
     try {
       connection = new ServerNetworkConnection(gameModel, controller);
@@ -57,7 +57,6 @@ public class Server {
     } else {
       throw new RuntimeException("It already exists a server with this port");
     }
-    System.out.println(iPv4InHex);
     return iPv4InHex;
   }
 

@@ -6,13 +6,15 @@ package cyberzul.model;
  */
 public interface Model extends ModelStrategy {
 
-  int GAME_MODEL = 0;
-  int CLIENT_MODEL = 1;
+  /**
+   * Tell the ModelStrategyChooser that it should behave like a ClientModel.
+   *
+   * @param ipAddress the IPv4 Address that the ClientModel needs to connect to the Server.
+   */
+  void setClientModelStrategy(String ipAddress);
 
   /**
-   * Tell the ModelStrategyChooser what kind of strategy he should use.
-   *
-   * @param strategy the strategy that will be used.
+   * Tell the ModelStrategyChooser that it should behave like a GameModel.
    */
-  void setStrategy(int strategy);
+  void setGameModelStrategy();
 }
