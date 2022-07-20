@@ -233,8 +233,9 @@ public class GameModel extends CommonModel implements ModelStrategy {
     GameForfeitedEvent gameForfeitedEvent = new GameForfeitedEvent(playerName);
     notifyListeners(gameForfeitedEvent);
     LOGGER.info(playerName + " is set to be an AI Player. ");
-    getPlayerByName(playerName).setAiPlayer(true);
-    makeAiPlayerMakeMove(playerName);
+    Player aiPlayer = getPlayerByName(playerName);
+    aiPlayer.setAiPlayer(true);
+    makeAiPlayerMakeMove(aiPlayer.getName());
   }
 
   /**

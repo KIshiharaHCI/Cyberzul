@@ -4,11 +4,9 @@ import cyberzul.controller.Controller;
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+
+import javax.swing.*;
 import java.io.Serial;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 
 public class Wall extends JPanel {
   @Serial
@@ -21,37 +19,6 @@ public class Wall extends JPanel {
   private ModelTile[][] wall;
   private ModelTile[][] templateWall;
   private JPanel currentRow;
-  // TODO: remove other players side panel methods
-
-  /** Constructor solely used to create other players side panel. */
-  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
-  @SuppressWarnings(value = "EI_EXPOSE_REP")
-  // this class needs these references to these mutable objects.
-  public Wall(Controller controller) {
-    this.controller = controller;
-
-    setPreferredSize(new Dimension((SMALL_TILE_SIZE + 2) * ROWS, (SMALL_TILE_SIZE + 2) * COLS));
-    setMaximumSize(new Dimension((SMALL_TILE_SIZE + 2) * ROWS, (SMALL_TILE_SIZE + 2) * COLS));
-    setMinimumSize(new Dimension((SMALL_TILE_SIZE + 2) * ROWS, (SMALL_TILE_SIZE + 2) * COLS));
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    setOpaque(false);
-    setAlignmentX(1.0f);
-    setAlignmentY(1.0f);
-    buttonSize = SMALL_TILE_SIZE;
-
-    for (int y = 0; y < ROWS; y++) {
-      currentRow = new JPanel();
-      currentRow.setAlignmentX(0.2f);
-      currentRow.setAlignmentY(1.0f);
-      currentRow.setLayout(new GridLayout(1, COLS));
-      currentRow.setMaximumSize(new Dimension(ROWS * buttonSize, COLS * buttonSize));
-
-      for (int x = 0; x < COLS; x++) {
-        currentRow.add(new TileWithoutListener(y, x, buttonSize));
-      }
-      add(currentRow);
-    }
-  }
 
   /**
    * Constructor used by current playerBoard. Starts empty and should appear with Tile images after

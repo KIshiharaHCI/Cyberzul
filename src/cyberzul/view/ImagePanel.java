@@ -1,15 +1,15 @@
 package cyberzul.view;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.GridLayout;
-import java.awt.Image;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serial;
 import java.net.URL;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-/** //TODO Iurii, Kenji */
+/**
+ * An Image Panel is used to add a background image to a panel.
+ */
 public class ImagePanel extends JPanel {
 
   //    private transient BufferedImage image;
