@@ -100,7 +100,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
   private void handleGameFinishedEvent(Object customMadeGameEvent) {
     GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
-    String winner = gameFinishedEvent.getWinner();
+    String winner = gameFinishedEvent.getWinningMessage();
     try {
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_FINISHED);
       message.put(JsonMessage.PLAYER_FIELD, completePlayerUpdateMessage());

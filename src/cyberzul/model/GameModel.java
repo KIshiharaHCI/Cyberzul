@@ -10,7 +10,6 @@ import cyberzul.model.events.IllegalTurnEvent;
 import cyberzul.model.events.LoggedInEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
-import cyberzul.model.events.NoValidTurnToMakeEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
 import cyberzul.model.events.RoundFinishedEvent;
@@ -22,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
-import java.util.function.LongBinaryOperator;
-import java.util.logging.FileHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -381,8 +378,11 @@ public class GameModel extends CommonModel implements ModelStrategy {
       // Loop has to finish, because all players have to finish tiling phase
     }
     if (hasGameEnded) {
-      String winnerName = getPlayerWithMostPoints();
-      GameFinishedEvent gameFinishedEvent = new GameFinishedEvent(winnerName);
+      for (Player player : playerList) {
+        player.addEndOfGamePoints();
+      }
+      String winningMessage = getWinningMessage();
+      GameFinishedEvent gameFinishedEvent = new GameFinishedEvent(winningMessage);
       notifyListeners(gameFinishedEvent);
     }
   }

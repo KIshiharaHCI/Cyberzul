@@ -115,8 +115,8 @@ public class ModelStrategyChooser implements Model {
   }
 
   @Override
-  public String getPlayerWithMostPoints() {
-    return strategy.getPlayerWithMostPoints();
+  public String getWinningMessage() {
+    return strategy.getWinningMessage();
   }
 
   @Override

@@ -1,26 +1,26 @@
 package cyberzul.model.events;
 
 /**
- * Informs the listeners that the game has finished. Also carries the information of the player who
- * has won.
+ * Informs the listeners that the game has finished. Also carries the information
+ * with the winning message.
  */
 public class GameFinishedEvent extends GameEvent {
 
   public static final String EVENT_NAME = "GameFinishedEvent";
 
-  public final String winner;
+  public final String winningMessage;
 
   /**
    * Constructs the event.
    *
-   * @param nickname with the nickname of the player.
+   * @param winningMessage with the winningMessage of the player.
    */
-  public GameFinishedEvent(String nickname) {
-    this.winner = nickname;
+  public GameFinishedEvent(String winningMessage) {
+    this.winningMessage = winningMessage;
   }
 
-  public String getWinner() {
-    return winner;
+  public String getWinningMessage() {
+    return winningMessage;
   }
 
   @Override
