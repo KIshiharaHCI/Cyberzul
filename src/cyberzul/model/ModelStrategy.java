@@ -227,13 +227,4 @@ public interface ModelStrategy {
    */
   void startSinglePlayerMode(int numberOfAiPlayers);
 
-  /**
-   * The players should make their moves within a certain time span. Starts the timer and
-   * if it is not cancelled by the player making a move before, will make the AI make a move
-   * for it.
-   *
-   * @param playerName the name of the player.
-   */
-  void startTimerForPlayer(String playerName);
-
 }

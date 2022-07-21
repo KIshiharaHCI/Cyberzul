@@ -357,8 +357,14 @@ public class GameModel extends CommonModel implements ModelStrategy {
     }
   }
 
-  @Override
-  public void startTimerForPlayer(String playerName) {
+  /**
+   * The players should make their moves within a certain time span. Starts the timer and
+   * if it is not cancelled by the player making a move before, will make the AI make a move
+   * for it.
+   *
+   * @param playerName the name of the player.
+   */
+  private void startTimerForPlayer(String playerName) {
     timer = new Timer();
     timer.schedule(
         new java.util.TimerTask() {
@@ -369,20 +375,5 @@ public class GameModel extends CommonModel implements ModelStrategy {
         },
         DELAYTIME
     );
-  }
-
-  @Override
-  public String getHotSeatStory() {
-    return hotSeatStory;
-  }
-
-  @Override
-  public String getNetworkStory() {
-    return networkStory;
-  }
-
-  @Override
-  public String getSinglePlayerStory() {
-    return singlePlayerStory;
   }
 }
