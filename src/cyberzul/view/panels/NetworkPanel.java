@@ -5,6 +5,8 @@ import cyberzul.controller.Controller;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
@@ -12,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import static cyberzul.view.CyberzulView.getCustomFont;
 
 /**
  * Network Screen that functions as the Lobby when a player wants to play via Network.
@@ -23,7 +26,10 @@ public class NetworkPanel extends JLayeredPane {
     private Dimension containerDimension;
     private transient BufferedImage image;
     private JPanel container;
-    List<JComponent> nickInputFields = new ArrayList<>(4);
+    private JLabel banner;
+    private final Font customFont = getCustomFont();
+    private List<JLabel> labels = new ArrayList<>();
+    List<JButton> nickInputFields = new ArrayList<>(4);
 
     /**
      * Initializes all components for the NetworkPanel.
@@ -61,7 +67,11 @@ public class NetworkPanel extends JLayeredPane {
     }
 
     private void initializeComponents() {
-        container = new JPanel() {
+
+        ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
+        ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
+        ImageIcon nickBannerUnselected = imageLoader("img/playerbanner-unselected.png", 300, 56);
+        container = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -69,22 +79,97 @@ public class NetworkPanel extends JLayeredPane {
             }
         };
         container.setOpaque(false);
-        //TODO: add back hardcoded JButtons
-        int verticalPos = 100;
-        for (int i = 0; i < nickInputFields.size(); i++) {
-            JButton nickInput = new JButton(imageLoader("img/playerbanner-unselected.png", 300, 56));
-            nickInputFields.add(nickInput);
-            container.add(nickInput);
 
-            nickInput.setBounds(0, verticalPos, 300, 56);
-            verticalPos += 300;
+        JLabel banner = new JLabel("Waiting for other players ... ");
+        banner.setFont(customFont);
+        banner.setBounds(180, 85, 400, 30);
+        labels.add(banner);
+
+        JLabel checkIcon1 = new JLabel(checkUnselected);
+    checkIcon1.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+              checkIcon1.setIcon(checkUnselected.equals(checkIcon1.getIcon()) ? checkSelected : checkUnselected);
+          }
+        });
+        checkIcon1.setBounds(475 ,155, 46, 40);
+        labels.add(checkIcon1);
+
+        JLabel checkIcon2 = new JLabel(checkUnselected);
+        checkIcon2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                checkIcon2.setIcon(checkUnselected.equals(checkIcon2.getIcon()) ? checkSelected : checkUnselected);
+            }
+        });
+        checkIcon2.setBounds(475 ,235, 46, 40);
+        labels.add(checkIcon2);
+
+        JLabel checkIcon3 = new JLabel(checkUnselected);
+        checkIcon3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                checkIcon3.setIcon(checkUnselected.equals(checkIcon3.getIcon()) ? checkSelected : checkUnselected);
+            }
+        });
+        checkIcon3.setBounds(475 ,315, 46, 40);
+        labels.add(checkIcon3);
+
+        JLabel checkIcon4 = new JLabel(checkUnselected);
+        checkIcon4.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                checkIcon4.setIcon(checkUnselected.equals(checkIcon4.getIcon()) ? checkSelected : checkUnselected);
+            }
+        });
+        checkIcon4.setBounds(475 ,395, 46, 40);
+        labels.add(checkIcon4);
+
+        JButton nickInput1 = new JButton(nickBannerUnselected);
+        nickInput1.setBounds(150,150, 300, 56);
+        nickInputFields.add(nickInput1);
+
+        JButton nickInput2 = new JButton(nickBannerUnselected);
+        nickInput2.setBounds(150,230, 300, 56);
+        nickInputFields.add(nickInput2);
+
+        JButton nickInput3 = new JButton(nickBannerUnselected);
+        nickInput3.setBounds(150,310, 300, 56);
+        nickInputFields.add(nickInput3);
+
+        JButton nickInput4 = new JButton(nickBannerUnselected);
+        nickInput4.setBounds(150,390, 300, 56);
+        nickInputFields.add(nickInput4);
+
+        for (JButton component : nickInputFields) {
+            component.setContentAreaFilled(false);
+            component.setBorderPainted(false);
+
+            component.setHorizontalTextPosition(JButton.CENTER);
+            component.setVerticalTextPosition(JButton.CENTER);
+
+            customFont.deriveFont(30f);
+            component.setFont(customFont);
+            component.setForeground(Color.white);
+            component.setText("Player");
+
+            container.add(component);
         }
+        for (JLabel label : labels) {
+            container.add(label);
+        }
+
 
 
     }
 
     private void setBoundsForComponents() {
         container.setBounds(200, 80, containerDimension.width, containerDimension.height);
+        int verticalPos = 100;
+
+
+
     }
 
     private ImageIcon imageLoader(String path, int width, int height) {
