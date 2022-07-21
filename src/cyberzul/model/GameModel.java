@@ -57,16 +57,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
     super();
     playerList = new ArrayList<>();
     offerings = new ArrayList<>();
-    Path pathhs = Path.of("res/txt/hotseatstory.txt");
-    Path pathn = Path.of("res/txt/networkstory.txt");
-    Path pathsps = Path.of("res/txt/singleplayerstory.txt");
-    try {
-      hotSeatStory = Files.readString(pathhs, StandardCharsets.UTF_8);
-      networkStory = Files.readString(pathn, StandardCharsets.UTF_8);
-      singlePlayerStory = Files.readString(pathsps, StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   /**

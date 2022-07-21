@@ -163,10 +163,4 @@ public interface Controller {
    */
   void startSinglePlayerMode(int numberOfAiPlayers);
 
-  String getHotSeatStory();
-
-  String getNetworkStory();
-
-  String getSinglePlayerStory();
-
 }

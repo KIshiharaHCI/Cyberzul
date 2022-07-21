@@ -140,20 +140,4 @@ public class GameController implements Controller {
   public void startSinglePlayerMode(int numberOfAiPlayers) {
     model.startSinglePlayerMode(numberOfAiPlayers);
   }
-
-  @Override
-  public String getHotSeatStory() {
-    return model.getHotSeatStory();
-  }
-
-  @Override
-  public String getNetworkStory() {
-    return model.getNetworkStory();
-  }
-
-  @Override
-  public String getSinglePlayerStory() {
-    return model.getSinglePlayerStory();
-  }
-
 }
