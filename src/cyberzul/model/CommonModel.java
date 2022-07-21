@@ -284,4 +284,24 @@ public abstract class CommonModel implements ModelStrategy {
     }
     return indexOfNextPlayer;
   }
+
+  @Override
+  public void startSinglePlayerMode(int numberOfAiPlayers) {
+    ArrayList<String> aiPlayerList = new ArrayList<>();
+    String aiPlayer1 = "Mercury";
+    aiPlayerList.add(aiPlayer1);
+    String aiPlayer2 = "Quella";
+    aiPlayerList.add(aiPlayer2);
+    String aiPlayer3 = "Valdis";
+    aiPlayerList.add(aiPlayer3);
+    for (int i = 0; i < numberOfAiPlayers; i++) {
+      loginWithName(aiPlayerList.get(i));
+    }
+    // all but first player are AI-Players
+    for (int i = 1; i < playerList.size(); i++) {
+      playerList.get(i).setAiPlayer(true);
+    }
+    startGame();
+
+  }
 }
