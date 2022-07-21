@@ -28,10 +28,6 @@ public class CenterBoard extends JPanel {
   private TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;
   private JPanel platesAndTableCenterPanel;
-  private JPanel activeUserButtonsPanel;
-  private JButton forfeitButton;
-  private JButton cancelButton;
-  private JButton restartButton;
   private Dimension panelDimension;
   private Dimension topPanelDimension;
   private Dimension bottomPanelDimension;

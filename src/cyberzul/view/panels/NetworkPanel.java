@@ -5,6 +5,8 @@ import cyberzul.controller.Controller;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -33,6 +35,13 @@ public class NetworkPanel extends JLayeredPane {
     private final Font customFont = getCustomFont();
     private List<JLabel> labels = new ArrayList<>();
     List<JButton> nickInputButtons = new ArrayList<>(4);
+    private enum nickInput {
+            PLAYER1 ,
+            PLAYER2,
+            PLAYER3,
+            PLAYER4
+    }
+    private nickInput lastEditPressed;
     ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
     ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
     ImageIcon nickBannerUnselected = imageLoader("img/playerbanner-unselected.png", 300, 56);
@@ -147,21 +156,39 @@ public class NetworkPanel extends JLayeredPane {
         nickInput1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showPopUp(true);
+                showInputAreaIfValidPress(nickInput.PLAYER1);
             }
         });
         nickInput1.setBounds(150,150, 300, 56);
         nickInputButtons.add(nickInput1);
 
         JButton nickInput2 = new JButton(nickBannerUnselected);
+        nickInput2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                showInputAreaIfValidPress(nickInput.PLAYER2);
+            }
+        });
         nickInput2.setBounds(150,230, 300, 56);
         nickInputButtons.add(nickInput2);
 
         JButton nickInput3 = new JButton(nickBannerUnselected);
+        nickInput3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                showInputAreaIfValidPress(nickInput.PLAYER3);
+            }
+        });
         nickInput3.setBounds(150,310, 300, 56);
         nickInputButtons.add(nickInput3);
 
         JButton nickInput4 = new JButton(nickBannerUnselected);
+        nickInput4.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                showInputAreaIfValidPress(nickInput.PLAYER4);
+            }
+        });
         nickInput4.setBounds(150,390, 300, 56);
         nickInputButtons.add(nickInput4);
 
@@ -187,6 +214,14 @@ public class NetworkPanel extends JLayeredPane {
 
     }
 
+    private void showInputAreaIfValidPress(nickInput player) {
+        if (lastEditPressed != null && lastEditPressed.equals(player.toString())) {
+            return;
+        }
+        lastEditPressed = player;
+        showPopUp(true);
+    }
+
     private void setInputNickPopUp() {
         inputNickPopUp = new JPanel(null) {
             @Override
@@ -202,11 +237,40 @@ public class NetworkPanel extends JLayeredPane {
         pleaseEnter.setBounds(160,100, 400, 30);
         inputNickPopUp.add(pleaseEnter);
 
-        JTextField inputField = new JTextField();
+        JTextField inputField = new JTextField(15);
+        inputField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent event) {
+                if (event.getKeyCode() != KeyEvent.VK_ENTER) {
+                    return;
+                }
+                event.consume();
+                updateinputField(inputField);
+                //controller.postMessage(inputField.getText());
+                inputField.setText(null);
+            }
+        });
+        inputField.setBounds(140, 130, 300, 30);
+        inputField.setFont(customFont);
+        inputNickPopUp.add(inputField);
 
 
         inputNickPopUp.setOpaque(false);
         showPopUp(false);
+    }
+
+    private void updateinputField(JTextField inputField) {
+        int index;
+        if (lastEditPressed == null) {
+            return;
+        }
+        JButton button = (JButton) container.getComponent(0);
+        button.setText(inputField.getText());
+        button.setEnabled(false);
+        container.remove(0);
+        container.add(button);
+        showPopUp(false);
+        validate();
     }
 
     private void setBoundsForComponents() {
