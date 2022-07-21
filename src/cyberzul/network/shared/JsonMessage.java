@@ -1,4 +1,4 @@
-package cyberzul.shared;
+package cyberzul.network.shared;
 
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;

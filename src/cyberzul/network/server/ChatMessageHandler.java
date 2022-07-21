@@ -2,7 +2,7 @@ package cyberzul.network.server;
 
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
-import cyberzul.shared.JsonMessage;
+import cyberzul.network.shared.JsonMessage;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;

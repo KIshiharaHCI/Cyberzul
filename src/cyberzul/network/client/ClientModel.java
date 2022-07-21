@@ -23,7 +23,7 @@ import cyberzul.model.events.NotYourTurnEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.RoundFinishedEvent;
 import cyberzul.model.events.UserJoinedEvent;
-import cyberzul.shared.JsonMessage;
+import cyberzul.network.shared.JsonMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

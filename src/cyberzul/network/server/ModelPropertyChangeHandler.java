@@ -9,7 +9,7 @@ import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
-import cyberzul.shared.JsonMessage;
+import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

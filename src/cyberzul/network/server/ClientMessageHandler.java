@@ -7,7 +7,7 @@ import cyberzul.model.GameModel;
 import cyberzul.model.Model;
 import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.LoginFailedEvent;
-import cyberzul.shared.JsonMessage;
+import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

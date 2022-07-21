@@ -1,8 +1,7 @@
 package cyberzul.network.client;
 
-import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.server.Server;
-import cyberzul.shared.JsonMessage;
+import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
