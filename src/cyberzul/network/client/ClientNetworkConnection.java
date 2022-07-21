@@ -153,9 +153,9 @@ public class ClientNetworkConnection {
     }
 
     private void handlePlayerNeedHelp(JSONObject jsonObject) {
+        System.out.println(jsonObject);
         String content = JsonMessage.getContent(jsonObject);
-        model.postChatMessage(content);
-
+        model.addTextMessageWithoutTimeStamp(content);
     }
 
 

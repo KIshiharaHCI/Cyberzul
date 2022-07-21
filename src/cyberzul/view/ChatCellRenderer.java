@@ -45,6 +45,9 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
         if (value instanceof PlayerLeftGameMessage playerLeftMsg) {
             setText(playerLeftMsg.getNickname() + " has left the chat.");
         }
+        if (value instanceof PlayerNeedHelpMessage playerNeedHelpMessage){
+            setText(playerNeedHelpMessage.getContent());
+        }
 
 
         return this;
