@@ -24,7 +24,9 @@ public class NetworkPanel extends JLayeredPane {
     private static final long serialVersionUID = 17L;
     private Controller controller;
     private Dimension containerDimension;
+    private Dimension popUpDimension;
     private transient BufferedImage image;
+    private transient BufferedImage popUpImage;
     private JPanel container;
     private JPanel inputNickPopUp;
     private JLabel banner;
@@ -49,6 +51,7 @@ public class NetworkPanel extends JLayeredPane {
         setBoundsForComponents();
 
         add(container, Integer.valueOf(0));
+        add(inputNickPopUp, Integer.valueOf(1));
     }
 
     private void setProperties(Dimension frameDimension) {
@@ -60,11 +63,21 @@ public class NetworkPanel extends JLayeredPane {
 
         containerDimension = new Dimension((int) (frameDimension.width * 0.7), (int)
                 (frameDimension.height * 0.7));
+        popUpDimension = new Dimension(600, 374);
 
         try {
             URL imgUrl = getClass().getClassLoader().getResource("img/network-lobby.png");
             image = ImageIO.read(Objects.requireNonNull(imgUrl));
             image.getScaledInstance(containerDimension.width, containerDimension.height,
+                    Image.SCALE_SMOOTH);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            URL imgUrl = getClass().getClassLoader().getResource("img/hud.png");
+            popUpImage = ImageIO.read(Objects.requireNonNull(imgUrl));
+            popUpImage.getScaledInstance(popUpDimension.width, popUpDimension.height,
                     Image.SCALE_SMOOTH);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -81,7 +94,7 @@ public class NetworkPanel extends JLayeredPane {
         };
         container.setOpaque(false);
 
-
+        setInputNickPopUp();
 
         JLabel banner = new JLabel("Waiting for other players ... ");
         banner.setFont(customFont);
@@ -100,7 +113,8 @@ public class NetworkPanel extends JLayeredPane {
         labels.add(checkIcon1);
 
         JLabel checkIcon2 = new JLabel(checkUnselected);
-        checkIcon2.addMouseListener(new MouseAdapter() {
+        checkIcon2.addMouseListener(
+                new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 checkIcon2.setIcon(checkUnselected.equals(checkIcon2.getIcon()) ? checkSelected : checkUnselected);
@@ -133,7 +147,7 @@ public class NetworkPanel extends JLayeredPane {
         nickInput1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                showPopUp(true);
             }
         });
         nickInput1.setBounds(150,150, 300, 56);
@@ -173,8 +187,31 @@ public class NetworkPanel extends JLayeredPane {
 
     }
 
+    private void setInputNickPopUp() {
+        inputNickPopUp = new JPanel(null) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(popUpImage, 0, 0, null);
+            }
+        };
+
+        JLabel pleaseEnter = new JLabel("Please enter your nickname");
+        pleaseEnter.setFont(customFont);
+        pleaseEnter.setForeground(Color.white);
+        pleaseEnter.setBounds(160,100, 400, 30);
+        inputNickPopUp.add(pleaseEnter);
+
+        JTextField inputField = new JTextField();
+
+
+        inputNickPopUp.setOpaque(false);
+        showPopUp(false);
+    }
+
     private void setBoundsForComponents() {
         container.setBounds(200, 80, containerDimension.width, containerDimension.height);
+        inputNickPopUp.setBounds(420, 200, popUpDimension.width, popUpDimension.height);
     }
     private void toggleBannerSelected(int i) {
         nickInputButtons.get(i).setIcon(nickBannerUnselected.equals(nickInputButtons.get(0)) ? nickBannerSelected : nickBannerUnselected);
@@ -182,6 +219,9 @@ public class NetworkPanel extends JLayeredPane {
     private void updateComponent(int i, JComponent component) {
         removeAll();
         revalidate();
+    }
+    private void showPopUp(boolean toggle) {
+        inputNickPopUp.setVisible(toggle);
     }
 
     private ImageIcon imageLoader(String path, int width, int height) {
