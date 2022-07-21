@@ -37,7 +37,7 @@ public class ClientNetworkConnection {
   @SuppressFBWarnings("EI_EXPOSE_REP2")
   public ClientNetworkConnection(ClientModel model, byte[] host) {
     this.model = model;
-    this.HOST = host;
+    HOST = host;
   }
 
   /**
