@@ -99,9 +99,8 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
         } else if (newValue instanceof PlayerJoinedChatEvent playerJoinedChatEvent) {
             listModel.addElement(new PlayerJoinedChatMessage(playerJoinedChatEvent.getName()));
         } else if (newValue instanceof NextPlayersTurnEvent nextPlayersTurnEvent) {
-        listModel.addElement(new NextPlayersTurnMessage(nextPlayersTurnEvent.getName()));
-
- }
+            listModel.addElement(new NextPlayersTurnMessage(nextPlayersTurnEvent.getName()));
+        }
 
     }
 

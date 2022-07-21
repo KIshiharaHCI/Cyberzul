@@ -224,12 +224,11 @@ public class ClientMessageHandler implements Runnable {
         if (nickname == null || nickname.isBlank()) {
             return;
         }
-
         String content = JsonMessage.getContent(object);
         if (content.equals("CYBERZUL HELP")){
           String helpMessage = ChatMessageHandler.CYBERZUL_HELP;
           JSONObject cheatMessage = JsonMessage.createCheatMessage(helpMessage);
-          serverConnection.broadcast(this, cheatMessage);
+          send(cheatMessage);
         } else {
           JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
           serverConnection.broadcast(this, message);

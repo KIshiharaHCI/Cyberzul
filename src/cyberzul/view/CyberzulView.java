@@ -270,6 +270,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 requireNonNull(ChatPanel.listModel);
                 PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
                 ChatPanel.listModel.addElement(playerAddedMessageEvent.getMessage());
+                System.out.println("Testing code with Xue.");
             }
             case "ChatMessageRemovedEvent" -> {
                 ChatMessageRemovedEvent chatMessageRemovedEvent = (ChatMessageRemovedEvent) customMadeGameEvent;
