@@ -20,7 +20,7 @@ build:
   artifacts:
     paths:
       # Keep compiled java files and list of files
-      - $OUTPUT_PATH
+      - out/
       - sources.txt
       - libraries.txt
 
@@ -42,4 +42,4 @@ unit-tests:
 execute:
   stage: execute
   script:
-    -  java -cp "$OUTPUT_PATH:$(cat libraries.txt)" cyberzul.CyberzulMain
+    - java -cp "$OUTPUT_PATH:$(cat libraries.txt)" cyberzul.CyberzulMain

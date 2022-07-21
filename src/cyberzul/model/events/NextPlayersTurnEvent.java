@@ -6,24 +6,24 @@ package cyberzul.model.events;
  */
 public class NextPlayersTurnEvent extends GameEvent {
 
-    private final String nameOfActivePlayer;
-    private final String nameOfPlayerWhoEndedHisTurn;
+  private final String nameOfActivePlayer;
+  private final String nameOfPlayerWhoEndedHisTurn;
 
-    public NextPlayersTurnEvent(String nameOfActivePlayer, String nameOfPlayerWhoEndedHisTurn) {
-        this.nameOfActivePlayer = nameOfActivePlayer;
-        this.nameOfPlayerWhoEndedHisTurn = nameOfPlayerWhoEndedHisTurn;
-    }
+  public NextPlayersTurnEvent(String nameOfActivePlayer, String nameOfPlayerWhoEndedHisTurn) {
+    this.nameOfActivePlayer = nameOfActivePlayer;
+    this.nameOfPlayerWhoEndedHisTurn = nameOfPlayerWhoEndedHisTurn;
+  }
 
-    public String getNameOfActivePlayer() {
-        return nameOfActivePlayer;
-    }
+  public String getNameOfActivePlayer() {
+    return nameOfActivePlayer;
+  }
 
-    @Override
-    public String getName() {
-        return "NextPlayersTurnEvent";
-    }
+  @Override
+  public String getName() {
+    return "NextPlayersTurnEvent";
+  }
 
-    public String getNameOfPlayerWhoEndedHisTurn() {
-        return nameOfPlayerWhoEndedHisTurn;
-    }
+  public String getNameOfPlayerWhoEndedHisTurn() {
+    return nameOfPlayerWhoEndedHisTurn;
+  }
 }

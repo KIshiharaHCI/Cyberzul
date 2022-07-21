@@ -7,22 +7,15 @@ import cyberzul.network.client.messages.Message;
  */
 public class PlayerAddedEvent extends GameEvent {
 
-    public final String nickname;
+  public final String nickname;
 
-
-    public PlayerAddedEvent(String nickname) {
-        this.nickname = nickname;
-    }
-
-
-    public String getNickname() {
-        return nickname;
-    }
-
-
-    @Override
-    public String getName() {
-        return "PlayerAddedEvent";
-    }
-
+  public PlayerAddedEvent(String nickname) {
+    this.nickname = nickname;
+  }
+  public String getNickname() {
+    return nickname;
+  }
+  public String getName() {
+    return "PlayerAddedEvent";
+  }
 }

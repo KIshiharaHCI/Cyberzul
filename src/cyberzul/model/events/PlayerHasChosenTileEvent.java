@@ -6,19 +6,18 @@ package cyberzul.model.events;
  */
 public class PlayerHasChosenTileEvent extends GameEvent {
 
-    private final String nickname;
+  private final String nickname;
 
-    public PlayerHasChosenTileEvent(String nickname) {
-        this.nickname = nickname;
-    }
+  public PlayerHasChosenTileEvent(String nickname) {
+    this.nickname = nickname;
+  }
 
-    public String getNickname() {
-        return nickname;
-    }
+  public String getNickname() {
+    return nickname;
+  }
 
-    @Override
-    public String getName() {
-        return "PlayerHasChosenTileEvent";
-    }
-
+  @Override
+  public String getName() {
+    return "PlayerHasChosenTileEvent";
+  }
 }

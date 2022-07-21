@@ -5,8 +5,8 @@ package cyberzul.model.events;
  */
 public class IllegalTurnEvent extends GameEvent {
 
-    @Override
-    public String getName() {
-        return "IllegalTurnEvent";
-    }
+  @Override
+  public String getName() {
+    return "IllegalTurnEvent";
+  }
 }

@@ -34,18 +34,18 @@ public class PlayerTests {
   public void setUpOfferings() {
     ModelTile[] redTiles = {ModelTile.RED_TILE, ModelTile.RED_TILE, ModelTile.RED_TILE,
         ModelTile.RED_TILE};
+    redOffering = new ManipulableFactoryDisplay(redTiles);
     ModelTile[] blueTiles = {ModelTile.BLUE_TILE, ModelTile.BLUE_TILE, ModelTile.BLUE_TILE,
         ModelTile.BLUE_TILE};
+    blueOffering = new ManipulableFactoryDisplay(blueTiles);
     ModelTile[] blackTiles = {ModelTile.BLACK_TILE, ModelTile.BLACK_TILE, ModelTile.BLACK_TILE,
         ModelTile.BLACK_TILE};
+    blackOffering = new ManipulableFactoryDisplay(blackTiles);
     ModelTile[] whiteTiles = {ModelTile.WHITE_TILE, ModelTile.WHITE_TILE, ModelTile.WHITE_TILE,
         ModelTile.WHITE_TILE};
+    whiteOffering = new ManipulableFactoryDisplay(whiteTiles);
     ModelTile[] orangeTiles = {ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE, ModelTile.ORANGE_TILE,
         ModelTile.ORANGE_TILE};
-    redOffering = new ManipulableFactoryDisplay(redTiles);
-    blueOffering = new ManipulableFactoryDisplay(blueTiles);
-    blackOffering = new ManipulableFactoryDisplay(blackTiles);
-    whiteOffering = new ManipulableFactoryDisplay(whiteTiles);
     orangeOffering = new ManipulableFactoryDisplay(orangeTiles);
   }
 

@@ -1,12 +1,6 @@
 package cyberzul.view.board;
 
-import cyberzul.controller.Controller;
-import cyberzul.model.events.*;
-import cyberzul.network.client.messages.Message;
-import cyberzul.network.client.messages.NextPlayersTurnMessage;
-import cyberzul.network.client.messages.PlayerJoinedChatMessage;
-import cyberzul.network.client.messages.PlayerLoggedInMessage;
-import cyberzul.view.ChatCellRenderer;
+import cyberzul.view.IconButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,96 +8,95 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serial;
 
+/** The Chat Panel at the right side of the GameBoard. */
 public class ChatPanel extends JPanel implements PropertyChangeListener {
 
-    private static final int DEFAULT_HEIGHT = 500;
-    private static final int INPUTFIELD_WIDTH = 40;
-    private static final int INPUTFIELD_HEIGHT = 3;
-    private static final long serialVersionUID = 13L;
-    private static final int defaultInset = 5;
-    private final Controller controller;
-    private JTextArea inputArea;
-    private JScrollPane scrollPane;
-    public static DefaultListModel<Message> listModel;
+  private static final int DEFAULT_HEIGHT = 300;
+  private static final int INPUTFIELD_WIDTH = 20;
+  private static final int INPUTFIELD_HEIGHT = 3;
+  @Serial private static final long serialVersionUID = 13L;
+  private static final int defaultInset = 5;
+  private JTextArea inputArea;
+  private JScrollPane scrollPane;
+  private static final String chaticon = "img/chaticon.png";
+  private IconButton closeChatButton;
+  private IconButton openChatButton;
+  private JPanel chatButtonPanel;
 
-    public ChatPanel(Controller controller) {
-        this.controller = controller;
+  /** create a new chat panel with the respective widgets. */
+  public ChatPanel() {
+    initializeWidgets();
+    createChatPanel();
+  }
 
-        setLayout(new GridBagLayout());
-        initializeWidgets();
-        createChatPanel();
+  /** Instantiate all ChatPanel widgets and specify config options where appropriate. */
+  private void initializeWidgets() {
+    setOpaque(false);
+    scrollPane = new JScrollPane();
+    scrollPane.setPreferredSize(new Dimension(INPUTFIELD_WIDTH, DEFAULT_HEIGHT));
+    scrollPane.setMaximumSize(new Dimension(INPUTFIELD_WIDTH, DEFAULT_HEIGHT));
+    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scrollPane.setBackground(Color.DARK_GRAY);
+    scrollPane.getViewport().setBackground(new Color(54, 51, 51));
+    scrollPane.setBorder(
+        BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset));
 
-        addEventListeners();
-    }
+    inputArea = new JTextArea(INPUTFIELD_HEIGHT, INPUTFIELD_WIDTH);
+    inputArea.setLineWrap(true);
+    inputArea.setWrapStyleWord(true);
+    inputArea.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+    inputArea.setFont(new Font("Dialog", Font.BOLD, 14));
+    inputArea.setBackground(Color.black);
+    inputArea.setForeground(Color.white);
+    inputArea.setBorder(
+        BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset));
 
-    private void initializeWidgets() {
-        listModel = new DefaultListModel<>();
-        JList<Message> chatList = new JList<>(listModel);
-        chatList.setCellRenderer(new ChatCellRenderer());
+    chatButtonPanel = new JPanel(null);
+    chatButtonPanel.setPreferredSize(new Dimension(150, 25));
+    chatButtonPanel.setBackground(Color.DARK_GRAY);
 
-        scrollPane = new JScrollPane(chatList);
-        scrollPane.setPreferredSize(new Dimension(this.getWidth(), DEFAULT_HEIGHT));
-        scrollPane.setMaximumSize(new Dimension(this.getWidth(), DEFAULT_HEIGHT));
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-        inputArea = new JTextArea(INPUTFIELD_HEIGHT, INPUTFIELD_WIDTH);
-        inputArea.setLineWrap(true);
-        inputArea.setWrapStyleWord(true);
-        inputArea.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-
-    }
-
-    private void createChatPanel() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(defaultInset, defaultInset, defaultInset, defaultInset);
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridy = 0;
-        gbc.weighty = 0.9;
-        this.add(scrollPane, gbc);
-
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(defaultInset, defaultInset, defaultInset, defaultInset);
-        gbc.gridy = 1;
-        this.add(inputArea, gbc);
-    }
-
-    private void addEventListeners() {
-
-        inputArea.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() != KeyEvent.VK_ENTER) {
-                    return;
-                }
-
-                e.consume();
-                controller.postMessage(inputArea.getText());
-                inputArea.setText(null);
-            }
+    closeChatButton = new IconButton(chaticon, 5, 5, 40, 22);
+    closeChatButton.addActionListener(
+        closeEvent -> {
+          chatButtonPanel.setOpaque(false);
+          scrollPane.setVisible(false);
+          inputArea.setVisible(false);
+          openChatButton.setVisible(true);
+          closeChatButton.setVisible(false);
         });
-    }
+    chatButtonPanel.add(closeChatButton);
 
-    @Override
-    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-        SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
-    }
+    openChatButton = new IconButton(chaticon, 300, 5, 40, 22);
+    openChatButton.setHorizontalAlignment(JLabel.RIGHT);
+    openChatButton.setVisible(false);
+    openChatButton.addActionListener(
+        openEvent -> {
+          chatButtonPanel.setOpaque(true);
+          scrollPane.setVisible(true);
+          inputArea.setVisible(true);
+          openChatButton.setVisible(false);
+          closeChatButton.setVisible(true);
+        });
+    chatButtonPanel.add(openChatButton);
+  }
 
-    private void handleModelUpdate(PropertyChangeEvent event) {
-        Object newValue = event.getNewValue();
-        if (newValue instanceof ChatMessageRemovedEvent msgRemovedEvent) {
-            listModel.removeElement(msgRemovedEvent.getMessage());
-        } else if (newValue instanceof PlayerAddedMessageEvent msgAddedEvent) {
-            listModel.addElement(msgAddedEvent.getMessage());
-        } else if (newValue instanceof PlayerJoinedChatEvent playerJoinedChatEvent) {
-            listModel.addElement(new PlayerJoinedChatMessage(playerJoinedChatEvent.getName()));
-        } else if (newValue instanceof NextPlayersTurnEvent nextPlayersTurnEvent) {
-            listModel.addElement(new NextPlayersTurnMessage(nextPlayersTurnEvent.getName()));
-        }
+  /**
+   * Sets the layout and adds the components to "this".
+   */
+  private void createChatPanel() {
+    this.setLayout(new BorderLayout());
+    this.add(chatButtonPanel, BorderLayout.NORTH);
+    this.add(scrollPane, BorderLayout.CENTER);
+    this.add(inputArea, BorderLayout.SOUTH);
+  }
 
-    }
+  @Override
+  public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+    SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
+  }
 
-
-
+  private void handleModelUpdate(PropertyChangeEvent event) {}
 }

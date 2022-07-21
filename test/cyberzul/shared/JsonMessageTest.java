@@ -4,6 +4,7 @@ import cyberzul.model.FactoryDisplay;
 import cyberzul.model.ManipulableFactoryDisplay;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
+import cyberzul.network.shared.JsonMessage;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -27,8 +28,10 @@ public class JsonMessageTest {
     offeringList.add(factoryDisplay);
     offeringList.add(factoryDisplay1);
 
-    JSONArray jsonArray = JsonMessage.parseOfferingsToJSONArray(offeringList);
-    String testString = "[[\"red tile\",\"red tile\",\"red tile\",\"red tile\"],[\"blue tile\",\"blue tile\",\"blue tile\",\"blue tile\"]]";
+    JSONArray jsonArray = JsonMessage.parseOfferingsToJsonArray(offeringList);
+    String testString =
+        "[[\"red tile\",\"red tile\",\"red tile\",\"red tile\"],[\"blue tile\",\"blue tile\","
+            + "\"blue tile\",\"blue tile\"]]";
 
     Assertions.assertTrue(jsonArray.toString().equals(testString));
   }

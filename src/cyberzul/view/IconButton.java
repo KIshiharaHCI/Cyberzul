@@ -3,44 +3,56 @@ package cyberzul.view;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serial;
 import java.net.URL;
+import java.util.Objects;
 
-
+/**
+ * A JButton class used for setting buttons with Images and absolute sizing.
+ */
 public class IconButton extends JButton {
+  @Serial private static final long serialVersionUID = 15L;
 
-    private String iconPath;
-    private final int xPosition;
-    private final int yPosition;
-    private final int buttonWidth;
-    private final int buttonHeight;
+  private final int xposition;
+  private final int yposition;
+  private final int buttonWidth;
+  private final int buttonHeight;
+  private String iconPath;
 
+  /**
+   * Constructor of a IconButton.
+   *
+   * @param path for the ImageIcon to set
+   * @param xposition on the parent panel
+   * @param yposition on the parent panel
+   * @param buttonWidth width in px of the button
+   * @param buttonHeight height in px of the button
+   */
+  public IconButton(String path, int xposition, int yposition, int buttonWidth, int buttonHeight) {
+    this.xposition = xposition;
+    this.yposition = yposition;
+    this.iconPath = path;
+    this.buttonWidth = buttonWidth;
+    this.buttonHeight = buttonHeight;
+    createIconButton();
+  }
 
-    public IconButton(String path, int xPosition, int yPosition, int buttonWidth, int buttonHeight) {
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
-        this.iconPath = path;
-        this.buttonWidth = buttonWidth;
-        this.buttonHeight = buttonHeight;
-        createIconButton();
+  private void createIconButton() {
+    URL iconUrl = getClass().getClassLoader().getResource(iconPath);
+    try {
+      Image icon =
+          ImageIO.read(Objects.requireNonNull(iconUrl))
+              .getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
+      this.setIcon(new ImageIcon(icon));
+    } catch (Exception e) {
+      e.printStackTrace();
+      iconPath = null;
     }
-
-    private void createIconButton() {
-        URL iconURL = getClass().getClassLoader().getResource(iconPath);
-        try {
-            Image icon = ImageIO.read(iconURL).getScaledInstance(buttonWidth, buttonHeight,
-                    Image.SCALE_DEFAULT);
-            this.setIcon(new ImageIcon(icon));
-        } catch (Exception e) {
-            e.printStackTrace();
-            iconPath = null;
-        }
-        this.setBounds(xPosition, yPosition, buttonWidth, buttonHeight);
-        this.setOpaque(false);
-        this.setFocusPainted(false);
-        this.setBorderPainted(false);
-        this.setContentAreaFilled(false);
-        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // Especially important
-    }
-
-
+    this.setBounds(xposition, yposition, buttonWidth, buttonHeight);
+    this.setOpaque(false);
+    this.setFocusPainted(false);
+    this.setBorderPainted(false);
+    this.setContentAreaFilled(false);
+    this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+  }
 }

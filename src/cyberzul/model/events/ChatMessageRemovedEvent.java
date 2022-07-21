@@ -1,14 +1,11 @@
 package cyberzul.model.events;
 
-
 import cyberzul.network.client.messages.Message;
 
 /**
- * Event that is sent by the model to the observers.
- * It notifies about a chat message that has been removed from the collection of stored messages.
+ * Event that is sent by the model to the observers. It notifies about a chat message that has been
+ * removed from the collection of stored messages.
  */
-
-
 public class ChatMessageRemovedEvent extends GameEvent {
 
   public static final String EVENT_NAME = "ChatMessageRemovedEvent";
@@ -26,6 +23,4 @@ public class ChatMessageRemovedEvent extends GameEvent {
   public String getName() {
     return EVENT_NAME;
   }
-
-
 }
