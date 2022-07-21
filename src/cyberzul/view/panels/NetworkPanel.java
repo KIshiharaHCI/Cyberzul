@@ -26,10 +26,15 @@ public class NetworkPanel extends JLayeredPane {
     private Dimension containerDimension;
     private transient BufferedImage image;
     private JPanel container;
+    private JPanel inputNickPopUp;
     private JLabel banner;
     private final Font customFont = getCustomFont();
     private List<JLabel> labels = new ArrayList<>();
-    List<JButton> nickInputFields = new ArrayList<>(4);
+    List<JButton> nickInputButtons = new ArrayList<>(4);
+    ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
+    ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
+    ImageIcon nickBannerUnselected = imageLoader("img/playerbanner-unselected.png", 300, 56);
+    ImageIcon nickBannerSelected = imageLoader("img/playerbanner-selected.png", 300, 56);
 
     /**
      * Initializes all components for the NetworkPanel.
@@ -67,10 +72,6 @@ public class NetworkPanel extends JLayeredPane {
     }
 
     private void initializeComponents() {
-
-        ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
-        ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
-        ImageIcon nickBannerUnselected = imageLoader("img/playerbanner-unselected.png", 300, 56);
         container = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -79,6 +80,8 @@ public class NetworkPanel extends JLayeredPane {
             }
         };
         container.setOpaque(false);
+
+
 
         JLabel banner = new JLabel("Waiting for other players ... ");
         banner.setFont(customFont);
@@ -127,22 +130,28 @@ public class NetworkPanel extends JLayeredPane {
         labels.add(checkIcon4);
 
         JButton nickInput1 = new JButton(nickBannerUnselected);
+        nickInput1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+        });
         nickInput1.setBounds(150,150, 300, 56);
-        nickInputFields.add(nickInput1);
+        nickInputButtons.add(nickInput1);
 
         JButton nickInput2 = new JButton(nickBannerUnselected);
         nickInput2.setBounds(150,230, 300, 56);
-        nickInputFields.add(nickInput2);
+        nickInputButtons.add(nickInput2);
 
         JButton nickInput3 = new JButton(nickBannerUnselected);
         nickInput3.setBounds(150,310, 300, 56);
-        nickInputFields.add(nickInput3);
+        nickInputButtons.add(nickInput3);
 
         JButton nickInput4 = new JButton(nickBannerUnselected);
         nickInput4.setBounds(150,390, 300, 56);
-        nickInputFields.add(nickInput4);
+        nickInputButtons.add(nickInput4);
 
-        for (JButton component : nickInputFields) {
+        for (JButton component : nickInputButtons) {
             component.setContentAreaFilled(false);
             component.setBorderPainted(false);
 
@@ -166,10 +175,13 @@ public class NetworkPanel extends JLayeredPane {
 
     private void setBoundsForComponents() {
         container.setBounds(200, 80, containerDimension.width, containerDimension.height);
-        int verticalPos = 100;
-
-
-
+    }
+    private void toggleBannerSelected(int i) {
+        nickInputButtons.get(i).setIcon(nickBannerUnselected.equals(nickInputButtons.get(0)) ? nickBannerSelected : nickBannerUnselected);
+    }
+    private void updateComponent(int i, JComponent component) {
+        removeAll();
+        revalidate();
     }
 
     private ImageIcon imageLoader(String path, int width, int height) {
