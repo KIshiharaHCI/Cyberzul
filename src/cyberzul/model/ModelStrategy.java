@@ -236,9 +236,4 @@ public interface ModelStrategy {
    */
   void startTimerForPlayer(String playerName);
 
-  String getHotSeatStory();
-
-  String getNetworkStory();
-
-  String getSinglePlayerStory();
 }

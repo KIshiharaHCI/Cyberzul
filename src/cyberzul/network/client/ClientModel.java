@@ -56,10 +56,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   private ClientNetworkConnection connection;
   private String thisPlayersName;
 
-  private String hotSeatStory = "HotSeatStory is not yet set!";
-  private String networkStory = "NetworkStory is not yet set!";
-  private String singlePlayerStory = "SinglePlayerStory is not yet set!";
-
   /**
    * Create a ClientModel and start a connection with the server.
    */
@@ -67,17 +63,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     super();
 
     setConnection(ipAddress);
-
-    Path pathhs = Path.of("res/txt/hotseatstory.txt");
-    Path pathn = Path.of("res/txt/networkstory.txt");
-    Path pathsps = Path.of("res/txt/singleplayerstory.txt");
-    try {
-      hotSeatStory = Files.readString(pathhs, StandardCharsets.UTF_8);
-      networkStory = Files.readString(pathn, StandardCharsets.UTF_8);
-      singlePlayerStory = Files.readString(pathsps, StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   public void setConnection(String ipAddressInHex){
@@ -531,18 +516,4 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
   }
 
-  @Override
-  public String getHotSeatStory() {
-    return hotSeatStory;
-  }
-
-  @Override
-  public String getNetworkStory() {
-    return networkStory;
-  }
-
-  @Override
-  public String getSinglePlayerStory() {
-    return singlePlayerStory;
-  }
 }
