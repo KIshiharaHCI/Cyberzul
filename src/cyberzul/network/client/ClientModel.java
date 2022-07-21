@@ -121,7 +121,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
         setLoggedIn(true);
         playerList.add(new ClientPlayer(thisPlayersName));
         notifyListeners(new LoggedInEvent());
-        addChatEntry(new PlayerLoggedInMessage(thisPlayersName));
+        //addChatEntry(new PlayerLoggedInMessage(thisPlayersName));
     }
 
     /**
@@ -132,6 +132,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     public void userJoined(String nickname) {
         playerList.add(new ClientPlayer(nickname));
         notifyListeners(new UserJoinedEvent(nickname));
+        notifyListeners(new PlayerJoinedChatEvent(new PlayerJoinedChatMessage(nickname)));
     }
 
     /**
@@ -384,6 +385,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
      */
     public void playerJoinedChat(String nickname) {
         addChatEntry(new PlayerJoinedChatMessage(nickname));
+        notifyListeners(new PlayerJoinedChatEvent(new PlayerJoinedChatMessage(nickname)));
     }
     /**
      * Add a status-update entry "Player has left the chat" to the list of chat entries.
@@ -408,6 +410,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
         addChatEntry(chatMessage);
         getConnection().playerSendMessage(chatMessage);
     }
+
+
 
     /**
      * Add a new {@link Message} to the list of managed messages. Only the latest 100 messages

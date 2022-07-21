@@ -155,6 +155,7 @@ public class ClientNetworkConnection {
     private void handlePlayerNeedHelp(JSONObject jsonObject) {
         String content = JsonMessage.getContent(jsonObject);
         model.postChatMessage(content);
+
     }
 
 

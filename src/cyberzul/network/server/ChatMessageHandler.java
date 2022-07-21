@@ -45,7 +45,7 @@ public class ChatMessageHandler extends ClientMessageHandler implements Runnable
   };*/
 
   public static final String CYBERZUL_HELP = """
-  Azul - Strategy:
+  Cyberzul - Strategy:
   Azul is point based, which causes us to focus 
   on the amount of points we are gaining. There 
   is something inherently wrong with trying to 

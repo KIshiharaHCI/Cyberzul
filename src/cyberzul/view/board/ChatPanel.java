@@ -3,6 +3,8 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.model.events.*;
 import cyberzul.network.client.messages.Message;
+import cyberzul.network.client.messages.NextPlayersTurnMessage;
+import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.network.client.messages.PlayerLoggedInMessage;
 import cyberzul.view.ChatCellRenderer;
 
@@ -94,11 +96,13 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
             listModel.removeElement(msgRemovedEvent.getMessage());
         } else if (newValue instanceof PlayerAddedMessageEvent msgAddedEvent) {
             listModel.addElement(msgAddedEvent.getMessage());
-        }
+        } else if (newValue instanceof PlayerJoinedChatEvent playerJoinedChatEvent) {
+            listModel.addElement(new PlayerJoinedChatMessage(playerJoinedChatEvent.getName()));
+        } else if (newValue instanceof NextPlayersTurnEvent nextPlayersTurnEvent) {
+        listModel.addElement(new NextPlayersTurnMessage(nextPlayersTurnEvent.getName()));
 
-        /*else if (newValue instanceof PlayerJoinedChatEvent playerJoinedChatEvent) {
-            listModel.addElement(playerJoinedChatEvent.getMessage());
-        }*/
+ }
+
     }
 
 
