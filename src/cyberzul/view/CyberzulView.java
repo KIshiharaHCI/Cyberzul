@@ -370,12 +370,14 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         ChatPanel.listModel.addElement(playerAddedMessageEvent.getMessage());
       }
       case "ChatMessageRemovedEvent" -> {
-        ChatMessageRemovedEvent chatMessageRemovedEvent = (ChatMessageRemovedEvent) customMadeGameEvent;
+        ChatMessageRemovedEvent chatMessageRemovedEvent =
+                (ChatMessageRemovedEvent) customMadeGameEvent;
         ChatPanel.listModel.removeElement(chatMessageRemovedEvent.getMessage());
         showErrorMessage("Only the last hundred messages are shown.");
       }
       case "PlayerJoinedChatEvent" -> {
-        PlayerJoinedChatEvent playerJoinedChatEvent = (PlayerJoinedChatEvent) customMadeGameEvent;
+        PlayerJoinedChatEvent playerJoinedChatEvent =
+                (PlayerJoinedChatEvent) customMadeGameEvent;
         ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
       }
       case InvalidIPv4AddressEvent.EVENT_NAME -> {
