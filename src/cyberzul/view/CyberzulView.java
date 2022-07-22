@@ -452,8 +452,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setMaximumSize(frameDimension);
     inputField = new JTextField(10);
     numberOfLoggedInPlayersLabel =
-        new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
-    JLayeredPane networkModePanel = new NetworkPanel(controller, frameDimension);
+        new JLabel("Number of Players: 0.");
+    //JLayeredPane networkModePanel = new NetworkPanel(controller, frameDimension);
+    JPanel networkModePanel = new JPanel();
     networkModePanel.add(numberOfLoggedInPlayersLabel);
     networkModePanel.add(pleaseEnterNameLabel);
     networkModePanel.add(inputField);

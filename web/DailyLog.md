@@ -1791,5 +1791,8 @@ Q2:
 - send the players messages that inform him about the game state.
 - send the individual player a message if he makes an illegal turn.
 
+- make HotSeatMode run over the server, so the chat works.
+- make SinglePlayerMode run over the server
+
 Q3:
 - none
