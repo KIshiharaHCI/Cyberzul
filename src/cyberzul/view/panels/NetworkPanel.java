@@ -34,7 +34,7 @@ public class NetworkPanel extends JLayeredPane {
     private JLabel banner;
     private final Font customFont = getCustomFont();
     private List<JLabel> labels = new ArrayList<>();
-    List<JButton> nickInputButtons = new ArrayList<>(4);
+    transient List<JButton> nickInputButtons = new ArrayList<>(4);
     private enum nickInput {
             PLAYER1 ,
             PLAYER2,
