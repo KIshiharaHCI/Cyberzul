@@ -221,10 +221,6 @@ public abstract class CommonModel implements ModelStrategy {
       return  messageToBeReturned;
     } else {
       LOGGER.info("We have >= two players with the same amount of points at the end of the game.");
-      // TODO: to be deleted
-      for (int i = 0; i < playerWithSameMostPoints.size(); i++) {
-        LOGGER.info(i + ": " + playerWithSameMostPoints.get(i).getName());
-      }
       ArrayList<Integer> amountOfCompleteHorizontalLines = new ArrayList<>();
       // add all values for complete horizontal lines of the players with same points to list
       for (Player player : playerWithSameMostPoints) {
@@ -297,26 +293,6 @@ public abstract class CommonModel implements ModelStrategy {
       indexOfNextPlayer = indexOfActivePlayer + 1;
     }
     return indexOfNextPlayer;
-  }
-
-  @Override
-  public void startSinglePlayerMode(int numberOfAiPlayers) {
-    ArrayList<String> aiPlayerList = new ArrayList<>();
-    String aiPlayer1 = "Mercury";
-    aiPlayerList.add(aiPlayer1);
-    String aiPlayer2 = "Quella";
-    aiPlayerList.add(aiPlayer2);
-    String aiPlayer3 = "Valdis";
-    aiPlayerList.add(aiPlayer3);
-    for (int i = 0; i < numberOfAiPlayers; i++) {
-      loginWithName(aiPlayerList.get(i));
-    }
-    // all but first player are AI-Players
-    for (int i = 1; i < playerList.size(); i++) {
-      playerList.get(i).setAiPlayer(true);
-    }
-    startGame();
-
   }
 
   @Override

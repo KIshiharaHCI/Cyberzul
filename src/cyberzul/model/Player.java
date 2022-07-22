@@ -77,8 +77,6 @@ public class Player {
     return patternLines.clone();
   }
 
-  // TODO: Create PatternLinesModel class and make this method to a @Override toString() in it;
-
   /**
    * Get the Pattern Lines as a string with a column width of 15 characters (for testing purposes).
    *
@@ -198,13 +196,6 @@ public class Player {
       return false;
     }
 
-    // TODO: make this methods more readable @Nils
-    // Hotfix
-    // mid-development view design changes made the StartingPlayerMarker clickable
-    // -> it has its own index
-    // since the methods were designs so that it is not clickable these 3 lines fix the bug where
-    // the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
-    // the last tile of the table center causes an OutOfBoundsExceptions
     if (offering.getContent().contains(ModelTile.STARTING_PLAYER_MARKER)) {
       indexOfTile--;
     }
@@ -242,13 +233,7 @@ public class Player {
    * @param indexOfTile the index of the tile in the Offering.
    */
   void placeTileInFloorLine(Offering offering, int indexOfTile) {
-    // TODO: make this methods more readable @Nils
-    // Hotfix
-    // mid-development view design changes made the StartingPlayerMarker clickable
-    // -> it has its own index
-    // since the methods were designs so that it is not clickable these 3 lines fix the bug where
-    // the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
-    // the last tile of the table center causes an OutOfBoundsExceptions
+
     if (offering.getContent().contains(ModelTile.STARTING_PLAYER_MARKER)) {
       indexOfTile--;
     }
@@ -414,8 +399,6 @@ public class Player {
     }
     floorLine.clear();
   }
-
-  // TODO: This method gets obsolete if we implemented the visible floor line.
 
   /**
    * Returns the number of MinusPoints that the player acquired over the round.

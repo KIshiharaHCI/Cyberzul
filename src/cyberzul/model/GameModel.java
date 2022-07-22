@@ -41,10 +41,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private boolean hasGameEnded = false;
   private Offering currentOffering;
   private int currentIndexOfTile;
-
-  private String hotSeatStory = "HotSeatStory is not yet set!";
-  private String networkStory = "NetworkStory is not yet set!";
-  private String singlePlayerStory = "SinglePlayerStory is not yet set!";
+  private boolean isBulletMode;
 
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
@@ -369,5 +366,32 @@ public class GameModel extends CommonModel implements ModelStrategy {
         },
         TIME_TILL_NEXT_ROUND
     );
+  }
+
+  @Override
+  public void startSinglePlayerMode(int numberOfAiPlayers) {
+    ArrayList<String> aiPlayerList = new ArrayList<>();
+    String aiPlayer1 = "Mercury";
+    aiPlayerList.add(aiPlayer1);
+    String aiPlayer2 = "Quella";
+    aiPlayerList.add(aiPlayer2);
+    String aiPlayer3 = "Valdis";
+    aiPlayerList.add(aiPlayer3);
+    for (int i = 0; i < numberOfAiPlayers; i++) {
+      loginWithName(aiPlayerList.get(i));
+    }
+    // all but first player are AI-Players
+    for (int i = 1; i < playerList.size(); i++) {
+      playerList.get(i).setAiPlayer(true);
+    }
+    startGame();
+  }
+
+  public void setBulletMode(boolean bulletMode) {
+    isBulletMode = bulletMode;
+  }
+
+  public boolean getBulletMode() {
+    return isBulletMode;
   }
 }

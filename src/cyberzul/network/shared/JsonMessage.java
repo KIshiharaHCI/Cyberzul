@@ -482,7 +482,12 @@ public enum JsonMessage {
     }
   }
 
-
+  /**
+   * Create a message which posted between the client and the server.
+   *
+   * @param content The text should be posted.
+   * @return A Message in JSON format.
+   */
   public static JSONObject postMessage(String content) {
     try {
       JSONObject message = createMessageOfType(POST_MESSAGE);
@@ -539,6 +544,12 @@ public enum JsonMessage {
     return jsonName;
   }
 
+  /**
+   * Get the name of the player who sends message.
+   *
+   * @param object The JsonObject which used to get the name of sender.
+   * @return The name of the player.
+   */
   public static String getNickname(JSONObject object) {
     try {
       return object.getString(NICK_FIELD);
@@ -547,6 +558,12 @@ public enum JsonMessage {
     }
   }
 
+  /**
+   * The time of the Message that sent by the player to the server and then to other players.
+   *
+   * @param object The JsonObject that used to get the time of the message sent by the players.
+   * @return The time of the sending message.
+   */
   public static Date getTime(JSONObject object) {
     try {
       String date = object.getString(TIME_FIELD);

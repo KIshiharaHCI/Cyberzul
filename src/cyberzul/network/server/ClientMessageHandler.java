@@ -7,6 +7,7 @@ import cyberzul.model.GameModel;
 import cyberzul.model.Model;
 import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.network.client.messages.PlayerNeedHelpMessage;
 import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
@@ -269,7 +270,7 @@ public class ClientMessageHandler implements Runnable {
     }
     String content = JsonMessage.getContent(object);
     if (content.equals("CYBERZUL HELP")) {
-      String helpMessage = ChatMessageHandler.CYBERZUL_HELP;
+      String helpMessage = PlayerNeedHelpMessage.CYBERZUL_HELP;
       JSONObject cheatMessage = JsonMessage.createCheatMessage(helpMessage);
       send(cheatMessage);
     } else {

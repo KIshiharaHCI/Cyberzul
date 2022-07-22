@@ -19,7 +19,7 @@ import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.GameStartedEvent;
 import cyberzul.model.events.IllegalTurnEvent;
-import cyberzul.model.events.InvalidIPv4AddressEvent;
+import cyberzul.model.events.InvalidIpv4AddressEvent;
 import cyberzul.model.events.LoggedInEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
@@ -91,8 +91,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    *
    * @param ipAddressInHex the IP-address of the server, encoded as hex String.
    */
-  public void setConnection(String ipAddressInHex){
-    try{
+  public void setConnection(String ipAddressInHex) {
+    try {
       //split ipAddressInHex into Strings of length 2.
       String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
 
@@ -110,7 +110,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
           new ClientNetworkConnection(this, host);
       connection.start();
     } catch (NumberFormatException e) {
-      notifyListeners(new InvalidIPv4AddressEvent());
+      notifyListeners(new InvalidIpv4AddressEvent());
     }
   }
 
@@ -634,7 +634,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    *
    * @param content the message that should be added.
    */
-  public void addTextMessageWithoutTimeStamp(String content){
+  public void addTextMessageWithoutTimeStamp(String content) {
     System.out.println(content);
     addChatEntry(new PlayerNeedHelpMessage(content));
   }

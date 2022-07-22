@@ -30,14 +30,16 @@ import javax.swing.JTextField;
 
 /** Network Screen that functions as the Lobby when a player wants to play via Network. */
 public class NetworkPanel extends JLayeredPane {
+
   @Serial private static final long serialVersionUID = 17L;
   private final Font customFont = getCustomFont();
+  private final transient Controller controller;
+  private final transient List<JLabel> labels = new ArrayList<>();
   transient List<JButton> nickInputButtons = new ArrayList<>(4);
   ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
   ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
   ImageIcon nickBannerUnselected = imageLoader("img/playerbanner-unselected.png", 300, 56);
   ImageIcon nickBannerSelected = imageLoader("img/playerbanner-selected.png", 300, 56);
-  private final transient Controller controller;
   private Dimension containerDimension;
   private Dimension popUpDimension;
   private transient BufferedImage image;
@@ -45,7 +47,6 @@ public class NetworkPanel extends JLayeredPane {
   private JPanel container;
   private JPanel inputNickPopUp;
   private JLabel banner;
-  private final transient List<JLabel> labels = new ArrayList<>();
   private NickInput lastEditPressed;
 
   /**
@@ -82,7 +83,7 @@ public class NetworkPanel extends JLayeredPane {
       image.getScaledInstance(
           containerDimension.width, containerDimension.height, Image.SCALE_SMOOTH);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
 
     try {
@@ -90,7 +91,7 @@ public class NetworkPanel extends JLayeredPane {
       popUpImage = ImageIO.read(Objects.requireNonNull(imgUrl));
       popUpImage.getScaledInstance(popUpDimension.width, popUpDimension.height, Image.SCALE_SMOOTH);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 
@@ -104,7 +105,6 @@ public class NetworkPanel extends JLayeredPane {
           }
         };
     container.setOpaque(false);
-
     setInputNickPopUp();
 
     JLabel banner = new JLabel("Waiting for other players ... ");
@@ -261,6 +261,7 @@ public class NetworkPanel extends JLayeredPane {
             inputField.setText(null);
           }
         });
+
     inputField.setBounds(140, 130, 300, 30);
     inputField.setFont(customFont);
     inputNickPopUp.add(inputField);
