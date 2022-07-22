@@ -1,13 +1,13 @@
 package cyberzul.view.board;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serial;
 import javax.swing.Timer;
 
-/**
- * Timer for showing time for one turn in the view.
- */
+/** Timer for showing time for one turn in the view. */
 public class TurnCountDownTimer extends Timer {
+  @Serial
+  private static final long serialVersionUID = 1L;
   private int timerValue;
 
   /**
@@ -16,7 +16,7 @@ public class TurnCountDownTimer extends Timer {
    * soon as it is started. If <code>listener</code> is not <code>null</code>, it's registered as an
    * action listener on the timer.
    *
-   * @param delay    milliseconds for the initial and between-event delay
+   * @param delay milliseconds for the initial and between-event delay
    * @param listener an initial listener; can be <code>null</code>
    * @see #addActionListener
    * @see #setInitialDelay
@@ -24,7 +24,7 @@ public class TurnCountDownTimer extends Timer {
    */
   public TurnCountDownTimer(int delay, ActionListener listener) {
     super(delay, listener);
-    timerValue=30;
+    timerValue = 30;
   }
 
   @Override
