@@ -37,7 +37,8 @@ public class ClientNetworkConnection {
 
 
   //this class needs this reference to this mutable objects.
-  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  //it will only be created one instance of HOST
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"})
   public ClientNetworkConnection(ClientModel model, byte[] host) {
     this.model = model;
     HOST = host;

@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 /** Lobby Screen after selecting Single Player Mode. */
 public class SinglePlayerPanel extends JPanel {
   @Serial private static final long serialVersionUID = 17L;
-  private final transient BufferedImage image;
+  private transient BufferedImage image;
   private final Dimension containerDimension;
 
   /**
@@ -50,7 +50,7 @@ public class SinglePlayerPanel extends JPanel {
       image.getScaledInstance(
           containerDimension.width, containerDimension.height, Image.SCALE_SMOOTH);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 }
