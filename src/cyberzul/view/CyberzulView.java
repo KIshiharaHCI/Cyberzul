@@ -460,7 +460,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     gameBoardPanel.setMinimumSize(frameDimension);
     gameBoardPanel.setMaximumSize(frameDimension);
     JPanel backgroundPanel = new ImagePanel(gameBoardPanel, backgroundPath, FRAME_WIDTH,
-        FRAME_WIDTH, backgroundScaleFactor);
+        FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, GAMEBOARD_CARD);
     gameBoard = new GameBoard(tileClickListener, controller, frameDimension, musicPlayerHelper);
 

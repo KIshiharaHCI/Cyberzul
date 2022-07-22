@@ -4,13 +4,16 @@ import cyberzul.controller.Controller;
 import cyberzul.model.Offering;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.Serial;
 import java.util.List;
+import javax.swing.JPanel;
 
-/** The center of the table ("Tischmitte"). */
+/**
+ * Contains active player board, the factory displays and the table center (in the center of the
+ * {@link GameBoard}).
+ */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
@@ -28,10 +31,6 @@ public class CenterBoard extends JPanel {
   private TableCenterPanel tableCenterPanel;
   private PlayerBoard currentPlayerBoard;
   private JPanel platesAndTableCenterPanel;
-  private JPanel activeUserButtonsPanel;
-  private JButton forfeitButton;
-  private JButton cancelButton;
-  private JButton restartButton;
   private Dimension panelDimension;
   private Dimension topPanelDimension;
   private Dimension bottomPanelDimension;
@@ -73,10 +72,8 @@ public class CenterBoard extends JPanel {
     panelDimension = new Dimension(computePanelWidthInt, panelDimension.height);
     Double topPanelHeight = panelDimension.height * 0.38;
     int topPanelHeightInt = topPanelHeight.intValue();
-    topPanelDimension =
-        new Dimension(panelDimension.width, topPanelHeightInt);
-    bottomPanelDimension =
-        new Dimension(panelDimension.width, computePanelWidthInt);
+    topPanelDimension = new Dimension(panelDimension.width, topPanelHeightInt);
+    bottomPanelDimension = new Dimension(panelDimension.width, computePanelWidthInt);
   }
 
   private void setProperties() {
@@ -140,6 +137,7 @@ public class CenterBoard extends JPanel {
   }
   /**
    * Used by TileClickListener to get the current instance of TableCenter.
+   *
    * @return
    */
   public TableCenterPanel getTableCenterPanel() {

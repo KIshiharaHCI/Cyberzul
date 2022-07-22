@@ -2,7 +2,6 @@ package cyberzul.view.board;
 
 import cyberzul.controller.Controller;
 import cyberzul.view.IconButton;
-import cyberzul.view.ImagePanel;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.BorderLayout;
@@ -37,14 +36,15 @@ public class GameBoard extends JPanel {
   private IconButton soundButton;
   private IconButton settingsButton;
   private JPanel menu;
-  private JSlider musicSound;
-  private JSlider systemSound;
+  private JSlider musicSoundSlider;
+  private JSlider systemSoundSlider;
   private IconButton forfeitButton;
   private IconButton cancelButton;
   private IconButton restartButton;
   private JPanel systemSoundPanel;
+  private JPanel musicSoundPanel;
   private JLabel musicSoundLabel;
-  private ImagePanel systemSoundBackGroundPanel;
+  private JLabel systemSoundLabel;
   private transient MusicPlayerHelper musicPlayerHelper;
 
   /**
@@ -91,6 +91,7 @@ public class GameBoard extends JPanel {
     chatAndRankingBoardAndSettingPanel.setMaximumSize(chatAndRankingBoardAndButtonsPanelDimension);
     chatAndRankingBoardAndSettingPanel.setPreferredSize(
         chatAndRankingBoardAndButtonsPanelDimension);
+    chatAndRankingBoardAndSettingPanel.revalidate();
 
     add(chatAndRankingBoardAndSettingPanel, BorderLayout.EAST);
 
@@ -105,40 +106,23 @@ public class GameBoard extends JPanel {
     rankingBoardAndSettingPanel.add(rankingBoard);
     createSettingsPanel();
     rankingBoardAndSettingPanel.add(settingsPanel);
-
-    // SettingPanel
-
-    //    settingsPanel = new JPanel();
-    //    settingsPanel.setLayout(null);
-    //
-    //
-    //    settingsPanel.add(soundButton);
-
-    //    final JPopupMenu menu = new JPopupMenu("Menu");
-    //    JMenuItem firstItem = new JMenuItem("First item");
-    //    firstItem.addActionListener(ae -> System.out.println("First menu item clicked"));
-    //    menu.add(firstItem);
-    //    menu.add(new JMenuItem("Second item"));
-    //    menu.add(new JMenuItem("Third item"));
-
-    //    settingsButton.addActionListener(
-    //        ae -> menu.show(settingsButton, -iconButtonSize * 2, iconButtonSize / 2));
-    //    settingsPanel.add(settingsButton);
-    //
-    //    settingsPanel.setOpaque(false);
     rankingBoardAndSettingPanel.add(settingsPanel);
 
     chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
 
     /* Place for timer. TODO timer */
     JLabel tempLabel = new JLabel();
+    tempLabel.setPreferredSize(new Dimension(200, 30));
     tempLabel.setHorizontalAlignment(JLabel.LEFT);
-    tempLabel.setFont(new Font("Dialog", Font.BOLD, 30));
+    tempLabel.setFont(new Font("Dialog", Font.BOLD, 25));
     tempLabel.setText("place for timer");
     chatAndRankingBoardAndSettingPanel.add(tempLabel, BorderLayout.CENTER);
 
     ChatPanel chatPanel = new ChatPanel();
     chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
+
+    System.out.println(chatAndRankingBoardAndButtonsPanelDimension.getSize());
+    System.out.println(frameDimension.getSize());
   }
 
   /** Initialise all buttons for settingPanel. */
@@ -156,56 +140,83 @@ public class GameBoard extends JPanel {
 
     settingsButton.addActionListener(ae -> menu.setVisible(!menu.isVisible()));
 
-    menu = new JPanel(new GridLayout(5, 1));
-    menu.setPreferredSize(new Dimension(150, 300));
-    menu.setOpaque(false);
-
-    musicSoundLabel = new JLabel("music sound");
-    musicSoundLabel.setSize(100, 18);
-
-    musicSound = new JSlider();
-    musicSound.setSize(100, 18);
-    musicSound.setOpaque(false);
-    // musicSoundLabel.add(musicSound);
-
-    systemSound = new JSlider();
-    systemSound.setSize(100, 30);
-    systemSound.setOpaque(false);
-
-    systemSoundPanel = new JPanel(new GridLayout(2, 1));
-    // add(systemSoundPanel);
-
-    // add(systemSoundBackGroundPanel);
-    systemSoundPanel.setOpaque(false);
-    systemSoundPanel.setPreferredSize(new Dimension(105, 40));
-    JLabel label = new JLabel();
-    label.setSize(100, 18);
-    // label.setFont(ne);
-    label.setForeground(Color.white);
-    label.setHorizontalAlignment(JLabel.CENTER);
-    label.setText("system sound");
-    // systemSoundPanel.add(musicSoundLabel);
-    systemSoundPanel.add(systemSound);
-    systemSoundPanel.add(label);
-    systemSoundBackGroundPanel =
-        new ImagePanel(systemSoundPanel, "img/tile-outline.png", 100, 400, 1);
-    add(systemSoundBackGroundPanel);
-
-    forfeitButton = new IconButton("img/forfeit-button.png", 0, 0, 105, 39);
-    cancelButton = new IconButton("img/cancel-button.png", 0, 0, 105, 39);
-    restartButton = new IconButton("img/restart-button.png", 0, 0, 105, 39);
+    forfeitButton = new IconButton("img/forfeit-button.png", 0, 0, 100, 39);
+    cancelButton = new IconButton("img/cancel-button.png", 0, 0, 100, 39);
+    restartButton = new IconButton("img/restart-button.png", 0, 0, 100, 39);
 
     forfeitButton.addActionListener(
         event -> controller.replacePlayerByAi(controller.getNickOfActivePlayer()));
     cancelButton.addActionListener(event -> controller.cancelGameForAllPlayers());
     restartButton.addActionListener(event -> controller.restartGame());
 
-    // menu.add(musicSoundLabel);
-    menu.add(musicSound);
-    menu.add(systemSoundBackGroundPanel);
+    musicSoundSlider = new JSlider(-40, 6);
+    musicSoundSlider.addChangeListener(
+        e -> {
+          if (musicSoundSlider.getValue() < -39) {
+            musicPlayerHelper.getVolumeBackground().setValue(-80);
+          } else {
+            musicPlayerHelper.getVolumeBackground().setValue(musicSoundSlider.getValue());
+          }
+        });
+    musicSoundSlider.setValue(-17);
+    systemSoundSlider = new JSlider(-18, 6);
+    systemSoundSlider.addChangeListener(
+        e -> {
+          if (systemSoundSlider.getValue() < -17) {
+            musicPlayerHelper.getVolumeTilePlaced().setValue(-80);
+            musicPlayerHelper.getVolumeIllegalTurn().setValue(-80);
+          } else {
+            musicPlayerHelper.getVolumeTilePlaced().setValue(systemSoundSlider.getValue());
+            musicPlayerHelper.getVolumeIllegalTurn().setValue(systemSoundSlider.getValue());
+          }
+        });
+    systemSoundSlider.setValue(-6);
+    systemSoundLabel = new JLabel();
+    musicSoundLabel = new JLabel();
+  }
+
+  private void createMenuPanel() {
+    menu = new JPanel(new GridLayout(5, 1));
+    menu.setPreferredSize(new Dimension(150, 260));
+    menu.setOpaque(false);
+    createMusicSoundPanel();
+    createSystemSoundPanel();
+    menu.add(systemSoundPanel);
+    menu.add(musicSoundPanel);
     menu.add(forfeitButton);
     menu.add(cancelButton);
     menu.add(restartButton);
+  }
+
+  private void createSystemSoundPanel() {
+    systemSoundPanel = new JPanel(new GridLayout(2, 1));
+    systemSoundPanel.setOpaque(false);
+    systemSoundPanel.setPreferredSize(new Dimension(150, 50));
+
+    systemSoundSlider.setPreferredSize(new Dimension(130, 20));
+    systemSoundSlider.setOpaque(false);
+    systemSoundPanel.add(systemSoundSlider);
+    setLabelProperties(systemSoundLabel, "system sound");
+    systemSoundPanel.add(systemSoundLabel);
+  }
+
+  private void createMusicSoundPanel() {
+    musicSoundPanel = new JPanel(new GridLayout(2, 1));
+    musicSoundPanel.setOpaque(false);
+    musicSoundPanel.setPreferredSize(new Dimension(150, 50));
+
+    musicSoundSlider.setPreferredSize(new Dimension(130, 20));
+    musicSoundSlider.setOpaque(false);
+    musicSoundPanel.add(musicSoundSlider);
+    setLabelProperties(musicSoundLabel, "music sound");
+    musicSoundPanel.add(musicSoundLabel);
+  }
+
+  private void setLabelProperties(JLabel label, String text) {
+    label.setPreferredSize(new Dimension(100, 20));
+    label.setForeground(new Color(255, 255, 255, 255));
+    label.setHorizontalAlignment(JLabel.CENTER);
+    label.setText(text);
   }
 
   /** adds the menu with default visibility set to false. */
@@ -213,16 +224,15 @@ public class GameBoard extends JPanel {
     initializeSettingWidgets();
     settingsPanel = new JPanel(new BorderLayout());
     settingsPanel.setOpaque(false);
-    settingsPanel.add(menu, BorderLayout.CENTER);
+    createMenuPanel();
     menu.setVisible(false);
     JPanel roundButtonsPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+    roundButtonsPanel.setPreferredSize(new Dimension(60, 260));
     roundButtonsPanel.setOpaque(false);
     roundButtonsPanel.add(soundButton);
     roundButtonsPanel.add(settingsButton);
-
+    settingsPanel.add(menu, BorderLayout.CENTER);
     settingsPanel.add(roundButtonsPanel, BorderLayout.EAST);
-    // settingsPanel.add(soundButton, BorderLayout.EAST);
-
   }
 
   /** Creates the sidebar with the panels of the opponents. */

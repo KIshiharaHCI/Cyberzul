@@ -1,5 +1,6 @@
 package cyberzul.view.board;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -8,6 +9,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.SwingUtilities;
@@ -28,6 +30,9 @@ public class MusicPlayerHelper {
   private boolean tilePlacedMusicOn;
   private boolean illegalTurnMusicOn;
   private boolean playMusicOn;
+  private final FloatControl volumeBackground;
+  private final FloatControl volumeTilePlaced;
+  private final FloatControl volumeIllegalTurn;
 
   private SwingWorker<Void, Void> worker;
 
@@ -35,18 +40,41 @@ public class MusicPlayerHelper {
   public MusicPlayerHelper() {
     String backgroundMusicPath = "audio/play-music.wav";
     audioInputStreamBackgroundMusic = createAudioInputStream(backgroundMusicPath);
+    backgroundClip = createClip(Objects.requireNonNull(audioInputStreamBackgroundMusic));
+    backgroundMusicOn = false;
+    setTileMusicProps(Objects.requireNonNull(backgroundClip), audioInputStreamBackgroundMusic);
+    volumeBackground = createVolume(Objects.requireNonNull(backgroundClip));
+    volumeBackground.setValue(-17);
+
+
     String tilePlacedMusicPath = "audio/placement-sound.wav";
     audioInputStreamTilePlacedMusic = createAudioInputStream(tilePlacedMusicPath);
+    tilePlacedClip = createClip(Objects.requireNonNull(audioInputStreamTilePlacedMusic));
+    tilePlacedMusicOn = false;
+    setTileMusicProps(Objects.requireNonNull(tilePlacedClip), audioInputStreamTilePlacedMusic);
+    volumeTilePlaced = createVolume(Objects.requireNonNull(tilePlacedClip));
+    volumeTilePlaced.setValue(-6);
+
+
     String illegalTurnMusicPath = "audio/illegal-turn-sound.wav";
     audioInputStreamIllegalTurnMusic = createAudioInputStream(illegalTurnMusicPath);
-    backgroundClip = createClip(Objects.requireNonNull(audioInputStreamBackgroundMusic));
-    tilePlacedClip = createClip(Objects.requireNonNull(audioInputStreamTilePlacedMusic));
     illegalTurnClip = createClip(Objects.requireNonNull(audioInputStreamIllegalTurnMusic));
-    playMusicOn = true;
-    backgroundMusicOn = false;
-    tilePlacedMusicOn = false;
     illegalTurnMusicOn = false;
+    setTileMusicProps(Objects.requireNonNull(illegalTurnClip), audioInputStreamIllegalTurnMusic);
+    volumeIllegalTurn = createVolume(Objects.requireNonNull(illegalTurnClip));
+    volumeIllegalTurn.setValue(-6);
+
+    playMusicOn = true;
     initializeWorker();
+  }
+
+  /** Initiates the playing of the background music. */
+  public void init() {
+    backgroundMusicOn = true;
+    tilePlacedMusicOn = true;
+    illegalTurnMusicOn = true;
+    startMusic(backgroundClip, true);
+    loop(backgroundClip);
   }
 
   private void initializeWorker() {
@@ -62,7 +90,7 @@ public class MusicPlayerHelper {
                     playBackgroundMusic();
                   }
                 });
-            Thread.sleep(5000);
+            Thread.sleep(500);
             return null;
           }
         };
@@ -77,27 +105,25 @@ public class MusicPlayerHelper {
     if (stop) {
       playMusicOn = false;
       backgroundMusicOn = false;
+      tilePlacedMusicOn = false;
+      illegalTurnMusicOn = false;
       stopMusic(backgroundClip);
       stopMusic(tilePlacedClip);
       stopMusic(illegalTurnClip);
     } else {
       playMusicOn = true;
       backgroundMusicOn = true;
-      startMusic(backgroundClip, Clip.LOOP_CONTINUOUSLY);
-      startMusic(tilePlacedClip, 1);
-      startMusic(illegalTurnClip, 1);
+      tilePlacedMusicOn = true;
+      illegalTurnMusicOn = true;
+      startMusic(backgroundClip, true);
+      loop(backgroundClip);
     }
   }
 
-  /** Initiates the playing of the background music. */
-  public void init() {
-    backgroundMusicOn = true;
-    handleMusicClip(
-        backgroundMusicOn, backgroundClip, audioInputStreamBackgroundMusic, Clip.LOOP_CONTINUOUSLY);
-  }
 
-  public void playBackgroundMusic() {
-    startMusic(backgroundClip, Clip.LOOP_CONTINUOUSLY);
+
+  private void playBackgroundMusic() {
+    startMusic(backgroundClip, backgroundMusicOn);
   }
 
   /**
@@ -105,13 +131,9 @@ public class MusicPlayerHelper {
    * FloorLinePanel}.
    */
   public void playTilePlacedMusic() {
-    if (!tilePlacedMusicOn) {
-      tilePlacedMusicOn = true;
-      handleMusicClip(tilePlacedMusicOn, tilePlacedClip, audioInputStreamTilePlacedMusic, 0);
-      return;
-    }
     stopBackgroundWithWorker();
-    startMusic(tilePlacedClip, 1);
+    startMusic(tilePlacedClip, tilePlacedMusicOn);
+    //loop(tilePlacedClip, 0);
     startBackgroundWithWorker();
   }
 
@@ -120,13 +142,9 @@ public class MusicPlayerHelper {
    * {@link FloorLinePanel}.
    */
   public void playIllegalTurnMusic() {
-    if (!illegalTurnMusicOn) {
-      illegalTurnMusicOn = true;
-      handleMusicClip(illegalTurnMusicOn, illegalTurnClip, audioInputStreamIllegalTurnMusic, 0);
-      return;
-    }
     stopBackgroundWithWorker();
-    startMusic(illegalTurnClip, 1);
+    startMusic(illegalTurnClip, illegalTurnMusicOn);
+    //loop(illegalTurnClip, 0);
     startBackgroundWithWorker();
   }
 
@@ -144,13 +162,6 @@ public class MusicPlayerHelper {
 
   public void stopBackgroundMusic() {
     stopMusic(backgroundClip);
-  }
-
-  private void handleMusicClip(
-      boolean musicOn, Clip clip, AudioInputStream audioInputStream, int repeatLoop) {
-    if (musicOn) {
-      setTileMusicProps(clip, audioInputStream, repeatLoop);
-    }
   }
 
   private AudioInputStream createAudioInputStream(String soundPath) {
@@ -174,11 +185,13 @@ public class MusicPlayerHelper {
     return null;
   }
 
-  private void setTileMusicProps(Clip clip, AudioInputStream audioInputStream, int repeatLoop) {
+  private FloatControl createVolume(Clip clip) {
+    return (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+  }
+
+  private void setTileMusicProps(Clip clip, AudioInputStream audioInputStream) {
     try {
       clip.open(audioInputStream);
-      clip.loop(repeatLoop);
-      clip.start();
     } catch (LineUnavailableException | IOException e) {
       e.printStackTrace();
     }
@@ -203,12 +216,31 @@ public class MusicPlayerHelper {
     clip.stop();
   }
 
-  private void startMusic(Clip clip, int loop) {
-    clip.loop(loop);
-    clip.start();
+  private void startMusic(Clip clip, boolean musicOn) {
+    if (musicOn) {
+      clip.setFramePosition(0);
+      clip.start();
+    }
+  }
+
+  private void loop(Clip clip) {
+    clip.loop(Clip.LOOP_CONTINUOUSLY);
   }
 
   public boolean isPlayMusicOn() {
     return playMusicOn;
+  }
+  @SuppressFBWarnings("EI_EXPOSE_REP")
+  public FloatControl getVolumeBackground() {
+    return volumeBackground;
+  }
+  @SuppressFBWarnings("EI_EXPOSE_REP")
+  public FloatControl getVolumeTilePlaced() {
+    return volumeTilePlaced;
+  }
+
+  @SuppressFBWarnings("EI_EXPOSE_REP")
+  public FloatControl getVolumeIllegalTurn() {
+    return volumeIllegalTurn;
   }
 }
