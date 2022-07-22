@@ -11,7 +11,6 @@ import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.view.ChatCellRenderer;
 import cyberzul.view.IconButton;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,16 +30,21 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
-/** The Chat Panel at the right side of the GameBoard. */
+
+/**
+ * The Chat Panel at the right side of the GameBoard.
+ * */
 @SuppressFBWarnings("EI_EXPOSE_REP2")
 public class ChatPanel extends JPanel implements PropertyChangeListener {
 
   private static final int DEFAULT_HEIGHT = 300;
   private static final int INPUTFIELD_WIDTH = 20;
   private static final int INPUTFIELD_HEIGHT = 3;
-  @Serial private static final long serialVersionUID = 13L;
+  @Serial
+  private static final long serialVersionUID = 13L;
   private static final int defaultInset = 5;
   private static final String chaticon = "img/chaticon.png";
+
   public static final DefaultListModel<Message> listModel = new DefaultListModel<>();
   private transient final Controller controller;
   private JTextArea inputArea;
@@ -49,7 +53,9 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private IconButton openChatButton;
   private JPanel chatButtonPanel;
 
-  /** create a new chat panel with the respective widgets. */
+  /**
+   * create a new chat panel with the respective widgets.
+   */
   public ChatPanel(Controller controller) {
     this.controller = controller;
     initializeWidgets();
@@ -58,7 +64,9 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     addEventListeners();
   }
 
-  /** Instantiate all ChatPanel widgets and specify config options where appropriate. */
+  /**
+   * Instantiate all ChatPanel widgets and specify config options where appropriate.
+   */
   private void initializeWidgets() {
 
     JList<Message> chatList = new JList<>(listModel);

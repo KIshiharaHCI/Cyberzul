@@ -1,13 +1,5 @@
 package cyberzul.network.client;
 
-import cyberzul.controller.Controller;
-import cyberzul.controller.GameController;
-import cyberzul.model.Model;
-import cyberzul.model.ModelStrategyChooser;
-import cyberzul.view.CyberzulView;
-
-
-
 /**
  * Starts a ClientModel and Client UI. The ClientModel tries then to connect itself with a Server
  */

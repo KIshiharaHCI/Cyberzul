@@ -20,7 +20,7 @@ public class CommonModelTests {
     GameModel model = new GameModel(new ArrayList<>());
     ClientPlayer fritz = new ClientPlayer("Fritz");
     fritz.setPoints(3000);
-    fritz.setWall(new boolean[][]{
+    fritz.setWall(new boolean[][] {
         {true, true, true, true, true},
         {true, true, true, true, true},
         {true, true, true, true, true},
@@ -30,7 +30,7 @@ public class CommonModelTests {
     model.playerList.add(fritz);
     ClientPlayer marco = new ClientPlayer("Marco");
     marco.setPoints(4000);
-    marco.setWall(new boolean[][]{
+    marco.setWall(new boolean[][] {
         {true, true, true, true, true},
         {true, true, true, true, true},
         {true, true, true, true, true},
@@ -40,7 +40,7 @@ public class CommonModelTests {
     model.playerList.add(marco);
     ClientPlayer lola = new ClientPlayer("Lola");
     lola.setPoints(2000);
-    lola.setWall(new boolean[][]{
+    lola.setWall(new boolean[][] {
         {true, true, true, true, true},
         {false, false, false, false, false},
         {true, true, true, true, true},
@@ -73,7 +73,7 @@ public class CommonModelTests {
     GameModel model = new GameModel(new ArrayList<>());
     ClientPlayer fritz = new ClientPlayer("Fritz");
     fritz.setPoints(3002);
-    fritz.setWall(new boolean[][]{
+    fritz.setWall(new boolean[][] {
         {true, true, true, true, true},
         {false, true, false, false, false},
         {true, true, true, true, true},
@@ -83,7 +83,7 @@ public class CommonModelTests {
     model.playerList.add(fritz);
     ClientPlayer marco = new ClientPlayer("Marco");
     marco.setPoints(3000);
-    marco.setWall(new boolean[][]{
+    marco.setWall(new boolean[][] {
         {true, true, true, true, true},
         {true, true, true, true, true},
         {true, true, true, true, true},
@@ -93,7 +93,7 @@ public class CommonModelTests {
     model.playerList.add(marco);
     ClientPlayer lola = new ClientPlayer("Lola");
     lola.setPoints(2000);
-    lola.setWall(new boolean[][]{
+    lola.setWall(new boolean[][] {
         {true, true, true, true, true},
         {false, false, false, false, false},
         {true, true, true, true, true},
@@ -125,7 +125,7 @@ public class CommonModelTests {
     GameModel model = new GameModel(new ArrayList<>());
     ClientPlayer fritz = new ClientPlayer("Fritz");
     fritz.setPoints(3000);
-    fritz.setWall(new boolean[][]{
+    fritz.setWall(new boolean[][] {
         {true, true, true, true, true},
         {true, true, true, true, true},
         {true, true, true, true, true},
@@ -135,7 +135,7 @@ public class CommonModelTests {
     model.playerList.add(fritz);
     ClientPlayer marco = new ClientPlayer("Marco");
     marco.setPoints(3000);
-    marco.setWall(new boolean[][]{
+    marco.setWall(new boolean[][] {
         {true, true, true, true, true},
         {true, true, true, true, true},
         {true, true, true, true, true},
@@ -145,7 +145,7 @@ public class CommonModelTests {
     model.playerList.add(marco);
     ClientPlayer lola = new ClientPlayer("Lola");
     lola.setPoints(2000);
-    lola.setWall(new boolean[][]{
+    lola.setWall(new boolean[][] {
         {true, true, true, true, true},
         {false, false, false, false, false},
         {true, true, true, true, true},

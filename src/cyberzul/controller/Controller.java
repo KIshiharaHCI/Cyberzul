@@ -165,7 +165,6 @@ public interface Controller {
   void startSinglePlayerMode(int numberOfAiPlayers);
 
 
-
   /**
    * Send a message to the model that is to be published to the other chat clients.
    *

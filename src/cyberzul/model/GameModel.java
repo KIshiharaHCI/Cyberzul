@@ -32,19 +32,15 @@ public class GameModel extends CommonModel implements ModelStrategy {
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
+  private static final int TIME_TILL_NEXT_ROUND = 30000;
   //private final static int sleepTime = 100;
   private final Random ran = new Random();
   //the timer because player has to make a move within 30 seconds
   private Timer timer;
-  private static final int TIME_TILL_NEXT_ROUND = 30000;
-
   private boolean hasGameEnded = false;
   private Offering currentOffering;
   private int currentIndexOfTile;
-
-  private String hotSeatStory = "HotSeatStory is not yet set!";
-  private String networkStory = "NetworkStory is not yet set!";
-  private String singlePlayerStory = "SinglePlayerStory is not yet set!";
+  private boolean isBulletMode;
 
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
@@ -388,5 +384,13 @@ public class GameModel extends CommonModel implements ModelStrategy {
       playerList.get(i).setAiPlayer(true);
     }
     startGame();
+  }
+
+  public boolean getBulletMode() {
+    return isBulletMode;
+  }
+
+  public void setBulletMode(boolean bulletMode) {
+    isBulletMode = bulletMode;
   }
 }

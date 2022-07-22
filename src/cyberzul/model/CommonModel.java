@@ -46,7 +46,6 @@ public abstract class CommonModel implements ModelStrategy {
   public void addPropertyChangeListener(PropertyChangeListener listener) {
     requireNonNull(listener);
     support.addPropertyChangeListener(listener);
-    System.out.println("propertychangelisteners added");
   }
 
   @Override
@@ -219,7 +218,7 @@ public abstract class CommonModel implements ModelStrategy {
           + " has won the game! You shall be "
           + "allowed to help Queen MaXIne build her Cyber Palace with our "
           + "beautiful cyber tiles!";
-      return  messageToBeReturned;
+      return messageToBeReturned;
     } else {
       LOGGER.info("We have >= two players with the same amount of points at the end of the game.");
       ArrayList<Integer> amountOfCompleteHorizontalLines = new ArrayList<>();

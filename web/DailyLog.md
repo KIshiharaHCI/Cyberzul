@@ -1741,10 +1741,11 @@ Q3:
 _Nils_
 
 Q1:
+
 - continued trying. More googeling.
 - I found code and broke it down so it was only the client-network-connection to test.
 - I found out that the server has to use IP 0.0.0.0, because that means he listens to every IP Address
-- I found out that the IP Address has to be past as IPAdress.getByByteAddress(byte[]). 
+- I found out that the IP Address has to be past as IPAdress.getByByteAddress(byte[]).
 - tried to ping my laptop to see if my firewall is low enough.
 - Build a connection just via netcat between my two laptops
 - started to use telnet and the server java code
@@ -1752,9 +1753,7 @@ Q1:
 - fixed all CheckStyles in the network code
 - made it possible to connect via Wi-Fi
 
-Q2: 
-
-
+Q2:
 
 *18.07.2022*
 
@@ -1765,6 +1764,7 @@ Q2:
 _Nils_
 
 Q2:
+
 - make it possible to create a server on demand and get the IP address as hexString
 - make it possible to connect with that server as client by using this hexString that encodes the IPv4 address
 
@@ -1775,16 +1775,18 @@ Q2:
 _NILS_
 
 Q1:
+
 - meeting with Chris
 - meeting with the team
 - fixing two bugs in the chat
 - made it impossible to log in with a nickname longer than 15 characters
 
 Q2:
+
 - make sure no exceptions are thrown if
-  - the client sends wrong JSON files
-  - the client disconnects
-  - the server disconnects
+    - the client sends wrong JSON files
+    - the client disconnects
+    - the server disconnects
 - make it possible to stop the connection trys from the client and let him connect with another server IP
 - make the Player names change to "AI-Player.." if he gets replaced by the AI
 - let the server shut down if no human player are connected with it any more.
@@ -1795,4 +1797,5 @@ Q2:
 - make SinglePlayerMode run over the server
 
 Q3:
+
 - none

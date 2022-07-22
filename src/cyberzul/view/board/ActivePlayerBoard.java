@@ -13,17 +13,20 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 
-/** The PlayerBoard of the active player (at the lower center of the Gameboard). */
+/**
+ * The PlayerBoard of the active player (at the lower center of the Gameboard).
+ */
 public class ActivePlayerBoard extends PlayerBoard {
-  @Serial private static final long serialVersionUID = 15L;
+  @Serial
+  private static final long serialVersionUID = 15L;
   private transient BufferedImage image;
 
   /**
    * The constructor to create a playerboard for a given player.
    *
-   * @param controller the game controller
+   * @param controller        the game controller
    * @param tileClickListener listens to which tile is clicked
-   * @param playerName the name of the player who's board it is
+   * @param playerName        the name of the player who's board it is
    */
   public ActivePlayerBoard(
       Controller controller,

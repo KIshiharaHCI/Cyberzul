@@ -12,17 +12,20 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-/** A SmallPlayerBoard used for displaying opponent Players. */
+/**
+ * A SmallPlayerBoard used for displaying opponent Players.
+ */
 public class SmallPlayerBoard extends PlayerBoard {
-  @Serial private static final long serialVersionUID = 14L;
+  @Serial
+  private static final long serialVersionUID = 14L;
   private transient BufferedImage image;
 
   /**
    * The constructor to create a playerboard for a given player.
    *
-   * @param controller the controller.
+   * @param controller        the controller.
    * @param tileClickListener the tile click listener.
-   * @param playerName the name of the player of this small board.
+   * @param playerName        the name of the player of this small board.
    */
   public SmallPlayerBoard(
       Controller controller,

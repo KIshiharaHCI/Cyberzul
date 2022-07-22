@@ -91,9 +91,9 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
   private void handlePlayerJoinedChatEvent(Object customMadeGameEvent) {
     try {
       PlayerJoinedChatEvent playerJoinedChatEvent =
-              (PlayerJoinedChatEvent) customMadeGameEvent;
+          (PlayerJoinedChatEvent) customMadeGameEvent;
       connection.broadcastToAll(
-              JsonMessage.userJoined(playerJoinedChatEvent.getName()));
+          JsonMessage.userJoined(playerJoinedChatEvent.getName()));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -160,20 +160,12 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
   }
 
   private void handleIllegalTurnEvent() {
-    try {
-      connection.sendToActivePlayer(JsonMessage.createMessageOfType(JsonMessage.ILLEGAL_TURN));
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
+    connection.sendToActivePlayer(JsonMessage.createMessageOfType(JsonMessage.ILLEGAL_TURN));
   }
 
   private void handleNoValidTurnToMakeEvent() {
-    try {
-      connection.sendToActivePlayer(
-          JsonMessage.createMessageOfType(JsonMessage.NO_VALID_TURN_TO_MAKE));
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
+    connection.sendToActivePlayer(
+        JsonMessage.createMessageOfType(JsonMessage.NO_VALID_TURN_TO_MAKE));
   }
 
   /**
@@ -249,7 +241,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
           (PlayerAddedMessageEvent) customMadeGameEvent;
       PlayerTextMessage message = (PlayerTextMessage) playerAddedMessageEvent.getMessage();
       connection.broadcastToAll(JsonMessage.message(
-              message.getNameOfSender(), message.getTime(), message.getContent()));
+          message.getNameOfSender(), message.getTime(), message.getContent()));
     } catch (IOException e) {
       e.printStackTrace();
     }

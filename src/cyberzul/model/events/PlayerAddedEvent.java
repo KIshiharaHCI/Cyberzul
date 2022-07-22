@@ -1,7 +1,5 @@
 package cyberzul.model.events;
 
-import cyberzul.network.client.messages.Message;
-
 /**
  * Informs the listeners that a player was successfully added to the game.
  */

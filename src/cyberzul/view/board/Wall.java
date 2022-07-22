@@ -11,7 +11,8 @@ import javax.swing.JPanel;
  * Creates the wall of the player on the player board.
  */
 public class Wall extends JPanel {
-  @Serial private static final long serialVersionUID = 7526472295622776147L;
+  @Serial
+  private static final long serialVersionUID = 7526472295622776147L;
   private static final int SMALL_TILE_SIZE = Tile.SMALL_TILE_SIZE;
   private static final int ROWS = 5;
   private static final int COLS = 5;

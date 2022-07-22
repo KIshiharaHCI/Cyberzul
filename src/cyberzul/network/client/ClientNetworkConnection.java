@@ -26,9 +26,8 @@ import org.json.JSONObject;
  */
 public class ClientNetworkConnection {
 
-  private static byte[] HOST;
   private static final int PORT = 8080;
-
+  private static byte[] HOST;
   private final ClientModel model;
   private Socket socket;
   private BufferedWriter writer;
@@ -59,6 +58,7 @@ public class ClientNetworkConnection {
         Socket socket;
         try {
           socket = new Socket(InetAddress.getByAddress(HOST), PORT);
+          model.youConnectedToTheServer();
         } catch (ConnectException connectException) {
           if (connectException.getMessage().equals("Connection refused: connect")) {
             Server.start();
@@ -85,7 +85,7 @@ public class ClientNetworkConnection {
       }
     } catch (InterruptedException ex) {
       // Acknowledged.
-      // (Socket was requested to shut down, e.g. by the user pressing ctrl+d)
+      // (Socket was requested to shut down)
     }
   }
 
@@ -117,6 +117,7 @@ public class ClientNetworkConnection {
         break;
       }
     }
+    model.youGotDisconnected();
     System.out.println("Input loop ended.");
   }
 
@@ -137,7 +138,8 @@ public class ClientNetworkConnection {
         model.userJoined(object.getString(JsonMessage.NICK_FIELD));
         model.playerJoinedChat(object.getString(JsonMessage.NICK_FIELD));
       }
-      case USER_LEFT -> model.playerLeft(object.getString(JsonMessage.NICK_FIELD));
+      case PLAYER_FORFEITED -> model.playerForfeited(object.getString(JsonMessage.NICK_FIELD));
+      case PLAYER_LEFT -> model.playerLeft(JsonMessage.NICK_FIELD);
       case NEXT_PLAYERS_TURN -> model.handleNextPlayersTurn(object);
       case NOT_YOUR_TURN -> model.handleNotYourTurn();
       case PLAYER_HAS_CHOSEN_TILE -> model.handlePlayerHasChosenTile(object);
@@ -174,7 +176,6 @@ public class ClientNetworkConnection {
     String content = JsonMessage.getContent(jsonObject);
     model.addTextMessageWithoutTimeStamp(content);
   }
-
 
 
   /**
@@ -236,7 +237,7 @@ public class ClientNetworkConnection {
       JSONObject message = JsonMessage.createMessageOfType(messageType);
       writer.write(message + System.lineSeparator());
       writer.flush();
-    } catch (IOException | JSONException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
