@@ -235,4 +235,8 @@ public interface ModelStrategy {
    */
   void postChatMessage(String text);
 
+  void setBulletMode(boolean bulletMode);
+
+  boolean getBulletMode();
+
 }

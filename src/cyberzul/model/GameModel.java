@@ -41,6 +41,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private boolean hasGameEnded = false;
   private Offering currentOffering;
   private int currentIndexOfTile;
+  private boolean isBulletMode;
 
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
@@ -384,5 +385,15 @@ public class GameModel extends CommonModel implements ModelStrategy {
       playerList.get(i).setAiPlayer(true);
     }
     startGame();
+  }
+
+  @Override
+  public void setBulletMode(boolean bulletMode) {
+    isBulletMode = bulletMode;
+  }
+
+  @Override
+  public boolean getBulletMode() {
+    return isBulletMode;
   }
 }
