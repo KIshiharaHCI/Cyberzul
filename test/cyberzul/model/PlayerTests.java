@@ -253,7 +253,21 @@ public class PlayerTests {
 
     player.addEndOfGamePoints();
 
-    System.out.println(player.getPoints());
     Assertions.assertEquals(28, player.getPoints());
+
+    //get ten points, because we have all red tiles
+    player.setWall(new boolean[][]{
+        {false, false, true, false, false},
+        {false, false, false, true, false},
+        {false, false, false, false, true},
+        {true, false, false, false, false},
+        {false, true, false, false, false}
+    });
+    player.setPoints(12);
+
+    player.addEndOfGamePoints();
+
+    System.out.println(player.getPoints());
+    Assertions.assertEquals(22, player.getPoints());
   }
 }
