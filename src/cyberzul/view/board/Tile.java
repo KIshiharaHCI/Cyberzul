@@ -49,7 +49,7 @@ public interface Tile {
   /**
    * Returns the JLabel where the ImageIcon of the Tile is added.
    *
-   * @return
+   * @return the label.
    */
   JLabel getLabel();
 }
