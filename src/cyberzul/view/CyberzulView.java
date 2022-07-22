@@ -1,8 +1,20 @@
 package cyberzul.view;
 
+import static java.util.Objects.requireNonNull;
+
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
-import cyberzul.model.events.*;
+import cyberzul.model.events.ChatMessageRemovedEvent;
+import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.GameNotStartableEvent;
+import cyberzul.model.events.InvalidIPv4AddressEvent;
+import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.PlayerHasEndedTheGameEvent;
+import cyberzul.model.events.PlayerJoinedChatEvent;
+import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.network.server.Server;
 import cyberzul.view.board.ChatPanel;
 import cyberzul.view.board.GameBoard;
@@ -11,11 +23,13 @@ import cyberzul.view.listeners.TileClickListener;
 import cyberzul.view.panels.HotSeatLobbyScreen;
 import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -27,11 +41,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import static java.util.Objects.requireNonNull;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * GUI for Cyberzul Changes its appearance based on the model information.
@@ -49,9 +65,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final String GAMEBOARD_CARD = "gameboard";
   private static final int FRAME_WIDTH = 1400;
   private static final int FRAME_HEIGHT = 800;
+  private static Font customFont;
   private final Dimension frameDimension = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
   private final double backgroundScaleFactor = 1;
-  private static Font customFont;
   private final String backgroundPath = "img/background.jpg";
   private final transient Model model;
   private final transient Controller controller;
@@ -72,7 +88,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private transient TileClickListener tileClickListener;
   private GameBoard gameBoard;
 
-  private transient MusicPlayerHelper musicPlayerHelper;
+  private final transient MusicPlayerHelper musicPlayerHelper;
 
   //TODO: @Kenji feel free to change this. I needed it.
   private JButton joinServerButton;
@@ -109,6 +125,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   //    super.dispose();
   //  }
 
+  public static Font getCustomFont() {
+    return customFont;
+  }
+
   /**
    * Initializes the custom font used in the package for writing names etc.
    * Returned font is of default size
@@ -126,7 +146,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       e.printStackTrace();
     }
   }
-
 
   private void initializeWidgets() {
     layout = new CardLayout();
@@ -308,8 +327,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "LoggedInEvent" -> {
         this.setTitle("Cyberzul - " + model.getPlayerName());
         //TODO: update Label in each lobby panel?
-//        numberOfLoggedInPlayersLabel.setText(
-//            "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+        //numberOfLoggedInPlayersLabel.setText(
+        //"Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showErrorMessage("successfully logged in");
       }
       case ConnectedWithServerEvent.EVENT_NAME,
@@ -365,7 +384,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case "PlayerAddedMessageEvent" -> {
         requireNonNull(ChatPanel.listModel);
-        PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+        PlayerAddedMessageEvent playerAddedMessageEvent =
+            (PlayerAddedMessageEvent) customMadeGameEvent;
         System.out.println(playerAddedMessageEvent.getMessage());
         ChatPanel.listModel.addElement(playerAddedMessageEvent.getMessage());
       }
@@ -464,7 +484,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     networkModePanel.add(joinServerButton);
   }
 
-
   private void showHsmCard() {
     showCard(hotSeatModeCard);
   }
@@ -523,9 +542,5 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    */
   private void showCard(String card) {
     layout.show(getContentPane(), card);
-  }
-
-  public static Font getCustomFont() {
-    return customFont;
   }
 }
