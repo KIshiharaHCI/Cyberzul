@@ -82,7 +82,7 @@ public class Plate extends JPanel {
    *
    * @param path the path of the image.
    * @param size the size of the image.
-   * @return
+   * @return the image icon of the given image.
    */
   private ImageIcon getResizedImageIcon(String path, int size) {
     URL imgUrl1 = getClass().getClassLoader().getResource(path);

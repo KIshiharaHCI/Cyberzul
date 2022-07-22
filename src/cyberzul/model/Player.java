@@ -119,9 +119,9 @@ public class Player {
   }
 
   /**
-   * Sets an given player to be an AI-Player, sets his/her name to "AI-" name
+   * Sets an given player to be an AI-Player, sets his/her name to "AI-" name.
    *
-   * @param aiPlayer
+   * @param aiPlayer true, if he/she should be set to be an AI-player, false if not.
    */
   public void setAiPlayer(boolean aiPlayer) {
     isAiPlayer = aiPlayer;
