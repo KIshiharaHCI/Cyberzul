@@ -38,7 +38,7 @@ public class ClientMessageHandler implements Runnable {
   private final Controller controller;
   private final Model model;
   private String nickname;
-  private final int MAX_LENGTH_OF_PLAYER_NAMES = 15;
+  private static final int MAX_LENGTH_OF_PLAYER_NAMES = 15;
 
 
   /**
@@ -180,7 +180,7 @@ public class ClientMessageHandler implements Runnable {
         return;
       }
 
-      if(nickname.length() > 15){
+      if (nickname.length() > 15) {
         send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_IS_TOO_LONG));
       }
 
