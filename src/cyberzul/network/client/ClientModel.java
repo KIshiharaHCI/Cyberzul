@@ -632,7 +632,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Add a message without time stamps.
    *
+<<<<<<< HEAD
    * @param content the message that should be added.
+=======
+   * @param content The text that the participant had sent.
+>>>>>>> 5951ab53632511a7fc9d35dfb27b205a26e63e88
    */
   public void addTextMessageWithoutTimeStamp(String content) {
     System.out.println(content);

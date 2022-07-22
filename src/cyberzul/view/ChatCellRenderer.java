@@ -31,7 +31,6 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
     dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
   }
 
-
   @Override
   public Component getListCellRendererComponent(JList<? extends Message> list,
                                                 Message value, int index, boolean isSelected,
