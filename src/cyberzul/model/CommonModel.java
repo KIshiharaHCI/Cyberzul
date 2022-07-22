@@ -27,14 +27,26 @@ public abstract class CommonModel implements ModelStrategy {
   protected ArrayList<Offering> offerings;
   protected boolean isGameStarted = false;
 
-  public CommonModel() {
+  public CommonModel(List<PropertyChangeListener> listenerList) {
     support = new PropertyChangeSupport(this);
+    addListenersToTheModel(listenerList);
+  }
+
+  /**
+   * The ModelStrategyChooser saves the PropertyChangeListener that should be added to the model in
+   * a list and adds them if they should be added.
+   */
+  private void addListenersToTheModel(List<PropertyChangeListener> listenerList) {
+    for (PropertyChangeListener listener : listenerList) {
+      this.addPropertyChangeListener(listener);
+    }
   }
 
   @Override
   public void addPropertyChangeListener(PropertyChangeListener listener) {
     requireNonNull(listener);
     support.addPropertyChangeListener(listener);
+    System.out.println("propertychangelisteners added");
   }
 
   @Override
@@ -210,10 +222,6 @@ public abstract class CommonModel implements ModelStrategy {
       return  messageToBeReturned;
     } else {
       LOGGER.info("We have >= two players with the same amount of points at the end of the game.");
-      // TODO: to be deleted
-      for (int i = 0; i < playerWithSameMostPoints.size(); i++) {
-        LOGGER.info(i + ": " + playerWithSameMostPoints.get(i).getName());
-      }
       ArrayList<Integer> amountOfCompleteHorizontalLines = new ArrayList<>();
       // add all values for complete horizontal lines of the players with same points to list
       for (Player player : playerWithSameMostPoints) {
@@ -310,7 +318,8 @@ public abstract class CommonModel implements ModelStrategy {
 
   @Override
   public void postChatMessage(String message) {
-    PlayerTextMessage playerTextMessage = new PlayerTextMessage(getPlayerName(), new Date(), message);
+    PlayerTextMessage playerTextMessage = new PlayerTextMessage(getPlayerName(),
+        new Date(), message);
     notifyListeners(new PlayerAddedMessageEvent(playerTextMessage));
   }
 

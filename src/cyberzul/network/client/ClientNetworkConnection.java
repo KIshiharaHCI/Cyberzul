@@ -15,7 +15,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +37,8 @@ public class ClientNetworkConnection {
 
 
   //this class needs this reference to this mutable objects.
-  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  //it will only be created one instance of HOST
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"})
   public ClientNetworkConnection(ClientModel model, byte[] host) {
     this.model = model;
     HOST = host;
@@ -150,7 +150,7 @@ public class ClientNetworkConnection {
       case GAME_CANCELED -> model.handleGameCanceled(object.getString(JsonMessage.NICK_FIELD));
       case GAME_FORFEITED -> model.handleGameForfeited(object.getString(JsonMessage.NICK_FIELD));
       case MESSAGE -> handlePlayerTextMessage(object);
-      //case CHEAT_MESSAGE -> handlePlayerNeedHelp(object);
+      case CHEAT_MESSAGE -> handlePlayerNeedHelp(object);
       default -> throw new AssertionError("Unhandled message: " + object);
     }
   }
@@ -167,6 +167,12 @@ public class ClientNetworkConnection {
     Date time = JsonMessage.getTime(jsonObject);
     String content = JsonMessage.getContent(jsonObject);
     model.addTextMessage(nickname, time, content);
+  }
+
+  private void handlePlayerNeedHelp(JSONObject jsonObject) {
+    System.out.println(jsonObject);
+    String content = JsonMessage.getContent(jsonObject);
+    model.addTextMessageWithoutTimeStamp(content);
   }
 
 

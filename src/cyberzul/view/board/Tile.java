@@ -1,11 +1,9 @@
 package cyberzul.view.board;
 
-import javax.swing.*;
 import java.util.Map;
+import javax.swing.JLabel;
 
-/**
- * Enhanced interface for any Tile type.
- */
+/** Enhanced interface for any Tile type. */
 public interface Tile {
 
   String BLACK_TILE_PATH = "img/black-tile.png";
@@ -28,7 +26,7 @@ public interface Tile {
   int SMALL_TILE_SIZE = 23;
 
   /**
-   * Set a Tile Image for the paint Method to call
+   * Set a Tile Image for the paint Method to call.
    *
    * @param opacity how transparent the Tile should be.
    */
@@ -37,21 +35,21 @@ public interface Tile {
   /**
    * Returns the Column of where the Tile is placed.
    *
-   * @return
+   * @return the column.
    */
   int getColumn();
 
   /**
    * Returns the Row of where the Tile is placed.
    *
-   * @return
+   * @return the row.
    */
   int getRow();
 
   /**
    * Returns the JLabel where the ImageIcon of the Tile is added.
    *
-   * @return
+   * @return the label.
    */
   JLabel getLabel();
 }

@@ -135,10 +135,11 @@ public class CenterBoard extends JPanel {
     createNewTableCenter();
     createNewPlayerBoard();
   }
+
   /**
    * Used by TileClickListener to get the current instance of TableCenter.
    *
-   * @return
+   * @return the table center panel
    */
   public TableCenterPanel getTableCenterPanel() {
     return tableCenterPanel;

@@ -2,17 +2,15 @@ package cyberzul.view.board;
 
 import cyberzul.model.Offering;
 import cyberzul.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
 /** This is the Panel on which the Factory Displays get positioned. */
 public class PlatesPanel extends JPanel {
-  @Serial
-  private static final long serialVersionUID = 7526472295622776147L;
+  @Serial private static final long serialVersionUID = 7526472295622776147L;
 
   private final transient List<Plate> plateList = new ArrayList<>();
 
@@ -21,6 +19,7 @@ public class PlatesPanel extends JPanel {
 
   /**
    * Constructor for the Platespanel. Shared by all players.
+   *
    * @param factoryDisplays contents of each offering
    * @param tileClickListener listener class to handle mouse clicked events.
    */
@@ -33,6 +32,7 @@ public class PlatesPanel extends JPanel {
 
   /**
    * Used to initialize the number of Plates based on how many players are playing the game.
+   *
    * @param factoryDisplays used to get the content for each offering
    * @param tileClickListener listener class to handle mouse clicked events.
    */
@@ -45,9 +45,7 @@ public class PlatesPanel extends JPanel {
     }
   }
 
-  /**
-   * Used by TileClickListener to remove the Plates of the last player.
-   */
+  /** Used by TileClickListener to remove the Plates of the last player. */
   public void remove() {
     for (Plate plate : this.plateList) {
       this.remove(plate);

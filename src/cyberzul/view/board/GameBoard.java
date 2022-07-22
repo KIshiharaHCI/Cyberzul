@@ -4,12 +4,20 @@ import cyberzul.controller.Controller;
 import cyberzul.view.IconButton;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GridLayout;
+import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -40,7 +48,8 @@ public class GameBoard extends JPanel {
   private JPanel musicSoundPanel;
   private JLabel musicSoundLabel;
   private JLabel systemSoundLabel;
-  private transient MusicPlayerHelper musicPlayerHelper;
+  private final transient MusicPlayerHelper musicPlayerHelper;
+  private TurnCountDownTimer timer;
 
   /**
    * Creates the main game panel which contains all other game elements.
@@ -105,19 +114,65 @@ public class GameBoard extends JPanel {
 
     chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
 
-    /* Place for timer. TODO timer */
     JLabel tempLabel = new JLabel();
     tempLabel.setPreferredSize(new Dimension(200, 30));
     tempLabel.setHorizontalAlignment(JLabel.LEFT);
     tempLabel.setFont(new Font("Dialog", Font.BOLD, 25));
-    tempLabel.setText("place for timer");
+    tempLabel.setFont(this.getTimerFont());
+    tempLabel.setForeground(Color.GREEN);
+    timer =
+        new TurnCountDownTimer(
+            1000,
+            e -> {
+              if (timer.getTimerValue() == 0) {
+                timer.setTimerValue(30);
+              }
+              timer.setTimerValue(timer.getTimerValue() - 1);
+              tempLabel.setText(secondsToTimer(timer.getTimerValue()));
+            });
+    tempLabel.setText(secondsToTimer(timer.getTimerValue()));
+    timer.setInitialDelay(0);
     chatAndRankingBoardAndSettingPanel.add(tempLabel, BorderLayout.CENTER);
 
-    ChatPanel chatPanel = new ChatPanel();
+    ChatPanel chatPanel = new ChatPanel(controller);
     chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
 
     System.out.println(chatAndRankingBoardAndButtonsPanelDimension.getSize());
     System.out.println(frameDimension.getSize());
+  }
+
+  private Font getTimerFont() {
+    Font timerFont = new Font("TimesRoman", Font.BOLD, 20);
+    try {
+      timerFont =
+          Font.createFont(
+                  Font.TRUETYPE_FONT,
+                  Objects.requireNonNull(
+                      getClass()
+                          .getClassLoader()
+                          .getResourceAsStream("fonts/digital-display-font.ttf")))
+              .deriveFont(60f);
+    } catch (FontFormatException | IOException e) {
+      e.printStackTrace();
+    }
+    return timerFont;
+  }
+
+  private String secondsToTimer(int startingSeconds) {
+    String finalTimerString = "00";
+
+    if (startingSeconds < 10) {
+      finalTimerString = finalTimerString + ":0" + startingSeconds;
+    } else {
+      finalTimerString = finalTimerString + ":" + startingSeconds;
+    }
+
+    return finalTimerString;
+  }
+
+  @SuppressFBWarnings("EI_EXPOSE_REP")
+  public TurnCountDownTimer getTimer() {
+    return timer;
   }
 
   /** Initialise all buttons for settingPanel. */

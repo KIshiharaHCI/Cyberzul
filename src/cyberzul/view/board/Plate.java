@@ -2,14 +2,15 @@ package cyberzul.view.board;
 
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Image;
 import java.io.Serial;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /** Represents a Factory Display on the view. */
 public class Plate extends JPanel {
@@ -45,6 +46,7 @@ public class Plate extends JPanel {
 
   /**
    * Adds the correct Source Tiles on the Plate and sets the correct positioning for each Tile.
+   *
    * @param tileClickListener listener for checking for a mouse click.
    * @param content contains the color of the Source Tile returned by the model.
    */
@@ -77,9 +79,10 @@ public class Plate extends JPanel {
 
   /**
    * Used to get an ImageIcon for a single plate.
-   * @param path
-   * @param size
-   * @return
+   *
+   * @param path the path of the image.
+   * @param size the size of the image.
+   * @return the image icon of the given image.
    */
   private ImageIcon getResizedImageIcon(String path, int size) {
     URL imgUrl1 = getClass().getClassLoader().getResource(path);

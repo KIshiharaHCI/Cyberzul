@@ -1,6 +1,7 @@
 package cyberzul.model;
 
 import cyberzul.CyberzulMain;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -76,8 +77,6 @@ public class Player {
     return patternLines.clone();
   }
 
-  // TODO: Create PatternLinesModel class and make this method to a @Override toString() in it;
-
   /**
    * Get the Pattern Lines as a string with a column width of 15 characters (for testing purposes).
    *
@@ -119,9 +118,9 @@ public class Player {
   }
 
   /**
-   * Sets an given player to be an AI-Player, sets his/her name to "AI-" name
+   * Sets an given player to be an AI-Player, sets his/her name to "AI-" name.
    *
-   * @param aiPlayer
+   * @param aiPlayer true, if he/she should be set to be an AI-player, false if not.
    */
   public void setAiPlayer(boolean aiPlayer) {
     isAiPlayer = aiPlayer;
@@ -197,13 +196,6 @@ public class Player {
       return false;
     }
 
-    // TODO: make this methods more readable @Nils
-    // Hotfix
-    // mid-development view design changes made the StartingPlayerMarker clickable
-    // -> it has its own index
-    // since the methods were designs so that it is not clickable these 3 lines fix the bug where
-    // the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
-    // the last tile of the table center causes an OutOfBoundsExceptions
     if (offering.getContent().contains(ModelTile.STARTING_PLAYER_MARKER)) {
       indexOfTile--;
     }
@@ -241,13 +233,7 @@ public class Player {
    * @param indexOfTile the index of the tile in the Offering.
    */
   void placeTileInFloorLine(Offering offering, int indexOfTile) {
-    // TODO: make this methods more readable @Nils
-    // Hotfix
-    // mid-development view design changes made the StartingPlayerMarker clickable
-    // -> it has its own index
-    // since the methods were designs so that it is not clickable these 3 lines fix the bug where
-    // the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
-    // the last tile of the table center causes an OutOfBoundsExceptions
+
     if (offering.getContent().contains(ModelTile.STARTING_PLAYER_MARKER)) {
       indexOfTile--;
     }
@@ -414,8 +400,6 @@ public class Player {
     floorLine.clear();
   }
 
-  // TODO: This method gets obsolete if we implemented the visible floor line.
-
   /**
    * Returns the number of MinusPoints that the player acquired over the round.
    *
@@ -542,6 +526,10 @@ public class Player {
     return numberOfCompleteHorizontalLines;
   }
 
+  //this class is only a storage for information that the server sends to the client so the view
+  //can access this information later. wall is indeed a mutable object, but it doesn't matter
+  //because the Model doesn't store a reference to it itself.
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
   public void setWall(boolean[][] wall) {
     this.wall = wall;
   }

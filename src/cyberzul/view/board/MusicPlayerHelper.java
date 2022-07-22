@@ -173,10 +173,12 @@ public class MusicPlayerHelper {
   public boolean isPlayMusicOn() {
     return playMusicOn;
   }
+
   @SuppressFBWarnings("EI_EXPOSE_REP")
   public FloatControl getVolumeBackground() {
     return volumeBackground;
   }
+
   @SuppressFBWarnings("EI_EXPOSE_REP")
   public FloatControl getVolumeTilePlaced() {
     return volumeTilePlaced;
