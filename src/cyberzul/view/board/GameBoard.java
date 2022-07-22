@@ -8,17 +8,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.Objects;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -49,7 +48,7 @@ public class GameBoard extends JPanel {
   private JPanel musicSoundPanel;
   private JLabel musicSoundLabel;
   private JLabel systemSoundLabel;
-  private transient MusicPlayerHelper musicPlayerHelper;
+  private final transient MusicPlayerHelper musicPlayerHelper;
   private TurnCountDownTimer timer;
 
   /**
@@ -121,16 +120,16 @@ public class GameBoard extends JPanel {
     tempLabel.setFont(new Font("Dialog", Font.BOLD, 25));
     tempLabel.setFont(this.getTimerFont());
     tempLabel.setForeground(Color.GREEN);
-    timer = new TurnCountDownTimer(1000, new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (timer.getTimerValue() == 0) {
-          timer.setTimerValue(30);
-        }
-        tempLabel.setText(secondsToTimer(timer.getTimerValue()));
-        timer.setTimerValue(timer.getTimerValue()-1);
-      }
-    });
+    timer =
+        new TurnCountDownTimer(
+            1000,
+            e -> {
+              if (timer.getTimerValue() == 0) {
+                timer.setTimerValue(30);
+              }
+              timer.setTimerValue(timer.getTimerValue() - 1);
+              tempLabel.setText(secondsToTimer(timer.getTimerValue()));
+            });
     tempLabel.setText(secondsToTimer(timer.getTimerValue()));
     timer.setInitialDelay(0);
     chatAndRankingBoardAndSettingPanel.add(tempLabel, BorderLayout.CENTER);
@@ -145,12 +144,16 @@ public class GameBoard extends JPanel {
   private Font getTimerFont() {
     Font timerFont = new Font("TimesRoman", Font.BOLD, 20);
     try {
-      timerFont = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(
-          getClass().getClassLoader().getResourceAsStream("fonts/digital-display-font.ttf"))).deriveFont(60f);
-    } catch (FontFormatException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      timerFont =
+          Font.createFont(
+                  Font.TRUETYPE_FONT,
+                  Objects.requireNonNull(
+                      getClass()
+                          .getClassLoader()
+                          .getResourceAsStream("fonts/digital-display-font.ttf")))
+              .deriveFont(60f);
+    } catch (FontFormatException | IOException e) {
+      e.printStackTrace();
     }
     return timerFont;
   }
@@ -167,7 +170,8 @@ public class GameBoard extends JPanel {
     return finalTimerString;
   }
 
-  public Timer getTimer() {
+  @SuppressFBWarnings("EI_EXPOSE_REP")
+  public TurnCountDownTimer getTimer() {
     return timer;
   }
 
