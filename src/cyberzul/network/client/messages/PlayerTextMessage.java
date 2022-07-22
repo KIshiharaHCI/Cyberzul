@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * //TODO: Xue.
+ * A chat message sent by a user at a specific point in time.
  */
 public class PlayerTextMessage extends Message {
 
@@ -16,6 +16,10 @@ public class PlayerTextMessage extends Message {
 
   private final String content;
 
+  /**
+   * Constructor that includes the name of the sender and the text
+   * which sent at a specific point in time.
+   */
   @SuppressFBWarnings("EI_EXPOSE_REP2")
   //time is indeed a reference to a mutable object, but it is still legal to just save the reference
   //here, because the class that calls this constructor doesn't store the reference itself.
@@ -29,6 +33,11 @@ public class PlayerTextMessage extends Message {
     return nameOfSender;
   }
 
+  /**
+   * The Time when the player sends the message.
+   *
+   * @return The Time when the message sent by the player.
+   */
   public Date getTime() {
     Date copy = new Date();
     copy.setTime(time.getTime());
