@@ -30,6 +30,7 @@ import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.network.client.messages.PlayerLeftGameMessage;
+import cyberzul.network.client.messages.PlayerNeedHelpMessage;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.shared.JsonMessage;
 import java.util.ArrayList;

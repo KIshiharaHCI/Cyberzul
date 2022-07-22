@@ -374,10 +374,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         showErrorMessage("Player " + gameForfeitedEvent.getForfeiter()
             + " left the game and was replaced by an AI");
       }
-      case InvalidIPv4AddressEvent.EVENT_NAME -> {
-        System.out.println("Numberformatexception");
-        showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
-      }
       case "PlayerAddedMessageEvent" -> {
         requireNonNull(ChatPanel.listModel);
         PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
@@ -392,6 +388,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "PlayerJoinedChatEvent" -> {
         PlayerJoinedChatEvent playerJoinedChatEvent = (PlayerJoinedChatEvent) customMadeGameEvent;
         ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
+      }
+      case InvalidIPv4AddressEvent.EVENT_NAME -> {
+        System.out.println("Numberformatexception");
+        showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
       }
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
