@@ -35,7 +35,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private final Random ran = new Random();
   //the timer because player has to make a move within 30 seconds
   private Timer timer;
-  private static final int DELAYTIME = 8000;
+  private static final int TIME_TILL_NEXT_ROUND = 30000;
 
   private boolean hasGameEnded = false;
   private Offering currentOffering;
@@ -366,7 +366,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
             }
           }
         },
-        DELAYTIME
+        TIME_TILL_NEXT_ROUND
     );
   }
 }
