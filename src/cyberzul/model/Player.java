@@ -489,7 +489,7 @@ public class Player {
    * Award additional points to the player because the game ended.
    */
   void addEndOfGamePoints() {
-    LOGGER.info("is triggered");
+    LOGGER.info(this.getName() + "is getting his/her end of game points.");
     // gain points for each complete horizontal line of 5 consecutive tiles on the wall
     int amountOfRows = wall.length;
     int amountOfCols = wall[0].length;
@@ -500,7 +500,7 @@ public class Player {
         }
         if (col == amountOfCols - 1) {
           points += POINTS_FOR_COMPLETE_HORIZONTAL_LINE;
-          LOGGER.debug("Ok, a complete horizontal line for " + this.getName());
+          LOGGER.debug("Complete horizontal line for " + this.getName());
           numberOfCompleteHorizontalLines++;
         }
       }
@@ -514,6 +514,7 @@ public class Player {
         }
         if (row == amountOfRows - 1) {
           points += POINTS_FOR_COMPLETE_VERTICAL_LINE;
+          LOGGER.debug("Complete vertical line for " + this.getName());
         }
       }
     }
@@ -527,6 +528,7 @@ public class Player {
         }
         if (row == (wall.length - 1)) {
           points += POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR;
+          LOGGER.debug("All tiles of one color for " + this.getName());
         }
       }
     }
@@ -538,5 +540,9 @@ public class Player {
 
   public int getNumberOfCompleteHorizontalLines() {
     return numberOfCompleteHorizontalLines;
+  }
+
+  public void setWall(boolean[][] wall) {
+    this.wall = wall;
   }
 }

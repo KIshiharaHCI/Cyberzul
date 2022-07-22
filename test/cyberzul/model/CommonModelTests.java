@@ -57,7 +57,7 @@ public class CommonModelTests {
     model.getWinningMessage();
 
     //assert
-    Assertions.assertEquals(model.getWinningMessage(), correctReturn);
+    Assertions.assertEquals(correctReturn, model.getWinningMessage());
 
   }
 
@@ -110,7 +110,7 @@ public class CommonModelTests {
     model.getWinningMessage();
 
     //assert
-    Assertions.assertEquals(model.getWinningMessage(), correctReturn);
+    Assertions.assertEquals(correctReturn, model.getWinningMessage());
 
   }
 
@@ -166,7 +166,7 @@ public class CommonModelTests {
     model.getWinningMessage();
 
     //assert
-    Assertions.assertEquals(model.getWinningMessage(), correctReturn);
+    Assertions.assertEquals(correctReturn, model.getWinningMessage());
 
   }
 
