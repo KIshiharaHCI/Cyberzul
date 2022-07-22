@@ -39,7 +39,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private static final int defaultInset = 5;
   private static final String chaticon = "img/chaticon.png";
   public static DefaultListModel<Message> listModel;
-  private transient final Controller controller;
+  private final transient Controller controller;
   private JTextArea inputArea;
   private JScrollPane scrollPane;
   private IconButton closeChatButton;

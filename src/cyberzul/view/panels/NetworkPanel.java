@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import javax.imageio.ImageIO;
@@ -34,12 +33,13 @@ public class NetworkPanel extends JLayeredPane {
 
   @Serial private static final long serialVersionUID = 17L;
   private final Font customFont = getCustomFont();
+  private final transient Controller controller;
+  private final transient List<JLabel> labels = new ArrayList<>();
   transient List<JButton> nickInputButtons = new ArrayList<>(4);
   ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
   ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
   ImageIcon nickBannerUnselected = imageLoader("img/playerbanner-unselected.png", 300, 56);
   ImageIcon nickBannerSelected = imageLoader("img/playerbanner-selected.png", 300, 56);
-  private final transient Controller controller;
   private Dimension containerDimension;
   private Dimension popUpDimension;
   private transient BufferedImage image;
@@ -47,7 +47,6 @@ public class NetworkPanel extends JLayeredPane {
   private JPanel container;
   private JPanel inputNickPopUp;
   private JLabel banner;
-  private final transient List<JLabel> labels = new ArrayList<>();
   private NickInput lastEditPressed;
 
   /**
@@ -223,12 +222,15 @@ public class NetworkPanel extends JLayeredPane {
       container.add(label);
     }
   }
+
   private void showInputAreaIfValidPress(NickInput player) {
     if (lastEditPressed != null && lastEditPressed.equals(player.toString())) {
-      return;}
+      return;
+    }
     lastEditPressed = player;
     showPopUp(true);
   }
+
   private void setInputNickPopUp() {
     inputNickPopUp =
         new JPanel(null) {

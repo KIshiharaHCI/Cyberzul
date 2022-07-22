@@ -9,7 +9,7 @@ import cyberzul.model.events.ConnectedWithServerEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.GameNotStartableEvent;
-import cyberzul.model.events.InvalidIPv4AddressEvent;
+import cyberzul.model.events.InvalidIpv4AddressEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
@@ -400,7 +400,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 (PlayerJoinedChatEvent) customMadeGameEvent;
         ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
       }
-      case InvalidIPv4AddressEvent.EVENT_NAME -> {
+      case InvalidIpv4AddressEvent.EVENT_NAME -> {
         System.out.println("Numberformatexception");
         showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
       }
