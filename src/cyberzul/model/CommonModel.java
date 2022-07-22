@@ -3,11 +3,14 @@ package cyberzul.model;
 import static java.util.Objects.requireNonNull;
 
 import cyberzul.model.events.GameEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerDoesNotExistEvent;
+import cyberzul.network.client.messages.PlayerTextMessage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -177,24 +180,77 @@ public abstract class CommonModel implements ModelStrategy {
     return null;
   }
 
-  @Override
-  public String getPlayerWithMostPoints() {
-    // TODO: What if two players have the same points? --> we have adjusted the rules slightly.
-    // TODO: refactor to getWinner!
-    /*
-    The player with the most points on his/her score track wins the game.
-    In the case of a tie, the tied player with more complete horizontal lines wins the game.
-    If that does not break the tie, a player will be selected randomly.
 
-     */
+  @Override
+  public String getWinningMessage() {
+    String messageToBeReturned = "";
+
     ArrayList<Integer> playerPoints = new ArrayList<>();
     for (Player player : playerList) {
       playerPoints.add(player.getPoints());
+      LOGGER.info(player.getName() + " points: " + player.getPoints());
     }
     int highestScore = Collections.max(playerPoints);
-    int bestIndex = playerPoints.indexOf(highestScore);
-    Player playerWithMostPoints = playerList.get(bestIndex);
-    return playerWithMostPoints.getName();
+    ArrayList<Player> playerWithSameMostPoints = new ArrayList<>();
+    // checking if two or more players have the highest score
+    for (Player player : playerList) {
+      if (player.getPoints() == highestScore) {
+        playerWithSameMostPoints.add(player);
+      }
+    }
+    // most likely case --> one player has most points
+    if (playerWithSameMostPoints.size() == 1) {
+      LOGGER.info("We have one winner because he/she has the most points.");
+      int bestIndex = playerPoints.indexOf(highestScore);
+      Player playersWithMostPoints = playerList.get(bestIndex);
+      messageToBeReturned = "Hurray! " + playersWithMostPoints.getName()
+          + " has won the game! You shall be "
+          + "allowed to help Queen MaXIne build her Cyber Palace with our "
+          + "beautiful cyber tiles!";
+      return  messageToBeReturned;
+    } else {
+      LOGGER.info("We have >= two players with the same amount of points at the end of the game.");
+      // TODO: to be deleted
+      for (int i = 0; i < playerWithSameMostPoints.size(); i++) {
+        LOGGER.info(i + ": " + playerWithSameMostPoints.get(i).getName());
+      }
+      ArrayList<Integer> amountOfCompleteHorizontalLines = new ArrayList<>();
+      // add all values for complete horizontal lines of the players with same points to list
+      for (Player player : playerWithSameMostPoints) {
+        LOGGER.debug(player.getName() + " complete lines: "
+            + player.getNumberOfCompleteHorizontalLines());
+        amountOfCompleteHorizontalLines.add(player.getNumberOfCompleteHorizontalLines());
+      }
+      // get max of this list
+      int scoreMostHorizontalComplete = Collections.max(amountOfCompleteHorizontalLines);
+      // create new list with all the players that have this score
+      ArrayList<Player> playersWithSameMostHorizontallyCompleteRows = new ArrayList<>();
+      for (Player player : playerWithSameMostPoints) {
+        if (player.getNumberOfCompleteHorizontalLines() == scoreMostHorizontalComplete) {
+          playersWithSameMostHorizontallyCompleteRows.add(player);
+        }
+      }
+      if (playersWithSameMostHorizontallyCompleteRows.size() == 1) {
+        Player playerWithMostHoriz = playersWithSameMostHorizontallyCompleteRows.get(0);
+        messageToBeReturned = "Hurray! " + playerWithMostHoriz.getName()
+            + " has won the game! You shall be "
+            + "allowed to help Queen MaXIne build her Cyber Palace with our "
+            + "beautiful cyber tiles!";
+      } else {
+        LOGGER.info("The victory is shared! O.O");
+        messageToBeReturned = "It is a tie! The victory is shared between: \n";
+        String winners = "";
+        for (Player player : playersWithSameMostHorizontallyCompleteRows) {
+          winners = winners + player.getName() + "\n";
+        }
+        messageToBeReturned = messageToBeReturned + winners + "Hurray!!!! All of you shall be "
+            + "allowed to help Queen MaXIne build her Cyber Palace with "
+            + "our beautiful cyber tiles!";
+      }
+      return messageToBeReturned;
+
+    }
+
   }
 
   @Override
@@ -231,4 +287,31 @@ public abstract class CommonModel implements ModelStrategy {
     }
     return indexOfNextPlayer;
   }
+
+  @Override
+  public void startSinglePlayerMode(int numberOfAiPlayers) {
+    ArrayList<String> aiPlayerList = new ArrayList<>();
+    String aiPlayer1 = "Mercury";
+    aiPlayerList.add(aiPlayer1);
+    String aiPlayer2 = "Quella";
+    aiPlayerList.add(aiPlayer2);
+    String aiPlayer3 = "Valdis";
+    aiPlayerList.add(aiPlayer3);
+    for (int i = 0; i < numberOfAiPlayers; i++) {
+      loginWithName(aiPlayerList.get(i));
+    }
+    // all but first player are AI-Players
+    for (int i = 1; i < playerList.size(); i++) {
+      playerList.get(i).setAiPlayer(true);
+    }
+    startGame();
+
+  }
+
+  @Override
+  public void postChatMessage(String message) {
+    PlayerTextMessage playerTextMessage = new PlayerTextMessage(getPlayerName(), new Date(), message);
+    notifyListeners(new PlayerAddedMessageEvent(playerTextMessage));
+  }
+
 }

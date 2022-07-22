@@ -7,7 +7,7 @@ import cyberzul.model.GameModel;
 import cyberzul.model.Model;
 import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.LoginFailedEvent;
-import cyberzul.shared.JsonMessage;
+import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -38,6 +38,7 @@ public class ClientMessageHandler implements Runnable {
   private final Controller controller;
   private final Model model;
   private String nickname;
+  private final int MAX_LENGTH_OF_PLAYER_NAMES = 15;
 
 
   /**
@@ -179,6 +180,10 @@ public class ClientMessageHandler implements Runnable {
         return;
       }
 
+      if(nickname.length() > 15){
+        send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_IS_TOO_LONG));
+      }
+
       String nick = object.getString(JsonMessage.NICK_FIELD);
       if (!serverConnection.tryLogIn(nick)) {
         send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_ALREADY_TAKEN));
@@ -227,13 +232,18 @@ public class ClientMessageHandler implements Runnable {
    */
   private void handlePostMessage(JSONObject object) throws IOException {
     if (nickname == null || nickname.isBlank()) {
-      // A user needs to log in first before being able to send messages.
       return;
     }
-
     String content = JsonMessage.getContent(object);
-    JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
-    serverConnection.broadcast(this, message);
+    if (content.equals("CYBERZUL HELP")) {
+      String helpMessage = ChatMessageHandler.CYBERZUL_HELP;
+      JSONObject cheatMessage = JsonMessage.createCheatMessage(helpMessage);
+      send(cheatMessage);
+    } else {
+      JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
+      serverConnection.broadcast(this, message);
+      System.out.println("is this entered?");
+    }
   }
 
   /**
@@ -313,6 +323,7 @@ public class ClientMessageHandler implements Runnable {
       e.printStackTrace();
     }
   }
+
 
   /**
    * Check if it's the players turn. If yes, let the player place the tile in the floor line. If

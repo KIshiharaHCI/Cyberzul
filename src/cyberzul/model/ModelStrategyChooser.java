@@ -16,12 +16,15 @@ public class ModelStrategyChooser implements Model {
   private boolean isStrategyChosen = false;
 
   @Override
-  public void setStrategy(int strategy) {
-    switch (strategy) {
-      case GAME_MODEL -> this.strategy = new GameModel();
-      case CLIENT_MODEL -> this.strategy = new ClientModel();
-      default -> throw new AssertionError("No such strategy defined");
-    }
+  public void setGameModelStrategy() {
+    this.strategy = new GameModel();
+    addListenersToTheModel();
+    isStrategyChosen = true;
+  }
+
+  @Override
+  public void setClientModelStrategy(String ipAddress){
+    this.strategy = new ClientModel(ipAddress);
     addListenersToTheModel();
     isStrategyChosen = true;
   }
@@ -112,8 +115,8 @@ public class ModelStrategyChooser implements Model {
   }
 
   @Override
-  public String getPlayerWithMostPoints() {
-    return strategy.getPlayerWithMostPoints();
+  public String getWinningMessage() {
+    return strategy.getWinningMessage();
   }
 
   @Override
@@ -187,22 +190,8 @@ public class ModelStrategyChooser implements Model {
   }
 
   @Override
-  public void startTimerForPlayer(String playerName) {
-    strategy.startTimerForPlayer(playerName);
+  public void postChatMessage(String text) {
+    strategy.postChatMessage(text);
   }
 
-  @Override
-  public String getHotSeatStory() {
-    return strategy.getHotSeatStory();
-  }
-
-  @Override
-  public String getNetworkStory() {
-    return strategy.getNetworkStory();
-  }
-
-  @Override
-  public String getSinglePlayerStory() {
-    return strategy.getSinglePlayerStory();
-  }
 }

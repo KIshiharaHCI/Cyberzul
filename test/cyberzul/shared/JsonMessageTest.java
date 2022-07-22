@@ -4,6 +4,7 @@ import cyberzul.model.FactoryDisplay;
 import cyberzul.model.ManipulableFactoryDisplay;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
+import cyberzul.network.shared.JsonMessage;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;

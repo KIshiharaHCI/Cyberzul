@@ -25,13 +25,21 @@ public class Player {
   protected boolean hasStartingPlayerMarker = false;
   protected boolean hasEndedTheGame = false;
   protected WallBackgroundPattern wallPattern;
-  protected ArrayList<ModelTile> floorLine;
-  protected boolean[][] wall;
   // contain the negative Tiles the player acquires during the drawing phase.
+
+  protected ArrayList<ModelTile> floorLine;
+  // the left side on the board where the player places the tiles he draws ("Musterreihen").
+
+
   protected ModelTile[][] patternLines;
   // the wall where the player tiles the tiles and gets his points ("Wand").
+
+  protected boolean[][] wall;
   private boolean isAiPlayer = false;
-  // the left side on the board where the player places the tiles he draws ("Musterreihen").
+  // the number of complete horizontal lines (if there is a draw at the end of the game,
+  // it will become a criterion for who is the winner.)
+  private int numberOfCompleteHorizontalLines = 0;
+
 
   protected Player(String name) {
     this.name = name;
@@ -481,6 +489,7 @@ public class Player {
    * Award additional points to the player because the game ended.
    */
   void addEndOfGamePoints() {
+    LOGGER.info(this.getName() + "is getting his/her end of game points.");
     // gain points for each complete horizontal line of 5 consecutive tiles on the wall
     int amountOfRows = wall.length;
     int amountOfCols = wall[0].length;
@@ -491,6 +500,8 @@ public class Player {
         }
         if (col == amountOfCols - 1) {
           points += POINTS_FOR_COMPLETE_HORIZONTAL_LINE;
+          LOGGER.debug("Complete horizontal line for " + this.getName());
+          numberOfCompleteHorizontalLines++;
         }
       }
     }
@@ -503,6 +514,7 @@ public class Player {
         }
         if (row == amountOfRows - 1) {
           points += POINTS_FOR_COMPLETE_VERTICAL_LINE;
+          LOGGER.debug("Complete vertical line for " + this.getName());
         }
       }
     }
@@ -516,6 +528,7 @@ public class Player {
         }
         if (row == (wall.length - 1)) {
           points += POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR;
+          LOGGER.debug("All tiles of one color for " + this.getName());
         }
       }
     }
@@ -523,5 +536,13 @@ public class Player {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public int getNumberOfCompleteHorizontalLines() {
+    return numberOfCompleteHorizontalLines;
+  }
+
+  public void setWall(boolean[][] wall) {
+    this.wall = wall;
   }
 }

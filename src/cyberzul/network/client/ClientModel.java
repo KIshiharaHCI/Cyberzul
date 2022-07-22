@@ -8,27 +8,19 @@ import cyberzul.model.ModelStrategy;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
-import cyberzul.model.events.ConnectedWithServerEvent;
-import cyberzul.model.events.GameCanceledEvent;
-import cyberzul.model.events.GameFinishedEvent;
-import cyberzul.model.events.GameForfeitedEvent;
-import cyberzul.model.events.GameNotStartableEvent;
-import cyberzul.model.events.GameStartedEvent;
-import cyberzul.model.events.IllegalTurnEvent;
-import cyberzul.model.events.LoggedInEvent;
-import cyberzul.model.events.LoginFailedEvent;
-import cyberzul.model.events.NextPlayersTurnEvent;
-import cyberzul.model.events.NoValidTurnToMakeEvent;
-import cyberzul.model.events.NotYourTurnEvent;
-import cyberzul.model.events.PlayerHasChosenTileEvent;
-import cyberzul.model.events.RoundFinishedEvent;
-import cyberzul.model.events.UserJoinedEvent;
-import cyberzul.shared.JsonMessage;
+import cyberzul.model.events.*;
+import cyberzul.network.client.messages.Message;
+import cyberzul.network.client.messages.PlayerJoinedChatMessage;
+import cyberzul.network.client.messages.PlayerLeftGameMessage;
+import cyberzul.network.client.messages.PlayerTextMessage;
+import cyberzul.network.shared.JsonMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,32 +42,42 @@ import org.json.JSONObject;
  *
  * <p>The server will also keep this data updated.
  */
+
 public class ClientModel extends CommonModel implements ModelStrategy {
 
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
   private ClientNetworkConnection connection;
   private String thisPlayersName;
+  private final List<Message> playerMessages;
+  private static final int MAX_LENGTH = 10;
 
-  private String hotSeatStory = "HotSeatStory is not yet set!";
-  private String networkStory = "NetworkStory is not yet set!";
-  private String singlePlayerStory = "SinglePlayerStory is not yet set!";
 
   /**
    * Create a ClientModel and start a connection with the server.
    */
-  public ClientModel() {
+  public ClientModel(String ipAddress) {
     super();
-    Path pathhs = Path.of("res/txt/hotseatstory.txt");
-    Path pathn = Path.of("res/txt/networkstory.txt");
-    Path pathsps = Path.of("res/txt/singleplayerstory.txt");
-    try {
-      hotSeatStory = Files.readString(pathhs, StandardCharsets.UTF_8);
-      networkStory = Files.readString(pathn, StandardCharsets.UTF_8);
-      singlePlayerStory = Files.readString(pathsps, StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      e.printStackTrace();
+
+    setConnection(ipAddress);
+    playerMessages = Collections.synchronizedList(new ArrayList<>());
+  }
+
+  public void setConnection(String ipAddressInHex){
+    //split ipAddressInHex into Strings of length 2.
+    String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
+
+    //parse the String array to a byte array
+    byte[] host = new byte[ipAddressArray.length];
+    for(int i = 0; i < ipAddressArray.length; i++){
+      //The hex in the String is unsigned. The long is also unsigned, but should overflow to the
+      //correct value in int.
+      int partOfTheAddress = (int) Long.parseLong(ipAddressArray[i],16);
+      host[i] = (byte) partOfTheAddress;
     }
-    this.connection = new ClientNetworkConnection(this);
+
+    //create the ClientNetworkConnection.
+    this.connection =
+        new ClientNetworkConnection(this, host);
     connection.start();
   }
 
@@ -116,11 +118,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
   @Override
   public void startSinglePlayerMode(int numberOfPlayers) {
-    //TODO @Nils implement body
-  }
-
-  @Override
-  public void startTimerForPlayer(String playerName) {
     //TODO @Nils implement body
   }
 
@@ -171,6 +168,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   public void userJoined(String nickname) {
     playerList.add(new ClientPlayer(nickname));
     notifyListeners(new UserJoinedEvent(nickname));
+    notifyListeners(new PlayerJoinedChatEvent(new PlayerJoinedChatMessage(nickname)));
   }
 
   /**
@@ -313,7 +311,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Update the content of the PatternLines of the specified player.
    *
    * @param newPatternLines the up-to-date content of the PatternLines.
-   * @param player the player whose PatternLines get updated.
+   * @param player          the player whose PatternLines get updated.
    */
   private void updatePatternLines(JSONArray newPatternLines, ClientPlayer player) {
     try {
@@ -335,7 +333,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Update the content of the wall of the specified player.
    *
    * @param newWallMessage the up-to-date content of the wall.
-   * @param player the player whose wall gets updated.
+   * @param player         the player whose wall gets updated.
    */
   private void updateWall(JSONArray newWallMessage, ClientPlayer player) {
     try {
@@ -358,7 +356,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Update the number of points that the specified player has right now.
    *
    * @param newPoints number of points.
-   * @param player the player whose points get updated.
+   * @param player    the player whose points get updated.
    */
   private void updatePoints(int newPoints, ClientPlayer player) {
     player.setPoints(newPoints);
@@ -368,7 +366,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Update the content of the FloorLine of the specified player.
    *
    * @param newFloorLine the up-to-date content of the FloorLine of this player.
-   * @param player the player whose FloorLine gets updated.
+   * @param player       the player whose FloorLine gets updated.
    */
   private void updateFloorLine(JSONArray newFloorLine, ClientPlayer player) {
     try {
@@ -502,6 +500,84 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     notifyListeners(new GameCanceledEvent(playerWhoCanceledGame));
   }
 
+
+  /**
+   * Add a status-update entry "Player joined" to the list of chat entries.
+   * Used by the network layer to update the model accordingly.
+   * @param nickname The name of the newly joined user.
+   */
+  public void playerJoinedChat(String nickname) {
+    addChatEntry(new PlayerJoinedChatMessage(nickname));
+    notifyListeners(new PlayerJoinedChatEvent(new PlayerJoinedChatMessage(nickname)));
+  }
+
+  /**
+   * Add a status-update entry "Player has left the chat" to the list of chat entries.
+   * Used by the network layer to update the model accordingly.
+   * Notify the Listeners that one Player lefts the game.
+   * @param nickname The name of the player who lefts the game.
+   */
+  public void playerLeft(final String nickname) {
+    addChatEntry(new PlayerLeftGameMessage(nickname));
+    notifyListeners(new GameForfeitedEvent(nickname));
+
+  }
+
+
+  /**
+   * Send a chat-message to the server that is to be broadcasted to the other chat participants.
+   *
+   * @param message The message to be broadcasted.
+   */
+  public void postChatMessage(String message) {
+    PlayerTextMessage chatMessage = new PlayerTextMessage(thisPlayersName, new Date(), message);
+    addChatEntry(chatMessage);
+    getConnection().playerSendMessage(chatMessage);
+    }
+
+
+
+  /**
+   * Add a new {@link Message} to the list of managed messages. Only the latest 100 messages
+   * get stored in the collection; the others get dismissed afterwards. The subscribed views get
+   * updated by fired {@link PlayerAddedMessageEvent} and {@link ChatMessageRemovedEvent}.
+   *
+   * @param message The message added to the collection of managed entries.
+   */
+  private void addChatEntry(Message message) {
+    while (playerMessages.size() > MAX_LENGTH) {
+      Message removed = playerMessages.remove(0);
+      notifyListeners(new ChatMessageRemovedEvent(removed));
+    }
+
+    playerMessages.add(message);
+    notifyListeners(new PlayerAddedMessageEvent(message));
+  }
+
+  /**
+   * Return a list of all chat-message-entries, including both user-message entries and status-update
+   * entries in the chat.
+   *
+   * @return a copy of a sorted list containing the entries of the chat.
+   */
+  public List<Message> getMessages() {
+    return new ArrayList<>(playerMessages);
+  }
+
+  /**
+   * Add a text message to the list of chat entries.
+   * Used by the network layer to update the model accordingly.
+   *
+   * @param nickname The name of the chat participants that has sent this message.
+   * @param date     The date when the chat message was sent.
+   * @param content  The actual content (text) that the participant had sent.
+   */
+  public void addTextMessage(String nickname, Date date, String content) {
+    PlayerTextMessage message = new PlayerTextMessage(nickname, date, content);
+    addChatEntry(message);
+  }
+
+
   /**
    * Notify the listeners that a player has forfeited and left the game.
    *
@@ -509,20 +585,5 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    */
   public void handleGameForfeited(String playerWhoForfeitedTheGame) {
     notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
-  }
-
-  @Override
-  public String getHotSeatStory() {
-    return hotSeatStory;
-  }
-
-  @Override
-  public String getNetworkStory() {
-    return networkStory;
-  }
-
-  @Override
-  public String getSinglePlayerStory() {
-    return singlePlayerStory;
   }
 }

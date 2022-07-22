@@ -4,6 +4,8 @@ import cyberzul.view.IconButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
@@ -31,7 +33,6 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
 
   /** Instantiate all ChatPanel widgets and specify config options where appropriate. */
   private void initializeWidgets() {
-
     setOpaque(false);
     scrollPane = new JScrollPane();
     scrollPane.setPreferredSize(new Dimension(INPUTFIELD_WIDTH, DEFAULT_HEIGHT));

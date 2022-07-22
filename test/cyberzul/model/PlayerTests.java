@@ -206,4 +206,68 @@ public class PlayerTests {
     player.drawTiles(4, orangeOffering, 0);
     Assertions.assertEquals(7, player.getFloorLine().size());
   }
+
+  /**
+   * tests if the player is getting the correct amount of points with the endOfGamePoints Method
+   */
+  @Test
+  public void testEndOfGamePoints() {
+    //get ten extra points, because we have all tiles of one color
+    player.setWall(new boolean[][]{
+        {true, false, true, true, true},
+        {false, true, false, false, false},
+        {true, false, true, true, true},
+        {true, false, true, true, true},
+        {false, true, false, false, true}
+    });
+    player.setPoints(12);
+
+    player.addEndOfGamePoints();
+
+    Assertions.assertEquals(22, player.getPoints());
+
+    //get fourteen extra points, because we have two vertical complete line
+    player.setWall(new boolean[][]{
+        {false, false, false, true, true},
+        {false, false, false, true, true},
+        {false, false, false, true, true},
+        {false, false, false, true, true},
+        {false, false, false, true, true}
+    });
+    player.setPoints(12);
+
+    player.addEndOfGamePoints();
+
+    System.out.println(player.getPoints());
+    Assertions.assertEquals(26, player.getPoints());
+
+    //get sixteen points, because we have three horizontal complete lines and one vertical
+    player.setWall(new boolean[][]{
+        {true, true, true, true, true},
+        {false, false, false, true, true},
+        {false, false, false, true, true},
+        {false, false, false, true, true},
+        {false, false, false, true, true}
+    });
+    player.setPoints(12);
+
+    player.addEndOfGamePoints();
+
+    Assertions.assertEquals(28, player.getPoints());
+
+    //get ten points, because we have all red tiles
+    player.setWall(new boolean[][]{
+        {false, false, true, false, false},
+        {false, false, false, true, false},
+        {false, false, false, false, true},
+        {true, false, false, false, false},
+        {false, true, false, false, false}
+    });
+    player.setPoints(12);
+
+    player.addEndOfGamePoints();
+
+    System.out.println(player.getPoints());
+    Assertions.assertEquals(22, player.getPoints());
+  }
 }

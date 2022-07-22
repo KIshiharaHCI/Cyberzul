@@ -58,15 +58,6 @@ public class TransparentImageIcon extends ImageIcon {
   }
 
   /**
-   * Gets the icon wrapped by this <CODE>AlphaIcon</CODE>.
-   *
-   * @return the wrapped icon
-   */
-  public Icon getIcon() {
-    return icon;
-  }
-
-  /**
    * Paints the wrapped icon with this TransparentImageIcons transparency.
    *
    * @param c The component to which the icon is painted

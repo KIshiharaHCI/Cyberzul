@@ -6,6 +6,8 @@ import cyberzul.model.Model;
 import cyberzul.model.ModelStrategyChooser;
 import cyberzul.view.CyberzulView;
 
+
+
 /**
  * Starts a ClientModel and Client UI. The ClientModel tries then to connect itself with a Server
  */
@@ -16,10 +18,11 @@ public class ClientMain {
    *
    * @param args the parameters with which this method is invoked. Here are no parameters expected.
    */
+  /*
   public static void main(String[] args) {
 
     Model model = new ModelStrategyChooser();
-    model.setStrategy(Model.CLIENT_MODEL);
+    model.setClientModelStrategy("");
     Controller controller = new GameController(model);
 
     CyberzulView cyberzulView = new CyberzulView(model, controller);
@@ -28,4 +31,5 @@ public class ClientMain {
 
     cyberzulView.setVisible(true);
   }
+  */
 }

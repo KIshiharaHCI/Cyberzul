@@ -10,20 +10,13 @@ import cyberzul.model.events.IllegalTurnEvent;
 import cyberzul.model.events.LoggedInEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
-import cyberzul.model.events.NoValidTurnToMakeEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
 import cyberzul.model.events.RoundFinishedEvent;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
-import java.util.function.LongBinaryOperator;
-import java.util.logging.FileHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,7 +35,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private final Random ran = new Random();
   //the timer because player has to make a move within 30 seconds
   private Timer timer;
-  private static final int DELAYTIME = 30000;
+  private static final int TIME_TILL_NEXT_ROUND = 30000;
 
   private boolean hasGameEnded = false;
   private Offering currentOffering;
@@ -60,16 +53,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
     super();
     playerList = new ArrayList<>();
     offerings = new ArrayList<>();
-    Path pathhs = Path.of("res/txt/hotseatstory.txt");
-    Path pathn = Path.of("res/txt/networkstory.txt");
-    Path pathsps = Path.of("res/txt/singleplayerstory.txt");
-    try {
-      hotSeatStory = Files.readString(pathhs, StandardCharsets.UTF_8);
-      networkStory = Files.readString(pathn, StandardCharsets.UTF_8);
-      singlePlayerStory = Files.readString(pathsps, StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -106,26 +89,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
       notifyListeners(new GameStartedEvent());
     }
     startTimerForPlayer(getNickOfActivePlayer());
-  }
-
-  @Override
-  public void startSinglePlayerMode(int numberOfAiPlayers) {
-    ArrayList<String> aiPlayerList = new ArrayList<>();
-    String aiPlayer1 = "Mercury";
-    aiPlayerList.add(aiPlayer1);
-    String aiPlayer2 = "Quella";
-    aiPlayerList.add(aiPlayer2);
-    String aiPlayer3 = "Valdis";
-    aiPlayerList.add(aiPlayer3);
-    for (int i = 0; i < numberOfAiPlayers; i++) {
-      loginWithName(aiPlayerList.get(i));
-    }
-    // all but first player are AI-Players
-    for (int i = 1; i < playerList.size(); i++) {
-      playerList.get(i).setAiPlayer(true);
-    }
-    startGame();
-
   }
 
   @Override
@@ -207,9 +170,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
     notifyListeners(nextPlayersTurnEvent);
     startTimerForPlayer(getNickOfActivePlayer());
 
-
-    // TODO: Check if SPM is used in the right way --> makes player be first in next round. @Marco
-    // TODO: Fix bug, when 4 players are playing and more than one is AI player @Marco
     LOGGER.info(
         playerList.get(indexOfActivePlayer).getName()
             + " is now active player. Is he an "
@@ -270,9 +230,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
       // get a random tile on that offering
       int offeringsSize = randomOffering.getContent().size();
       int randomOfferingTileIndex = ran.nextInt(0, offeringsSize);
-
-      //TODO! The problem seems to have evolved when we changed current offering to an index
-      // because the index on this list (the clone here) might be different from the actual index.
 
       notifyTileChosen(nickOfAiPlayer, randomOfferingTileIndex, randomOfferingIndex);
 
@@ -381,38 +338,35 @@ public class GameModel extends CommonModel implements ModelStrategy {
       // Loop has to finish, because all players have to finish tiling phase
     }
     if (hasGameEnded) {
-      String winnerName = getPlayerWithMostPoints();
-      GameFinishedEvent gameFinishedEvent = new GameFinishedEvent(winnerName);
+      for (Player player : playerList) {
+        player.addEndOfGamePoints();
+      }
+      String winningMessage = getWinningMessage();
+      GameFinishedEvent gameFinishedEvent = new GameFinishedEvent(winningMessage);
       notifyListeners(gameFinishedEvent);
     }
   }
 
-  @Override
-  public void startTimerForPlayer(String playerName) {
+  /**
+   * The players should make their moves within a certain time span. Starts the timer and
+   * if it is not cancelled by the player making a move before, will make the AI make a move
+   * for it.
+   *
+   * @param playerName the name of the player.
+   */
+  private void startTimerForPlayer(String playerName) {
     timer = new Timer();
     timer.schedule(
         new java.util.TimerTask() {
           @Override
           public void run() {
-            makeAiPlayerMakeMove(playerName);
+            if (!hasGameEnded && !checkRoundFinished()) {
+              LOGGER.info("Timer made move for Player " + playerName);
+              makeAiPlayerMakeMove(playerName);
+            }
           }
         },
-        DELAYTIME
+        TIME_TILL_NEXT_ROUND
     );
-  }
-
-  @Override
-  public String getHotSeatStory() {
-    return hotSeatStory;
-  }
-
-  @Override
-  public String getNetworkStory() {
-    return networkStory;
-  }
-
-  @Override
-  public String getSinglePlayerStory() {
-    return singlePlayerStory;
   }
 }

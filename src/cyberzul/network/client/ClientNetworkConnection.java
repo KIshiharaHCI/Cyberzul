@@ -2,7 +2,7 @@ package cyberzul.network.client;
 
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.server.Server;
-import cyberzul.shared.JsonMessage;
+import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,9 +10,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +27,7 @@ import org.json.JSONObject;
  */
 public class ClientNetworkConnection {
 
-  private static final String HOST = "localhost";
+  private static byte[] HOST;
   private static final int PORT = 8080;
 
   private final ClientModel model;
@@ -33,10 +36,12 @@ public class ClientNetworkConnection {
   private BufferedReader reader;
   private Thread thread;
 
+
   //this class needs this reference to this mutable objects.
   @SuppressFBWarnings("EI_EXPOSE_REP2")
-  public ClientNetworkConnection(ClientModel model) {
+  public ClientNetworkConnection(ClientModel model, byte[] host) {
     this.model = model;
+    HOST = host;
   }
 
   /**
@@ -53,7 +58,7 @@ public class ClientNetworkConnection {
       while (!Thread.interrupted()) {
         Socket socket;
         try {
-          socket = new Socket(HOST, PORT);
+          socket = new Socket(InetAddress.getByAddress(HOST), PORT);
         } catch (ConnectException connectException) {
           if (connectException.getMessage().equals("Connection refused: connect")) {
             Server.start();
@@ -128,10 +133,11 @@ public class ClientNetworkConnection {
       case LOGIN_SUCCESS -> model.loggedIn();
       case LOGIN_FAILED -> model.loginFailed(object.getString(JsonMessage.ADDITIONAL_INFORMATION));
       case GAME_STARTED -> handleGameStarted(object);
-      case USER_JOINED -> model.userJoined(object.getString(JsonMessage.NICK_FIELD));
-      case USER_LEFT -> {
-        //TODO: IMPLEMENT CHAT HERE @XUE
+      case USER_JOINED -> {
+        model.userJoined(object.getString(JsonMessage.NICK_FIELD));
+        model.playerJoinedChat(object.getString(JsonMessage.NICK_FIELD));
       }
+      case USER_LEFT -> model.playerLeft(object.getString(JsonMessage.NICK_FIELD));
       case NEXT_PLAYERS_TURN -> model.handleNextPlayersTurn(object);
       case NOT_YOUR_TURN -> model.handleNotYourTurn();
       case PLAYER_HAS_CHOSEN_TILE -> model.handlePlayerHasChosenTile(object);
@@ -143,6 +149,8 @@ public class ClientNetworkConnection {
       case GAME_FINISHED -> model.handleGameFinishedEvent(object);
       case GAME_CANCELED -> model.handleGameCanceled(object.getString(JsonMessage.NICK_FIELD));
       case GAME_FORFEITED -> model.handleGameForfeited(object.getString(JsonMessage.NICK_FIELD));
+      case MESSAGE -> handlePlayerTextMessage(object);
+      //case CHEAT_MESSAGE -> handlePlayerNeedHelp(object);
       default -> throw new AssertionError("Unhandled message: " + object);
     }
   }
@@ -152,6 +160,16 @@ public class ClientNetworkConnection {
     JSONArray playerNames = object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD);
     model.handleGameStarted(offerings, playerNames);
   }
+
+  private void handlePlayerTextMessage(JSONObject jsonObject) {
+
+    String nickname = JsonMessage.getNickname(jsonObject);
+    Date time = JsonMessage.getTime(jsonObject);
+    String content = JsonMessage.getContent(jsonObject);
+    model.addTextMessage(nickname, time, content);
+  }
+
+
 
   /**
    * Stop the network-connection.
@@ -185,6 +203,17 @@ public class ClientNetworkConnection {
   public void sendLogin(String nickname) {
     JSONObject login = JsonMessage.login(nickname);
     send(login);
+  }
+
+  /**
+   * Send a chat message to the server.
+   *
+   * @param chatMessage The {@link PlayerTextMessage} containing the message of the user.
+   */
+
+  public void playerSendMessage(PlayerTextMessage chatMessage) {
+    JSONObject message = JsonMessage.postMessage(chatMessage.getContent());
+    send(message);
   }
 
   synchronized void send(JSONObject message) {

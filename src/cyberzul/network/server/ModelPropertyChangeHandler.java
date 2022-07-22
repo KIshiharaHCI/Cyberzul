@@ -4,12 +4,9 @@ import cyberzul.model.Model;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
-import cyberzul.model.events.GameCanceledEvent;
-import cyberzul.model.events.GameFinishedEvent;
-import cyberzul.model.events.GameForfeitedEvent;
-import cyberzul.model.events.NextPlayersTurnEvent;
-import cyberzul.model.events.PlayerHasChosenTileEvent;
-import cyberzul.shared.JsonMessage;
+import cyberzul.model.events.*;
+import cyberzul.network.client.messages.PlayerTextMessage;
+import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -77,9 +74,25 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case GameFinishedEvent.EVENT_NAME -> handleGameFinishedEvent(customMadeGameEvent);
       case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
       case GameForfeitedEvent.EVENT_NAME -> handleGameForfeitedEvent(customMadeGameEvent);
+      case PlayerAddedMessageEvent.EVENT_NAME-> handlePlayerAddedMessageEvent(customMadeGameEvent);
+      //TODO: @Xue maybe delete PlayerJoinedChatEvent
+      case PlayerJoinedChatEvent.EVENT_NAME -> handlePlayerJoinedChatEvent(customMadeGameEvent);
+
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
+
+  private void handlePlayerJoinedChatEvent(Object customMadeGameEvent) {
+    try {
+      PlayerJoinedChatEvent playerJoinedChatEvent =
+              (PlayerJoinedChatEvent) customMadeGameEvent;
+      connection.broadcastToAll(
+              JsonMessage.userJoined(playerJoinedChatEvent.getName()));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
 
   /**
    * If the player successfully chose a tile, this method gets executed.
@@ -100,7 +113,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
   private void handleGameFinishedEvent(Object customMadeGameEvent) {
     GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
-    String winner = gameFinishedEvent.getWinner();
+    String winner = gameFinishedEvent.getWinningMessage();
     try {
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_FINISHED);
       message.put(JsonMessage.PLAYER_FIELD, completePlayerUpdateMessage());
@@ -223,4 +236,16 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       e.printStackTrace();
     }
   }
+
+  private void handlePlayerAddedMessageEvent(Object customMadeGameEvent) {
+    try {
+      PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+      PlayerTextMessage message = (PlayerTextMessage) playerAddedMessageEvent.getMessage();
+      connection.broadcastToAll(JsonMessage.message(
+              message.getNameOfSender(), message.getTime(), message.getContent()));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
 }

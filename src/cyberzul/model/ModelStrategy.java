@@ -112,11 +112,13 @@ public interface ModelStrategy {
   int getIndexOfPlayerWithSpm();
 
   /**
-   * Finds the player with the most points.
+   * Finds the player with the most points at the end of a game. In the case of a tie,
+   * the tied player with more complete horizontal lines wins the game. If that does not
+   * break the tie, the win will be shared.
    *
-   * @return the name of the player with most points.
+   * @return the win message with the winning player(s) name(s).
    */
-  String getPlayerWithMostPoints();
+  String getWinningMessage();
 
   /**
    * Ranking the players according its points.
@@ -225,18 +227,12 @@ public interface ModelStrategy {
    */
   void startSinglePlayerMode(int numberOfAiPlayers);
 
+
   /**
-   * The players should make their moves within a certain time span. Starts the timer and
-   * if it is not cancelled by the player making a move before, will make the AI make a move
-   * for it.
+   * Send a message that is to be published to the other chat clients.
    *
-   * @param playerName the name of the player.
+   * @param text The message that is to be sent.
    */
-  void startTimerForPlayer(String playerName);
+  void postChatMessage(String text);
 
-  String getHotSeatStory();
-
-  String getNetworkStory();
-
-  String getSinglePlayerStory();
 }

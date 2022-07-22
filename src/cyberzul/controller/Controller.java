@@ -163,10 +163,12 @@ public interface Controller {
    */
   void startSinglePlayerMode(int numberOfAiPlayers);
 
-  String getHotSeatStory();
 
-  String getNetworkStory();
 
-  String getSinglePlayerStory();
-
+  /**
+   * Send a message to the model that is to be published to the other chat clients.
+   *
+   * @param text The message that is to be sent.
+   */
+  void postMessage(String text);
 }

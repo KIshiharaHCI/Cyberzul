@@ -7,6 +7,8 @@ import cyberzul.network.client.messages.Message;
  * received from another participating player in the chat.
  */
 public class PlayerAddedMessageEvent extends GameEvent {
+
+  public static final String EVENT_NAME = "PlayerAddedMessageEvent";
   private final Message message;
 
   public PlayerAddedMessageEvent(Message message) {
@@ -19,6 +21,6 @@ public class PlayerAddedMessageEvent extends GameEvent {
 
   @Override
   public String getName() {
-    return "PlayerAddedMessageEvent";
+    return EVENT_NAME;
   }
 }

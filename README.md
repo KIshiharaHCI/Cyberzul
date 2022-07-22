@@ -95,7 +95,7 @@ Once the game has ended, you will be rewarded with additional points if you have
 - Seven points for each complete vertical line of five consecutive tiles on your wall
 - Ten points for each color of which you have placed all five tiles on your wall
 
-The player with the most points on his/her score track wins the game. In the case of a tie, the tied player with more complete horizontal lines wins the game. If that does not break the tie, a player will be selected randomly.
+The player with the most points on his/her score track wins the game. In the case of a tie, the tied player with more complete horizontal lines wins the game. If that does not break the tie, the win will be shared. 
 
 
 ### Greetings
