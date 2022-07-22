@@ -82,7 +82,7 @@ public class NetworkPanel extends JLayeredPane {
       image.getScaledInstance(
           containerDimension.width, containerDimension.height, Image.SCALE_SMOOTH);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
 
     try {
@@ -90,7 +90,7 @@ public class NetworkPanel extends JLayeredPane {
       popUpImage = ImageIO.read(Objects.requireNonNull(imgUrl));
       popUpImage.getScaledInstance(popUpDimension.width, popUpDimension.height, Image.SCALE_SMOOTH);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 
