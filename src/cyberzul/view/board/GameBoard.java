@@ -118,7 +118,7 @@ public class GameBoard extends JPanel {
     tempLabel.setText("place for timer");
     chatAndRankingBoardAndSettingPanel.add(tempLabel, BorderLayout.CENTER);
 
-    ChatPanel chatPanel = new ChatPanel();
+    ChatPanel chatPanel = new ChatPanel(controller);
     chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
 
     System.out.println(chatAndRankingBoardAndButtonsPanelDimension.getSize());
