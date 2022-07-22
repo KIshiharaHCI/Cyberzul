@@ -27,8 +27,19 @@ public abstract class CommonModel implements ModelStrategy {
   protected ArrayList<Offering> offerings;
   protected boolean isGameStarted = false;
 
-  public CommonModel() {
+  public CommonModel(List<PropertyChangeListener> listenerList) {
     support = new PropertyChangeSupport(this);
+    addListenersToTheModel(listenerList);
+  }
+
+  /**
+   * The ModelStrategyChooser saves the PropertyChangeListener that should be added to the model in
+   * a list and adds them if they should be added.
+   */
+  private void addListenersToTheModel(List<PropertyChangeListener> listenerList) {
+    for (PropertyChangeListener listener : listenerList) {
+      this.addPropertyChangeListener(listener);
+    }
   }
 
   @Override

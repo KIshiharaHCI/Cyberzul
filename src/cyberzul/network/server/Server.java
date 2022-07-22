@@ -51,8 +51,6 @@ public class Server {
     if (instance == null) {
       instance = new Server();
       iPv4InHex = getIpAsHex();
-    } else {
-      throw new RuntimeException("It already exists a server with this port");
     }
     return iPv4InHex;
   }

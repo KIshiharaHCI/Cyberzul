@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 /** A SmallPlayerBoard used for displaying opponent Players. */
 public class SmallPlayerBoard extends PlayerBoard {
   @Serial private static final long serialVersionUID = 14L;
-  private final transient BufferedImage image;
+  private transient BufferedImage image;
 
   /**
    * The constructor to create a playerboard for a given player.
@@ -37,7 +37,7 @@ public class SmallPlayerBoard extends PlayerBoard {
       URL imgUrl = getClass().getClassLoader().getResource("img/smallhud.png");
       image = ImageIO.read(Objects.requireNonNull(imgUrl));
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
     JPanel wrapperForWrapper =
         new JPanel() {

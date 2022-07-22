@@ -13,6 +13,7 @@ import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
 import cyberzul.model.events.RoundFinishedEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -49,8 +50,8 @@ public class GameModel extends CommonModel implements ModelStrategy {
    * Constructs a new game, initializes the property change support, the player list, and the
    * offerings.
    */
-  public GameModel() {
-    super();
+  public GameModel(List<PropertyChangeListener> listenerList) {
+    super(listenerList);
     playerList = new ArrayList<>();
     offerings = new ArrayList<>();
   }
