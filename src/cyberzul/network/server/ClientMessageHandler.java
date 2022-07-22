@@ -40,6 +40,9 @@ public class ClientMessageHandler implements Runnable {
   private String nickname;
   private static final int MAX_LENGTH_OF_PLAYER_NAMES = 15;
 
+  private static int numberOfDodgyMessages = 0;
+  private static final int MAX_NUMBER_OF_DODGY_JSON_MESSAGES = 10;
+
 
   /**
    * Set up a new {@link ClientMessageHandler} that deals with incoming and outgoing message for a
@@ -96,7 +99,12 @@ public class ClientMessageHandler implements Runnable {
     } catch (SocketException socketException) {
       //if a player leaves the game by closing the window, he gets replaced by an AI
       if (socketException.getMessage().equals("Connection reset") && controller.isGameStarted()) {
-        controller.replacePlayerByAi(nickname);
+        if(controller.isGameStarted()) {
+          controller.replacePlayerByAi(nickname);
+        }
+        else{
+          broadcastThatThisClientDisconnected();
+        }
       } else {
         socketException.printStackTrace();
       }
@@ -104,6 +112,21 @@ public class ClientMessageHandler implements Runnable {
       e.printStackTrace();
     } finally {
       close();
+    }
+  }
+
+  /**
+   * Inform all other players that this player left. This message is only used if the player
+   * disconnects from the server before the game started. (Else he gets replaced by an AI).
+   */
+  private void broadcastThatThisClientDisconnected(){
+    try {
+      JSONObject message = JsonMessage.createMessageOfType(JsonMessage.PLAYER_FORFEITED);
+      message.put(JsonMessage.NICK_FIELD, nickname);
+      serverConnection.broadcast(this,message);
+    }
+    catch (JSONException |IOException e){
+      e.printStackTrace();
     }
   }
 
@@ -155,7 +178,15 @@ public class ClientMessageHandler implements Runnable {
       }
       case RESTART_GAME -> controller.restartGame();
       case CANCEL_GAME -> controller.cancelGameForAllPlayers();
-      default -> throw new AssertionError("Unable to handle message " + object);
+      default -> {
+        numberOfDodgyMessages++;
+        if(numberOfDodgyMessages <= MAX_NUMBER_OF_DODGY_JSON_MESSAGES) {
+          send(JsonMessage.createMessageOfType(JsonMessage.JSON_MESSAGE_NOT_PROCESSABLE));
+        }
+        else{
+          this.close();
+        }
+      }
     }
   }
 
@@ -182,7 +213,7 @@ public class ClientMessageHandler implements Runnable {
 
       String nick = object.getString(JsonMessage.NICK_FIELD);
 
-      if (nick.length() > 15) {
+      if (nick.length() > MAX_LENGTH_OF_PLAYER_NAMES) {
         send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_IS_TOO_LONG));
         return;
       }
@@ -339,7 +370,7 @@ public class ClientMessageHandler implements Runnable {
         //notify the client that he has to wait and can't do his turn right now.
         send(JsonMessage.createMessageOfType(JsonMessage.NOT_YOUR_TURN));
       }
-    } catch (JSONException | IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }

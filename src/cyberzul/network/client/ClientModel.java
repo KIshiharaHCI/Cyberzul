@@ -9,7 +9,10 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
 import cyberzul.model.events.ChatMessageRemovedEvent;
+import cyberzul.model.events.PlayerDisconnectedEvent;
+import cyberzul.model.events.YouConnectedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.model.events.GameCanceledEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
@@ -29,9 +32,10 @@ import cyberzul.model.events.RoundFinishedEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
-import cyberzul.network.client.messages.PlayerLeftGameMessage;
+import cyberzul.network.client.messages.PlayerForfeitedMessage;
 import cyberzul.network.client.messages.PlayerNeedHelpMessage;
 import cyberzul.network.client.messages.PlayerTextMessage;
+import cyberzul.network.client.messages.UserLeftMessage;
 import cyberzul.network.shared.JsonMessage;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -542,16 +546,24 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
-   * Add a status-update entry "Player has left the chat" to the list of chat entries.
-   * Used by the network layer to update the model accordingly.
-   * Notify the Listeners that one Player lefts the game.
+   * Inform the listeners that this player forfeited the game (or left the game before it ended).
    *
-   * @param nickname The name of the player who lefts the game.
+   * @param nickname The name of the player who left the game.
    */
-  public void playerLeft(final String nickname) {
-    addChatEntry(new PlayerLeftGameMessage(nickname));
+  public void playerForfeited(final String nickname) {
+    addChatEntry(new PlayerForfeitedMessage(nickname));
     notifyListeners(new GameForfeitedEvent(nickname));
+  }
 
+  /**
+   * Informs the listeners that this player disconnected from the server before the game even
+   * started.
+   *
+   * @param nickname the nickname of the player who disconnected from the server.
+   */
+  public void playerLeft(String nickname){
+    addChatEntry(new UserLeftMessage(nickname));
+    notifyListeners(new PlayerDisconnectedEvent(nickname));
   }
 
 
@@ -618,12 +630,23 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
-   * This is a message that should be displayed without time stamps in the chat.
+   * Add a message without time stamps.
    *
-   * @param content
+   * @param content the message that should be added.
    */
   public void addTextMessageWithoutTimeStamp(String content){
     System.out.println(content);
     addChatEntry(new PlayerNeedHelpMessage(content));
+  }
+
+  /**
+   * Inform the listeners that the client got disconnected from the server.
+   */
+  public void youGotDisconnected(){
+    notifyListeners(new YouDisconnectedEvent());
+  }
+
+  public void youConnectedToTheServer(){
+    notifyListeners(new YouConnectedEvent());
   }
 }

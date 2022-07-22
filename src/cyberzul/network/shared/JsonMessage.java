@@ -24,7 +24,7 @@ public enum JsonMessage {
   USER_JOINED("user joined"),
   POST_MESSAGE("post message"),
   MESSAGE("message"),
-  USER_LEFT("user left"),
+  PLAYER_LEFT("player left"),
   CHEAT_MESSAGE("cheat message"),
 
   // messages from the client to the server
@@ -50,7 +50,9 @@ public enum JsonMessage {
   ROUND_FINISHED("round finished"),
   GAME_FINISHED("game finished"),
   GAME_FORFEITED("game forfeited"),
-  GAME_CANCELED("game canceled");
+  GAME_CANCELED("game canceled"),
+  PLAYER_FORFEITED("player forfeited"),
+  JSON_MESSAGE_NOT_PROCESSABLE("json message not processable");
 
   public static final String TYPE_FIELD = "type";
 
@@ -319,10 +321,14 @@ public enum JsonMessage {
    *
    * @param type the type of this JSONObject
    * @return a JSONObject that has the specified type.
-   * @throws JSONException if for example the specified type is not element of this enum.
    */
-  public static JSONObject createMessageOfType(JsonMessage type) throws JSONException {
-    return new JSONObject().put(TYPE_FIELD, type.getJsonName());
+  public static JSONObject createMessageOfType(JsonMessage type){
+    try {
+      return new JSONObject().put(TYPE_FIELD, type.getJsonName());
+    }
+    catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
   }
 
   /**
@@ -386,11 +392,7 @@ public enum JsonMessage {
    *         successfully logged in.
    */
   public static JSONObject loginSuccess() {
-    try {
       return createMessageOfType(LOGIN_SUCCESS);
-    } catch (JSONException e) {
-      throw new IllegalArgumentException("Failed to create a json object.", e);
-    }
   }
 
   /**
@@ -432,7 +434,7 @@ public enum JsonMessage {
    */
   public static JSONObject userLeft(String nickname) {
     try {
-      return createMessageOfType(USER_LEFT).put(NICK_FIELD, nickname);
+      return createMessageOfType(PLAYER_FORFEITED).put(NICK_FIELD, nickname);
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
@@ -463,11 +465,7 @@ public enum JsonMessage {
    *         floor line of the active player.
    */
   public static JSONObject placeTileInFloorLine() {
-    try {
       return createMessageOfType(PLACE_TILE_IN_FLOOR_LINE);
-    } catch (JSONException e) {
-      throw new IllegalArgumentException("Failed to create a json object.", e);
-    }
   }
 
   /**

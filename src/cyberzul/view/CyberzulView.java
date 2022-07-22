@@ -1,9 +1,13 @@
 package cyberzul.view;
 
+import static java.util.Objects.requireNonNull;
+
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.model.events.ChatMessageRemovedEvent;
+import cyberzul.model.events.YouConnectedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.GameNotStartableEvent;
@@ -35,7 +39,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,8 +49,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * GUI for Cyberzul Changes its appearance based on the model information.
@@ -265,7 +266,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       String ipAddress = Server.start();
       model.setClientModelStrategy(ipAddress);
       JOptionPane.showMessageDialog(null, "IP Address of the cyber "
-          + "server: " + ipAddress, "IP Address", 0);
+          + "server: " + ipAddress, "IP Address", 1);
     });
 
     joinServerButton.addActionListener(event -> {
@@ -322,7 +323,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         this.setTitle("Cyberzul - " + model.getPlayerName());
         numberOfLoggedInPlayersLabel.setText(
             "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
-        showErrorMessage("successfully logged in");
+        showNeutralMessage("successfully logged in");
       }
       case ConnectedWithServerEvent.EVENT_NAME,
           UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
@@ -376,12 +377,14 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case "PlayerAddedMessageEvent" -> {
         requireNonNull(ChatPanel.listModel);
-        PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+        PlayerAddedMessageEvent playerAddedMessageEvent =
+            (PlayerAddedMessageEvent) customMadeGameEvent;
         System.out.println(playerAddedMessageEvent.getMessage());
         ChatPanel.listModel.addElement(playerAddedMessageEvent.getMessage());
       }
       case "ChatMessageRemovedEvent" -> {
-        ChatMessageRemovedEvent chatMessageRemovedEvent = (ChatMessageRemovedEvent) customMadeGameEvent;
+        ChatMessageRemovedEvent chatMessageRemovedEvent =
+            (ChatMessageRemovedEvent) customMadeGameEvent;
         ChatPanel.listModel.removeElement(chatMessageRemovedEvent.getMessage());
         showErrorMessage("Only the last hundred messages are shown.");
       }
@@ -390,9 +393,13 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
       }
       case InvalidIPv4AddressEvent.EVENT_NAME -> {
-        System.out.println("Numberformatexception");
         showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
       }
+      case YouConnectedEvent.EVENT_NAME -> {
+        showNeutralMessage("You connected to the server.");
+      }
+      case YouDisconnectedEvent.EVENT_NAME -> showErrorMessage(
+          "You got disconnected from the server.");
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
@@ -405,6 +412,16 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void showErrorMessage(String message) {
     JOptionPane.showMessageDialog(null, message, "Error!",
         JOptionPane.ERROR_MESSAGE);
+  }
+
+  /**
+   * Show a mesage as pop-up window informing the user of something neutral or positive.
+   *
+   * @param message the message with information about the event.
+   */
+  private void showNeutralMessage(String message) {
+    JOptionPane.showMessageDialog(null, message, "A new game event!",
+        JOptionPane.INFORMATION_MESSAGE);
   }
 
   private void createView() {
