@@ -42,10 +42,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private Offering currentOffering;
   private int currentIndexOfTile;
 
-  private String hotSeatStory = "HotSeatStory is not yet set!";
-  private String networkStory = "NetworkStory is not yet set!";
-  private String singlePlayerStory = "SinglePlayerStory is not yet set!";
-
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
    * offerings.
