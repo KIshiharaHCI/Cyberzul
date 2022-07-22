@@ -54,9 +54,6 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
             setText(playerNeedHelpMessage.getContent());
         }
 
-
-
-
         return this;
     }
 
