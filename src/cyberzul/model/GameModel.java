@@ -35,7 +35,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private final Random ran = new Random();
   //the timer because player has to make a move within 30 seconds
   private Timer timer;
-  private static final int DELAYTIME = 30000;
+  private static final int DELAYTIME = 8000;
 
   private boolean hasGameEnded = false;
   private Offering currentOffering;
@@ -360,7 +360,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
         new java.util.TimerTask() {
           @Override
           public void run() {
-            makeAiPlayerMakeMove(playerName);
+            if (!hasGameEnded && !checkRoundFinished()) {
+              LOGGER.info("Timer made move for Player " + playerName);
+              makeAiPlayerMakeMove(playerName);
+            }
           }
         },
         DELAYTIME
