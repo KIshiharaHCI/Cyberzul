@@ -41,22 +41,16 @@ public class ChatMessageHandler extends ClientMessageHandler implements Runnable
     //"The Quick Game. As with a lot of board games, focusing on the end conditions is important."
   };*/
 
-  public static final String CYBERZUL_HELP = """
-  Cyberzul - Strategy:
-  Azul is point based, which causes us to focus 
-  on the amount of points we are gaining. There 
-  is something inherently wrong with trying to 
-  place all 5 of the same color tile on your board:
-  it’s a terribly inefficient way to get points.
-  There’s a very simple reason for choosing the blue
-  tile right in the middle of the board as the first placement:
-  it gives you a ton of options to build on for the rest of the 
-  game. Blocking your opponents from moves that would net them 
-  a ton of points is an absolutely devastating tactic in 
-  2 player games and very useful with more players too. 
-  As with a lot of board games, focusing on the end conditions
-  is important. In this case, filling up a row with tiles stops 
-  the game and determines the winner.""";
+  public static final String CYBERZUL_HELP = "Cyberzul - Strategy: \n"
+      + "Azul is point based, which causes us to focus on the amount of points we are gaining. "
+      + "There is something inherently wrong with trying to place all 5 of the same color tile "
+      + "on your board: it’s a terribly inefficient way to get points. There’s a very simple "
+      + "reason for choosing the blue tile right in the middle of the board as the first "
+      + "placement: it gives you a ton of options to build on for the rest of the game. "
+      + "Blocking your opponents from moves that would net them a ton of points is an absolutely "
+      + "devastating tactic in 2 player games and very useful with more players too. As with a "
+      + "lot of board games, focusing on the end conditions is important. In this case, filling "
+      + "up a row with tiles stops the game and determines the winner.";
 
     /**
      * Create a new {@link ChatMessageHandler} that deals with incoming and outgoing message for a
