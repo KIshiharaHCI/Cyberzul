@@ -387,12 +387,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
     startGame();
   }
 
-  @Override
   public void setBulletMode(boolean bulletMode) {
     isBulletMode = bulletMode;
   }
 
-  @Override
   public boolean getBulletMode() {
     return isBulletMode;
   }
