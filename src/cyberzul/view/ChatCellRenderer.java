@@ -1,8 +1,8 @@
 package cyberzul.view;
 
 import cyberzul.network.client.messages.Message;
+import cyberzul.network.client.messages.PlayerForfeitedMessage;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
-import cyberzul.network.client.messages.PlayerLeftGameMessage;
 import cyberzul.network.client.messages.PlayerLoggedInMessage;
 import cyberzul.network.client.messages.PlayerNeedHelpMessage;
 import cyberzul.network.client.messages.PlayerTextMessage;
@@ -24,7 +24,7 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
 
   /**
    * Constructor of the CellRenderer for chat messages.
-   * */
+   */
   public ChatCellRenderer() {
     super();
     setOpaque(true);
@@ -50,10 +50,10 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
     }
     if (value instanceof PlayerTextMessage playerTextMsg) {
       String time = dateFormat.format(playerTextMsg.getTime());
-      setText(String.format("%s (%s): %s", playerTextMsg.getNameOfSender(),
-              time, playerTextMsg.getContent()));
+      setText(String.format("%s (%s): %s", playerTextMsg.getNameOfSender(), time,
+          playerTextMsg.getContent()));
     }
-    if (value instanceof PlayerLeftGameMessage playerLeftMsg) {
+    if (value instanceof PlayerForfeitedMessage playerLeftMsg) {
       setText(playerLeftMsg.getNickname() + " has left the chat.");
     }
     if (value instanceof PlayerNeedHelpMessage playerNeedHelpMessage) {

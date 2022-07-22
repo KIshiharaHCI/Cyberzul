@@ -46,7 +46,6 @@ public abstract class CommonModel implements ModelStrategy {
   public void addPropertyChangeListener(PropertyChangeListener listener) {
     requireNonNull(listener);
     support.addPropertyChangeListener(listener);
-    System.out.println("propertychangelisteners added");
   }
 
   @Override

@@ -5,7 +5,9 @@ import static java.util.Objects.requireNonNull;
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.model.events.ChatMessageRemovedEvent;
+import cyberzul.model.events.YouConnectedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.GameNotStartableEvent;
@@ -269,7 +271,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       String ipAddress = Server.start();
       model.setClientModelStrategy(ipAddress);
       JOptionPane.showMessageDialog(null, "IP Address of the cyber "
-          + "server: " + ipAddress, "IP Address", 0);
+          + "server: " + ipAddress, "IP Address", 1);
     });
 
     joinServerButton.addActionListener(event -> {
@@ -326,10 +328,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case "LoggedInEvent" -> {
         this.setTitle("Cyberzul - " + model.getPlayerName());
-        //TODO: update Label in each lobby panel?
-        //numberOfLoggedInPlayersLabel.setText(
-        //"Number of Players: " + (model.getPlayerNamesList().size()) + ".");
-        showErrorMessage("successfully logged in");
+        numberOfLoggedInPlayersLabel.setText(
+            "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+        showNeutralMessage("successfully logged in");
       }
       case ConnectedWithServerEvent.EVENT_NAME,
           UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
@@ -391,7 +392,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case "ChatMessageRemovedEvent" -> {
         ChatMessageRemovedEvent chatMessageRemovedEvent =
-                (ChatMessageRemovedEvent) customMadeGameEvent;
+            (ChatMessageRemovedEvent) customMadeGameEvent;
         ChatPanel.listModel.removeElement(chatMessageRemovedEvent.getMessage());
         showErrorMessage("Only the last hundred messages are shown.");
       }
@@ -401,9 +402,13 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
       }
       case InvalidIpv4AddressEvent.EVENT_NAME -> {
-        System.out.println("Numberformatexception");
         showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
       }
+      case YouConnectedEvent.EVENT_NAME -> {
+        showNeutralMessage("You connected to the server.");
+      }
+      case YouDisconnectedEvent.EVENT_NAME -> showErrorMessage(
+          "You got disconnected from the server.");
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
@@ -416,6 +421,16 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void showErrorMessage(String message) {
     JOptionPane.showMessageDialog(null, message, "Error!",
         JOptionPane.ERROR_MESSAGE);
+  }
+
+  /**
+   * Show a mesage as pop-up window informing the user of something neutral or positive.
+   *
+   * @param message the message with information about the event.
+   */
+  private void showNeutralMessage(String message) {
+    JOptionPane.showMessageDialog(null, message, "A new game event!",
+        JOptionPane.INFORMATION_MESSAGE);
   }
 
   private void createView() {
