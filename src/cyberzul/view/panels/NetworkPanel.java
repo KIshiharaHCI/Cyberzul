@@ -24,7 +24,7 @@ import static cyberzul.view.CyberzulView.getCustomFont;
 public class NetworkPanel extends JLayeredPane {
     @Serial
     private static final long serialVersionUID = 17L;
-    private Controller controller;
+    private transient Controller controller;
     private Dimension containerDimension;
     private Dimension popUpDimension;
     private transient BufferedImage image;
