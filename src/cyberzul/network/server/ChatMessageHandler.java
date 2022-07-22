@@ -30,17 +30,6 @@ public class ChatMessageHandler extends ClientMessageHandler implements Runnable
 
     private static ServerNetworkConnection serverConnection;
 
-
-
-  /*public static final String[] CYBERZUL_HELP = {
-    "Azul - Strategy:"
-    //"Focus on Negative Points. Azul is point based, which causes us to focus on the amount of points we are gaining.",
-    //"Forget About 5 of a Kind. There is something inherently wrong with trying to place all 5 of the same color tile on your board.",
-    //"Start in the Center. There’s a very simple reason for choosing the blue tile right in the middle of the board as the first placement.",
-    //"Play Defensive. Blocking your opponents from moves that would net them a ton of points is an absolutely devastating tactic in 2 player games and very useful with more players too.",
-    //"The Quick Game. As with a lot of board games, focusing on the end conditions is important."
-  };*/
-
   public static final String CYBERZUL_HELP = "Cyberzul - Strategy: \n"
       + "Azul is point based, which causes us to focus on the amount of points we are gaining. "
       + "There is something inherently wrong with trying to place all 5 of the same color tile "
