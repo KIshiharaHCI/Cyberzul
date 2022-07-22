@@ -16,6 +16,7 @@ import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.GameStartedEvent;
 import cyberzul.model.events.IllegalTurnEvent;
+import cyberzul.model.events.InvalidIPv4AddressEvent;
 import cyberzul.model.events.LoggedInEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
@@ -29,12 +30,9 @@ import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.network.client.messages.PlayerLeftGameMessage;
+import cyberzul.network.client.messages.PlayerNeedHelpMessage;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.shared.JsonMessage;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -75,31 +73,37 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     super();
 
     setConnection(ipAddress);
+    System.out.println("Numberformatexception model 2");
     playerMessages = Collections.synchronizedList(new ArrayList<>());
   }
 
   /**
    * Sets up the connection with a given IP-address.
-
+   *
    * @param ipAddressInHex the IP-address in Hexadecimalcode.
    */
   public void setConnection(String ipAddressInHex) {
-    //split ipAddressInHex into Strings of length 2.
-    String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
+    try {
+      //split ipAddressInHex into Strings of length 2.
+      String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
 
-    //parse the String array to a byte array
-    byte[] host = new byte[ipAddressArray.length];
-    for (int i = 0; i < ipAddressArray.length; i++) {
-      //The hex in the String is unsigned. The long is also unsigned, but should overflow to the
-      //correct value in int.
-      int partOfTheAddress = (int) Long.parseLong(ipAddressArray[i], 16);
-      host[i] = (byte) partOfTheAddress;
+      //parse the String array to a byte array
+      byte[] host = new byte[ipAddressArray.length];
+      for (int i = 0; i < ipAddressArray.length; i++) {
+        //The hex in the String is unsigned. The long is also unsigned, but should overflow to the
+        //correct value in int.
+        int partOfTheAddress = (int) Long.parseLong(ipAddressArray[i], 16);
+        host[i] = (byte) partOfTheAddress;
+      }
+
+      //create the ClientNetworkConnection.
+      this.connection =
+          new ClientNetworkConnection(this, host);
+      connection.start();
+    } catch (NumberFormatException e) {
+      System.out.println("Numberformatexception model");
+      notifyListeners(new InvalidIPv4AddressEvent());
     }
-
-    //create the ClientNetworkConnection.
-    this.connection =
-        new ClientNetworkConnection(this, host);
-    connection.start();
   }
 
   @Override
@@ -525,7 +529,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Add a status-update entry "Player joined" to the list of chat entries.
    * Used by the network layer to update the model accordingly.
-
+   *
    * @param nickname The name of the newly joined user.
    */
   public void playerJoinedChat(String nickname) {
@@ -537,7 +541,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Add a status-update entry "Player has left the chat" to the list of chat entries.
    * Used by the network layer to update the model accordingly.
    * Notify the Listeners that one Player lefts the game.
-
+   *
    * @param nickname The name of the player who lefts the game.
    */
   public void playerLeft(final String nickname) {
@@ -557,7 +561,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     addChatEntry(chatMessage);
     getConnection().playerSendMessage(chatMessage);
   }
-
 
 
   /**

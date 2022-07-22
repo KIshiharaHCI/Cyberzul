@@ -2,13 +2,22 @@ package cyberzul.view;
 
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
-import cyberzul.model.events.*;
+import cyberzul.model.events.ChatMessageRemovedEvent;
+import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.GameNotStartableEvent;
+import cyberzul.model.events.InvalidIPv4AddressEvent;
+import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.PlayerHasEndedTheGameEvent;
+import cyberzul.model.events.PlayerJoinedChatEvent;
+import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.network.server.Server;
 import cyberzul.view.board.ChatPanel;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.board.MusicPlayerHelper;
 import cyberzul.view.listeners.TileClickListener;
-import cyberzul.view.panels.NetworkPanel;
 import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.CardLayout;
@@ -31,7 +40,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -293,13 +301,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     switch (eventName) {
       case "LoginFailedEvent" -> {
         LoginFailedEvent loginFailedEvent = (LoginFailedEvent) customMadeGameEvent;
-        if (loginFailedEvent.getMessage().equals(LoginFailedEvent.NICKNAME_ALREADY_TAKEN)) {
-          showErrorMessage("Nickname is already taken.");
-        } else if (loginFailedEvent.getMessage().equals(LoginFailedEvent.LOBBY_IS_FULL)) {
-          showErrorMessage("Lobby is full.");
-        } else if (loginFailedEvent.getMessage().equals(LoginFailedEvent.ALREADY_LOGGED_IN)) {
-          showErrorMessage("Already logged in.");
-        }
+        showErrorMessage(loginFailedEvent.getMessage());
       }
       case "GameStartedEvent" -> {
         addNewGameBoard(tileClickListener);
@@ -372,7 +374,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         showErrorMessage("Player " + gameForfeitedEvent.getForfeiter()
             + " left the game and was replaced by an AI");
       }
-
       case "PlayerAddedMessageEvent" -> {
         requireNonNull(ChatPanel.listModel);
         PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
@@ -388,8 +389,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         PlayerJoinedChatEvent playerJoinedChatEvent = (PlayerJoinedChatEvent) customMadeGameEvent;
         ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
       }
-
-
+      case InvalidIPv4AddressEvent.EVENT_NAME -> {
+        System.out.println("Numberformatexception");
+        showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
+      }
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }

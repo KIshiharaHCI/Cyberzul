@@ -180,11 +180,13 @@ public class ClientMessageHandler implements Runnable {
         return;
       }
 
-      if (nickname.length() > 15) {
+      String nick = object.getString(JsonMessage.NICK_FIELD);
+
+      if (nick.length() > 15) {
         send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_IS_TOO_LONG));
+        return;
       }
 
-      String nick = object.getString(JsonMessage.NICK_FIELD);
       if (!serverConnection.tryLogIn(nick)) {
         send(JsonMessage.loginFailed(LoginFailedEvent.NICKNAME_ALREADY_TAKEN));
         return;
