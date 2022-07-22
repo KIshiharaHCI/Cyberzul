@@ -15,7 +15,7 @@ public class ImagePanel extends JPanel {
   //    private transient BufferedImage image;
   @Serial
   private static final long serialVersionUID = 10L;
-  private final JPanel childPanel;
+  private final JComponent childPanel;
   private final String path;
   private final int width;
   private final int height;
@@ -31,7 +31,7 @@ public class ImagePanel extends JPanel {
    * @param scaleFactor The factor to make image larger to.
    */
   @SuppressFBWarnings("EI_EXPOSE_REP2")
-  public ImagePanel(JPanel childPanel, String path, int width, int height, double scaleFactor) {
+  public ImagePanel(JComponent childPanel, String path, int width, int height, double scaleFactor) {
     this.childPanel = childPanel;
     this.path = path;
     this.width = width;
