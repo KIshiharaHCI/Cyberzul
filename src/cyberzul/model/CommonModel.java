@@ -222,10 +222,6 @@ public abstract class CommonModel implements ModelStrategy {
       return  messageToBeReturned;
     } else {
       LOGGER.info("We have >= two players with the same amount of points at the end of the game.");
-      // TODO: to be deleted
-      for (int i = 0; i < playerWithSameMostPoints.size(); i++) {
-        LOGGER.info(i + ": " + playerWithSameMostPoints.get(i).getName());
-      }
       ArrayList<Integer> amountOfCompleteHorizontalLines = new ArrayList<>();
       // add all values for complete horizontal lines of the players with same points to list
       for (Player player : playerWithSameMostPoints) {
