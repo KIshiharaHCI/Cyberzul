@@ -27,7 +27,7 @@ public abstract class TileDecorator extends JPanel implements Tile {
   final String path;
   final JLabel label = new JLabel();
   final int tileSize;
-  private final transient BufferedImage image;
+  private transient BufferedImage image;
 
   /**
    * Constructor to be called from subclasses. Used for initializing Image URL path and cell XY
@@ -48,7 +48,7 @@ public abstract class TileDecorator extends JPanel implements Tile {
       URL imgUrl = getClass().getClassLoader().getResource("img/tile-outline.png");
       image = ImageIO.read(Objects.requireNonNull(imgUrl));
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 

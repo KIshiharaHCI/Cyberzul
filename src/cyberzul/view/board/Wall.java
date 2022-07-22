@@ -4,20 +4,21 @@ import cyberzul.controller.Controller;
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
 import java.io.Serial;
+import javax.swing.JPanel;
 
+/**
+ * Creates the wall of the player on the player board.
+ */
 public class Wall extends JPanel {
-  @Serial
-  private static final long serialVersionUID = 7526472295622776147L;
+  @Serial private static final long serialVersionUID = 7526472295622776147L;
   private static final int SMALL_TILE_SIZE = Tile.SMALL_TILE_SIZE;
   private static final int ROWS = 5;
   private static final int COLS = 5;
   private final int buttonSize;
   private final transient Controller controller;
-  private ModelTile[][] wall;
-  private ModelTile[][] templateWall;
+  private final ModelTile[][] wall;
+  private final ModelTile[][] templateWall;
   private JPanel currentRow;
 
   /**

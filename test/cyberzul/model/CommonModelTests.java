@@ -1,6 +1,7 @@
 package cyberzul.model;
 
 import cyberzul.network.client.ClientPlayer;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class CommonModelTests {
   @Test
   public void testGetWinningMessage0() {
     //arrange
-    GameModel model = new GameModel();
+    GameModel model = new GameModel(new ArrayList<>());
     ClientPlayer fritz = new ClientPlayer("Fritz");
     fritz.setPoints(3000);
     fritz.setWall(new boolean[][]{
@@ -69,7 +70,7 @@ public class CommonModelTests {
   @Test
   public void testGetWinningMessage1() {
     //arrange
-    GameModel model = new GameModel();
+    GameModel model = new GameModel(new ArrayList<>());
     ClientPlayer fritz = new ClientPlayer("Fritz");
     fritz.setPoints(3002);
     fritz.setWall(new boolean[][]{
@@ -121,7 +122,7 @@ public class CommonModelTests {
   @Test
   public void testGetWinningMessage2() {
     //arrange
-    GameModel model = new GameModel();
+    GameModel model = new GameModel(new ArrayList<>());
     ClientPlayer fritz = new ClientPlayer("Fritz");
     fritz.setPoints(3000);
     fritz.setWall(new boolean[][]{
