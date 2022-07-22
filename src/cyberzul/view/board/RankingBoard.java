@@ -14,13 +14,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-/** The Ranking board which shows the name of all players and their points in descending order. */
+/**
+ * The Ranking board which shows the name of all players and their points in descending order.
+ */
 public class RankingBoard extends JPanel {
 
   private static final int COL = 1;
-  @Serial private static final long serialVersionUID = 7L;
-  private final transient Controller controller;
+  @Serial
+  private static final long serialVersionUID = 7L;
   private static final String rankingBoardPath = "img/ranking-board.png";
+  private final transient Controller controller;
   private transient List<String> playerNamesList;
   private transient JPanel rankingBackgroundPanel;
 
@@ -39,7 +42,9 @@ public class RankingBoard extends JPanel {
     createRankingArea();
   }
 
-  /** create the ranking area with the players' name and their points. */
+  /**
+   * create the ranking area with the players' name and their points.
+   */
   private void createRankingArea() {
     JPanel rankingBoardPanel = new JPanel();
     rankingBoardPanel.setBorder(new EmptyBorder(10, 5, 10, 5));
@@ -58,7 +63,9 @@ public class RankingBoard extends JPanel {
     add(rankingBackgroundPanel, rankingBoardPanel);
   }
 
-  /** Updates the current ranking status of all players. */
+  /**
+   * Updates the current ranking status of all players.
+   */
   public void updateRankingBoard() {
     remove(rankingBackgroundPanel);
     playerNamesList = controller.rankingPlayerWithPoints();

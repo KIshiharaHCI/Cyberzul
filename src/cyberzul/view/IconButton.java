@@ -13,7 +13,8 @@ import javax.swing.JButton;
  * A JButton class used for setting buttons with Images and absolute sizing.
  */
 public class IconButton extends JButton {
-  @Serial private static final long serialVersionUID = 15L;
+  @Serial
+  private static final long serialVersionUID = 15L;
 
   private final int xposition;
   private final int yposition;
@@ -24,10 +25,10 @@ public class IconButton extends JButton {
   /**
    * Constructor of a IconButton.
    *
-   * @param path for the ImageIcon to set
-   * @param xposition on the parent panel
-   * @param yposition on the parent panel
-   * @param buttonWidth width in px of the button
+   * @param path         for the ImageIcon to set
+   * @param xposition    on the parent panel
+   * @param yposition    on the parent panel
+   * @param buttonWidth  width in px of the button
    * @param buttonHeight height in px of the button
    */
   public IconButton(String path, int xposition, int yposition, int buttonWidth, int buttonHeight) {

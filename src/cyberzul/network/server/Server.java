@@ -20,7 +20,9 @@ public class Server {
   private final Model gameModel;
   private ServerNetworkConnection connection;
 
-  /** The server on which the game runs and who distributes chat messages. */
+  /**
+   * The server on which the game runs and who distributes chat messages.
+   */
   private Server() {
     this.gameModel = new ModelStrategyChooser();
     gameModel.setGameModelStrategy();

@@ -4,7 +4,9 @@ import cyberzul.model.ModelTile;
 import java.awt.Dimension;
 import java.io.Serial;
 
-/** WallTile without Tileclicklistener. Either set transparent or non-transparent. */
+/**
+ * WallTile without Tileclicklistener. Either set transparent or non-transparent.
+ */
 public class WallTile extends TileDecorator {
   @Serial
   private static final long serialVersionUID = 9L;
@@ -13,8 +15,8 @@ public class WallTile extends TileDecorator {
    * Constructor to be called from subclasses. Used for initializing Image URL path and cell XY
    * coordinates on the Wall.
    *
-   * @param col X-Coordinate in given container
-   * @param row Y-Coordinate in given container
+   * @param col       X-Coordinate in given container
+   * @param row       Y-Coordinate in given container
    * @param modelTile contains the tile color information.
    */
   public WallTile(int col, int row, ModelTile modelTile, int tileSize, Float opacity) {

@@ -12,9 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/** Represents a Factory Display on the view. */
+/**
+ * Represents a Factory Display on the view.
+ */
 public class Plate extends JPanel {
-  @Serial private static final long serialVersionUID = 7526472295622776147L;
+  @Serial
+  private static final long serialVersionUID = 7526472295622776147L;
   private static final int PLATE_SIZE = 90;
 
   private static final int spaceFromLeftAndTopInPxl = 13;
@@ -27,7 +30,7 @@ public class Plate extends JPanel {
   /**
    * Create one Plate.
    *
-   * @param plateId the number with which the Plate can be identified.
+   * @param plateId           the number with which the Plate can be identified.
    * @param tileClickListener the tile click listener
    */
   public Plate(int plateId, TileClickListener tileClickListener, List<ModelTile> content) {
@@ -48,7 +51,7 @@ public class Plate extends JPanel {
    * Adds the correct Source Tiles on the Plate and sets the correct positioning for each Tile.
    *
    * @param tileClickListener listener for checking for a mouse click.
-   * @param content contains the color of the Source Tile returned by the model.
+   * @param content           contains the color of the Source Tile returned by the model.
    */
   public void initialize(TileClickListener tileClickListener, List<ModelTile> content) {
     int spaceFromLeft = spaceFromLeftAndTopInPxl;

@@ -11,15 +11,18 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-/** Lobby Screen after selecting Single Player Mode. */
+/**
+ * Lobby Screen after selecting Single Player Mode.
+ */
 public class SinglePlayerPanel extends JPanel {
-  @Serial private static final long serialVersionUID = 17L;
-  private transient BufferedImage image;
+  @Serial
+  private static final long serialVersionUID = 17L;
   private final Dimension containerDimension;
+  private transient BufferedImage image;
 
   /**
    * Constructor for the SinglePlayerPanel.
-
+   *
    * @param frameDimension the dimensions for the frame.
    */
   public SinglePlayerPanel(Dimension frameDimension) {

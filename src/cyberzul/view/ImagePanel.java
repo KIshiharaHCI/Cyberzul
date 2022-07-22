@@ -27,10 +27,10 @@ public class ImagePanel extends JPanel {
   /**
    * Constructor for creating a panel with a background image.
    *
-   * @param childPanel Panel to set transparent.
-   * @param path Path of the image to set.
-   * @param width Basic width from which the scale should start.
-   * @param height Basic height from which the scale should start.
+   * @param childPanel  Panel to set transparent.
+   * @param path        Path of the image to set.
+   * @param width       Basic width from which the scale should start.
+   * @param height      Basic height from which the scale should start.
    * @param scaleFactor The factor to make image larger to.
    */
   @SuppressFBWarnings("EI_EXPOSE_REP2")
@@ -46,7 +46,6 @@ public class ImagePanel extends JPanel {
 
   /**
    * Creates a background with image for the game.
-   *
    */
   private void createBackgroundLabel() {
     URL imgUrl = getClass().getClassLoader().getResource(path);

@@ -6,12 +6,12 @@ public class PlayerDisconnectedEvent extends GameEvent {
 
   private final String nickname;
 
-  public PlayerDisconnectedEvent(String nickname){
+  public PlayerDisconnectedEvent(String nickname) {
     this.nickname = nickname;
   }
 
   @Override
-  public String getName(){
+  public String getName() {
     return EVENT_NAME;
   }
 

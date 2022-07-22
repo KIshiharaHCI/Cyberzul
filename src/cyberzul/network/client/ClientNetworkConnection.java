@@ -26,9 +26,8 @@ import org.json.JSONObject;
  */
 public class ClientNetworkConnection {
 
-  private static byte[] HOST;
   private static final int PORT = 8080;
-
+  private static byte[] HOST;
   private final ClientModel model;
   private Socket socket;
   private BufferedWriter writer;
@@ -177,7 +176,6 @@ public class ClientNetworkConnection {
     String content = JsonMessage.getContent(jsonObject);
     model.addTextMessageWithoutTimeStamp(content);
   }
-
 
 
   /**

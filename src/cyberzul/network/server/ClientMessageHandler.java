@@ -32,6 +32,9 @@ import org.json.JSONObject;
 public class ClientMessageHandler implements Runnable {
 
   private static final Logger LOGGER = LogManager.getLogger(ClientMessageHandler.class);
+  private static final int MAX_LENGTH_OF_PLAYER_NAMES = 15;
+  private static final int MAX_NUMBER_OF_DODGY_JSON_MESSAGES = 10;
+  private static int numberOfDodgyMessages = 0;
   private final ServerNetworkConnection serverConnection;
   private final Socket socket;
   private final BufferedReader reader;
@@ -39,10 +42,6 @@ public class ClientMessageHandler implements Runnable {
   private final Controller controller;
   private final Model model;
   private String nickname;
-  private static final int MAX_LENGTH_OF_PLAYER_NAMES = 15;
-
-  private static int numberOfDodgyMessages = 0;
-  private static final int MAX_NUMBER_OF_DODGY_JSON_MESSAGES = 10;
 
 
   /**
@@ -100,10 +99,9 @@ public class ClientMessageHandler implements Runnable {
     } catch (SocketException socketException) {
       //if a player leaves the game by closing the window, he gets replaced by an AI
       if (socketException.getMessage().equals("Connection reset") && controller.isGameStarted()) {
-        if(controller.isGameStarted()) {
+        if (controller.isGameStarted()) {
           controller.replacePlayerByAi(nickname);
-        }
-        else{
+        } else {
           broadcastThatThisClientDisconnected();
         }
       } else {
@@ -120,13 +118,12 @@ public class ClientMessageHandler implements Runnable {
    * Inform all other players that this player left. This message is only used if the player
    * disconnects from the server before the game started. (Else he gets replaced by an AI).
    */
-  private void broadcastThatThisClientDisconnected(){
+  private void broadcastThatThisClientDisconnected() {
     try {
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.PLAYER_FORFEITED);
       message.put(JsonMessage.NICK_FIELD, nickname);
-      serverConnection.broadcast(this,message);
-    }
-    catch (JSONException |IOException e){
+      serverConnection.broadcast(this, message);
+    } catch (JSONException | IOException e) {
       e.printStackTrace();
     }
   }
@@ -181,10 +178,9 @@ public class ClientMessageHandler implements Runnable {
       case CANCEL_GAME -> controller.cancelGameForAllPlayers();
       default -> {
         numberOfDodgyMessages++;
-        if(numberOfDodgyMessages <= MAX_NUMBER_OF_DODGY_JSON_MESSAGES) {
+        if (numberOfDodgyMessages <= MAX_NUMBER_OF_DODGY_JSON_MESSAGES) {
           send(JsonMessage.createMessageOfType(JsonMessage.JSON_MESSAGE_NOT_PROCESSABLE));
-        }
-        else{
+        } else {
           this.close();
         }
       }

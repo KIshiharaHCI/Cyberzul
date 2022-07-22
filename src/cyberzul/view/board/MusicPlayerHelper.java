@@ -13,7 +13,9 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-/** Class for controlling of playing game music. */
+/**
+ * Class for controlling of playing game music.
+ */
 public class MusicPlayerHelper {
 
   private final Clip backgroundClip;
@@ -23,15 +25,16 @@ public class MusicPlayerHelper {
   private final AudioInputStream audioInputStreamBackgroundMusic;
   private final AudioInputStream audioInputStreamTilePlacedMusic;
   private final AudioInputStream audioInputStreamIllegalTurnMusic;
-
-  private boolean tilePlacedMusicOn;
-  private boolean illegalTurnMusicOn;
-  private boolean playMusicOn;
   private final FloatControl volumeBackground;
   private final FloatControl volumeTilePlaced;
   private final FloatControl volumeIllegalTurn;
+  private boolean tilePlacedMusicOn;
+  private boolean illegalTurnMusicOn;
+  private boolean playMusicOn;
 
-  /** Controller for playing music in the game. */
+  /**
+   * Controller for playing music in the game.
+   */
   public MusicPlayerHelper() {
     String backgroundMusicPath = "audio/play-music.wav";
     audioInputStreamBackgroundMusic = createAudioInputStream(backgroundMusicPath);
@@ -61,7 +64,9 @@ public class MusicPlayerHelper {
     playMusicOn = true;
   }
 
-  /** Initiates the playing of the background music. */
+  /**
+   * Initiates the playing of the background music.
+   */
   public void init() {
     tilePlacedMusicOn = true;
     illegalTurnMusicOn = true;
@@ -142,7 +147,9 @@ public class MusicPlayerHelper {
     }
   }
 
-  /** Close everything if the Frame closes on dispose. */
+  /**
+   * Close everything if the Frame closes on dispose.
+   */
   public void closeAllOfMusicPlayer() {
     backgroundClip.close();
     tilePlacedClip.close();

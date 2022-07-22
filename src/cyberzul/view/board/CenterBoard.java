@@ -23,7 +23,8 @@ import javax.swing.JPanel;
             + "an external source and the model is safe, we think it is ok to suppress "
             + "this warning.")
 public class CenterBoard extends JPanel {
-  @Serial private static final long serialVersionUID = 5L;
+  @Serial
+  private static final long serialVersionUID = 5L;
   private final transient Controller controller;
   private final JPanel boardAndPlatesAndTablePanel;
   private final transient TileClickListener tileClickListener;
@@ -90,7 +91,9 @@ public class CenterBoard extends JPanel {
     boardAndPlatesAndTablePanel.add(platesAndTableCenterPanel, BorderLayout.NORTH);
   }
 
-  /** Used by Constructor and CyberzulView to create and add a new PlayerBoard panel. */
+  /**
+   * Used by Constructor and CyberzulView to create and add a new PlayerBoard panel.
+   */
   void createNewPlayerBoard() {
     currentPlayerBoard =
         new ActivePlayerBoard(
@@ -102,7 +105,9 @@ public class CenterBoard extends JPanel {
     boardAndPlatesAndTablePanel.add(currentPlayerBoard, BorderLayout.CENTER);
   }
 
-  /** Used by Constructor and CyberzulView to create and add a new Plates panel. */
+  /**
+   * Used by Constructor and CyberzulView to create and add a new Plates panel.
+   */
   void createNewPlatesPanel() {
     List<Offering> factoryDisplays =
         controller.getOfferings().subList(1, controller.getOfferings().size());
@@ -112,13 +117,17 @@ public class CenterBoard extends JPanel {
     platesAndTableCenterPanel.add(platesPanel, BorderLayout.CENTER);
   }
 
-  /** Used by Constructor and CyberzulView to create and add a new TableCenter panel. */
+  /**
+   * Used by Constructor and CyberzulView to create and add a new TableCenter panel.
+   */
   void createNewTableCenter() {
     tableCenterPanel = new TableCenterPanel(controller, tileClickListener, topPanelDimension);
     platesAndTableCenterPanel.add(tableCenterPanel, BorderLayout.EAST);
   }
 
-  /** Removes all Panels of the last player who ended their turn. */
+  /**
+   * Removes all Panels of the last player who ended their turn.
+   */
   public void removeAllPanels() {
     platesAndTableCenterPanel.remove(tableCenterPanel);
     platesAndTableCenterPanel.remove(platesPanel);

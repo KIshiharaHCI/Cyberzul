@@ -29,21 +29,25 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/** Lobby Screen that functions as the Lobby when a player wants to play on Hot Seat Mode. */
+/**
+ * Lobby Screen that functions as the Lobby when a player wants to play on Hot Seat Mode.
+ */
 public class HotSeatLobbyScreen extends JLayeredPane {
-  @Serial private static final long serialVersionUID = 17L;
+  @Serial
+  private static final long serialVersionUID = 17L;
+  private static final int MIN_REQUIRED_PLAYERS = 3;
   private final Font customFont = getCustomFont();
   private final HashSet<Players> enabledPlayers = new HashSet<>();
   private final HashSet<Players> disabledPlayers =
       new HashSet<>(
           Arrays.asList(Players.PLAYER1, Players.PLAYER2, Players.PLAYER3, Players.PLAYER4));
-  private static final int MIN_REQUIRED_PLAYERS = 3;
+  private final transient Controller controller;
+  private final transient List<JLabel> labels = new ArrayList<>();
   transient List<JButton> nameInputButtons = new ArrayList<>(4);
   ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
   ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
   ImageIcon nickBannerUnselected = imageLoader("img/playerbanner-unselected.png", 300, 56);
   ImageIcon nickBannerSelected = imageLoader("img/playerbanner-selected.png", 300, 56);
-  private final transient Controller controller;
   private Dimension containerDimension;
   private Dimension popUpDimension;
   private transient BufferedImage image;
@@ -51,13 +55,12 @@ public class HotSeatLobbyScreen extends JLayeredPane {
   private JPanel container;
   private JPanel inputNickPopUp;
   private JButton playGameButton;
-  private final transient List<JLabel> labels = new ArrayList<>();
   private Players lastLoggedInPlayer;
 
   /**
    * Initializes all components for the HotSeatLobby.
    *
-   * @param controller controller for the application
+   * @param controller     controller for the application
    * @param frameDimension determined by Cyberzulview.
    */
   public HotSeatLobbyScreen(Controller controller, Dimension frameDimension) {
@@ -105,7 +108,9 @@ public class HotSeatLobbyScreen extends JLayeredPane {
     }
   }
 
-  /** Initializes all Components added to this screen. */
+  /**
+   * Initializes all Components added to this screen.
+   */
   private void initializeComponents() {
     container =
         new JPanel(null) {
@@ -291,18 +296,24 @@ public class HotSeatLobbyScreen extends JLayeredPane {
     validate();
   }
 
-  /** Enables the PlayButton if at least two players have been connected. */
+  /**
+   * Enables the PlayButton if at least two players have been connected.
+   */
   private void updatePlayButton() {
     playGameButton.setEnabled(disabledPlayers.size() < MIN_REQUIRED_PLAYERS);
   }
 
-  /** Used to set the bounds for container class components. */
+  /**
+   * Used to set the bounds for container class components.
+   */
   private void setBoundsForComponents() {
     container.setBounds(200, 80, containerDimension.width, containerDimension.height);
     inputNickPopUp.setBounds(420, 200, popUpDimension.width, popUpDimension.height);
   }
 
-  /** Creates the input nickname prompt. */
+  /**
+   * Creates the input nickname prompt.
+   */
   private void setInputNickPrompt() {
     inputNickPopUp =
         new JPanel(null) {
@@ -364,8 +375,8 @@ public class HotSeatLobbyScreen extends JLayeredPane {
   /**
    * Loads all image assets used by this class.
    *
-   * @param path directory path in resource folder
-   * @param width of image
+   * @param path   directory path in resource folder
+   * @param width  of image
    * @param height of image
    * @return image as ImageIcon
    */

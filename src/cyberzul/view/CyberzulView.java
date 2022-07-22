@@ -5,9 +5,7 @@ import static java.util.Objects.requireNonNull;
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.model.events.ChatMessageRemovedEvent;
-import cyberzul.model.events.YouConnectedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
-import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.GameNotStartableEvent;
@@ -17,6 +15,8 @@ import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.UserJoinedEvent;
+import cyberzul.model.events.YouConnectedEvent;
+import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.network.server.Server;
 import cyberzul.view.board.ChatPanel;
 import cyberzul.view.board.GameBoard;
@@ -73,6 +73,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private final String backgroundPath = "img/background.jpg";
   private final transient Model model;
   private final transient Controller controller;
+  private final transient MusicPlayerHelper musicPlayerHelper;
   private CardLayout layout;
   private JTextField inputField;
   private JButton hotSeatModeButton;
@@ -89,9 +90,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private JLabel gameLogoLabel;
   private transient TileClickListener tileClickListener;
   private GameBoard gameBoard;
-
-  private final transient MusicPlayerHelper musicPlayerHelper;
-
   //TODO: @Kenji feel free to change this. I needed it.
   private JButton joinServerButton;
   private JButton createServerButton;
@@ -232,7 +230,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     });
     addPlayerButton.addActionListener(event -> {
           controller.addPlayer(
-                  inputField.getText());
+              inputField.getText());
           numberOfLoggedInPlayersLabel.setText(
               "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
           inputField.setText("");
@@ -398,7 +396,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case "PlayerJoinedChatEvent" -> {
         PlayerJoinedChatEvent playerJoinedChatEvent =
-                (PlayerJoinedChatEvent) customMadeGameEvent;
+            (PlayerJoinedChatEvent) customMadeGameEvent;
         ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
       }
       case InvalidIpv4AddressEvent.EVENT_NAME -> {

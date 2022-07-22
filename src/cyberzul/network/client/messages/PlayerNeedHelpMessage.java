@@ -38,5 +38,4 @@ public class PlayerNeedHelpMessage extends Message {
   }
 
 
-
 }

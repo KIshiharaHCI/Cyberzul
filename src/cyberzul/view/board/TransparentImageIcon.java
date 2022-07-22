@@ -9,7 +9,9 @@ import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-/** An Icon Wrapper class that paints the contained icon with a specified transparency. */
+/**
+ * An Icon Wrapper class that paints the contained icon with a specified transparency.
+ */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
