@@ -23,7 +23,7 @@ public class ModelStrategyChooser implements Model {
   }
 
   @Override
-  public void setClientModelStrategy(String ipAddress){
+  public void setClientModelStrategy(String ipAddress) {
     this.strategy = new ClientModel(ipAddress);
     addListenersToTheModel();
     isStrategyChosen = true;

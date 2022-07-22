@@ -13,7 +13,7 @@ import cyberzul.view.CyberzulView;
  */
 public class ClientMain {
 
-  /**
+  /*
    * Create a new Model and tell it to behave as ClientModel. Also start a Controller and a View.
    *
    * @param args the parameters with which this method is invoked. Here are no parameters expected.

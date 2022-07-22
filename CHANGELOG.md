@@ -5,17 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [ Keep a Changelog ]( https://keepachangelog.com/en/1.0.0/ ) , and this project adheres
 to [ Semantic Versioning ]( https://semver.org/spec/v2.0.0.html ).
 
-## [Unreleased]
+## [2.0.0] - 2022-07-23
+
+### Changed 
+
+- What was previously called Azul is now _Cyberzul_!
+- Design changes to the view (in all modes).
+- README now contains Cyberzul instructions! 
+
+### Added 
 
 - Add Network Multiplayer Mode.
-    - It is possible to play the game.
-    - The rules of Azul are validated by the server.
-- Design changes to the view (in all modes).
+  - It is possible to play the game together from different computers via WiFi. 
+  - The rules of the game are validated by the server.
 - Display the player boards of the non-active players (in all modes).
-- Restarting and forfeiting the game is possible.
-- Add a Chat
-    - to inform the players of GameEvents.
-    - that enables the players to send each other messages.
+  - Player boards are rotated during the game, so that the active player is always the most salient. 
+- Restarting, forfeiting and cancelling the game is possible. 
+  - Forfeiting the game means, the player will be replaced by an AI. 
+- Add a chat.
+  - To inform the players of GameEvents.
+  - That enables the players to send each other messages.
+- Added an AI.
+- Added single player mode - to play against one, two or three AI-players.
+- Added _Bullet-Mode_ to the game. Players have 30 seconds for each move, otherwise AI will make a random move for them. 
+- Added JUnit tests using JUnit 5.8.1 for the bag classes and the player class
+
 
 ## [1.0.0] - 2022-07-03
 
@@ -46,8 +60,7 @@ to [ Semantic Versioning ]( https://semver.org/spec/v2.0.0.html ).
 - JSON-Protocol
 - Added JUnit tests using JUnit 5.8.1 for the bag classes and the player class
 
-[Unreleased]: https://gitlab2.cip.ifi.lmu.de/sosy-lab/sep-ss-22/team12/-/releases
-
+[2.0.0]: https://gitlab2.cip.ifi.lmu.de/sosy-lab/sep-ss-22/team12/-/releases
 [1.0.0]: https://gitlab2.cip.ifi.lmu.de/sosy-lab/sep-ss-22/team12/-/releases
 
 

@@ -8,16 +8,31 @@ import cyberzul.model.ModelStrategy;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
-import cyberzul.model.events.*;
+import cyberzul.model.events.ChatMessageRemovedEvent;
+import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.GameCanceledEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.GameNotStartableEvent;
+import cyberzul.model.events.GameStartedEvent;
+import cyberzul.model.events.IllegalTurnEvent;
+import cyberzul.model.events.InvalidIPv4AddressEvent;
+import cyberzul.model.events.LoggedInEvent;
+import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.NextPlayersTurnEvent;
+import cyberzul.model.events.NoValidTurnToMakeEvent;
+import cyberzul.model.events.NotYourTurnEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.PlayerHasChosenTileEvent;
+import cyberzul.model.events.PlayerJoinedChatEvent;
+import cyberzul.model.events.RoundFinishedEvent;
+import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.network.client.messages.PlayerLeftGameMessage;
+import cyberzul.network.client.messages.PlayerNeedHelpMessage;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.shared.JsonMessage;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -42,7 +57,6 @@ import org.json.JSONObject;
  *
  * <p>The server will also keep this data updated.
  */
-
 public class ClientModel extends CommonModel implements ModelStrategy {
 
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
@@ -59,26 +73,37 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     super();
 
     setConnection(ipAddress);
+    System.out.println("Numberformatexception model 2");
     playerMessages = Collections.synchronizedList(new ArrayList<>());
   }
 
-  public void setConnection(String ipAddressInHex){
-    //split ipAddressInHex into Strings of length 2.
-    String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
+  /**
+   * Sets up the connection with a given IP-address.
+   *
+   * @param ipAddressInHex the IP-address in Hexadecimalcode.
+   */
+  public void setConnection(String ipAddressInHex) {
+    try {
+      //split ipAddressInHex into Strings of length 2.
+      String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
 
-    //parse the String array to a byte array
-    byte[] host = new byte[ipAddressArray.length];
-    for(int i = 0; i < ipAddressArray.length; i++){
-      //The hex in the String is unsigned. The long is also unsigned, but should overflow to the
-      //correct value in int.
-      int partOfTheAddress = (int) Long.parseLong(ipAddressArray[i],16);
-      host[i] = (byte) partOfTheAddress;
+      //parse the String array to a byte array
+      byte[] host = new byte[ipAddressArray.length];
+      for (int i = 0; i < ipAddressArray.length; i++) {
+        //The hex in the String is unsigned. The long is also unsigned, but should overflow to the
+        //correct value in int.
+        int partOfTheAddress = (int) Long.parseLong(ipAddressArray[i], 16);
+        host[i] = (byte) partOfTheAddress;
+      }
+
+      //create the ClientNetworkConnection.
+      this.connection =
+          new ClientNetworkConnection(this, host);
+      connection.start();
+    } catch (NumberFormatException e) {
+      System.out.println("Numberformatexception model");
+      notifyListeners(new InvalidIPv4AddressEvent());
     }
-
-    //create the ClientNetworkConnection.
-    this.connection =
-        new ClientNetworkConnection(this, host);
-    connection.start();
   }
 
   @Override
@@ -504,6 +529,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Add a status-update entry "Player joined" to the list of chat entries.
    * Used by the network layer to update the model accordingly.
+   *
    * @param nickname The name of the newly joined user.
    */
   public void playerJoinedChat(String nickname) {
@@ -515,6 +541,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * Add a status-update entry "Player has left the chat" to the list of chat entries.
    * Used by the network layer to update the model accordingly.
    * Notify the Listeners that one Player lefts the game.
+   *
    * @param nickname The name of the player who lefts the game.
    */
   public void playerLeft(final String nickname) {
@@ -533,8 +560,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     PlayerTextMessage chatMessage = new PlayerTextMessage(thisPlayersName, new Date(), message);
     addChatEntry(chatMessage);
     getConnection().playerSendMessage(chatMessage);
-    }
-
+  }
 
 
   /**
@@ -555,8 +581,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
-   * Return a list of all chat-message-entries, including both user-message entries and status-update
-   * entries in the chat.
+   * Return a list of all chat-message-entries, including both user-message entries and
+   * status-update entries in the chat.
    *
    * @return a copy of a sorted list containing the entries of the chat.
    */
@@ -586,4 +612,16 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   public void handleGameForfeited(String playerWhoForfeitedTheGame) {
     notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
   }
+
+  /**
+   * This is a message that should be displayed without time stamps in the chat.
+   *
+   * @param content
+   */
+  public void addTextMessageWithoutTimeStamp(String content){
+    System.out.println(content);
+    addChatEntry(new PlayerNeedHelpMessage(content));
+  }
+
+
 }

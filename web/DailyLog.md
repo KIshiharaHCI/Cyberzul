@@ -1735,3 +1735,64 @@ Q2:
 Q3:
 
 - https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
+
+*17.07.2022*
+
+_Nils_
+
+Q1:
+- continued trying. More googeling.
+- I found code and broke it down so it was only the client-network-connection to test.
+- I found out that the server has to use IP 0.0.0.0, because that means he listens to every IP Address
+- I found out that the IP Address has to be past as IPAdress.getByByteAddress(byte[]). 
+- tried to ping my laptop to see if my firewall is low enough.
+- Build a connection just via netcat between my two laptops
+- started to use telnet and the server java code
+- fixed (or suppress) all SpotBugs that are thrown that are in the network code
+- fixed all CheckStyles in the network code
+- made it possible to connect via Wi-Fi
+
+Q2: 
+
+
+
+*18.07.2022*
+
+*19.07.2022*
+
+*20.07.2022*
+
+_Nils_
+
+Q2:
+- make it possible to create a server on demand and get the IP address as hexString
+- make it possible to connect with that server as client by using this hexString that encodes the IPv4 address
+
+*21.07.2022*
+
+*22.07.2022*
+
+_NILS_
+
+Q1:
+- meeting with Chris
+- meeting with the team
+- fixing two bugs in the chat
+- made it impossible to log in with a nickname longer than 15 characters
+
+Q2:
+- make sure no exceptions are thrown if
+  - the client sends wrong JSON files
+  - the client disconnects
+  - the server disconnects
+- make it possible to stop the connection trys from the client and let him connect with another server IP
+- make the Player names change to "AI-Player.." if he gets replaced by the AI
+- let the server shut down if no human player are connected with it any more.
+- send the players messages that inform him about the game state.
+- send the individual player a message if he makes an illegal turn.
+
+- make HotSeatMode run over the server, so the chat works.
+- make SinglePlayerMode run over the server
+
+Q3:
+- none

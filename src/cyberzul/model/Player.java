@@ -1,6 +1,7 @@
 package cyberzul.model;
 
 import cyberzul.CyberzulMain;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -119,9 +120,9 @@ public class Player {
   }
 
   /**
-   * Sets an given player to be an AI-Player, sets his/her name to "AI-" name
+   * Sets an given player to be an AI-Player, sets his/her name to "AI-" name.
    *
-   * @param aiPlayer
+   * @param aiPlayer true, if he/she should be set to be an AI-player, false if not.
    */
   public void setAiPlayer(boolean aiPlayer) {
     isAiPlayer = aiPlayer;
@@ -542,6 +543,10 @@ public class Player {
     return numberOfCompleteHorizontalLines;
   }
 
+  //this class is only a storage for information that the server sends to the client so the view
+  //can access this information later. wall is indeed a mutable object, but it doesn't matter
+  //because the Model doesn't store a reference to it itself.
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
   public void setWall(boolean[][] wall) {
     this.wall = wall;
   }

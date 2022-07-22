@@ -3,9 +3,12 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
@@ -60,9 +63,7 @@ public abstract class PlayerBoard extends JPanel {
     addMinusPointsElements();
   }
 
-  /**
-   * Sets the size for the inner container which contains Pattern Lines, Wall and FloorLine.
-   */
+  /** Sets the size for the inner container which contains Pattern Lines, Wall and FloorLine. */
   void setPlayerBoardWrapperSize() {
     playerBoardWrapper = new JPanel(new BorderLayout());
     Dimension wrapperDimension =
@@ -88,7 +89,9 @@ public abstract class PlayerBoard extends JPanel {
   }
 
   /**
-   * Used to set the exact size for the container of Pattern Lines and Wall based on the selected TileSize and Padding.
+   * Used to set the exact size for the container of Pattern Lines and Wall based on the selected
+   * TileSize and Padding.
+   *
    * @param tileSize either the TileSize of an Active Playerboard or a Smaller PlayerBoard
    * @param rows default set to 5
    * @param cols default set to 10
@@ -114,7 +117,7 @@ public abstract class PlayerBoard extends JPanel {
     minusPoints = controller.getMinusPoints(playerName);
   }
 
-//TODO: Change font, color, set at correct position within background image.
+  // TODO: Change font, color, set at correct position within background image.
   private void addPointsAndPlayerNameElements() {
     north = createNorthernPart("Points: ", points);
     north.setOpaque(false);
@@ -127,6 +130,7 @@ public abstract class PlayerBoard extends JPanel {
         new FloorLinePanel(playerName, controller, tileClickListener, minusPoints, tileSize);
     playerBoardWrapper.add(floorLinePanel, BorderLayout.SOUTH);
   }
+
   private JPanel createNorthernPart(String x, int minusPoints) {
     JPanel north = new JPanel();
     north.setLayout(new GridLayout(1, 1));
