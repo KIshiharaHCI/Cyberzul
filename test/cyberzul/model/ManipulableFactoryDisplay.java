@@ -74,7 +74,7 @@ public class ManipulableFactoryDisplay extends FactoryDisplay {
   }
 
   @Override
-  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  @SuppressFBWarnings("EI_EXPOSE_REP")
   //this class is only a storage for information that the server sends to the client so the view
   //can access this information later. content is indeed a mutable object, but it doesn't matter
   //because the Model doesn't store a reference to it itself.
