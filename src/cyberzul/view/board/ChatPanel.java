@@ -1,5 +1,14 @@
 package cyberzul.view.board;
 
+import cyberzul.controller.Controller;
+import cyberzul.model.events.ChatMessageRemovedEvent;
+import cyberzul.model.events.NextPlayersTurnEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.PlayerJoinedChatEvent;
+import cyberzul.network.client.messages.Message;
+import cyberzul.network.client.messages.NextPlayersTurnMessage;
+import cyberzul.network.client.messages.PlayerJoinedChatMessage;
+import cyberzul.view.ChatCellRenderer;
 import cyberzul.view.IconButton;
 
 import javax.swing.*;
@@ -25,16 +34,29 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private IconButton openChatButton;
   private JPanel chatButtonPanel;
 
+  private final Controller controller;
+
+  public static DefaultListModel<Message> listModel;
+
   /** create a new chat panel with the respective widgets. */
-  public ChatPanel() {
+  public ChatPanel(Controller controller) {
+    this.controller = controller;
+
     initializeWidgets();
     createChatPanel();
+
+    addEventListeners();
   }
 
   /** Instantiate all ChatPanel widgets and specify config options where appropriate. */
   private void initializeWidgets() {
+
+    listModel = new DefaultListModel<>();
+    JList<Message> chatList = new JList<>(listModel);
+    chatList.setCellRenderer(new ChatCellRenderer());
+
     setOpaque(false);
-    scrollPane = new JScrollPane();
+    scrollPane = new JScrollPane(chatList);
     scrollPane.setPreferredSize(new Dimension(INPUTFIELD_WIDTH, DEFAULT_HEIGHT));
     scrollPane.setMaximumSize(new Dimension(INPUTFIELD_WIDTH, DEFAULT_HEIGHT));
     scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -93,10 +115,39 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     this.add(inputArea, BorderLayout.SOUTH);
   }
 
+  private void addEventListeners() {
+
+    inputArea.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() != KeyEvent.VK_ENTER) {
+          return;
+        }
+
+        e.consume();
+        controller.postMessage(inputArea.getText());
+        inputArea.setText(null);
+      }
+    });
+  }
+
+
   @Override
   public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
     SwingUtilities.invokeLater(() -> handleModelUpdate(propertyChangeEvent));
   }
 
-  private void handleModelUpdate(PropertyChangeEvent event) {}
+  private void handleModelUpdate(PropertyChangeEvent event) {
+    Object newValue = event.getNewValue();
+    if (newValue instanceof ChatMessageRemovedEvent msgRemovedEvent) {
+      listModel.removeElement(msgRemovedEvent.getMessage());
+    } else if (newValue instanceof PlayerAddedMessageEvent msgAddedEvent) {
+      listModel.addElement(msgAddedEvent.getMessage());
+    } else if (newValue instanceof PlayerJoinedChatEvent playerJoinedChatEvent) {
+      listModel.addElement(new PlayerJoinedChatMessage(playerJoinedChatEvent.getName()));
+    } else if (newValue instanceof NextPlayersTurnEvent nextPlayersTurnEvent) {
+      listModel.addElement(new NextPlayersTurnMessage(nextPlayersTurnEvent.getName()));
+    }
+
+  }
 }

@@ -103,6 +103,9 @@ public class TableCenterPanel extends JPanel {
     }
   }
 
+  /**
+   * Removes the tile from the center panel.
+   */
   public void remove() {
     for (SourceTile tile : this.tileList) {
       this.tableCenterImageLabel.remove(tile);

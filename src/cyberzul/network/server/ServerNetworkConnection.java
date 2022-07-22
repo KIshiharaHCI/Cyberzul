@@ -139,8 +139,7 @@ public class ServerNetworkConnection {
    * Check if a chosen nickname is still available.
    *
    * @param nickname The name to be looked up.
-   * @return <code>true</code> if no other client has taken this name, <code >false</code>
-   * otherwise.
+   * @return <code>true</code> if no other client has this name, <code >false</code> otherwise.
    */
   public synchronized boolean tryLogIn(String nickname) {
     synchronized (clientHandlers) {

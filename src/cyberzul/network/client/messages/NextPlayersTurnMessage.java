@@ -6,14 +6,14 @@ package cyberzul.network.client.messages;
  */
 public class NextPlayersTurnMessage extends Message {
 
-    private final String nickname;
+  private final String nickname;
 
-    public NextPlayersTurnMessage(String nickname) {
-        this.nickname = nickname;
-    }
+  public NextPlayersTurnMessage(String nickname) {
+    this.nickname = nickname;
+  }
 
-    public String getNickname() {
-        return nickname;
-    }
+  public String getNickname() {
+    return nickname;
+  }
 
 }

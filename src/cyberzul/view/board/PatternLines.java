@@ -4,16 +4,12 @@ import cyberzul.controller.Controller;
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
-/**
- * The Pattern Lines of a given player.
- * One of the destinations the player can place tiles to.
- */
+/** The Pattern Lines of a given player. One of the destinations the player can place tiles to. */
 public class PatternLines extends JPanel {
   @Serial private static final long serialVersionUID = 7526472295622776147L;
   private static final int DEFAULT_TILE_SIZE = 25;
@@ -22,7 +18,6 @@ public class PatternLines extends JPanel {
   private final transient Controller controller;
   private final int tileSize;
   private final transient List<JPanel> currentRows = new ArrayList<>();
-
 
   /**
    * The constructor of {@link PatternLines}.
@@ -74,9 +69,7 @@ public class PatternLines extends JPanel {
     }
   }
 
-  /**
-   * Used by TileClickListener to remove all stored tiles from the previous player.
-   */
+  /** Used by TileClickListener to remove all stored tiles from the previous player. */
   public void remove() {
     for (JPanel currentRow : this.currentRows) {
       this.remove(currentRow);
@@ -85,7 +78,8 @@ public class PatternLines extends JPanel {
 
   /**
    * Used to get the correct tile size when creating a new instance of PatternLines.
-   * @return
+   *
+   * @return the tile size as int.
    */
   public int getTileSize() {
     return tileSize;

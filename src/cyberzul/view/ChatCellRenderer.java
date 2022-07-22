@@ -4,7 +4,9 @@ import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.network.client.messages.PlayerLeftGameMessage;
 import cyberzul.network.client.messages.PlayerLoggedInMessage;
+import cyberzul.network.client.messages.PlayerNeedHelpMessage;
 import cyberzul.network.client.messages.PlayerTextMessage;
+
 import java.awt.Component;
 import java.io.Serial;
 import java.text.DateFormat;
@@ -48,7 +50,9 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
         if (value instanceof PlayerLeftGameMessage playerLeftMsg) {
             setText(playerLeftMsg.getNickname() + " has left the chat.");
         }
-
+        if (value instanceof PlayerNeedHelpMessage playerNeedHelpMessage){
+            setText(playerNeedHelpMessage.getContent());
+        }
 
         return this;
     }

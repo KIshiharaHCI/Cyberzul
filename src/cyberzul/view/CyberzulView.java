@@ -2,15 +2,19 @@ package cyberzul.view;
 
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
+import cyberzul.model.events.ChatMessageRemovedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.InvalidIPv4AddressEvent;
 import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
+import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.network.server.Server;
+import cyberzul.view.board.ChatPanel;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.board.MusicPlayerHelper;
 import cyberzul.view.listeners.TileClickListener;
@@ -42,6 +46,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * GUI for Cyberzul Changes its appearance based on the model information.
@@ -163,30 +169,30 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     selectModeLabel = new JLabel();
     //Icons
     URL resource = getClass().getClassLoader().getResource("img/gamelogo.png");
-    ImageIcon icon = new ImageIcon(Objects.requireNonNull(resource));
+    ImageIcon icon = new ImageIcon(requireNonNull(resource));
     icon = new ImageIcon(icon.getImage().getScaledInstance(900, 150, Image.SCALE_SMOOTH));
     gameLogoLabel = new JLabel(icon);
 
     resource = getClass().getClassLoader().getResource("img/select-mode-banner.png");
     icon = new ImageIcon(new ImageIcon(
-        Objects.requireNonNull(resource)).getImage()
+        requireNonNull(resource)).getImage()
         .getScaledInstance(700, 40, Image.SCALE_SMOOTH));
     selectModeLabel.setIcon(icon);
 
     resource = getClass().getClassLoader().getResource("img/hotseat-button.png");
-    icon = new ImageIcon(Objects.requireNonNull(resource));
+    icon = new ImageIcon(requireNonNull(resource));
     hotSeatModeButton.setIcon(icon);
 
     resource = getClass().getClassLoader().getResource("img/network-button.png");
-    icon = new ImageIcon(Objects.requireNonNull(resource));
+    icon = new ImageIcon(requireNonNull(resource));
     networkButton.setIcon(icon);
 
     resource = getClass().getClassLoader().getResource("img/singleplayer-button.png");
-    icon = new ImageIcon(Objects.requireNonNull(resource));
+    icon = new ImageIcon(requireNonNull(resource));
     singlePlayerModeButton.setIcon(icon);
 
     resource = getClass().getClassLoader().getResource("img/start-game-button.png");
-    icon = new ImageIcon(Objects.requireNonNull(resource));
+    icon = new ImageIcon(requireNonNull(resource));
     playButton.setIcon(icon);
 
 
@@ -371,6 +377,21 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case InvalidIPv4AddressEvent.EVENT_NAME -> {
         System.out.println("Numberformatexception");
         showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
+      }
+      case "PlayerAddedMessageEvent" -> {
+        requireNonNull(ChatPanel.listModel);
+        PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+        System.out.println(playerAddedMessageEvent.getMessage());
+        ChatPanel.listModel.addElement(playerAddedMessageEvent.getMessage());
+      }
+      case "ChatMessageRemovedEvent" -> {
+        ChatMessageRemovedEvent chatMessageRemovedEvent = (ChatMessageRemovedEvent) customMadeGameEvent;
+        ChatPanel.listModel.removeElement(chatMessageRemovedEvent.getMessage());
+        showErrorMessage("Only the last hundred messages are shown.");
+      }
+      case "PlayerJoinedChatEvent" -> {
+        PlayerJoinedChatEvent playerJoinedChatEvent = (PlayerJoinedChatEvent) customMadeGameEvent;
+        ChatPanel.listModel.addElement(playerJoinedChatEvent.getMessage());
       }
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
