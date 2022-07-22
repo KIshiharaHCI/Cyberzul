@@ -312,8 +312,14 @@ public class HotSeatLobbyScreen extends JLayeredPane {
         JLabel pleaseEnter = new JLabel("Please enter your nickname");
         pleaseEnter.setFont(customFont);
         pleaseEnter.setForeground(Color.white);
-        pleaseEnter.setBounds(160,100, 400, 30);
+        pleaseEnter.setBounds(160,120, 400, 30);
         inputNickPopUp.add(pleaseEnter);
+
+        JLabel maxChar = new JLabel("max 15 characters");
+        maxChar.setFont(customFont.deriveFont(10f));
+        maxChar.setForeground(Color.white);
+        maxChar.setBounds(300, 180, 200,20);
+        inputNickPopUp.add(maxChar);
 
         JTextField inputField = new JTextField(15);
         inputField.addKeyListener(new KeyAdapter() {
@@ -333,7 +339,7 @@ public class HotSeatLobbyScreen extends JLayeredPane {
                 inputField.setText(null);
             }
         });
-        inputField.setBounds(140, 130, 300, 30);
+        inputField.setBounds(140, 150, 300, 30);
         inputField.setFont(customFont);
         inputNickPopUp.add(inputField);
 
