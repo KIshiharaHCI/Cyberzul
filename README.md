@@ -40,9 +40,9 @@ First, you will have to pick a mode: Solo, hot seat or network mode.
 What do all of them have in common? You will have to type at least one nickname for the game and you will play with either two, three, or four players afterwards. 
 Moreover, you are able to choose, if you want to enable _Bullet-Mode_ ... that is every player will have 30 seconds and 30 seconds only to make his/her move, otherwise an AI will make the move for him/her. 
 
-- Solo: Here you will play alone - against one, two, or three AI-players. 
-- Hot seat: Here you play on one device - against the players you add before. Type the players into the input field and add them. And as soon as you have enough players, you can start the game. 
-- Network: Here you are able to play with your friends via Wi-Fi. The first player must create a server, others are then able to join him/her by typing in the IP-address used. 
+- **Solo**: Here you will play alone - against one, two, or three AI-players. 
+- **Hot seat**: Here you play on one device - against the players you add before. Type the players into the input field and add them. And as soon as you have enough players, you can start the game. 
+- **Network**: Here you are able to play with your friends via Wi-Fi. The first player must create a server, others are then able to join him/her by typing in the IP-address used. 
 
 ### A screenshot - what’s what?
 
