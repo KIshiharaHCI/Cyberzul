@@ -2,28 +2,19 @@ package cyberzul.view;
 
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
-import cyberzul.model.events.ConnectedWithServerEvent;
-import cyberzul.model.events.GameFinishedEvent;
-import cyberzul.model.events.GameForfeitedEvent;
-import cyberzul.model.events.GameNotStartableEvent;
-import cyberzul.model.events.LoginFailedEvent;
-import cyberzul.model.events.PlayerHasEndedTheGameEvent;
-import cyberzul.model.events.UserJoinedEvent;
+import cyberzul.model.events.*;
 import cyberzul.network.server.Server;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.board.MusicPlayerHelper;
 import cyberzul.view.listeners.TileClickListener;
-import cyberzul.view.panels.NetworkPanel;
+import cyberzul.view.panels.HotSeatLobbyScreen;
 import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.Image;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -32,17 +23,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * GUI for Cyberzul Changes its appearance based on the model information.
@@ -221,7 +201,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       controller.startGame();
     });
     addPlayerButton.addActionListener(event -> {
-          controller.addPlayer(inputField.getText());
+          controller.addPlayer(
+                  inputField.getText());
           numberOfLoggedInPlayersLabel.setText(
               "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
           inputField.setText("");
@@ -320,8 +301,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case "LoggedInEvent" -> {
         this.setTitle("Cyberzul - " + model.getPlayerName());
-        numberOfLoggedInPlayersLabel.setText(
-            "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+        //TODO: update Label in each lobby panel?
+//        numberOfLoggedInPlayersLabel.setText(
+//            "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showErrorMessage("successfully logged in");
       }
       case ConnectedWithServerEvent.EVENT_NAME,
@@ -418,22 +400,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    * This card gets shown if the user selects "hot seat mode" at the start of the program.
    */
   private void createHotSeatModeCard() {
-    setMinimumSize(frameDimension);
-    setMaximumSize(frameDimension);
-    inputField = new JTextField(10);
-    numberOfLoggedInPlayersLabel =
-        new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
-    numberOfLoggedInPlayersLabel.setForeground(Color.WHITE);
-    JPanel hotSeatModePanel = new JPanel();
-    hotSeatModePanel.add(numberOfLoggedInPlayersLabel);
-    hotSeatModePanel.add(pleaseEnterNameLabel);
-    pleaseEnterNameLabel.setForeground(Color.WHITE);
-    hotSeatModePanel.add(inputField);
-    hotSeatModePanel.add(addPlayerButton);
-    hotSeatModePanel.add(playButton);
-    hotSeatModePanel.add(testFourPlayersButton);
-    hotSeatModePanel.add(testThreePlayersButton);
-    hotSeatModePanel.add(testTwoPlayersButton);
+    JLayeredPane hotSeatModePanel = new HotSeatLobbyScreen(controller, frameDimension);
     JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, hotSeatModeCard);
@@ -450,15 +417,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void createNetworkModeCard() {
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);
-    inputField = new JTextField(10);
-    numberOfLoggedInPlayersLabel =
-        new JLabel("Number of Players: " + (model.getPlayerNamesList().size()) + ".");
-    JLayeredPane networkModePanel = new NetworkPanel(controller, frameDimension);
-    networkModePanel.add(numberOfLoggedInPlayersLabel);
-    networkModePanel.add(pleaseEnterNameLabel);
-    networkModePanel.add(inputField);
-    networkModePanel.add(addPlayerButton);
-    networkModePanel.add(playButton);
+//    JLayeredPane networkModePanel = new NetworkPanel(controller, frameDimension);
+    JPanel networkModePanel = new JPanel();
     JPanel backgroundPanel = new ImagePanel(networkModePanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, NETWORK_CARD);
