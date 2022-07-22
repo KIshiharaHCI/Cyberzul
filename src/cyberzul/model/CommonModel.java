@@ -310,7 +310,8 @@ public abstract class CommonModel implements ModelStrategy {
 
   @Override
   public void postChatMessage(String message) {
-    PlayerTextMessage playerTextMessage = new PlayerTextMessage(getPlayerName(), new Date(), message);
+    PlayerTextMessage playerTextMessage = new PlayerTextMessage(getPlayerName(),
+        new Date(), message);
     notifyListeners(new PlayerAddedMessageEvent(playerTextMessage));
   }
 

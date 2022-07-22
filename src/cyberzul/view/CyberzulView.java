@@ -113,12 +113,12 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     createView();
   }
 
-//  @Override
-//  public void dispose() {
-//    this.musicPlayerHelper.stopBackgroundMusic();
-//    this.musicPlayerHelper.closeAllOfMusicPlayer();
-//    super.dispose();
-//  }
+  //  @Override
+  //  public void dispose() {
+  //    this.musicPlayerHelper.stopBackgroundMusic();
+  //    this.musicPlayerHelper.closeAllOfMusicPlayer();
+  //    super.dispose();
+  //  }
 
   /**
    * Initializes the custom font used in the package for writing names etc.
@@ -259,7 +259,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     createServerButton.addActionListener(event -> {
       String ipAddress = Server.start();
       model.setClientModelStrategy(ipAddress);
-      JOptionPane.showMessageDialog(null, "IP Address of the cyber server: " + ipAddress, "IP Address", 0);
+      JOptionPane.showMessageDialog(null, "IP Address of the cyber "
+          + "server: " + ipAddress, "IP Address", 0);
     });
 
     joinServerButton.addActionListener(event -> {
