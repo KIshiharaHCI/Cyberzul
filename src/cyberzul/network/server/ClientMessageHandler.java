@@ -232,13 +232,18 @@ public class ClientMessageHandler implements Runnable {
    */
   private void handlePostMessage(JSONObject object) throws IOException {
     if (nickname == null || nickname.isBlank()) {
-      // A user needs to log in first before being able to send messages.
       return;
     }
-
     String content = JsonMessage.getContent(object);
-    JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
-    serverConnection.broadcast(this, message);
+    if (content.equals("CYBERZUL HELP")) {
+      String helpMessage = ChatMessageHandler.CYBERZUL_HELP;
+      JSONObject cheatMessage = JsonMessage.createCheatMessage(helpMessage);
+      send(cheatMessage);
+    } else {
+      JSONObject message = JsonMessage.message(getNickname(), new Date(), content);
+      serverConnection.broadcast(this, message);
+      System.out.println("is this entered?");
+    }
   }
 
   /**

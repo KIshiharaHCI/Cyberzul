@@ -484,6 +484,19 @@ public enum JsonMessage {
     }
   }
 
+
+  public static JSONObject postMessage(String content) {
+    try {
+      JSONObject message = createMessageOfType(POST_MESSAGE);
+      message.put(CONTENT_FIELD, content);
+
+      return message;
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to create a json object.", e);
+    }
+  }
+
+
   private static String convertDateToString(Date date) {
     return DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.GERMANY)
         .format(date);
@@ -513,4 +526,27 @@ public enum JsonMessage {
   public String getJsonName() {
     return jsonName;
   }
+
+  public static String getNickname(JSONObject object) {
+    try {
+      return object.getString(NICK_FIELD);
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to read a json object.", e);
+    }
+  }
+
+  public static Date getTime(JSONObject object) {
+    try {
+      String date = object.getString(TIME_FIELD);
+      return convertStringToDate(date);
+    } catch (ParseException e) {
+      throw new IllegalArgumentException("Failed to parse the date from a json object.", e);
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("Failed to read a json object.", e);
+    }
+  }
+
+
+
+
 }

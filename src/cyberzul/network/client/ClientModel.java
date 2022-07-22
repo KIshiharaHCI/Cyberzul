@@ -577,6 +577,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     addChatEntry(message);
   }
 
+
   /**
    * Notify the listeners that a player has forfeited and left the game.
    *
