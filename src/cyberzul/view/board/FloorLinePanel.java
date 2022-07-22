@@ -4,11 +4,13 @@ import cyberzul.controller.Controller;
 import cyberzul.model.ModelTile;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
 import java.io.Serial;
 import java.util.List;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * A FloorLine of a given player.
