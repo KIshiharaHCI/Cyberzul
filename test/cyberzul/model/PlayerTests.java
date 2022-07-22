@@ -208,7 +208,7 @@ public class PlayerTests {
   }
 
   /**
-   * tests if the player is getting the correct amount of points with the endOfGamePoints Method
+   * tests if the player is getting the correct amount of points with the endOfGamePoints Method.
    */
   @Test
   public void testEndOfGamePoints() {
