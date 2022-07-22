@@ -309,8 +309,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         updateCenterBoard();
         updateRankingBoard();
         updateOtherPlayerBoards();
+        gameBoard.getTimer().start();
       }
       case "NextPlayersTurnEvent" -> {
+        gameBoard.getTimer().restart();
         if (this.musicPlayerHelper.isPlayMusicOn()) {
           this.musicPlayerHelper.playTilePlacedMusic();
         }
@@ -336,6 +338,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         updateRankingBoard();
         GameFinishedEvent gameFinishedEvent = (GameFinishedEvent) customMadeGameEvent;
         showErrorMessage(gameFinishedEvent.getWinningMessage());
+        gameBoard.getTimer().stop();
       }
       case "PlayerHasEndedTheGameEvent" -> {
         updateCenterBoard();

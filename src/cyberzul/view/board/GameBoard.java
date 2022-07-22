@@ -5,6 +5,10 @@ import cyberzul.view.IconButton;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Objects;
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serial;
@@ -41,6 +45,7 @@ public class GameBoard extends JPanel {
   private JLabel musicSoundLabel;
   private JLabel systemSoundLabel;
   private transient MusicPlayerHelper musicPlayerHelper;
+  private TurnCountDownTimer timer;
 
   /**
    * Creates the main game panel which contains all other game elements.
@@ -105,12 +110,24 @@ public class GameBoard extends JPanel {
 
     chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
 
-    /* Place for timer. TODO timer */
     JLabel tempLabel = new JLabel();
     tempLabel.setPreferredSize(new Dimension(200, 30));
     tempLabel.setHorizontalAlignment(JLabel.LEFT);
     tempLabel.setFont(new Font("Dialog", Font.BOLD, 25));
-    tempLabel.setText("place for timer");
+    tempLabel.setFont(this.getTimerFont());
+    tempLabel.setForeground(Color.GREEN);
+    timer = new TurnCountDownTimer(1000, new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (timer.getTimerValue() == 0) {
+          timer.setTimerValue(30);
+        }
+        tempLabel.setText(secondsToTimer(timer.getTimerValue()));
+        timer.setTimerValue(timer.getTimerValue()-1);
+      }
+    });
+    tempLabel.setText(secondsToTimer(timer.getTimerValue()));
+    timer.setInitialDelay(0);
     chatAndRankingBoardAndSettingPanel.add(tempLabel, BorderLayout.CENTER);
 
     ChatPanel chatPanel = new ChatPanel();
@@ -118,6 +135,35 @@ public class GameBoard extends JPanel {
 
     System.out.println(chatAndRankingBoardAndButtonsPanelDimension.getSize());
     System.out.println(frameDimension.getSize());
+  }
+
+  private Font getTimerFont() {
+    Font timerFont = new Font("TimesRoman", Font.BOLD, 20);
+    try {
+      timerFont = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(
+          getClass().getClassLoader().getResourceAsStream("fonts/digital-display-font.ttf"))).deriveFont(60f);
+    } catch (FontFormatException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return timerFont;
+  }
+
+  private String secondsToTimer(int startingSeconds) {
+    String finalTimerString = "00";
+
+    if (startingSeconds < 10) {
+      finalTimerString = finalTimerString + ":0" + startingSeconds;
+    } else {
+      finalTimerString = finalTimerString + ":" + startingSeconds;
+    }
+
+    return finalTimerString;
+  }
+
+  public Timer getTimer() {
+    return timer;
   }
 
   /** Initialise all buttons for settingPanel. */
