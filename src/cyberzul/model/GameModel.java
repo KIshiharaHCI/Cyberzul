@@ -13,10 +13,6 @@ import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
 import cyberzul.model.events.RoundFinishedEvent;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -174,9 +170,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
     notifyListeners(nextPlayersTurnEvent);
     startTimerForPlayer(getNickOfActivePlayer());
 
-
-    // TODO: Check if SPM is used in the right way --> makes player be first in next round. @Marco
-    // TODO: Fix bug, when 4 players are playing and more than one is AI player @Marco
     LOGGER.info(
         playerList.get(indexOfActivePlayer).getName()
             + " is now active player. Is he an "
@@ -237,9 +230,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
       // get a random tile on that offering
       int offeringsSize = randomOffering.getContent().size();
       int randomOfferingTileIndex = ran.nextInt(0, offeringsSize);
-
-      //TODO! The problem seems to have evolved when we changed current offering to an index
-      // because the index on this list (the clone here) might be different from the actual index.
 
       notifyTileChosen(nickOfAiPlayer, randomOfferingTileIndex, randomOfferingIndex);
 

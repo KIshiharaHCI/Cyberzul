@@ -322,7 +322,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         updateRankingBoard();
         PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent =
             (PlayerHasEndedTheGameEvent) customMadeGameEvent;
-        showErrorMessage("User " + playerHasEndedTheGameEvent.getEnder() + " won.");
+        //TODO - this error message should be shown in chat
+        showErrorMessage("User " + playerHasEndedTheGameEvent.getEnder() + " ended the game.");
       }
       case "IllegalTurnEvent" -> {
         showErrorMessage("Illegal turn.");
