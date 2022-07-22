@@ -4,7 +4,13 @@ import cyberzul.model.Model;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
-import cyberzul.model.events.*;
+import cyberzul.model.events.GameCanceledEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.NextPlayersTurnEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.PlayerHasChosenTileEvent;
+import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -74,7 +80,7 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case GameFinishedEvent.EVENT_NAME -> handleGameFinishedEvent(customMadeGameEvent);
       case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
       case GameForfeitedEvent.EVENT_NAME -> handleGameForfeitedEvent(customMadeGameEvent);
-      case PlayerAddedMessageEvent.EVENT_NAME-> handlePlayerAddedMessageEvent(customMadeGameEvent);
+      case PlayerAddedMessageEvent.EVENT_NAME -> handlePlayerAddedMessageEvent(customMadeGameEvent);
       //TODO: @Xue maybe delete PlayerJoinedChatEvent
       case PlayerJoinedChatEvent.EVENT_NAME -> handlePlayerJoinedChatEvent(customMadeGameEvent);
 
@@ -239,7 +245,8 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
 
   private void handlePlayerAddedMessageEvent(Object customMadeGameEvent) {
     try {
-      PlayerAddedMessageEvent playerAddedMessageEvent = (PlayerAddedMessageEvent) customMadeGameEvent;
+      PlayerAddedMessageEvent playerAddedMessageEvent =
+          (PlayerAddedMessageEvent) customMadeGameEvent;
       PlayerTextMessage message = (PlayerTextMessage) playerAddedMessageEvent.getMessage();
       connection.broadcastToAll(JsonMessage.message(
               message.getNameOfSender(), message.getTime(), message.getContent()));
