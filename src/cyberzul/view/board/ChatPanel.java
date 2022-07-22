@@ -34,7 +34,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private IconButton openChatButton;
   private JPanel chatButtonPanel;
 
-  private final Controller controller;
+  private transient final Controller controller;
 
   public static DefaultListModel<Message> listModel;
 
