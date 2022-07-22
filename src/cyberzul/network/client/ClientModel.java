@@ -616,9 +616,9 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * This is a message that should be displayed without time stamps in the chat.
    *
-   * @param content
+   * @param content The text that the participant had sent.
    */
-  public void addTextMessageWithoutTimeStamp(String content){
+  public void addTextMessageWithoutTimeStamp(String content) {
     System.out.println(content);
     addChatEntry(new PlayerNeedHelpMessage(content));
   }
