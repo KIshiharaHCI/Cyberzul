@@ -17,26 +17,14 @@ public class ModelStrategyChooser implements Model {
 
   @Override
   public void setGameModelStrategy() {
-    this.strategy = new GameModel();
-    addListenersToTheModel();
+    this.strategy = new GameModel(listenerList);
     isStrategyChosen = true;
   }
 
   @Override
   public void setClientModelStrategy(String ipAddress) {
-    this.strategy = new ClientModel(ipAddress);
-    addListenersToTheModel();
+    this.strategy = new ClientModel(listenerList,ipAddress);
     isStrategyChosen = true;
-  }
-
-  /**
-   * The ModelStrategyChooser saves the PropertyChangeListener that should be added to the model in
-   * a list and adds them if they should be added.
-   */
-  private void addListenersToTheModel() {
-    for (PropertyChangeListener listener : listenerList) {
-      strategy.addPropertyChangeListener(listener);
-    }
   }
 
   /**

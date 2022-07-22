@@ -33,6 +33,7 @@ import cyberzul.network.client.messages.PlayerLeftGameMessage;
 import cyberzul.network.client.messages.PlayerNeedHelpMessage;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.shared.JsonMessage;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -68,22 +69,26 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
   /**
    * Create a ClientModel and start a connection with the server.
+   *
+   * @param listenerList the Listeners that tried to connect with the ModelStrategyChooser before
+   *                     the ClientModel was created.
+   * @param ipAddress the IPv4 address of the server with which the ClientModel should connect,
+   *                  encoded as hex String.
    */
-  public ClientModel(String ipAddress) {
-    super();
+  public ClientModel(List<PropertyChangeListener> listenerList, String ipAddress) {
+    super(listenerList);
 
     setConnection(ipAddress);
-    System.out.println("Numberformatexception model 2");
     playerMessages = Collections.synchronizedList(new ArrayList<>());
   }
 
   /**
    * Sets up the connection with a given IP-address.
    *
-   * @param ipAddressInHex the IP-address in Hexadecimalcode.
+   * @param ipAddressInHex the IP-address of the server, encoded as hex String.
    */
-  public void setConnection(String ipAddressInHex) {
-    try {
+  public void setConnection(String ipAddressInHex){
+    try{
       //split ipAddressInHex into Strings of length 2.
       String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
 
@@ -101,7 +106,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
           new ClientNetworkConnection(this, host);
       connection.start();
     } catch (NumberFormatException e) {
-      System.out.println("Numberformatexception model");
       notifyListeners(new InvalidIPv4AddressEvent());
     }
   }
@@ -622,6 +626,4 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     System.out.println(content);
     addChatEntry(new PlayerNeedHelpMessage(content));
   }
-
-
 }
