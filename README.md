@@ -34,7 +34,7 @@ I see you have come here because you want to be more, not just another byty trav
 
 In this section we will explain to you how to play _Cyberzul_. We’ll start with the basics: how to lay out tiles according to the centuries-old tradition of the game. But we will come all the way to how to win a game of _Cyberzul_ - that is to be honored with the permission to lay out your tiles in Queen MaXIne's cyber palace.
 
-### Pick a mode
+### Which modes are there to pick
 
 First, you will have to pick a mode: Solo, hot seat or network mode. 
 What do all of them have in common? You will have to type at least one nickname for the game and you will play with either two, three, or four players afterwards. 
@@ -44,7 +44,7 @@ Moreover, you are able to choose, if you want to enable _Bullet-Mode_ ... that i
 - **Hot seat**: Here you play on one device - against the players you add before. Type the players into the input field and add them. And as soon as you have enough players, you can start the game. 
 - **Network**: Here you are able to play with your friends via Wi-Fi. The first player must create a server, others are then able to join him/her by typing in the IP-address used. 
 
-### A screenshot - what’s what?
+### What's what in the game - a screenshot
 
 *TODO - when final.*
 
