@@ -254,7 +254,7 @@ public enum JsonMessage {
    * @param newFloorLineOfPlayerWhoEndedHisTurn    the up-to-date floor line of the player who just
    *                                               ended his turn.
    * @return a String in JSON format that contains all the information that is needed to update the
-   * data of the clients after a player ended his turn.
+   *         data of the clients after a player ended his turn.
    */
   public static JSONObject createNextPlayersTurnMessage(
       String nameOfActivePlayer,
@@ -337,7 +337,7 @@ public enum JsonMessage {
    * @param methodName the name of the method in the Controller Interface.
    * @param nickname   the nickname of the player that is passed to the method.
    * @return a JSONObject containing the information that this specific method was invoked with the
-   * name of the player with whom the method was invoked.
+   *         name of the player with whom the method was invoked.
    */
   public static JSONObject createMessageOfType(JsonMessage methodName, String nickname) {
     try {
@@ -388,7 +388,7 @@ public enum JsonMessage {
    * Create a message that is sent to a client if he successfully logged in on the server.
    *
    * @return a String in JSON format that can be sent to the client to inform him that he
-   * successfully logged in.
+   *         successfully logged in.
    */
   public static JSONObject loginSuccess() {
     return createMessageOfType(LOGIN_SUCCESS);
@@ -400,7 +400,7 @@ public enum JsonMessage {
    *
    * @param reasonForDeniedLogin the reason why the client could not log in.
    * @return a String in JSON format that can be sent to the client to inform him that he could not
-   * log in on the server and why.
+   *         log in on the server and why.
    */
   public static JSONObject loginFailed(String reasonForDeniedLogin) {
     try {
@@ -445,7 +445,7 @@ public enum JsonMessage {
    *
    * @param rowOfPatternLine the index of the pattern line that the user has chosen.
    * @return a String in JSON format telling the server in which pattern line it should place the
-   * chosen tile.
+   *         chosen tile.
    */
   public static JSONObject placeTileInPatternLine(int rowOfPatternLine) {
     try {
@@ -461,7 +461,7 @@ public enum JsonMessage {
    * places the chosen tile in the floor line.
    *
    * @return a String in JSON format telling the server that the chosen tile should be placed in
-   * floor line of the active player.
+   *         floor line of the active player.
    */
   public static JSONObject placeTileInFloorLine() {
     return createMessageOfType(PLACE_TILE_IN_FLOOR_LINE);
