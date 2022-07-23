@@ -241,6 +241,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
   }
 
   /** Initializes all Components added to this screen. */
+  @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_INFERRED")
   private void initializeComponents() {
     container =
         new JPanel(null) {
