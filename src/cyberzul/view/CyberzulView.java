@@ -432,8 +432,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case InvalidIpv4AddressEvent.EVENT_NAME -> {
         showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
       }
-      case YouDisconnectedEvent.EVENT_NAME -> showErrorMessage(
+      case YouDisconnectedEvent.EVENT_NAME -> {
+        showErrorMessage(
           "You got disconnected from the server.");
+      showGameOverCard();}
       case BulletModeChangedEvent.EVENT_NAME -> {
         BulletModeChangedEvent bulletModeChangedEvent =
             (BulletModeChangedEvent) customMadeGameEvent;
