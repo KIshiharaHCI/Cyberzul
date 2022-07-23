@@ -147,7 +147,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    */
   private void initializeFont() {
     try {
-      customFont = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream((requireNonNull(getClass().getClassLoader().
+      customFont = Font.createFont(Font.TRUETYPE_FONT,
+          new BufferedInputStream((requireNonNull(getClass().getClassLoader().
               getResourceAsStream("fonts/gameOfSquids.ttf")))));
       customFont = customFont.deriveFont(12f);
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -212,7 +213,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       URL imgUrl = getClass().getClassLoader().getResource("img/game-over-background.jpg");
       gameOverImage = ImageIO.read(Objects.requireNonNull(imgUrl));
       gameOverImage.getScaledInstance(
-              FRAME_WIDTH, FRAME_HEIGHT, Image.SCALE_SMOOTH);
+          FRAME_WIDTH, FRAME_HEIGHT, Image.SCALE_SMOOTH);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -259,24 +260,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
           inputField.setText("");
         }
     );
-
-    //TODO: @Kenji feel free to change this. I needed it.
-    createServerButton.addActionListener(event -> {
-      String ipAddress = Server.start();
-      model.setClientModelStrategy(ipAddress);
-      controller.setMode(CommonModel.NETWORK_MODE);
-      JOptionPane.showMessageDialog(null, "IP Address of the cyber "
-          + "server: " + ipAddress, "IP Address", 1);
-    });
-
-    joinServerButton.addActionListener(event -> {
-      String ipAddress = JOptionPane.showInputDialog(
-          "Please enter the IP Address of the cyber server you want to join.");
-      model.setClientModelStrategy(ipAddress);
-      controller.setMode(CommonModel.NETWORK_MODE);
-    });
-
-
   }
 
   @Override
@@ -396,10 +379,16 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "NoValidTurnToMakeEvent" -> showErrorMessage("No valid turn to make");
       //TODO: find better way to turn music off --> does not work as intended for hotseat mode.
       case GameForfeitedEvent.EVENT_NAME -> {
-        this.musicPlayerHelper.turnMusicOnOff(true);
+        //this.musicPlayerHelper.turnMusicOnOff(true);
         GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
-        showErrorMessage("Player " + gameForfeitedEvent.getForfeiter()
-            + " left the game and was replaced by an AI");
+        System.err.println(model.getMode());
+        if (gameForfeitedEvent.getForfeiter().equals(model.getPlayerName()) &&
+            (model.getMode() == CommonModel.NETWORK_MODE)) {
+          showGameOverCard();
+        } else {
+          showErrorMessage("Player " + gameForfeitedEvent.getForfeiter()
+              + " left the game and was replaced by an AI");
+        }
       }
       case "PlayerAddedMessageEvent" -> {
         requireNonNull(ChatPanel.listModel);
@@ -615,14 +604,12 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   @Override
   public void dispose() {
     super.dispose();
-    System.err.println("Dispose wurde getriggert");
     if (model.isStrategyChosen() && model.getMode() == CommonModel.NETWORK_MODE) {
       controller.replacePlayerByAi(model.getPlayerName());
       model.removePropertyChangeListener(this);
     }
     if (Server.isRunning()) {
       Server.stop();
-      System.err.println("Dispose wurde getriggert");
       System.exit(0);
     }
 
