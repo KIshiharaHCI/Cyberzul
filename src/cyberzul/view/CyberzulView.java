@@ -386,6 +386,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         //TODO: FILL WITH FUNCTIONALITY
       }
       case "NoValidTurnToMakeEvent" -> showErrorMessage("No valid turn to make");
+      //TODO: find better way to turn music off --> does not work as intended for hotseat mode.
       case GameForfeitedEvent.EVENT_NAME -> {
         this.musicPlayerHelper.turnMusicOnOff(true);
         GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
