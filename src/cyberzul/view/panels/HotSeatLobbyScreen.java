@@ -1,10 +1,13 @@
 package cyberzul.view.panels;
 
-import cyberzul.controller.Controller;
+import static cyberzul.view.CyberzulView.getCustomFont;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import cyberzul.controller.Controller;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -13,17 +16,22 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import static cyberzul.view.CyberzulView.getCustomFont;
-
-/**
- * Lobby Screen that functions as the Lobby when a player wants to play on Hot Seat Mode.
- */
+/** Lobby Screen that functions as the Lobby when a player wants to play on Hot Seat Mode. */
 public class HotSeatLobbyScreen extends JLayeredPane {
-  @Serial
-  private static final long serialVersionUID = 17L;
+  @Serial private static final long serialVersionUID = 17L;
   private static final int MIN_REQUIRED_PLAYERS = 3;
   private final Font customFont = getCustomFont();
   private final HashSet<Players> enabledPlayers = new HashSet<>();
@@ -49,7 +57,7 @@ public class HotSeatLobbyScreen extends JLayeredPane {
   /**
    * Initializes all components for the HotSeatLobby.
    *
-   * @param controller     controller for the application
+   * @param controller controller for the application
    * @param frameDimension determined by Cyberzulview.
    */
   public HotSeatLobbyScreen(Controller controller, Dimension frameDimension) {
@@ -97,9 +105,7 @@ public class HotSeatLobbyScreen extends JLayeredPane {
     }
   }
 
-  /**
-   * Initializes all Components added to this screen.
-   */
+  /** Initializes all Components added to this screen. */
   private void initializeComponents() {
     container =
         new JPanel(null) {
@@ -118,32 +124,33 @@ public class HotSeatLobbyScreen extends JLayeredPane {
     banner.setBounds(180, 85, 400, 30);
     labels.add(banner);
 
-      JLabel bulletMode = new JLabel("Bulletmode");
-      bulletMode.setFont(customFont.deriveFont(15f));
-      bulletMode.setForeground(Color.white);
-      bulletMode.setBounds(250, 540, 400, 30);
-      add(bulletMode);
+    JLabel bulletMode = new JLabel("Bulletmode");
+    bulletMode.setFont(customFont.deriveFont(15f));
+    bulletMode.setForeground(Color.white);
+    bulletMode.setBounds(250, 540, 400, 30);
+    add(bulletMode);
 
-      JButton bulletButton = new JButton(checkUnselected);
-      bulletButton.addMouseListener(new MouseAdapter() {
+    JButton bulletButton = new JButton(checkUnselected);
+    bulletButton.addMouseListener(
+        new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent e) {
-              if (checkUnselected.equals(bulletButton.getIcon())) {
-                  bulletButton.setIcon(checkSelected);
-                  controller.setBulletMode(true);
-                  //TODO: setBullet(false) in Constructor if default (false) is not set in model
-                  //TODO: controller.setBullet(true)
-              } else {
-                  bulletButton.setIcon(checkUnselected);
-                  controller.setBulletMode(false);
-                  //TODO: controller.setBullet(false)
-              }
+            if (checkUnselected.equals(bulletButton.getIcon())) {
+              bulletButton.setIcon(checkSelected);
+              controller.setBulletMode(true);
+              // TODO: setBullet(false) in Constructor if default (false) is not set in model
+              // TODO: controller.setBullet(true)
+            } else {
+              bulletButton.setIcon(checkUnselected);
+              controller.setBulletMode(false);
+              // TODO: controller.setBullet(false)
+            }
           }
-      });
-      bulletButton.setContentAreaFilled(false);
-      bulletButton.setBorderPainted(false);
-      bulletButton.setBounds(400, 530, 46, 40);
-      add(bulletButton);
+        });
+    bulletButton.setContentAreaFilled(false);
+    bulletButton.setBorderPainted(false);
+    bulletButton.setBounds(400, 530, 46, 40);
+    add(bulletButton);
 
     playGameButton = new JButton(imageLoader("img/start-game-button.png", 152, 50));
     playGameButton.addMouseListener(
@@ -312,24 +319,18 @@ public class HotSeatLobbyScreen extends JLayeredPane {
     validate();
   }
 
-  /**
-   * Enables the PlayButton if at least two players have been connected.
-   */
+  /** Enables the PlayButton if at least two players have been connected. */
   private void updatePlayButton() {
     playGameButton.setEnabled(disabledPlayers.size() < MIN_REQUIRED_PLAYERS);
   }
 
-  /**
-   * Used to set the bounds for container class components.
-   */
+  /** Used to set the bounds for container class components. */
   private void setBoundsForComponents() {
     container.setBounds(200, 80, containerDimension.width, containerDimension.height);
     inputNickPopUp.setBounds(420, 200, popUpDimension.width, popUpDimension.height);
   }
 
-  /**
-   * Creates the input nickname prompt.
-   */
+  /** Creates the input nickname prompt. */
   private void setInputNickPrompt() {
     inputNickPopUp =
         new JPanel(null) {
@@ -391,8 +392,8 @@ public class HotSeatLobbyScreen extends JLayeredPane {
   /**
    * Loads all image assets used by this class.
    *
-   * @param path   directory path in resource folder
-   * @param width  of image
+   * @param path directory path in resource folder
+   * @param width of image
    * @param height of image
    * @return image as ImageIcon
    */

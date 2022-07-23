@@ -399,6 +399,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
     return isBulletMode;
   }
 
+  @Override
   public void setBulletMode(boolean bulletMode) {
     if (bulletMode) {
       LOGGER.info("Game is set to be a bullet game.");
