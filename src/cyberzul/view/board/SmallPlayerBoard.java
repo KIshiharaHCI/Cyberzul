@@ -1,19 +1,17 @@
 package cyberzul.view.board;
 
-import static cyberzul.view.CyberzulView.getCustomFont;
 
 import cyberzul.controller.Controller;
 import cyberzul.view.listeners.TileClickListener;
-import java.awt.Dimension;
-import java.awt.Graphics;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
 import java.util.Objects;
-import javax.imageio.ImageIO;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /** A SmallPlayerBoard used for displaying opponent Players. */
 public class SmallPlayerBoard extends PlayerBoard {
@@ -71,6 +69,6 @@ public class SmallPlayerBoard extends PlayerBoard {
   @Override
   void createNameLabel() {
     super.createNameLabel();
-    super.getNameLabel().setFont(getCustomFont().deriveFont(10f));
+//    super.getNameLabel().setFont(getCustomFont().deriveFont(10f));
   }
 }

@@ -100,7 +100,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setResizable(true);
 
     initializeWidgets();
-    initializeFont();
+//    initializeFont();
     addEventListeners();
     createView();
   }

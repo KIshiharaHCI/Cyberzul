@@ -18,13 +18,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.*;
 
-import static cyberzul.view.CyberzulView.getCustomFont;
+
 
 /** Lobby Screen that functions as the Lobby when a player wants to play via local network. */
 public class NetworkLobbyScreen extends JLayeredPane {
   @Serial private static final long serialVersionUID = 17L;
   private static final int MIN_REQUIRED_PLAYERS = 3;
-  private final Font customFont = getCustomFont();
+  private final Font customFont = Font.getFont(Font.SANS_SERIF);
   private final LinkedList<Players> disabledPlayers =
       new LinkedList<>(
           Arrays.asList(Players.PLAYER1, Players.PLAYER2, Players.PLAYER3, Players.PLAYER4));
