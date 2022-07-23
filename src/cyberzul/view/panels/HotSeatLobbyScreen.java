@@ -80,7 +80,7 @@ public class HotSeatLobbyScreen extends JLayeredPane {
     popUpDimension = new Dimension(600, 374);
 
     try {
-      URL imgUrl = getClass().getClassLoader().getResource("img/network-lobby.png");
+      URL imgUrl = getClass().getClassLoader().getResource("img/hotseat-lobby.png");
       image = ImageIO.read(Objects.requireNonNull(imgUrl));
       image.getScaledInstance(
           containerDimension.width, containerDimension.height, Image.SCALE_SMOOTH);
