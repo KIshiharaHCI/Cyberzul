@@ -69,7 +69,8 @@ public class NetworkLobbyScreen extends JLayeredPane {
   }
 
   private void selectModePopup() {
-    ImageIcon blankButton = imageLoader("img/blank-button.png", 300, 80);
+    ImageIcon blankButtonUnselected = imageLoader("img/blank-button-unselected.png", 220, 55);
+    ImageIcon blankButtonSelected = imageLoader("img/blank-button-selected.png", 220, 55);
     selectModePopUp =
             new JPanel(null) {
               @Override
@@ -87,7 +88,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
     selectOption.setBounds(180, 100, 400, 30);
     selectModePopUp.add(selectOption);
 
-    JButton createServerButton = new JButton(blankButton);
+    JButton createServerButton = new JButton(blankButtonUnselected);
 
     createServerButton.addMouseListener(new MouseAdapter() {
       @Override
@@ -96,20 +97,55 @@ public class NetworkLobbyScreen extends JLayeredPane {
         model.setClientModelStrategy(ipAddress);
         //TODO: setVisible other components
       }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+        createServerButton.setIcon(blankButtonSelected);
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+        createServerButton.setIcon(blankButtonUnselected);
+      }
     });
     createServerButton.setBorderPainted(false);
     createServerButton.setContentAreaFilled(false);
-    createServerButton.setBounds(150, 150, 300, 80);
+    createServerButton.setBounds(40, 170, 220, 55);
+
+    createServerButton.setText("Create Server");
+    createServerButton.setFont(customFont.deriveFont(15f));
+    createServerButton.setForeground(Color.white);
+    createServerButton.setHorizontalTextPosition(SwingConstants.CENTER);
+    createServerButton.setVerticalTextPosition(SwingConstants.CENTER);
+
     selectModePopUp.add(createServerButton);
-    JButton joinServerButton = new JButton(blankButton);
+
+    JButton joinServerButton = new JButton(blankButtonUnselected);
     joinServerButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        joinServerButton.setVisible(false);
-        createServerButton.setVisible(false);
+      }
 
+      @Override
+      public void mouseEntered(MouseEvent e) {
+        joinServerButton.setIcon(blankButtonSelected);
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+        joinServerButton.setIcon(blankButtonUnselected);
       }
     });
+    joinServerButton.setBorderPainted(false);
+    joinServerButton.setContentAreaFilled(false);
+    joinServerButton.setBounds(280, 170, 220, 55);
+
+    joinServerButton.setText("Join Server");
+    joinServerButton.setFont(customFont.deriveFont(15f));
+    joinServerButton.setForeground(Color.white);
+    joinServerButton.setHorizontalTextPosition(SwingConstants.CENTER);
+    joinServerButton.setVerticalTextPosition(SwingConstants.CENTER);
+    selectModePopUp.add(joinServerButton);
 
     JLabel enterServerIP = new JLabel("Please enter the Server IP");
     enterServerIP.setFont(customFont);
