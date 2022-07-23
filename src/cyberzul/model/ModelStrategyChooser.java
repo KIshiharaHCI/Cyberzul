@@ -188,6 +188,11 @@ public class ModelStrategyChooser implements Model {
   }
 
   @Override
+  public boolean getBulletMode() {
+    return strategy.getBulletMode();
+  }
+
+  @Override
   public void setMode(int mode) {
     strategy.setMode(mode);
   }
