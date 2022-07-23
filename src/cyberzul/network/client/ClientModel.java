@@ -623,6 +623,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * @param playerWhoForfeitedTheGame the name of the player who forfeited the game.
    */
   public void handleGameForfeited(String playerWhoForfeitedTheGame) {
+    getPlayerByName(playerWhoForfeitedTheGame).setName("AI-" + playerWhoForfeitedTheGame);
     notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
   }
 
