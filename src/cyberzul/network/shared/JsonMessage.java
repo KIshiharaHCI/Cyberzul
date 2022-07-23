@@ -51,7 +51,7 @@ public enum JsonMessage {
   GAME_FINISHED("game finished"),
   GAME_FORFEITED("game forfeited"),
   GAME_CANCELED("game canceled"),
-  PLAYER_FORFEITED("player forfeited"),
+  PLAYER_LEFT_BEFORE_GAME_STARTED("player forfeited"),
   JSON_MESSAGE_NOT_PROCESSABLE("json message not processable");
 
   public static final String TYPE_FIELD = "type";
@@ -433,7 +433,7 @@ public enum JsonMessage {
    */
   public static JSONObject userLeft(String nickname) {
     try {
-      return createMessageOfType(PLAYER_FORFEITED).put(NICK_FIELD, nickname);
+      return createMessageOfType(PLAYER_LEFT_BEFORE_GAME_STARTED).put(NICK_FIELD, nickname);
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }

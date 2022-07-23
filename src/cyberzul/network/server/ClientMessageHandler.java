@@ -120,7 +120,7 @@ public class ClientMessageHandler implements Runnable {
    */
   private void broadcastThatThisClientDisconnected() {
     try {
-      JSONObject message = JsonMessage.createMessageOfType(JsonMessage.PLAYER_FORFEITED);
+      JSONObject message = JsonMessage.createMessageOfType(JsonMessage.PLAYER_LEFT_BEFORE_GAME_STARTED);
       message.put(JsonMessage.NICK_FIELD, nickname);
       serverConnection.broadcast(this, message);
     } catch (JSONException | IOException e) {
