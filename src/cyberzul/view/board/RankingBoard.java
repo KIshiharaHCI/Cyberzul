@@ -4,12 +4,14 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.view.ImagePanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.io.Serial;
 import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  * The Ranking board which shows the name of all players and their points in descending order.
@@ -50,7 +52,7 @@ public class RankingBoard extends JPanel {
 
     for (String player : playerNamesList) {
       JLabel label = new JLabel();
-//      label.setFont(getCustomFont().deriveFont(12f));
+      //label.setFont(getCustomFont().deriveFont(12f));
       label.setForeground(Color.white);
       label.setHorizontalAlignment(JLabel.CENTER);
       label.setText(player + ": " + controller.getPoints(player));
