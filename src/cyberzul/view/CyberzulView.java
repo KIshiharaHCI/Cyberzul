@@ -1,5 +1,7 @@
 package cyberzul.view;
 
+import static java.util.Objects.requireNonNull;
+
 import cyberzul.controller.Controller;
 import cyberzul.model.CommonModel;
 import cyberzul.model.Model;
@@ -16,7 +18,7 @@ import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.NotYourTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
-import cyberzul.model.events.PlayerHas5TilesInARowEvent;
+import cyberzul.model.events.PlayerHas5TilesInArowEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.model.events.YouDisconnectedEvent;
@@ -27,15 +29,17 @@ import cyberzul.view.board.GameBoard;
 import cyberzul.view.board.MusicPlayerHelper;
 import cyberzul.view.listeners.TileClickListener;
 import cyberzul.view.panels.HotSeatLobbyScreen;
-import cyberzul.view.panels.SinglePlayerLobbyScreen;
 import cyberzul.view.panels.NetworkLobbyScreen;
+import cyberzul.view.panels.SinglePlayerLobbyScreen;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -43,8 +47,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * GUI for Cyberzul Changes its appearance based on the model information.
@@ -70,7 +84,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private final transient Model model;
   private final transient Controller controller;
   private final transient MusicPlayerHelper musicPlayerHelper;
-  private String CURRENT_CARD;
+  private String currentCard;
   private HotSeatLobbyScreen hotSeatLobbyScreen;
   private NetworkLobbyScreen networkLobbyScreen;
   private SinglePlayerLobbyScreen singlePlayerPanel;
@@ -335,8 +349,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         showNeutralMessage("You connected to the server.");
       }
       case UserJoinedEvent.EVENT_NAME -> {
-        if (networkLobbyScreen != null)
+        if (networkLobbyScreen != null) {
           networkLobbyScreen.updateinputField();
+        }
       }
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
@@ -352,10 +367,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "PlayerHas5TilesInARowEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
-        PlayerHas5TilesInARowEvent playerHas5TilesInARowEvent =
-            (PlayerHas5TilesInARowEvent) customMadeGameEvent;
+        PlayerHas5TilesInArowEvent playerHas5TilesInArowEvent =
+            (PlayerHas5TilesInArowEvent) customMadeGameEvent;
         //TODO - this error message should be shown in chat
-        showErrorMessage("User " + playerHas5TilesInARowEvent.getEnder() + " ended the game.");
+        showErrorMessage("User " + playerHas5TilesInArowEvent.getEnder() + " ended the game.");
       }
       case "IllegalTurnEvent" -> {
         if (this.musicPlayerHelper.isPlayMusicOn()) {
@@ -417,7 +432,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case YouDisconnectedEvent.EVENT_NAME -> showErrorMessage(
           "You got disconnected from the server.");
       case BulletModeChangedEvent.EVENT_NAME -> {
-        BulletModeChangedEvent bulletModeChangedEvent = (BulletModeChangedEvent) customMadeGameEvent;
+        BulletModeChangedEvent bulletModeChangedEvent =
+            (BulletModeChangedEvent) customMadeGameEvent;
         boolean isBulletModeOn = bulletModeChangedEvent.isBulletModeActivated();
         showNeutralMessage("Bullet Mode is set to " + isBulletModeOn);
       }
@@ -483,7 +499,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    * This card gets shown if the user selects "hot seat mode" at the start of the program.
    */
   private void createHotSeatModeCard() {
-    hotSeatLobbyScreen = new HotSeatLobbyScreen (controller, frameDimension);
+    hotSeatLobbyScreen = new HotSeatLobbyScreen(controller, frameDimension);
     JLayeredPane hotSeatModePanel = hotSeatLobbyScreen;
     JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
@@ -501,18 +517,18 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void createNetworkModeCard() {
     networkLobbyScreen = new NetworkLobbyScreen(controller, model, frameDimension);
     JLayeredPane networkModePanel = networkLobbyScreen;
-//    setMinimumSize(frameDimension);
-//    setMaximumSize(frameDimension);
-//    inputField = new JTextField(10);
-//    numberOfLoggedInPlayersLabel =
-//        new JLabel("Number of Players: 0.");
-//    //JLayeredPane networkModePanel = new NetworkPanel(controller, frameDimension);
-//    JPanel networkModePanel = new JPanel();
-//    networkModePanel.add(numberOfLoggedInPlayersLabel);
-//    networkModePanel.add(pleaseEnterNameLabel);
-//    networkModePanel.add(inputField);
-//    networkModePanel.add(addPlayerButton);
-//    networkModePanel.add(playButton);
+    //setMinimumSize(frameDimension);
+    //setMaximumSize(frameDimension);
+    //inputField = new JTextField(10);
+    //numberOfLoggedInPlayersLabel =
+    //new JLabel("Number of Players: 0.");
+    ////JLayeredPane networkModePanel = new NetworkPanel(controller, frameDimension);
+    //JPanel networkModePanel = new JPanel();
+    //networkModePanel.add(numberOfLoggedInPlayersLabel);
+    //networkModePanel.add(pleaseEnterNameLabel);
+    //networkModePanel.add(inputField);
+    //networkModePanel.add(addPlayerButton);
+    //networkModePanel.add(playButton);
     JPanel backgroundPanel = new ImagePanel(networkModePanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, NETWORK_CARD);
@@ -533,6 +549,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void showSinglePlayerCard() {
     showCard(SINGLEPLAYER_CARD);
   }
+
   private void showGameOverCard() {
     showCard(GAMEOVER_CARD);
   }
@@ -583,13 +600,13 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    */
   private void showCard(String card) {
     layout.show(getContentPane(), card);
-    CURRENT_CARD = card;
+    currentCard = card;
   }
 
   @Override
-  public void dispose(){
+  public void dispose() {
     super.dispose();
-    if(model.getMode() == CommonModel.NETWORK_MODE) {
+    if (model.getMode() == CommonModel.NETWORK_MODE) {
       controller.replacePlayerByAi(model.getPlayerName());
     }
     model.removePropertyChangeListener(this);

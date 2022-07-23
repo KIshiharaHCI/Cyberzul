@@ -32,7 +32,7 @@ public class NextPlayersTurnEvent extends GameEvent {
    *
    * @return the message that tells the players who's turn is now.
    */
-  public String getChatMessage(){
+  public String getChatMessage() {
     return ("It's " + nameOfActivePlayer + "'s turn.");
   }
 }

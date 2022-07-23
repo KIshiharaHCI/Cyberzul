@@ -25,7 +25,7 @@ import cyberzul.model.events.NoValidTurnToMakeEvent;
 import cyberzul.model.events.NotYourTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerDisconnectedEvent;
-import cyberzul.model.events.PlayerHas5TilesInARowEvent;
+import cyberzul.model.events.PlayerHas5TilesInArowEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.RoundFinishedEvent;
@@ -645,8 +645,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    *
    * @param nickname the player who has 5 tiles in a row.
    */
-  public void handlePlayerHas5TilesInARow(String nickname) {
-    notifyListeners(new PlayerHas5TilesInARowEvent(nickname));
+  public void handlePlayerHas5TilesInArow(String nickname) {
+    notifyListeners(new PlayerHas5TilesInArowEvent(nickname));
   }
 
   /**

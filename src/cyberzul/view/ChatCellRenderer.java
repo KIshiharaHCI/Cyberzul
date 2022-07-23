@@ -60,7 +60,7 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
     if (value instanceof PlayerNeedHelpMessage playerNeedHelpMessage) {
       setText(playerNeedHelpMessage.getContent());
     }
-    if (value instanceof GameStateMessage gameStateMessage){
+    if (value instanceof GameStateMessage gameStateMessage) {
       setText((gameStateMessage.getContent()));
     }
 

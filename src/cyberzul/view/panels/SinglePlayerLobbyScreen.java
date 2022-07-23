@@ -1,11 +1,14 @@
 package cyberzul.view.panels;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 import cyberzul.controller.Controller;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -14,10 +17,18 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
-
-import static cyberzul.view.CyberzulView.getCustomFont;
+import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /** Lobby Screen that functions as the Lobby when a player wants to play on Hot Seat Mode. */
 public class SinglePlayerLobbyScreen extends JLayeredPane {
@@ -27,8 +38,8 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
   private final Font customFont = getCustomFont();
   private final HashSet<Players> enabledPlayers = new HashSet<>();
   private final HashSet<Players> disabledPlayers =
-          new HashSet<>(
-                  Arrays.asList(Players.PLAYER1, Players.PLAYER2, Players.PLAYER3, Players.PLAYER4));
+      new HashSet<>(
+          Arrays.asList(Players.PLAYER1, Players.PLAYER2, Players.PLAYER3, Players.PLAYER4));
   private final transient Controller controller;
   private final transient List<JLabel> labels = new ArrayList<>();
   transient List<JButton> nameInputButtons = new ArrayList<>(4);
@@ -53,7 +64,6 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
    * @param frameDimension determined by Cyberzulview.
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2"})
-
   public SinglePlayerLobbyScreen(Controller controller, Dimension frameDimension) {
     this.controller = controller;
 
@@ -78,14 +88,14 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
     setMaximumSize(frameDimension);
 
     containerDimension =
-            new Dimension((int) (frameDimension.width * 0.7), (int) (frameDimension.height * 0.7));
+        new Dimension((int) (frameDimension.width * 0.7), (int) (frameDimension.height * 0.7));
     popUpDimension = new Dimension(600, 374);
 
     try {
       URL imgUrl = getClass().getClassLoader().getResource("img/hotseat-lobby.png");
       image = ImageIO.read(Objects.requireNonNull(imgUrl));
       image.getScaledInstance(
-              containerDimension.width, containerDimension.height, Image.SCALE_SMOOTH);
+          containerDimension.width, containerDimension.height, Image.SCALE_SMOOTH);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -102,13 +112,13 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
   /** Initializes all Components added to this screen. */
   private void initializeComponents() {
     container =
-            new JPanel(null) {
-              @Override
-              protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(image, 0, 0, null);
-              }
-            };
+        new JPanel(null) {
+          @Override
+          protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, null);
+          }
+        };
     container.setOpaque(false);
 
     setInputNickPrompt();
@@ -126,18 +136,18 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
 
     JButton bulletButton = new JButton(checkUnselected);
     bulletButton.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                if (checkUnselected.equals(bulletButton.getIcon())) {
-                  bulletButton.setIcon(checkSelected);
-                  controller.setBulletMode(true);
-                } else {
-                  bulletButton.setIcon(checkUnselected);
-                  controller.setBulletMode(false);
-                }
-              }
-            });
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            if (checkUnselected.equals(bulletButton.getIcon())) {
+              bulletButton.setIcon(checkSelected);
+              controller.setBulletMode(true);
+            } else {
+              bulletButton.setIcon(checkUnselected);
+              controller.setBulletMode(false);
+            }
+          }
+        });
     bulletButton.setContentAreaFilled(false);
     bulletButton.setBorderPainted(false);
     bulletButton.setBounds(400, 530, 46, 40);
@@ -145,12 +155,12 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
 
     playGameButton = new JButton(imageLoader("img/start-game-button.png", 152, 50));
     playGameButton.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                controller.startSinglePlayerMode(numberOfAiPlayers);
-              }
-            });
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            controller.startSinglePlayerMode(numberOfAiPlayers);
+          }
+        });
     playGameButton.setBounds(550, 530, 152, 50);
     playGameButton.setContentAreaFilled(false);
     playGameButton.setBorderPainted(false);
@@ -230,20 +240,21 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
   }
 
   private void addListener(JLabel checkIcon) {
-    checkIcon.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        if (checkIcon.getIcon().equals(checkUnselected)) {
-          checkIcon.setIcon(checkSelected);
-          numberOfAiPlayers ++;
-          updatePlayButton();
-        } else {
-          checkIcon.setIcon(checkUnselected);
-          numberOfAiPlayers --;
-          updatePlayButton();
-        }
-      }
-    });
+    checkIcon.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            if (checkIcon.getIcon().equals(checkUnselected)) {
+              checkIcon.setIcon(checkSelected);
+              numberOfAiPlayers++;
+              updatePlayButton();
+            } else {
+              checkIcon.setIcon(checkUnselected);
+              numberOfAiPlayers--;
+              updatePlayButton();
+            }
+          }
+        });
   }
 
   /**
@@ -314,13 +325,13 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
   /** Creates the input nickname prompt. */
   private void setInputNickPrompt() {
     inputNickPopUp =
-            new JPanel(null) {
-              @Override
-              protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(popUpImage, 0, 0, null);
-              }
-            };
+        new JPanel(null) {
+          @Override
+          protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(popUpImage, 0, 0, null);
+          }
+        };
 
     JLabel pleaseEnter = new JLabel("Please enter your nickname");
     pleaseEnter.setFont(customFont);
@@ -336,18 +347,18 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
 
     JTextField inputField = new JTextField(15);
     inputField.addKeyListener(
-            new KeyAdapter() {
-              @Override
-              public void keyPressed(KeyEvent event) {
-                if (event.getKeyCode() != KeyEvent.VK_ENTER) {
-                  return;
-                }
-                event.consume();
-                String nickname = inputField.getText();
-                  updateinputField(nickname);
-                inputField.setText(null);
-              }
-            });
+        new KeyAdapter() {
+          @Override
+          public void keyPressed(KeyEvent event) {
+            if (event.getKeyCode() != KeyEvent.VK_ENTER) {
+              return;
+            }
+            event.consume();
+            String nickname = inputField.getText();
+            updateinputField(nickname);
+            inputField.setText(null);
+          }
+        });
     inputField.setBounds(140, 150, 300, 30);
     inputField.setFont(customFont);
     inputNickPopUp.add(inputField);
