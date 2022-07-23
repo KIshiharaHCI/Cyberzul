@@ -17,7 +17,6 @@ import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.UserJoinedEvent;
-import cyberzul.model.events.YouConnectedEvent;
 import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.network.client.messages.GameStateMessage;
 import cyberzul.network.server.Server;
@@ -339,9 +338,12 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showNeutralMessage("successfully logged in");
       }
-      case ConnectedWithServerEvent.EVENT_NAME,
-          UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
-          "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+      case ConnectedWithServerEvent.EVENT_NAME -> {
+        showNeutralMessage("You connected to the server.");
+        numberOfLoggedInPlayersLabel.setText(
+          "Number of Players: " + (model.getPlayerNamesList().size()) + ".");}
+      case UserJoinedEvent.EVENT_NAME -> {numberOfLoggedInPlayersLabel.setText(
+          "Number of Players: " + (model.getPlayerNamesList().size()) + ".");}
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
@@ -413,9 +415,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case InvalidIpv4AddressEvent.EVENT_NAME -> {
         showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
-      }
-      case YouConnectedEvent.EVENT_NAME -> {
-        showNeutralMessage("You connected to the server.");
       }
       case YouDisconnectedEvent.EVENT_NAME -> showErrorMessage(
           "You got disconnected from the server.");

@@ -28,7 +28,6 @@ import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.RoundFinishedEvent;
 import cyberzul.model.events.UserJoinedEvent;
-import cyberzul.model.events.YouConnectedEvent;
 import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerForfeitedMessage;
@@ -642,10 +641,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    */
   public void youGotDisconnected() {
     notifyListeners(new YouDisconnectedEvent());
-  }
-
-  public void youConnectedToTheServer() {
-    notifyListeners(new YouConnectedEvent());
   }
 
   @Override

@@ -58,7 +58,6 @@ public class ClientNetworkConnection {
         Socket socket;
         try {
           socket = new Socket(InetAddress.getByAddress(HOST), PORT);
-          model.youConnectedToTheServer();
         } catch (ConnectException connectException) {
           if (connectException.getMessage().equals("Connection refused: connect")) {
             Server.start();
