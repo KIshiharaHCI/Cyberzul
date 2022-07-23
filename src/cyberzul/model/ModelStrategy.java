@@ -236,6 +236,13 @@ public interface ModelStrategy {
   void postChatMessage(String text);
 
   /**
+   * Gets whether it is bullet mode or not.
+   *
+   * @return <code>true</code>, if bullet mode is on, <code>false</code> otherwise.
+   */
+  boolean getBulletMode();
+
+  /**
    * Sets the game to be a bullet game.
    *
    * @param isBulletMode <code>true</code> if is a bullet game, <code>false</code> if not.
