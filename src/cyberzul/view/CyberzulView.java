@@ -287,11 +287,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
           networkLobbyScreen.updateinputField();
         }
         this.setTitle("Cyberzul - " + model.getPlayerName());
-        showNeutralMessage("successfully logged in");
       }
       case ConnectedWithServerEvent.EVENT_NAME -> {
         networkLobbyScreen.updateUiAfterConnect();
-        showNeutralMessage("You connected to the server.");
       }
       case UserJoinedEvent.EVENT_NAME -> {
         if (networkLobbyScreen != null) {
