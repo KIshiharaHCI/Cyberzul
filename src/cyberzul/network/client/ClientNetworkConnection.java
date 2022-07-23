@@ -258,6 +258,9 @@ public class ClientNetworkConnection {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    catch (NullPointerException e){
+      //model still sends messages even though it got disconnected from the server.
+    }
   }
 }
 

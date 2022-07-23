@@ -655,6 +655,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    */
   public void youGotDisconnected() {
     notifyListeners(new YouDisconnectedEvent());
+    stop();
   }
 
   @Override
@@ -684,8 +685,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     }
   }
 
+  /**
+   * Stop the ClientNetworkConnection.
+   */
   public void stop(){
-
+    connection.stop();
   }
 
   /**
@@ -694,4 +698,5 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   public void handleConnectionWithServerNotPossible(){
     notifyListeners(new ConnectionWithServerNotPossibleEvent());
   }
+
 }
