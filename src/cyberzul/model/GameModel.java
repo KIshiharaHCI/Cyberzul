@@ -33,7 +33,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
-  private static final int TIME_TILL_NEXT_ROUND = 20000;
+  private static final int TIME_TILL_NEXT_ROUND = 12000;
   private final Random ran = new Random();
   private Timer timer;
   private boolean hasGameEnded = false;

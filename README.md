@@ -44,8 +44,9 @@ that is to be honored with the permission to lay out your tiles in Queen MaXIne'
 
 First, you will have to pick a mode: Solo, hot seat or network mode. What do all of them have in common? You will have
 to type at least one nickname for the game and you will play with either two, three, or four players afterwards.
-Moreover, you are able to choose, if you want to enable _Bullet-Mode_ ... that is every player will have 30 seconds and
-30 seconds only to make his/her move, otherwise an AI will make the move for him/her.
+Moreover, you are able to choose, if you want to enable _Bullet-Mode_ ... that is every player will have 12 seconds and
+12 seconds only to make his/her move, otherwise an AI will make the move for him/her. (We suggest Cyberzul-Newbys to 
+their first games with Bullet-Mode turned off.)
 
 - **Solo**: Here you will play alone - against one, two, or three AI-players.
 - **Hot seat**: Here you play on one device - against the players you add before. Type the players into the input field
@@ -69,8 +70,9 @@ too. It works the same. However, if you are the first player of a given round to
 Starting Player Marker will be placed in your floor line automatically. On the one hand, this means minus points; on the
 other hand, you will be the player to start the next round. Choose wisely!
 
-Oh, and by the way: This is _Cyberzul_. It is fun, it is fancy, and it is fast. You have 30 seconds for your move. … So,
-choose wisely … and do not take too much time for it, otherwise, the AI will make the move for you.
+Oh, and by the way: This is _Cyberzul_. It is fun, it is fancy, and it is fast. You have 12 seconds for your move. … So,
+choose wisely … and do not take too much time for it, otherwise, the AI will make the move for you. (But no worries, 
+only you have Bullet-mode turned on; otherwise, you have all the time in the world.)
 
 ### Where to place a tile
 
