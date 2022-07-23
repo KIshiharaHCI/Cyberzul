@@ -616,6 +616,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     currentCard = card;
   }
 
+  @SuppressFBWarnings("DM_EXIT")
   @Override
   public void dispose() {
     super.dispose();
