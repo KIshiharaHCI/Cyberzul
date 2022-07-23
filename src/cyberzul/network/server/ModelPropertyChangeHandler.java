@@ -83,7 +83,6 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
       case GameForfeitedEvent.EVENT_NAME -> handleGameForfeitedEvent(customMadeGameEvent);
       case PlayerAddedMessageEvent.EVENT_NAME -> handlePlayerAddedMessageEvent(customMadeGameEvent);
-      //TODO: @Xue maybe delete PlayerJoinedChatEvent
       case PlayerJoinedChatEvent.EVENT_NAME -> handlePlayerJoinedChatEvent(customMadeGameEvent);
       case PlayerHas5TilesInArowEvent.EVENT_NAME -> handlePlayerHas5TilesInArowEvent(
           customMadeGameEvent);

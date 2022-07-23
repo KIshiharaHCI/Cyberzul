@@ -419,7 +419,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         ChatMessageRemovedEvent chatMessageRemovedEvent =
             (ChatMessageRemovedEvent) customMadeGameEvent;
         ChatPanel.listModel.removeElement(chatMessageRemovedEvent.getMessage());
-        showErrorMessage("Only the last hundred messages are shown.");
+        showErrorMessage("Only the last 10 messages are shown.");
       }
       case "PlayerJoinedChatEvent" -> {
         PlayerJoinedChatEvent playerJoinedChatEvent =
