@@ -18,7 +18,8 @@ public class Server {
   private static Server instance;
   private static String iPv4InHex;
   private final Model gameModel;
-  private ServerNetworkConnection connection;
+  private static ServerNetworkConnection connection;
+  private static boolean isRunning;
 
   /**
    * The server on which the game runs and who distributes chat messages.
@@ -53,6 +54,7 @@ public class Server {
     if (instance == null) {
       instance = new Server();
       iPv4InHex = getIpAsHex();
+      isRunning = true;
     }
     return iPv4InHex;
   }
@@ -82,5 +84,21 @@ public class Server {
       e.printStackTrace();
     }
     return ipinhex.toString();
+  }
+
+  /**
+   * Informs if the server is running right now.
+   *
+   * @return <code>true</code> if the server is running right now. <code>false</code> else.
+   */
+  public static boolean isRunning(){
+    return isRunning;
+  }
+
+  /**
+   * Stops the server and disposes of all resources.
+   */
+  public static void stop(){
+    instance = null;
   }
 }

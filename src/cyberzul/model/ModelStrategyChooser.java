@@ -201,4 +201,9 @@ public class ModelStrategyChooser implements Model {
   public int getMode() {
     return strategy.getMode();
   }
+
+  @Override
+  public boolean isStrategyChosen() {
+    return isStrategyChosen;
+  }
 }

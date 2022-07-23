@@ -589,10 +589,17 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   @Override
   public void dispose(){
     super.dispose();
-    if(model.getMode() == CommonModel.NETWORK_MODE) {
+    System.err.println("Dispose wurde getriggert");
+    if(model.isStrategyChosen() && model.getMode() == CommonModel.NETWORK_MODE) {
       controller.replacePlayerByAi(model.getPlayerName());
+      model.removePropertyChangeListener(this);
     }
-    model.removePropertyChangeListener(this);
+    if(Server.isRunning()){
+      Server.stop();
+      System.err.println("Dispose wurde getriggert");
+      System.exit(0);
+    }
+
     //controller.dispose();
   }
 }

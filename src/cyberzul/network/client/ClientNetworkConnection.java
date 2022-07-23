@@ -33,6 +33,7 @@ public class ClientNetworkConnection {
   private BufferedWriter writer;
   private BufferedReader reader;
   private Thread thread;
+  private boolean isConnected = false;
 
 
   //this class needs this reference to this mutable objects.
@@ -54,7 +55,7 @@ public class ClientNetworkConnection {
 
   private void doConnectLoop() {
     try {
-      while (!Thread.interrupted()) {
+      while (!Thread.interrupted() && !isConnected) {
         Socket socket;
         try {
           socket = new Socket(InetAddress.getByAddress(HOST), PORT);
@@ -129,7 +130,9 @@ public class ClientNetworkConnection {
    */
   public void handleMessage(JSONObject object) throws JSONException {
     switch (JsonMessage.typeOf(object)) {
-      case CONNECTED -> model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));
+      case CONNECTED -> {
+        isConnected = true;
+        model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));}
       case LOGIN_SUCCESS -> model.loggedIn();
       case LOGIN_FAILED -> model.loginFailed(object.getString(JsonMessage.ADDITIONAL_INFORMATION));
       case GAME_STARTED -> handleGameStarted(object);

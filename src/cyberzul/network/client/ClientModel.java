@@ -682,4 +682,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
       e.printStackTrace();
     }
   }
+
+  public void stop(){
+
+  }
 }
