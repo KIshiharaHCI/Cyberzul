@@ -9,6 +9,7 @@ import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.PlayerHas5TilesInARowEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.network.client.messages.PlayerTextMessage;
@@ -83,8 +84,20 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case PlayerAddedMessageEvent.EVENT_NAME -> handlePlayerAddedMessageEvent(customMadeGameEvent);
       //TODO: @Xue maybe delete PlayerJoinedChatEvent
       case PlayerJoinedChatEvent.EVENT_NAME -> handlePlayerJoinedChatEvent(customMadeGameEvent);
-
+      case PlayerHas5TilesInARowEvent.EVENT_NAME -> handlePlayerHas5TilesInARowEvent(customMadeGameEvent);
       default -> throw new AssertionError("Unknown event: " + eventName);
+    }
+  }
+
+  private void handlePlayerHas5TilesInARowEvent(Object customMadeGameEvent){
+    PlayerHas5TilesInARowEvent playerHas5TilesInARowEvent = (PlayerHas5TilesInARowEvent) customMadeGameEvent;
+    JSONObject message = JsonMessage.createMessageOfType(JsonMessage.PLAYER_HAS_5_TILES_IN_A_ROW);
+    try {
+      message.put(JsonMessage.NICK_FIELD, playerHas5TilesInARowEvent.getEnder());
+      connection.broadcastToAll(message);
+    }
+    catch (IOException | JSONException e){
+      e.printStackTrace();
     }
   }
 

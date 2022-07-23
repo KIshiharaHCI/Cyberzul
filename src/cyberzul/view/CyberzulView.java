@@ -16,7 +16,7 @@ import cyberzul.model.events.InvalidIpv4AddressEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
-import cyberzul.model.events.PlayerHasEndedTheGameEvent;
+import cyberzul.model.events.PlayerHas5TilesInARowEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.model.events.YouDisconnectedEvent;
@@ -361,13 +361,13 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         showErrorMessage(gameFinishedEvent.getWinningMessage());
         gameBoard.getTimer().stop();
       }
-      case "PlayerHasEndedTheGameEvent" -> {
+      case "PlayerHas5TilesInARowEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
-        PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent =
-            (PlayerHasEndedTheGameEvent) customMadeGameEvent;
+        PlayerHas5TilesInARowEvent playerHas5TilesInARowEvent =
+            (PlayerHas5TilesInARowEvent) customMadeGameEvent;
         //TODO - this error message should be shown in chat
-        showErrorMessage("User " + playerHasEndedTheGameEvent.getEnder() + " ended the game.");
+        showErrorMessage("User " + playerHas5TilesInARowEvent.getEnder() + " ended the game.");
       }
       case "IllegalTurnEvent" -> {
         if (this.musicPlayerHelper.isPlayMusicOn()) {
@@ -576,5 +576,13 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     layout.show(getContentPane(), card);
   }
 
-  
+  @Override
+  public void dispose(){
+    super.dispose();
+    if(model.getMode() == CommonModel.NETWORK_MODE) {
+      controller.replacePlayerByAi(model.getPlayerName());
+    }
+    model.removePropertyChangeListener(this);
+    //controller.dispose();
+  }
 }
