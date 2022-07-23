@@ -11,6 +11,7 @@ import cyberzul.model.Player;
 import cyberzul.model.events.BulletModeChangedEvent;
 import cyberzul.model.events.ChatMessageRemovedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.ConnectionWithServerNotPossibleEvent;
 import cyberzul.model.events.GameCanceledEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
@@ -29,7 +30,6 @@ import cyberzul.model.events.PlayerHas5TilesInArowEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.RoundFinishedEvent;
-import cyberzul.model.events.ConnectionWithServerNotPossibleEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.network.client.messages.Message;
@@ -691,7 +691,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Notify the listeners that the connection attempts with the server failed.
    */
-  public void handleConnectionWithServerNotPossible(){
+  public void handleConnectionWithServerNotPossible() {
     notifyListeners(new ConnectionWithServerNotPossibleEvent());
   }
 }
