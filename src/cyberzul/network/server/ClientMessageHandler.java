@@ -251,11 +251,10 @@ public class ClientMessageHandler implements Runnable {
    * Replace this player by the AI.
    */
   private void handleReplaceThisPlayerByAi() {
-    if(model.isGameStarted()) {
+    if (model.isGameStarted()) {
       controller.replacePlayerByAi(nickname);
       replacedByAi = true;
-    }
-    else{
+    } else {
       broadcastThatThisClientDisconnected();
     }
   }
