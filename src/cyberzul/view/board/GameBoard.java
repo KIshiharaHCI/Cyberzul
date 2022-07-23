@@ -132,15 +132,14 @@ public class GameBoard extends JPanel {
     JLabel timerLabel = new JLabel();
     timerLabel.setPreferredSize(new Dimension(200, 30));
     timerLabel.setHorizontalAlignment(JLabel.LEFT);
-    timerLabel.setFont(new Font("Dialog", Font.BOLD, 25));
     timerLabel.setFont(this.getTimerFont());
-    timerLabel.setForeground(Color.GREEN);
+    timerLabel.setForeground(Color.WHITE);
     timer =
         new TurnCountDownTimer(
             1000,
             e -> {
               if (timer.getTimerValue() == 0) {
-                timer.setTimerValue(30);
+                timer.setTimerValue(20);
               }
               timer.setTimerValue(timer.getTimerValue() - 1);
               timerLabel.setText(secondsToTimer(timer.getTimerValue()));

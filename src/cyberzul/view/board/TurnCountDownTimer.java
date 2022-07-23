@@ -26,13 +26,13 @@ public class TurnCountDownTimer extends Timer {
    */
   public TurnCountDownTimer(int delay, ActionListener listener) {
     super(delay, listener);
-    timerValue = 30;
+    timerValue = 20;
   }
 
   @Override
   public void start() {
     super.start();
-    this.timerValue = 30;
+    this.timerValue = 20;
   }
 
   @Override
