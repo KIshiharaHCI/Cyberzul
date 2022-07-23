@@ -4,22 +4,14 @@ import cyberzul.controller.Controller;
 import cyberzul.view.IconButton;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GridLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
