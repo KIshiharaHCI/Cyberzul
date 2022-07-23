@@ -151,6 +151,11 @@ public class GameController implements Controller {
   }
 
   @Override
+  public boolean getBulletMode() {
+    return model.getBulletMode();
+  }
+
+  @Override
   public void setMode(int mode) {
     model.setMode(mode);
   }
