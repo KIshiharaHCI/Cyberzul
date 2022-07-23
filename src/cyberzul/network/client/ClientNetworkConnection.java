@@ -34,6 +34,8 @@ public class ClientNetworkConnection {
   private BufferedReader reader;
   private Thread thread;
   private boolean isConnected = false;
+  private int connectionAttempts = 0;
+  private static final int MAX_CONNECTION_ATTEMPTS = 4;
 
 
   //this class needs this reference to this mutable objects.
@@ -61,9 +63,20 @@ public class ClientNetworkConnection {
           socket = new Socket(InetAddress.getByAddress(HOST), PORT);
         } catch (ConnectException connectException) {
           if (connectException.getMessage().equals("Connection refused: connect")) {
-            Server.start();
-            continue;
-          } else {
+            if(connectionAttempts < MAX_CONNECTION_ATTEMPTS) {
+              connectionAttempts++;
+              continue;
+            }
+            else{
+              model.handleTooManyConnectionAttempts();
+              break;
+            }
+          }
+          if(connectException.getMessage().equals("Connection timed out: connect")){
+            model.handleTooManyConnectionAttempts();
+            break;
+          }
+          else {
             connectException.printStackTrace();
             break;
           }
