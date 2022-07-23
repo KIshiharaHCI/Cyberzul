@@ -4,7 +4,7 @@ package cyberzul.network.client.messages;
 /**
  * A system messages that shows who is the next player to draw the tile.
  */
-public class NextPlayersTurnMessage extends Message {
+public class NextPlayersTurnMessage implements Message {
 
   private final String nickname;
 

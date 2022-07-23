@@ -70,9 +70,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   private ClientNetworkConnection connection;
   private String thisPlayersName;
 
-  private boolean isBulletMode = false;
-
-
   /**
    * Create a ClientModel and start a connection with the server.
    *
@@ -124,9 +121,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   @Override
-  public void startSinglePlayerMode(int numberOfPlayers) {
-    //TODO @Nils implement body
-  }
+  public void startSinglePlayerMode(int numberOfPlayers) { /*this method is
+  only needed in GameModel */ }
 
   private synchronized ClientNetworkConnection getConnection() {
     return connection;
@@ -231,7 +227,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
       e.printStackTrace();
     }
     this.isGameStarted = true;
-    notifyListeners(new GameStartedEvent());
+    notifyListeners(new GameStartedEvent(playerList.get(0).getName()));
   }
 
   /**
@@ -652,10 +648,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     notifyListeners(new YouConnectedEvent());
   }
 
-  //TODO: Discuss with Nils --> is this ok here - we will never use it here.
-  // Can I set it to be a function of the interface but only for GameModel Strategy?
   @Override
-  public void setBulletMode(boolean bulletMode) {
-    isBulletMode = bulletMode;
-  }
+  public void setBulletMode(boolean bulletMode) { /*this method is only needed in GameModel */ }
 }

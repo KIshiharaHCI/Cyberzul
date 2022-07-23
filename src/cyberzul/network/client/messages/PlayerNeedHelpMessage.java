@@ -4,7 +4,7 @@ package cyberzul.network.client.messages;
  * A chat message sent by a Player who needs help.
  */
 
-public class PlayerNeedHelpMessage extends Message {
+public class PlayerNeedHelpMessage implements Message {
 
   public static final String CYBERZUL_HELP =
       "Cyberzul - Strategy: \n"

@@ -183,6 +183,7 @@ public class ModelStrategyChooser implements Model {
   }
 
   @Override
-  public void setBulletMode(boolean isBulletMode) {strategy.setBulletMode(isBulletMode);}
-
+  public void setBulletMode(boolean isBulletMode) {
+    strategy.setBulletMode(isBulletMode);
+  }
 }

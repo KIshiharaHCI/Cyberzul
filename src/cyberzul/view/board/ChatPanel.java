@@ -46,7 +46,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private static final String chaticon = "img/chaticon.png";
 
   public static final DefaultListModel<Message> listModel = new DefaultListModel<>();
-  private transient final Controller controller;
+  private final transient Controller controller;
   private JTextArea inputArea;
   private JScrollPane scrollPane;
   private IconButton closeChatButton;

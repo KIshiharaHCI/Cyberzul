@@ -8,7 +8,7 @@ import java.util.Locale;
 /**
  * A chat message sent by a user at a specific point in time.
  */
-public class PlayerTextMessage extends Message {
+public class PlayerTextMessage implements Message {
 
   private final String nameOfSender;
 
