@@ -688,7 +688,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
   }
 
-  public void handleTooManyConnectionAttempts(){
+  public void handleTooManyConnectionAttempts() {
     notifyListeners(new TooManyConnectionAttemptsEvent());
   }
 }
