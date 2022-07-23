@@ -224,7 +224,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       showNetworkCard();
     });
     singlePlayerModeButton.addActionListener(event -> {
-      //TODO: setstrategy
+      //TODO - when play button is clicked on single player card --> first login user, then
+      // use method single player mode --> probably via controller
+      model.setGameModelStrategy();
       createSinglePlayerModeCard();
       showSinglePlayerCard();
     });

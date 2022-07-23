@@ -121,9 +121,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   @Override
-  public void startSinglePlayerMode(int numberOfPlayers) {
-    //TODO @Nils implement body
-  }
+  public void startSinglePlayerMode(int numberOfPlayers) { /*this method is
+  only needed in GameModel */ }
 
   private synchronized ClientNetworkConnection getConnection() {
     return connection;
@@ -649,8 +648,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     notifyListeners(new YouConnectedEvent());
   }
 
-  //TODO: Discuss with Nils --> is this ok here - we will never use it here.
-  // Can I set it to be a function of the interface but only for GameModel Strategy?
   @Override
   public void setBulletMode(boolean bulletMode) { /*this method is only needed in GameModel */ }
 }
