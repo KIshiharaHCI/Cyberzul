@@ -41,6 +41,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final String NETWORK_CARD = "networkmode";
   private static final String SINGLEPLAYER_CARD = "singleplayermode";
   private static final String GAMEBOARD_CARD = "gameboard";
+  private String CURRENT_CARD;
   private static final int FRAME_WIDTH = 1400;
   private static final int FRAME_HEIGHT = 800;
   private static Font customFont;
@@ -306,9 +307,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
             "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showNeutralMessage("successfully logged in");
       }
-      case ConnectedWithServerEvent.EVENT_NAME,
-          UserJoinedEvent.EVENT_NAME -> numberOfLoggedInPlayersLabel.setText(
-          "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME -> {
+        numberOfLoggedInPlayersLabel.setText(
+                "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+      }
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
         updateRankingBoard();
@@ -532,5 +534,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    */
   private void showCard(String card) {
     layout.show(getContentPane(), card);
+    CURRENT_CARD = card;
   }
 }
