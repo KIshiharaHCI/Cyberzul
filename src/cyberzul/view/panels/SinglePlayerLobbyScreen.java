@@ -22,7 +22,8 @@ import static cyberzul.view.CyberzulView.getCustomFont;
 /** Lobby Screen that functions as the Lobby when a player wants to play on Hot Seat Mode. */
 public class SinglePlayerLobbyScreen extends JLayeredPane {
   @Serial private static final long serialVersionUID = 17L;
-  private static final int MIN_REQUIRED_PLAYERS = 3;
+  private static final int MIN_REQUIRED_AI_PLAYERS = 1;
+  private static final int MAX_AI_PLAYERS = 3;
   private final Font customFont = getCustomFont();
   private final HashSet<Players> enabledPlayers = new HashSet<>();
   private final HashSet<Players> disabledPlayers =
@@ -300,7 +301,8 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
 
   /** Enables the PlayButton if at least two players have been connected. */
   private void updatePlayButton() {
-    playGameButton.setEnabled(numberOfAiPlayers < MIN_REQUIRED_PLAYERS);
+    playGameButton.setEnabled(numberOfAiPlayers <= MAX_AI_PLAYERS);
+    playGameButton.setEnabled(numberOfAiPlayers >= MIN_REQUIRED_AI_PLAYERS);
   }
 
   /** Used to set the bounds for container class components. */
