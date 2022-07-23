@@ -1,7 +1,5 @@
 package cyberzul.view.panels;
 
-import static cyberzul.view.CyberzulView.getCustomFont;
-
 import cyberzul.controller.Controller;
 import cyberzul.model.CommonModel;
 import cyberzul.model.Model;
@@ -20,8 +18,9 @@ import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
 import java.util.List;
-import java.util.Timer;
 import java.util.*;
+
+import static cyberzul.view.CyberzulView.getCustomFont;
 
 
 
@@ -29,17 +28,11 @@ import java.util.*;
 /** Lobby Screen that functions as the Lobby when a player wants to play via local network. */
 public class NetworkLobbyScreen extends JLayeredPane {
   @Serial private static final long serialVersionUID = 17L;
-  private static final int MIN_REQUIRED_PLAYERS = 3;
+  private static final int MIN_REQUIRED_PLAYERS = 2;
   private final Font customFont = getCustomFont();
-  private final LinkedList<Players> disabledPlayers =
-      new LinkedList<>(
-          Arrays.asList(Players.PLAYER1, Players.PLAYER2, Players.PLAYER3, Players.PLAYER4));
   private final transient Controller controller;
   private final transient Model model;
-  private Timer timer;
-  private boolean waitingForServerTimeOut = true;
   private final transient List<JLabel> labels = new ArrayList<>();
-  private final Players lastLoggedInPlayer = Players.PLAYER1;
   transient List<JButton> nameInputButtons = new ArrayList<>(4);
   ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
   ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
@@ -82,6 +75,9 @@ public class NetworkLobbyScreen extends JLayeredPane {
     selectModePopup();
   }
 
+  /**
+   * Initializes the Join Server or Connect to Server PopUp.
+   */
   private void selectModePopup() {
     selectModePopUp =
         new JPanel(null) {
@@ -393,8 +389,6 @@ public class NetworkLobbyScreen extends JLayeredPane {
       container.remove(i);
       container.add(button, i);
 
-      disabledPlayers.remove(i);
-
       JLabel label = labels.get(i + 1);
       label.setIcon(checkSelected);
       labels.remove(i + 1);
@@ -408,7 +402,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
 
   /** Enables the PlayButton if at least two players have been connected. */
   private void updatePlayButton() {
-    if (disabledPlayers.size() < MIN_REQUIRED_PLAYERS) {
+    if (controller.getPlayerNamesList().size() >= MIN_REQUIRED_PLAYERS) {
       playGameButton.setVisible(true);
       playGameButton.setEnabled(true);
       banner.setText("Ready to start the game now!");
@@ -487,10 +481,19 @@ public class NetworkLobbyScreen extends JLayeredPane {
     inputNickPopUp.setVisible(toggle);
   }
 
+  /**
+   * Used to toggle the visibility of the Join Server or Connect to server prompt
+   * @param toggle set visible or set invisible
+   */
   private void showSelectModePrompt(boolean toggle) {
     selectModePopUp.setVisible(toggle);
   }
 
+  /**
+   * Method to set a Containers child components invisible.
+   * @param parent the container, whose child components to setVisible or invisible
+   * @param toggle set visible or set invisible
+   */
   private void toggleAllChildPanelsVisible(Container parent, boolean toggle) {
     Component[] components = parent.getComponents();
 
@@ -535,8 +538,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
    * Used to stop indicating search for Server, and to prompt the user to retype the server IP in the text area.
    */
   public void couldNotConnectServerMsg() {
-    waitingForServerTimeOut = false;
-    enterServerIp.setText("Could not connect, please reenter");
+    enterServerIp.setText("No connection, please reenter");
   }
   public void illegalAddressEvent() {
     enterServerIp.setText("Invalid IP, please reenter");
@@ -553,12 +555,5 @@ public class NetworkLobbyScreen extends JLayeredPane {
     URL resource = getClass().getClassLoader().getResource(path);
     ImageIcon icon = new ImageIcon(Objects.requireNonNull(resource));
     return new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-  }
-
-  private enum Players {
-    PLAYER1,
-    PLAYER2,
-    PLAYER3,
-    PLAYER4
   }
 }

@@ -381,7 +381,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         if (networkLobbyScreen != null) {
           networkLobbyScreen.illegalAddressEvent();
         }
-        showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
       }
       case YouDisconnectedEvent.EVENT_NAME -> {
         showErrorMessage(
@@ -399,7 +398,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         if (networkLobbyScreen != null) {
           networkLobbyScreen.couldNotConnectServerMsg();
         }
-        showErrorMessage("A connection with the specified Server was not possible.");
       }
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
