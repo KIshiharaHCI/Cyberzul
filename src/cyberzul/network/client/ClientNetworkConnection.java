@@ -1,7 +1,6 @@
 package cyberzul.network.client;
 
 import cyberzul.network.client.messages.PlayerTextMessage;
-import cyberzul.network.server.Server;
 import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
@@ -35,7 +34,7 @@ public class ClientNetworkConnection {
   private Thread thread;
   private boolean isConnected = false;
   private int connectionAttempts = 0;
-  private static final int MAX_CONNECTION_ATTEMPTS = 4;
+  private static final int MAX_CONNECTION_ATTEMPTS = 1;
 
 
   //this class needs this reference to this mutable objects.
@@ -68,12 +67,12 @@ public class ClientNetworkConnection {
               continue;
             }
             else{
-              model.handleTooManyConnectionAttempts();
+              model.connectionWithServerNotPossible();
               break;
             }
           }
           if(connectException.getMessage().equals("Connection timed out: connect")){
-            model.handleTooManyConnectionAttempts();
+            model.connectionWithServerNotPossible();
             break;
           }
           else {
