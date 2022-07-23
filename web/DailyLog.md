@@ -1266,6 +1266,24 @@ Q3:
 
 - None
 
+_Xue_
+
+Q1:
+
+- Team Meeting:
+- Working on branch view_midSubmission
+- Started with class ranking board
+
+Q2:
+
+- Presentation
+- Team Meeting for further steps
+- Implementation of Details of ranking board
+
+Q3:
+
+- time and speed
+
 **5. July, 2022**
 
 _Nils_
@@ -1300,6 +1318,22 @@ Q3:
 
 - None.
 
+_Xue_
+Q1:
+
+- Presentation
+- Team Meeting for further steps
+- Implementation of Details of ranking board
+
+Q2:
+
+- Implementation of details in ranking board
+- Add necessary methods in GameBoard and AzulView
+
+Q3:
+
+- time and speed
+
 **6. July, 2022**
 
 _Nils_
@@ -1332,6 +1366,22 @@ Q2:
 Q3:
 
 - Logger cannot create files, does not work when I am not using the Default Configurator.
+
+_Xue_
+
+Q1:
+
+- Implementation of details in ranking board
+- Added necessary methods in GameBoard and AzulView
+
+Q2:
+
+- modification in class ranking board
+
+Q3:
+
+- time and speed
+
 
 **7. July, 2022**
 
@@ -1368,6 +1418,22 @@ Q2:
 Q3:
 
 - Logger
+
+_Xue_
+
+Q1:
+
+- Modification in class ranking board
+
+Q2:
+
+- Meet with Chris
+- Team meeting: client-server-architecture and further steps
+- Start with Chat in Network
+
+Q3:
+
+- time and speed
 
 **8. July, 2022**
 
@@ -1414,6 +1480,24 @@ Q3:
 
 - Logger
 
+_Xue_
+
+Q1:
+
+- Meet with Chris
+- Team meeting: client-server-architecture and further steps
+- Started with Chat in Network
+
+Q2:
+
+- Meet with Marco and Nils
+- Start with Json messages
+- Add messesary chat messages in network.client
+
+Q3:
+
+- time and speed
+
 **9. July, 2022**
 
 _Nils_
@@ -1453,6 +1537,24 @@ Q3:
 
 - Logger
 
+_Xue_
+
+Q1:
+
+- Meet with Marco and Nils
+- Started with Json messages
+- Added necessary chat messages in network.client
+
+Q2:
+
+- Meet with Kenji, Marco and Nils
+- Add necessary constructor and methods in ChatMessageHandler in network.server
+- Add switch case PLAYER_JOINED, PLAYER_LEFT, MESSAGE in method handleMessage in ClientNetworkConnection
+
+Q3:
+
+- time and speed
+
 **10. July, 2022**
 
 _Nils_
@@ -1491,6 +1593,23 @@ Q3:
 
 - Logger
 
+_Xue_
+
+Q1:
+
+- Meet with Kenji, Marco and Nils
+- Added necessary constructor and methods in ChatMessageHandler in network.server
+- Added switch case PLAYER_JOINED, PLAYER_LEFT, MESSAGE in method handleMessage in ClientNetworkConnection
+
+Q2:
+
+- Minor modification of method rankingPlayerWithPoints and its relate methods
+- Add switch case POST_MESSAGE and CHEAT_MESSAGE in method handleMessage in ClientMessageHandler
+
+Q3:
+
+- time and speed
+
 **11. July, 2022**
 
 _Nils_
@@ -1524,6 +1643,23 @@ Q2:
 Q3:
 
 - Logger
+
+_Xue_
+
+Q1:
+
+- Minor modification of method rankingPlayerWithPoints and its relate methods
+- Added switch case POST_MESSAGE and CHEAT_MESSAGE in method handleMessage in ClientMessageHandler
+
+Q2:
+
+- Meeting with Chris
+- Team-Meeting
+
+Q3:
+
+- Time and speed
+
 
 **12. Juli, 2022**
 
@@ -1576,6 +1712,22 @@ Q3:
 
 - merging the main with my networkBranch makes my project disappear. Maybe thats because main gets built with maven now.
 
+_Xue_
+
+Q1:
+
+Meeting with Chris
+Team-Meeting to talk about next steps
+
+Q2:
+
+meeting with team
+try to let chat integrate into network without view
+
+Q3:
+
+Time and speed
+
 **13. Juli, 2022**
 
 _Nils_
@@ -1606,6 +1758,21 @@ Q2:
 Q3:
 
 - https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
+
+_Xue_
+
+Q1:
+
+Meeting with team
+Tried to let chat integrate into network without view
+
+Q2:
+
+Work on chat integration into network without view
+
+Q3:
+
+Time and speed
 
 **14. Juli, 2022**
 
@@ -1645,6 +1812,21 @@ Q2:
 Q3:
 
 - https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
+
+_Xue_
+
+Q1:
+
+Worked on chat integration into network without view
+
+Q2:
+
+Go on with chat integration into network without view
+
+Q3:
+
+Time , speed and merge conflict
+
 
 **15. Juli, 2022**
 
@@ -1686,6 +1868,23 @@ Q2:
 Q3:
 
 - https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
+
+_Xue_
+
+Q1:
+
+Worked on chat integration into network without view
+
+Q2:
+
+Meet with Chris
+Team Meeting for next steps
+Go on with chat integration into network without view
+Try to let chat work with view
+
+Q3:
+
+Time , speed and merge conflict
 
 **16. July 2022**
 
@@ -1736,6 +1935,25 @@ Q3:
 
 - https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
 
+_Xue_
+
+Q1:
+
+Meet with Chris
+Team Meeting for next steps
+Go on with chat integration into network without view
+Tried to let chat work with view
+
+Q2:
+
+Meet with Nils to fix bugs in chat
+Try to let chat work with view
+Chat works
+
+Q3:
+
+Time , speed and merge conflict
+
 *17.07.2022*
 
 _Nils_
@@ -1755,9 +1973,61 @@ Q1:
 
 Q2:
 
+
+_Xue_
+
+Q1:
+
+Tried to let chat work with view
+Chat works
+
+Q2:
+
+Fix Bugs in chat
+Refine the functionality of chat and refactor the codes
+
+Q3:
+
+Time , speed and merge conflict
+
 *18.07.2022*
 
+_Xue_
+
+Q1:
+
+Fixed Bug in chat
+Refined the functionality of chat
+
+Q2:
+
+Meet with Chris
+Team Meeting
+Refine the functionality of chat
+Refactor the codes
+
+Q3:
+
+Time , speed and merge conflict
+
+
 *19.07.2022*
+
+_Xue_
+
+Q1:
+
+Refined the functionality of chat
+
+Q2:
+
+Refine the functionality of chat
+Try to let cheat message in chat works
+
+Q3:
+
+Time , speed and merge conflict
+
 
 *20.07.2022*
 
@@ -1768,7 +2038,41 @@ Q2:
 - make it possible to create a server on demand and get the IP address as hexString
 - make it possible to connect with that server as client by using this hexString that encodes the IPv4 address
 
+
+
+_Xue_
+
+Q1:
+
+Refine the functionality of chat
+Tried to let cheat message in chat works
+
+Q2:
+
+Work on cheat message in chat
+
+Q3:
+
+Time , speed and merge conflict
+
 *21.07.2022*
+
+_Xue_
+
+Q1:
+
+Worked on cheat message in chat
+
+Q2:
+
+Meet with Chirs
+Team Meeting
+Cheat message works partially in chat
+Merge chat in main and fix merge conflicts
+
+Q3:
+
+Time , speed and merge conflict
 
 *22.07.2022*
 
@@ -1799,6 +2103,25 @@ Q2:
 Q3:
 
 - none
+
+_Xue_
+
+Q1:
+
+Meet with Chirs
+Team Meeting
+Cheat message worked partially in chat
+Merged chat in main and fixed merge conflicts
+
+Q2:
+
+Fix merge conflicts problem
+Fix checkstyle problems
+Fix spotbugs problems
+
+Q3:
+
+Time , speed and merge conflict
 
 **23.07.2022**
 
