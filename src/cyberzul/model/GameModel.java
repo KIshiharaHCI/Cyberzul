@@ -85,7 +85,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
       isGameStarted = true;
       notifyListeners(new GameStartedEvent());
     }
-    startTimerForPlayer(getNickOfActivePlayer());
+    if (getBulletMode()) {
+      LOGGER.info("Timer was set in startGame-Method.");
+      startTimerForPlayer(getNickOfActivePlayer());
+    }
   }
 
   @Override
@@ -114,7 +117,9 @@ public class GameModel extends CommonModel implements ModelStrategy {
     if (getPlayerByName(getNickOfActivePlayer()).isAiPlayer()) {
       makeAiPlayerMakeMove(getNickOfActivePlayer());
     } else {
-      startTimerForPlayer(getNickOfActivePlayer());
+      if (getBulletMode()) {
+        startTimerForPlayer(getNickOfActivePlayer());
+      }
     }
   }
 
@@ -146,8 +151,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
   }
 
   private void endTurn() {
-    timer.cancel();
-    LOGGER.info("Timer was cancelled.");
+    if (getBulletMode()) {
+      timer.cancel();
+      LOGGER.info("Timer was cancelled.");
+    }
     String nameOfPlayerWhoEndedHisTurn = getNickOfActivePlayer();
     boolean roundFinished = checkRoundFinished();
     indexOfActivePlayer = getIndexOfNextPlayer();
@@ -165,7 +172,9 @@ public class GameModel extends CommonModel implements ModelStrategy {
     NextPlayersTurnEvent nextPlayersTurnEvent =
         new NextPlayersTurnEvent(getNickOfActivePlayer(), nameOfPlayerWhoEndedHisTurn);
     notifyListeners(nextPlayersTurnEvent);
-    startTimerForPlayer(getNickOfActivePlayer());
+    if (getBulletMode()) {
+      startTimerForPlayer(getNickOfActivePlayer());
+    }
 
     LOGGER.info(
         playerList.get(indexOfActivePlayer).getName()
