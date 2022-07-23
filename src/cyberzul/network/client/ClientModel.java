@@ -70,6 +70,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   private ClientNetworkConnection connection;
   private String thisPlayersName;
 
+  private boolean isBulletMode = false;
+
 
   /**
    * Create a ClientModel and start a connection with the server.
@@ -648,5 +650,12 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
   public void youConnectedToTheServer() {
     notifyListeners(new YouConnectedEvent());
+  }
+
+  //TODO: Discuss with Nils --> is this ok here - we will never use it here.
+  // Can I set it to be a function of the interface but only for GameModel Strategy?
+  @Override
+  public void setBulletMode(boolean bulletMode) {
+    isBulletMode = bulletMode;
   }
 }
