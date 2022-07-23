@@ -1,11 +1,15 @@
 package cyberzul.view.board;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 import cyberzul.controller.Controller;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.Serial;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +20,7 @@ import javax.swing.JPanel;
  */
 public abstract class PlayerBoard extends JPanel {
 
+  @Serial
   private static final long serialVersionUID = 7526472295622776147L;
   protected final transient Controller controller;
   private final transient TileClickListener tileClickListener;
@@ -31,6 +36,7 @@ public abstract class PlayerBoard extends JPanel {
   private int points;
   private int minusPoints = 0;
   private FloorLinePanel floorLinePanel;
+  private JLabel nameLabel;
 
   /**
    * The constructor to create a playerboard for a given player.
@@ -59,7 +65,7 @@ public abstract class PlayerBoard extends JPanel {
 
     initializeClassVariables();
 
-    addPointsAndPlayerNameElements();
+    addPlayerNamePanel();
     addMinusPointsElements();
   }
 
@@ -120,24 +126,30 @@ public abstract class PlayerBoard extends JPanel {
   }
 
   // TODO: Change font, color, set at correct position within background image.
-  private void addPointsAndPlayerNameElements() {
-    north = createNorthernPart("Points: ", points);
+  private void addPlayerNamePanel() {
+    JPanel north = new JPanel();
+    north.setLayout(new GridLayout(1, 1));
     north.setOpaque(false);
-    north.add(new JLabel("Name: " + playerName));
+    createNameLabel();
+    north.add(nameLabel);
     playerBoardWrapper.add(north, BorderLayout.NORTH);
+  }
+
+  void createNameLabel() {
+    nameLabel = new JLabel(playerName);
+    nameLabel.setVerticalAlignment(JLabel.BOTTOM);
+    nameLabel.setFont(getCustomFont().deriveFont(16f));
+    nameLabel.setForeground(Color.white);
+  }
+
+  public JLabel getNameLabel() {
+    return nameLabel;
   }
 
   private void addMinusPointsElements() {
     floorLinePanel =
         new FloorLinePanel(playerName, controller, tileClickListener, minusPoints, tileSize);
     playerBoardWrapper.add(floorLinePanel, BorderLayout.SOUTH);
-  }
-
-  private JPanel createNorthernPart(String x, int minusPoints) {
-    JPanel north = new JPanel();
-    north.setLayout(new GridLayout(1, 1));
-    north.add(new JLabel("   " + x + minusPoints));
-    return north;
   }
 
   @SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP"})

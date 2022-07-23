@@ -25,8 +25,7 @@ import javax.swing.JSlider;
  */
 public class GameBoard extends JPanel {
 
-  @Serial
-  private static final long serialVersionUID = 7526472295622776147L;
+  @Serial private static final long serialVersionUID = 7526472295622776147L;
   private static final String soundButtonPath = "img/sound-button.png";
   private static final String menuButtonPath = "img/settings-button.png";
   private static final int iconButtonSize = 40;
@@ -56,8 +55,8 @@ public class GameBoard extends JPanel {
    * Creates the main game panel which contains all other game elements.
    *
    * @param tileClickListener the tile click listener
-   * @param controller        the controller
-   * @param frameDimension    1400 x 800 px
+   * @param controller the controller
+   * @param frameDimension 1400 x 800 px
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
@@ -83,9 +82,7 @@ public class GameBoard extends JPanel {
     this.musicPlayerHelper = musicPlayerHelper;
   }
 
-  /**
-   * Creates all of the sidebar widgets and instantiates Chat, Settings and Ranking Board.
-   */
+  /** Creates all of the sidebar widgets and instantiates Chat, Settings and Ranking Board. */
   private void createChatAndRankingBoardAndSettingPanel() {
 
     // create the Panel with RankingBoard, SettingBoard and Chat.
@@ -178,9 +175,7 @@ public class GameBoard extends JPanel {
     return timer;
   }
 
-  /**
-   * Initialise all buttons for settingPanel.
-   */
+  /** Initialise all buttons for settingPanel. */
   private void initializeSettingWidgets() {
 
     soundButton =
@@ -274,9 +269,7 @@ public class GameBoard extends JPanel {
     label.setText(text);
   }
 
-  /**
-   * adds the menu with default visibility set to false.
-   */
+  /** adds the menu with default visibility set to false. */
   private void createSettingsPanel() {
     initializeSettingWidgets();
     settingsPanel = new JPanel(new BorderLayout());
@@ -292,9 +285,7 @@ public class GameBoard extends JPanel {
     settingsPanel.add(roundButtonsPanel, BorderLayout.EAST);
   }
 
-  /**
-   * Creates the sidebar with the panels of the opponents.
-   */
+  /** Creates the sidebar with the panels of the opponents. */
   private void createOpponentsPanel() {
     otherPlayerBoards = new ArrayList<>();
     boardsOfOpponentsPanel = new JPanel();
@@ -318,9 +309,7 @@ public class GameBoard extends JPanel {
     add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
 
-  /**
-   * Used by view to update all widgets in Center Board.
-   */
+  /** Used by view to update all widgets in Center Board. */
   public void updateCenterBoard() {
     center.updateCenterBoard();
     validate();

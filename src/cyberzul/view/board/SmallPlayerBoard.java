@@ -1,5 +1,7 @@
 package cyberzul.view.board;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 import cyberzul.controller.Controller;
 import cyberzul.view.listeners.TileClickListener;
 import java.awt.Dimension;
@@ -10,22 +12,20 @@ import java.io.Serial;
 import java.net.URL;
 import java.util.Objects;
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- * A SmallPlayerBoard used for displaying opponent Players.
- */
+/** A SmallPlayerBoard used for displaying opponent Players. */
 public class SmallPlayerBoard extends PlayerBoard {
-  @Serial
-  private static final long serialVersionUID = 14L;
+  @Serial private static final long serialVersionUID = 14L;
   private transient BufferedImage image;
 
   /**
    * The constructor to create a playerboard for a given player.
    *
-   * @param controller        the controller.
+   * @param controller the controller.
    * @param tileClickListener the tile click listener.
-   * @param playerName        the name of the player of this small board.
+   * @param playerName the name of the player of this small board.
    */
   public SmallPlayerBoard(
       Controller controller,
@@ -66,5 +66,11 @@ public class SmallPlayerBoard extends PlayerBoard {
     panelDimension = new Dimension(280, 200);
     setMaximumSize(panelDimension);
     setMinimumSize(panelDimension);
+  }
+
+  @Override
+  void createNameLabel() {
+    super.createNameLabel();
+    super.getNameLabel().setFont(getCustomFont().deriveFont(10f));
   }
 }
