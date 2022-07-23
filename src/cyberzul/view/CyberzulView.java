@@ -212,23 +212,23 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
 
     hotSeatModeButton.addActionListener(event -> {
       //the model should behave like a game model
-      controller.setMode(CommonModel.HOT_SEAT_MODE);
       model.setGameModelStrategy();
+      controller.setMode(CommonModel.HOT_SEAT_MODE);
+      LOGGER.info("Mode was set to: " + controller.getMode());
       createHotSeatModeCard();
       showHsmCard();
     });
     networkButton.addActionListener(event -> {
       //the model should behave like a client model
-      controller.setMode(CommonModel.NETWORK_MODE);
       //TODO: ONLY TESTING. THE NEXT TO LINES CAN BE DELETED.
       createNetworkModeCard();
       showNetworkCard();
     });
     singlePlayerModeButton.addActionListener(event -> {
-      controller.setMode(CommonModel.SINGLE_PLAYER_MODE);
       //TODO - when play button is clicked on single player card --> first login user, then
       // use method single player mode --> probably via controller
       model.setGameModelStrategy();
+      controller.setMode(CommonModel.SINGLE_PLAYER_MODE);
       createSinglePlayerModeCard();
       showSinglePlayerCard();
     });
@@ -275,6 +275,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     createServerButton.addActionListener(event -> {
       String ipAddress = Server.start();
       model.setClientModelStrategy(ipAddress);
+      controller.setMode(CommonModel.NETWORK_MODE);
       JOptionPane.showMessageDialog(null, "IP Address of the cyber "
           + "server: " + ipAddress, "IP Address", 1);
     });
@@ -283,6 +284,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       String ipAddress = JOptionPane.showInputDialog(
           "Please enter the IP Address of the cyber server you want to join.");
       model.setClientModelStrategy(ipAddress);
+      controller.setMode(CommonModel.NETWORK_MODE);
     });
 
 
