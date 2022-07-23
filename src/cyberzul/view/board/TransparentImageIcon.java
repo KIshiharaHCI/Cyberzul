@@ -1,13 +1,9 @@
 package cyberzul.view.board;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.AlphaComposite;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * An Icon Wrapper class that paints the contained icon with a specified transparency.
@@ -81,7 +77,7 @@ public class TransparentImageIcon extends ImageIcon {
   }
 
   /**
-   * Gets the width of the bounding of this TransparentImageIcon. Overridden to return the width of
+   * Gets the width of the image. Overridden to return the width of
    * the wrapped icon.
    *
    * @return the width in pixels
@@ -92,7 +88,7 @@ public class TransparentImageIcon extends ImageIcon {
   }
 
   /**
-   * Gets the height of the bounding of this TransparentImageIcon. Overridden to return the height
+   * Gets the height of the image. Overridden to return the height
    * of the wrapped icon.
    *
    * @return the height in pixels
