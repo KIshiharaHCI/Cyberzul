@@ -7,13 +7,10 @@ import cyberzul.model.CommonModel;
 import cyberzul.model.Model;
 import cyberzul.network.server.Server;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -22,19 +19,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import java.util.Timer;
+import java.util.*;
 
 
 
@@ -49,6 +36,8 @@ public class NetworkLobbyScreen extends JLayeredPane {
           Arrays.asList(Players.PLAYER1, Players.PLAYER2, Players.PLAYER3, Players.PLAYER4));
   private final transient Controller controller;
   private final transient Model model;
+  private Timer timer;
+  private boolean waitingForServerTimeOut = true;
   private final transient List<JLabel> labels = new ArrayList<>();
   private final Players lastLoggedInPlayer = Players.PLAYER1;
   transient List<JButton> nameInputButtons = new ArrayList<>(4);
@@ -205,6 +194,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
 
             String ipAddress = ipInputField.getText();
             model.setClientModelStrategy(ipAddress);
+            enterServerIp.setText("Waiting for server connection ...");
             controller.setMode(CommonModel.NETWORK_MODE);
 
             ipInputField.setText(null);
@@ -541,6 +531,18 @@ public class NetworkLobbyScreen extends JLayeredPane {
     bulletButton.setIcon(toggle ? checkSelected : checkUnselected);
   }
 
+  /**
+   * Used to stop indicating search for Server, and to prompt the user to retype the server IP in the text area.
+   */
+  public void couldNotConnectServerMsg() {
+    waitingForServerTimeOut = false;
+    timer.cancel();
+    enterServerIp.setText("Could not connect, please reenter");
+  }
+  public void illegalAddressEvent() {
+    timer.cancel();
+    enterServerIp.setText("Invalid IP, please reenter");
+  }
   /**
    * Loads all image assets used by this class.
    *
