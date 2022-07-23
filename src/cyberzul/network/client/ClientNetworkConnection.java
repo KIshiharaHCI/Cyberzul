@@ -98,6 +98,7 @@ public class ClientNetworkConnection {
             new InputStreamReader(this.socket.getInputStream(), StandardCharsets.UTF_8));
   }
 
+  @SuppressFBWarnings("IS2_INCONSISTENT_SYNC")
   private void doInputLoop() {
     while (!Thread.currentThread().isInterrupted()) {
       try {
