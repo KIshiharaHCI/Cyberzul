@@ -93,7 +93,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   //TODO: @Kenji feel free to change this. I needed it.
   private JButton joinServerButton;
   private JButton createServerButton;
-  private BufferedImage gameOverImage;
+  private transient BufferedImage gameOverImage;
 
   /**
    * Create the Graphical User Interface of Azul.
