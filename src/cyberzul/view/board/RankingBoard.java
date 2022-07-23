@@ -53,7 +53,7 @@ public class RankingBoard extends JPanel {
 
     for (String player : playerNamesList) {
       JLabel label = new JLabel();
-      label.setFont(getCustomFont().deriveFont(18f));
+      label.setFont(getCustomFont().deriveFont(12f));
       label.setForeground(Color.white);
       label.setHorizontalAlignment(JLabel.CENTER);
       label.setText(player + ": " + controller.getPoints(player));

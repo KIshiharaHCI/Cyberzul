@@ -15,6 +15,8 @@ import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -96,18 +98,7 @@ public class GameBoard extends JPanel {
   private void createChatAndRankingBoardAndSettingPanel() {
 
     // create the Panel with RankingBoard, SettingBoard and Chat.
-    JPanel chatAndRankingBoardAndSettingPanel = new JPanel();
-    chatAndRankingBoardAndSettingPanel.setLayout(new BorderLayout());
-    chatAndRankingBoardAndSettingPanel.setOpaque(false);
-    Dimension chatAndRankingBoardAndButtonsPanelDimension =
-        new Dimension((int) (frameDimension.width * 0.26), (int) (frameDimension.height * 0.8));
-    chatAndRankingBoardAndSettingPanel.setMinimumSize(chatAndRankingBoardAndButtonsPanelDimension);
-    chatAndRankingBoardAndSettingPanel.setMaximumSize(chatAndRankingBoardAndButtonsPanelDimension);
-    chatAndRankingBoardAndSettingPanel.setPreferredSize(
-        chatAndRankingBoardAndButtonsPanelDimension);
-    chatAndRankingBoardAndSettingPanel.revalidate();
-
-    add(chatAndRankingBoardAndSettingPanel, BorderLayout.EAST);
+    JPanel chatAndRankingBoardAndSettingPanel = createEastPanel();
 
     // create the Panel with RankingBoard and SettingBoard.
     JPanel rankingBoardAndSettingPanel = new JPanel();
@@ -119,7 +110,6 @@ public class GameBoard extends JPanel {
     rankingBoardPanel.add(rankingBoard);
     rankingBoardAndSettingPanel.add(rankingBoard);
     createSettingsPanel();
-    rankingBoardAndSettingPanel.add(settingsPanel);
     rankingBoardAndSettingPanel.add(settingsPanel);
 
     chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
@@ -145,10 +135,28 @@ public class GameBoard extends JPanel {
     chatAndRankingBoardAndSettingPanel.add(timerLabel, BorderLayout.CENTER);
 
     ChatPanel chatPanel = new ChatPanel(controller);
-    chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
+    JPanel wrapperForChat = new JPanel();
+    wrapperForChat.setLayout(new BoxLayout(wrapperForChat, BoxLayout.Y_AXIS));
+    wrapperForChat.add(chatPanel);
+    wrapperForChat.setOpaque(false);
+    wrapperForChat.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
+    chatAndRankingBoardAndSettingPanel.add(wrapperForChat, BorderLayout.SOUTH);
+  }
 
-    System.out.println(chatAndRankingBoardAndButtonsPanelDimension.getSize());
-    System.out.println(frameDimension.getSize());
+  private JPanel createEastPanel() {
+    JPanel chatAndRankingBoardAndSettingPanel = new JPanel();
+    chatAndRankingBoardAndSettingPanel.setLayout(new BorderLayout());
+    chatAndRankingBoardAndSettingPanel.setOpaque(false);
+    Dimension chatAndRankingBoardAndButtonsPanelDimension =
+        new Dimension((int) (frameDimension.width * 0.26), (int) (frameDimension.height * 0.8));
+    chatAndRankingBoardAndSettingPanel.setMinimumSize(chatAndRankingBoardAndButtonsPanelDimension);
+    chatAndRankingBoardAndSettingPanel.setMaximumSize(chatAndRankingBoardAndButtonsPanelDimension);
+    chatAndRankingBoardAndSettingPanel.setPreferredSize(
+        chatAndRankingBoardAndButtonsPanelDimension);
+    chatAndRankingBoardAndSettingPanel.revalidate();
+
+    add(chatAndRankingBoardAndSettingPanel, BorderLayout.EAST);
+    return chatAndRankingBoardAndSettingPanel;
   }
 
   private Font getTimerFont() {
@@ -192,11 +200,18 @@ public class GameBoard extends JPanel {
         new IconButton(
             soundButtonPath, 10, 80, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
     soundButton.addActionListener(
-        e -> this.musicPlayerHelper.turnMusicOnOff(this.musicPlayerHelper.isPlayMusicOn()));
+        e -> {
+          this.musicPlayerHelper.turnMusicOnOff(this.musicPlayerHelper.isPlayMusicOn());
+          if (soundButton.getOpacity() == 1f) {
+            this.soundButton.setOpacity(0.5f);
+          } else {
+            this.soundButton.setOpacity(1f);
+          }
+        });
 
     settingsButton =
         new IconButton(
-            menuButtonPath, 10, 20, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
+            menuButtonPath, 10, 10, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
 
     settingsButton.addActionListener(ae -> menu.setVisible(!menu.isVisible()));
 
@@ -286,11 +301,13 @@ public class GameBoard extends JPanel {
     settingsPanel.setOpaque(false);
     createMenuPanel();
     menu.setVisible(false);
-    JPanel roundButtonsPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+    JPanel roundButtonsPanel = new JPanel(null);
+    // (new GridLayout(2, 1, 5, 5));
+    // roundButtonsPanel.setLayout(null);
     roundButtonsPanel.setPreferredSize(new Dimension(60, 260));
     roundButtonsPanel.setOpaque(false);
-    roundButtonsPanel.add(soundButton);
     roundButtonsPanel.add(settingsButton);
+    roundButtonsPanel.add(soundButton);
     settingsPanel.add(menu, BorderLayout.CENTER);
     settingsPanel.add(roundButtonsPanel, BorderLayout.EAST);
   }
