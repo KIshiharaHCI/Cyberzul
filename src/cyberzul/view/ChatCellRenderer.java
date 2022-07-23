@@ -28,8 +28,8 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
    */
   public ChatCellRenderer() {
     super();
-    this.setLineWrap(true);
-    this.setWrapStyleWord(true);
+    setLineWrap(true);
+    setWrapStyleWord(true);
     setOpaque(true);
     dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
   }
@@ -42,8 +42,6 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
 
     setBackground(list.getBackground());
     setForeground(list.getForeground());
-
-    setWrapStyleWord(true);
 
     if (value instanceof PlayerLoggedInMessage playerLoggedInMsg) {
       setText("Chat joined as " + playerLoggedInMsg.getNickname() + ".");
