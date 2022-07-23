@@ -227,7 +227,6 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_FORFEITED);
       message.put(JsonMessage.NICK_FIELD, nameOfThePlayerWhoForfeited);
 
-      connection.removeHandlerFromList(nameOfThePlayerWhoForfeited);
       connection.broadcastToAll(message);
 
     } catch (JSONException | IOException e) {

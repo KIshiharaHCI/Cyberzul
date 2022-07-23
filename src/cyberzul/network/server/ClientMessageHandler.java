@@ -172,8 +172,8 @@ public class ClientMessageHandler implements Runnable {
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
       case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine();
       case REPLACE_PLAYER_BY_AI -> {
-        setNickname("AI-" + nickname);
         controller.replacePlayerByAi(nickname);
+        serverConnection.removeHandlerFromList(nickname);
       }
       case RESTART_GAME -> controller.restartGame();
       case CANCEL_GAME -> controller.cancelGameForAllPlayers();
