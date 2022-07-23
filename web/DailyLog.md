@@ -1799,3 +1799,11 @@ Q2:
 Q3:
 
 - none
+
+**23.07.2022**
+
+_Nils_
+
+Q2:
+- make the program terminate if every window is closed
+- 

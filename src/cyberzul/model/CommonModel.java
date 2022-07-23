@@ -2,10 +2,12 @@ package cyberzul.model;
 
 import static java.util.Objects.requireNonNull;
 
+import cyberzul.model.events.BulletModeChangedEvent;
 import cyberzul.model.events.GameEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerDoesNotExistEvent;
 import cyberzul.network.client.messages.PlayerTextMessage;
+import cyberzul.network.shared.JsonMessage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Contains methods and fields that are common within Model classes.
@@ -26,6 +30,14 @@ public abstract class CommonModel implements ModelStrategy {
   protected ArrayList<Player> playerList = new ArrayList<>();
   protected ArrayList<Offering> offerings;
   protected boolean isGameStarted = false;
+
+  protected boolean isBulletMode;
+
+
+  public static final int SINGLE_PLAYER_MODE = 1;
+  public static final int HOT_SEAT_MODE = 2;
+  public static final int NETWORK_MODE = 3;
+  private int mode;
 
   public CommonModel(List<PropertyChangeListener> listenerList) {
     support = new PropertyChangeSupport(this);
@@ -302,4 +314,17 @@ public abstract class CommonModel implements ModelStrategy {
     notifyListeners(new PlayerAddedMessageEvent(playerTextMessage));
   }
 
+  public boolean getBulletMode() {
+    return isBulletMode;
+  }
+
+  @Override
+  public void setMode(int mode) {
+    this.mode = mode;
+  }
+
+  @Override
+  public int getMode() {
+    return mode;
+  }
 }

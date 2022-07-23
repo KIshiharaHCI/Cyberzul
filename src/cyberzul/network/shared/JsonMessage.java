@@ -36,7 +36,8 @@ public enum JsonMessage {
   NOTIFY_TILE_CHOSEN("notify tile chosen"),
   PLACE_TILE_IN_PATTERN_LINE("place tile in pattern line"),
   PLACE_TILE_IN_FLOOR_LINE("place tile in floor line"),
-  REPLACE_PLAYER_BY_AI("replace player by ai"),
+  REPLACE_THIS_PLAYER_BY_AI("replace player by ai"),
+  BULLET_MODE("bullet mode"),
 
   // messages from the server to the client
   CONNECTED("connected"),
@@ -51,7 +52,8 @@ public enum JsonMessage {
   GAME_FINISHED("game finished"),
   GAME_FORFEITED("game forfeited"),
   GAME_CANCELED("game canceled"),
-  PLAYER_FORFEITED("player forfeited"),
+  PLAYER_LEFT_BEFORE_GAME_STARTED("player forfeited"),
+  PLAYER_HAS_5_TILES_IN_A_ROW("player has 5 tiles in a row"),
   JSON_MESSAGE_NOT_PROCESSABLE("json message not processable");
 
   public static final String TYPE_FIELD = "type";
@@ -93,6 +95,8 @@ public enum JsonMessage {
   public static final String WALL_FIELD = "wall";
 
   public static final String PLAYER_FIELD = "player";
+
+  public static final String IS_BULLET_MODE_FIELD = "is bullet mode";
 
   private final String jsonName;
 
@@ -433,7 +437,7 @@ public enum JsonMessage {
    */
   public static JSONObject userLeft(String nickname) {
     try {
-      return createMessageOfType(PLAYER_FORFEITED).put(NICK_FIELD, nickname);
+      return createMessageOfType(PLAYER_LEFT_BEFORE_GAME_STARTED).put(NICK_FIELD, nickname);
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }

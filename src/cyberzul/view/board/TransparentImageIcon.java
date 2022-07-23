@@ -1,13 +1,15 @@
 package cyberzul.view.board;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.awt.AlphaComposite;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
-import javax.swing.*;
-import java.awt.*;
-
-/**
- * An Icon Wrapper class that paints the contained icon with a specified transparency.
- */
+/** Redraws a given Icon with specified transparency and returns it. */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
@@ -23,6 +25,12 @@ public class TransparentImageIcon extends ImageIcon {
   private final float opacity;
   private transient Image image;
 
+  /**
+   * Saves icon and specified transparency as class variable for paint method to call.
+   *
+   * @param icon image object as ImageIcon
+   * @param opacity specified opacity as float between 0 and 1
+   */
   public TransparentImageIcon(ImageIcon icon, float opacity) {
     this.icon = icon;
     this.opacity = opacity;
@@ -42,9 +50,6 @@ public class TransparentImageIcon extends ImageIcon {
   /**
    * Overridden to forward to a wrapped ImageIcon. Does nothing if the wrapped icon is not an
    * ImageIcon.
-   *
-   * <p>In common with <code>ImageIcom</code>, the newly set image will only be shown when the
-   * concerned component(s) are repainted.
    *
    * @param image Sets the image displayed by a wrapped ImageIcon
    */
@@ -77,8 +82,7 @@ public class TransparentImageIcon extends ImageIcon {
   }
 
   /**
-   * Gets the width of the image. Overridden to return the width of
-   * the wrapped icon.
+   * Gets the width of the image. Overridden to return the width of the wrapped icon.
    *
    * @return the width in pixels
    */
@@ -88,8 +92,7 @@ public class TransparentImageIcon extends ImageIcon {
   }
 
   /**
-   * Gets the height of the image. Overridden to return the height
-   * of the wrapped icon.
+   * Gets the height of the image. Overridden to return the height of the wrapped icon.
    *
    * @return the height in pixels
    */

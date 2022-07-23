@@ -319,8 +319,6 @@ public class GameBoard extends JPanel {
     createMenuPanel();
     menu.setVisible(false);
     JPanel roundButtonsPanel = new JPanel(null);
-    // (new GridLayout(2, 1, 5, 5));
-    // roundButtonsPanel.setLayout(null);
     roundButtonsPanel.setPreferredSize(new Dimension(60, 260));
     roundButtonsPanel.setOpaque(false);
     roundButtonsPanel.add(settingsButton);

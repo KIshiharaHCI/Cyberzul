@@ -42,6 +42,7 @@ public class ClientMessageHandler implements Runnable {
   private final Controller controller;
   private final Model model;
   private String nickname;
+  private boolean replacedByAi = false;
 
 
   /**
@@ -98,9 +99,11 @@ public class ClientMessageHandler implements Runnable {
       }
     } catch (SocketException socketException) {
       //if a player leaves the game by closing the window, he gets replaced by an AI
-      if (socketException.getMessage().equals("Connection reset") && controller.isGameStarted()) {
+      if (socketException.getMessage().equals("Connection reset")) {
         if (controller.isGameStarted()) {
-          controller.replacePlayerByAi(nickname);
+          if (!replacedByAi) {
+            controller.replacePlayerByAi(nickname);
+          }
         } else {
           broadcastThatThisClientDisconnected();
         }
@@ -120,7 +123,8 @@ public class ClientMessageHandler implements Runnable {
    */
   private void broadcastThatThisClientDisconnected() {
     try {
-      JSONObject message = JsonMessage.createMessageOfType(JsonMessage.PLAYER_FORFEITED);
+      JSONObject message =
+          JsonMessage.createMessageOfType(JsonMessage.PLAYER_LEFT_BEFORE_GAME_STARTED);
       message.put(JsonMessage.NICK_FIELD, nickname);
       serverConnection.broadcast(this, message);
     } catch (JSONException | IOException e) {
@@ -171,11 +175,10 @@ public class ClientMessageHandler implements Runnable {
       case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
       case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine();
-      case REPLACE_PLAYER_BY_AI -> {
-        controller.replacePlayerByAi(nickname);
-      }
+      case REPLACE_THIS_PLAYER_BY_AI -> handleReplaceThisPlayerByAi();
       case RESTART_GAME -> controller.restartGame();
       case CANCEL_GAME -> controller.cancelGameForAllPlayers();
+      case BULLET_MODE -> handleSetBulletMode(object);
       default -> {
         numberOfDodgyMessages++;
         if (numberOfDodgyMessages <= MAX_NUMBER_OF_DODGY_JSON_MESSAGES) {
@@ -184,6 +187,19 @@ public class ClientMessageHandler implements Runnable {
           this.close();
         }
       }
+    }
+  }
+
+  /**
+   * Tell the controller if the bullet mode should be true or false.
+   *
+   * @param object the message sent of the client to the server.
+   */
+  private void handleSetBulletMode(JSONObject object) {
+    try {
+      controller.setBulletMode(object.getBoolean(JsonMessage.IS_BULLET_MODE_FIELD));
+    } catch (JSONException e) {
+      e.printStackTrace();
     }
   }
 
@@ -229,6 +245,15 @@ public class ClientMessageHandler implements Runnable {
     } catch (JSONException jsonException) {
       throw new IllegalArgumentException("Failed to read a json object.", jsonException);
     }
+  }
+
+  /**
+   * Replace this player by the AI.
+   */
+  private void handleReplaceThisPlayerByAi() {
+    controller.replacePlayerByAi(nickname);
+    replacedByAi = true;
+    serverConnection.removeHandlerFromList(nickname);
   }
 
   /**

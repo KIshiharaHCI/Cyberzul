@@ -8,6 +8,7 @@ import cyberzul.model.ModelStrategy;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
+import cyberzul.model.events.BulletModeChangedEvent;
 import cyberzul.model.events.ChatMessageRemovedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
 import cyberzul.model.events.GameCanceledEvent;
@@ -24,11 +25,11 @@ import cyberzul.model.events.NoValidTurnToMakeEvent;
 import cyberzul.model.events.NotYourTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerDisconnectedEvent;
+import cyberzul.model.events.PlayerHas5TilesInArowEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.RoundFinishedEvent;
 import cyberzul.model.events.UserJoinedEvent;
-import cyberzul.model.events.YouConnectedEvent;
 import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerForfeitedMessage;
@@ -70,7 +71,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   private ClientNetworkConnection connection;
   private String thisPlayersName;
 
-
   /**
    * Create a ClientModel and start a connection with the server.
    *
@@ -103,7 +103,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
   @Override
   public void replacePlayerByAi(String playerName) {
-    connection.send(JsonMessage.REPLACE_PLAYER_BY_AI);
+    connection.send(JsonMessage.REPLACE_THIS_PLAYER_BY_AI);
   }
 
   @Override
@@ -122,8 +122,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   @Override
-  public void startSinglePlayerMode(int numberOfPlayers) {
-    //TODO @Nils implement body
+  public void startSinglePlayerMode(int numberOfPlayers) { /*this method is
+  only needed in GameModel */
   }
 
   private synchronized ClientNetworkConnection getConnection() {
@@ -229,7 +229,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
       e.printStackTrace();
     }
     this.isGameStarted = true;
-    notifyListeners(new GameStartedEvent());
+    notifyListeners(new GameStartedEvent(playerList.get(0).getName()));
   }
 
   /**
@@ -546,11 +546,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
-   * Inform the listeners that this player forfeited the game (or left the game before it ended).
+   * Inform the listeners that this player left the game before it ended.
    *
    * @param nickname The name of the player who left the game.
    */
-  public void playerForfeited(final String nickname) {
+  public void playerLeftBeforeGameStarted(final String nickname) {
     addChatEntry(new PlayerForfeitedMessage(nickname));
     notifyListeners(new GameForfeitedEvent(nickname));
   }
@@ -626,6 +626,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * @param playerWhoForfeitedTheGame the name of the player who forfeited the game.
    */
   public void handleGameForfeited(String playerWhoForfeitedTheGame) {
+    getPlayerByName(playerWhoForfeitedTheGame).setName("AI-" + playerWhoForfeitedTheGame);
     notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
   }
 
@@ -640,13 +641,45 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
+   * Notifies the listeners that a player has 5 tiles in a row.
+   *
+   * @param nickname the player who has 5 tiles in a row.
+   */
+  public void handlePlayerHas5TilesInArow(String nickname) {
+    notifyListeners(new PlayerHas5TilesInArowEvent(nickname));
+  }
+
+  /**
    * Inform the listeners that the client got disconnected from the server.
    */
   public void youGotDisconnected() {
     notifyListeners(new YouDisconnectedEvent());
   }
 
-  public void youConnectedToTheServer() {
-    notifyListeners(new YouConnectedEvent());
+  @Override
+  public void setBulletMode(boolean bulletMode) {
+    JSONObject message = JsonMessage.createMessageOfType(JsonMessage.BULLET_MODE);
+    try {
+      message.put(JsonMessage.IS_BULLET_MODE_FIELD, bulletMode);
+      connection.send(message);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Fires to the listeners that the bullet mode is triggered on or of by another player.
+   *
+   * @param object the message that was sent by the server.
+   */
+  public void handleBulletModeChangedEvent(JSONObject object) {
+    try {
+      boolean isBulletModeActivated = object.getBoolean(JsonMessage.IS_BULLET_MODE_FIELD);
+      notifyListeners(
+          new BulletModeChangedEvent(isBulletModeActivated));
+      isBulletMode = isBulletModeActivated;
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
   }
 }
