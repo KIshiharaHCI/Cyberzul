@@ -67,12 +67,12 @@ public class ClientNetworkConnection {
               continue;
             }
             else{
-              model.connectionWithServerNotPossible();
+              model.handleConnectionWithServerNotPossible();
               break;
             }
           }
           if(connectException.getMessage().equals("Connection timed out: connect")){
-            model.connectionWithServerNotPossible();
+            model.handleConnectionWithServerNotPossible();
             break;
           }
           else {

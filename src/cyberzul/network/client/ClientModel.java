@@ -688,7 +688,10 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
   }
 
-  public void connectionWithServerNotPossible(){
+  /**
+   * Notify the listeners that the connection attempts with the server failed.
+   */
+  public void handleConnectionWithServerNotPossible(){
     notifyListeners(new ConnectionWithServerNotPossibleEvent());
   }
 }

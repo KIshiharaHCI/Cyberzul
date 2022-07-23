@@ -33,10 +33,8 @@ public class GameModel extends CommonModel implements ModelStrategy {
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
-  private static final int TIME_TILL_NEXT_ROUND = 30000;
-  //private final static int sleepTime = 100;
+  private static final int TIME_TILL_NEXT_ROUND = 20000;
   private final Random ran = new Random();
-  //the timer because player has to make a move within 30 seconds
   private Timer timer;
   private boolean hasGameEnded = false;
   private Offering currentOffering;
