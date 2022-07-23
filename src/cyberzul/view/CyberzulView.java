@@ -3,6 +3,7 @@ package cyberzul.view;
 import static java.util.Objects.requireNonNull;
 
 import cyberzul.controller.Controller;
+import cyberzul.model.CommonModel;
 import cyberzul.model.Model;
 import cyberzul.model.events.ChatMessageRemovedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
@@ -211,18 +212,20 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
 
     hotSeatModeButton.addActionListener(event -> {
       //the model should behave like a game model
+      controller.setMode(CommonModel.HOT_SEAT_MODE);
       model.setGameModelStrategy();
       createHotSeatModeCard();
       showHsmCard();
     });
     networkButton.addActionListener(event -> {
       //the model should behave like a client model
-
+      controller.setMode(CommonModel.NETWORK_MODE);
       //TODO: ONLY TESTING. THE NEXT TO LINES CAN BE DELETED.
       createNetworkModeCard();
       showNetworkCard();
     });
     singlePlayerModeButton.addActionListener(event -> {
+      controller.setMode(CommonModel.SINGLE_PLAYER_MODE);
       //TODO - when play button is clicked on single player card --> first login user, then
       // use method single player mode --> probably via controller
       model.setGameModelStrategy();
