@@ -1990,6 +1990,21 @@ Q3:
 
 Time , speed and merge conflict
 
+
+_Marco_
+
+Q1:
+- fix all SpotBugs and CheckStyle Issues in main
+- let the pipeline run through with no errors or warnings
+
+Q2:
+- Bugfix: The AI makes strange moves, often skips players. The effect was visible in the network mode
+- Make the logger write to different files
+
+Q3:
+- https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
+- JavaDoc for View needed
+
 *18.07.2022*
 
 _Xue_
@@ -2010,6 +2025,21 @@ Q3:
 
 Time , speed and merge conflict
 
+_Marco_
+
+Q1:
+- Bugfix: The AI makes strange moves, often skips players. The effect was visible in the network mode
+- Make the logger write to different files
+
+Q2:
+- Bugfix: player.hasStartingPlayerMarker was not set to false after round ended.
+- Implement SinglePlayerMode
+- Write Story Text for our game
+
+Q3:
+- https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
+- JavaDoc for View needed
+
 
 *19.07.2022*
 
@@ -2027,6 +2057,22 @@ Try to let cheat message in chat works
 Q3:
 
 Time , speed and merge conflict
+
+_Marco_
+
+Q1:
+- Bugfix: player.hasStartingPlayerMarker was not set to false after round ended.
+- Implement SinglePlayerMode
+- Write Story Text for our game
+
+Q2:
+- Finish story text in the game
+- add Timer Functionality to the game
+- Think about better AI
+
+Q3:
+- https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
+- JavaDoc for View needed
 
 
 *20.07.2022*
@@ -2073,6 +2119,27 @@ Merge chat in main and fix merge conflicts
 Q3:
 
 Time , speed and merge conflict
+
+_Marco_
+
+Q1:
+- If a Player quits, name him AI... i.e. if Marco quits, he gets replaced by AI Marco. That is shown on this Player Board
+- Implement getWinner (which is now getPlayerWithMostPoints) and make it work for more than one winner.
+- Bug fixes Single player mode
+
+Q2:
+- Implement getWinner (which is now getPlayerWithMostPoints) and make it work for more than one winner.
+- Go through all TODOs in the project and ask team members if it is still a todo
+- Meeting Chris
+- Make timer not used for not
+- write my first ever test!
+- add end of game points
+- add startSinglePlayerMode to CommonModel
+- more
+
+Q3:
+- https://chat.ifi.lmu.de/#narrow/stream/232-SoSy-22S-SEP/topic/SpotBugs.20Fehlermeldung.20.20java.2EIOException/near/322151
+- JavaDoc for View needed
 
 *22.07.2022*
 
@@ -2122,6 +2189,27 @@ Fix spotbugs problems
 Q3:
 
 Time , speed and merge conflict
+
+_Marco_
+
+**22. Juli, 2022**
+
+Q1:
+- Implement getWinner (which is now getPlayerWithMostPoints) and make it work for more than one winner.
+- Meeting Chris
+- write my first ever test!
+- add end of game points
+- add startSinglePlayerMode to CommonModel
+
+Q2:
+- Go through all TODOs in the project and ask team members if it is still a todo
+- Maybe make timer not used
+- Write test for addEndOfGame-Points.
+- try to write a better AI
+- game testing  --> fix bugs
+
+Q3:
+- JavaDoc for View needed
 
 **23.07.2022**
 
