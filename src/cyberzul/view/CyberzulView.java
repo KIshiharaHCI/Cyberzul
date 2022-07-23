@@ -1,5 +1,7 @@
 package cyberzul.view;
 
+import static java.util.Objects.requireNonNull;
+
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.model.events.ChatMessageRemovedEvent;
@@ -37,10 +39,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
-
-import static java.util.Objects.requireNonNull;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
