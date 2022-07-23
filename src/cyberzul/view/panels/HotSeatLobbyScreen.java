@@ -1,12 +1,14 @@
 package cyberzul.view.panels;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
 
 import cyberzul.controller.Controller;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -15,10 +17,21 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import static cyberzul.view.CyberzulView.getCustomFont;
+
 
 /** Lobby Screen that functions as the Lobby when a player wants to play on Hot Seat Mode. */
 public class HotSeatLobbyScreen extends JLayeredPane {
