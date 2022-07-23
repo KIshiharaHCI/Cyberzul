@@ -295,7 +295,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "NextPlayersTurnEvent" -> {
         NextPlayersTurnEvent nextPlayersTurnEvent = (NextPlayersTurnEvent) customMadeGameEvent;
         ChatPanel.listModel.addElement(new GameStateMessage(nextPlayersTurnEvent.getChatMessage()));
-        gameBoard.getTimer().restart();
+        if (controller.getBulletMode()) {
+          gameBoard.getTimer().restart();
+        }
         if (this.musicPlayerHelper.isPlayMusicOn()) {
           this.musicPlayerHelper.playTilePlacedMusic();
         }
