@@ -13,6 +13,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 /**
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
  * points and the minus points of each player.
@@ -137,7 +139,7 @@ public abstract class PlayerBoard extends JPanel {
   void createNameLabel() {
     nameLabel = new JLabel(playerName);
     nameLabel.setVerticalAlignment(JLabel.BOTTOM);
-    //nameLabel.setFont(getCustomFont().deriveFont(16f));
+    nameLabel.setFont(getCustomFont().deriveFont(16f));
     nameLabel.setForeground(Color.white);
   }
 
