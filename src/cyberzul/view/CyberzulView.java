@@ -20,6 +20,7 @@ import cyberzul.model.events.NotYourTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerHas5TilesInArowEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
+import cyberzul.model.events.TooManyConnectionAttemptsEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.network.client.messages.GameStateMessage;
@@ -432,6 +433,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         if (networkLobbyScreen != null) {
           networkLobbyScreen.updateBulletCheckBox(bulletModeChangedEvent.isBulletModeActivated());
         }
+      }
+      case TooManyConnectionAttemptsEvent.EVENT_NAME -> {
+        showErrorMessage("A connection with the specified Server was not possible.");
       }
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
