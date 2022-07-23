@@ -28,13 +28,15 @@ public class NetworkLobbyScreen extends JLayeredPane {
   private static final long serialVersionUID = 17L;
   private static final int MIN_REQUIRED_PLAYERS = 3;
   private final Font customFont = getCustomFont();
-  private final HashSet<Players> enabledPlayers = new HashSet<>();
   private final HashSet<Players> disabledPlayers =
           new HashSet<>(
                   Arrays.asList(Players.PLAYER1, Players.PLAYER2, Players.PLAYER3, Players.PLAYER4));
   private final transient Controller controller;
   private final transient Model model;
   private final transient List<JLabel> labels = new ArrayList<>();
+  private JLabel banner;
+  private JLabel setAddress;
+  private String nickname;
   transient List<JButton> nameInputButtons = new ArrayList<>(4);
   ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
   ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
@@ -48,7 +50,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
   private JPanel inputNickPopUp;
   private JPanel selectModePopUp;
   private JButton playGameButton;
-  private Players lastLoggedInPlayer;
+  private Players lastLoggedInPlayer = Players.PLAYER1;
   private String ipAddress;
 
   /**
@@ -241,7 +243,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
 
     setInputNickPrompt();
 
-    JLabel banner = new JLabel("Please add players to start game");
+    banner = new JLabel("Waiting for other players to connect ...");
     banner.setFont(customFont);
     banner.setBounds(180, 85, 400, 30);
     labels.add(banner);
@@ -313,49 +315,21 @@ public class NetworkLobbyScreen extends JLayeredPane {
   private void initializeInputNameBoxes() {
     JButton nickInput1 = new JButton(nickBannerUnselected);
     nickInput1.setText("Player 1");
-    nickInput1.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                showInputAreaIfValidPress(Players.PLAYER1);
-              }
-            });
     nickInput1.setBounds(150, 130, 300, 56);
     nameInputButtons.add(nickInput1);
 
     JButton nickInput2 = new JButton(nickBannerUnselected);
     nickInput2.setText("Player 2");
-    nickInput2.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                showInputAreaIfValidPress(Players.PLAYER2);
-              }
-            });
     nickInput2.setBounds(150, 210, 300, 56);
     nameInputButtons.add(nickInput2);
 
     JButton nickInput3 = new JButton(nickBannerUnselected);
     nickInput3.setText("Player 3");
-    nickInput3.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                showInputAreaIfValidPress(Players.PLAYER3);
-              }
-            });
     nickInput3.setBounds(150, 290, 300, 56);
     nameInputButtons.add(nickInput3);
 
     JButton nickInput4 = new JButton(nickBannerUnselected);
     nickInput4.setText("Player 4");
-    nickInput4.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                showInputAreaIfValidPress(Players.PLAYER4);
-              }
-            });
     nickInput4.setBounds(150, 370, 300, 56);
     nameInputButtons.add(nickInput4);
   }
@@ -395,32 +369,17 @@ public class NetworkLobbyScreen extends JLayeredPane {
   }
 
   /**
-   * shows the "Please enter name" prompt if the player has not been enabled yet.
-   *
-   * @param player selected to edit
-   */
-  private void showInputAreaIfValidPress(Players player) {
-    if (enabledPlayers != null && enabledPlayers.contains(player)) {
-      return;
-    }
-    enabledPlayers.add(player);
-    lastLoggedInPlayer = player;
-    showNickPrompt(true);
-  }
-
-  /**
    * Called when a valid nickname was entered by the user and the button and checkbox need to be
    * updated.
    *
-   * @param nickname input entered by user
-   */
-  private void updateinputField(String nickname) {
-    if (enabledPlayers == null) {
-      return;
+   * */
+  public void updateinputField() {
+    List<String> playerNamesList = controller.getPlayerNamesList();
+    for (String player : playerNamesList) {
+        //TODO:
     }
     JButton button = getPlayerInputButton(lastLoggedInPlayer);
 
-    controller.addPlayer(nickname);
     button.setText(nickname);
     button.setIcon(nickBannerSelected);
     int index = Integer.parseInt(lastLoggedInPlayer.toString().substring(6, 7)) - 1;
@@ -442,9 +401,11 @@ public class NetworkLobbyScreen extends JLayeredPane {
    * Enables the PlayButton if at least two players have been connected.
    */
   private void updatePlayButton() {
-    playGameButton.setEnabled(disabledPlayers.size() < MIN_REQUIRED_PLAYERS);
+    if (disabledPlayers.size() < MIN_REQUIRED_PLAYERS) {
+      playGameButton.setEnabled(true);
+      banner.setText("Ready to start the game now!");
+    } else playGameButton.setEnabled(false);
   }
-
   /**
    * Creates the input nickname prompt.
    */
@@ -472,6 +433,18 @@ public class NetworkLobbyScreen extends JLayeredPane {
     maxChar.setBounds(300, 180, 200, 20);
     inputNickPopUp.add(maxChar);
 
+    JLabel yourAddress = new JLabel("Your Server IP Address:");
+    yourAddress.setFont(customFont);
+    yourAddress.setForeground(Color.white);
+    yourAddress.setBounds(140, 220, 400, 30);
+    inputNickPopUp.add(yourAddress);
+
+    setAddress = new JLabel();
+    setAddress.setFont(customFont);
+    setAddress.setForeground(Color.white);
+    setAddress.setBounds(370, 220, 200, 30);
+    inputNickPopUp.add(setAddress);
+
     JTextField inputField = new JTextField(15);
     inputField.addKeyListener(
             new KeyAdapter() {
@@ -483,11 +456,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
                 event.consume();
 
                 String nickname = inputField.getText();
-                if (!controller.getPlayerNamesList().contains(nickname)) {
-                  updateinputField(nickname);
-                } else {
-                  // TODO: Show popup
-                }
+                controller.addPlayer(nickname);
                 inputField.setText(null);
               }
             });
@@ -529,6 +498,14 @@ public class NetworkLobbyScreen extends JLayeredPane {
       }
     }
   }
+
+  public void updateUIAfterConnect() {
+    toggleAllChildPanelsVisible(this, true);
+    showNickPrompt(true);
+    showSelectModePrompt(false);
+    setAddress.setText(ipAddress);
+  }
+
 
   /**
    * Loads all image assets used by this class.

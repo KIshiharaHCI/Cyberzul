@@ -51,6 +51,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private final transient Model model;
   private final transient Controller controller;
   private final transient MusicPlayerHelper musicPlayerHelper;
+  private HotSeatLobbyScreen hotSeatLobbyScreen;
+  private NetworkLobbyScreen networkLobbyScreen;
   private CardLayout layout;
   private JTextField inputField;
   private JButton hotSeatModeButton;
@@ -381,6 +383,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
       }
       case YouConnectedEvent.EVENT_NAME -> {
+        networkLobbyScreen.updateUIAfterConnect();
         showNeutralMessage("You connected to the server.");
       }
       case YouDisconnectedEvent.EVENT_NAME -> showErrorMessage(
@@ -439,7 +442,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    * This card gets shown if the user selects "hot seat mode" at the start of the program.
    */
   private void createHotSeatModeCard() {
-    JLayeredPane hotSeatModePanel = new HotSeatLobbyScreen(controller, frameDimension);
+    hotSeatLobbyScreen = new HotSeatLobbyScreen(controller, frameDimension);
+    JLayeredPane hotSeatModePanel = hotSeatLobbyScreen;
     JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, hotSeatModeCard);
@@ -454,7 +458,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   }
 
   private void createNetworkModeCard() {
-    JLayeredPane networkModePanel = new NetworkLobbyScreen(controller, model, frameDimension);
+    networkLobbyScreen = new NetworkLobbyScreen(controller, model, frameDimension);
+    JLayeredPane networkModePanel = networkLobbyScreen;
 //    setMinimumSize(frameDimension);
 //    setMaximumSize(frameDimension);
 //    inputField = new JTextField(10);
