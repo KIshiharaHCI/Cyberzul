@@ -22,8 +22,6 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
@@ -41,7 +39,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final String NETWORK_CARD = "networkmode";
   private static final String SINGLEPLAYER_CARD = "singleplayermode";
   private static final String GAMEBOARD_CARD = "gameboard";
-  private String CURRENT_CARD;
   private static final int FRAME_WIDTH = 1400;
   private static final int FRAME_HEIGHT = 800;
   private static Font customFont;
@@ -51,8 +48,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private final transient Model model;
   private final transient Controller controller;
   private final transient MusicPlayerHelper musicPlayerHelper;
+  private String CURRENT_CARD;
   private HotSeatLobbyScreen hotSeatLobbyScreen;
   private NetworkLobbyScreen networkLobbyScreen;
+  private SinglePlayerPanel singlePlayerPanel;
   private CardLayout layout;
   private JTextField inputField;
   private JButton hotSeatModeButton;
@@ -216,33 +215,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         }
     );
 
-    testFourPlayersButton.addActionListener(event -> {
-          List<String> fourUserNameForTest = new ArrayList<>(
-              List.of("Iurri", "Kenji", "Marco", "Nils"));
-          for (String name : fourUserNameForTest) {
-            controller.addPlayer(name);
-          }
-          controller.startGame();
-        }
-    );
-    testThreePlayersButton.addActionListener(event -> {
-          List<String> threeUserNameForTest = new ArrayList<>(
-              List.of("Einen", "schoenen", "Tag"));
-          for (String name : threeUserNameForTest) {
-            controller.addPlayer(name);
-          }
-          controller.startGame();
-        }
-    );
-    testTwoPlayersButton.addActionListener(event -> {
-          List<String> twoUserNameForTest = new ArrayList<>(List.of("Feier", "Abend"));
-          for (String name : twoUserNameForTest) {
-            controller.addPlayer(name);
-          }
-          controller.startGame();
-        }
-    );
-
     //TODO: @Kenji feel free to change this. I needed it.
     createServerButton.addActionListener(event -> {
       String ipAddress = Server.start();
@@ -304,14 +276,21 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         updateRankingBoard();
       }
       case "LoggedInEvent" -> {
+        if (networkLobbyScreen != null) {
+          networkLobbyScreen.updateinputField();
+        }
         this.setTitle("Cyberzul - " + model.getPlayerName());
         numberOfLoggedInPlayersLabel.setText(
             "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showNeutralMessage("successfully logged in");
       }
-      case ConnectedWithServerEvent.EVENT_NAME, UserJoinedEvent.EVENT_NAME -> {
+      case ConnectedWithServerEvent.EVENT_NAME -> {
         numberOfLoggedInPlayersLabel.setText(
                 "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
+      }
+      case UserJoinedEvent.EVENT_NAME -> {
+        if (networkLobbyScreen != null)
+          networkLobbyScreen.updateinputField();
       }
       case "RoundFinishedEvent" -> {
         updateCenterBoard();
@@ -383,7 +362,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         showErrorMessage("The provided String can't be parsed into a valid IPv4 address.");
       }
       case YouConnectedEvent.EVENT_NAME -> {
-        networkLobbyScreen.updateUIAfterConnect();
+        networkLobbyScreen.updateUiAfterConnect();
         showNeutralMessage("You connected to the server.");
       }
       case YouDisconnectedEvent.EVENT_NAME -> showErrorMessage(

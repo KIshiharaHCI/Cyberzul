@@ -20,28 +20,29 @@ import java.util.*;
 
 import static cyberzul.view.CyberzulView.getCustomFont;
 
-/**
- * Lobby Screen that functions as the Lobby when a player wants to play via local network.
- */
+/** Lobby Screen that functions as the Lobby when a player wants to play via local network. */
 public class NetworkLobbyScreen extends JLayeredPane {
-  @Serial
-  private static final long serialVersionUID = 17L;
+  @Serial private static final long serialVersionUID = 17L;
   private static final int MIN_REQUIRED_PLAYERS = 3;
   private final Font customFont = getCustomFont();
-  private final HashSet<Players> disabledPlayers =
-          new HashSet<>(
-                  Arrays.asList(Players.PLAYER1, Players.PLAYER2, Players.PLAYER3, Players.PLAYER4));
+  private final LinkedList<Players> disabledPlayers =
+      new LinkedList<>(
+          Arrays.asList(Players.PLAYER1, Players.PLAYER2, Players.PLAYER3, Players.PLAYER4));
   private final transient Controller controller;
   private final transient Model model;
   private final transient List<JLabel> labels = new ArrayList<>();
-  private JLabel banner;
-  private JLabel setAddress;
-  private String nickname;
   transient List<JButton> nameInputButtons = new ArrayList<>(4);
   ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
   ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
   ImageIcon nickBannerUnselected = imageLoader("img/playerbanner-unselected.png", 300, 56);
   ImageIcon nickBannerSelected = imageLoader("img/playerbanner-selected.png", 300, 56);
+  ImageIcon blankButtonUnselected = imageLoader("img/blank-button-unselected.png", 220, 55);
+  ImageIcon blankButtonSelected = imageLoader("img/blank-button-selected.png", 220, 55);
+  private JLabel banner;
+  private JLabel setAddress;
+  private JLabel ipAddressOnContainer;
+  private JLabel enterServerIp;
+  private JTextField ipInputField;
   private Dimension containerDimension;
   private Dimension popUpDimension;
   private transient BufferedImage image;
@@ -50,16 +51,16 @@ public class NetworkLobbyScreen extends JLayeredPane {
   private JPanel inputNickPopUp;
   private JPanel selectModePopUp;
   private JButton playGameButton;
-  private Players lastLoggedInPlayer = Players.PLAYER1;
+  private final Players lastLoggedInPlayer = Players.PLAYER1;
   private String ipAddress;
 
   /**
    * Initializes all components for the Network Lobby.
    *
-   * @param controller     controller for the application
+   * @param controller controller for the application
    * @param frameDimension determined by Cyberzulview.
    */
-  public NetworkLobbyScreen (Controller controller, Model model, Dimension frameDimension) {
+  public NetworkLobbyScreen(Controller controller, Model model, Dimension frameDimension) {
     this.controller = controller;
     this.model = model;
 
@@ -67,20 +68,17 @@ public class NetworkLobbyScreen extends JLayeredPane {
     initializeComponents();
     toggleAllChildPanelsVisible(this, false);
     selectModePopup();
-
   }
 
   private void selectModePopup() {
-    ImageIcon blankButtonUnselected = imageLoader("img/blank-button-unselected.png", 220, 55);
-    ImageIcon blankButtonSelected = imageLoader("img/blank-button-selected.png", 220, 55);
     selectModePopUp =
-            new JPanel(null) {
-              @Override
-              protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(popUpImage, 0, 0, null);
-              }
-            };
+        new JPanel(null) {
+          @Override
+          protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(popUpImage, 0, 0, null);
+          }
+        };
     selectModePopUp.setBounds(420, 200, popUpDimension.width, popUpDimension.height);
     add(selectModePopUp, Integer.valueOf(1));
 
@@ -92,24 +90,25 @@ public class NetworkLobbyScreen extends JLayeredPane {
 
     JButton createServerButton = new JButton(blankButtonUnselected);
 
-    createServerButton.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        ipAddress = Server.start();
-        model.setClientModelStrategy(ipAddress);
-        //TODO: setVisible other components
-      }
+    createServerButton.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            ipAddress = Server.start();
+            model.setClientModelStrategy(ipAddress);
+            // TODO: setVisible other components
+          }
 
-      @Override
-      public void mouseEntered(MouseEvent e) {
-        createServerButton.setIcon(blankButtonSelected);
-      }
+          @Override
+          public void mouseEntered(MouseEvent e) {
+            createServerButton.setIcon(blankButtonSelected);
+          }
 
-      @Override
-      public void mouseExited(MouseEvent e) {
-        createServerButton.setIcon(blankButtonUnselected);
-      }
-    });
+          @Override
+          public void mouseExited(MouseEvent e) {
+            createServerButton.setIcon(blankButtonUnselected);
+          }
+        });
     createServerButton.setBorderPainted(false);
     createServerButton.setContentAreaFilled(false);
     createServerButton.setBounds(40, 170, 220, 55);
@@ -123,21 +122,26 @@ public class NetworkLobbyScreen extends JLayeredPane {
     selectModePopUp.add(createServerButton);
 
     JButton joinServerButton = new JButton(blankButtonUnselected);
-    joinServerButton.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-      }
+    joinServerButton.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            joinServerButton.setVisible(false);
+            createServerButton.setVisible(false);
+            ipInputField.setVisible(true);
+            enterServerIp.setVisible(true);
+          }
 
-      @Override
-      public void mouseEntered(MouseEvent e) {
-        joinServerButton.setIcon(blankButtonSelected);
-      }
+          @Override
+          public void mouseEntered(MouseEvent e) {
+            joinServerButton.setIcon(blankButtonSelected);
+          }
 
-      @Override
-      public void mouseExited(MouseEvent e) {
-        joinServerButton.setIcon(blankButtonUnselected);
-      }
-    });
+          @Override
+          public void mouseExited(MouseEvent e) {
+            joinServerButton.setIcon(blankButtonUnselected);
+          }
+        });
     joinServerButton.setBorderPainted(false);
     joinServerButton.setContentAreaFilled(false);
     joinServerButton.setBounds(280, 170, 220, 55);
@@ -149,13 +153,12 @@ public class NetworkLobbyScreen extends JLayeredPane {
     joinServerButton.setVerticalTextPosition(SwingConstants.CENTER);
     selectModePopUp.add(joinServerButton);
 
-    JLabel enterServerIP = new JLabel("Please enter the Server IP");
-    enterServerIP.setFont(customFont);
-    enterServerIP.setForeground(Color.white);
-    enterServerIP.setBounds(160, 120, 400, 30);
-    enterServerIP.setVisible(false);
-    selectModePopUp.add(enterServerIP);
-
+    enterServerIp = new JLabel("Please enter the Server IP");
+    enterServerIp.setFont(customFont);
+    enterServerIp.setForeground(Color.white);
+    enterServerIp.setBounds(160, 120, 400, 30);
+    enterServerIp.setVisible(false);
+    selectModePopUp.add(enterServerIp);
 
     JLabel maxChar = new JLabel("max 15 characters");
     maxChar.setFont(customFont.deriveFont(10f));
@@ -164,30 +167,29 @@ public class NetworkLobbyScreen extends JLayeredPane {
     maxChar.setVisible(false);
     selectModePopUp.add(maxChar);
 
-    JTextField inputField = new JTextField(15);
-    inputField.addKeyListener(
-            new KeyAdapter() {
-              @Override
-              public void keyPressed(KeyEvent event) {
-                if (event.getKeyCode() != KeyEvent.VK_ENTER) {
-                  return;
-                }
-                event.consume();
+    ipInputField = new JTextField(15);
+    ipInputField.addKeyListener(
+        new KeyAdapter() {
+          @Override
+          public void keyPressed(KeyEvent event) {
+            if (event.getKeyCode() != KeyEvent.VK_ENTER) {
+              return;
+            }
+            event.consume();
 
-                String ipAddress = inputField.getText();
-                model.setClientModelStrategy(ipAddress);
+            String ipAddress = ipInputField.getText();
+            model.setClientModelStrategy(ipAddress);
 
-                inputField.setText(null);
-              }
-            });
-    inputField.setBounds(140, 150, 300, 30);
-    inputField.setFont(customFont);
-    inputField.setVisible(false);
-    selectModePopUp.add(inputField);
+            ipInputField.setText(null);
+          }
+        });
+    ipInputField.setBounds(140, 150, 300, 30);
+    ipInputField.setFont(customFont);
+    ipInputField.setVisible(false);
+    selectModePopUp.add(ipInputField);
 
     selectModePopUp.setOpaque(false);
     showSelectModePrompt(true);
-
   }
 
   /**
@@ -204,14 +206,14 @@ public class NetworkLobbyScreen extends JLayeredPane {
     setMaximumSize(frameDimension);
 
     containerDimension =
-            new Dimension((int) (frameDimension.width * 0.7), (int) (frameDimension.height * 0.7));
+        new Dimension((int) (frameDimension.width * 0.7), (int) (frameDimension.height * 0.7));
     popUpDimension = new Dimension(600, 374);
 
     try {
       URL imgUrl = getClass().getClassLoader().getResource("img/network-lobby.png");
       image = ImageIO.read(Objects.requireNonNull(imgUrl));
       image.getScaledInstance(
-              containerDimension.width, containerDimension.height, Image.SCALE_SMOOTH);
+          containerDimension.width, containerDimension.height, Image.SCALE_SMOOTH);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -225,18 +227,16 @@ public class NetworkLobbyScreen extends JLayeredPane {
     }
   }
 
-  /**
-   * Initializes all Components added to this screen.
-   */
+  /** Initializes all Components added to this screen. */
   private void initializeComponents() {
     container =
-            new JPanel(null) {
-              @Override
-              protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(image, 0, 0, null);
-              }
-            };
+        new JPanel(null) {
+          @Override
+          protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, null);
+          }
+        };
     container.setOpaque(false);
     container.setBounds(200, 80, containerDimension.width, containerDimension.height);
     add(container, Integer.valueOf(0));
@@ -248,44 +248,52 @@ public class NetworkLobbyScreen extends JLayeredPane {
     banner.setBounds(180, 85, 400, 30);
     labels.add(banner);
 
+    ipAddressOnContainer = new JLabel();
+    ipAddressOnContainer.setForeground(Color.white);
+    ipAddressOnContainer.setFont(customFont);
+    ipAddressOnContainer.setBounds(250, 580, 200, 30);
+    ipAddressOnContainer.setVisible(false);
+    add(ipAddressOnContainer, Integer.valueOf(1));
+
     JLabel bulletMode = new JLabel("Bulletmode");
     bulletMode.setFont(customFont.deriveFont(15f));
     bulletMode.setForeground(Color.white);
     bulletMode.setBounds(250, 540, 400, 30);
-    add(bulletMode);
+    add(bulletMode, Integer.valueOf(1));
 
     JButton bulletButton = new JButton(checkUnselected);
-    bulletButton.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        if (checkUnselected.equals(bulletButton.getIcon())) {
-          bulletButton.setIcon(checkSelected);
-          //TODO: setBullet(false) in Constructor if default (false) is not set in model
-          //TODO: controller.setBullet(true)
-        } else {
-          bulletButton.setIcon(checkUnselected);
-          //TODO: controller.setBullet(false)
-        }
-      }
-    });
+    bulletButton.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            if (checkUnselected.equals(bulletButton.getIcon())) {
+              bulletButton.setIcon(checkSelected);
+              // TODO: setBullet(false) in Constructor if default (false) is not set in model
+              // TODO: controller.setBullet(true)
+            } else {
+              bulletButton.setIcon(checkUnselected);
+              // TODO: controller.setBullet(false)
+            }
+          }
+        });
     bulletButton.setContentAreaFilled(false);
     bulletButton.setBorderPainted(false);
     bulletButton.setBounds(400, 530, 46, 40);
-    add(bulletButton);
+    add(bulletButton, Integer.valueOf(1));
 
     playGameButton = new JButton(imageLoader("img/start-game-button.png", 152, 50));
     playGameButton.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                controller.startGame();
-              }
-            });
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            controller.startGame();
+          }
+        });
     playGameButton.setBounds(550, 530, 152, 50);
     playGameButton.setContentAreaFilled(false);
     playGameButton.setBorderPainted(false);
     playGameButton.setEnabled(false);
-    add(playGameButton);
+    add(playGameButton, Integer.valueOf(1));
 
     initializeCheckBoxComponents();
     initializeInputNameBoxes();
@@ -357,67 +365,52 @@ public class NetworkLobbyScreen extends JLayeredPane {
   }
 
   /**
-   * Returns the input Button corresponding to the Player.
-   *
-   * @param player the edited player
-   * @return button with the text set as the player name.
-   */
-  private JButton getPlayerInputButton(Players player) {
-    int index = Integer.parseInt(player.toString().substring(6, 7)) - 1;
-    JButton button = (JButton) container.getComponent(index);
-    return button;
-  }
-
-  /**
    * Called when a valid nickname was entered by the user and the button and checkbox need to be
    * updated.
-   *
-   * */
+   */
   public void updateinputField() {
     List<String> playerNamesList = controller.getPlayerNamesList();
-    for (String player : playerNamesList) {
-        //TODO:
+    for (int i = 0; i < playerNamesList.size(); i++) {
+      String player = playerNamesList.get(i);
+      JButton button = (JButton) container.getComponent(i);
+      button.setText(player);
+      container.remove(i);
+      container.add(button, i);
+
+      disabledPlayers.remove(i);
+
+      JLabel label = labels.get(i + 1);
+      label.setIcon(checkSelected);
+      labels.remove(i + 1);
+      labels.add(i + 1, label);
     }
-    JButton button = getPlayerInputButton(lastLoggedInPlayer);
-
-    button.setText(nickname);
-    button.setIcon(nickBannerSelected);
-    int index = Integer.parseInt(lastLoggedInPlayer.toString().substring(6, 7)) - 1;
-    container.remove(index);
-    container.add(button, index);
-
-    disabledPlayers.remove(lastLoggedInPlayer);
-    JLabel label = labels.get(index + 1);
-    label.setIcon(checkSelected);
-    labels.remove(index + 1);
-    labels.add(index + 1, label);
 
     updatePlayButton();
     showNickPrompt(false);
     validate();
   }
 
-  /**
-   * Enables the PlayButton if at least two players have been connected.
-   */
+  /** Enables the PlayButton if at least two players have been connected. */
   private void updatePlayButton() {
     if (disabledPlayers.size() < MIN_REQUIRED_PLAYERS) {
+      playGameButton.setVisible(true);
       playGameButton.setEnabled(true);
       banner.setText("Ready to start the game now!");
-    } else playGameButton.setEnabled(false);
+    } else {
+      playGameButton.setEnabled(false);
+      }
   }
-  /**
-   * Creates the input nickname prompt.
-   */
+
+  /** Creates the input nickname prompt. */
   private void setInputNickPrompt() {
     inputNickPopUp =
-            new JPanel(null) {
-              @Override
-              protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(popUpImage, 0, 0, null);
-              }
-            };
+        new JPanel(null) {
+          @Override
+          protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(popUpImage, 0, 0, null);
+          }
+        };
     inputNickPopUp.setBounds(420, 200, popUpDimension.width, popUpDimension.height);
     add(inputNickPopUp, Integer.valueOf(1));
 
@@ -447,19 +440,19 @@ public class NetworkLobbyScreen extends JLayeredPane {
 
     JTextField inputField = new JTextField(15);
     inputField.addKeyListener(
-            new KeyAdapter() {
-              @Override
-              public void keyPressed(KeyEvent event) {
-                if (event.getKeyCode() != KeyEvent.VK_ENTER) {
-                  return;
-                }
-                event.consume();
+        new KeyAdapter() {
+          @Override
+          public void keyPressed(KeyEvent event) {
+            if (event.getKeyCode() != KeyEvent.VK_ENTER) {
+              return;
+            }
+            event.consume();
 
-                String nickname = inputField.getText();
-                controller.addPlayer(nickname);
-                inputField.setText(null);
-              }
-            });
+            String nickname = inputField.getText();
+            controller.addPlayer(nickname);
+            inputField.setText(null);
+          }
+        });
     inputField.setBounds(140, 150, 300, 30);
     inputField.setFont(customFont);
     inputNickPopUp.add(inputField);
@@ -476,6 +469,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
   private void showNickPrompt(boolean toggle) {
     inputNickPopUp.setVisible(toggle);
   }
+
   private void showSelectModePrompt(boolean toggle) {
     selectModePopUp.setVisible(toggle);
   }
@@ -486,11 +480,11 @@ public class NetworkLobbyScreen extends JLayeredPane {
     if (components.length > 0) {
       for (Component component : components) {
         if (component instanceof JPanel) {
-          ((JPanel) component).setVisible(toggle);
+          component.setVisible(toggle);
         } else if (component instanceof JButton) {
-          ((JButton) component).setVisible(toggle);
+          component.setVisible(toggle);
         } else if (component instanceof JLabel) {
-          ((JLabel) component).setVisible(toggle);
+          component.setVisible(toggle);
         }
         if (component instanceof Container) {
           toggleAllChildPanelsVisible((Container) component, toggle);
@@ -499,19 +493,25 @@ public class NetworkLobbyScreen extends JLayeredPane {
     }
   }
 
-  public void updateUIAfterConnect() {
+  /**
+   * Removes the Input Area and shows the connected players.
+   */
+  public void updateUiAfterConnect() {
     toggleAllChildPanelsVisible(this, true);
     showNickPrompt(true);
     showSelectModePrompt(false);
     setAddress.setText(ipAddress);
+    if (ipAddress != null) {
+      ipAddressOnContainer.setText("Server IP " + ipAddress);
+      ipAddressOnContainer.setVisible(true);
+    }
   }
-
 
   /**
    * Loads all image assets used by this class.
    *
-   * @param path   directory path in resource folder
-   * @param width  of image
+   * @param path directory path in resource folder
+   * @param width of image
    * @param height of image
    * @return image as ImageIcon
    */
