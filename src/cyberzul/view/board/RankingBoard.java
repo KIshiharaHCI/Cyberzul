@@ -11,6 +11,8 @@ import java.awt.*;
 import java.io.Serial;
 import java.util.List;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 /**
  * The Ranking board which shows the name of all players and their points in descending order.
  */
@@ -50,7 +52,7 @@ public class RankingBoard extends JPanel {
 
     for (String player : playerNamesList) {
       JLabel label = new JLabel();
-//      label.setFont(getCustomFont().deriveFont(12f));
+      label.setFont(getCustomFont().deriveFont(12f));
       label.setForeground(Color.white);
       label.setHorizontalAlignment(JLabel.CENTER);
       label.setText(player + ": " + controller.getPoints(player));

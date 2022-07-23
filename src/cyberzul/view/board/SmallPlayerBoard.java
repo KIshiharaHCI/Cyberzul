@@ -13,6 +13,8 @@ import java.io.Serial;
 import java.net.URL;
 import java.util.Objects;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 /** A SmallPlayerBoard used for displaying opponent Players. */
 public class SmallPlayerBoard extends PlayerBoard {
   @Serial private static final long serialVersionUID = 14L;
@@ -69,6 +71,6 @@ public class SmallPlayerBoard extends PlayerBoard {
   @Override
   void createNameLabel() {
     super.createNameLabel();
-//    super.getNameLabel().setFont(getCustomFont().deriveFont(10f));
+    super.getNameLabel().setFont(getCustomFont().deriveFont(10f));
   }
 }

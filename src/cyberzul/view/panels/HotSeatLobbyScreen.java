@@ -18,11 +18,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.*;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 /** Lobby Screen that functions as the Lobby when a player wants to play on Hot Seat Mode. */
 public class HotSeatLobbyScreen extends JLayeredPane {
   @Serial private static final long serialVersionUID = 17L;
   private static final int MIN_REQUIRED_PLAYERS = 3;
-  private final Font customFont = Font.getFont(Font.SERIF);
+  private final Font customFont = getCustomFont();
   private final HashSet<Players> enabledPlayers = new HashSet<>();
   private final HashSet<Players> disabledPlayers =
       new HashSet<>(
@@ -112,12 +114,12 @@ public class HotSeatLobbyScreen extends JLayeredPane {
     setInputNickPrompt();
 
     JLabel banner = new JLabel("Please add players to start game");
-//    banner.setFont(customFont);
+    banner.setFont(customFont);
     banner.setBounds(180, 85, 400, 30);
     labels.add(banner);
 
     JLabel bulletMode = new JLabel("Bulletmode");
-//    bulletMode.setFont(customFont.deriveFont(15f));
+    bulletMode.setFont(customFont.deriveFont(15f));
     bulletMode.setForeground(Color.white);
     bulletMode.setBounds(250, 540, 400, 30);
     add(bulletMode);
@@ -168,8 +170,8 @@ public class HotSeatLobbyScreen extends JLayeredPane {
       component.setHorizontalTextPosition(JButton.CENTER);
       component.setVerticalTextPosition(JButton.CENTER);
 
-//      customFont.deriveFont(30f);
-//      component.setFont(customFont);
+      customFont.deriveFont(30f);
+      component.setFont(customFont);
       component.setForeground(Color.white);
 
       container.add(component);
@@ -334,13 +336,13 @@ public class HotSeatLobbyScreen extends JLayeredPane {
         };
 
     JLabel pleaseEnter = new JLabel("Please enter your nickname");
-//    pleaseEnter.setFont(customFont);
+    pleaseEnter.setFont(customFont);
     pleaseEnter.setForeground(Color.white);
     pleaseEnter.setBounds(160, 120, 400, 30);
     inputNickPopUp.add(pleaseEnter);
 
     JLabel maxChar = new JLabel("max 15 characters");
-//    maxChar.setFont(customFont.deriveFont(10f));
+    maxChar.setFont(customFont.deriveFont(10f));
     maxChar.setForeground(Color.white);
     maxChar.setBounds(300, 180, 200, 20);
     inputNickPopUp.add(maxChar);
@@ -365,7 +367,7 @@ public class HotSeatLobbyScreen extends JLayeredPane {
           }
         });
     inputField.setBounds(140, 150, 300, 30);
-//    inputField.setFont(customFont);
+    inputField.setFont(customFont);
     inputNickPopUp.add(inputField);
 
     inputNickPopUp.setOpaque(false);

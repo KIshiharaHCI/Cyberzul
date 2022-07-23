@@ -100,18 +100,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setResizable(true);
 
     initializeWidgets();
-//    initializeFont();
+    initializeFont();
     addEventListeners();
     createView();
   }
-
-  //  @Override
-  //  public void dispose() {
-  //    this.musicPlayerHelper.stopBackgroundMusic();
-  //    this.musicPlayerHelper.closeAllOfMusicPlayer();
-  //    this.gameBoard.getTimer.stop();
-  //    super.dispose();
-  //  }
 
   public static Font getCustomFont() {
     return customFont;
@@ -123,13 +115,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    */
   private void initializeFont() {
     try {
-      //create the font to use.
       customFont = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream((requireNonNull(getClass().getClassLoader().
               getResourceAsStream("fonts/gameOfSquids.ttf")))));
       customFont = customFont.deriveFont(12f);
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-      //register the font
-      //IMPORTANT: call .deriveFont(size) when not using default font size 12f
       ge.registerFont(customFont);
     } catch (IOException | FontFormatException e) {
       e.printStackTrace();
@@ -314,8 +303,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
           networkLobbyScreen.updateinputField();
         }
         this.setTitle("Cyberzul - " + model.getPlayerName());
-        numberOfLoggedInPlayersLabel.setText(
-            "Number of Players: " + (model.getPlayerNamesList().size()) + ".");
         showNeutralMessage("successfully logged in");
       }
       case ConnectedWithServerEvent.EVENT_NAME -> {
