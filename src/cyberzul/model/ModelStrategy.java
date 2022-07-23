@@ -235,4 +235,11 @@ public interface ModelStrategy {
    */
   void postChatMessage(String text);
 
+  /**
+   * Sets the game to be a bullet game.
+   *
+   * @param isBulletMode <code>true</code> if is a bullet game, <code>false</code> if not.
+   */
+  void setBulletMode(boolean isBulletMode);
+
 }

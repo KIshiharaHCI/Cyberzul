@@ -182,4 +182,7 @@ public class ModelStrategyChooser implements Model {
     strategy.postChatMessage(text);
   }
 
+  @Override
+  public void setBulletMode(boolean isBulletMode) {strategy.setBulletMode(isBulletMode);}
+
 }

@@ -145,4 +145,7 @@ public class GameController implements Controller {
     model.postChatMessage(text);
   }
 
+  @Override
+  public void setBulletMode(boolean isBulletMode) {}
+
 }
