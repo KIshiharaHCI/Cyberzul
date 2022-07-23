@@ -148,8 +148,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void initializeFont() {
     try {
       customFont = Font.createFont(Font.TRUETYPE_FONT,
-          new BufferedInputStream((requireNonNull(getClass().getClassLoader().
-              getResourceAsStream("fonts/gameOfSquids.ttf")))));
+          new BufferedInputStream((requireNonNull(getClass().getClassLoader()
+                  .getResourceAsStream("fonts/gameOfSquids.ttf")))));
       customFont = customFont.deriveFont(12f);
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
       ge.registerFont(customFont);
@@ -382,8 +382,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         //this.musicPlayerHelper.turnMusicOnOff(true);
         GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
         System.err.println(model.getMode());
-        if (gameForfeitedEvent.getForfeiter().equals(model.getPlayerName()) &&
-            (model.getMode() == CommonModel.NETWORK_MODE)) {
+        if (gameForfeitedEvent.getForfeiter().equals(model.getPlayerName())
+                && (model.getMode() == CommonModel.NETWORK_MODE)) {
           showGameOverCard();
         } else {
           showErrorMessage("Player " + gameForfeitedEvent.getForfeiter()
