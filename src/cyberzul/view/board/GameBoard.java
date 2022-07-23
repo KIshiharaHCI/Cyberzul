@@ -117,25 +117,28 @@ public class GameBoard extends JPanel {
 
     chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
 
-    JLabel tempLabel = new JLabel();
-    tempLabel.setPreferredSize(new Dimension(200, 30));
-    tempLabel.setHorizontalAlignment(JLabel.LEFT);
-    tempLabel.setFont(new Font("Dialog", Font.BOLD, 25));
-    tempLabel.setFont(this.getTimerFont());
-    tempLabel.setForeground(Color.GREEN);
-    timer =
-        new TurnCountDownTimer(
-            1000,
-            e -> {
-              if (timer.getTimerValue() == 0) {
-                timer.setTimerValue(30);
-              }
-              timer.setTimerValue(timer.getTimerValue() - 1);
-              tempLabel.setText(secondsToTimer(timer.getTimerValue()));
-            });
-    tempLabel.setText(secondsToTimer(timer.getTimerValue()));
-    timer.setInitialDelay(0);
-    chatAndRankingBoardAndSettingPanel.add(tempLabel, BorderLayout.CENTER);
+    if (controller.getBulletMode()) {
+      JLabel tempLabel = new JLabel();
+      tempLabel.setPreferredSize(new Dimension(200, 30));
+      tempLabel.setHorizontalAlignment(JLabel.LEFT);
+      tempLabel.setFont(new Font("Dialog", Font.BOLD, 25));
+      tempLabel.setFont(this.getTimerFont());
+      tempLabel.setForeground(Color.GREEN);
+      timer =
+          new TurnCountDownTimer(
+              1000,
+              e -> {
+                if (timer.getTimerValue() == 0) {
+                  timer.setTimerValue(30);
+                }
+                timer.setTimerValue(timer.getTimerValue() - 1);
+                tempLabel.setText(secondsToTimer(timer.getTimerValue()));
+              });
+      tempLabel.setText(secondsToTimer(timer.getTimerValue()));
+      timer.setInitialDelay(0);
+      chatAndRankingBoardAndSettingPanel.add(tempLabel, BorderLayout.CENTER);
+    }
+
 
     ChatPanel chatPanel = new ChatPanel(controller);
     chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
