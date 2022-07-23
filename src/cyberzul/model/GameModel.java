@@ -11,7 +11,7 @@ import cyberzul.model.events.IllegalTurnEvent;
 import cyberzul.model.events.LoggedInEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
-import cyberzul.model.events.PlayerHas5TilesInARowEvent;
+import cyberzul.model.events.PlayerHas5TilesInArowEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.RoundFinishedEvent;
 import java.beans.PropertyChangeListener;
@@ -337,7 +337,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
 
   /**
    * Tell each player to tile the wall and get the points accordingly. Fires {@link
-   * PlayerHas5TilesInARowEvent} if a player has ended the game in this tiling phase, fires {@link
+   * PlayerHas5TilesInArowEvent} if a player has ended the game in this tiling phase, fires {@link
    * GameFinishedEvent} at the end of this tiling phase in which someone has ended the game.
    */
   private void startTilingPhase() {
@@ -345,9 +345,9 @@ public class GameModel extends CommonModel implements ModelStrategy {
     for (Player player : playerList) {
       player.tileWallAndGetPoints();
       if (player.hasEndedTheGame()) {
-        PlayerHas5TilesInARowEvent playerHas5TilesInARowEvent =
-            new PlayerHas5TilesInARowEvent(player.getName());
-        notifyListeners(playerHas5TilesInARowEvent);
+        PlayerHas5TilesInArowEvent playerHas5TilesInArowEvent =
+            new PlayerHas5TilesInArowEvent(player.getName());
+        notifyListeners(playerHas5TilesInArowEvent);
         hasGameEnded = true;
       }
       // Loop has to finish, because all players have to finish tiling phase

@@ -4,20 +4,14 @@ import cyberzul.controller.Controller;
 import cyberzul.view.IconButton;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GridLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -25,8 +19,7 @@ import javax.swing.JSlider;
  */
 public class GameBoard extends JPanel {
 
-  @Serial
-  private static final long serialVersionUID = 7526472295622776147L;
+  @Serial private static final long serialVersionUID = 7526472295622776147L;
   private static final String soundButtonPath = "img/sound-button.png";
   private static final String menuButtonPath = "img/settings-button.png";
   private static final int iconButtonSize = 40;
@@ -47,17 +40,21 @@ public class GameBoard extends JPanel {
   private IconButton cancelButton;
   private IconButton restartButton;
   private JPanel systemSoundPanel;
-  private JPanel musicSoundPanel;
+  private JPanel musicSoundPanel = new JPanel(new GridLayout(2, 1));
   private JLabel musicSoundLabel;
   private JLabel systemSoundLabel;
   private TurnCountDownTimer timer;
+
+  private final String nickOfCenterBoardPlayer;
+
+  private final boolean hotSeatMode;
 
   /**
    * Creates the main game panel which contains all other game elements.
    *
    * @param tileClickListener the tile click listener
-   * @param controller        the controller
-   * @param frameDimension    1400 x 800 px
+   * @param controller the controller
+   * @param frameDimension 1400 x 800 px
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")
@@ -66,10 +63,14 @@ public class GameBoard extends JPanel {
       TileClickListener tileClickListener,
       Controller controller,
       Dimension frameDimension,
+      String nickOfCenterBoardPlayer,
+      boolean hotSeatMode,
       MusicPlayerHelper musicPlayerHelper) {
 
     this.controller = controller;
     this.frameDimension = frameDimension;
+    this.nickOfCenterBoardPlayer = nickOfCenterBoardPlayer;
+    this.hotSeatMode = hotSeatMode;
     setLayout(new BorderLayout());
     setOpaque(false);
     setMinimumSize(frameDimension);
@@ -78,17 +79,78 @@ public class GameBoard extends JPanel {
     createOpponentsPanel();
     createChatAndRankingBoardAndSettingPanel();
 
-    center = new CenterBoard(controller, tileClickListener, frameDimension);
+    center =
+        new CenterBoard(
+            controller, tileClickListener, nickOfCenterBoardPlayer, hotSeatMode, frameDimension);
     add(center, BorderLayout.CENTER);
     this.musicPlayerHelper = musicPlayerHelper;
   }
 
-  /**
-   * Creates all of the sidebar widgets and instantiates Chat, Settings and Ranking Board.
-   */
+  /** Creates all of the sidebar widgets and instantiates Chat, Settings and Ranking Board. */
   private void createChatAndRankingBoardAndSettingPanel() {
 
-    // create the Panel with RankingBoard, SettingBoard and Chat.
+    JPanel chatAndRankingBoardAndSettingPanel = createEastPanel();
+    createRankingBoardAndSettingPanel(chatAndRankingBoardAndSettingPanel);
+    createTimer(chatAndRankingBoardAndSettingPanel);
+    createChatPanel(chatAndRankingBoardAndSettingPanel);
+  }
+
+  private void createRankingBoardAndSettingPanel(JPanel chatAndRankingBoardAndSettingPanel) {
+    JPanel rankingBoardAndSettingPanel = new JPanel();
+    rankingBoardAndSettingPanel.setLayout(new GridLayout(1, 2));
+    rankingBoardAndSettingPanel.setOpaque(false);
+
+    JPanel rankingBoardPanel = new JPanel();
+    rankingBoard = new RankingBoard(controller);
+    rankingBoardPanel.add(rankingBoard);
+    rankingBoardAndSettingPanel.add(rankingBoard);
+    createSettingsPanel();
+    rankingBoardAndSettingPanel.add(settingsPanel);
+
+    chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
+  }
+
+  private void createChatPanel(JPanel chatAndRankingBoardAndSettingPanel) {
+    ChatPanel chatPanel = new ChatPanel(controller);
+    JPanel wrapperForChat = new JPanel();
+    wrapperForChat.setLayout(new BoxLayout(wrapperForChat, BoxLayout.Y_AXIS));
+    wrapperForChat.add(chatPanel);
+    wrapperForChat.setOpaque(false);
+    wrapperForChat.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
+    chatAndRankingBoardAndSettingPanel.add(wrapperForChat, BorderLayout.SOUTH);
+  }
+
+  private void createTimer(JPanel chatAndRankingBoardAndSettingPanel) {
+    if (controller.getBulletMode()) {
+      JLabel timerLabel = new JLabel();
+      timerLabel.setPreferredSize(new Dimension(200, 30));
+      timerLabel.setHorizontalAlignment(JLabel.LEFT);
+      timerLabel.setFont(new Font("Dialog", Font.BOLD, 25));
+      timerLabel.setFont(this.getTimerFont());
+      timerLabel.setForeground(Color.GREEN);
+      timer =
+              new TurnCountDownTimer(
+                      1000,
+                      e -> {
+                        if (timer.getTimerValue() == 0) {
+                          timer.setTimerValue(30);
+                        }
+                        timer.setTimerValue(timer.getTimerValue() - 1);
+                        timerLabel.setText(secondsToTimer(timer.getTimerValue()));
+                      });
+      timerLabel.setText(secondsToTimer(timer.getTimerValue()));
+      timer.setInitialDelay(0);
+      chatAndRankingBoardAndSettingPanel.add(timerLabel, BorderLayout.CENTER);
+    }
+
+  }
+
+  /**
+   * {@link GameBoard} eastern part.
+   *
+   * @return the created eastern Panel.
+   */
+  private JPanel createEastPanel() {
     JPanel chatAndRankingBoardAndSettingPanel = new JPanel();
     chatAndRankingBoardAndSettingPanel.setLayout(new BorderLayout());
     chatAndRankingBoardAndSettingPanel.setOpaque(false);
@@ -101,50 +163,7 @@ public class GameBoard extends JPanel {
     chatAndRankingBoardAndSettingPanel.revalidate();
 
     add(chatAndRankingBoardAndSettingPanel, BorderLayout.EAST);
-
-    // create the Panel with RankingBoard and SettingBoard.
-    JPanel rankingBoardAndSettingPanel = new JPanel();
-    rankingBoardAndSettingPanel.setLayout(new GridLayout(1, 2));
-    rankingBoardAndSettingPanel.setOpaque(false);
-
-    JPanel rankingBoardPanel = new JPanel();
-    rankingBoard = new RankingBoard(controller);
-    rankingBoardPanel.add(rankingBoard);
-    rankingBoardAndSettingPanel.add(rankingBoard);
-    createSettingsPanel();
-    rankingBoardAndSettingPanel.add(settingsPanel);
-    rankingBoardAndSettingPanel.add(settingsPanel);
-
-    chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
-
-    if (controller.getBulletMode()) {
-      JLabel tempLabel = new JLabel();
-      tempLabel.setPreferredSize(new Dimension(200, 30));
-      tempLabel.setHorizontalAlignment(JLabel.LEFT);
-      tempLabel.setFont(new Font("Dialog", Font.BOLD, 25));
-      tempLabel.setFont(this.getTimerFont());
-      tempLabel.setForeground(Color.GREEN);
-      timer =
-          new TurnCountDownTimer(
-              1000,
-              e -> {
-                if (timer.getTimerValue() == 0) {
-                  timer.setTimerValue(30);
-                }
-                timer.setTimerValue(timer.getTimerValue() - 1);
-                tempLabel.setText(secondsToTimer(timer.getTimerValue()));
-              });
-      tempLabel.setText(secondsToTimer(timer.getTimerValue()));
-      timer.setInitialDelay(0);
-      chatAndRankingBoardAndSettingPanel.add(tempLabel, BorderLayout.CENTER);
-    }
-
-
-    ChatPanel chatPanel = new ChatPanel(controller);
-    chatAndRankingBoardAndSettingPanel.add(chatPanel, BorderLayout.SOUTH);
-
-    System.out.println(chatAndRankingBoardAndButtonsPanelDimension.getSize());
-    System.out.println(frameDimension.getSize());
+    return chatAndRankingBoardAndSettingPanel;
   }
 
   private Font getTimerFont() {
@@ -164,13 +183,19 @@ public class GameBoard extends JPanel {
     return timerFont;
   }
 
-  private String secondsToTimer(int startingSeconds) {
+  /**
+   * Create text for Timer.
+   *
+   * @param seconds time left in seconds.
+   * @return the text for Timer.
+   */
+  private String secondsToTimer(int seconds) {
     String finalTimerString = "00";
 
-    if (startingSeconds < 10) {
-      finalTimerString = finalTimerString + ":0" + startingSeconds;
+    if (seconds < 10) {
+      finalTimerString = finalTimerString + ":0" + seconds;
     } else {
-      finalTimerString = finalTimerString + ":" + startingSeconds;
+      finalTimerString = finalTimerString + ":" + seconds;
     }
 
     return finalTimerString;
@@ -181,20 +206,25 @@ public class GameBoard extends JPanel {
     return timer;
   }
 
-  /**
-   * Initialise all buttons for settingPanel.
-   */
+  /** Initialise all buttons for settingPanel. */
   private void initializeSettingWidgets() {
 
     soundButton =
         new IconButton(
             soundButtonPath, 10, 80, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
     soundButton.addActionListener(
-        e -> this.musicPlayerHelper.turnMusicOnOff(this.musicPlayerHelper.isPlayMusicOn()));
+        e -> {
+          this.musicPlayerHelper.turnMusicOnOff(this.musicPlayerHelper.isPlayMusicOn());
+          if (soundButton.getOpacity() == 1f) {
+            this.soundButton.setOpacity(0.5f);
+          } else {
+            this.soundButton.setOpacity(1f);
+          }
+        });
 
     settingsButton =
         new IconButton(
-            menuButtonPath, 10, 20, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
+            menuButtonPath, 10, 10, (int) (iconButtonSize * 0.95), (int) (iconButtonSize * 0.95));
 
     settingsButton.addActionListener(ae -> menu.setVisible(!menu.isVisible()));
 
@@ -277,27 +307,31 @@ public class GameBoard extends JPanel {
     label.setText(text);
   }
 
-  /**
-   * adds the menu with default visibility set to false.
-   */
+  /** adds the menu with default visibility set to false. */
   private void createSettingsPanel() {
     initializeSettingWidgets();
     settingsPanel = new JPanel(new BorderLayout());
     settingsPanel.setOpaque(false);
     createMenuPanel();
     menu.setVisible(false);
-    JPanel roundButtonsPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+    JPanel roundButtonsPanel = new JPanel(null);
     roundButtonsPanel.setPreferredSize(new Dimension(60, 260));
     roundButtonsPanel.setOpaque(false);
-    roundButtonsPanel.add(soundButton);
     roundButtonsPanel.add(settingsButton);
+    roundButtonsPanel.add(soundButton);
     settingsPanel.add(menu, BorderLayout.CENTER);
     settingsPanel.add(roundButtonsPanel, BorderLayout.EAST);
   }
 
-  /**
-   * Creates the sidebar with the panels of the opponents.
-   */
+  private String getCurrentPlayer() {
+    String playerName = nickOfCenterBoardPlayer;
+    if (hotSeatMode) {
+      playerName = controller.getNickOfActivePlayer();
+    }
+    return playerName;
+  }
+
+  /** Creates the sidebar with the panels of the opponents. */
   private void createOpponentsPanel() {
     otherPlayerBoards = new ArrayList<>();
     boardsOfOpponentsPanel = new JPanel();
@@ -310,8 +344,9 @@ public class GameBoard extends JPanel {
 
     List<String> listOfActivePlayers = controller.getPlayerNamesList();
     Dimension playerBoardDimension = new Dimension(frameDimension.width - 20, 200);
+
     for (String opponentPlayer : listOfActivePlayers) {
-      if (!opponentPlayer.equals(controller.getNickOfActivePlayer())) {
+      if (!opponentPlayer.equals(getCurrentPlayer())) {
         PlayerBoard playerBoard =
             new SmallPlayerBoard(controller, null, opponentPlayer, playerBoardDimension);
         otherPlayerBoards.add(playerBoard);
@@ -321,9 +356,7 @@ public class GameBoard extends JPanel {
     add(boardsOfOpponentsPanel, BorderLayout.WEST);
   }
 
-  /**
-   * Used by view to update all widgets in Center Board.
-   */
+  /** Used by view to update all widgets in Center Board. */
   public void updateCenterBoard() {
     center.updateCenterBoard();
     validate();
@@ -350,7 +383,7 @@ public class GameBoard extends JPanel {
     }
     otherPlayerBoards.clear();
     List<String> listOfActivePlayers = controller.getPlayerNamesList();
-    String nameOfCurrentPlayer = controller.getNickOfActivePlayer();
+    String nameOfCurrentPlayer = getCurrentPlayer();
     int indexOfCurrentPlayer = listOfActivePlayers.indexOf(nameOfCurrentPlayer);
     Dimension playerBoardDimension = new Dimension(frameDimension.width - 20, 200);
     initializeOnePart(

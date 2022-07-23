@@ -42,7 +42,7 @@ public class ClientMessageHandler implements Runnable {
   private final Controller controller;
   private final Model model;
   private String nickname;
-  private boolean replacedByAI = false;
+  private boolean replacedByAi = false;
 
 
   /**
@@ -101,7 +101,7 @@ public class ClientMessageHandler implements Runnable {
       //if a player leaves the game by closing the window, he gets replaced by an AI
       if (socketException.getMessage().equals("Connection reset")) {
         if (controller.isGameStarted()) {
-          if(!replacedByAI) {
+          if (!replacedByAi) {
             controller.replacePlayerByAi(nickname);
           }
         } else {
@@ -175,7 +175,7 @@ public class ClientMessageHandler implements Runnable {
       case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
       case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
       case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine();
-      case REPLACE_THIS_PLAYER_BY_AI -> handleReplaceThisPlayerByAI();
+      case REPLACE_THIS_PLAYER_BY_AI -> handleReplaceThisPlayerByAi();
       case RESTART_GAME -> controller.restartGame();
       case CANCEL_GAME -> controller.cancelGameForAllPlayers();
       case BULLET_MODE -> handleSetBulletMode(object);
@@ -195,11 +195,10 @@ public class ClientMessageHandler implements Runnable {
    *
    * @param object the message sent of the client to the server.
    */
-  private void handleSetBulletMode(JSONObject object){
-    try{
+  private void handleSetBulletMode(JSONObject object) {
+    try {
       controller.setBulletMode(object.getBoolean(JsonMessage.IS_BULLET_MODE_FIELD));
-    }
-    catch (JSONException e){
+    } catch (JSONException e) {
       e.printStackTrace();
     }
   }
@@ -251,9 +250,9 @@ public class ClientMessageHandler implements Runnable {
   /**
    * Replace this player by the AI.
    */
-  private void handleReplaceThisPlayerByAI(){
+  private void handleReplaceThisPlayerByAi() {
     controller.replacePlayerByAi(nickname);
-    replacedByAI = true;
+    replacedByAi = true;
     serverConnection.removeHandlerFromList(nickname);
   }
 

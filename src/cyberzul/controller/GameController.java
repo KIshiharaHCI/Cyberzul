@@ -5,9 +5,10 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.WallBackgroundPattern;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 /**
  * Implementation of the controller interface which handles the interaction between the main model-

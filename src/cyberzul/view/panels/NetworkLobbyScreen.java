@@ -1,12 +1,17 @@
 package cyberzul.view.panels;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.network.server.Server;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -15,10 +20,19 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.*;
-
-import static cyberzul.view.CyberzulView.getCustomFont;
+import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /** Lobby Screen that functions as the Lobby when a player wants to play via local network. */
 public class NetworkLobbyScreen extends JLayeredPane {
@@ -31,6 +45,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
   private final transient Controller controller;
   private final transient Model model;
   private final transient List<JLabel> labels = new ArrayList<>();
+  private final Players lastLoggedInPlayer = Players.PLAYER1;
   transient List<JButton> nameInputButtons = new ArrayList<>(4);
   ImageIcon checkUnselected = imageLoader("img/check-unselected.png", 46, 40);
   ImageIcon checkSelected = imageLoader("img/check-selected.png", 46, 40);
@@ -51,7 +66,6 @@ public class NetworkLobbyScreen extends JLayeredPane {
   private JPanel inputNickPopUp;
   private JPanel selectModePopUp;
   private JButton playGameButton;
-  private final Players lastLoggedInPlayer = Players.PLAYER1;
   private String ipAddress;
 
   /**
@@ -403,7 +417,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
       banner.setText("Ready to start the game now!");
     } else {
       playGameButton.setEnabled(false);
-      }
+    }
   }
 
   /** Creates the input nickname prompt. */
@@ -498,9 +512,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
     }
   }
 
-  /**
-   * Removes the Input Area and shows the connected players.
-   */
+  /** Removes the Input Area and shows the connected players. */
   public void updateUiAfterConnect() {
     toggleAllChildPanelsVisible(this, true);
     showNickPrompt(true);

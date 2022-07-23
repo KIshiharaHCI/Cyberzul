@@ -1,13 +1,15 @@
 package cyberzul.view.board;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.awt.AlphaComposite;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
-import javax.swing.*;
-import java.awt.*;
-
-/**
- * Redraws a given Icon with specified transparency and returns it
- */
+/** Redraws a given Icon with specified transparency and returns it. */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
@@ -25,6 +27,7 @@ public class TransparentImageIcon extends ImageIcon {
 
   /**
    * Saves icon and specified transparency as class variable for paint method to call.
+   *
    * @param icon image object as ImageIcon
    * @param opacity specified opacity as float between 0 and 1
    */
@@ -79,8 +82,7 @@ public class TransparentImageIcon extends ImageIcon {
   }
 
   /**
-   * Gets the width of the image. Overridden to return the width of
-   * the wrapped icon.
+   * Gets the width of the image. Overridden to return the width of the wrapped icon.
    *
    * @return the width in pixels
    */
@@ -90,8 +92,7 @@ public class TransparentImageIcon extends ImageIcon {
   }
 
   /**
-   * Gets the height of the image. Overridden to return the height
-   * of the wrapped icon.
+   * Gets the height of the image. Overridden to return the height of the wrapped icon.
    *
    * @return the height in pixels
    */
@@ -99,5 +100,4 @@ public class TransparentImageIcon extends ImageIcon {
   public int getIconHeight() {
     return icon.getIconHeight();
   }
-
 }

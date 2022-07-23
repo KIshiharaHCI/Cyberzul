@@ -156,7 +156,7 @@ public class ClientNetworkConnection {
       case GAME_FORFEITED -> model.handleGameForfeited(object.getString(JsonMessage.NICK_FIELD));
       case MESSAGE -> handlePlayerTextMessage(object);
       case CHEAT_MESSAGE -> handlePlayerNeedHelp(object);
-      case PLAYER_HAS_5_TILES_IN_A_ROW -> model.handlePlayerHas5TilesInARow(
+      case PLAYER_HAS_5_TILES_IN_A_ROW -> model.handlePlayerHas5TilesInArow(
           object.getString(JsonMessage.NICK_FIELD));
       case BULLET_MODE -> model.handleBulletModeChangedEvent(object);
       default -> throw new AssertionError("Unhandled message: " + object);
