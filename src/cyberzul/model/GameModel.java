@@ -42,11 +42,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private int currentIndexOfTile;
   private boolean isBulletMode;
 
-  private static final int SINGLE_PLAYER_MODE = 1;
-  private static final int HOT_SEAT_MODE = 2;
-  private static final int NETWORK_MODE = 3;
-  private int mode;
-
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
    * offerings.
@@ -414,13 +409,4 @@ public class GameModel extends CommonModel implements ModelStrategy {
     isBulletMode = bulletMode;
   }
 
-  @Override
-  public void setMode(int mode) {
-    this.mode = mode;
-  }
-
-  @Override
-  public int getMode() {
-    return mode;
-  }
 }
