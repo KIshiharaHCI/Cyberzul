@@ -178,4 +178,18 @@ public interface Controller {
    * @param isBulletMode <code>true</code> if bullet mode, <code>false</code> if not.
    */
   void setBulletMode(boolean isBulletMode);
+
+  /**
+   * Sets the mode in the game model.
+   *
+   * @oaram mode 1 for single player mode, 2 for hot seat mode, 3 for network mode.
+   */
+  void setMode(int mode);
+
+  /**
+   * Returns the mode from the model.
+   *
+   * @return the mode: 1 for single player mode, 2 for hot seat mode, 3 for network mode.
+   */
+  int getMode();
 }
