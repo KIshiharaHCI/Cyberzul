@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 
-/** The Pattern Lines of a given player. One of the destinations the player can place tiles to. */
+/**
+ * The Pattern Lines of a given player. One of the destinations the player can place tiles to.
+ */
 public class PatternLines extends JPanel {
-  @Serial private static final long serialVersionUID = 7526472295622776147L;
+  @Serial
+  private static final long serialVersionUID = 7526472295622776147L;
   private static final int DEFAULT_TILE_SIZE = 25;
   private static final int ROWS = 5;
   private static final int COLS = 5;
@@ -22,8 +25,8 @@ public class PatternLines extends JPanel {
   /**
    * The constructor of {@link PatternLines}.
    *
-   * @param controller The controller.
-   * @param tileSize The size of the smallest element on the {@link PatternLines} board.
+   * @param controller        The controller.
+   * @param tileSize          The size of the smallest element on the {@link PatternLines} board.
    * @param tileClickListener The listener for click events.
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
@@ -41,9 +44,9 @@ public class PatternLines extends JPanel {
   /**
    * Initializes all the components of the {@link PatternLines}.
    *
-   * @param tileSize The size of the smallest element.
+   * @param tileSize          The size of the smallest element.
    * @param tileClickListener The listener to react on click events on the {@link PatternLines}
-   *     board.
+   *                          board.
    */
   public void initialize(int tileSize, String userName, TileClickListener tileClickListener) {
     ModelTile[][] currentPatternLines = this.controller.getPatternLinesOfPlayer(userName);
@@ -69,7 +72,9 @@ public class PatternLines extends JPanel {
     }
   }
 
-  /** Used by TileClickListener to remove all stored tiles from the previous player. */
+  /**
+   * Used by TileClickListener to remove all stored tiles from the previous player.
+   */
   public void remove() {
     for (JPanel currentRow : this.currentRows) {
       this.remove(currentRow);

@@ -322,11 +322,10 @@ public enum JsonMessage {
    * @param type the type of this JSONObject
    * @return a JSONObject that has the specified type.
    */
-  public static JSONObject createMessageOfType(JsonMessage type){
+  public static JSONObject createMessageOfType(JsonMessage type) {
     try {
       return new JSONObject().put(TYPE_FIELD, type.getJsonName());
-    }
-    catch (JSONException e) {
+    } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
   }
@@ -392,7 +391,7 @@ public enum JsonMessage {
    *         successfully logged in.
    */
   public static JSONObject loginSuccess() {
-      return createMessageOfType(LOGIN_SUCCESS);
+    return createMessageOfType(LOGIN_SUCCESS);
   }
 
   /**
@@ -465,7 +464,7 @@ public enum JsonMessage {
    *         floor line of the active player.
    */
   public static JSONObject placeTileInFloorLine() {
-      return createMessageOfType(PLACE_TILE_IN_FLOOR_LINE);
+    return createMessageOfType(PLACE_TILE_IN_FLOOR_LINE);
   }
 
   /**
@@ -502,7 +501,7 @@ public enum JsonMessage {
 
   /**
    * Converts a date to a string.
-
+   *
    * @param date the date to be converted
    * @return the string
    */
@@ -514,7 +513,7 @@ public enum JsonMessage {
 
   /**
    * converts a string to a date.
-
+   *
    * @param date string of a date to be converted.
    * @return the date as a date type
    * @throws ParseException the exception
@@ -538,10 +537,6 @@ public enum JsonMessage {
     } catch (JSONException e) {
       throw new IllegalArgumentException("Failed to create a json object.", e);
     }
-  }
-
-  public String getJsonName() {
-    return jsonName;
   }
 
   /**
@@ -575,7 +570,9 @@ public enum JsonMessage {
     }
   }
 
-
+  public String getJsonName() {
+    return jsonName;
+  }
 
 
 }

@@ -9,10 +9,7 @@ import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
 import cyberzul.model.events.ChatMessageRemovedEvent;
-import cyberzul.model.events.PlayerDisconnectedEvent;
-import cyberzul.model.events.YouConnectedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
-import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.model.events.GameCanceledEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
@@ -26,13 +23,16 @@ import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.NoValidTurnToMakeEvent;
 import cyberzul.model.events.NotYourTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.PlayerDisconnectedEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.RoundFinishedEvent;
 import cyberzul.model.events.UserJoinedEvent;
+import cyberzul.model.events.YouConnectedEvent;
+import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.network.client.messages.Message;
-import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.network.client.messages.PlayerForfeitedMessage;
+import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.network.client.messages.PlayerNeedHelpMessage;
 import cyberzul.network.client.messages.PlayerTextMessage;
 import cyberzul.network.client.messages.UserLeftMessage;
@@ -65,10 +65,10 @@ import org.json.JSONObject;
 public class ClientModel extends CommonModel implements ModelStrategy {
 
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
+  private static final int MAX_LENGTH = 10;
+  private final List<Message> playerMessages;
   private ClientNetworkConnection connection;
   private String thisPlayersName;
-  private final List<Message> playerMessages;
-  private static final int MAX_LENGTH = 10;
 
 
   /**
@@ -76,42 +76,14 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    *
    * @param listenerList the Listeners that tried to connect with the ModelStrategyChooser before
    *                     the ClientModel was created.
-   * @param ipAddress the IPv4 address of the server with which the ClientModel should connect,
-   *                  encoded as hex String.
+   * @param ipAddress    the IPv4 address of the server with which the ClientModel should connect,
+   *                     encoded as hex String.
    */
   public ClientModel(List<PropertyChangeListener> listenerList, String ipAddress) {
     super(listenerList);
 
     setConnection(ipAddress);
     playerMessages = Collections.synchronizedList(new ArrayList<>());
-  }
-
-  /**
-   * Sets up the connection with a given IP-address.
-   *
-   * @param ipAddressInHex the IP-address of the server, encoded as hex String.
-   */
-  public void setConnection(String ipAddressInHex) {
-    try {
-      //split ipAddressInHex into Strings of length 2.
-      String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
-
-      //parse the String array to a byte array
-      byte[] host = new byte[ipAddressArray.length];
-      for (int i = 0; i < ipAddressArray.length; i++) {
-        //The hex in the String is unsigned. The long is also unsigned, but should overflow to the
-        //correct value in int.
-        int partOfTheAddress = (int) Long.parseLong(ipAddressArray[i], 16);
-        host[i] = (byte) partOfTheAddress;
-      }
-
-      //create the ClientNetworkConnection.
-      this.connection =
-          new ClientNetworkConnection(this, host);
-      connection.start();
-    } catch (NumberFormatException e) {
-      notifyListeners(new InvalidIpv4AddressEvent());
-    }
   }
 
   @Override
@@ -156,6 +128,34 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
   private synchronized ClientNetworkConnection getConnection() {
     return connection;
+  }
+
+  /**
+   * Sets up the connection with a given IP-address.
+   *
+   * @param ipAddressInHex the IP-address of the server, encoded as hex String.
+   */
+  public void setConnection(String ipAddressInHex) {
+    try {
+      //split ipAddressInHex into Strings of length 2.
+      String[] ipAddressArray = ipAddressInHex.split("(?<=\\G.{" + 2 + "})");
+
+      //parse the String array to a byte array
+      byte[] host = new byte[ipAddressArray.length];
+      for (int i = 0; i < ipAddressArray.length; i++) {
+        //The hex in the String is unsigned. The long is also unsigned, but should overflow to the
+        //correct value in int.
+        int partOfTheAddress = (int) Long.parseLong(ipAddressArray[i], 16);
+        host[i] = (byte) partOfTheAddress;
+      }
+
+      //create the ClientNetworkConnection.
+      this.connection =
+          new ClientNetworkConnection(this, host);
+      connection.start();
+    } catch (NumberFormatException e) {
+      notifyListeners(new InvalidIpv4AddressEvent());
+    }
   }
 
   /**
@@ -561,7 +561,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    *
    * @param nickname the nickname of the player who disconnected from the server.
    */
-  public void playerLeft(String nickname){
+  public void playerLeft(String nickname) {
     addChatEntry(new UserLeftMessage(nickname));
     notifyListeners(new PlayerDisconnectedEvent(nickname));
   }
@@ -632,11 +632,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Add a message without time stamps.
    *
-<<<<<<< HEAD
-   * @param content the message that should be added.
-=======
-   * @param content The text that the participant had sent.
->>>>>>> 5951ab53632511a7fc9d35dfb27b205a26e63e88
+   * <p>@param content the message that should be added.
    */
   public void addTextMessageWithoutTimeStamp(String content) {
     System.out.println(content);
@@ -646,11 +642,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Inform the listeners that the client got disconnected from the server.
    */
-  public void youGotDisconnected(){
+  public void youGotDisconnected() {
     notifyListeners(new YouDisconnectedEvent());
   }
 
-  public void youConnectedToTheServer(){
+  public void youConnectedToTheServer() {
     notifyListeners(new YouConnectedEvent());
   }
 }

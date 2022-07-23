@@ -1,6 +1,5 @@
 package cyberzul.controller;
 
-import cyberzul.CyberzulMain;
 import cyberzul.model.Model;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
@@ -16,8 +15,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class GameController implements Controller {
 
-  private final Model model;
   private static final Logger LOGGER = LogManager.getLogger(GameController.class);
+  private final Model model;
 
 
   @SuppressFBWarnings(

@@ -34,15 +34,17 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
-/** listens to what tile is clicked on and makes the model change accordingly. */
+/**
+ * listens to what tile is clicked on and makes the model change accordingly.
+ */
 public class TileClickListener extends MouseAdapter implements OnClickVisitor {
 
+  private static final String placementSound = "audio/placement-sound.wav";
+  private static Clip clip;
+  private static AudioInputStream audioInputStream;
   private final Controller controller;
   private final Model model;
   private SourceTile source = null;
-  private static Clip clip;
-  private static AudioInputStream audioInputStream;
-  private static final String placementSound = "audio/placement-sound.wav";
 
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   public TileClickListener(Controller controller, Model model) {

@@ -17,7 +17,7 @@
 
         <!-- File Appenders -->
         <File name="modelLog"
-          fileName="${basePath}/modelLog.log">
+              fileName="${basePath}/modelLog.log">
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
                 </pattern>
@@ -25,7 +25,7 @@
         </File>
 
         <File name="controllerLog"
-          fileName="${basePath}/controllerLog.log">
+              fileName="${basePath}/controllerLog.log">
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
                 </pattern>
@@ -33,7 +33,7 @@
         </File>
 
         <File name="viewLog"
-          fileName="${basePath}/viewLog.log">
+              fileName="${basePath}/viewLog.log">
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
                 </pattern>
@@ -41,7 +41,7 @@
         </File>
 
         <File name="serverLog"
-          fileName="${basePath}/serverLog.log">
+              fileName="${basePath}/serverLog.log">
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
                 </pattern>
@@ -49,23 +49,22 @@
         </File>
 
 
-
         <RollingFile name="allApplication"
-          fileName="${basePath}/root.log"
-          filePattern="${basePath}/app-%d{yyyy-MM-dd}.log">
+                     fileName="${basePath}/root.log"
+                     filePattern="${basePath}/app-%d{yyyy-MM-dd}.log">
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
                 </pattern>
             </PatternLayout>
             <Policies>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
-                <SizeBasedTriggeringPolicy size="10MB" />
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
             </Policies>
             <!-- Max 10 files will be created everyday -->
             <DefaultRolloverStrategy max="10">
                 <Delete basePath="${basePath}" maxDepth="10">
                     <!-- Delete all files older than 30 days -->
-                    <IfLastModified age="30d" />
+                    <IfLastModified age="30d"/>
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>
@@ -73,26 +72,26 @@
 
     <Loggers>
         <Logger name="cyberzul.view" additivity="false" level="all">
-            <AppenderRef ref="viewLog" />
+            <AppenderRef ref="viewLog"/>
             <AppenderRef ref="Console-Appender" level="all"/>
 
         </Logger>
         <Logger name="cyberzul.controller" additivity="false" level="all">
-            <AppenderRef ref="controllerLog" />
+            <AppenderRef ref="controllerLog"/>
             <AppenderRef ref="Console-Appender" level="all"/>
 
         </Logger>
         <Logger name="cyberzul" additivity="false" level="all">
-            <AppenderRef ref="modelLog" />
+            <AppenderRef ref="modelLog"/>
             <AppenderRef ref="Console-Appender" level="all"/>
 
         </Logger>
         <Logger name="cyberzul.network.server" additivity="false" level="all">
-            <AppenderRef ref="serverLog" />
+            <AppenderRef ref="serverLog"/>
             <AppenderRef ref="Console-Appender" level="all"/>
         </Logger>
         <Root level="info" additivity="false">
-            <appender-ref ref="allApplication" />
+            <appender-ref ref="allApplication"/>
             <AppenderRef ref="Console-Appender" level="all"/>
         </Root>
     </Loggers>

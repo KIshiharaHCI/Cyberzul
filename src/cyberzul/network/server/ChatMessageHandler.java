@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 /**
  * Handles the chat messages that are send from the clients to the server.
- * */
+ */
 //TODO @Xue delete this class?!
 public class ChatMessageHandler extends ClientMessageHandler implements Runnable {
 
@@ -41,11 +41,11 @@ public class ChatMessageHandler extends ClientMessageHandler implements Runnable
    * single connected player. The specific objects are created from the given socket.
    *
    * @param serverConnection The connection handler that manages all the connected players
-   * @param socket The specific socket that belongs to this player
+   * @param socket           The specific socket that belongs to this player
    * @throws IOException Thrown when failing to retrieve the In- or Output-stream.
    */
   public ChatMessageHandler(
-          ServerNetworkConnection serverConnection, Socket socket, Controller controller,
+      ServerNetworkConnection serverConnection, Socket socket, Controller controller,
       Model model)
       throws IOException {
     super(serverConnection, socket, controller, model);
