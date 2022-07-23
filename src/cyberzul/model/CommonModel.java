@@ -27,6 +27,11 @@ public abstract class CommonModel implements ModelStrategy {
   protected ArrayList<Offering> offerings;
   protected boolean isGameStarted = false;
 
+  public static final int SINGLE_PLAYER_MODE = 1;
+  public static final int HOT_SEAT_MODE = 2;
+  public static final int NETWORK_MODE = 3;
+  private int mode;
+
   public CommonModel(List<PropertyChangeListener> listenerList) {
     support = new PropertyChangeSupport(this);
     addListenersToTheModel(listenerList);
@@ -300,6 +305,16 @@ public abstract class CommonModel implements ModelStrategy {
     PlayerTextMessage playerTextMessage = new PlayerTextMessage(getPlayerName(),
         new Date(), message);
     notifyListeners(new PlayerAddedMessageEvent(playerTextMessage));
+  }
+
+  @Override
+  public void setMode(int mode) {
+    this.mode = mode;
+  }
+
+  @Override
+  public int getMode() {
+    return mode;
   }
 
 }
