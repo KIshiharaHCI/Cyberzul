@@ -62,20 +62,18 @@ public class ClientNetworkConnection {
           socket = new Socket(InetAddress.getByAddress(HOST), PORT);
         } catch (ConnectException connectException) {
           if (connectException.getMessage().equals("Connection refused: connect")) {
-            if(connectionAttempts < MAX_CONNECTION_ATTEMPTS) {
+            if (connectionAttempts < MAX_CONNECTION_ATTEMPTS) {
               connectionAttempts++;
               continue;
-            }
-            else{
+            } else {
               model.handleConnectionWithServerNotPossible();
               break;
             }
           }
-          if(connectException.getMessage().equals("Connection timed out: connect")){
+          if (connectException.getMessage().equals("Connection timed out: connect")) {
             model.handleConnectionWithServerNotPossible();
             break;
-          }
-          else {
+          } else {
             connectException.printStackTrace();
             break;
           }
