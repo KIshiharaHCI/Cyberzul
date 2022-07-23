@@ -97,10 +97,13 @@ public class GameBoard extends JPanel {
   /** Creates all of the sidebar widgets and instantiates Chat, Settings and Ranking Board. */
   private void createChatAndRankingBoardAndSettingPanel() {
 
-    // create the Panel with RankingBoard, SettingBoard and Chat.
     JPanel chatAndRankingBoardAndSettingPanel = createEastPanel();
+    createRankingBoardAndSettingPanel(chatAndRankingBoardAndSettingPanel);
+    createTimer(chatAndRankingBoardAndSettingPanel);
+    createChatPanel(chatAndRankingBoardAndSettingPanel);
+  }
 
-    // create the Panel with RankingBoard and SettingBoard.
+  private void createRankingBoardAndSettingPanel(JPanel chatAndRankingBoardAndSettingPanel) {
     JPanel rankingBoardAndSettingPanel = new JPanel();
     rankingBoardAndSettingPanel.setLayout(new GridLayout(1, 2));
     rankingBoardAndSettingPanel.setOpaque(false);
@@ -113,7 +116,19 @@ public class GameBoard extends JPanel {
     rankingBoardAndSettingPanel.add(settingsPanel);
 
     chatAndRankingBoardAndSettingPanel.add(rankingBoardAndSettingPanel, BorderLayout.NORTH);
+  }
 
+  private void createChatPanel(JPanel chatAndRankingBoardAndSettingPanel) {
+    ChatPanel chatPanel = new ChatPanel(controller);
+    JPanel wrapperForChat = new JPanel();
+    wrapperForChat.setLayout(new BoxLayout(wrapperForChat, BoxLayout.Y_AXIS));
+    wrapperForChat.add(chatPanel);
+    wrapperForChat.setOpaque(false);
+    wrapperForChat.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
+    chatAndRankingBoardAndSettingPanel.add(wrapperForChat, BorderLayout.SOUTH);
+  }
+
+  private void createTimer(JPanel chatAndRankingBoardAndSettingPanel) {
     JLabel timerLabel = new JLabel();
     timerLabel.setPreferredSize(new Dimension(200, 30));
     timerLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -133,16 +148,13 @@ public class GameBoard extends JPanel {
     timerLabel.setText(secondsToTimer(timer.getTimerValue()));
     timer.setInitialDelay(0);
     chatAndRankingBoardAndSettingPanel.add(timerLabel, BorderLayout.CENTER);
-
-    ChatPanel chatPanel = new ChatPanel(controller);
-    JPanel wrapperForChat = new JPanel();
-    wrapperForChat.setLayout(new BoxLayout(wrapperForChat, BoxLayout.Y_AXIS));
-    wrapperForChat.add(chatPanel);
-    wrapperForChat.setOpaque(false);
-    wrapperForChat.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
-    chatAndRankingBoardAndSettingPanel.add(wrapperForChat, BorderLayout.SOUTH);
   }
 
+  /**
+   * {@link GameBoard} eastern part.
+   *
+   * @return the created eastern Panel.
+   */
   private JPanel createEastPanel() {
     JPanel chatAndRankingBoardAndSettingPanel = new JPanel();
     chatAndRankingBoardAndSettingPanel.setLayout(new BorderLayout());
@@ -176,13 +188,19 @@ public class GameBoard extends JPanel {
     return timerFont;
   }
 
-  private String secondsToTimer(int startingSeconds) {
+  /**
+   * Create text for Timer.
+   *
+   * @param seconds time left in seconds.
+   * @return the text for Timer.
+   */
+  private String secondsToTimer(int seconds) {
     String finalTimerString = "00";
 
-    if (startingSeconds < 10) {
-      finalTimerString = finalTimerString + ":0" + startingSeconds;
+    if (seconds < 10) {
+      finalTimerString = finalTimerString + ":0" + seconds;
     } else {
-      finalTimerString = finalTimerString + ":" + startingSeconds;
+      finalTimerString = finalTimerString + ":" + seconds;
     }
 
     return finalTimerString;

@@ -127,6 +127,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   //  public void dispose() {
   //    this.musicPlayerHelper.stopBackgroundMusic();
   //    this.musicPlayerHelper.closeAllOfMusicPlayer();
+  //    this.gameBoard.getTimer.stop();
   //    super.dispose();
   //  }
 
