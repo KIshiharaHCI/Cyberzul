@@ -24,9 +24,8 @@ import cyberzul.view.board.ChatPanel;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.board.MusicPlayerHelper;
 import cyberzul.view.listeners.TileClickListener;
-import cyberzul.view.panels.HotSeatLobbyScreen;
+import cyberzul.view.panels.SinglePlayerLobbyScreen;
 import cyberzul.view.panels.NetworkLobbyScreen;
-import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,9 +64,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private final transient Controller controller;
   private final transient MusicPlayerHelper musicPlayerHelper;
   private String CURRENT_CARD;
-  private HotSeatLobbyScreen hotSeatLobbyScreen;
+  private SinglePlayerLobbyScreen hotSeatLobbyScreen;
   private NetworkLobbyScreen networkLobbyScreen;
-  private SinglePlayerPanel singlePlayerPanel;
+  private SinglePlayerLobbyScreen singlePlayerPanel;
   private CardLayout layout;
   private JTextField inputField;
   private JButton hotSeatModeButton;
@@ -448,7 +447,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    * This card gets shown if the user selects "hot seat mode" at the start of the program.
    */
   private void createHotSeatModeCard() {
-    hotSeatLobbyScreen = new HotSeatLobbyScreen(controller, frameDimension);
+    hotSeatLobbyScreen = new SinglePlayerLobbyScreen(controller, frameDimension);
     JLayeredPane hotSeatModePanel = hotSeatLobbyScreen;
     JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
@@ -456,7 +455,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   }
 
   private void createSinglePlayerModeCard() {
-    JPanel singlePlayerModePanel = new SinglePlayerPanel(frameDimension);
+    JLayeredPane singlePlayerModePanel = new SinglePlayerLobbyScreen(controller, frameDimension);
     JPanel backgroundPanel = new ImagePanel(singlePlayerModePanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, SINGLEPLAYER_CARD);
