@@ -4,6 +4,7 @@ import cyberzul.controller.Controller;
 import cyberzul.controller.GameController;
 import cyberzul.model.Model;
 import cyberzul.model.ModelStrategyChooser;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -18,11 +19,14 @@ public class Server {
   private static Server instance;
   private static String iPv4InHex;
   private final Model gameModel;
-  private ServerNetworkConnection connection;
+  private static ServerNetworkConnection connection;
+  private static boolean isRunning;
 
   /**
    * The server on which the game runs and who distributes chat messages.
+   * Suppress FBwarning because only one server will be created.
    */
+  @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
   private Server() {
     this.gameModel = new ModelStrategyChooser();
     gameModel.setGameModelStrategy();
@@ -53,6 +57,7 @@ public class Server {
     if (instance == null) {
       instance = new Server();
       iPv4InHex = getIpAsHex();
+      isRunning = true;
     }
     return iPv4InHex;
   }
@@ -82,5 +87,21 @@ public class Server {
       e.printStackTrace();
     }
     return ipinhex.toString();
+  }
+
+  /**
+   * Informs if the server is running right now.
+   *
+   * @return <code>true</code> if the server is running right now. <code>false</code> else.
+   */
+  public static boolean isRunning() {
+    return isRunning;
+  }
+
+  /**
+   * Stops the server and disposes of all resources.
+   */
+  public static void stop() {
+    instance = null;
   }
 }

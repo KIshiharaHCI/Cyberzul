@@ -1,7 +1,6 @@
 package cyberzul.network.client;
 
 import cyberzul.network.client.messages.PlayerTextMessage;
-import cyberzul.network.server.Server;
 import cyberzul.network.shared.JsonMessage;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
@@ -33,6 +32,9 @@ public class ClientNetworkConnection {
   private BufferedWriter writer;
   private BufferedReader reader;
   private Thread thread;
+  private boolean isConnected = false;
+  private int connectionAttempts = 0;
+  private static final int MAX_CONNECTION_ATTEMPTS = 1;
 
 
   //this class needs this reference to this mutable objects.
@@ -54,14 +56,23 @@ public class ClientNetworkConnection {
 
   private void doConnectLoop() {
     try {
-      while (!Thread.interrupted()) {
+      while (!Thread.interrupted() && !isConnected) {
         Socket socket;
         try {
           socket = new Socket(InetAddress.getByAddress(HOST), PORT);
         } catch (ConnectException connectException) {
           if (connectException.getMessage().equals("Connection refused: connect")) {
-            Server.start();
-            continue;
+            if (connectionAttempts < MAX_CONNECTION_ATTEMPTS) {
+              connectionAttempts++;
+              continue;
+            } else {
+              model.handleConnectionWithServerNotPossible();
+              break;
+            }
+          }
+          if (connectException.getMessage().equals("Connection timed out: connect")) {
+            model.handleConnectionWithServerNotPossible();
+            break;
           } else {
             connectException.printStackTrace();
             break;
@@ -97,6 +108,7 @@ public class ClientNetworkConnection {
             new InputStreamReader(this.socket.getInputStream(), StandardCharsets.UTF_8));
   }
 
+  @SuppressFBWarnings("IS2_INCONSISTENT_SYNC")
   private void doInputLoop() {
     while (!Thread.currentThread().isInterrupted()) {
       try {
@@ -129,7 +141,10 @@ public class ClientNetworkConnection {
    */
   public void handleMessage(JSONObject object) throws JSONException {
     switch (JsonMessage.typeOf(object)) {
-      case CONNECTED -> model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));
+      case CONNECTED -> {
+        isConnected = true;
+        model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));
+      }
       case LOGIN_SUCCESS -> model.loggedIn();
       case LOGIN_FAILED -> model.loginFailed(object.getString(JsonMessage.ADDITIONAL_INFORMATION));
       case GAME_STARTED -> handleGameStarted(object);

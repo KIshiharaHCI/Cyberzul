@@ -48,7 +48,7 @@ public class GameBoard extends JPanel {
   private IconButton cancelButton;
   private IconButton restartButton;
   private JPanel systemSoundPanel;
-  private JPanel musicSoundPanel;
+  private JPanel musicSoundPanel = new JPanel(new GridLayout(2, 1));
   private JLabel musicSoundLabel;
   private JLabel systemSoundLabel;
   private TurnCountDownTimer timer;

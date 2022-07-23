@@ -1,10 +1,9 @@
 package cyberzul.view.panels;
 
-import static cyberzul.view.CyberzulView.getCustomFont;
-
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.network.server.Server;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -33,6 +32,9 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 
 /** Lobby Screen that functions as the Lobby when a player wants to play via local network. */
 public class NetworkLobbyScreen extends JLayeredPane {
@@ -66,6 +68,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
   private JPanel inputNickPopUp;
   private JPanel selectModePopUp;
   private JButton playGameButton;
+  private JButton bulletButton;
   private String ipAddress;
 
   /**
@@ -74,6 +77,9 @@ public class NetworkLobbyScreen extends JLayeredPane {
    * @param controller controller for the application
    * @param frameDimension determined by Cyberzulview.
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  // this class needs these references to these mutable objects.
   public NetworkLobbyScreen(Controller controller, Model model, Dimension frameDimension) {
     this.controller = controller;
     this.model = model;
@@ -97,6 +103,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
     add(selectModePopUp, Integer.valueOf(1));
 
     JLabel selectOption = new JLabel("Select option");
+
     selectOption.setFont(customFont.deriveFont(18f));
     selectOption.setForeground(Color.white);
     selectOption.setBounds(180, 100, 400, 30);
@@ -276,7 +283,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
     bulletMode.setBounds(250, 540, 400, 30);
     add(bulletMode, Integer.valueOf(1));
 
-    JButton bulletButton = new JButton(checkUnselected);
+    bulletButton = new JButton(checkUnselected);
     bulletButton.addMouseListener(
         new MouseAdapter() {
           @Override
@@ -284,14 +291,9 @@ public class NetworkLobbyScreen extends JLayeredPane {
             if (checkUnselected.equals(bulletButton.getIcon())) {
               bulletButton.setIcon(checkSelected);
               controller.setBulletMode(true);
-
-              // TODO: setBullet(false) in Constructor if default (false) is not set in model
-              // TODO: controller.setBullet(true)
             } else {
               bulletButton.setIcon(checkUnselected);
               controller.setBulletMode(false);
-
-              // TODO: controller.setBullet(false)
             }
           }
         });
@@ -474,6 +476,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
         });
     inputField.setBounds(140, 150, 300, 30);
     inputField.setFont(customFont);
+
     inputNickPopUp.add(inputField);
 
     inputNickPopUp.setOpaque(false);
@@ -522,6 +525,15 @@ public class NetworkLobbyScreen extends JLayeredPane {
       ipAddressOnContainer.setText("Server IP " + ipAddress);
       ipAddressOnContainer.setVisible(true);
     }
+  }
+
+  /**
+   * Used for the Bullet Check Box when.
+   *
+   * @param toggle is bulletMode checkbox toggled on or off.
+   */
+  public void updateBulletCheckBox(boolean toggle) {
+    bulletButton.setIcon(toggle ? checkSelected : checkUnselected);
   }
 
   /**

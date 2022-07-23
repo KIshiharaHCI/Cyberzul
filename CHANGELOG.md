@@ -12,6 +12,7 @@ to [ Semantic Versioning ]( https://semver.org/spec/v2.0.0.html ).
 - What was previously called Azul is now _Cyberzul_!
 - Design changes to the view (in all modes).
 - README now contains Cyberzul instructions!
+- Boring Azul instructions are now amazing Cyberzul instructions!
 
 ### Added
 
@@ -27,7 +28,8 @@ to [ Semantic Versioning ]( https://semver.org/spec/v2.0.0.html ).
     - That enables the players to send each other messages.
 - Added an AI.
 - Added single player mode - to play against one, two or three AI-players.
-- Added _Bullet-Mode_ to the game. Players have 30 seconds for each move, otherwise AI will make a random move for them.
+- Added _Bullet-Mode_ to the game. Players have 12 seconds for each move, otherwise AI will make a random move for them.
+    - In Network mode bullet mode on/off is synchronized. If one player enables/disables it, all players buttons will be shown as on/off. 
 - Added JUnit tests using JUnit 5.8.1 for the bag classes and the player class
 
 ## [1.0.0] - 2022-07-03

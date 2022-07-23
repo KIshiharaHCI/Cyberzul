@@ -1,6 +1,5 @@
 package cyberzul.view.board;
 
-import static cyberzul.view.CyberzulView.getCustomFont;
 
 import cyberzul.controller.Controller;
 import cyberzul.view.listeners.TileClickListener;
@@ -13,6 +12,8 @@ import java.io.Serial;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import static cyberzul.view.CyberzulView.getCustomFont;
 
 /**
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the

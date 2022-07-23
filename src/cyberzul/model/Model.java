@@ -18,4 +18,11 @@ public interface Model extends ModelStrategy {
    */
   void setGameModelStrategy();
 
+  /**
+   * Informs if the ModelStrategyChooser already chose a strategy.
+   *
+   * @return <code>true</code> if the ModelStrategyChooser chose a Strategy already.
+   *         <code>false</code> else.
+   */
+  boolean isStrategyChosen();
 }

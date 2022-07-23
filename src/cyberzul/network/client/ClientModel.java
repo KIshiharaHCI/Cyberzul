@@ -29,6 +29,7 @@ import cyberzul.model.events.PlayerHas5TilesInArowEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.RoundFinishedEvent;
+import cyberzul.model.events.ConnectionWithServerNotPossibleEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.network.client.messages.Message;
@@ -681,5 +682,16 @@ public class ClientModel extends CommonModel implements ModelStrategy {
     } catch (JSONException e) {
       e.printStackTrace();
     }
+  }
+
+  public void stop(){
+
+  }
+
+  /**
+   * Notify the listeners that the connection attempts with the server failed.
+   */
+  public void handleConnectionWithServerNotPossible(){
+    notifyListeners(new ConnectionWithServerNotPossibleEvent());
   }
 }

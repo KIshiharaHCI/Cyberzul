@@ -1,6 +1,5 @@
 package cyberzul.view.board;
 
-import static cyberzul.view.CyberzulView.getCustomFont;
 
 import cyberzul.controller.Controller;
 import cyberzul.view.ImagePanel;
@@ -13,6 +12,8 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import static cyberzul.view.CyberzulView.getCustomFont;
 
 /**
  * The Ranking board which shows the name of all players and their points in descending order.
