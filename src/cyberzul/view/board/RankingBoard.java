@@ -4,12 +4,14 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.view.ImagePanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.io.Serial;
 import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import static cyberzul.view.CyberzulView.getCustomFont;
 
