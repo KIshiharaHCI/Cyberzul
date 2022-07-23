@@ -543,11 +543,11 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   /**
-   * Inform the listeners that this player forfeited the game (or left the game before it ended).
+   * Inform the listeners that this player left the game before it ended.
    *
    * @param nickname The name of the player who left the game.
    */
-  public void playerForfeited(final String nickname) {
+  public void playerLeftBeforeGameStarted(final String nickname) {
     addChatEntry(new PlayerForfeitedMessage(nickname));
     notifyListeners(new GameForfeitedEvent(nickname));
   }
@@ -623,7 +623,6 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    * @param playerWhoForfeitedTheGame the name of the player who forfeited the game.
    */
   public void handleGameForfeited(String playerWhoForfeitedTheGame) {
-    System.out.println("Test " + playerWhoForfeitedTheGame);
     getPlayerByName(playerWhoForfeitedTheGame).setName("AI-" + playerWhoForfeitedTheGame);
     notifyListeners(new GameForfeitedEvent(playerWhoForfeitedTheGame));
   }

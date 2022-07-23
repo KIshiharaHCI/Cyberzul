@@ -137,7 +137,7 @@ public class ClientNetworkConnection {
         model.userJoined(object.getString(JsonMessage.NICK_FIELD));
         model.playerJoinedChat(object.getString(JsonMessage.NICK_FIELD));
       }
-      case PLAYER_FORFEITED -> model.playerForfeited(object.getString(JsonMessage.NICK_FIELD));
+      case PLAYER_LEFT_BEFORE_GAME_STARTED -> model.playerLeftBeforeGameStarted(object.getString(JsonMessage.NICK_FIELD));
       case PLAYER_LEFT -> model.playerLeft(JsonMessage.NICK_FIELD);
       case NEXT_PLAYERS_TURN -> model.handleNextPlayersTurn(object);
       case NOT_YOUR_TURN -> model.handleNotYourTurn();

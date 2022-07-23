@@ -572,4 +572,6 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void showCard(String card) {
     layout.show(getContentPane(), card);
   }
+
+  
 }
