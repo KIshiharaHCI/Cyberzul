@@ -132,7 +132,8 @@ public class ClientNetworkConnection {
     switch (JsonMessage.typeOf(object)) {
       case CONNECTED -> {
         isConnected = true;
-        model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));}
+        model.connected(object.getJSONArray(JsonMessage.PLAYER_NAMES_FIELD));
+      }
       case LOGIN_SUCCESS -> model.loggedIn();
       case LOGIN_FAILED -> model.loginFailed(object.getString(JsonMessage.ADDITIONAL_INFORMATION));
       case GAME_STARTED -> handleGameStarted(object);
