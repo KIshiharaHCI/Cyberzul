@@ -377,6 +377,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         }
       }
       case "GameCanceledEvent" -> {
+        this.musicPlayerHelper.turnMusicOnOff(true);
         showHsmCard();
       }
       case "NotYourTurnEvent" -> showErrorMessage(
