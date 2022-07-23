@@ -142,6 +142,7 @@ public abstract class PlayerBoard extends JPanel {
     nameLabel.setForeground(Color.white);
   }
 
+  @SuppressFBWarnings("EI_EXPOSE_REP")
   public JLabel getNameLabel() {
     return nameLabel;
   }

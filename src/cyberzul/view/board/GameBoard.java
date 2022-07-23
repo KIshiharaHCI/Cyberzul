@@ -51,6 +51,10 @@ public class GameBoard extends JPanel {
   private JLabel systemSoundLabel;
   private TurnCountDownTimer timer;
 
+  private final String nickOfCenterBoardPlayer;
+
+  private final boolean hotSeatMode;
+
   /**
    * Creates the main game panel which contains all other game elements.
    *
@@ -65,10 +69,14 @@ public class GameBoard extends JPanel {
       TileClickListener tileClickListener,
       Controller controller,
       Dimension frameDimension,
+      String nickOfCenterBoardPlayer,
+      boolean hotSeatMode,
       MusicPlayerHelper musicPlayerHelper) {
 
     this.controller = controller;
     this.frameDimension = frameDimension;
+    this.nickOfCenterBoardPlayer = nickOfCenterBoardPlayer;
+    this.hotSeatMode = hotSeatMode;
     setLayout(new BorderLayout());
     setOpaque(false);
     setMinimumSize(frameDimension);
@@ -77,7 +85,9 @@ public class GameBoard extends JPanel {
     createOpponentsPanel();
     createChatAndRankingBoardAndSettingPanel();
 
-    center = new CenterBoard(controller, tileClickListener, frameDimension);
+    center =
+        new CenterBoard(
+            controller, tileClickListener, nickOfCenterBoardPlayer, hotSeatMode, frameDimension);
     add(center, BorderLayout.CENTER);
     this.musicPlayerHelper = musicPlayerHelper;
   }
@@ -285,6 +295,14 @@ public class GameBoard extends JPanel {
     settingsPanel.add(roundButtonsPanel, BorderLayout.EAST);
   }
 
+  private String getCurrentPlayer() {
+    String playerName = nickOfCenterBoardPlayer;
+    if (hotSeatMode) {
+      playerName = controller.getNickOfActivePlayer();
+    }
+    return playerName;
+  }
+
   /** Creates the sidebar with the panels of the opponents. */
   private void createOpponentsPanel() {
     otherPlayerBoards = new ArrayList<>();
@@ -298,8 +316,9 @@ public class GameBoard extends JPanel {
 
     List<String> listOfActivePlayers = controller.getPlayerNamesList();
     Dimension playerBoardDimension = new Dimension(frameDimension.width - 20, 200);
+
     for (String opponentPlayer : listOfActivePlayers) {
-      if (!opponentPlayer.equals(controller.getNickOfActivePlayer())) {
+      if (!opponentPlayer.equals(getCurrentPlayer())) {
         PlayerBoard playerBoard =
             new SmallPlayerBoard(controller, null, opponentPlayer, playerBoardDimension);
         otherPlayerBoards.add(playerBoard);
@@ -336,7 +355,7 @@ public class GameBoard extends JPanel {
     }
     otherPlayerBoards.clear();
     List<String> listOfActivePlayers = controller.getPlayerNamesList();
-    String nameOfCurrentPlayer = controller.getNickOfActivePlayer();
+    String nameOfCurrentPlayer = getCurrentPlayer();
     int indexOfCurrentPlayer = listOfActivePlayers.indexOf(nameOfCurrentPlayer);
     Dimension playerBoardDimension = new Dimension(frameDimension.width - 20, 200);
     initializeOnePart(

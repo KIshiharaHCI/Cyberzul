@@ -1,8 +1,22 @@
 package cyberzul.view;
 
+import static java.util.Objects.requireNonNull;
+
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
-import cyberzul.model.events.*;
+import cyberzul.model.events.ChatMessageRemovedEvent;
+import cyberzul.model.events.ConnectedWithServerEvent;
+import cyberzul.model.events.GameFinishedEvent;
+import cyberzul.model.events.GameForfeitedEvent;
+import cyberzul.model.events.GameNotStartableEvent;
+import cyberzul.model.events.InvalidIpv4AddressEvent;
+import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.PlayerHasEndedTheGameEvent;
+import cyberzul.model.events.PlayerJoinedChatEvent;
+import cyberzul.model.events.UserJoinedEvent;
+import cyberzul.model.events.YouConnectedEvent;
+import cyberzul.model.events.YouDisconnectedEvent;
 import cyberzul.network.server.Server;
 import cyberzul.view.board.ChatPanel;
 import cyberzul.view.board.GameBoard;
@@ -12,27 +26,39 @@ import cyberzul.view.panels.HotSeatLobbyScreen;
 import cyberzul.view.panels.NetworkLobbyScreen;
 import cyberzul.view.panels.SinglePlayerPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.HeadlessException;
+import java.awt.Image;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Objects.requireNonNull;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * GUI for Cyberzul Changes its appearance based on the model information.
  */
 
 public class CyberzulView extends JFrame implements PropertyChangeListener {
-
+  @Serial
   private static final long serialVersionUID = 7526472295622776147L;
 
   private static final Logger LOGGER = LogManager.getLogger(CyberzulView.class);
@@ -52,6 +78,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private final transient Controller controller;
   private final transient MusicPlayerHelper musicPlayerHelper;
   private HotSeatLobbyScreen hotSeatLobbyScreen;
+  private boolean hotseatMode = false;
   private NetworkLobbyScreen networkLobbyScreen;
   private CardLayout layout;
   private JTextField inputField;
@@ -442,6 +469,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    * This card gets shown if the user selects "hot seat mode" at the start of the program.
    */
   private void createHotSeatModeCard() {
+    hotseatMode = true;
     hotSeatLobbyScreen = new HotSeatLobbyScreen(controller, frameDimension);
     JLayeredPane hotSeatModePanel = hotSeatLobbyScreen;
     JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, backgroundPath, FRAME_WIDTH,
@@ -506,7 +534,14 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     JPanel backgroundPanel = new ImagePanel(gameBoardPanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
     add(backgroundPanel, GAMEBOARD_CARD);
-    gameBoard = new GameBoard(tileClickListener, controller, frameDimension, musicPlayerHelper);
+    String playerName;
+    if (hotseatMode) {
+      playerName = controller.getNickOfActivePlayer();
+    } else {
+      playerName = model.getPlayerName();
+    }
+    gameBoard = new GameBoard(tileClickListener, controller, frameDimension, playerName,
+        hotseatMode, musicPlayerHelper);
 
     gameBoardPanel.add(gameBoard);
     gameBoard.repaint();

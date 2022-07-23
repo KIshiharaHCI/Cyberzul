@@ -23,8 +23,7 @@ import javax.swing.JPanel;
             + "an external source and the model is safe, we think it is ok to suppress "
             + "this warning.")
 public class CenterBoard extends JPanel {
-  @Serial
-  private static final long serialVersionUID = 5L;
+  @Serial private static final long serialVersionUID = 5L;
   private final transient Controller controller;
   private final JPanel boardAndPlatesAndTablePanel;
   private final transient TileClickListener tileClickListener;
@@ -36,17 +35,26 @@ public class CenterBoard extends JPanel {
   private Dimension topPanelDimension;
   private Dimension bottomPanelDimension;
 
+  private final String loggedInPlayer;
+  private final boolean hotSeatMode;
+
   /**
    * Creates the center board based on the number of players and with the tile click listeners.
    *
    * @param tileClickListener the tile click listener
    */
   public CenterBoard(
-      Controller controller, TileClickListener tileClickListener, Dimension panelDimension) {
+      Controller controller,
+      TileClickListener tileClickListener,
+      String nickOfCenterBoardPlayer,
+      boolean hotSeatMode,
+      Dimension panelDimension) {
     this.controller = controller;
 
     this.tileClickListener = tileClickListener;
     this.panelDimension = panelDimension;
+    this.loggedInPlayer = nickOfCenterBoardPlayer;
+    this.hotSeatMode = hotSeatMode;
 
     computePanelSizes();
     setProperties();
@@ -61,6 +69,14 @@ public class CenterBoard extends JPanel {
     createNewPlayerBoard();
 
     add(boardAndPlatesAndTablePanel);
+  }
+
+  private String getCurrentPlayer() {
+    String playerName = loggedInPlayer;
+    if (hotSeatMode) {
+      playerName = controller.getNickOfActivePlayer();
+    }
+    return playerName;
   }
 
   /**
@@ -91,23 +107,16 @@ public class CenterBoard extends JPanel {
     boardAndPlatesAndTablePanel.add(platesAndTableCenterPanel, BorderLayout.NORTH);
   }
 
-  /**
-   * Used by Constructor and CyberzulView to create and add a new PlayerBoard panel.
-   */
+  /** Used by Constructor and CyberzulView to create and add a new PlayerBoard panel. */
   void createNewPlayerBoard() {
     currentPlayerBoard =
         new ActivePlayerBoard(
-            controller,
-            tileClickListener,
-            controller.getNickOfActivePlayer(),
-            bottomPanelDimension);
+            controller, tileClickListener, getCurrentPlayer(), bottomPanelDimension);
 
     boardAndPlatesAndTablePanel.add(currentPlayerBoard, BorderLayout.CENTER);
   }
 
-  /**
-   * Used by Constructor and CyberzulView to create and add a new Plates panel.
-   */
+  /** Used by Constructor and CyberzulView to create and add a new Plates panel. */
   void createNewPlatesPanel() {
     List<Offering> factoryDisplays =
         controller.getOfferings().subList(1, controller.getOfferings().size());
@@ -117,17 +126,13 @@ public class CenterBoard extends JPanel {
     platesAndTableCenterPanel.add(platesPanel, BorderLayout.CENTER);
   }
 
-  /**
-   * Used by Constructor and CyberzulView to create and add a new TableCenter panel.
-   */
+  /** Used by Constructor and CyberzulView to create and add a new TableCenter panel. */
   void createNewTableCenter() {
     tableCenterPanel = new TableCenterPanel(controller, tileClickListener, topPanelDimension);
     platesAndTableCenterPanel.add(tableCenterPanel, BorderLayout.EAST);
   }
 
-  /**
-   * Removes all Panels of the last player who ended their turn.
-   */
+  /** Removes all Panels of the last player who ended their turn. */
   public void removeAllPanels() {
     platesAndTableCenterPanel.remove(tableCenterPanel);
     platesAndTableCenterPanel.remove(platesPanel);
