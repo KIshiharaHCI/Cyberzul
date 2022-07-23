@@ -34,7 +34,7 @@ import javax.swing.SwingUtilities;
 /**
  * The Chat Panel at the right side of the GameBoard.
  * */
-@SuppressFBWarnings("EI_EXPOSE_REP2")
+
 public class ChatPanel extends JPanel implements PropertyChangeListener {
 
   private static final int DEFAULT_HEIGHT = 300;
@@ -46,7 +46,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   private static final String chaticon = "img/chaticon.png";
 
   public static final DefaultListModel<Message> listModel = new DefaultListModel<>();
-  private transient final Controller controller;
+  private final transient Controller controller;
   private JTextArea inputArea;
   private JScrollPane scrollPane;
   private IconButton closeChatButton;
@@ -56,6 +56,7 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
   /**
    * create a new chat panel with the respective widgets.
    */
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
   public ChatPanel(Controller controller) {
     this.controller = controller;
     initializeWidgets();

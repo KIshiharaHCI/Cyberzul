@@ -1,5 +1,6 @@
 package cyberzul.view;
 
+import cyberzul.network.client.messages.GameStateMessage;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerForfeitedMessage;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
@@ -27,6 +28,8 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
    */
   public ChatCellRenderer() {
     super();
+    setLineWrap(true);
+    setWrapStyleWord(true);
     setOpaque(true);
     dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
   }
@@ -39,8 +42,6 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
 
     setBackground(list.getBackground());
     setForeground(list.getForeground());
-
-    setWrapStyleWord(true);
 
     if (value instanceof PlayerLoggedInMessage playerLoggedInMsg) {
       setText("Chat joined as " + playerLoggedInMsg.getNickname() + ".");
@@ -58,6 +59,9 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
     }
     if (value instanceof PlayerNeedHelpMessage playerNeedHelpMessage) {
       setText(playerNeedHelpMessage.getContent());
+    }
+    if (value instanceof GameStateMessage gameStateMessage) {
+      setText((gameStateMessage.getContent()));
     }
 
     return this;

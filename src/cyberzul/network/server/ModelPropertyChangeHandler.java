@@ -4,11 +4,13 @@ import cyberzul.model.Model;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
+import cyberzul.model.events.BulletModeChangedEvent;
 import cyberzul.model.events.GameCanceledEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
+import cyberzul.model.events.PlayerHas5TilesInArowEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.network.client.messages.PlayerTextMessage;
@@ -81,10 +83,35 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case GameCanceledEvent.EVENT_NAME -> handleGameCanceledEvent(customMadeGameEvent);
       case GameForfeitedEvent.EVENT_NAME -> handleGameForfeitedEvent(customMadeGameEvent);
       case PlayerAddedMessageEvent.EVENT_NAME -> handlePlayerAddedMessageEvent(customMadeGameEvent);
-      //TODO: @Xue maybe delete PlayerJoinedChatEvent
       case PlayerJoinedChatEvent.EVENT_NAME -> handlePlayerJoinedChatEvent(customMadeGameEvent);
-
+      case PlayerHas5TilesInArowEvent.EVENT_NAME -> handlePlayerHas5TilesInArowEvent(
+          customMadeGameEvent);
+      case BulletModeChangedEvent.EVENT_NAME -> handleBulletModeChangedEvent(customMadeGameEvent);
       default -> throw new AssertionError("Unknown event: " + eventName);
+    }
+  }
+
+  private void handleBulletModeChangedEvent(Object customMadeGameEvent) {
+    BulletModeChangedEvent bulletModeChangedEvent = (BulletModeChangedEvent) customMadeGameEvent;
+    JSONObject message = JsonMessage.createMessageOfType(JsonMessage.BULLET_MODE);
+    try {
+      message.put(JsonMessage.IS_BULLET_MODE_FIELD, bulletModeChangedEvent.isBulletModeActivated());
+      connection.broadcastToAll(message);
+    } catch (JSONException | IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  private void handlePlayerHas5TilesInArowEvent(Object customMadeGameEvent) {
+    PlayerHas5TilesInArowEvent playerHas5TilesInArowEvent =
+        (PlayerHas5TilesInArowEvent) customMadeGameEvent;
+    JSONObject message = JsonMessage.createMessageOfType(JsonMessage.PLAYER_HAS_5_TILES_IN_A_ROW);
+    try {
+      message.put(JsonMessage.NICK_FIELD, playerHas5TilesInArowEvent.getEnder());
+      connection.broadcastToAll(message);
+    } catch (IOException | JSONException e) {
+      e.printStackTrace();
     }
   }
 
@@ -227,7 +254,6 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       JSONObject message = JsonMessage.createMessageOfType(JsonMessage.GAME_FORFEITED);
       message.put(JsonMessage.NICK_FIELD, nameOfThePlayerWhoForfeited);
 
-      connection.removeHandlerFromList(nameOfThePlayerWhoForfeited);
       connection.broadcastToAll(message);
 
     } catch (JSONException | IOException e) {

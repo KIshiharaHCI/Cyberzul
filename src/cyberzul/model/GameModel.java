@@ -1,5 +1,6 @@
 package cyberzul.model;
 
+import cyberzul.model.events.BulletModeChangedEvent;
 import cyberzul.model.events.GameCanceledEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
@@ -10,8 +11,8 @@ import cyberzul.model.events.IllegalTurnEvent;
 import cyberzul.model.events.LoggedInEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
+import cyberzul.model.events.PlayerHas5TilesInArowEvent;
 import cyberzul.model.events.PlayerHasChosenTileEvent;
-import cyberzul.model.events.PlayerHasEndedTheGameEvent;
 import cyberzul.model.events.RoundFinishedEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -40,7 +41,6 @@ public class GameModel extends CommonModel implements ModelStrategy {
   private boolean hasGameEnded = false;
   private Offering currentOffering;
   private int currentIndexOfTile;
-  private boolean isBulletMode;
 
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
@@ -52,9 +52,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
     offerings = new ArrayList<>();
   }
 
-  /**
-   * see {@link Model}.
-   */
+  @Override
   public void loginWithName(String nickname) {
     boolean nicknameFree = true;
     if (playerList.size() >= MAX_PLAYER_NUMBER) {
@@ -83,9 +81,23 @@ public class GameModel extends CommonModel implements ModelStrategy {
     } else {
       setUpOfferings();
       isGameStarted = true;
-      notifyListeners(new GameStartedEvent());
+      notifyListeners(new GameStartedEvent(playerList.get(0).getName()));
     }
-    startTimerForPlayer(getNickOfActivePlayer());
+    if (getBulletMode()) {
+      LOGGER.info("Timer was set in startGame-Method.");
+      startTimerForPlayer(getNickOfActivePlayer());
+    }
+  }
+
+  @Override
+  public void setBulletMode(boolean bulletMode) {
+    if (bulletMode) {
+      LOGGER.info("Game is set to be a bullet game.");
+    } else {
+      LOGGER.info("Game is no bullet game.");
+    }
+    isBulletMode = bulletMode;
+    notifyListeners(new BulletModeChangedEvent(isBulletMode));
   }
 
   @Override
@@ -107,14 +119,16 @@ public class GameModel extends CommonModel implements ModelStrategy {
     }
     indexOfActivePlayer = 0;
 
-    notifyListeners(new GameStartedEvent());
+    notifyListeners(new GameStartedEvent(playerList.get(0).getName()));
 
     // if we restart the game and the first player is an AI-Player, he/she needs to start making
     // a move
     if (getPlayerByName(getNickOfActivePlayer()).isAiPlayer()) {
       makeAiPlayerMakeMove(getNickOfActivePlayer());
     } else {
-      startTimerForPlayer(getNickOfActivePlayer());
+      if (getBulletMode()) {
+        startTimerForPlayer(getNickOfActivePlayer());
+      }
     }
   }
 
@@ -146,8 +160,10 @@ public class GameModel extends CommonModel implements ModelStrategy {
   }
 
   private void endTurn() {
-    timer.cancel();
-    LOGGER.info("Timer was cancelled.");
+    if (getBulletMode()) {
+      timer.cancel();
+      LOGGER.info("Timer was cancelled.");
+    }
     String nameOfPlayerWhoEndedHisTurn = getNickOfActivePlayer();
     boolean roundFinished = checkRoundFinished();
     indexOfActivePlayer = getIndexOfNextPlayer();
@@ -165,7 +181,9 @@ public class GameModel extends CommonModel implements ModelStrategy {
     NextPlayersTurnEvent nextPlayersTurnEvent =
         new NextPlayersTurnEvent(getNickOfActivePlayer(), nameOfPlayerWhoEndedHisTurn);
     notifyListeners(nextPlayersTurnEvent);
-    startTimerForPlayer(getNickOfActivePlayer());
+    if (getBulletMode()) {
+      startTimerForPlayer(getNickOfActivePlayer());
+    }
 
     LOGGER.info(
         playerList.get(indexOfActivePlayer).getName()
@@ -319,7 +337,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
 
   /**
    * Tell each player to tile the wall and get the points accordingly. Fires {@link
-   * PlayerHasEndedTheGameEvent} if a player has ended the game in this tiling phase, fires {@link
+   * PlayerHas5TilesInArowEvent} if a player has ended the game in this tiling phase, fires {@link
    * GameFinishedEvent} at the end of this tiling phase in which someone has ended the game.
    */
   private void startTilingPhase() {
@@ -327,9 +345,9 @@ public class GameModel extends CommonModel implements ModelStrategy {
     for (Player player : playerList) {
       player.tileWallAndGetPoints();
       if (player.hasEndedTheGame()) {
-        PlayerHasEndedTheGameEvent playerHasEndedTheGameEvent =
-            new PlayerHasEndedTheGameEvent(player.getName());
-        notifyListeners(playerHasEndedTheGameEvent);
+        PlayerHas5TilesInArowEvent playerHas5TilesInArowEvent =
+            new PlayerHas5TilesInArowEvent(player.getName());
+        notifyListeners(playerHas5TilesInArowEvent);
         hasGameEnded = true;
       }
       // Loop has to finish, because all players have to finish tiling phase
@@ -386,11 +404,4 @@ public class GameModel extends CommonModel implements ModelStrategy {
     startGame();
   }
 
-  public boolean getBulletMode() {
-    return isBulletMode;
-  }
-
-  public void setBulletMode(boolean bulletMode) {
-    isBulletMode = bulletMode;
-  }
 }

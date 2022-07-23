@@ -171,4 +171,32 @@ public interface Controller {
    * @param text The message that is to be sent.
    */
   void postMessage(String text);
+
+  /**
+   * Sets the game to be a bullet game.
+   *
+   * @param isBulletMode <code>true</code> if bullet mode, <code>false</code> if not.
+   */
+  void setBulletMode(boolean isBulletMode);
+
+  /**
+   * Get whether bullet mode is on or not.
+   *
+   * @return <code>true</code> if bullet mode is on, <code>false</code> if not.
+   */
+  boolean getBulletMode();
+
+  /**
+   * Sets the mode in the game model.
+   *
+   * @oaram mode 1 for single player mode, 2 for hot seat mode, 3 for network mode.
+   */
+  void setMode(int mode);
+
+  /**
+   * Returns the mode from the model.
+   *
+   * @return the mode: 1 for single player mode, 2 for hot seat mode, 3 for network mode.
+   */
+  int getMode();
 }

@@ -48,7 +48,7 @@ public class GameBoard extends JPanel {
   private IconButton cancelButton;
   private IconButton restartButton;
   private JPanel systemSoundPanel;
-  private JPanel musicSoundPanel;
+  private JPanel musicSoundPanel = new JPanel(new GridLayout(2, 1));
   private JLabel musicSoundLabel;
   private JLabel systemSoundLabel;
   private TurnCountDownTimer timer;
@@ -129,25 +129,28 @@ public class GameBoard extends JPanel {
   }
 
   private void createTimer(JPanel chatAndRankingBoardAndSettingPanel) {
-    JLabel timerLabel = new JLabel();
-    timerLabel.setPreferredSize(new Dimension(200, 30));
-    timerLabel.setHorizontalAlignment(JLabel.LEFT);
-    timerLabel.setFont(new Font("Dialog", Font.BOLD, 25));
-    timerLabel.setFont(this.getTimerFont());
-    timerLabel.setForeground(Color.GREEN);
-    timer =
-        new TurnCountDownTimer(
-            1000,
-            e -> {
-              if (timer.getTimerValue() == 0) {
-                timer.setTimerValue(30);
-              }
-              timer.setTimerValue(timer.getTimerValue() - 1);
-              timerLabel.setText(secondsToTimer(timer.getTimerValue()));
-            });
-    timerLabel.setText(secondsToTimer(timer.getTimerValue()));
-    timer.setInitialDelay(0);
-    chatAndRankingBoardAndSettingPanel.add(timerLabel, BorderLayout.CENTER);
+    if (controller.getBulletMode()) {
+      JLabel timerLabel = new JLabel();
+      timerLabel.setPreferredSize(new Dimension(200, 30));
+      timerLabel.setHorizontalAlignment(JLabel.LEFT);
+      timerLabel.setFont(new Font("Dialog", Font.BOLD, 25));
+      timerLabel.setFont(this.getTimerFont());
+      timerLabel.setForeground(Color.GREEN);
+      timer =
+              new TurnCountDownTimer(
+                      1000,
+                      e -> {
+                        if (timer.getTimerValue() == 0) {
+                          timer.setTimerValue(30);
+                        }
+                        timer.setTimerValue(timer.getTimerValue() - 1);
+                        timerLabel.setText(secondsToTimer(timer.getTimerValue()));
+                      });
+      timerLabel.setText(secondsToTimer(timer.getTimerValue()));
+      timer.setInitialDelay(0);
+      chatAndRankingBoardAndSettingPanel.add(timerLabel, BorderLayout.CENTER);
+    }
+
   }
 
   /**
@@ -320,8 +323,6 @@ public class GameBoard extends JPanel {
     createMenuPanel();
     menu.setVisible(false);
     JPanel roundButtonsPanel = new JPanel(null);
-    // (new GridLayout(2, 1, 5, 5));
-    // roundButtonsPanel.setLayout(null);
     roundButtonsPanel.setPreferredSize(new Dimension(60, 260));
     roundButtonsPanel.setOpaque(false);
     roundButtonsPanel.add(settingsButton);

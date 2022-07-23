@@ -1,3 +1,5 @@
+
+
 package cyberzul.model;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
