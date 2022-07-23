@@ -84,7 +84,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
     add(selectModePopUp, Integer.valueOf(1));
 
     JLabel selectOption = new JLabel("Select option");
-    selectOption.setFont(customFont.deriveFont(18f));
+//    selectOption.setFont(customFont.deriveFont(18f));
     selectOption.setForeground(Color.white);
     selectOption.setBounds(180, 100, 400, 30);
     selectModePopUp.add(selectOption);
@@ -115,7 +115,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
     createServerButton.setBounds(40, 170, 220, 55);
 
     createServerButton.setText("Create Server");
-    createServerButton.setFont(customFont.deriveFont(15f));
+//    createServerButton.setFont(customFont.deriveFont(15f));
     createServerButton.setForeground(Color.white);
     createServerButton.setHorizontalTextPosition(SwingConstants.CENTER);
     createServerButton.setVerticalTextPosition(SwingConstants.CENTER);
@@ -149,21 +149,21 @@ public class NetworkLobbyScreen extends JLayeredPane {
     joinServerButton.setBounds(280, 170, 220, 55);
 
     joinServerButton.setText("Join Server");
-    joinServerButton.setFont(customFont.deriveFont(15f));
+//    joinServerButton.setFont(customFont.deriveFont(15f));
     joinServerButton.setForeground(Color.white);
     joinServerButton.setHorizontalTextPosition(SwingConstants.CENTER);
     joinServerButton.setVerticalTextPosition(SwingConstants.CENTER);
     selectModePopUp.add(joinServerButton);
 
     enterServerIp = new JLabel("Please enter the Server IP");
-    enterServerIp.setFont(customFont);
+//    enterServerIp.setFont(customFont);
     enterServerIp.setForeground(Color.white);
     enterServerIp.setBounds(160, 120, 400, 30);
     enterServerIp.setVisible(false);
     selectModePopUp.add(enterServerIp);
 
     JLabel maxChar = new JLabel("max 15 characters");
-    maxChar.setFont(customFont.deriveFont(10f));
+//    maxChar.setFont(customFont.deriveFont(10f));
     maxChar.setForeground(Color.white);
     maxChar.setBounds(300, 180, 200, 20);
     maxChar.setVisible(false);
@@ -186,7 +186,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
           }
         });
     ipInputField.setBounds(140, 150, 300, 30);
-    ipInputField.setFont(customFont);
+//    ipInputField.setFont(customFont);
     ipInputField.setVisible(false);
     selectModePopUp.add(ipInputField);
 
@@ -246,19 +246,19 @@ public class NetworkLobbyScreen extends JLayeredPane {
     setInputNickPrompt();
 
     banner = new JLabel("Waiting for other players to connect ...");
-    banner.setFont(customFont);
+//    banner.setFont(customFont);
     banner.setBounds(180, 85, 400, 30);
     labels.add(banner);
 
     ipAddressOnContainer = new JLabel();
     ipAddressOnContainer.setForeground(Color.white);
-    ipAddressOnContainer.setFont(customFont);
+//    ipAddressOnContainer.setFont(customFont);
     ipAddressOnContainer.setBounds(250, 580, 200, 30);
     ipAddressOnContainer.setVisible(false);
     add(ipAddressOnContainer, Integer.valueOf(1));
 
     JLabel bulletMode = new JLabel("Bulletmode");
-    bulletMode.setFont(customFont.deriveFont(15f));
+//    bulletMode.setFont(customFont.deriveFont(15f));
     bulletMode.setForeground(Color.white);
     bulletMode.setBounds(250, 540, 400, 30);
     add(bulletMode, Integer.valueOf(1));
@@ -307,8 +307,8 @@ public class NetworkLobbyScreen extends JLayeredPane {
       component.setHorizontalTextPosition(JButton.CENTER);
       component.setVerticalTextPosition(JButton.CENTER);
 
-      customFont.deriveFont(30f);
-      component.setFont(customFont);
+//      customFont.deriveFont(30f);
+//      component.setFont(customFont);
       component.setForeground(Color.white);
 
       container.add(component);
@@ -417,25 +417,25 @@ public class NetworkLobbyScreen extends JLayeredPane {
     add(inputNickPopUp, Integer.valueOf(1));
 
     JLabel pleaseEnter = new JLabel("Please enter your nickname");
-    pleaseEnter.setFont(customFont);
+//    pleaseEnter.setFont(customFont);
     pleaseEnter.setForeground(Color.white);
     pleaseEnter.setBounds(160, 120, 400, 30);
     inputNickPopUp.add(pleaseEnter);
 
     JLabel maxChar = new JLabel("max 15 characters");
-    maxChar.setFont(customFont.deriveFont(10f));
+//    maxChar.setFont(customFont.deriveFont(10f));
     maxChar.setForeground(Color.white);
     maxChar.setBounds(300, 180, 200, 20);
     inputNickPopUp.add(maxChar);
 
     JLabel yourAddress = new JLabel("Your Server IP Address:");
-    yourAddress.setFont(customFont);
+//    yourAddress.setFont(customFont);
     yourAddress.setForeground(Color.white);
     yourAddress.setBounds(140, 220, 400, 30);
     inputNickPopUp.add(yourAddress);
 
     setAddress = new JLabel();
-    setAddress.setFont(customFont);
+//    setAddress.setFont(customFont);
     setAddress.setForeground(Color.white);
     setAddress.setBounds(370, 220, 200, 30);
     inputNickPopUp.add(setAddress);
@@ -456,7 +456,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
           }
         });
     inputField.setBounds(140, 150, 300, 30);
-    inputField.setFont(customFont);
+//    inputField.setFont(customFont);
     inputNickPopUp.add(inputField);
 
     inputNickPopUp.setOpaque(false);

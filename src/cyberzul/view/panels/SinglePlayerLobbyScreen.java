@@ -112,12 +112,12 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
     setInputNickPrompt();
 
     JLabel banner = new JLabel("Select CPUs you want to play against");
-    banner.setFont(customFont);
+//    banner.setFont(customFont);
     banner.setBounds(180, 85, 400, 30);
     labels.add(banner);
 
     JLabel bulletMode = new JLabel("Bulletmode");
-    bulletMode.setFont(customFont.deriveFont(15f));
+//    bulletMode.setFont(customFont.deriveFont(15f));
     bulletMode.setForeground(Color.white);
     bulletMode.setBounds(250, 540, 400, 30);
     add(bulletMode);
@@ -165,8 +165,8 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
       component.setHorizontalTextPosition(JButton.CENTER);
       component.setVerticalTextPosition(JButton.CENTER);
 
-      customFont.deriveFont(30f);
-      component.setFont(customFont);
+//      customFont.deriveFont(30f);
+//      component.setFont(customFont);
       component.setForeground(Color.white);
 
       container.add(component);
@@ -322,13 +322,13 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
         };
 
     JLabel pleaseEnter = new JLabel("Please enter your nickname");
-    pleaseEnter.setFont(customFont);
+//    pleaseEnter.setFont(customFont);
     pleaseEnter.setForeground(Color.white);
     pleaseEnter.setBounds(160, 120, 400, 30);
     inputNickPopUp.add(pleaseEnter);
 
     JLabel maxChar = new JLabel("max 15 characters");
-    maxChar.setFont(customFont.deriveFont(10f));
+//    maxChar.setFont(customFont.deriveFont(10f));
     maxChar.setForeground(Color.white);
     maxChar.setBounds(300, 180, 200, 20);
     inputNickPopUp.add(maxChar);
@@ -348,7 +348,7 @@ public class SinglePlayerLobbyScreen extends JLayeredPane {
           }
         });
     inputField.setBounds(140, 150, 300, 30);
-    inputField.setFont(customFont);
+//    inputField.setFont(customFont);
     inputNickPopUp.add(inputField);
 
     inputNickPopUp.setOpaque(false);
