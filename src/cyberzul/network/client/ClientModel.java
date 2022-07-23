@@ -231,7 +231,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
       e.printStackTrace();
     }
     this.isGameStarted = true;
-    notifyListeners(new GameStartedEvent());
+    notifyListeners(new GameStartedEvent(playerList.get(0).getName()));
   }
 
   /**

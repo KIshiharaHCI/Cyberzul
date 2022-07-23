@@ -26,4 +26,13 @@ public class NextPlayersTurnEvent extends GameEvent {
   public String getNameOfPlayerWhoEndedHisTurn() {
     return nameOfPlayerWhoEndedHisTurn;
   }
+
+  /**
+   * Creates the Message that is shown on the Chat and tells the players who is next.
+   *
+   * @return the message that tells the players who's turn is now.
+   */
+  public String getChatMessage(){
+    return ("It's " + nameOfActivePlayer + "'s turn.");
+  }
 }

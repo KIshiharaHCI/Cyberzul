@@ -1,5 +1,6 @@
 package cyberzul.view;
 
+import cyberzul.network.client.messages.GameStateMessage;
 import cyberzul.network.client.messages.Message;
 import cyberzul.network.client.messages.PlayerForfeitedMessage;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
@@ -58,6 +59,9 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
     }
     if (value instanceof PlayerNeedHelpMessage playerNeedHelpMessage) {
       setText(playerNeedHelpMessage.getContent());
+    }
+    if (value instanceof GameStateMessage gameStateMessage){
+      setText((gameStateMessage.getContent()));
     }
 
     return this;

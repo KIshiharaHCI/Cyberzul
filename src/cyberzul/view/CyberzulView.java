@@ -9,14 +9,17 @@ import cyberzul.model.events.ConnectedWithServerEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.GameNotStartableEvent;
+import cyberzul.model.events.GameStartedEvent;
 import cyberzul.model.events.InvalidIpv4AddressEvent;
 import cyberzul.model.events.LoginFailedEvent;
+import cyberzul.model.events.NextPlayersTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerHasEndedTheGameEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
 import cyberzul.model.events.UserJoinedEvent;
 import cyberzul.model.events.YouConnectedEvent;
 import cyberzul.model.events.YouDisconnectedEvent;
+import cyberzul.network.client.messages.GameStateMessage;
 import cyberzul.network.server.Server;
 import cyberzul.view.board.ChatPanel;
 import cyberzul.view.board.GameBoard;
@@ -308,6 +311,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         showErrorMessage(loginFailedEvent.getMessage());
       }
       case "GameStartedEvent" -> {
+        GameStartedEvent gameStartedEvent = (GameStartedEvent) customMadeGameEvent;
+        ChatPanel.listModel.addElement(new GameStateMessage(gameStartedEvent.getChatMessage()));
         addNewGameBoard(tileClickListener);
         showCard(GAMEBOARD_CARD);
         updateCenterBoard();
@@ -316,6 +321,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         gameBoard.getTimer().start();
       }
       case "NextPlayersTurnEvent" -> {
+        NextPlayersTurnEvent nextPlayersTurnEvent = (NextPlayersTurnEvent) customMadeGameEvent;
+        ChatPanel.listModel.addElement(new GameStateMessage(nextPlayersTurnEvent.getChatMessage()));
         gameBoard.getTimer().restart();
         if (this.musicPlayerHelper.isPlayMusicOn()) {
           this.musicPlayerHelper.playTilePlacedMusic();

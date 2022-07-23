@@ -83,7 +83,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
     } else {
       setUpOfferings();
       isGameStarted = true;
-      notifyListeners(new GameStartedEvent());
+      notifyListeners(new GameStartedEvent(playerList.get(0).getName()));
     }
     if (getBulletMode()) {
       LOGGER.info("Timer was set in startGame-Method.");
@@ -110,7 +110,7 @@ public class GameModel extends CommonModel implements ModelStrategy {
     }
     indexOfActivePlayer = 0;
 
-    notifyListeners(new GameStartedEvent());
+    notifyListeners(new GameStartedEvent(playerList.get(0).getName()));
 
     // if we restart the game and the first player is an AI-Player, he/she needs to start making
     // a move
