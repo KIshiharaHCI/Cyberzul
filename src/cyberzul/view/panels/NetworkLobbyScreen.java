@@ -1,5 +1,7 @@
 package cyberzul.view.panels;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 import cyberzul.controller.Controller;
 import cyberzul.model.CommonModel;
 import cyberzul.model.Model;
@@ -21,7 +23,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.*;
 
-import static cyberzul.view.CyberzulView.getCustomFont;
+
 
 
 /** Lobby Screen that functions as the Lobby when a player wants to play via local network. */
