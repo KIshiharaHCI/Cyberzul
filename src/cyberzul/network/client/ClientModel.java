@@ -68,6 +68,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   private final List<Message> playerMessages;
   private ClientNetworkConnection connection;
   private String thisPlayersName;
+  private int mode;
 
   /**
    * Create a ClientModel and start a connection with the server.
@@ -122,6 +123,16 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   @Override
   public void startSinglePlayerMode(int numberOfPlayers) { /*this method is
   only needed in GameModel */ }
+
+  @Override
+  public void setMode(int mode) {
+    this.mode = mode;
+  }
+
+  @Override
+  public int getMode() {
+    return mode;
+  }
 
   private synchronized ClientNetworkConnection getConnection() {
     return connection;

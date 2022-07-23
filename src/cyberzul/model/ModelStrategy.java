@@ -242,4 +242,18 @@ public interface ModelStrategy {
    */
   void setBulletMode(boolean isBulletMode);
 
+  /**
+   * Sets the mode.
+   *
+   * @param mode 1 for single player, 2 for hot seat, 3 for network.
+   */
+  void setMode(int mode);
+
+  /**
+   * Returns the mode.
+   *
+   * @return 1 for single player, 2 for hot seat, 3 for network.
+   */
+  int getMode();
+
 }
