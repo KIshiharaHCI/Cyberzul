@@ -4,6 +4,7 @@ import cyberzul.controller.Controller;
 import cyberzul.controller.GameController;
 import cyberzul.model.Model;
 import cyberzul.model.ModelStrategyChooser;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -23,7 +24,9 @@ public class Server {
 
   /**
    * The server on which the game runs and who distributes chat messages.
+   * Suppress FBwarning because only one server will be created.
    */
+  @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
   private Server() {
     this.gameModel = new ModelStrategyChooser();
     gameModel.setGameModelStrategy();
