@@ -288,7 +288,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         updateCenterBoard();
         updateRankingBoard();
         updateOtherPlayerBoards();
-        gameBoard.getTimer().start();
+        if (controller.getBulletMode()) {
+          gameBoard.getTimer().start();
+        }
       }
       case "NextPlayersTurnEvent" -> {
         NextPlayersTurnEvent nextPlayersTurnEvent = (NextPlayersTurnEvent) customMadeGameEvent;
