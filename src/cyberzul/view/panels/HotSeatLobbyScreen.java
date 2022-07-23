@@ -130,10 +130,12 @@ public class HotSeatLobbyScreen extends JLayeredPane {
           public void mouseClicked(MouseEvent e) {
               if (checkUnselected.equals(bulletButton.getIcon())) {
                   bulletButton.setIcon(checkSelected);
+                  controller.setBulletMode(true);
                   //TODO: setBullet(false) in Constructor if default (false) is not set in model
                   //TODO: controller.setBullet(true)
               } else {
                   bulletButton.setIcon(checkUnselected);
+                  controller.setBulletMode(false);
                   //TODO: controller.setBullet(false)
               }
           }

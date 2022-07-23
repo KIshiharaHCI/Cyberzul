@@ -171,4 +171,11 @@ public interface Controller {
    * @param text The message that is to be sent.
    */
   void postMessage(String text);
+
+  /**
+   * Sets the game to be a bullet game.
+   *
+   * @param isBulletMode <code>true</code> if bullet mode, <code>false</code> if not.
+   */
+  void setBulletMode(boolean isBulletMode);
 }
