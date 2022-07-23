@@ -77,4 +77,27 @@ public class TransparentImageIcon extends ImageIcon {
       image = null;
     }
   }
+
+  /**
+   * Gets the width of the image. Overridden to return the width of
+   * the wrapped icon.
+   *
+   * @return the width in pixels
+   */
+  @Override
+  public int getIconWidth() {
+    return icon.getIconWidth();
+  }
+
+  /**
+   * Gets the height of the image. Overridden to return the height
+   * of the wrapped icon.
+   *
+   * @return the height in pixels
+   */
+  @Override
+  public int getIconHeight() {
+    return icon.getIconHeight();
+  }
+
 }
