@@ -28,6 +28,8 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
    */
   public ChatCellRenderer() {
     super();
+    this.setLineWrap(true);
+    this.setWrapStyleWord(true);
     setOpaque(true);
     dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
   }
