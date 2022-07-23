@@ -3,6 +3,7 @@ package cyberzul.view.panels;
 import static cyberzul.view.CyberzulView.getCustomFont;
 
 import cyberzul.controller.Controller;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -60,6 +61,8 @@ public class HotSeatLobbyScreen extends JLayeredPane {
    * @param controller controller for the application
    * @param frameDimension determined by Cyberzulview.
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2"})
+
   public HotSeatLobbyScreen(Controller controller, Dimension frameDimension) {
     this.controller = controller;
 
@@ -93,7 +96,7 @@ public class HotSeatLobbyScreen extends JLayeredPane {
       image.getScaledInstance(
           containerDimension.width, containerDimension.height, Image.SCALE_SMOOTH);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
 
     try {
@@ -101,7 +104,7 @@ public class HotSeatLobbyScreen extends JLayeredPane {
       popUpImage = ImageIO.read(Objects.requireNonNull(imgUrl));
       popUpImage.getScaledInstance(popUpDimension.width, popUpDimension.height, Image.SCALE_SMOOTH);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 

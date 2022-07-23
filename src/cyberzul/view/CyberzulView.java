@@ -384,6 +384,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case "NoValidTurnToMakeEvent" -> showErrorMessage("No valid turn to make");
       case GameForfeitedEvent.EVENT_NAME -> {
+        this.musicPlayerHelper.turnMusicOnOff(true);
         GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
         showErrorMessage("Player " + gameForfeitedEvent.getForfeiter()
             + " left the game and was replaced by an AI");

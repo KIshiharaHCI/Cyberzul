@@ -3,6 +3,7 @@ package cyberzul.view.panels;
 import static cyberzul.view.CyberzulView.getCustomFont;
 
 import cyberzul.controller.Controller;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -58,6 +59,8 @@ public class NetworkPanel extends JLayeredPane {
    * @param controller     the controller.
    * @param frameDimension the frame dimension.
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2"})
+
   public NetworkPanel(Controller controller, Dimension frameDimension) {
     this.controller = controller;
 
