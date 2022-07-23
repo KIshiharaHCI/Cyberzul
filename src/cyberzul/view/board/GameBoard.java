@@ -4,14 +4,22 @@ import cyberzul.controller.Controller;
 import cyberzul.view.IconButton;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 /**
  * The board that shows the player boards of all (2 to 4) players. It also shows the table center
@@ -27,6 +35,8 @@ public class GameBoard extends JPanel {
   private final CenterBoard center;
   private final Dimension frameDimension;
   private final transient MusicPlayerHelper musicPlayerHelper;
+  private final String nickOfCenterBoardPlayer;
+  private final boolean hotSeatMode;
   private JPanel settingsPanel = new JPanel(null);
   private JPanel boardsOfOpponentsPanel;
   private RankingBoard rankingBoard;
@@ -44,10 +54,6 @@ public class GameBoard extends JPanel {
   private JLabel musicSoundLabel;
   private JLabel systemSoundLabel;
   private TurnCountDownTimer timer;
-
-  private final String nickOfCenterBoardPlayer;
-
-  private final boolean hotSeatMode;
 
   /**
    * Creates the main game panel which contains all other game elements.
@@ -129,20 +135,19 @@ public class GameBoard extends JPanel {
       timerLabel.setFont(this.getTimerFont());
       timerLabel.setForeground(Color.GREEN);
       timer =
-              new TurnCountDownTimer(
-                      1000,
-                      e -> {
-                        if (timer.getTimerValue() == 0) {
-                          timer.setTimerValue(30);
-                        }
-                        timer.setTimerValue(timer.getTimerValue() - 1);
-                        timerLabel.setText(secondsToTimer(timer.getTimerValue()));
-                      });
+          new TurnCountDownTimer(
+              1000,
+              e -> {
+                if (timer.getTimerValue() == 0) {
+                  timer.setTimerValue(30);
+                }
+                timer.setTimerValue(timer.getTimerValue() - 1);
+                timerLabel.setText(secondsToTimer(timer.getTimerValue()));
+              });
       timerLabel.setText(secondsToTimer(timer.getTimerValue()));
       timer.setInitialDelay(0);
       chatAndRankingBoardAndSettingPanel.add(timerLabel, BorderLayout.CENTER);
     }
-
   }
 
   /**
