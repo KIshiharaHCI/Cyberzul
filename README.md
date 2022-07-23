@@ -56,7 +56,10 @@ their first games with Bullet-Mode turned off.)
 
 ### What's what in the game - a screenshot
 
-*TODO - when final.*
+![instructions](res/img/screenshot-instructions.png)
+
+Timer will only be visible in Bullet-Mode. The ranking board on the upper right is updated after each turn. 
+
 
 ### How and where to pick a tile from
 
