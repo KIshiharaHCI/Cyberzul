@@ -16,6 +16,7 @@ to [ Semantic Versioning ]( https://semver.org/spec/v2.0.0.html ).
 
 ### Added
 
+- Server and Client can be launched from the Cyberzul.jar
 - Add Network Multiplayer Mode.
     - It is possible to play the game together from different computers via WiFi.
     - The rules of the game are validated by the server.

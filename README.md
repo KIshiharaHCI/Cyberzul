@@ -27,7 +27,7 @@ can be made.
 Everything is already compiled. Make sure you have installed Java version 17 on your computer. Execute the jar-file with
 command:
 
-`java -jar team12.jar`
+`java -jar Cyberzul.jar`
 
 ## How to play the game
 
