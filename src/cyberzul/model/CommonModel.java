@@ -27,6 +27,9 @@ public abstract class CommonModel implements ModelStrategy {
   protected ArrayList<Offering> offerings;
   protected boolean isGameStarted = false;
 
+  private boolean isBulletMode;
+
+
   public static final int SINGLE_PLAYER_MODE = 1;
   public static final int HOT_SEAT_MODE = 2;
   public static final int NETWORK_MODE = 3;
@@ -305,6 +308,20 @@ public abstract class CommonModel implements ModelStrategy {
     PlayerTextMessage playerTextMessage = new PlayerTextMessage(getPlayerName(),
         new Date(), message);
     notifyListeners(new PlayerAddedMessageEvent(playerTextMessage));
+  }
+
+  public boolean getBulletMode() {
+    return isBulletMode;
+  }
+
+  @Override
+  public void setBulletMode(boolean bulletMode) {
+    if (bulletMode) {
+      LOGGER.info("Game is set to be a bullet game.");
+    } else {
+      LOGGER.info("Game is no bullet game.");
+    }
+    isBulletMode = bulletMode;
   }
 
   @Override
