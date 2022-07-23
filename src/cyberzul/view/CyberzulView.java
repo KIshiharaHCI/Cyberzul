@@ -11,6 +11,7 @@ import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
 import cyberzul.model.events.GameNotStartableEvent;
 import cyberzul.model.events.GameStartedEvent;
+import cyberzul.model.events.IllegalTurnEvent;
 import cyberzul.model.events.InvalidIpv4AddressEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
@@ -372,7 +373,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         if (this.musicPlayerHelper.isPlayMusicOn()) {
           this.musicPlayerHelper.playIllegalTurnMusic();
         }
-        showErrorMessage("Illegal turn.");
+        IllegalTurnEvent illegalTurnEvent = new IllegalTurnEvent();
+        showErrorMessage(illegalTurnEvent.getChatMessage());
+
       }
       case "GameNotStartableEvent" -> {
         GameNotStartableEvent gameNotStartableEvent = (GameNotStartableEvent) customMadeGameEvent;
