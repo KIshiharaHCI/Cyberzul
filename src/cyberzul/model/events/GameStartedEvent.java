@@ -13,14 +13,13 @@ public class GameStartedEvent extends GameEvent {
 
   public static final String EVENT_NAME = "GameStartedEvent";
 
-  private static final String CHAT_MESSAGE = """
-      Hello fellow cyber tiler!,\s
-      We welcome you to a new game of Cyberzul! May Tilora, the goddess of home building and cyber tiling, be with you!\s
-            
-      Before starting your game, please check out the instructions in our README-file.\s
-            
-      Ok! Let’s go! Click a tile on one of the Cyber Mines and place it on one of your pattern lines!\s
-      """;
+  private static final String CHAT_MESSAGE =
+      "Hello fellow cyber tiler!,\s"
+      + "We welcome you to a new game of Cyberzul! May Tilora, the goddess of home building "
+      + "and cyber tiling, be with you!\s"
+      + "Before starting your game, please check out the instructions in our README-file.\s"
+      + "Ok! Let’s go! Click a tile on one of the Cyber Mines and place it on one of your "
+      + "pattern lines!\s";
 
   @Override
   public String getName() {
