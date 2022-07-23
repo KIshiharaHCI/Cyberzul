@@ -534,11 +534,9 @@ public class NetworkLobbyScreen extends JLayeredPane {
    */
   public void couldNotConnectServerMsg() {
     waitingForServerTimeOut = false;
-    timer.cancel();
     enterServerIp.setText("Could not connect, please reenter");
   }
   public void illegalAddressEvent() {
-    timer.cancel();
     enterServerIp.setText("Invalid IP, please reenter");
   }
   /**
