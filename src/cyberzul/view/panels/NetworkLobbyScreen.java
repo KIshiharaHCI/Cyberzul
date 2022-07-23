@@ -1,14 +1,19 @@
 package cyberzul.view.panels;
 
+import static cyberzul.view.CyberzulView.getCustomFont;
+
 import cyberzul.controller.Controller;
 import cyberzul.model.CommonModel;
 import cyberzul.model.Model;
 import cyberzul.network.server.Server;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -17,13 +22,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
-
-import static cyberzul.view.CyberzulView.getCustomFont;
-
-
-
+import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /** Lobby Screen that functions as the Lobby when a player wants to play via local network. */
 public class NetworkLobbyScreen extends JLayeredPane {
@@ -75,9 +84,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
     selectModePopup();
   }
 
-  /**
-   * Initializes the Join Server or Connect to Server PopUp.
-   */
+  /** Initializes the Join Server or Connect to Server PopUp. */
   private void selectModePopup() {
     selectModePopUp =
         new JPanel(null) {
@@ -483,7 +490,8 @@ public class NetworkLobbyScreen extends JLayeredPane {
   }
 
   /**
-   * Used to toggle the visibility of the Join Server or Connect to server prompt
+   * Used to toggle the visibility of the Join Server or Connect to server prompt.
+   *
    * @param toggle set visible or set invisible
    */
   private void showSelectModePrompt(boolean toggle) {
@@ -492,6 +500,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
 
   /**
    * Method to set a Containers child components invisible.
+   *
    * @param parent the container, whose child components to setVisible or invisible
    * @param toggle set visible or set invisible
    */
@@ -536,14 +545,17 @@ public class NetworkLobbyScreen extends JLayeredPane {
   }
 
   /**
-   * Used to stop indicating search for Server, and to prompt the user to retype the server IP in the text area.
+   * Used to stop indicating search for Server, and to prompt the user to retype the server IP in
+   * the text area.
    */
   public void couldNotConnectServerMsg() {
     enterServerIp.setText("No connection, please reenter");
   }
+
   public void illegalAddressEvent() {
     enterServerIp.setText("Invalid IP, please reenter");
   }
+
   /**
    * Loads all image assets used by this class.
    *
