@@ -4,10 +4,14 @@ package cyberzul.view.board;
 import cyberzul.controller.Controller;
 import cyberzul.view.listeners.TileClickListener;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.io.Serial;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * The board that shows the pattern lines and the wall of each player. It also shows the name, the
@@ -133,7 +137,7 @@ public abstract class PlayerBoard extends JPanel {
   void createNameLabel() {
     nameLabel = new JLabel(playerName);
     nameLabel.setVerticalAlignment(JLabel.BOTTOM);
-//    nameLabel.setFont(getCustomFont().deriveFont(16f));
+    //nameLabel.setFont(getCustomFont().deriveFont(16f));
     nameLabel.setForeground(Color.white);
   }
 
