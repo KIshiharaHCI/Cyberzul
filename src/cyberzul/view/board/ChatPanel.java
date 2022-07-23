@@ -11,24 +11,14 @@ import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.view.ChatCellRenderer;
 import cyberzul.view.IconButton;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 
 
 /**
@@ -75,12 +65,13 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
 
     setOpaque(false);
     scrollPane = new JScrollPane(chatList);
+    chatList.setBackground(new Color(0,0,0,210));
     scrollPane.setPreferredSize(new Dimension(INPUTFIELD_WIDTH, DEFAULT_HEIGHT));
     scrollPane.setMaximumSize(new Dimension(INPUTFIELD_WIDTH, DEFAULT_HEIGHT));
     scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-    scrollPane.setBackground(Color.DARK_GRAY);
-    scrollPane.getViewport().setBackground(new Color(54, 51, 51));
+    scrollPane.setBackground(new Color(0,0,0,210));
+    scrollPane.getViewport().setBackground(new Color(0,0,0,210));
     scrollPane.setBorder(
         BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset));
 
@@ -89,14 +80,14 @@ public class ChatPanel extends JPanel implements PropertyChangeListener {
     inputArea.setWrapStyleWord(true);
     inputArea.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
     inputArea.setFont(new Font("Dialog", Font.BOLD, 14));
-    inputArea.setBackground(Color.black);
+    inputArea.setBackground(new Color(0,0,0,210));
     inputArea.setForeground(Color.white);
     inputArea.setBorder(
         BorderFactory.createEmptyBorder(defaultInset, defaultInset, defaultInset, defaultInset));
 
     chatButtonPanel = new JPanel(null);
     chatButtonPanel.setPreferredSize(new Dimension(150, 25));
-    chatButtonPanel.setBackground(Color.DARK_GRAY);
+    chatButtonPanel.setBackground(new Color(0,0,0,210));
 
     closeChatButton = new IconButton(chaticon, 5, 5, 40, 22);
     closeChatButton.addActionListener(
