@@ -688,7 +688,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   /**
    * Stop the ClientNetworkConnection.
    */
-  public void stop(){
+  public void stop() {
     connection.stop();
   }
 
