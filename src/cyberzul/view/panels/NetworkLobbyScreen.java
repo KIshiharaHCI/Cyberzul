@@ -128,6 +128,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
           public void mouseClicked(MouseEvent e) {
             joinServerButton.setVisible(false);
             createServerButton.setVisible(false);
+            selectOption.setVisible(false);
             ipInputField.setVisible(true);
             enterServerIp.setVisible(true);
           }
