@@ -13,6 +13,7 @@ import cyberzul.model.events.IllegalTurnEvent;
 import cyberzul.model.events.InvalidIpv4AddressEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
+import cyberzul.model.events.NotYourTurnEvent;
 import cyberzul.model.events.PlayerAddedMessageEvent;
 import cyberzul.model.events.PlayerHas5TilesInARowEvent;
 import cyberzul.model.events.PlayerJoinedChatEvent;
@@ -357,8 +358,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         this.musicPlayerHelper.turnMusicOnOff(true);
         showHsmCard();
       }
-      case "NotYourTurnEvent" -> showErrorMessage(
-          "Please wait for other players so they can do their move");
+      case "NotYourTurnEvent" -> {
+        NotYourTurnEvent notYourTurnEvent = new NotYourTurnEvent();
+        showErrorMessage(notYourTurnEvent.getChatMessage());
+      }
       case "PlayerHasChosenTileEvent" -> {
         //TODO: FILL WITH FUNCTIONALITY
       }
