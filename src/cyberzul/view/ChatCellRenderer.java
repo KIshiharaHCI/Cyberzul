@@ -1,11 +1,19 @@
 package cyberzul.view;
 
-import cyberzul.network.client.messages.*;
-
-import javax.swing.*;
-import java.awt.*;
+import cyberzul.network.client.messages.GameStateMessage;
+import cyberzul.network.client.messages.Message;
+import cyberzul.network.client.messages.PlayerForfeitedMessage;
+import cyberzul.network.client.messages.PlayerJoinedChatMessage;
+import cyberzul.network.client.messages.PlayerLoggedInMessage;
+import cyberzul.network.client.messages.PlayerNeedHelpMessage;
+import cyberzul.network.client.messages.PlayerTextMessage;
+import java.awt.Color;
+import java.awt.Component;
 import java.io.Serial;
 import java.text.DateFormat;
+import javax.swing.JList;
+import javax.swing.JTextArea;
+import javax.swing.ListCellRenderer;
 
 /**
  * The Cellrenderer that show the Backgrounds for each chat messages, depending on their value.
@@ -33,7 +41,7 @@ public class ChatCellRenderer extends JTextArea implements ListCellRenderer<Mess
                                                 boolean cellHasFocus) {
 
 
-    setBackground(new Color(0,0,0,233));
+    setBackground(new Color(0, 0, 0, 233));
     setForeground(Color.white);
 
     if (value instanceof PlayerLoggedInMessage playerLoggedInMsg) {
