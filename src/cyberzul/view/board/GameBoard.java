@@ -139,7 +139,7 @@ public class GameBoard extends JPanel {
             1000,
             e -> {
               if (timer.getTimerValue() == 0) {
-                timer.setTimerValue(20);
+                timer.setTimerValue(12);
               }
               timer.setTimerValue(timer.getTimerValue() - 1);
               timerLabel.setText(secondsToTimer(timer.getTimerValue()));

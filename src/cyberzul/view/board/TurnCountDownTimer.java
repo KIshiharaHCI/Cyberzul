@@ -32,13 +32,13 @@ public class TurnCountDownTimer extends Timer {
   @Override
   public void start() {
     super.start();
-    this.timerValue = 20;
+    this.timerValue = 12;
   }
 
   @Override
   public void stop() {
     super.stop();
-    this.timerValue = 0;
+    this.timerValue = 12;
   }
 
   public int getTimerValue() {
