@@ -23,7 +23,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
@@ -124,7 +124,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private void initializeFont() {
     try {
       //create the font to use.
-      customFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/Game Of Squids.otf"));
+      customFont = Font.createFont(Font.TRUETYPE_FONT, new BufferedInputStream((requireNonNull(getClass().getClassLoader().
+              getResourceAsStream("fonts/gameOfSquids.ttf")))));
       customFont = customFont.deriveFont(12f);
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
       //register the font
