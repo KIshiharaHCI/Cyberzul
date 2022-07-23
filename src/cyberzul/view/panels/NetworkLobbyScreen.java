@@ -3,10 +3,14 @@ package cyberzul.view.panels;
 import cyberzul.controller.Controller;
 import cyberzul.model.Model;
 import cyberzul.network.server.Server;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -15,10 +19,19 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.*;
-
-
+import java.util.Objects;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /** Lobby Screen that functions as the Lobby when a player wants to play via local network. */
 public class NetworkLobbyScreen extends JLayeredPane {
@@ -61,6 +74,9 @@ public class NetworkLobbyScreen extends JLayeredPane {
    * @param controller controller for the application
    * @param frameDimension determined by Cyberzulview.
    */
+  @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
+  @SuppressWarnings(value = "EI_EXPOSE_REP")
+  // this class needs these references to these mutable objects.
   public NetworkLobbyScreen(Controller controller, Model model, Dimension frameDimension) {
     this.controller = controller;
     this.model = model;
@@ -84,7 +100,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
     add(selectModePopUp, Integer.valueOf(1));
 
     JLabel selectOption = new JLabel("Select option");
-//    selectOption.setFont(customFont.deriveFont(18f));
+    //    selectOption.setFont(customFont.deriveFont(18f));
     selectOption.setForeground(Color.white);
     selectOption.setBounds(180, 100, 400, 30);
     selectModePopUp.add(selectOption);
@@ -115,7 +131,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
     createServerButton.setBounds(40, 170, 220, 55);
 
     createServerButton.setText("Create Server");
-//    createServerButton.setFont(customFont.deriveFont(15f));
+    //    createServerButton.setFont(customFont.deriveFont(15f));
     createServerButton.setForeground(Color.white);
     createServerButton.setHorizontalTextPosition(SwingConstants.CENTER);
     createServerButton.setVerticalTextPosition(SwingConstants.CENTER);
@@ -149,21 +165,21 @@ public class NetworkLobbyScreen extends JLayeredPane {
     joinServerButton.setBounds(280, 170, 220, 55);
 
     joinServerButton.setText("Join Server");
-//    joinServerButton.setFont(customFont.deriveFont(15f));
+    //    joinServerButton.setFont(customFont.deriveFont(15f));
     joinServerButton.setForeground(Color.white);
     joinServerButton.setHorizontalTextPosition(SwingConstants.CENTER);
     joinServerButton.setVerticalTextPosition(SwingConstants.CENTER);
     selectModePopUp.add(joinServerButton);
 
     enterServerIp = new JLabel("Please enter the Server IP");
-//    enterServerIp.setFont(customFont);
+    //    enterServerIp.setFont(customFont);
     enterServerIp.setForeground(Color.white);
     enterServerIp.setBounds(160, 120, 400, 30);
     enterServerIp.setVisible(false);
     selectModePopUp.add(enterServerIp);
 
     JLabel maxChar = new JLabel("max 15 characters");
-//    maxChar.setFont(customFont.deriveFont(10f));
+    //    maxChar.setFont(customFont.deriveFont(10f));
     maxChar.setForeground(Color.white);
     maxChar.setBounds(300, 180, 200, 20);
     maxChar.setVisible(false);
@@ -186,7 +202,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
           }
         });
     ipInputField.setBounds(140, 150, 300, 30);
-//    ipInputField.setFont(customFont);
+    //    ipInputField.setFont(customFont);
     ipInputField.setVisible(false);
     selectModePopUp.add(ipInputField);
 
@@ -246,38 +262,37 @@ public class NetworkLobbyScreen extends JLayeredPane {
     setInputNickPrompt();
 
     banner = new JLabel("Waiting for other players to connect ...");
-//    banner.setFont(customFont);
+    //    banner.setFont(customFont);
     banner.setBounds(180, 85, 400, 30);
     labels.add(banner);
 
     ipAddressOnContainer = new JLabel();
     ipAddressOnContainer.setForeground(Color.white);
-//    ipAddressOnContainer.setFont(customFont);
+    //    ipAddressOnContainer.setFont(customFont);
     ipAddressOnContainer.setBounds(250, 580, 200, 30);
     ipAddressOnContainer.setVisible(false);
     add(ipAddressOnContainer, Integer.valueOf(1));
 
     JLabel bulletMode = new JLabel("Bulletmode");
-//    bulletMode.setFont(customFont.deriveFont(15f));
+    //    bulletMode.setFont(customFont.deriveFont(15f));
     bulletMode.setForeground(Color.white);
     bulletMode.setBounds(250, 540, 400, 30);
     add(bulletMode, Integer.valueOf(1));
 
-
     bulletButton = new JButton(checkUnselected);
     bulletButton.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                if (checkUnselected.equals(bulletButton.getIcon())) {
-                  bulletButton.setIcon(checkSelected);
-                  controller.setBulletMode(true);
-                } else {
-                  bulletButton.setIcon(checkUnselected);
-                  controller.setBulletMode(false);
-                }
-              }
-            });
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            if (checkUnselected.equals(bulletButton.getIcon())) {
+              bulletButton.setIcon(checkSelected);
+              controller.setBulletMode(true);
+            } else {
+              bulletButton.setIcon(checkUnselected);
+              controller.setBulletMode(false);
+            }
+          }
+        });
     bulletButton.setContentAreaFilled(false);
     bulletButton.setBorderPainted(false);
     bulletButton.setBounds(400, 530, 46, 40);
@@ -307,8 +322,8 @@ public class NetworkLobbyScreen extends JLayeredPane {
       component.setHorizontalTextPosition(JButton.CENTER);
       component.setVerticalTextPosition(JButton.CENTER);
 
-//      customFont.deriveFont(30f);
-//      component.setFont(customFont);
+      //      customFont.deriveFont(30f);
+      //      component.setFont(customFont);
       component.setForeground(Color.white);
 
       container.add(component);
@@ -417,25 +432,25 @@ public class NetworkLobbyScreen extends JLayeredPane {
     add(inputNickPopUp, Integer.valueOf(1));
 
     JLabel pleaseEnter = new JLabel("Please enter your nickname");
-//    pleaseEnter.setFont(customFont);
+    //    pleaseEnter.setFont(customFont);
     pleaseEnter.setForeground(Color.white);
     pleaseEnter.setBounds(160, 120, 400, 30);
     inputNickPopUp.add(pleaseEnter);
 
     JLabel maxChar = new JLabel("max 15 characters");
-//    maxChar.setFont(customFont.deriveFont(10f));
+    //    maxChar.setFont(customFont.deriveFont(10f));
     maxChar.setForeground(Color.white);
     maxChar.setBounds(300, 180, 200, 20);
     inputNickPopUp.add(maxChar);
 
     JLabel yourAddress = new JLabel("Your Server IP Address:");
-//    yourAddress.setFont(customFont);
+    //    yourAddress.setFont(customFont);
     yourAddress.setForeground(Color.white);
     yourAddress.setBounds(140, 220, 400, 30);
     inputNickPopUp.add(yourAddress);
 
     setAddress = new JLabel();
-//    setAddress.setFont(customFont);
+    //    setAddress.setFont(customFont);
     setAddress.setForeground(Color.white);
     setAddress.setBounds(370, 220, 200, 30);
     inputNickPopUp.add(setAddress);
@@ -456,7 +471,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
           }
         });
     inputField.setBounds(140, 150, 300, 30);
-//    inputField.setFont(customFont);
+    //    inputField.setFont(customFont);
     inputNickPopUp.add(inputField);
 
     inputNickPopUp.setOpaque(false);
@@ -508,8 +523,9 @@ public class NetworkLobbyScreen extends JLayeredPane {
   }
 
   /**
-   * Used for the Bullet Check Box when
-   * @param toggle
+   * Used for the Bullet Check Box when.
+   *
+   * @param toggle is bulletMode checkbox toggled on or off.
    */
   public void updateBulletCheckBox(boolean toggle) {
     bulletButton.setIcon(toggle ? checkSelected : checkUnselected);

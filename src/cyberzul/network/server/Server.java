@@ -94,14 +94,14 @@ public class Server {
    *
    * @return <code>true</code> if the server is running right now. <code>false</code> else.
    */
-  public static boolean isRunning(){
+  public static boolean isRunning() {
     return isRunning;
   }
 
   /**
    * Stops the server and disposes of all resources.
    */
-  public static void stop(){
+  public static void stop() {
     instance = null;
   }
 }
