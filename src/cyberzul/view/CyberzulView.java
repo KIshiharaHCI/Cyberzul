@@ -26,19 +26,23 @@ import cyberzul.view.board.ChatPanel;
 import cyberzul.view.board.GameBoard;
 import cyberzul.view.board.MusicPlayerHelper;
 import cyberzul.view.listeners.TileClickListener;
+import cyberzul.view.panels.HotSeatLobbyScreen;
 import cyberzul.view.panels.SinglePlayerLobbyScreen;
 import cyberzul.view.panels.NetworkLobbyScreen;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
@@ -56,6 +60,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private static final String NETWORK_CARD = "networkmode";
   private static final String SINGLEPLAYER_CARD = "singleplayermode";
   private static final String GAMEBOARD_CARD = "gameboard";
+  private static final String GAMEOVER_CARD = "gameover";
   private static final int FRAME_WIDTH = 1400;
   private static final int FRAME_HEIGHT = 800;
   private static Font customFont;
@@ -66,7 +71,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   private final transient Controller controller;
   private final transient MusicPlayerHelper musicPlayerHelper;
   private String CURRENT_CARD;
-  private SinglePlayerLobbyScreen hotSeatLobbyScreen;
+  private HotSeatLobbyScreen hotSeatLobbyScreen;
   private NetworkLobbyScreen networkLobbyScreen;
   private SinglePlayerLobbyScreen singlePlayerPanel;
   private CardLayout layout;
@@ -88,6 +93,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
   //TODO: @Kenji feel free to change this. I needed it.
   private JButton joinServerButton;
   private JButton createServerButton;
+  private BufferedImage gameOverImage;
 
   /**
    * Create the Graphical User Interface of Azul.
@@ -193,6 +199,15 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     icon = new ImageIcon(requireNonNull(resource));
     playButton.setIcon(icon);
 
+    try {
+      URL imgUrl = getClass().getClassLoader().getResource("img/game-over-background.jpg");
+      gameOverImage = ImageIO.read(Objects.requireNonNull(imgUrl));
+      gameOverImage.getScaledInstance(
+              FRAME_WIDTH, FRAME_HEIGHT, Image.SCALE_SMOOTH);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
 
     //TODO: @Kenji kannst du gerne ändern, aber ich brauchte die Funktionalität jetzt
     joinServerButton = new JButton("JOIN CYBER SERVER");
@@ -296,7 +311,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       case "NextPlayersTurnEvent" -> {
         NextPlayersTurnEvent nextPlayersTurnEvent = (NextPlayersTurnEvent) customMadeGameEvent;
         ChatPanel.listModel.addElement(new GameStateMessage(nextPlayersTurnEvent.getChatMessage()));
-        gameBoard.getTimer().restart();
+        if (controller.getBulletMode()) {
+          gameBoard.getTimer().restart();
+        }
         if (this.musicPlayerHelper.isPlayMusicOn()) {
           this.musicPlayerHelper.playTilePlacedMusic();
         }
@@ -451,6 +468,14 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         1);
     add(backgroundPanel, LOGIN_CARD);
 
+    JPanel gameOverPanel = new JPanel() {
+      @Override
+      protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(gameOverImage, 0, 0, null);
+      }
+    };
+    add(gameOverPanel, GAMEOVER_CARD);
   }
 
   /**
@@ -458,7 +483,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
    * This card gets shown if the user selects "hot seat mode" at the start of the program.
    */
   private void createHotSeatModeCard() {
-    hotSeatLobbyScreen = new SinglePlayerLobbyScreen(controller, frameDimension);
+    hotSeatLobbyScreen = new HotSeatLobbyScreen (controller, frameDimension);
     JLayeredPane hotSeatModePanel = hotSeatLobbyScreen;
     JPanel backgroundPanel = new ImagePanel(hotSeatModePanel, backgroundPath, FRAME_WIDTH,
         FRAME_HEIGHT, backgroundScaleFactor);
@@ -507,6 +532,9 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
 
   private void showSinglePlayerCard() {
     showCard(SINGLEPLAYER_CARD);
+  }
+  private void showGameOverCard() {
+    showCard(GAMEOVER_CARD);
   }
 
   /**
