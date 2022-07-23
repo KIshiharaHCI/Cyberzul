@@ -37,6 +37,7 @@ public enum JsonMessage {
   PLACE_TILE_IN_PATTERN_LINE("place tile in pattern line"),
   PLACE_TILE_IN_FLOOR_LINE("place tile in floor line"),
   REPLACE_THIS_PLAYER_BY_AI("replace player by ai"),
+  BULLET_MODE("bullet mode"),
 
   // messages from the server to the client
   CONNECTED("connected"),
@@ -94,6 +95,8 @@ public enum JsonMessage {
   public static final String WALL_FIELD = "wall";
 
   public static final String PLAYER_FIELD = "player";
+
+  public static final String IS_BULLET_MODE_FIELD = "is bullet mode";
 
   private final String jsonName;
 

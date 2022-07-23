@@ -4,6 +4,7 @@ import cyberzul.model.Model;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
+import cyberzul.model.events.BulletModeChangedEvent;
 import cyberzul.model.events.GameCanceledEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
@@ -84,19 +85,34 @@ public class ModelPropertyChangeHandler implements PropertyChangeListener {
       case PlayerAddedMessageEvent.EVENT_NAME -> handlePlayerAddedMessageEvent(customMadeGameEvent);
       //TODO: @Xue maybe delete PlayerJoinedChatEvent
       case PlayerJoinedChatEvent.EVENT_NAME -> handlePlayerJoinedChatEvent(customMadeGameEvent);
-      case PlayerHas5TilesInARowEvent.EVENT_NAME -> handlePlayerHas5TilesInARowEvent(customMadeGameEvent);
-      default -> throw new AssertionError("Unknown event: " + eventName);
+      case PlayerHas5TilesInARowEvent.EVENT_NAME -> handlePlayerHas5TilesInARowEvent(
+          customMadeGameEvent);
+      case BulletModeChangedEvent.EVENT_NAME -> handleBulletModeChangedEvent(customMadeGameEvent);
+        default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }
 
-  private void handlePlayerHas5TilesInARowEvent(Object customMadeGameEvent){
-    PlayerHas5TilesInARowEvent playerHas5TilesInARowEvent = (PlayerHas5TilesInARowEvent) customMadeGameEvent;
+  private void handleBulletModeChangedEvent(Object customMadeGameEvent){
+    BulletModeChangedEvent bulletModeChangedEvent = (BulletModeChangedEvent) customMadeGameEvent;
+    JSONObject message = JsonMessage.createMessageOfType(JsonMessage.BULLET_MODE);
+    try {
+      message.put(JsonMessage.IS_BULLET_MODE_FIELD, bulletModeChangedEvent.isBulletModeActivated());
+      connection.broadcastToAll(message);
+    }
+    catch (JSONException | IOException e){
+      e.printStackTrace();
+    }
+
+  }
+
+  private void handlePlayerHas5TilesInARowEvent(Object customMadeGameEvent) {
+    PlayerHas5TilesInARowEvent playerHas5TilesInARowEvent =
+        (PlayerHas5TilesInARowEvent) customMadeGameEvent;
     JSONObject message = JsonMessage.createMessageOfType(JsonMessage.PLAYER_HAS_5_TILES_IN_A_ROW);
     try {
       message.put(JsonMessage.NICK_FIELD, playerHas5TilesInARowEvent.getEnder());
       connection.broadcastToAll(message);
-    }
-    catch (IOException | JSONException e){
+    } catch (IOException | JSONException e) {
       e.printStackTrace();
     }
   }

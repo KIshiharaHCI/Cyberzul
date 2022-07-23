@@ -1,5 +1,6 @@
 package cyberzul.model;
 
+import cyberzul.model.events.BulletModeChangedEvent;
 import cyberzul.model.events.GameCanceledEvent;
 import cyberzul.model.events.GameFinishedEvent;
 import cyberzul.model.events.GameForfeitedEvent;
@@ -10,8 +11,8 @@ import cyberzul.model.events.IllegalTurnEvent;
 import cyberzul.model.events.LoggedInEvent;
 import cyberzul.model.events.LoginFailedEvent;
 import cyberzul.model.events.NextPlayersTurnEvent;
-import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.PlayerHas5TilesInARowEvent;
+import cyberzul.model.events.PlayerHasChosenTileEvent;
 import cyberzul.model.events.RoundFinishedEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -86,6 +87,17 @@ public class GameModel extends CommonModel implements ModelStrategy {
       LOGGER.info("Timer was set in startGame-Method.");
       startTimerForPlayer(getNickOfActivePlayer());
     }
+  }
+
+  @Override
+  public void setBulletMode(boolean bulletMode) {
+    if (bulletMode) {
+      LOGGER.info("Game is set to be a bullet game.");
+    } else {
+      LOGGER.info("Game is no bullet game.");
+    }
+    isBulletMode = bulletMode;
+    notifyListeners(new BulletModeChangedEvent(isBulletMode));
   }
 
   @Override

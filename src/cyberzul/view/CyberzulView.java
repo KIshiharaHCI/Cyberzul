@@ -3,6 +3,7 @@ package cyberzul.view;
 import cyberzul.controller.Controller;
 import cyberzul.model.CommonModel;
 import cyberzul.model.Model;
+import cyberzul.model.events.BulletModeChangedEvent;
 import cyberzul.model.events.ChatMessageRemovedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
 import cyberzul.model.events.GameFinishedEvent;
@@ -398,6 +399,11 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case YouDisconnectedEvent.EVENT_NAME -> showErrorMessage(
           "You got disconnected from the server.");
+      case BulletModeChangedEvent.EVENT_NAME -> {
+        BulletModeChangedEvent bulletModeChangedEvent = (BulletModeChangedEvent) customMadeGameEvent;
+        boolean isBulletModeOn = bulletModeChangedEvent.isBulletModeActivated();
+        showNeutralMessage("Bullet Mode is set to " + isBulletModeOn);
+      }
       default -> throw new AssertionError("Unknown event: " + eventName);
     }
   }

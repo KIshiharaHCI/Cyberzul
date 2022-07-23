@@ -8,6 +8,7 @@ import cyberzul.model.ModelStrategy;
 import cyberzul.model.ModelTile;
 import cyberzul.model.Offering;
 import cyberzul.model.Player;
+import cyberzul.model.events.BulletModeChangedEvent;
 import cyberzul.model.events.ChatMessageRemovedEvent;
 import cyberzul.model.events.ConnectedWithServerEvent;
 import cyberzul.model.events.GameCanceledEvent;
@@ -122,7 +123,8 @@ public class ClientModel extends CommonModel implements ModelStrategy {
 
   @Override
   public void startSinglePlayerMode(int numberOfPlayers) { /*this method is
-  only needed in GameModel */ }
+  only needed in GameModel */
+  }
 
   private synchronized ClientNetworkConnection getConnection() {
     return connection;
@@ -643,7 +645,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    *
    * @param nickname the player who has 5 tiles in a row.
    */
-  public void handlePlayerHas5TilesInARow(String nickname){
+  public void handlePlayerHas5TilesInARow(String nickname) {
     notifyListeners(new PlayerHas5TilesInARowEvent(nickname));
   }
 
@@ -655,5 +657,29 @@ public class ClientModel extends CommonModel implements ModelStrategy {
   }
 
   @Override
-  public void setBulletMode(boolean bulletMode) { /*this method is only needed in GameModel */ }
+  public void setBulletMode(boolean bulletMode) {
+    JSONObject message = JsonMessage.createMessageOfType(JsonMessage.BULLET_MODE);
+    try {
+      message.put(JsonMessage.IS_BULLET_MODE_FIELD, bulletMode);
+      connection.send(message);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Fires to the listeners that the bullet mode is triggered on or of by another player.
+   *
+   * @param object the message that was sent by the server.
+   */
+  public void handleBulletModeChangedEvent(JSONObject object) {
+    try {
+      boolean isBulletModeActivated = object.getBoolean(JsonMessage.IS_BULLET_MODE_FIELD);
+      notifyListeners(
+          new BulletModeChangedEvent(isBulletModeActivated));
+      isBulletMode = isBulletModeActivated;
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
 }

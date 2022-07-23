@@ -137,7 +137,8 @@ public class ClientNetworkConnection {
         model.userJoined(object.getString(JsonMessage.NICK_FIELD));
         model.playerJoinedChat(object.getString(JsonMessage.NICK_FIELD));
       }
-      case PLAYER_LEFT_BEFORE_GAME_STARTED -> model.playerLeftBeforeGameStarted(object.getString(JsonMessage.NICK_FIELD));
+      case PLAYER_LEFT_BEFORE_GAME_STARTED -> model.playerLeftBeforeGameStarted(
+          object.getString(JsonMessage.NICK_FIELD));
       case PLAYER_LEFT -> model.playerLeft(JsonMessage.NICK_FIELD);
       case NEXT_PLAYERS_TURN -> model.handleNextPlayersTurn(object);
       case NOT_YOUR_TURN -> model.handleNotYourTurn();
@@ -152,7 +153,9 @@ public class ClientNetworkConnection {
       case GAME_FORFEITED -> model.handleGameForfeited(object.getString(JsonMessage.NICK_FIELD));
       case MESSAGE -> handlePlayerTextMessage(object);
       case CHEAT_MESSAGE -> handlePlayerNeedHelp(object);
-      case PLAYER_HAS_5_TILES_IN_A_ROW -> model.handlePlayerHas5TilesInARow(object.getString(JsonMessage.NICK_FIELD));
+      case PLAYER_HAS_5_TILES_IN_A_ROW -> model.handlePlayerHas5TilesInARow(
+          object.getString(JsonMessage.NICK_FIELD));
+      case BULLET_MODE -> model.handleBulletModeChangedEvent(object);
       default -> throw new AssertionError("Unhandled message: " + object);
     }
   }

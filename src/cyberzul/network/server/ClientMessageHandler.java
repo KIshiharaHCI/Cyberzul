@@ -178,6 +178,7 @@ public class ClientMessageHandler implements Runnable {
       case REPLACE_THIS_PLAYER_BY_AI -> handleReplaceThisPlayerByAI();
       case RESTART_GAME -> controller.restartGame();
       case CANCEL_GAME -> controller.cancelGameForAllPlayers();
+      case BULLET_MODE -> handleSetBulletMode(object);
       default -> {
         numberOfDodgyMessages++;
         if (numberOfDodgyMessages <= MAX_NUMBER_OF_DODGY_JSON_MESSAGES) {
@@ -186,6 +187,20 @@ public class ClientMessageHandler implements Runnable {
           this.close();
         }
       }
+    }
+  }
+
+  /**
+   * Tell the controller if the bullet mode should be true or false.
+   *
+   * @param object the message sent of the client to the server.
+   */
+  private void handleSetBulletMode(JSONObject object){
+    try{
+      controller.setBulletMode(object.getBoolean(JsonMessage.IS_BULLET_MODE_FIELD));
+    }
+    catch (JSONException e){
+      e.printStackTrace();
     }
   }
 
