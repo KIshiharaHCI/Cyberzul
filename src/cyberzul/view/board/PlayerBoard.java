@@ -63,7 +63,9 @@ public abstract class PlayerBoard extends JPanel {
     addMinusPointsElements();
   }
 
-  /** Sets the size for the inner container which contains Pattern Lines, Wall and FloorLine. */
+  /**
+   * Sets the size for the inner container which contains Pattern Lines, Wall and FloorLine.
+   */
   void setPlayerBoardWrapperSize() {
     playerBoardWrapper = new JPanel(new BorderLayout());
     Dimension wrapperDimension =
@@ -93,9 +95,9 @@ public abstract class PlayerBoard extends JPanel {
    * TileSize and Padding.
    *
    * @param tileSize either the TileSize of an Active Playerboard or a Smaller PlayerBoard
-   * @param rows default set to 5
-   * @param cols default set to 10
-   * @param panel panel to set the size
+   * @param rows     default set to 5
+   * @param cols     default set to 10
+   * @param panel    panel to set the size
    */
   void setProperties(int tileSize, int rows, int cols, JPanel panel) {
 

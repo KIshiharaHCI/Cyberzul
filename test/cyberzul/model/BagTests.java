@@ -36,11 +36,4 @@ public class BagTests {
 
     Assertions.assertEquals(0, numberOfTilesInFactoryDisplay);
   }
-
-  @Test
-  public void testTakeTileWithIndex_returnsAtLeastOneTile() {
-    FactoryDisplay factoryDisplay = new FactoryDisplay();
-
-
-  }
 }

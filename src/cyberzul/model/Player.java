@@ -1,6 +1,5 @@
 package cyberzul.model;
 
-import cyberzul.CyberzulMain;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +12,12 @@ import org.apache.logging.log4j.Logger;
  */
 public class Player {
 
-  private static final Logger LOGGER = LogManager.getLogger(Player.class);
-
   public static final int NUMBER_OF_PATTERN_LINES = 5;
   public static final int SIZE_OF_FLOOR_LINE = 7;
   public static final int POINTS_FOR_COMPLETE_HORIZONTAL_LINE = 2;
   public static final int POINTS_FOR_COMPLETE_VERTICAL_LINE = 7;
   public static final int POINTS_FOR_PLACING_ALL_STONES_OF_ONE_COLOR = 10;
+  private static final Logger LOGGER = LogManager.getLogger(Player.class);
   private static final int[] FLOOR_LINE_PENALTIES = {-1, -1, -2, -2, -2, -3, -3};
   protected String name;
   protected int points;
@@ -73,11 +71,17 @@ public class Player {
     return wall.clone();
   }
 
+  //this class is only a storage for information that the server sends to the client so the view
+  //can access this information later. wall is indeed a mutable object, but it doesn't matter
+  //because the Model doesn't store a reference to it itself.
+  @SuppressFBWarnings("EI_EXPOSE_REP2")
+  public void setWall(boolean[][] wall) {
+    this.wall = wall;
+  }
+
   public ModelTile[][] getPatternLines() {
     return patternLines.clone();
   }
-
-  // TODO: Create PatternLinesModel class and make this method to a @Override toString() in it;
 
   /**
    * Get the Pattern Lines as a string with a column width of 15 characters (for testing purposes).
@@ -170,6 +174,10 @@ public class Player {
     return name;
   }
 
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public int getPoints() {
     return points;
   }
@@ -198,13 +206,6 @@ public class Player {
       return false;
     }
 
-    // TODO: make this methods more readable @Nils
-    // Hotfix
-    // mid-development view design changes made the StartingPlayerMarker clickable
-    // -> it has its own index
-    // since the methods were designs so that it is not clickable these 3 lines fix the bug where
-    // the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
-    // the last tile of the table center causes an OutOfBoundsExceptions
     if (offering.getContent().contains(ModelTile.STARTING_PLAYER_MARKER)) {
       indexOfTile--;
     }
@@ -242,13 +243,7 @@ public class Player {
    * @param indexOfTile the index of the tile in the Offering.
    */
   void placeTileInFloorLine(Offering offering, int indexOfTile) {
-    // TODO: make this methods more readable @Nils
-    // Hotfix
-    // mid-development view design changes made the StartingPlayerMarker clickable
-    // -> it has its own index
-    // since the methods were designs so that it is not clickable these 3 lines fix the bug where
-    // the StartPlayerMarker gets removed -> the content of the TableCenter gets smaller and picking
-    // the last tile of the table center causes an OutOfBoundsExceptions
+
     if (offering.getContent().contains(ModelTile.STARTING_PLAYER_MARKER)) {
       indexOfTile--;
     }
@@ -415,8 +410,6 @@ public class Player {
     floorLine.clear();
   }
 
-  // TODO: This method gets obsolete if we implemented the visible floor line.
-
   /**
    * Returns the number of MinusPoints that the player acquired over the round.
    *
@@ -535,19 +528,7 @@ public class Player {
     }
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public int getNumberOfCompleteHorizontalLines() {
     return numberOfCompleteHorizontalLines;
-  }
-
-  //this class is only a storage for information that the server sends to the client so the view
-  //can access this information later. wall is indeed a mutable object, but it doesn't matter
-  //because the Model doesn't store a reference to it itself.
-  @SuppressFBWarnings("EI_EXPOSE_REP2")
-  public void setWall(boolean[][] wall) {
-    this.wall = wall;
   }
 }

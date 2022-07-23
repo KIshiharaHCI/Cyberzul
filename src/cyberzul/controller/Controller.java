@@ -5,7 +5,8 @@ import cyberzul.model.Offering;
 import java.util.List;
 
 /**
- * //TODO: The information about the implementation insiede the model gets deleted later on.
+ * The main controller interface for Cyberzul. It takes the actions from the user and handles
+ * them accordingly. For this the controller either invokes the necessary model-methods.
  */
 public interface Controller {
 
@@ -162,7 +163,6 @@ public interface Controller {
    * @param numberOfAiPlayers the number of players.
    */
   void startSinglePlayerMode(int numberOfAiPlayers);
-
 
 
   /**

@@ -17,9 +17,10 @@ import javax.swing.JPanel;
  * One of the destinations where Tiles can be placed.
  */
 public class FloorLinePanel extends JPanel {
-  @Serial private static final long serialVersionUID = 4L;
-  private final transient Controller controller;
+  @Serial
+  private static final long serialVersionUID = 4L;
   private static final int numberOfFloorTiles = 7;
+  private final transient Controller controller;
   private final transient TileClickListener tileClickListener;
   private final int tileSize;
   private JPanel contentBottom;
@@ -28,11 +29,11 @@ public class FloorLinePanel extends JPanel {
   /**
    * Constructor for a given FloorLine.
    *
-   * @param userName name to be used when using the controller
-   * @param controller used to call getter of floorline
+   * @param userName          name to be used when using the controller
+   * @param controller        used to call getter of floorline
    * @param tileClickListener used by Tiles to listen for mouseclick events
-   * @param minusPoints sets the minus points of a player
-   * @param tileSize Tilesize differs between ActivePlayerBoard and SmallPlayerBoard
+   * @param minusPoints       sets the minus points of a player
+   * @param tileSize          Tilesize differs between ActivePlayerBoard and SmallPlayerBoard
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")

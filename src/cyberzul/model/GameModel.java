@@ -32,19 +32,15 @@ public class GameModel extends CommonModel implements ModelStrategy {
   public static final int MIN_PLAYER_NUMBER = 2;
   public static final int MAX_PLAYER_NUMBER = 4;
   private static final Logger LOGGER = LogManager.getLogger(GameModel.class);
+  private static final int TIME_TILL_NEXT_ROUND = 30000;
   //private final static int sleepTime = 100;
   private final Random ran = new Random();
   //the timer because player has to make a move within 30 seconds
   private Timer timer;
-  private static final int TIME_TILL_NEXT_ROUND = 30000;
-
   private boolean hasGameEnded = false;
   private Offering currentOffering;
   private int currentIndexOfTile;
-
-  private String hotSeatStory = "HotSeatStory is not yet set!";
-  private String networkStory = "NetworkStory is not yet set!";
-  private String singlePlayerStory = "SinglePlayerStory is not yet set!";
+  private boolean isBulletMode;
 
   /**
    * Constructs a new game, initializes the property change support, the player list, and the
@@ -369,5 +365,32 @@ public class GameModel extends CommonModel implements ModelStrategy {
         },
         TIME_TILL_NEXT_ROUND
     );
+  }
+
+  @Override
+  public void startSinglePlayerMode(int numberOfAiPlayers) {
+    ArrayList<String> aiPlayerList = new ArrayList<>();
+    String aiPlayer1 = "Mercury";
+    aiPlayerList.add(aiPlayer1);
+    String aiPlayer2 = "Quella";
+    aiPlayerList.add(aiPlayer2);
+    String aiPlayer3 = "Valdis";
+    aiPlayerList.add(aiPlayer3);
+    for (int i = 0; i < numberOfAiPlayers; i++) {
+      loginWithName(aiPlayerList.get(i));
+    }
+    // all but first player are AI-Players
+    for (int i = 1; i < playerList.size(); i++) {
+      playerList.get(i).setAiPlayer(true);
+    }
+    startGame();
+  }
+
+  public boolean getBulletMode() {
+    return isBulletMode;
+  }
+
+  public void setBulletMode(boolean bulletMode) {
+    isBulletMode = bulletMode;
   }
 }

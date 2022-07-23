@@ -10,48 +10,65 @@ import cyberzul.network.client.messages.NextPlayersTurnMessage;
 import cyberzul.network.client.messages.PlayerJoinedChatMessage;
 import cyberzul.view.ChatCellRenderer;
 import cyberzul.view.IconButton;
-
-import javax.swing.*;
-import java.awt.*;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
-/** The Chat Panel at the right side of the GameBoard. */
+
+/**
+ * The Chat Panel at the right side of the GameBoard.
+ * */
+@SuppressFBWarnings("EI_EXPOSE_REP2")
 public class ChatPanel extends JPanel implements PropertyChangeListener {
 
   private static final int DEFAULT_HEIGHT = 300;
   private static final int INPUTFIELD_WIDTH = 20;
   private static final int INPUTFIELD_HEIGHT = 3;
-  @Serial private static final long serialVersionUID = 13L;
+  @Serial
+  private static final long serialVersionUID = 13L;
   private static final int defaultInset = 5;
+  private static final String chaticon = "img/chaticon.png";
+
+  public static final DefaultListModel<Message> listModel = new DefaultListModel<>();
+  private transient final Controller controller;
   private JTextArea inputArea;
   private JScrollPane scrollPane;
-  private static final String chaticon = "img/chaticon.png";
   private IconButton closeChatButton;
   private IconButton openChatButton;
   private JPanel chatButtonPanel;
 
-  private transient final Controller controller;
-
-  public static DefaultListModel<Message> listModel;
-
-  /** create a new chat panel with the respective widgets. */
+  /**
+   * create a new chat panel with the respective widgets.
+   */
   public ChatPanel(Controller controller) {
     this.controller = controller;
-
     initializeWidgets();
     createChatPanel();
 
     addEventListeners();
   }
 
-  /** Instantiate all ChatPanel widgets and specify config options where appropriate. */
+  /**
+   * Instantiate all ChatPanel widgets and specify config options where appropriate.
+   */
   private void initializeWidgets() {
 
-    listModel = new DefaultListModel<>();
     JList<Message> chatList = new JList<>(listModel);
     chatList.setCellRenderer(new ChatCellRenderer());
 

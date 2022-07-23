@@ -15,7 +15,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/** The tiles on the center of the table ("Tischmitte") (Center Board class). */
+/**
+ * The tiles on the center of the table ("Tischmitte") (Center Board class).
+ */
 @SuppressFBWarnings(
     value = "EI_EXPOSE_REP",
     justification =
@@ -30,10 +32,10 @@ public class TableCenterPanel extends JPanel {
   private static final int SPACE_FROM_LEFT_AND_TOP_EDGE_IN_PXL = 13;
   private static final int SPACE_BETWEEN_TILES_IN_PXL = 44;
   private static final int plateId = 0;
-  private final transient Controller controller;
   private static final int spaceFromTopEdgeInPxl = 13;
   private static final int tableCenterSizeWidthInPxl = 1100;
   private static final int tableCenterHeightInPxl = 260;
+  private final transient Controller controller;
   private final transient List<SourceTile> tileList;
   private JLabel tableCenterImageLabel;
   private transient TableCenter tableCenter;
@@ -43,9 +45,9 @@ public class TableCenterPanel extends JPanel {
   /**
    * Constructor for Table Center Panel.
    *
-   * @param controller the Controller given to CyberzulView
+   * @param controller        the Controller given to CyberzulView
    * @param tileClickListener listener class to be used when creating SourceTiles
-   * @param panelDimension Dimensions of the parent Panel PlayerBoardAndTablePanel
+   * @param panelDimension    Dimensions of the parent Panel PlayerBoardAndTablePanel
    */
   public TableCenterPanel(
       Controller controller, TileClickListener tileClickListener, Dimension panelDimension) {
@@ -72,7 +74,7 @@ public class TableCenterPanel extends JPanel {
    * initializes the table center in the view in accordance with the model.
    *
    * @param tileClickListener listens to clicks on a tile.
-   * @param tableCenter the instance of the table center.
+   * @param tableCenter       the instance of the table center.
    */
   public void initialize(TileClickListener tileClickListener, TableCenter tableCenter) {
     setMinimumSize(panelDimension);
