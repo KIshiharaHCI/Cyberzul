@@ -1,6 +1,7 @@
 package cyberzul.view.panels;
 
 import cyberzul.controller.Controller;
+import cyberzul.model.CommonModel;
 import cyberzul.model.Model;
 import cyberzul.network.server.Server;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -106,6 +107,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
           public void mouseClicked(MouseEvent e) {
             ipAddress = Server.start();
             model.setClientModelStrategy(ipAddress);
+            controller.setMode(CommonModel.NETWORK_MODE);
             // TODO: setVisible other components
           }
 
@@ -191,6 +193,7 @@ public class NetworkLobbyScreen extends JLayeredPane {
             String ipAddress = ipInputField.getText();
             model.setClientModelStrategy(ipAddress);
             enterServerIp.setText("Waiting for server connection ...");
+            controller.setMode(CommonModel.NETWORK_MODE);
 
             ipInputField.setText(null);
           }

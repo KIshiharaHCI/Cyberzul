@@ -15,8 +15,8 @@ import java.util.concurrent.Executors;
 import org.json.JSONObject;
 
 /**
- * The network layer of the chat server. Takes care of processing both the connection requests and
- * message handling.
+ * The network layer of the game server. Takes care of processing both the connection requests and
+ * message handling, as well as processing the requests of clients.
  */
 public class ServerNetworkConnection {
 
@@ -56,9 +56,9 @@ public class ServerNetworkConnection {
 
   /**
    * Set up a new {@link ServerNetworkConnection} that handles all the incoming client connection
-   * requests and enables them to exchange messages with each other.
+   * requests, enables them to play the game Cyberzul and to exchange messages with each other.
    *
-   * @throws IOException thrown when the socket is unable to be created at the given port
+   * @throws IOException thrown when the socket is unable to be created at the given port.
    */
   @SuppressFBWarnings({"EI_EXPOSE_REP2", "EI_EXPOSE_REP2"})
   @SuppressWarnings(value = "EI_EXPOSE_REP")

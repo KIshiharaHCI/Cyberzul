@@ -280,7 +280,7 @@ public class ClientMessageHandler implements Runnable {
 
   /**
    * Process a post-message from the client which contains the information of a message that is to
-   * be send to all the other connected clients.
+   * be sent to all the other connected clients.
    *
    * @param object A {@link JSONObject} containing the data for a post-message.
    * @throws IOException Thrown when failing to access the input- or output-stream.
