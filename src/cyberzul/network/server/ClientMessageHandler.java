@@ -168,23 +168,25 @@ public class ClientMessageHandler implements Runnable {
    */
   private void handleMessage(JSONObject object) throws IOException {
     LOGGER.info(object);
-    switch (JsonMessage.typeOf(object)) {
-      case LOGIN -> handleLogin(object);
-      case POST_MESSAGE -> handlePostMessage(object);
-      case START_GAME -> handleStartGame();
-      case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
-      case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
-      case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine();
-      case REPLACE_THIS_PLAYER_BY_AI -> handleReplaceThisPlayerByAi();
-      case RESTART_GAME -> controller.restartGame();
-      case CANCEL_GAME -> controller.cancelGameForAllPlayers();
-      case BULLET_MODE -> handleSetBulletMode(object);
-      default -> {
-        numberOfDodgyMessages++;
-        if (numberOfDodgyMessages <= MAX_NUMBER_OF_DODGY_JSON_MESSAGES) {
-          send(JsonMessage.createMessageOfType(JsonMessage.JSON_MESSAGE_NOT_PROCESSABLE));
-        } else {
-          this.close();
+    if (!replacedByAi) {
+      switch (JsonMessage.typeOf(object)) {
+        case LOGIN -> handleLogin(object);
+        case POST_MESSAGE -> handlePostMessage(object);
+        case START_GAME -> handleStartGame();
+        case NOTIFY_TILE_CHOSEN -> handleNotifyTileChosen(object);
+        case PLACE_TILE_IN_PATTERN_LINE -> handlePlaceTileInPatternLine(object);
+        case PLACE_TILE_IN_FLOOR_LINE -> handlePlaceTileInFloorLine();
+        case REPLACE_THIS_PLAYER_BY_AI -> handleReplaceThisPlayerByAi();
+        case RESTART_GAME -> controller.restartGame();
+        case CANCEL_GAME -> controller.cancelGameForAllPlayers();
+        case BULLET_MODE -> handleSetBulletMode(object);
+        default -> {
+          numberOfDodgyMessages++;
+          if (numberOfDodgyMessages <= MAX_NUMBER_OF_DODGY_JSON_MESSAGES) {
+            send(JsonMessage.createMessageOfType(JsonMessage.JSON_MESSAGE_NOT_PROCESSABLE));
+          } else {
+            this.close();
+          }
         }
       }
     }
@@ -252,8 +254,8 @@ public class ClientMessageHandler implements Runnable {
    */
   private void handleReplaceThisPlayerByAi() {
     if (model.isGameStarted()) {
-      controller.replacePlayerByAi(nickname);
       replacedByAi = true;
+      controller.replacePlayerByAi(nickname);
     } else {
       broadcastThatThisClientDisconnected();
     }

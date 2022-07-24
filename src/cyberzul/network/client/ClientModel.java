@@ -513,6 +513,7 @@ public class ClientModel extends CommonModel implements ModelStrategy {
    *
    * @return the name with which this client has logged in on the server.
    */
+  @Override
   public String getPlayerName() {
     return this.thisPlayersName;
   }

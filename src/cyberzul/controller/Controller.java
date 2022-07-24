@@ -199,4 +199,12 @@ public interface Controller {
    * @return the mode: 1 for single player mode, 2 for hot seat mode, 3 for network mode.
    */
   int getMode();
+
+  /**
+   * gives back the name of the player of the given client model or the name of the active player in
+   * hot seat mode.
+   *
+   * @return a String of the respective players name.
+   */
+  String getPlayerName();
 }

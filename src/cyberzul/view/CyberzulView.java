@@ -380,6 +380,8 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         //this.musicPlayerHelper.turnMusicOnOff(true);
         GameForfeitedEvent gameForfeitedEvent = (GameForfeitedEvent) customMadeGameEvent;
         System.err.println(model.getMode());
+        System.err.println(gameForfeitedEvent.getForfeiter());
+        System.err.println(model.getPlayerName());
         if (gameForfeitedEvent.getForfeiter().equals(model.getPlayerName())
                 && (model.getMode() == CommonModel.NETWORK_MODE)) {
           showGameOverCard();
@@ -542,7 +544,10 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     showCard(SINGLEPLAYER_CARD);
   }
 
-  private void showGameOverCard() {
+  /**
+   * Shows the game over screen.
+   */
+  public void showGameOverCard() {
     showCard(GAMEOVER_CARD);
   }
 
@@ -565,7 +570,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     } else {
       playerName = model.getPlayerName();
     }
-    gameBoard = new GameBoard(tileClickListener, controller, frameDimension, playerName,
+    gameBoard = new GameBoard(this, tileClickListener, controller, frameDimension, playerName,
         hotseatMode, musicPlayerHelper);
 
     gameBoardPanel.add(gameBoard);

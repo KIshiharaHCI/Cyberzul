@@ -165,4 +165,9 @@ public class GameController implements Controller {
     return model.getMode();
   }
 
+  @Override
+  public String getPlayerName() {
+    return model.getPlayerName();
+  }
+
 }
