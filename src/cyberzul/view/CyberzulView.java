@@ -1,28 +1,9 @@
 package cyberzul.view;
 
-import static java.util.Objects.requireNonNull;
-
 import cyberzul.controller.Controller;
 import cyberzul.model.CommonModel;
 import cyberzul.model.Model;
-import cyberzul.model.events.BulletModeChangedEvent;
-import cyberzul.model.events.ChatMessageRemovedEvent;
-import cyberzul.model.events.ConnectedWithServerEvent;
-import cyberzul.model.events.ConnectionWithServerNotPossibleEvent;
-import cyberzul.model.events.GameFinishedEvent;
-import cyberzul.model.events.GameForfeitedEvent;
-import cyberzul.model.events.GameNotStartableEvent;
-import cyberzul.model.events.GameStartedEvent;
-import cyberzul.model.events.IllegalTurnEvent;
-import cyberzul.model.events.InvalidIpv4AddressEvent;
-import cyberzul.model.events.LoginFailedEvent;
-import cyberzul.model.events.NextPlayersTurnEvent;
-import cyberzul.model.events.NotYourTurnEvent;
-import cyberzul.model.events.PlayerAddedMessageEvent;
-import cyberzul.model.events.PlayerHas5TilesInArowEvent;
-import cyberzul.model.events.PlayerJoinedChatEvent;
-import cyberzul.model.events.UserJoinedEvent;
-import cyberzul.model.events.YouDisconnectedEvent;
+import cyberzul.model.events.*;
 import cyberzul.network.client.messages.GameStateMessage;
 import cyberzul.network.server.Server;
 import cyberzul.view.board.ChatPanel;
@@ -33,14 +14,12 @@ import cyberzul.view.panels.HotSeatLobbyScreen;
 import cyberzul.view.panels.NetworkLobbyScreen;
 import cyberzul.view.panels.SinglePlayerLobbyScreen;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.Image;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -49,18 +28,8 @@ import java.io.IOException;
 import java.io.Serial;
 import java.net.URL;
 import java.util.Objects;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * GUI for Cyberzul Changes its appearance based on the model information.
@@ -128,7 +97,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setMinimumSize(frameDimension);
     setMaximumSize(frameDimension);
-    setResizable(true);
+    setResizable(false);
 
     initializeWidgets();
 
@@ -365,7 +334,13 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case "GameCanceledEvent" -> {
         this.musicPlayerHelper.turnMusicOnOff(true);
-        showHsmCard();
+        if (model.getMode() == CommonModel.NETWORK_MODE) {
+          showNetworkCard();
+        } else if (model.getMode() == CommonModel.HOT_SEAT_MODE) {
+          showHsmCard();
+        } else {
+          showSinglePlayerCard();
+        }
       }
       case "NotYourTurnEvent" -> {
         NotYourTurnEvent notYourTurnEvent = new NotYourTurnEvent();
