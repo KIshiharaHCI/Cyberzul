@@ -313,7 +313,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         PlayerHas5TilesInArowEvent playerHas5TilesInArowEvent =
             (PlayerHas5TilesInArowEvent) customMadeGameEvent;
         //TODO - this error message should be shown in chat
-        showErrorMessage("User " + playerHas5TilesInArowEvent.getEnder() + " ended the game.");
+        showNeutralMessage("User " + playerHas5TilesInArowEvent.getEnder() + " ended the game.");
       }
       case "IllegalTurnEvent" -> {
         if (this.musicPlayerHelper.isPlayMusicOn()) {
@@ -344,12 +344,12 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
       }
       case "NotYourTurnEvent" -> {
         NotYourTurnEvent notYourTurnEvent = new NotYourTurnEvent();
-        showErrorMessage(notYourTurnEvent.getChatMessage());
+        showNeutralMessage(notYourTurnEvent.getChatMessage());
       }
       case "PlayerHasChosenTileEvent" -> {
         //TODO: FILL WITH FUNCTIONALITY
       }
-      case "NoValidTurnToMakeEvent" -> showErrorMessage("No valid turn to make");
+      case "NoValidTurnToMakeEvent" -> showNeutralMessage("No valid turn to make");
       //TODO: find better way to turn music off --> does not work as intended for hotseat mode.
       case GameForfeitedEvent.EVENT_NAME -> {
         //this.musicPlayerHelper.turnMusicOnOff(true);
@@ -361,7 +361,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
                 && (model.getMode() == CommonModel.NETWORK_MODE)) {
           showGameOverCard();
         } else {
-          showErrorMessage("Player " + gameForfeitedEvent.getForfeiter()
+          showNeutralMessage("Player " + gameForfeitedEvent.getForfeiter()
               + " left the game and was replaced by an AI");
         }
       }
@@ -376,7 +376,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         ChatMessageRemovedEvent chatMessageRemovedEvent =
             (ChatMessageRemovedEvent) customMadeGameEvent;
         ChatPanel.listModel.removeElement(chatMessageRemovedEvent.getMessage());
-        showErrorMessage("Only the last 10 messages are shown.");
+        showNeutralMessage("Only the last 10 messages are shown.");
       }
       case "PlayerJoinedChatEvent" -> {
         PlayerJoinedChatEvent playerJoinedChatEvent =
@@ -389,7 +389,7 @@ public class CyberzulView extends JFrame implements PropertyChangeListener {
         }
       }
       case YouDisconnectedEvent.EVENT_NAME -> {
-        showErrorMessage(
+        showNeutralMessage(
             "You got disconnected from the server.");
         showGameOverCard();
       }
